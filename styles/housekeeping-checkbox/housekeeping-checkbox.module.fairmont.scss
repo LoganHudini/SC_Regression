@@ -1,0 +1,18 @@
+.addBlock{
+  bottom: 40px;
+  padding: 31px 15px 55px 15px;
+  left: 1rem;
+  right: 1rem;
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+}
+
+.housekeepingCheckboxTitle{
+  font-family: $fontHeading;
+  font-size: $xlarge;
+}
+
+.housekeepingCheckboxText{
+  font-size: $small;
+  line-height: 1.8;
+}

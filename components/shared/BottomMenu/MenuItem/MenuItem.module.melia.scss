@@ -1,0 +1,13 @@
+.menuItemIconWrapper {
+  background: $textColorSecondary;
+  border-radius: 5px;
+  & > svg > path {
+    fill: $colorSecondary;
+  }
+}
+
+.menuItemTitle {
+  font-family: $fontRegular;
+  font-size: $extrasmall;
+  color: $colorSecondary;
+}

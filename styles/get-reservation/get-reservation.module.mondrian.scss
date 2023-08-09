@@ -1,0 +1,16 @@
+.pageTitle {
+  font-family: $fontMedium;
+  font-size: $large;
+}
+
+.findMyBookingBtn {
+  font-family: $fontBold;
+  font-size: $small;
+  margin: 60px 20px 0 20px;
+}
+
+.reservationInput {
+  &:not(:last-child) {
+    margin-bottom: 32px;
+  }
+}

@@ -1,0 +1,12 @@
+.wrapper {
+  max-height: calc(100vh - 171px);
+  padding: 0;
+}
+
+.messagesWrapper {
+  height: calc(100vh - 235px);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 0 25px;
+}

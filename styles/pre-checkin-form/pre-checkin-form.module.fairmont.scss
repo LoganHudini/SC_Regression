@@ -1,0 +1,20 @@
+.nextButton {
+  margin-top: 12rem;
+  font-weight: bold;
+  color: $textColorSecondary !important;
+  border-radius: 10px; 
+}
+.checkDatesText {
+  font-size: $xsmall;
+  margin-bottom: 1vh;
+  line-height: 1;
+  margin-top: 2vh;
+  font-family: $fontRegular !important;
+  text-transform: uppercase;
+}
+.checkDatesDetails {
+  font-size: $medium;
+  font-family: $fontMedium;
+  margin-bottom: 3vh;
+  line-height: 1;
+}

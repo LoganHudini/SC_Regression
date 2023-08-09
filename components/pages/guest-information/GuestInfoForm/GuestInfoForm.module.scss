@@ -1,0 +1,33 @@
+.cardTitle {
+  font-weight: bolder;
+  font-size: 0.875rem;
+  line-height: 1;
+  margin: 18px 0px 0px 10px;
+}
+
+.guestInfoText {
+  font-size: 0.9375rem;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.guestInfoCardWrapper {
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.guestInfo {
+  margin-left: 13px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+
+.additionalGuestInfo {
+  max-height: 0;
+  transition: all 0.2s;
+  overflow: hidden;
+}
+
+.additionalGuestInfoOpened {
+  max-height: 75px;
+}

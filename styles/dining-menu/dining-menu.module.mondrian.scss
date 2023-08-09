@@ -1,0 +1,42 @@
+.subCategoryName {
+  font-size: $xlarge;
+  font-family: $fontRegular;
+}
+
+.totalText {
+  font-family: $fontMedium;
+}
+
+.totalPrice {
+  font-size: $small;
+  font-family: $fontRegular;
+  .currencyValue {
+    font-size: $large;
+    font-family: $fontMedium;
+  }
+}
+
+.orderButton {
+  font-size: $small;
+  font-family: $fontBold;
+  background: $colorPrimary;
+}
+
+.totalWrapper {
+  padding: 21px 0px 74px 0px;
+  background: #fff;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 10px 10px 0 0;
+  box-shadow: $shadowColor 0 -2px 10px;
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+.totalButtonWrapper {
+  padding: 0px 25px 0px 26px;
+}
+
+

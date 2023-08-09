@@ -1,0 +1,36 @@
+.title {
+  font-family: $fontRegular;
+  font-size: $xlarge;
+  margin: 1.5rem 0 0.75rem 0;
+}
+
+.body,
+.emailText,
+.phoneText {
+  font-size: $small;
+}
+
+.highlights {
+  margin-bottom: 0;
+}
+
+.highlight {
+  font-size: $small;
+}
+
+.button {
+  background: $colorPrimary;
+  color: $textColorSecondary;
+  width: auto;
+  font-size: $small;
+  font-family: $fontBold;
+  padding: 8px 20px;
+  border-color: $colorPrimary;
+  &:hover:enabled {
+    background: #838383;
+  }
+}
+
+.phoneEmailCtaWrapper {
+  margin-top: 20px;
+}

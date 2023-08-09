@@ -1,0 +1,42 @@
+.youMayAlsoLikeText {
+  font-family: 'Bodoni MT Std';
+  margin-bottom: 21px;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.youMayAlsoLikeWrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  @media (pointer: coarse) {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.youMayAlsoLikeItem {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 21px;
+
+  &:not(:last-of-type) {
+    margin-right: 10px;
+  }
+}
+
+.youMayAlsoLikeItemImage {
+  width: 165px;
+  height: 110px;
+  margin-bottom: 10px;
+}
+
+.youMayAlsoLikeItemText {
+  font-size: 1rem;
+  line-height: 1;
+  text-transform: capitalize;
+}

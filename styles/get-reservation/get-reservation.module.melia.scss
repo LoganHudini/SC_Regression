@@ -1,0 +1,34 @@
+.pageTitle {
+  font-family: $fontRegular;
+  margin: 38px 0 38px 0;
+}
+
+.cancelBtn {
+  display: none;
+}
+
+.findMyBookingBtn {
+  margin: auto;
+  font-weight: 500;
+  font-size: 0.875rem;
+  font-weight: normal;
+  width: 90%;
+}
+
+.buttonWrapper {
+  margin: auto;
+  max-width: 768px;
+  left: 0;
+  right: 0;
+  bottom: 1rem;
+  position: fixed;
+}
+
+.pageWrapper {
+  min-height: calc(100vh - 55px);
+  padding-bottom: 0;
+}
+
+.reservationInputs {
+  margin-bottom: 100px;
+}

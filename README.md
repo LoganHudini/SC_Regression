@@ -1,70 +1,141 @@
-# Getting Started with Create React App
+This is a [Next.js](https://nextjs.org/) project.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Environment setup
 
-## Available Scripts
+Create `.env` file based on `.env.example` in the root directory of the project
 
-In the project directory, you can run:
+## Production
 
-### `npm start`
+Install dependencies
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
+yarn install
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Build the app
 
-### `npm test`
+```bash
+yarn build
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Export the app
 
-### `npm run build`
+```bash
+yarn export
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The website will be exported in the /out folder in the root directory of the project
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Development
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Install dependencies
 
-### `npm run eject`
+```bash
+yarn install
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Run the development server:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+yarn dev
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Style changes
 
-## Learn More
+In order to changes styles for another hotel you have to create another `.env.hotelName` file that will contain data about new hotel
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Change NEXT_PUBLIC_HOTEL_CODE env variable:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+NEXT_PUBLIC_HOTEL_CODE=hotelName
+```
 
-### Code Splitting
+Copy every icon from the folder
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+assets/icons/default
+```
 
-### Analyzing the Bundle Size
+into the folder
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+assets/icons/hotelName
+```
 
-### Making a Progressive Web App
+Then you have to create a file in the directory of components which styles you want to overwrite
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Example:
 
-### Advanced Configuration
+`Card.module.hotelName.scss`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Add new scripts to the package.json folder
 
-### Deployment
+```bash
+"scripts": {
+    "dev:melia": "env-cmd -f .env.melia yarn next dev",
+    "build:melia": "env-cmd -f .env.melia yarn build",
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Custom flow creation
 
-### `npm run build` fails to minify
+In the `pages` folder flows are separated by maps `check-in.alpha` `dining.alpha`
+These maps have `index.tsx` - it is the first page of the flow, it should contain links/buttons that are linking to another pages.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+In the `.env` file you have to specify the version for the each of the existing flows
+
+```bash
+NEXT_PUBLIC_CHECK_IN_FLOW_VERSION='alpha'
+NEXT_PUBLIC_CHECK_OUT_FLOW_VERSION='alpha'
+NEXT_PUBLIC_DINING_FLOW_VERSION='alpha'
+NEXT_PUBLIC_HOUSEKEEPING_FLOW_VERSION='alpha'
+NEXT_PUBLIC_ROOM_CONTROLS_FLOW_VERSION='alpha'
+```
+
+Also in case if you add a new page to the flow, you have also to add the new route into the `pwa-common\utils\availablePaths.ts` file
+
+After creation of new files you have to do following steps:
+
+1. To restart the development server
+2. To drop cache by deleting .next folder
+
+## Custom component creation
+
+In order to creating a costom component for another hotel you have to create `.env.hotelName` file that will contain data about new hotel
+
+Change NEXT_PUBLIC_HOTEL_CODE env variable:
+
+```bash
+NEXT_PUBLIC_HOTEL_CODE=hotelName
+```
+
+Inside the map that contains component, the original component name should look like:
+`ComponentName.tsx`
+
+You have to create another file with custom logic defined in it:
+`ComponentName.hotelName.tsx`
+
+After creation of new files you have to do following steps:
+
+1. To restart the development server
+2. To drop cache by deleting .next folder
+
+Also, whenever you import components you have to import them using absolute path `components/` even if this import occurs within components folder
+Example: `components/uiBuilder/CAROUSEL/CAROUSEL_WO_BG/CAROUSEL_WO_BG`
+
+## PWA
+
+Follow these steps in order to enable PWA:
+
+1. Create `manifest.hotelName.json` in the public folder
+2. Configure `NEXT_PUBLIC_THEME_COLOR` variable inside `.env.hotelName`
+
+# Tasks that are not closed yet because of the back-end:
+
+- Room controls API integration
+- Notifications page API binding
+- Housekeeping order request
+- TV controls API integration
+- In room dining confirmation API request

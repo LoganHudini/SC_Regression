@@ -1,0 +1,48 @@
+.wrapper {
+  border-radius: 10px;
+  background: #c7b48d;
+
+  &:not(:first-child) {
+    margin-top: 10px;
+  }
+}
+
+.main {
+  padding: 10px 13px 12px 24px;
+  background: #c7b48d;
+  border-radius: 0 10px 10px 0;
+  z-index: 20;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  top: 15px;
+  left: 11px;
+}
+
+.notificationTitle {
+  font-size: 0.75rem;
+  color: #000;
+  line-height: 1.5;
+}
+
+.notificationDescription {
+  color: #313131;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  margin-right: 30px;
+}
+
+.notificationDate {
+  top: 9px;
+  right: 12px;
+  font-size: 0.625rem;
+  color: #505050;
+}
+
+.deleteBtn {
+  flex: 0 0 110px;
+  margin-left: -10px;
+  z-index: 10;
+}

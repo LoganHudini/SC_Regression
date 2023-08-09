@@ -1,0 +1,43 @@
+.plusMinusInputWrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100px;
+  justify-content: space-between;
+}
+
+.plusMinusButton {
+  height: 30px;
+  width: 30px;
+  border: 1px solid #cccccc;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:disabled {
+    & > svg > path {
+      fill: #cccccc;
+    }
+  }
+}
+
+.value {
+  font-size: 0.875rem;
+}
+
+.plusIcon {
+  width: 20px;
+  height: auto;
+  border: none;
+  path {
+    fill: $colorPrimary;
+  }
+}
+
+.minusIcon {
+  width: 20px;
+  height: auto;
+  path {
+    fill: $colorPrimary;
+  }
+}

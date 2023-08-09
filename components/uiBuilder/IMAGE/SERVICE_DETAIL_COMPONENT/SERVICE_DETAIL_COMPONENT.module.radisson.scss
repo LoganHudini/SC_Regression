@@ -1,0 +1,127 @@
+.serviceDetailWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  position: relative;
+
+  &:first-of-type {
+    margin-top: 115px;
+  }
+}
+
+.title {
+  font-size: $medium;
+  font-family: $fontSemibold;
+  position: absolute;
+  margin-top: -2rem;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.body {
+  font-size: $medium;
+  max-height: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.4s;
+  color: $textColor;
+  font-family: $fontRegular;
+  line-height: 1.6;
+  text-align: left;
+  margin: 1.75rem 0 0;
+}
+
+.highlight {
+  font-size: $medium;
+  line-height: 1.25;
+}
+
+.phoneEmailCtaWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  // justify-content: space-around;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  font-size: $large;
+  text-transform: capitalize;
+  font-family: $fontMedium;
+}
+
+.phone {
+  display: flex;
+  width: 20%;
+}
+
+.email {
+  display: flex;
+  align-items: center;
+  margin: 0 5px;
+  width: 40%;
+}
+
+.button {
+  font-family: $fontMedium;
+  width: fit-content;
+  font-size: $medium;
+  color: $textColor;
+  border-color: $textColor;
+  border-radius: 20px !important;
+  width: 40%;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  padding-top: 10px;
+  margin-top: -5px;
+  margin-left: 0px;
+  padding: 5px;
+}
+
+.phoneText {
+  font-size: $medium;
+  font-weight: 900;
+  font-weight: normal;
+  color: $textColor;
+  text-decoration: none;
+}
+
+.bannerImage {
+  height: 250px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.emailText {
+  font-weight: 900;
+  font-size: $medium;
+  font-weight: normal;
+  color: $textColor;
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+.phoneIcon {
+  width: 20px;
+  margin-bottom: -3px;
+}
+
+.emailIcon {
+  width: 20px;
+  height: 14px;
+  margin-bottom: -2px;
+}
+
+.readMore {
+  margin-top: 0.7rem;
+  color: $colorPrimary;
+  font-size: $small;
+  cursor: pointer;
+  text-align: start;
+  font-family: $fontRegular;
+  text-transform: uppercase;
+}
+
+.TextExpanded {
+  max-height: 300px;
+}

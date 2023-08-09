@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="47" height="47" viewBox="0 0 47 47">
+  <g id="Tick_Confrim" data-name="Tick Confrim" transform="translate(1 1)">
+    <g id="Oval_2" data-name="Oval 2" fill="#77406f" stroke="#77406f" stroke-width="1">
+      <circle cx="22.5" cy="22.5" r="22.5" stroke="none"/>
+      <circle cx="22.5" cy="22.5" r="23" fill="none"/>
+    </g>
+    <g id="Icon_tick" data-name="Icon/tick" transform="translate(13.25 16.625)">
+      <path id="Icon_tick-2" data-name="Icon/tick" d="M6.135,12.675,0,6.54l.81-.81,5.325,5.325L17.19,0,18,.81Z" fill="#fff" stroke="#fff" stroke-width="0.2"/>
+    </g>
+  </g>
+</svg>

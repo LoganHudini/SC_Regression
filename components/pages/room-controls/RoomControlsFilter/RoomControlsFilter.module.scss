@@ -1,0 +1,40 @@
+.roomControlsFilterWrapper {
+  display: flex;
+  flex-direction: row;
+  overflow: auto;
+  margin-top: 30px;
+  margin-left: 33px;
+  height: 50px;
+
+  @media (pointer: coarse) {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.roomControlsFilterButtonWrapper {
+  &:not(:last-of-type) {
+    margin-right: 10px;
+  }
+}
+
+.roomControlsFilterActive {
+  width: 126px;
+  height: 44px;
+
+  font-weight: bold;
+  text-transform: none;
+  font-size: 0.8125rem;
+}
+
+.roomControlsFilterUnActive {
+  width: 126px;
+  height: 44px;
+  border: 1px solid #a0a0a0;
+  color: $textColor;
+
+  font-weight: bold;
+  text-transform: none;
+  font-size: 0.8125rem;
+}

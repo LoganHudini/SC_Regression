@@ -1,0 +1,27 @@
+.staySummary {
+  margin-top: 35px;
+  padding: 0 20px;
+  padding-bottom: 21px;
+}
+
+.arrow {
+  display: none;
+}
+
+.staySummaryColumn {
+  &:last-child {
+    display: none;
+  }
+}
+
+.staySummaryInner {
+  justify-content: space-between;
+}
+
+.staySummaryColumnTitle {
+  height: 12px;
+}
+
+.staySummaryColumnValue {
+  height: 18px;
+}

@@ -1,0 +1,28 @@
+.upgradeOptionWrapper {
+  &:not(:first-of-type) {
+    margin-top: 18px;
+  }
+
+  &:last-child {
+    margin-bottom: 40px;
+  }
+}
+
+.upgradeTitle {
+  font-size: 1.125rem;
+  font-family: 'Bodoni MT Std';
+  margin-top: 5px;
+}
+
+.upgradeDescription {
+  font-size: 0.9375rem;
+  margin-top: 12px;
+  line-height: 1.2;
+  margin-bottom: 5px;
+}
+
+.readMoreBtn {
+  color: $colorPrimary;
+  font-size: 0.9375rem;
+  display: inline;
+}

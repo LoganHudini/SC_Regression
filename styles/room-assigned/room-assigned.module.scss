@@ -1,0 +1,51 @@
+.roomAssignedWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.roomImage {
+  width: 100%;
+  height: 165px;
+  object-fit: cover;
+  margin: 50px 0 0 0;
+}
+
+.yourRoomIs {
+  font-size: 0.9375rem;
+  margin-bottom: 35px;
+  text-align: center;
+  line-height: 1;
+  margin-top: 40px;
+}
+
+.room {
+  font-size: 1.125rem;
+  margin-bottom: 26px;
+  text-align: center;
+  line-height: 1;
+}
+
+.roomNumber {
+  font-size: 3.125rem;
+  margin-bottom: 17px;
+  font-family: 'Bodoni MT Std';
+  text-align: center;
+  line-height: 1;
+}
+
+.instructions {
+  font-size: 0.9375rem;
+  text-align: center;
+  line-height: 1;
+}
+
+.personalizeButton {
+  margin-top: 172px;
+  margin-bottom: 25px;
+  font-weight: 900;
+}
+
+.nextButton {
+  font-weight: 900;
+}

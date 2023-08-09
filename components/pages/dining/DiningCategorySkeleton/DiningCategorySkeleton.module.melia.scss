@@ -1,0 +1,22 @@
+.diningElement {
+  &:not(:first-child) {
+    margin-top: 90px;
+  }
+}
+
+.diningImage {
+  width: 120px;
+  height: 120px;
+}
+
+.diningTitle {
+  margin-top: 5px;
+}
+
+.diningTitle {
+  font-family: 'PlayfairDisplay';
+  font-size: 1.375rem;
+  margin-bottom: 10px;
+  line-height: 1.136;
+  color: #000;
+}

@@ -1,0 +1,25 @@
+.uploadDocumentWrapper {
+  border: 1px solid #717372;
+  border-radius: 10px;
+  padding: 25px 50px 26px 50px;
+  align-self: center;
+}
+
+.uploadDocumentText {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #505050;
+  white-space: nowrap;
+  max-width: 150px !important;
+}
+
+.uploadDocumentIcon {
+  width: 42px;
+  height: auto;
+  fill: $textColor;
+  margin-bottom: 12px;
+}
+
+.hiddenInput {
+  display: none;
+}

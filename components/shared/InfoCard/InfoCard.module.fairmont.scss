@@ -1,0 +1,17 @@
+.okIcon {
+  width: 40px;
+}
+
+.infoCardStyles {
+  padding: 10px 15px 10px 15px;
+  border-radius: 10px;
+  position: relative;
+  border: 1px $background solid;
+  margin: 20px 0px;
+  background-color: $background;
+}
+
+.titeText {
+  font-size: $xlarge;
+  font-family: $fontHeading !important;
+}

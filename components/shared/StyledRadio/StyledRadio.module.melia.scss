@@ -1,0 +1,18 @@
+.styledRadio {
+  color: $colorPrimary;
+
+  :global(.MuiSvgIcon-root) {
+    fill: #000;
+  }
+
+  :global(.MuiFormControlLabel-label) {
+    font-size: 0.75rem;
+    color: $textColor;
+  }
+
+  :global(.Mui-checked) {
+    :global(.MuiSvgIcon-root) {
+      fill: #000;
+    }
+  }
+}

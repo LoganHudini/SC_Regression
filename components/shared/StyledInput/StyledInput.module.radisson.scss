@@ -1,0 +1,48 @@
+.styledInput {
+  :global(.MuiFormLabel-filled) {
+    color: $textColorTernary;
+  }
+
+  :global(.MuiInputLabel-standard) {
+    color: $textColorTernary;
+  }
+
+  :global(.Mui-focused) {
+    color: $textColorTernary !important;
+  }
+
+  :global(.MuiInputBase-input) {
+    color: $colorSecondary;
+  }
+
+  :global(.MuiInput-root):hover {
+    &::before {
+      border-bottom: 1px solid $textColorTernary;
+    }
+  }
+
+  :global(.MuiInput-root) {
+    &::before {
+      border-bottom: 1px solid $textColorTernary;
+    }
+
+    &::after {
+      border-bottom: 1px solid $textColorTernary;
+    }
+  }
+
+  :global(.MuiInputLabel-asterisk),
+  :global(.Mui-error) {
+    color: $errorMsgColor !important;
+  }
+
+  :global(.Mui-error) {
+    &::after {
+      border-bottom: 1px solid $errorMsgColor !important;
+    }
+
+    &::before {
+      border-bottom: 1px solid $errorMsgColor !important;
+    }
+  }
+}

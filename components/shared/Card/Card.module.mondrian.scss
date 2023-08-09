@@ -1,0 +1,29 @@
+.cardStyles {
+  background: $background;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.showMoreIcon {
+  height: 35px;
+  width: auto;
+  path {
+    fill: #000;
+  }
+}
+
+.editBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 21px;
+  margin-right: 10px;
+}
+
+.editIcon {
+  height: 15px;
+  width: auto;
+  path {
+    fill: #000;
+  }
+}

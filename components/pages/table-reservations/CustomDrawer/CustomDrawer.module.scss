@@ -1,0 +1,271 @@
+.background {
+  position: fixed;
+  box-sizing: border-box;
+  margin: 0 auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.61);
+  z-index: 50;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s;
+  max-width: 768px;
+}
+
+.backgroundOpened {
+  opacity: 1;
+  visibility: visible;
+}
+
+.wrapper {
+  background: #fff;
+  border-radius: 53px 53px 0 0;
+  padding: 40px 25px 30px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transition: all 0.2s;
+  transform: translateY(100%);
+  max-width: 768px;
+  z-index: 300;
+  margin: 0 auto;
+  max-height: 70vh;
+  overflow: scroll;
+  @media (pointer: coarse) {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.thankYouWrapper {
+  min-height: 300px !important;
+}
+
+.wrapperOpened {
+  transform: translateY(0);
+}
+
+.itemRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1rem 0 1.25rem 0;
+}
+
+.itemTitle {
+  font-size: $medium;
+  line-height: 1.25;
+  text-align: start;
+  margin-top: 20px;
+  color: $fontColor;
+  font-family: $fontSemibold;
+}
+
+.plusMinusInputWrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100px;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.chooseDateText {
+  margin-bottom: 18px;
+  font-size: $large;
+  line-height: 1.333;
+  font-weight: bold;
+  color: $fontColor;
+  font-family: $fontSemibold;
+}
+
+.chooseTimeRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 11px;
+  margin-bottom: 40px;
+}
+
+.chooseTimeTitle {
+  font-size: $large;
+  line-height: 1.25;
+  color: $fontColor;
+  font-family: $fontSemibold;
+}
+
+.timeBox {
+  width: 100px;
+  height: 44px;
+  border: none !important;
+  // border-radius: 3px;
+  font-size: 1rem;
+  line-height: 1.25;
+  // box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: 12px 5px 12px 13px;
+  cursor: pointer;
+}
+
+.timeBoxArrow {
+  width: 10px;
+  transform: translate(-8px, 2px);
+  margin-left: auto;
+  path {
+    fill: $colorPrimary;
+  }
+}
+
+.sptext {
+  text-align: start;
+  padding: 10px 0 20px;
+  margin-bottom: 3rem;
+}
+
+.chooseRequestTitle {
+  font-size: $xsmall;
+  line-height: 1.25;
+  color: $fonttitle;
+  font-family: $fontRegular;
+  margin-top: 10px;
+}
+
+.thankyouWrapper {
+  padding: 40px 26px 0px 26px;
+}
+
+.thankyouRow {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  font-size: 24px;
+  font-family: $fontRegular;
+  color: $fonttitle;
+  margin-bottom: 20px;
+}
+
+.confirmmessage {
+  font-size: $small;
+  font-family: $fontRegular;
+  margin-top: 3px;
+}
+
+.continuebutton {
+  margin-top: 3rem;
+  font-size: $xsmall;
+  font-family: $fontBold;
+  width: 180px;
+}
+
+.checkIcon {
+  margin: 30px auto 15px auto;
+}
+
+.scrollitem {
+  overflow: scroll;
+  max-height: 90%;
+  // padding-right: 5px;
+}
+
+.choosetable {
+  font-size: $medium;
+  line-height: 1.25;
+  color: $fontColor !important;
+  font-family: $fontSemibold;
+  text-align: start !important;
+  margin-top: 20px;
+}
+
+.select {
+  font-family: $fontRegular;
+}
+
+.chooseExposure {
+  font-size: $large;
+  line-height: 1.25;
+  color: $fontColor;
+  font-family: $fontSemibold;
+  margin-top: -20px;
+}
+
+.dropdown {
+  text-align: start;
+  padding: 10px 2px 20px 0px;
+}
+
+.guestDataInput {
+  width: 100%;
+
+  &:not(:first-child) {
+    margin-top: 30px;
+  }
+
+  &:first-child {
+    margin-top: 8px;
+  }
+}
+
+.checkBoxWrapper {
+  display: flex;
+  flex-direction: row;
+  margin-top: 25px;
+  margin-bottom: -20px;
+}
+
+.guest {
+  font-size: $small;
+  font-family: $fontRegular;
+  color: $textColorQuaternary;
+  margin-left: 6px;
+}
+
+.counterGuest {
+  border: none !important;
+  border-bottom: 1px solid #7b7b7b !important;
+  border-radius: 0px !important;
+}
+
+.error {
+  color: $errorMsgColor;
+  padding: 10px 0;
+}
+
+.confirmationWrapper {
+  padding: 25px;
+  // margin-top: 3.5rem;
+  position: absolute;
+  top: 3.5rem;
+  left: 0;
+  right: 0;
+}
+
+.buttonWrapper {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: $textColorSecondary;
+}
+
+.orderButton {
+  font-family: $fontMedium;
+  display: flex;
+  margin: 1rem 0;
+  width: 80%;
+  justify-content: center;
+  align-self: center;
+  z-index: 5;
+  padding-top: 14px;
+}

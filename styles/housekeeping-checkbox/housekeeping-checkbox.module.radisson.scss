@@ -1,0 +1,25 @@
+.addBlock {
+  bottom: 0;
+  padding: 31px 25px 26px 25px;
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  box-shadow: none;
+}
+
+.housekeepingCheckboxTitle {
+  font-family: $fontHeading;
+  font-size: $large;
+}
+
+.housekeepingCheckboxText {
+  font-size: $small;
+  line-height: 1.8;
+}
+
+.criteria {
+  font-size: $small;
+}
+
+.chooseTimeRow {
+  margin-bottom: 90px;
+}

@@ -1,0 +1,79 @@
+.lightControlsWrapper {
+  margin-top: 43px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.masterLightControl {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  width: 108px;
+  height: 77px;
+  transition: all 0.2s;
+  border: 1px solid $colorSecondary;
+  background: transparent;
+  margin-bottom: 27px;
+
+  svg > path {
+    fill: $textColor;
+  }
+
+  p {
+    color: $textColor;
+  }
+}
+
+.masterLightControlActive {
+  background: $colorSecondary;
+
+  svg > path {
+    fill: $textColorSecondary;
+  }
+
+  p {
+    color: $textColorSecondary;
+  }
+}
+
+.masterLightsIcon {
+  transition: all 0.2s;
+  width: 30px;
+  height: auto;
+  margin-top: 10px;
+  margin-bottom: 17px;
+}
+
+.masterText {
+  transition: all 0.2s;
+  text-transform: uppercase;
+  line-height: 1;
+  text-align: center;
+  font-size: 0.8125rem;
+  color: $textColor;
+}
+
+.activeIcon {
+  position: absolute;
+  top: 10px;
+  right: 11px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d72b27;
+  transition: all 0.2s;
+}
+
+.activeIconActive {
+  background: #1ee64c;
+}
+
+.lightControlEntitiesWrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}

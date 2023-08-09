@@ -1,0 +1,53 @@
+.resetPermissions {
+  margin-top: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.list {
+  padding-inline-start: 0;
+}
+
+.resetPermissions li {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.resetPermissions .arrowUp {
+  position: absolute;
+  right: 0px;
+  top: -50px;
+}
+
+.resetPermissions .arrowDown {
+  margin-left: 30px;
+  margin-top: 15px;
+}
+.resetPermissions .threeDots {
+  margin-left: 40px;
+}
+.resetPermissions span.blue {
+  color: #00b2fd;
+}
+
+.resetPermissions span.number {
+  width: 37px;
+  height: 37px;
+  background-color: #20263d;
+  border-radius: 50%;
+  color: #fff;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.resetPermissions .buttonContainer {
+  display: flex;
+  justify-content: center;
+}

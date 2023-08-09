@@ -1,0 +1,17 @@
+{
+  "In-Room Dining": "Servei d'habitacions",
+  "Ingredients": "Ingredients",
+  "Servings": "Racions",
+  "Total": "Total",
+  "Order": "Comanda",
+  "Add-Ons": "Complements",
+  "Optional": "Opcional",
+  "Dining": "Menjador",
+  "total item price": "preu total de l'article",
+  "Add to cart": "Afegeix a la cistella",
+  "Required": "Obligatori",
+  "Limit exceeded": "S'ha superat el límit",
+  "Select up to options": "Seleccioneu fins a {{value}} opcions",
+  "options": "opcions",
+  "Add instructions": "Afegiu instruccions"
+}

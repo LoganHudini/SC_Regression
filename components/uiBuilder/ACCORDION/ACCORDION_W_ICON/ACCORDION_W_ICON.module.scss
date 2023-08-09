@@ -1,0 +1,21 @@
+.accordionTitle {
+  font-size: 1rem;
+  margin-right: auto;
+  flex: 1;
+}
+
+.accordionBody {
+  font-size: 1rem;
+}
+
+.accordionImage {
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  margin-right: 25px;
+}
+
+.accordionsWrapper {
+  margin-top: 25px;
+}

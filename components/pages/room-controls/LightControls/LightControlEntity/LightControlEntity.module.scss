@@ -1,0 +1,77 @@
+.lightControlEntityWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 154px;
+  height: 104px;
+  padding: 17px 0 0 21px;
+  box-sizing: border-box;
+
+  background: transparent;
+  border: 1px solid $colorSecondary;
+
+  svg path {
+    fill: $textColor;
+  }
+
+  p {
+    color: $textColor;
+  }
+}
+
+.lightControlEntityWrapperActive {
+  background: $colorSecondary;
+  border: none;
+
+  svg path {
+    fill: $textColorSecondary;
+  }
+
+  p {
+    color: $textColorSecondary;
+  }
+}
+
+.statusWrapper {
+  position: absolute;
+  top: 20px;
+  right: 11px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.statusIcon {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d72b27;
+  transition: all 0.2s;
+}
+
+.statusIconActive {
+  background: #1ee64c;
+}
+
+.statusText {
+  color: $textColor;
+  font-size: 0.75rem;
+  line-height: 1;
+  margin-top: 2px;
+  text-transform: uppercase;
+}
+
+.statusTextActive {
+  color: $textColorSecondary;
+}
+
+.controlTitle {
+  transition: all 0.2s;
+  text-transform: uppercase;
+  line-height: 1;
+  font-size: 0.8125rem;
+  color: $textColor;
+  position: absolute;
+  top: 58px;
+  left: 20px;
+}

@@ -1,0 +1,86 @@
+.orderButtonWrapper {
+  bottom: 0;
+  padding: 21px 25px 23px 25px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.housekeepingWrapper {
+  padding: 0 15px 120px;
+  margin-top: 5rem;
+}
+
+.buttonFilter {
+  min-width: fit-content;
+  height: 30px;
+  margin-top: 2px;
+  font-size: $small;
+  font-weight: 100;
+  text-transform: none;
+  font-family: $fontMedium;
+  background: $colorPrimary;
+  color: $textColorSecondary;
+  border-radius: 6px;
+  padding: 0px 10px;
+  padding-top: 4px;
+  margin-right: 10px;
+  &:hover:enabled {
+    border: 0px;
+    background: $colorPrimary !important;
+  }
+}
+
+.buttonFilterDisabled {
+  background: $background;
+  color: $shadowColorSecondary;
+  min-width: fit-content;
+  height: 30px;
+  margin-top: 2px;
+  font-size: $small;
+  font-family: $fontMedium;
+  font-weight: 100;
+  text-transform: none;
+  border-radius: 6px;
+  padding: 0px 10px;
+  padding-top: 4px;
+  margin-right: 10px;
+  border: 0px;
+  &:hover:enabled {
+    border: 0px;
+    background: transparent !important;
+  }
+}
+
+.btnWrapper {
+  display: flex;
+  margin-left: 20px;
+  width: 80%;
+}
+
+.orderContents {
+  position: absolute;
+  left: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  background-color: white;
+  color: $colorPrimary;
+  font-size: 0.875rem;
+  font-family: $fontRegular;
+}
+
+.orderText {
+  padding-top: 3px;
+  font-size: $small;
+  font-family: $fontMedium;
+  padding-top: 6px;
+  padding-left: 20px;
+}
+
+.orderButton {
+  text-transform: uppercase;
+  font-size: $medium;
+}

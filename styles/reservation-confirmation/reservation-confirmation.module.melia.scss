@@ -1,0 +1,50 @@
+.room {
+  display: none;
+}
+
+.roomNumber {
+  display: none;
+}
+
+.addDeviceButton {
+  display: none;
+}
+
+.instructionsText {
+  display: none;
+}
+
+.pageWrapper {
+  min-height: calc(100vh - 48px);
+  align-items: center;
+  padding-bottom: 0;
+  justify-content: center;
+}
+
+.okIcon {
+  flex: 0 0 62px;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.checkInCompleteText {
+  font-family: 'PlayfairDisplay';
+  font-size: 1.75rem;
+  line-height: 1.28;
+  font-weight: normal;
+}
+
+.backToHomePageButton {
+  width: 200px;
+  background: #000000;
+  color: $textColorSecondary;
+  border: none;
+  border-radius: 0;
+  border-radius: 2px;
+  height: 40px;
+
+  &:hover:enabled {
+    background: #000000;
+    border: none;
+  }
+}

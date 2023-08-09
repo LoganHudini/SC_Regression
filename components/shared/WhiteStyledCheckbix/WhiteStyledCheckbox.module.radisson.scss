@@ -1,0 +1,32 @@
+.styledRadio {
+  color: $colorPrimary;
+  padding: 0;
+  background: none !important;
+  width: 20px;
+  height: 20px;
+
+  :global(.MuiCheckbox-root) {
+    background-color: transparent !important;
+
+    // svg {
+    //   g {
+    //     // fill: $textColorSecondary;
+    //     // stroke: #000;
+    //   }
+
+    //   path {
+    //     fill: #000;
+    //   }
+    // }
+  }
+
+  :global(.MuiFormControlLabel-label) {
+    font-size: $medium;
+    color: $textColor;
+    font-family: $fontMedium;
+  }
+
+  :global(.MuiTouchRipple-root) {
+    display: none;
+  }
+}

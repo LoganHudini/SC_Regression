@@ -1,0 +1,153 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.listComponent {
+  margin-top: 50px;
+
+  &:first-child {
+    margin-top: 120px;
+  }
+
+  &:last-child {
+    margin-bottom: 20px;
+  }
+}
+
+.listComponentTitle {
+  font-size: 24px;
+  line-height: 1.25;
+  margin-top: 15px;
+  margin-bottom: 13px;
+  font-family: $fontRegular;
+  color: $fonttextColor;
+}
+
+.restaurantRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  margin-top: 8px;
+
+  span {
+    margin-left: 12px;
+    font-size: 1rem;
+    line-height: 1.5;
+    text-transform: capitalize;
+    color: $fonttextColor;
+    font-family: $fontRegular;
+  }
+}
+
+.locationRow {
+  display: none;
+}
+
+.cuisineRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  text-decoration: none;
+  margin-top: 8px;
+  width: 100%;
+
+  span {
+    margin-left: 6px;
+    font-size: 1rem;
+    line-height: 1.5;
+    text-transform: capitalize;
+    color: $fonttextColor;
+    margin-top: 4px;
+    font-family: $fontRegular;
+  }
+}
+
+.locationIcon {
+  flex: 0 0 15px;
+  height: auto;
+  margin-left: 2px;
+}
+
+.cuisineIcon {
+  flex: 0 0 25px;
+  margin-left: 1px;
+  height: auto;
+}
+
+.restaurantIcon {
+  flex: 0 0 20px;
+  height: auto;
+}
+
+.listComponentBtn {
+  display: none;
+}
+
+.listComponentBookingBtn {
+  width: auto;
+  height: 35px;
+  display: flex;
+  line-height: 35px;
+  padding: 4px 30px 0;
+  text-align: center;
+  color: $textColorSecondary;
+  font-size: $xsmall;
+  font-family: $fontMedium;
+}
+
+.listComponentDescription {
+  cursor: pointer;
+  font-size: $small;
+  font-family: $fontRegular;
+  color: $fonttextColor;
+  margin-bottom: 0.5rem;
+  height: 70px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre-wrap;
+}
+
+.buttonsWrapper {
+  margin-top: 1rem;
+}
+
+.backToTop {
+  width: 140px;
+  height: 35px;
+  line-height: 35px;
+  font-size: $xsmall;
+  font-family: $fontMedium;
+  padding-top: 23px;
+  color: $colorPrimary;
+  text-transform: uppercase;
+}
+
+.viewMenuBtn {
+  display: flex;
+  width: 150px;
+  height: 35px;
+  line-height: 35px;
+  padding-top: 14px;
+  text-align: center;
+  font-family: $fontRegular;
+  font-size: $xsmall;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: fit-content;
+  padding: 0px 10px;
+}
+
+.listViewDetails {
+  display: flex;
+  font-size: $small;
+  font-family: $fontRegular;
+  text-transform: uppercase;
+  color: $colorPrimary;
+  cursor: pointer;
+}

@@ -1,0 +1,118 @@
+.timeColumn {
+  width: 170px;
+  p {
+    font-size: $medium;
+    font-family: $fontRegular;
+    color: $fonttextColor;
+  }
+}
+
+.listComponentTitle {
+  font-family: $fontRegular;
+  color: $fonttextColor;
+}
+
+.listComponentDataText {
+  line-height: 1.5;
+  text-align: left;
+  font-family: $fontRegular;
+  font-size: $medium;
+  color: $fonttextColor;
+  white-space: pre-wrap;
+}
+
+.firstRow,
+.callRow,
+.emailRow,
+.cuisineRow,
+.locationRow,
+.timeRow,
+.thirdRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  color: $fonttextColor;
+  padding-right: 0px;
+
+  span {
+    margin-left: 10px;
+    font-size: $medium;
+    color: $fonttextColor;
+    line-height: 1.25;
+    text-align: start;
+    width: fit-content;
+    margin-top: 4.35px;
+  }
+}
+
+.locationIcon {
+  width: 16.7px;
+  height: 19px;
+}
+
+.timeRow {
+  justify-content: flex-start;
+  display: none;
+}
+
+.firstRow,
+.thirdRow,
+.timeRow {
+  margin-top: 20px;
+}
+
+.listComponent {
+  margin-top: 60px;
+}
+
+.bannerImage {
+  max-width: 768px;
+  object-fit: contain;
+  margin-left: -1.6em;
+  overflow-x: hidden;
+}
+
+.firstRow {
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: start;
+}
+
+.cuisineRow {
+  padding: 10px 0 20px 0;
+}
+
+.callRow,
+.emailRow {
+  text-transform: uppercase;
+}
+
+.emailIcon {
+  width: 20px;
+  height: 14px;
+}
+
+.timeIcon {
+  width: 17.5px;
+  height: 17.2px;
+}
+
+.viewMenuOrder {
+  display: flex;
+  margin: 40px 0 0 0;
+  text-align: center;
+  height: 46px;
+  line-height: 46px;
+  padding-top: 14px;
+}
+
+.bookTableBtn {
+  font-family: $fontMedium;
+  margin: 20px 0 0 0;
+  height: 44px;
+  line-height: 44px;
+  text-align: center;
+  padding-top: 15px;
+}

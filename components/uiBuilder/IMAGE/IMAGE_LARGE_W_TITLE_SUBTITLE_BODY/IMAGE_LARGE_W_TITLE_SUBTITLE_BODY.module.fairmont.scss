@@ -1,0 +1,22 @@
+.imageTitle {
+  font-family: $fontHeading;
+  display: flex;
+  align-self: start;
+}
+
+.imageTitleSmall {
+  font-family: $fontHeading;
+  display: flex;
+  align-self: start;
+}
+
+.imageBody {
+  font-size: $small;
+  text-align: start;
+}
+
+.ctaButton {
+  padding: 0px;
+  display: flex;
+  font-family: $fontMedium;
+}

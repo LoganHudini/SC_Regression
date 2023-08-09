@@ -1,0 +1,41 @@
+.houseKeepingQuantityWrapper {
+  min-height: calc(100vh - 48px);
+}
+
+.housekeepingQuantityTitle {
+  font-family: $fontPlayfair;
+  font-size: $xlarge;
+  font-weight: normal;
+  margin-bottom: 8px;
+  color: #000;
+}
+
+.housekeepingQuantityText {
+  font-size: 0.75rem;
+  color: #505050;
+  font-weight: bold;
+}
+
+.criteria {
+  font-size: $small;
+  font-family: $fontMedium;
+  color: $textColor;
+  line-height: 1.5;
+}
+
+.orderButtonWrapper {
+  box-shadow: none;
+  position: relative;
+  padding: 0;
+}
+
+.orderButton {
+  font-size: $small;
+  font-family: $fontMedium;
+  background: $colorSecondary;
+}
+
+.addBlock {
+  padding: 1rem 0rem;
+  background: $colorPrimary;
+}

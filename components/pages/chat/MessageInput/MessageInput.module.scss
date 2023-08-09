@@ -1,0 +1,32 @@
+.wrapper {
+  margin: 5px 25px 14px 25px;
+  border: 1px solid $colorPrimary;
+  height: 44px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.sendMessageButton {
+  margin-left: auto;
+  margin-right: 19px;
+
+  &:disabled {
+    svg path {
+      fill: $textColor;
+    }
+  }
+}
+
+.input {
+  border: none;
+  font-size: 1rem;
+  margin-left: 27px;
+  outline: none;
+  flex: 1;
+
+  &::placeholder {
+    color: $textColor;
+  }
+}

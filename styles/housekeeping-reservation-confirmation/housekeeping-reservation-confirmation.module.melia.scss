@@ -1,0 +1,52 @@
+.dateTimeWrapper {
+  display: none;
+}
+
+.reservationId {
+  display: none;
+}
+
+.backButton {
+  width: 200px;
+  background: $colorSecondary;
+  color: $textColorSecondary !important;
+  border: none;
+  border-radius: 0;
+  border-radius: 2px;
+  height: 40px;
+  margin-top: 44px;
+  font-weight: 600;
+
+  &:hover:enabled {
+    background: #000000;
+    border: none;
+  }
+}
+
+.pageWrapper {
+  padding: 0 50px;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 48px);
+}
+
+.centeredText {
+  font-size: 0.75rem;
+  color: #000000;
+  line-height: 1.5;
+  margin-bottom: 0;
+  font-family: $fontMedium;
+}
+
+.successText {
+  color: $textColor;
+  font-size: $extralarge;
+  line-height: 1.28;
+  margin-bottom: 13px;
+  font-family: $fontPlayfair;
+}
+
+.checkIcon {
+  margin-top: 0;
+  margin-bottom: 20px;
+}

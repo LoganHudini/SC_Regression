@@ -1,0 +1,54 @@
+.billElement {
+  padding: 23px 0 7px 0;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #7b7b7b;
+  margin: 0 15px;
+}
+
+.infoColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.time {
+  line-height: 1;
+  margin-bottom: 10px;
+  font-size: $xsmall;
+  text-align: left;
+  font-family: $fontRegular;
+  color: $textColor;
+}
+
+.title {
+  font-family: $fontRegular;
+  font-size: $medium;
+  color: $textColor;
+  line-height: 1;
+  text-align: left;
+}
+
+.chequeNo {
+  margin-right: 7px;
+  line-height: 1;
+  margin-bottom: 13px;
+  font-size: $xsmall;
+  font-family: $fontRegular;
+  color: $textColor;
+}
+
+.price {
+  line-height: 1;
+  margin-right: 7px;
+  line-height: 1;
+  margin-bottom: 13px;
+  font-size: $medium;
+  text-align: end;
+  font-weight: 600;
+  font-family: $fontMedium;
+}
+
+.currency{
+  font-family: $fontRegular;
+  font-size: 0.813rem;
+}

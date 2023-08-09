@@ -1,0 +1,120 @@
+.serviceDetailWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  position: relative;
+
+  &:first-of-type {
+    margin-top: 66px;
+  }
+}
+
+.button {
+  margin-left: auto;
+  width: auto;
+  min-width: 0;
+  padding: 5px 20px;
+  font-family: $fontMedium;
+  font-size: $small;
+  color: $textColor;
+  border-color: $textColor;
+}
+
+.bannerImage {
+  height: 250px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.indicatorIcon {
+  width: 6px;
+  height: 6px;
+  background: $textColorSecondary;
+
+  &:not(:last-child) {
+    margin-right: 6px;
+  }
+}
+
+.carouselWrapper {
+  position: relative;
+}
+
+.title {
+  margin-top: 10px;
+  font-size: 1.5rem;
+  line-height: 1;
+  font-family: 'Bodoni MT Std';
+}
+
+.body {
+  font-size: 1rem;
+  margin-top: 5px;
+  word-wrap: break-word;
+}
+
+.phone {
+  display: flex;
+  align-items: center;
+}
+
+.phoneText {
+  font-size: $small;
+  font-weight: 900;
+  font-weight: normal;
+  color: $textColor;
+  text-decoration: none;
+}
+
+.email {
+  display: flex;
+  align-items: center;
+  margin-left: 25px;
+}
+
+.emailText {
+  font-weight: 900;
+  font-size: $small;
+  font-weight: normal;
+  color: $textColor;
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+.phoneEmailCtaWrapper {
+  display: flex;
+  margin-top: 15px;
+  margin-bottom: 1rem;
+}
+
+.highlights {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.highlight {
+  line-height: 1;
+  font-size: 1rem;
+  margin-top: 15px;
+}
+
+.phoneIcon {
+  width: 15px;
+}
+
+.emailIcon {
+  width: 15px;
+}
+
+.activeIndicatorIcon {
+  opacity: 1;
+  transform: scale(1.3);
+  margin: 0 1px;
+}
+
+.indicatorIconContainer {
+  position: absolute;
+  bottom: 16px;
+  z-index: 5;
+}

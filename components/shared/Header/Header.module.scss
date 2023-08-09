@@ -1,0 +1,48 @@
+.backButton {
+  cursor: pointer;
+  position: absolute;
+  top: 63px;
+  left: 20px;
+}
+
+.backIcon {
+  height: 20px;
+  path {
+    fill: $textColorSecondary;
+  }
+}
+
+.closeButton {
+  cursor: pointer;
+  position: absolute;
+  top: 63px;
+  right: 23px;
+}
+
+.closeIcon {
+  width: 22px;
+  height: auto;
+  fill: $textColorSecondary;
+}
+
+.screenTitle {
+  margin: 0;
+  font-size: 1.25rem;
+  text-align: center;
+  color: #fcfcfc;
+  font-family: 'Bodoni MT Std', 'Regular';
+  font-weight: normal;
+  margin-left: -20px;
+  min-height: 24px;
+}
+
+.container {
+  padding: 63px 0 10px 15px;
+  z-index: 5;
+  background: $colorPrimary;
+  position: relative;
+}
+
+.containerTransparent {
+  background: transparent;
+}

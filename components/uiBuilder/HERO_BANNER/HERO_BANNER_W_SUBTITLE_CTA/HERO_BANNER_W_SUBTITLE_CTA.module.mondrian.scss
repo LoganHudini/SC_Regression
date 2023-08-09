@@ -1,0 +1,20 @@
+.pageTitle {
+  position: absolute;
+  top: 40%;
+  left: 0;
+  right: 0;
+
+  h1,
+  h3 {
+    color: $textColorSecondary;
+    text-align: center;
+    line-height: 2;
+    padding: 0 25px;
+    font-size: 20px;
+  }
+
+  h3 {
+    margin-top: 5px;
+    font-size: 32px;
+  }
+}

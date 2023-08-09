@@ -1,0 +1,25 @@
+.okIcon {
+  margin: 40px auto 20px auto;
+  flex: 1 1 36px;
+}
+
+.checkInCompleteText {
+  font-size: 1.625rem;
+  margin: 0 auto 45px auto;
+  text-align: center;
+  font-family: 'Bodoni MT Std';
+  line-height: 1;
+  max-width: 140px;
+}
+
+.instructionsText {
+  color: $textColor;
+  font-size: 0.9375rem;
+  margin: 0 auto 135px auto;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.backToHomePageButton {
+  font-weight: 900;
+}

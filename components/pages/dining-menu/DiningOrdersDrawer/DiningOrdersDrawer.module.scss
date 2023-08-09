@@ -1,0 +1,383 @@
+.myOrdersWrapper {
+  padding: 0 2rem;
+  padding-top: 2rem;
+  max-height: 70vh;
+}
+
+.heading {
+  font-size: $xlarge;
+  text-align: center;
+  font-family: $fontRegular;
+}
+
+.titleRow {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 59px;
+  padding: 0 20px;
+  background: $backgroundTertiary;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.title {
+  font-size: $medium;
+  font-family: $fontMedium;
+  color: $colorSecondary;
+  width: 210px;
+  height: 20px;
+  align-self: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.status {
+  font-size: 10px;
+  font-family: $fontBold;
+  color: $colorPrimary;
+  padding: 0 5px;
+  width: auto;
+  text-align: center;
+  border: 1px solid $dropShadowColor;
+}
+
+.container {
+  padding: 8px;
+  padding-left: 10px;
+  background: #f6f6f6;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+.date {
+  font-size: $xsmall;
+  font-family: $fontRegular;
+  color: $shadowColorSecondary;
+}
+
+.dateTime {
+  font-size: $small;
+  font-family: $fontRegular;
+  color: $colorSecondary;
+}
+
+.itemsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  padding: 10px 0;
+  border-bottom: 1px solid $dividerColor;
+}
+
+.itemsContainerBill {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0 0;
+}
+
+.itemsPrice {
+  font-size: $large;
+  font-family: $fontMedium;
+}
+
+.totalContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  padding: 5px 0;
+  margin-bottom: 30px;
+}
+
+.totalContainerBill {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  padding: 15px 0 0;
+  border-top: 1px solid $dividerColor;
+}
+
+.total {
+  font-size: $medium;
+  font-family: $fontMedium;
+}
+
+.totalPrice {
+  font-size: $large;
+  font-family: $fontMedium;
+}
+
+.button {
+  font-size: $small;
+  font-family: $fontMedium;
+  margin: 1.5rem 0;
+  padding-top: 16px;
+}
+
+.billDetailsContainer {
+  margin-top: 2rem;
+  background: $backgroundTertiary;
+  border-radius: 8px;
+}
+
+.restaurantRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 59px;
+  padding: 0 1rem;
+  background: $backgroundTertiary;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.billContainer {
+  background: $backgroundQuaternary;
+  padding: 1.5rem 1rem 5px 1rem;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.subTotalContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  padding: 2px 0;
+}
+
+.totalBillContainer {
+  align-items: center;
+  margin: 10px 0;
+  padding: 15px 0 5px 0;
+  border-top: 0.5px solid $dividerColor;
+  flex-direction: column;
+}
+
+.taxText {
+  font-size: $small;
+  font-family: $fontRegular;
+  color: $shadowColorSecondary;
+  width: 257px;
+  height: 37px;
+  margin: 1rem auto;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.buttonContainer {
+  display: flex;
+  width: 90%;
+  margin: auto;
+  padding-top: 1rem;
+}
+
+.buttonLeft {
+  font-size: $xsmall;
+  font-family: $fontMedium;
+  margin-right: 1rem;
+  height: 35px;
+}
+
+.buttonRight {
+  font-size: $xsmall;
+  font-family: $fontMedium;
+  height: 35px;
+}
+
+.billRow {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 90px;
+  border-radius: 1rem;
+  box-shadow: 2px 6px 8px -2px $dropShadowColor;
+}
+
+.billTitle {
+  font-size: $small;
+  font-family: $fontSemibold;
+}
+
+.billAmount {
+  font-size: 26px;
+  font-family: $fontRegular;
+  padding-top: 10px;
+}
+
+.buttonConfirm {
+  margin-top: 4rem;
+  font-size: $xsmall;
+  font-family: $fontMedium;
+}
+
+.thankyouRow {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.thankyouTitle {
+  font-size: $xlarge;
+  font-family: $fontRegular;
+  padding: 0.5rem 0;
+}
+
+.message {
+  font-size: $small;
+  font-family: $fontRegular;
+}
+
+.buttonOk {
+  margin: 2rem 0 3rem;
+  font-size: $small;
+  font-family: $fontMedium;
+  width: 170px;
+  padding-top: 14px;
+}
+
+.tipContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 1rem 0 2rem;
+}
+
+.buttonTip {
+  width: 85px;
+  height: 30px;
+  font-size: $small;
+  font-family: $fontBold !important;
+  margin: 5px;
+}
+
+.orderWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.scroll {
+  overflow: scroll;
+  max-height: 260px;
+  padding-right: 2px;
+}
+
+.currency {
+  font-size: $small;
+}
+
+.orderHeading {
+  color: $textColorQuaternary;
+  font-family: $fontRegular;
+  font-size: $xsmall;
+}
+
+.orderCard {
+  padding: 5px 10px;
+  margin-top: 8px;
+  background-color: white;
+  box-shadow: 0 2px 3px $shadowColor;
+  &:first-child {
+    margin-top: 0px;
+  }
+}
+
+.expandCard {
+  background-color: white;
+  box-shadow: 0 2px 3px $shadowColor;
+  margin-top: 5px;
+  padding: 0px 10px 4px 10px;
+}
+
+.totalWrapper {
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+}
+
+.orderWrapperTotal {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  margin-top: 15px;
+}
+
+.totalTitle {
+  color: $colorSecondary;
+  font-family: $fontSemibold;
+  font-size: $medium;
+}
+
+.totalTitlePrice {
+  color: $colorSecondary;
+  font-family: $fontSemibold;
+  font-size: $large;
+}
+
+.buttonPayment {
+  font-family: $fontMedium;
+  font-size: $xsmall;
+  padding-bottom: 6px !important;
+  width: auto !important;
+  display: flex;
+  align-self: center;
+  height: 30px !important;
+  margin-top: 1rem;
+  margin-right: 1rem;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.buttonPaymentWrapper {
+  flex-direction: row;
+  display: flex;
+}
+
+.paymentTitle {
+  font-family: $fontRegular;
+  font-size: $large;
+  color: $fontColor;
+  margin-top: 20px;
+}
+
+.paymentContainer {
+  width: 100%;
+}
+
+.itemDescription {
+  font-size: $small;
+  line-height: 1.25;
+  color: #7b7b7b;
+  font-family: $fontRegular;
+}
+
+.items + .items::before {
+  display: inline-block;
+  white-space: pre;
+  content: ', ';
+}
+
+.itemRow {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.5rem 0 0;
+  border-bottom: none;
+  margin-top: -10px;
+
+  &:first-child {
+    margin-top: 0px;
+  }
+}

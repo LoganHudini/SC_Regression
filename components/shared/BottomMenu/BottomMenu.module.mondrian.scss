@@ -1,0 +1,53 @@
+.bottomMenuWrapper {
+  border-radius: 0;
+}
+
+.moreButton {
+  margin-top: 3px;
+  svg {
+    height: 20px;
+  }
+}
+
+.bottomMenuText {
+  text-transform: none;
+}
+
+.bottomMenuLinkInnerActive {
+  svg {
+    & path {
+      fill: $textColorSecondary;
+    }
+  }
+
+  p {
+    color: $textColorSecondary;
+  }
+}
+
+.moreButtonActive {
+  p {
+    color: $textColorSecondary;
+  }
+}
+
+.closeMoreMenuItemsButton {
+  margin-bottom: 2rem;
+}
+
+.moreMenuItemsContainerDisplayed {
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+}
+
+.closeMoreMenuItemsButton {
+  border-radius: 50%;
+  background: none;
+}
+
+.closeMoreMenuItemsIcon {
+  width: 25px;
+  height: auto;
+  fill: $colorPrimary;
+}
+

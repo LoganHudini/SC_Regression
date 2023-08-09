@@ -1,0 +1,133 @@
+.centeredText {
+  text-align: center;
+  font-size: 0.9375rem;
+  margin: 50px 0px 45px 0;
+}
+
+.tripDetails {
+  border-bottom: 2px solid $textColor;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 8px;
+}
+
+.tripDetailsText {
+  font-size: 1rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: $textColor;
+  margin: 0;
+}
+.tripDetailsIcon {
+  height: 15px;
+  & > path {
+    fill: $colorPrimary;
+  }
+}
+
+.nameSurname {
+  font-weight: 600;
+  font-size: 1.125rem;
+  margin: 10px 0 5px 0;
+  font-family: 'Bodoni MT Std';
+}
+
+.bookingId {
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+
+.checkDates {
+  display: flex;
+  justify-content: space-between;
+}
+
+.checkDatesColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkDatesText {
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 0;
+  line-height: 1;
+
+  &:first-of-type {
+    text-transform: uppercase;
+  }
+}
+
+.checkDatesIcon {
+  width: 20px;
+  height: auto;
+  align-self: center;
+  & > path {
+    fill: $textColor;
+  }
+}
+
+.details {
+  display: flex;
+  flex-direction: row;
+  margin-top: 25px;
+}
+
+.detailsColumn {
+  display: flex;
+  flex-direction: column;
+
+  &:first-of-type {
+    margin-right: 25px;
+  }
+}
+
+.detailsText {
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1;
+  margin-top: 5px;
+
+  &:not(:first-of-type) {
+    margin-top: 16px;
+  }
+}
+
+.yourRoom {
+  border-bottom: 2px solid $textColor;
+  padding-bottom: 2px;
+  font-size: 1rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin: 30px 0 23px 0;
+}
+
+.roomDetailsTitle {
+  margin: 0 0 5px 0;
+  font-weight: 600;
+  font-size: 1.125rem;
+  font-family: 'Bodoni MT Std';
+}
+
+.roomDetailsText {
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.25;
+
+  &:first-of-type {
+    margin-bottom: 15px;
+  }
+
+  &:last-of-type {
+    margin-top: 5px;
+  }
+}
+
+.nextButton {
+  margin-top: 46px;
+  font-weight: bold;
+}
+
+.roomDetailsCardWrapper {
+  margin-right: 5px;
+}

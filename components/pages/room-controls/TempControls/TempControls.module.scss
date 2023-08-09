@@ -1,0 +1,208 @@
+.tempControlsWrapper {
+  border: 1px solid #d8d8d8;
+  padding: 23px 25px 40px 25px;
+  display: flex;
+  border-radius: 3px;
+  flex-direction: column;
+  margin: 23px -5px 0 -5px;
+}
+
+.onOffWrapper {
+  display: inline-flex;
+  flex-direction: row;
+  margin: 0 auto;
+  border-radius: 10px;
+  border: 1px solid $colorSecondary;
+  overflow: hidden;
+  width: 130px;
+}
+
+.onOffButton {
+  width: 65px;
+  height: 59px;
+  font-size: 0.9375rem;
+  font-weight: 900;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  background: transparent;
+  color: $textColor;
+  transition: all 0.2s;
+}
+
+.onOffButtonActive {
+  background: $colorSecondary;
+  color: $textColorSecondary;
+}
+
+.tempMeasureUnitSwitcher {
+  display: flex;
+  margin-top: 53px;
+  justify-content: center;
+}
+
+.tempMeasureUnit {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 4px 16px 5px 17px;
+  width: 67px;
+  height: 24px;
+  border: 1px solid $colorSecondary;
+  border-radius: 100px;
+  transition: all 0.2s;
+  background: transparent;
+
+  & > p {
+    color: $textColor;
+  }
+
+  & > svg path {
+    fill: $textColor;
+  }
+
+  &:first-of-type {
+    margin-right: 23px;
+  }
+}
+
+.tempMeasureUnitActive {
+  background: $colorSecondary;
+
+  & > p {
+    color: $textColorSecondary;
+  }
+
+  & > svg path {
+    fill: $textColorSecondary;
+  }
+}
+
+.tempMeasureUnitText {
+  font-size: 0.75rem;
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
+.temperatureIcon {
+  flex: 0 0 8px;
+  width: auto;
+  transition: all 0.2s;
+  & > path {
+    fill: $textColor;
+  }
+}
+
+.temperatureText {
+  text-align: center;
+  font-size: 1rem;
+  margin-bottom: 24px;
+  transition: all 0.2s;
+  line-height: 1;
+}
+
+.temperatureControlsWrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 50px;
+  justify-content: space-between;
+}
+
+.temperatureControlsButton {
+  margin-bottom: -15px;
+}
+
+.currentTemperatureWrapper {
+  display: flex;
+  align-items: flex-end;
+  margin-top: 5px;
+  margin-left: 15px;
+}
+
+.currentTemperatureText {
+  font-size: 3.9375rem;
+  font-family: 'Bodoni MT Std';
+  line-height: 1;
+}
+
+.currentTemperatureGrades {
+  margin-bottom: 65px;
+  font-size: 1.625rem;
+  margin-left: 11px;
+  line-height: 1;
+}
+
+.currentTemperatureMeasureUnit {
+  font-size: 1.625rem;
+  margin-left: -5px;
+  line-height: 1.6;
+}
+
+.topTempControls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+
+.autoEcoSwitcher {
+  display: flex;
+}
+
+.autoEcoButton {
+  width: 47px;
+  height: 23px;
+  font-size: 0.8125rem;
+  border: 1px solid $colorSecondary;
+  border-radius: 100px;
+  transition: all 0.2s;
+  background: transparent;
+  color: $textColor;
+
+  &:first-of-type {
+    margin-right: 10px;
+  }
+}
+
+.autoEcoButtonActive {
+  background: $colorSecondary;
+  color: $textColorSecondary;
+}
+
+.ventilatorControls {
+  display: flex;
+}
+
+.ventilatorControl {
+  width: 39px;
+  height: 24px;
+  border: 1px solid $colorSecondary;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+
+  & > svg path {
+    stroke: $colorSecondary;
+  }
+
+  &:first-of-type {
+    border-radius: 7px 0 0 7px;
+  }
+
+  &:last-of-type {
+    border-radius: 0 7px 7px 0;
+  }
+
+  &:not(:last-child) {
+    margin-right: 1px;
+  }
+}
+
+.ventilatorControlActive {
+  background: $colorSecondary;
+
+  & > svg path {
+    stroke: $textColorSecondary;
+  }
+}

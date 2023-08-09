@@ -1,0 +1,180 @@
+.bottomMenuWrapper {
+  background: $colorPrimary;
+  position: fixed;
+  box-sizing: border-box;
+  margin: 0 auto;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 15px 37px 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 8px 8px 0 0;
+  max-width: 768px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  z-index: 190;
+  max-width: 768px;
+}
+
+.bottomMenuLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.bottomMenuLinkInner {
+  cursor: pointer;
+  svg {
+    margin-top: -3px;
+    path {
+      fill: $textColorSecondary;
+    }
+  }
+
+  p {
+    color: $textColorSecondary;
+  }
+}
+
+.bottomMenuLinkInnerActive {
+  svg {
+    & path {
+      fill: $colorSecondary;
+    }
+  }
+
+  p {
+    color: $colorSecondary;
+  }
+}
+
+.bottomMenuText {
+  text-transform: uppercase;
+  font-size: 0.625rem;
+  color: $textColorSecondary;
+  margin-top: 0px;
+  line-height: 1;
+  text-decoration: none;
+  max-width: 45px;
+  text-align: center;
+}
+
+.moreIconWrapper {
+  border: 1px solid $textColorSecondary;
+  width: 20px;
+  height: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  margin-bottom: 5px;
+
+  & > svg > path {
+    fill: $textColorSecondary;
+  }
+}
+
+.moreButton {
+  margin-top: 5px;
+  svg {
+    height: 20px;
+  }
+}
+
+.moreButtonActive {
+  & > div {
+    border: 1px solid $colorSecondary;
+  }
+
+  svg > path {
+    fill: $colorSecondary;
+  }
+
+  p {
+    color: $colorSecondary;
+  }
+}
+
+.blurOverlay {
+  background: $textColor;
+  position: fixed;
+  box-sizing: border-box;
+  margin: 0 auto;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 150;
+
+  opacity: 0;
+  visibility: hidden;
+  animation: all 0.2s;
+  max-width: 768px;
+}
+
+.blurOverlayDisplayed {
+  opacity: 0.75;
+  visibility: visible;
+}
+
+.moreMenuItemsContainer {
+  padding: 28px 30px 39px 30px;
+  background: $textColorSecondary;
+  align-items: center;
+  position: fixed;
+  box-sizing: border-box;
+  margin: 0 auto;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  max-width: 768px;
+  margin: 0 auto;
+  z-index: 151;
+  box-sizing: border-box;
+  max-height: calc(100vh - 130px);
+  overflow-y: auto;
+
+  transform: translateY(100%);
+  transition: all 0.2s;
+  max-width: 768px;
+}
+
+.moreMenuItemsContainerDisplayed {
+  transform: translateY(0);
+}
+
+.closeMoreMenuItemsButton {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  border-radius: 50%;
+  background: $colorPrimary;
+  margin-bottom: 77px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  transform: translateX(5px);
+}
+
+.closeMoreMenuItemsIcon {
+  width: 20px;
+  height: auto;
+  fill: $textColorSecondary;
+}
+
+.menuItems {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+}

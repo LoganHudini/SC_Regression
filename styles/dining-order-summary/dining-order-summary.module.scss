@@ -1,0 +1,200 @@
+.itemRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid $colorDivider;
+
+  &:first-child {
+    margin-top: 31px;
+  }
+}
+
+.itemTitle {
+  font-size: 1rem;
+  line-height: 1.25;
+  padding: 0.5rem;
+}
+
+.itemDescription {
+  font-size: 0.8125rem;
+  line-height: 1.25;
+  padding: 0.1rem 0;
+  padding-left: 0.5rem;
+}
+
+.totalCostRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid $colorDivider;
+  margin-bottom: 30px;
+}
+
+.totalCostTitle {
+  font-size: 0.9375rem;
+  line-height: 1.333;
+  font-weight: bold;
+}
+
+.totalCostValue {
+  font-size: 0.9375rem;
+  line-height: 1.333;
+  font-weight: bold;
+}
+
+.timeTitle {
+  font-size: 1.5rem;
+  line-height: 1.208;
+  font-family: 'Bodoni MT Std';
+  margin-bottom: 27px;
+}
+
+.chooseDateText {
+  margin-bottom: 18px;
+  font-size: 0.9375rem;
+  line-height: 1.333;
+  font-weight: bold;
+}
+
+.chooseAnotherDateText {
+  margin-bottom: 18px;
+  font-size: 0.9375rem;
+  line-height: 1.333;
+  font-weight: bold;
+}
+
+.chooseAnotherDateRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-right: 3px;
+}
+
+.chooseAnotherDateArrow {
+  margin-top: 8px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.chooseAnotherDateArrowOpened {
+  transform: rotate(-180deg);
+}
+
+.specialRequestsTitle {
+  font-size: 0.9375rem;
+  line-height: 1.333;
+  margin-bottom: 21px;
+  font-weight: bold;
+}
+
+.specialRequestsInput {
+  min-height: 44px;
+  resize: none;
+  border-radius: 3px;
+  border: 1px solid #d8d8d8;
+  outline: none;
+}
+
+.dateContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 27px;
+}
+
+.chooseTimeRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 11px;
+  margin-bottom: 40px;
+}
+
+.chooseTimeTitle {
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.specialRequestsOptional {
+  color: #3d3c3c80;
+}
+
+.dateSelectInput {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+.datePickerWrapper {
+  position: relative;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.2s;
+
+  :global(.Mui-selected) {
+    background-color: $colorPrimary !important;
+  }
+
+  :global(.MuiPickersArrowSwitcher-button .MuiSvgIcon-root) {
+    fill: $textColor;
+  }
+
+  :global(.MuiPickersArrowSwitcher-button.Mui-disabled .MuiSvgIcon-root) {
+    fill: rgba(0, 0, 0, 0.26);
+  }
+}
+
+.datePickerWrapperOpened {
+  max-height: 350px;
+}
+
+.timeBox {
+  width: 100px;
+  height: 44px;
+  border: 1px solid #d8d8d8;
+  border-radius: 3px;
+  font-size: 1rem;
+  line-height: 1.25;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: 12px 5px 12px 13px;
+  cursor: pointer;
+}
+
+.timeBoxArrow {
+  width: 10px;
+  transform: translate(-8px, 2px);
+  margin-left: auto;
+  path {
+    fill: $colorSecondary;
+  }
+}
+
+.confirmOrderButton {
+  margin: 0 auto;
+  padding: 16px 26px;
+  background: #fff;
+  position: fixed;
+  bottom: 4rem;
+  left: 0;
+  right: 0;
+  border-radius: 10px 10px 0 0;
+  box-shadow: $shadowColor 0 1px 20px;
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+.dateTimeWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.dateTimeHeading {
+  font-size: $large;
+  margin: 1.875rem 0rem;
+}

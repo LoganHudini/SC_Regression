@@ -1,0 +1,30 @@
+.imageTitle {
+  margin-top: 15px;
+  margin-bottom: 45px;
+  font-size: 1.5rem;
+  font-family: $fontHeading;
+  color: $textColor;
+  display: flex;
+  align-self: start;
+}
+
+.container {
+  margin-bottom: 1rem;
+  margin-top: 0px;
+}
+
+.buttonWrapper {
+  display: flex;
+  align-self: start;
+}
+
+.ctaButton {
+  margin-top: 0px;
+  font-family: $fontHeading;
+  font-size: $xsmall;
+}
+
+.imagesBody {
+  font-family: $fontMedium;
+  font-size: $small;
+}

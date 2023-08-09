@@ -1,0 +1,23 @@
+.styledRadio {
+  color: $colorPrimary;
+  padding: 0;
+  background: none !important;
+  width: 20px;
+  height: 20px;
+
+  :global(.MuiCheckbox-root) {
+    background-color: transparent !important;
+  }
+
+  :global(.MuiFormControlLabel-label) {
+    font-size: 0.9375rem;
+    margin-right: auto;
+    white-space: nowrap;
+    color: $textColor;
+    margin-left: 15px;
+  }
+
+  :global(.MuiTouchRipple-root) {
+    display: none;
+  }
+}

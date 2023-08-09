@@ -1,0 +1,45 @@
+.hidden {
+  display: none !important;
+}
+
+.animation {
+  position: relative;
+  overflow: hidden;
+  background-color: #dee3ea;
+
+  opacity: 0.45;
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: -150px;
+    top: 0;
+    height: 100%;
+    width: 150px;
+    background: linear-gradient(to right, transparent 0%, #fff 50%, transparent 100%);
+    animation: load 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+}
+
+@keyframes load {
+  0% {
+    left: -150px;
+  }
+  50% {
+    left: 100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.imagePlaceholder {
+  background: #bebebe;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  svg {
+    max-width: 65%;
+  }
+}

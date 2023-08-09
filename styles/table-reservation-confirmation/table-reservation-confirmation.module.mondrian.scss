@@ -1,0 +1,34 @@
+.successText {
+  font-size: $xlarge;
+  font-family: $fontRegular;
+}
+
+.dateText {
+  font-size: $small;
+  font-family: $fontMedium;
+}
+
+.dateValue {
+  font-size: $small;
+  font-family: $fontRegular;
+}
+
+.timeText {
+  font-size: $small;
+  font-family: $fontMedium;
+}
+
+.timeValue {
+  font-size: $small;
+  font-family: $fontRegular;
+}
+
+.backButtonWrapper {
+  padding: 2rem;
+  box-shadow: none;
+}
+
+.backButton {
+  font-family: $fontBold;
+  font-size: $small;
+}

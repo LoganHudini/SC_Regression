@@ -1,0 +1,42 @@
+.cardStyles {
+  padding: 7px 15px 20px 15px;
+  background: #0f1b2a19;
+  border-radius: 3px;
+  position: relative;
+}
+
+.showMoreBtn {
+  position: absolute;
+  top: 13px;
+  right: 15px;
+}
+
+.showMoreBtnOpened {
+  & > svg {
+    transform: rotate(90deg);
+  }
+}
+
+.editBtn {
+  position: absolute;
+  top: 19px;
+  right: 49px;
+}
+
+.showMoreIcon {
+  width: 30px;
+  height: auto;
+  transition: transform 0.2s;
+  & > path {
+    fill: $colorPrimary;
+  }
+}
+
+.editIcon {
+  height: 12px;
+  width: auto;
+
+  & > path {
+    fill: $colorPrimary;
+  }
+}

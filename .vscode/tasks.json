@@ -1,0 +1,92 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "dev:radisson-dubai-stage",
+      "problemMatcher": [],
+      "label": "Dev(STAGE): Radisson Dubai",
+      "detail": "env-cmd -f .env.stage.radisson-dubai yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:radisson-dubai-stage",
+      "problemMatcher": [],
+      "label": "Build(STAGE): Radisson Dubai",
+      "detail": "env-cmd -f .env.stage.radisson-dubai yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:radisson-dubai-stage",
+      "problemMatcher": [],
+      "label": "Start(STAGE): Radisson Dubai",
+      "detail": "env-cmd -f .env.stage.radisson-dubai next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:radisson-dubai",
+      "problemMatcher": [],
+      "label": "Dev(UAT): Radisson Dubai",
+      "detail": "env-cmd -f .env.radisson-dubai yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:radisson-dubai",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build(UAT): Radisson Dubai",
+      "detail": "env-cmd -f .env.radisson-dubai yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:radisson-dubai",
+      "problemMatcher": [],
+      "label": "Start(UAT): Radisson Dubai",
+      "detail": "env-cmd -f .env.radisson-dubai next start"
+    },
+
+    {
+      "type": "npm",
+      "script": "dev:radisson-barcelona-stage",
+      "problemMatcher": [],
+      "label": "Dev(STAGE): Radisson Barcelona",
+      "detail": "env-cmd -f .env.stage.radisson-barcelona yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:radisson-barcelona-stage",
+      "problemMatcher": [],
+      "label": "Build(STAGE): Radisson Barcelona",
+      "detail": "env-cmd -f .env.stage.radisson-barcelona yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:radisson-barcelona-stage",
+      "problemMatcher": [],
+      "label": "Start(STAGE): Radisson Barcelona",
+      "detail": "env-cmd -f .env.stage.radisson-barcelona next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:radisson-barcelona",
+      "problemMatcher": [],
+      "label": "Dev(UAT): Radisson Barcelona",
+      "detail": "env-cmd -f .env.radisson-barcelona yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:radisson-barcelona",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build(UAT): Radisson Barcelona",
+      "detail": "env-cmd -f .env.radisson-barcelona yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:radisson-barcelona",
+      "problemMatcher": [],
+      "label": "Start(UAT): Radisson Barcelona",
+      "detail": "env-cmd -f .env.radisson-barcelona next start"
+    }
+  ]
+}

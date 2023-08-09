@@ -1,0 +1,37 @@
+.wrapper {
+  padding: 2rem;
+  padding-top: 3rem;
+}
+
+.title {
+  font-size: $xlarge;
+}
+
+.itemTitle {
+  font-size: $large;
+  font-family: $fontMedium;
+  margin: 1.25rem 0;
+}
+
+.itemDescription {
+  font-size: $medium;
+  font-family: $fontRegular;
+}
+
+.buttonContainer {
+  display: flex;
+  margin-top: 1rem;
+}
+
+.buttonLeft {
+  font-size: $small;
+  font-family: $fontBold;
+  margin-right: 1rem;
+  padding-top: 16px;
+}
+
+.buttonRight {
+  font-size: $small;
+  font-family: $fontBold;
+  padding-top: 16px;
+}

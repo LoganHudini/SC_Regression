@@ -1,0 +1,207 @@
+.background {
+  position: fixed;
+  box-sizing: border-box;
+  margin: 0 auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.61);
+  z-index: 190;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s;
+  max-width: 768px;
+}
+
+.backgroundOpened {
+  opacity: 1;
+  visibility: visible;
+}
+
+.wrapper {
+  background: #fff;
+  border-radius: 35px 35px 0 0;
+  padding: 50px 20px 20px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transition: all 0.2s;
+  transform: translateY(100%);
+  max-width: 728px;
+  max-height: 570px;
+  overflow: auto;
+  z-index: 200;
+
+  @media (pointer: coarse) {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.wrapperOpened {
+  transform: translateY(0);
+  margin: auto;
+}
+
+.title {
+  font-size: $large;
+  line-height: 1;
+  margin: 0 auto 38px auto;
+  font-family: $fontMedium;
+}
+
+.button {
+  width: 100%;
+  height: 44px;
+  margin-top: 26px;
+  font-family: $fontBold;
+}
+
+.housekeepingItemText {
+  font-size: 13px;
+  line-height: 1.25;
+  max-height: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.4s;
+  font-family: $fontRegular;
+}
+
+.housekeepingItemTextExpanded {
+  max-height: 250px;
+}
+
+.readMore {
+  color: $colorPrimary;
+  margin-top: 4px;
+  font-size: $small;
+  line-height: 1.25;
+  cursor: pointer;
+  display: inline-block;
+  text-align: start;
+  margin-right: auto;
+  width: 100%;
+  text-align: start;
+}
+
+.dateSelectInput {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+.datePickerWrapper {
+  position: relative;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.2s;
+  flex: 0 0 350px;
+
+  :global(.Mui-selected) {
+    background-color: $colorPrimary !important;
+  }
+
+  :global(.MuiPickersArrowSwitcher-button .MuiSvgIcon-root) {
+    fill: $colorPrimary;
+  }
+
+  :global(.MuiPickersArrowSwitcher-button.Mui-disabled .MuiSvgIcon-root) {
+    fill: rgba(0, 0, 0, 0.26);
+  }
+}
+
+.datePickerWrapperOpened {
+  max-height: 350px;
+}
+
+.timeBox {
+  width: 100px;
+  height: 44px;
+  border: 1px solid #d8d8d8;
+  border-radius: 3px;
+  font-size: 1rem;
+  line-height: 1.25;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: 12px 5px 12px 13px;
+  cursor: pointer;
+}
+
+.timeBoxArrow {
+  width: 10px;
+  transform: translate(-8px, 2px);
+  margin-left: auto;
+  path {
+    fill: $colorPrimary;
+  }
+}
+
+.timeTitle {
+  font-size: 1.5rem;
+  line-height: 1.208;
+  font-family: 'Bodoni MT Std';
+  margin-bottom: 27px;
+}
+
+.chooseDateText {
+  margin-top: 15px;
+  margin-bottom: 18px;
+  font-size: 0.9375rem;
+  line-height: 1.333;
+  font-weight: bold;
+}
+
+.chooseAnotherDateText {
+  margin-bottom: 18px;
+  font-size: 0.9375rem;
+  line-height: 1.333;
+  font-weight: bold;
+}
+
+.chooseAnotherDateRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-right: 3px;
+}
+
+.chooseAnotherDateArrow {
+  margin-top: 8px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.chooseAnotherDateArrowOpened {
+  transform: rotate(-180deg);
+}
+
+.dateContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 27px;
+  justify-content: center;
+
+  & > button {
+    width: 160px;
+    flex: 0 0 160px;
+  }
+}
+
+.chooseTimeRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 11px;
+  margin-bottom: 40px;
+}
+
+.chooseTimeTitle {
+  font-size: 1rem;
+  line-height: 1.25;
+}

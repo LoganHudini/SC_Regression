@@ -1,0 +1,33 @@
+.housekeepingQuantityItemWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 30px;
+  height: 30px;
+
+  &:first-of-type {
+    margin-top: 37px;
+  }
+}
+
+.housekeepingQuantityItemTitle {
+  font-size: 1rem;
+  margin-right: auto;
+}
+
+.plusMinusWrapper {
+  margin-top: 2px;
+  margin-right: 8px;
+}
+
+.button {
+  width: 102px;
+  height: 35px;
+  margin-left: auto;
+  margin-top: 2px;
+  font-size: $small;
+  font-weight: 100;
+  text-transform: none;
+  font-family: $fontBold;
+}

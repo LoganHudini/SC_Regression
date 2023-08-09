@@ -1,0 +1,29 @@
+.styledRadio {
+  color: $colorPrimary;
+  padding: 0;
+  background: none !important;
+  width: 20px;
+  height: 20px;
+
+  :global(.MuiSvgIcon-root) {
+    fill: #bebebe;
+  }
+
+  :global(.MuiFormControlLabel-label) {
+    font-size: 0.9375rem;
+    margin-right: auto;
+    white-space: nowrap;
+    color: $textColor;
+    margin-left: 15px;
+  }
+
+  :global(.Mui-checked) {
+    :global(.MuiSvgIcon-root) {
+      fill: $colorPrimary;
+    }
+  }
+
+  :global(.MuiTouchRipple-root) {
+    display: none;
+  }
+}

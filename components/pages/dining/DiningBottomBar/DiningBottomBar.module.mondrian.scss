@@ -1,0 +1,26 @@
+.diningElementText {
+  font-size: $large;
+  font-family: $fontRegular;
+}
+
+.wrapper {
+  border-radius: 0;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  fill: $colorPrimary;
+}
+
+.wrapper {
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+}

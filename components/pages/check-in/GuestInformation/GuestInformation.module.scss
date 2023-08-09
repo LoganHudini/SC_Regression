@@ -1,0 +1,48 @@
+.guestInformationWrapper {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 0 0 10px;
+  margin-right: -5px;
+}
+
+.guestInformationMain {
+  display: flex;
+  flex-direction: column;
+}
+
+.guestInformationTitle {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.guestInformationText {
+  font-weight: normal;
+  font-size: 1rem;
+  line-height: 1.25;
+  text-align: start;
+}
+
+.guestInformationButton {
+  display: block;
+  margin: auto 0 auto auto;
+}
+
+.buttonIcon {
+  width: 32px;
+  height: auto;
+}
+
+.additionalGuestInformation {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+.additionalGuestInformationOpened {
+  max-height: 150px;
+}
+
+.guestInformationIconExpanded {
+  transform: rotate(180deg);
+}

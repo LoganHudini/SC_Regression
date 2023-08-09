@@ -1,0 +1,49 @@
+.housekeepingRadioTitle {
+  font-family: $fontMedium;
+  margin: 36px 0 17px 0;
+  line-height: 1.2;
+  font-size: 18px;
+}
+
+.housekeepingRadioText {
+  margin-bottom: 45px;
+  font-size: 13px;
+  line-height: 1.25;
+  font-family: $fontRegular;
+}
+
+.housekeepingRadioRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-right: 20px;
+}
+
+.criteria {
+  font-size: 15px;
+  font-weight: bold;
+  font-family: $fontMedium;
+}
+.housekeepingItemsWrapper {
+  margin-bottom: 30px;
+}
+
+.orderButtonWrapper {
+  margin: auto -25px 0 -25px;
+  padding: 54px 26px;
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 -2px 10px $shadowColor;
+}
+
+.orderButton {
+  font-weight: 900;
+  font-family: $fontBold;
+  font-size: 14px;
+}
+
+.houseKeepingRadioWrapper {
+  padding: 0 25px;
+  min-height: calc(100vh - 97px);
+  display: flex;
+  flex-direction: column;
+}

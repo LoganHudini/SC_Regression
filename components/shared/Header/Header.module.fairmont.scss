@@ -1,0 +1,43 @@
+.screenTitle {
+  font-family: $fontMedium;
+  font-size: $medium;
+  color: $textColor;
+  margin: 0.25rem 0;
+}
+
+.backButton {
+  top: 1rem;
+}
+
+.backIcon {
+  height: 20px;
+  path {
+    fill: $colorPrimary;
+  }
+}
+
+.closeIcon {
+  fill: $colorPrimary;
+}
+
+.container {
+  padding: 0;
+  background: none;
+}
+
+.logo {
+  width: 104px;
+  height: 30px;
+  path {
+    fill: $colorPrimary;
+  }
+}
+
+.logoContainer {
+  padding: 0.4rem;
+}
+
+.headerContainer {
+  background: $background;
+  padding: 0.4rem;
+}

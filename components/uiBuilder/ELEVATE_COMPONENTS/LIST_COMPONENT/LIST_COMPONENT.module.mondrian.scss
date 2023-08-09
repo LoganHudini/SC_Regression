@@ -1,0 +1,21 @@
+.listComponentTitle {
+  color: $textColor;
+  font-size: $medium;
+  font-family: $fontRegular;
+}
+
+.listComponentBtn {
+  font-family: $fontBold;
+  width: 155px;
+}
+
+.listComponentBookingBtn {
+  font-family: $fontBold;
+  color: $textColorSecondary;
+}
+.locationIcon {
+  margin-left: 4px;
+}
+.cuisineIcon {
+  margin-left: 2px;
+}

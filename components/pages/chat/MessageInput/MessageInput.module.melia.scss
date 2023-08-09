@@ -1,0 +1,26 @@
+.wrapper {
+  height: 54px;
+  border: 1px solid #717372;
+  border-radius: 15px;
+  padding: 20px 19px 18px 16px;
+  margin: 32px 20px 35px 20px;
+}
+
+.input {
+  margin-left: 0;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: #000;
+
+  &::placeholder {
+    color: #707372;
+  }
+}
+
+.sendMessageButton {
+  margin-right: 0;
+
+  svg path {
+    fill: #000000 !important;
+  }
+}

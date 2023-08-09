@@ -1,0 +1,70 @@
+.pageTitle {
+  position: absolute;
+  left: 32px;
+  bottom: 125px;
+  top: auto;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+
+  h1 {
+    font-family: $fontPlayfair;
+    font-weight: normal;
+    font-size: 3.125rem;
+    color: #ffffff;
+    max-width: 208px;
+    padding: 0;
+    text-align: start;
+  }
+
+  h3 {
+    font-family: $fontMedium;
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 1.06rem;
+    line-height: 1.29;
+    padding: 0;
+    text-align: start;
+  }
+}
+
+.bannerImage {
+  height: calc(100vh - 86px);
+}
+
+.carousel {
+  height: calc(100vh - 86px);
+}
+
+.indicatorIcon {
+  width: 9px !important;
+  height: 9px !important;
+  background: transparent;
+  border: 1px solid #fff;
+  transition: all 0.2s;
+  border-radius: 50%;
+
+  &:not(:last-child) {
+    margin-right: 5px;
+  }
+}
+
+.carouselWrapper {
+  margin: 0 -25px;
+
+  :global(.MuiIconButton-root) {
+    transform: none !important;
+    opacity: 1 !important;
+    margin: 0 !important;
+  }
+}
+
+.activeIndicatorIcon {
+  & > div {
+    background: #fff;
+  }
+}
+
+.indicatorIconContainer {
+  bottom: 2px;
+}

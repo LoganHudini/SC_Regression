@@ -1,0 +1,65 @@
+.totalCostTitle {
+  font-size: $medium;
+  font-family: $fontMedium;
+}
+
+.totalCostValue {
+  font-family: $fontRegular;
+  .currencyValue {
+    font-family: $fontMedium;
+  }
+}
+
+.button {
+  font-size: $small;
+  font-family: $fontBold;
+}
+
+.specialRequestsInput {
+  color: $colorSecondary;
+  font-family: $fontRegular;
+  font-size: $small;
+  border: 1px solid $textColor;
+  background-color: $colorPrimary;
+  border-radius: 0rem;
+  padding: 0.5rem;
+}
+
+.confirmOrderButton {
+  background: $colorPrimary;
+  padding: 16px 0px 16px 0px;
+  box-shadow: 0 -6px 8px -2px $shadowColor;
+}
+
+.confirmationWrapper {
+  padding: 0px 26px 0px 26px;
+}
+
+.itemTitle {
+  font-family: $fontPlayfair;
+}
+
+.dateTimeHeading {
+  font-family: $fontPlayfair;
+}
+
+.chooseAnotherDateArrow {
+  path {
+    fill: $textColor;
+  }
+}
+
+.timeBox {
+  border: 1px solid $textColor;
+  border-radius: 0rem;
+}
+
+.datePickerWrapperOpened {
+  max-height: 350px;
+}
+
+.datePickerWrapper {
+  :global(.Mui-selected) {
+    background-color: $textColor !important;
+  }
+}

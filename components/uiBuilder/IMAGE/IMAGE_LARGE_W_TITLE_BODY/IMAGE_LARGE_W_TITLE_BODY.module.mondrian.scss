@@ -1,0 +1,34 @@
+.imageTitle {
+  margin-top: 15px;
+  font-size: $xlarge;
+  font-family: $fontRegular;
+  align-self: start;
+}
+
+.container {
+  margin-top: 5px;
+}
+
+.imageImage {
+  transform: none;
+}
+
+.imagesBody {
+  font-size: $xsmall;
+  font-family: $fontRegular;
+  margin-top: 0.5rem;
+}
+
+.ctaButton {
+  margin-top: 0px;
+  font-size: $xsmall;
+  font-family: $fontBold;
+  text-align: start;
+  left: 0;
+}
+
+
+.buttonWrapper {
+  display: flex;
+  align-self: start;
+}

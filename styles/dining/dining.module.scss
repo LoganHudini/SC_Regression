@@ -1,0 +1,48 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: 81px;
+  margin: 0 auto;
+}
+
+.diningElement {
+  &:not(:first-child) {
+    margin-top: 83px;
+  }
+
+  display: flex;
+  align-items: center;
+}
+
+.diningImage {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  margin-right: 23px;
+  object-fit: cover;
+}
+
+.diningText {
+  display: flex;
+  flex-direction: column;
+}
+
+.diningTitle {
+  font-family: 'Bodoni MT Std';
+  font-size: 1.25rem;
+  margin-bottom: 4px;
+  font-weight: normal;
+  line-height: 1.15;
+}
+
+.diningTime {
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.diningImage {
+  width: 120px;
+  height: 120px;
+  margin-right: 24px;
+}

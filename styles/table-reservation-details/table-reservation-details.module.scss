@@ -1,0 +1,30 @@
+.tableReservationTitle {
+  font-family: 'Bodoni MT Std';
+  margin: 36px 0 17px 0;
+  line-height: 1.2;
+  font-size: 1.5rem;
+}
+
+.orderButtonWrapper {
+  padding: 54px 26px;
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 -2px 10px $shadowColor;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.orderButton {
+  font-weight: 900;
+}
+
+.tableReservationWrapper {
+  padding: 0 25px;
+  min-height: calc(100vh - 97px);
+  display: flex;
+  flex-direction: column;
+}
+

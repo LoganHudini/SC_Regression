@@ -1,0 +1,38 @@
+.totalCostTitle {
+  font-size: $medium;
+  font-family: $fontMedium;
+}
+
+.totalCostValue {
+  font-family: $fontRegular;
+  .currencyValue {
+    font-family: $fontMedium;
+  }
+}
+
+.button {
+  font-size: $small;
+  font-family: $fontBold;
+  background: $colorPrimary;
+}
+
+.specialRequestsInput {
+  font-family: $fontRegular;
+}
+
+.confirmOrderButton {
+  padding: 16px 0px;
+}
+
+.confirmationWrapper {
+  padding: 0px 26px;
+}
+
+.specialRequestsInput {
+  color: $colorPrimary;
+  font-family: $fontRegular;
+  font-size: $small;
+  border: 1px solid $colorPrimary;
+  border-radius: 0rem;
+  padding: 0.5rem;
+}

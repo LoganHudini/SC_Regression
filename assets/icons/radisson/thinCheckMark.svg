@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="47" height="47" viewBox="0 0 47 47">
+  <g id="confirm" transform="translate(20854 15054)">
+    <g id="Oval_2" data-name="Oval 2" transform="translate(-20853 -15053)" fill="#164194" stroke="#164194" stroke-width="1">
+      <circle cx="22.5" cy="22.5" r="22.5" stroke="none"/>
+      <circle cx="22.5" cy="22.5" r="23" fill="none"/>
+    </g>
+    <path id="Icon_tick" data-name="Icon/tick" d="M6.135,12.675,0,6.54l.81-.81,5.325,5.325L17.19,0,18,.81Z" transform="translate(-20839.5 -15036.375)" fill="#fff" stroke="#fff" stroke-width="0.2"/>
+  </g>
+</svg>

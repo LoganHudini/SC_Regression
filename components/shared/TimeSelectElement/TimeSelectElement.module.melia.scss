@@ -1,0 +1,20 @@
+.wrapper {
+  border: 1px solid $textColor;
+  width: 154px;
+  flex: 0 0 154px;
+  height: 47px;
+  box-sizing: border-box;
+  font-weight: normal;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: $textColor;
+  font-family: $fontBold;
+  line-height: 1;
+}
+
+.wrapperSelected {
+  border: 1px solid #84764e;
+  background: #84764e;
+  color: #fff;
+  font-weight: normal;
+}

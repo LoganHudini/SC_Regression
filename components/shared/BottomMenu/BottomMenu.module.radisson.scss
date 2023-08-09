@@ -1,0 +1,154 @@
+.bottomMenuWrapper {
+  border-radius: 50px;
+  background: $colorPrimary;
+  bottom: 0.5rem;
+  left: 1rem;
+  right: 1rem;
+  justify-content: space-between;
+  padding: 10px 10px 0px 10px;
+}
+
+.homeActivehotelName {
+  left: 3rem;
+  right: 3rem;
+  width: 15rem;
+}
+
+.bottonMenuContainer {
+  max-width: 768px;
+  margin: 0 auto;
+  position: absolute;
+}
+
+.moreButton {
+  margin-top: 3px;
+  svg {
+    height: 20px;
+  }
+}
+
+.bottomMenuText {
+  text-transform: uppercase;
+  font-size: $xsmall;
+  color: $textColorSecondary;
+  margin-top: 10px;
+  line-height: 1;
+  text-decoration: none;
+  max-width: 100px;
+  text-align: center;
+}
+
+.bottomMenuTextHome {
+  text-transform: uppercase;
+  font-size: 0.625rem;
+  color: $textColorSecondary;
+  margin-top: 10px;
+  line-height: 1;
+  text-decoration: none;
+  max-width: 100px;
+  text-align: center;
+}
+
+.bottomMenuLinkInner {
+  cursor: pointer;
+  height: 55px;
+}
+
+.homeActive {
+  padding-top: 6px;
+}
+
+.diningWrapper {
+  padding-top: 10px;
+}
+
+.diningWrapperActive {
+  padding-top: 0px;
+}
+
+.housekeepingWrapper {
+  padding: 0px 0px 10px 0px;
+}
+
+.diningActiveActive {
+  padding-top: 10px;
+}
+
+.bottomMenuLinkInnerActive {
+  background: $textColorSecondary;
+  border-radius: 43px;
+  svg {
+    & path {
+      fill: $colorPrimary;
+    }
+  }
+
+  p {
+    color: $colorPrimary;
+  }
+}
+
+.moreButtonActive {
+  p {
+    color: $textColorSecondary;
+  }
+}
+
+.closeMoreMenuItemsButton {
+  margin-bottom: 2rem;
+}
+
+.moreMenuItemsContainerDisplayed {
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  left: 1rem;
+  right: 1rem;
+  background: $colorPrimary !important;
+  position: fixed;
+  bottom: 40px;
+  .closeMoreMenuItemsIcon {
+    fill: $textColorSecondary !important;
+  }
+}
+
+.closeMoreMenuItemsButton {
+  border-radius: 50%;
+  background: none;
+}
+
+.closeMoreMenuItemsIcon {
+  width: 30px;
+  height: 30px;
+  fill: transparent !important;
+}
+
+.moreMenuItemsContainer {
+  background: transparent;
+}
+
+.bottomMenuLink {
+  padding-top: 3px;
+  height: 55px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.bottomMenuLinkIconWrapper {
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.homeinactive {
+  text-transform: uppercase;
+  font-size: 0.625rem;
+  margin-top: 10px;
+  line-height: 1;
+  text-decoration: none;
+  max-width: 100px;
+  text-align: center;
+}

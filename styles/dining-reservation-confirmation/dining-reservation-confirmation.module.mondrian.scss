@@ -1,0 +1,38 @@
+.successText {
+  font-size: $xlarge;
+  font-family: $fontRegular;
+  margin-bottom: 65px;
+}
+
+.reservationId {
+  font-family: $fontRegular;
+  margin-top: 1rem;
+}
+
+.backButton {
+  font-size: $small;
+  font-family: $fontBold;
+}
+
+.borderWrapper {
+  border: 1px solid $borderColor;
+  margin-bottom: 100px;
+}
+
+.dateTimeHeading {
+  margin: 20px 0px 0px 0px;
+  font-family: $fontMedium;
+}
+
+.dateTimeText {
+  margin: 0px 0px 13px 0px;
+  font-family: $fontRegular;
+}
+
+.pageWrapper {
+  padding: 0px;
+}
+
+.carouselWrapper {
+  padding: 0 30px;
+}

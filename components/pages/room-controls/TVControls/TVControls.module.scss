@@ -1,0 +1,187 @@
+.tVControlsWrapper {
+  border: 1px solid #d8d8d8;
+  margin-top: 23px;
+  padding: 23px 57px 60px 57px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 3px;
+}
+
+.onOffWrapper {
+  display: inline-flex;
+  flex-direction: row;
+  margin: 0 auto;
+  border-radius: 10px;
+  border: 1px solid $colorSecondary;
+  overflow: hidden;
+  width: 130px;
+}
+
+.onOffButton {
+  width: 65px;
+  height: 59px;
+  font-size: 0.9375rem;
+  font-weight: 900;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  background: transparent;
+  color: $textColor;
+  transition: all 0.2s;
+}
+
+.onOffButtonActive {
+  background: $colorSecondary;
+  color: $textColorSecondary;
+}
+
+.buttonCircle {
+  background: $colorSecondary;
+  width: 183px;
+  height: 183px;
+  margin: 27px auto 30px auto;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonCircleInner {
+  width: 109px;
+  height: 109px;
+  border-radius: 50%;
+  background: $textColorSecondary;
+  font-size: 0.9375rem;
+  font-weight: 900;
+}
+
+.buttonCircleUpButton {
+  width: 5px;
+  height: 5px;
+  background: $textColorSecondary;
+  border-radius: 50%;
+
+  position: absolute;
+  top: 17px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.buttonCircleDownButton {
+  width: 5px;
+  height: 5px;
+  background: $textColorSecondary;
+  border-radius: 50%;
+
+  position: absolute;
+  bottom: 17px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.buttonCircleRightButton {
+  width: 5px;
+  height: 5px;
+  background: $textColorSecondary;
+  border-radius: 50%;
+
+  position: absolute;
+  right: 17px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.buttonCircleLeftButton {
+  width: 5px;
+  height: 5px;
+  background: $textColorSecondary;
+  border-radius: 50%;
+
+  position: absolute;
+  left: 17px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.tVBtn {
+  width: 42px;
+  height: 42px;
+  background: $colorSecondary;
+  color: $textColorSecondary;
+  border-radius: 50%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:not(:first-of-type) {
+    margin-top: 30px;
+  }
+}
+
+.bottomTvControlsWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+}
+
+.verticalButtonWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 42px;
+  height: 107px;
+  box-sizing: border-box;
+  border-radius: 150px;
+  background: $colorSecondary;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.verticalButtonText {
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: $textColorSecondary;
+}
+
+.volumePlusIcon {
+  width: auto;
+  height: 20px;
+  margin-top: 10px;
+  & > path {
+    fill: $textColorSecondary;
+  }
+}
+
+.volumeMinusIcon {
+  width: auto;
+  height: 20px;
+  margin-bottom: 5px;
+  & > path {
+    fill: $textColorSecondary;
+  }
+}
+
+.channelPlusIcon {
+  width: 30px;
+  height: auto;
+  & > path {
+    fill: $textColorSecondary;
+  }
+}
+
+.channelMinusIcon {
+  width: 30px;
+  height: auto;
+  & > path {
+    fill: $textColorSecondary;
+  }
+}
+
+.muteIcon {
+  fill: $textColorSecondary;
+  width: 21px;
+  height: auto;
+}

@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 55px;
+}
+
+.imageWrapper {
+  width: 100%;
+  padding: 0 25px 0 25px;
+}
+
+.imageImage {
+  height: 250px;
+  object-fit: cover;
+  width: 100%;
+  transform: translateY(-25px);
+}
+
+.shadowedImage {
+  filter: contrast(0.5);
+}
+
+.imageTitle {
+  margin-top: 25px;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  font-family: 'Bodoni MT Std';
+  text-align: center;
+}
+
+.imageBody {
+  font-size: 1rem;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.ctaButton {
+  margin-top: 15px;
+  color: $textColor;
+  font-weight: 600;
+  text-transform: none;
+  font-size: 1rem;
+}

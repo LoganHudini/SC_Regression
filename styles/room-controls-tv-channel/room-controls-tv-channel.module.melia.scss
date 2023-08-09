@@ -1,0 +1,61 @@
+.centeredText {
+  color: #505050;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  margin: 78px auto 5px auto;
+}
+
+.currentChannel {
+  margin-bottom: 62px;
+  font-size: 3.125rem;
+  font-family: 'Roboto';
+  height: 60px;
+  line-height: 1.2;
+  color: #000000;
+  margin-bottom: 62px;
+}
+
+.tVButton {
+  width: 70px;
+  height: 70px;
+}
+
+.buttonsRow {
+  &:not(:last-of-type) {
+    margin-bottom: 27px;
+  }
+}
+
+.tVButton {
+  background: #000000;
+  color: #fff;
+  font-family: 'PlayfairDisplay';
+  font-size: 1.75rem;
+}
+
+.tVButtonText {
+  font-size: 1.25rem;
+  font-family: 'Roboto';
+  font-weight: 400;
+  color: #fff;
+}
+
+.backIcon {
+  path {
+    fill: #000000;
+  }
+}
+
+.backButton {
+  background: none;
+  border: none;
+}
+
+.okButton {
+  background: #827653;
+  border: none;
+}
+
+.backIcon {
+  margin-left: -15px;
+}

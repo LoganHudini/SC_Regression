@@ -1,0 +1,21 @@
+.wrapper {
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  background: $colorPrimary;
+  left: 1rem;
+  right: 1rem;
+  bottom: 40px;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  fill: $textColorSecondary;
+}

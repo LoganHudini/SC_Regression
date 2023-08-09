@@ -1,0 +1,98 @@
+.tempControlsWrapper {
+  border: none;
+  background: #000;
+  border-radius: 4px;
+  padding: 17px 25px 87px 28px;
+}
+
+.tempMeasureUnitSwitcher {
+  display: none;
+}
+
+.autoEcoButton {
+  background: transparent;
+  color: #707372;
+  border-color: #707372;
+  font-weight: normal;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+.autoEcoButtonActive {
+  background: #84764e;
+  color: #fff;
+  font-weight: normal;
+}
+
+.ventilatorControl {
+  border-color: #707372;
+
+  svg path {
+    fill: #707372;
+  }
+}
+
+.temperatureText {
+  font-size: 0.625rem;
+  color: #707372;
+  line-height: 1.2;
+}
+
+.topTempControls {
+  margin-bottom: 30px;
+}
+
+.currentTemperatureText {
+  color: #707372;
+  font-size: 5.81rem;
+  font-family: 'TF Arrow Medium';
+}
+
+.currentTemperatureMeasureUnit {
+  color: #707372;
+  font-weight: normal;
+}
+
+.currentTemperatureGrades {
+  color: #707372;
+  font-weight: normal;
+  font-size: 1.43rem;
+}
+
+.ventilatorControl {
+  svg {
+    opacity: 0.5;
+  }
+}
+
+.ventilatorControlActive {
+  background: #84764e;
+  & > svg {
+    opacity: 1;
+    path {
+      stroke: $textColorSecondary;
+      fill: $textColorSecondary;
+    }
+  }
+}
+
+.onOffWrapper {
+  border: none;
+}
+
+.onOffButton {
+  background: #313131;
+  color: #fff;
+  font-weight: normal;
+  border: none;
+  font-size: 0.875rem;
+}
+
+.onOffButtonActive {
+  background: #84764e;
+  border: none;
+}
+
+.temperatureControlsWrapper {
+  margin-bottom: 40px;
+}

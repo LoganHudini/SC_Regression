@@ -1,0 +1,134 @@
+# This is a sample build configuration for JavaScript.
+# Check our guides at https://confluence.atlassian.com/x/14UWN for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+
+image: node:18.12.1
+pipelines:
+  default:
+    - step:
+        name: Build and test
+        script:
+          - rm -rf package-lock.json
+          - rm -rf yarn.lock
+          - rm -rf node_modules
+          - yarn
+
+  custom:
+    deployToRadissonBarcelonaUat:
+      - step:
+          caches:
+            - node
+          name: Deploy Manually to UAT https://radisson-barcelona-checkin.hudini.app/
+          deployment: uat
+          size: 2x # Double resources available for this step.
+          script:
+            - rm -rf package-lock.json
+            - rm -rf yarn.lock
+            - rm -rf node_modules
+            - yarn
+            - CI='' yarn build:radisson-barcelona
+            - CI='' yarn export
+            - cd out
+            - pipe: atlassian/aws-s3-deploy:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_UAT
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
+                #ACL: 'public-read'
+                S3_BUCKET: $S3_BUCKET_RADISSON_BARCELONA_UAT
+                LOCAL_PATH: $(pwd)
+            - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_UAT
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
+                DISTRIBUTION_ID: 'E32OSUS9VVEKTZ'
+    deployToRadissonDubaiUat:
+      - step:
+          caches:
+            - node
+          name: Deploy Manually to UAT https://radisson-dubai-checkin.hudini.app/
+          deployment: uat
+          size: 2x # Double resources available for this step.
+          script:
+            - rm -rf package-lock.json
+            - rm -rf yarn.lock
+            - rm -rf node_modules
+            - yarn
+            - CI='' yarn build:radisson-dubai
+            - CI='' yarn export
+            - cd out
+            - pipe: atlassian/aws-s3-deploy:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_UAT
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
+                #ACL: 'public-read'
+                S3_BUCKET: $S3_BUCKET_RADISSON_DUBAI_UAT
+                LOCAL_PATH: $(pwd)
+            - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_UAT
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
+                DISTRIBUTION_ID: 'EO1G824LKSTK5'
+    deployToRadissonBarcelonaStaging:
+      - step:
+          caches:
+            - node
+          name: Deploy Manually to STAGING https://radisson-barcelona.hudinielevate-stage.io/
+          deployment: staging
+          size: 2x # Double resources available for this step.
+          script:
+            - rm -rf package-lock.json
+            - rm -rf yarn.lock
+            - rm -rf node_modules
+            - yarn
+            - CI='' yarn build:radisson-barcelona-stage
+            - CI='' yarn export
+            - cd out
+            - pipe: atlassian/aws-s3-deploy:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING
+                #ACL: 'public-read'
+                S3_BUCKET: $S3_BUCKET_RADISSON_BARCELONA_STAGING
+                LOCAL_PATH: $(pwd)
+            - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING
+                DISTRIBUTION_ID: 'E2VIAJU580E6AA'
+    deployToRadissonDubaiStaging:
+      - step:
+          caches:
+            - node
+          name: Deploy Manually to STAGING https://radisson-dubai-waterfront.hudinielevate-stage.io/
+          deployment: staging
+          size: 2x # Double resources available for this step.
+          script:
+            - rm -rf package-lock.json
+            - rm -rf yarn.lock
+            - rm -rf node_modules
+            - yarn
+            - CI='' yarn build:radisson-dubai-stage
+            - CI='' yarn export
+            - cd out
+            - pipe: atlassian/aws-s3-deploy:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING
+                #ACL: 'public-read'
+                S3_BUCKET: $S3_BUCKET_RADISSON_DUBAI_STAGING
+                LOCAL_PATH: $(pwd)
+            - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING
+                DISTRIBUTION_ID: 'E2Z3U18KNBHSWY'

@@ -1,0 +1,35 @@
+.tableReservationTitle {
+  font-family: $fontMedium;
+  font-size: $large;
+  margin: 2rem 0;
+}
+
+.orderButtonWrapper {
+  padding: 2rem;
+  box-shadow: none;
+}
+
+.orderButton {
+  font-family: $fontBold;
+  font-size: $small;
+}
+
+.label {
+  font-family: $fontRegular;
+  font-size: $small;
+}
+
+.text {
+  font-family: $fontMedium;
+  font-size: $medium;
+  margin-top: 2px ;
+}
+
+.horizontalLine {
+  background: $textColor;
+  opacity: 0.3;
+  margin: 0.75rem 0;
+}
+.requiredfield{
+  color:$errorMsgColor;
+}

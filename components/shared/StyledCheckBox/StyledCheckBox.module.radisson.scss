@@ -1,0 +1,13 @@
+.styledCheckBox {
+  color: $colorPrimary;
+  padding: 0;
+  background: none !important;
+
+  :global(.MuiTouchRipple-root) {
+    display: none;
+  }
+
+  :global(.MuiSvgIcon-root) {
+    fill: $colorPrimary;
+  }
+}

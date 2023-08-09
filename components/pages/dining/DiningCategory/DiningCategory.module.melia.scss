@@ -1,0 +1,28 @@
+.diningElement {
+  &:not(:first-child) {
+    margin-top: 90px;
+  }
+}
+
+.diningImage {
+  width: 120px;
+  height: 120px;
+}
+
+.diningTitle {
+  margin-top: 5px;
+}
+
+.diningTitle {
+  font-family: $fontPlayfair;
+  font-size: $extralarge;
+  margin-bottom: 10px;
+  line-height: 1.136;
+  color: #000;
+}
+
+.diningText {
+  .p {
+    color: $colorSecondary;
+  }
+}

@@ -1,0 +1,85 @@
+.centeredText {
+  text-align: center;
+  font-size: 1rem;
+  margin: 50px 0 65px 0;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.nextButton {
+  margin-top: -5px;
+}
+
+.identityVerificationInput {
+  margin-bottom: 9px;
+}
+
+.styledDateInput {
+  margin: 5px 0;
+}
+
+.identityInputs {
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+  margin-left: 5px;
+
+  :global(.MuiFormLabel-filled) {
+    font-weight: 600;
+  }
+
+  :global(.MuiInputLabel-standard) {
+    font-weight: normal;
+    font-size: 0.75rem !important;
+  }
+
+  :global(.MuiInputBase-input) {
+    font-size: 0.75rem !important;
+    padding: 10px 0 !important;
+  }
+
+  :global(.MuiSelect-select) {
+    padding-bottom: 7px !important;
+  }
+}
+
+.guestDataInput {
+  &:not(:last-of-type) {
+    margin-bottom: 29px;
+  }
+}
+
+.styledDateInput {
+  & .MuiInputAdornment-root {
+    transform: translateX(-7px);
+  }
+
+  margin-bottom: 29px;
+}
+
+.calendarIcon {
+  width: 21px;
+  height: 21px;
+
+  path {
+    fill: $colorSecondary;
+  }
+}
+
+.guestFormControl {
+  margin-top: 2px;
+  margin-bottom: 25px;
+}
+
+.identityVerificationFormControl {
+  margin-top: 2px;
+  margin-bottom: 25px;
+}
+
+.selectArrow {
+  width: auto;
+  height: 22px;
+  & > path {
+    fill: $textColor;
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "In-Room Dining": "تناول الطعام بالغرفة",
+  "Ingredients": "المُكوِّنات",
+  "Servings": "حصص الطعام",
+  "Total": "الإجمالي",
+  "Order": "الطلب",
+  "Add-Ons": "إضافات",
+  "Optional": "اختياري",
+  "Dining": "تناول الطعام",
+  "total item price": "إجمالي سعر العنصر",
+  "Add to cart": "أَضِف إلى السلة",
+  "Required": "مطلوب",
+  "Limit exceeded": "تَمَّ تجاوُز الحد المسموح به",
+  "Select up to options": "اِختَر حتى {{value}} خيار",
+  "Add instructions": "أَضِف تعليمات الطهي"
+}

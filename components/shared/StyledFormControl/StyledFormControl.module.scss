@@ -1,0 +1,48 @@
+.styledFormControl {
+  margin-left: 0;
+  margin-right: 0;
+
+  :global(.MuiSelect-select) {
+    color: $textColor;
+    padding-bottom: 12px;
+    font-size: 0.875rem;
+    text-align: start;
+  }
+
+  :global(.MuiInputLabel-standard) {
+    font-size: 0.875rem;
+    color: $textColor;
+  }
+
+  :global(.MuiFormHelperText-root) {
+    color: $textColor;
+  }
+
+  :global(.MuiInputBase-root) {
+    &::after {
+      border-bottom: 2px solid $colorPrimary;
+    }
+
+    &:hover {
+      &::before {
+        border-bottom: 2px solid $colorPrimary !important;
+      }
+    }
+
+    :global(.MuiInputBase-input) {
+      text-align: start;
+      background: transparent !important;
+    }
+  }
+
+  :global(.MuiInputLabel-asterisk),
+  :global(.Mui-error) {
+    color: $errorMsgColor !important;
+  }
+
+  :global(.Mui-error) {
+    &::after {
+      border-bottom: 2px solid $errorMsgColor !important;
+    }
+  }
+}

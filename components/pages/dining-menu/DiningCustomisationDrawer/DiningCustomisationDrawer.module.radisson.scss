@@ -1,0 +1,74 @@
+.wrapper {
+  padding: 1.75rem;
+  padding-top: 3rem;
+}
+
+.title {
+  font-size: $large;
+  font-family: $fontRegular;
+  color: $textColorTernary;
+  width: 100%;
+}
+
+.priceContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.itemTitle {
+  font-size: $large;
+  font-family: $fontRegular;
+  color: $textColorTernary;
+  margin: 1.25rem 0;
+  width: 65%;
+}
+
+.itemPrice {
+  font-size: $large;
+  font-family: $fontRegular;
+  color: $textColorTernary;
+  margin: 1.25rem 0;
+  width: 30%;
+  text-align: end;
+}
+
+.grayText {
+  color: $shadowColorSecondary;
+}
+
+.itemDescription {
+  font-size: $small;
+  font-family: $fontRegular;
+}
+
+.item + .item::before {
+  display: inline-block;
+  white-space: pre;
+  content: ', ';
+}
+
+.buttonContainer {
+  display: flex;
+  margin: 2rem auto 0;
+  width: 100%;
+}
+
+.buttonLeft {
+  height: 35px;
+  font-size: $small;
+  font-family: $fontSemibold;
+  margin-right: 0rem;
+  padding: 10px;
+  margin-right: 3px;
+  min-width: fit-content;
+}
+
+.buttonRight {
+  height: 35px;
+  font-size: $small;
+  font-family: $fontSemibold;
+  padding: 10px;
+  min-width: fit-content;
+  margin-left: 3px;
+}

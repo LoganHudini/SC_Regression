@@ -1,0 +1,20 @@
+.findMyBookingBtn {
+  font-weight: 900;
+  margin: 42px 46px 30px 46px;
+  width: calc(100% - 92px);
+}
+
+.horizontalLine {
+  background: $textColor;
+  height: 1px;
+  margin: 0 16px 30px 16px;
+}
+
+.upcomingStaysWrapper {
+  margin-right: -5px;
+}
+
+.noStaysFilter {
+  margin: -6px auto 24px auto;
+  text-align: center;
+}

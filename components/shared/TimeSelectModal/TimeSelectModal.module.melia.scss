@@ -1,0 +1,34 @@
+.timeSelectWrapper {
+  padding: 45px 45px 32px 45px;
+
+  :global(.rmc-picker-mask) {
+    background-image: none;
+  }
+
+  :global(.rmc-picker-content) {
+    padding: 34px 0 !important;
+  }
+
+  :global(.rmc-picker-indicator) {
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+  }
+}
+
+.title {
+  font-family: $fontPlayfair;
+  font-size: 1.125rem;
+  line-height: 1.11;
+  font-weight: normal;
+}
+
+.button {
+  font-size: 0.75rem;
+  font-weight: normal;
+  border-radius: 4px;
+  margin-top: 0;
+}
+
+.timeSelectBackground {
+  background: rgba(0, 0, 0, 0.61);
+}

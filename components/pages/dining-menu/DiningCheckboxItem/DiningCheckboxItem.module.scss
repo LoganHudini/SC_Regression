@@ -1,0 +1,21 @@
+.irdCheckboxItem {
+  display: flex;
+  padding: 0.5rem 0;
+}
+
+.currencyWrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 290px;
+  align-items: center;
+}
+
+.currency {
+  font-size: $xsmall;
+}
+
+.price {
+  font-size: $large;
+}
+
+

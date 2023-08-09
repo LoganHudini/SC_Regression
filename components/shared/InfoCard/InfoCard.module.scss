@@ -1,0 +1,75 @@
+.infoCardStyles {
+  padding: 10px 15px 10px 15px;
+  border-radius: 3px;
+  position: relative;
+  border: 1px black solid;
+  margin: 20px 0px;
+}
+
+.showMoreBtn {
+  position: absolute;
+  top: 13px;
+  right: 15px;
+}
+
+.showMoreBtnOpened {
+  & > svg {
+    transform: rotate(90deg);
+  }
+}
+
+.editBtn {
+  position: absolute;
+  top: 19px;
+  right: 49px;
+}
+
+.showMoreIcon {
+  width: 30px;
+  height: auto;
+  transition: transform 0.2s;
+  & > path {
+    fill: $colorPrimary;
+  }
+}
+
+.editIcon {
+  height: 12px;
+  width: auto;
+
+  & > path {
+    fill: $colorPrimary;
+  }
+}
+
+.homeCard {
+  display: block;
+}
+.homeCardInner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.errorText {
+  color: #dc4d40;
+  font-size: $small;
+  text-align: initial;
+}
+.titeText {
+  font-size: $medium;
+  font-family: $fontMedium;
+}
+.detailsText {
+  font-size: $small;
+  text-align: initial;
+}
+.firstSection {
+  display: flex;
+}
+.homeIcon {
+  padding-right: 4vw;
+  margin: auto;
+}
+.homeCardInfo {
+  align-items: flex-start;
+}

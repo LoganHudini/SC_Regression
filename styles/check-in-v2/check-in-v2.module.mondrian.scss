@@ -1,0 +1,86 @@
+.checkDates {
+  border-top: 1px solid $colorDivider;
+  padding-top: 1rem;
+}
+
+.personalizationData {
+  margin-bottom: 6px;
+}
+
+.checkDatesDetails {
+  margin-bottom: 15px;
+  color: $textColor;
+  font-family: $fontMedium;
+  font-size: $medium;
+}
+
+.checkDatesText {
+  font-family: $fontRegular;
+  color: $textColor;
+  font-size: $xsmall;
+}
+
+.checkDates {
+  display: flex;
+  justify-content: space-between;
+}
+
+.description {
+  font-size: $medium;
+}
+
+.border {
+  border-top: 1px solid $colorDivider;
+  padding-bottom: 20px;
+}
+
+.cardWrapper {
+  margin-top: 0px;
+}
+
+.personalizationText {
+  color: $textColor;
+  font-size: $medium;
+  width: 75%;
+  text-align: start;
+}
+
+.step {
+  border-bottom: 0px;
+}
+
+.personalizationQuantity {
+  font-size: $small;
+  color: $textColor;
+}
+
+.agrementText {
+  font-size: $small;
+  max-width: none;
+  margin-top: 10px;
+  margin-left: 20px;
+  a {
+    color: $colorPrimary;
+    white-space: nowrap;
+  }
+}
+
+.guestSignature {
+  font-size: $medium;
+  font-family: $fontRegular;
+}
+
+.clearBtn {
+  color: $colorPrimary;
+  font-size: $small;
+  font-family: $fontMedium;
+}
+
+.right {
+  text-align: right;
+}
+
+.checkInButton {
+  font-family: $fontBold;
+  font-size: $small;
+}

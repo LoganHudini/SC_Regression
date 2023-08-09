@@ -1,0 +1,48 @@
+.okIcon {
+  margin: 90px auto 25px auto;
+  flex: 1 1 36px;
+}
+
+.checkInCompleteText {
+  font-size: 1.625rem;
+  margin-bottom: 36px;
+  text-align: center;
+  font-family: 'Bodoni MT Std';
+  line-height: 1;
+}
+
+.room {
+  color: $textColor;
+  margin-bottom: 26px;
+  font-size: 1.125rem;
+  text-align: center;
+  line-height: 1;
+}
+
+.roomNumber {
+  font-family: 'Bodoni MT Std';
+  margin-bottom: 122px;
+  text-align: center;
+  font-size: 3.125rem;
+  line-height: 1;
+}
+
+.addDeviceButton {
+  margin: 0 20px;
+  font-weight: 900;
+  width: auto;
+  margin-bottom: 29px;
+}
+
+.instructionsText {
+  color: $textColor;
+  font-size: 0.9375rem;
+  margin: 0 auto 135px auto;
+  max-width: 220px;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.backToHomePageButton {
+  font-weight: 900;
+}

@@ -1,0 +1,17 @@
+.carouselSlideTitle {
+  font-size: 17px;
+  font-family: $fontSemibold;
+}
+
+.carouselSlideBody {
+  font-size: $small;
+}
+
+.carouselWrapper {
+  margin: 40px -25px 0 -25px;
+  overflow: scroll;
+}
+
+.carouselSlideImage {
+  margin-top: 10px;
+}

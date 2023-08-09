@@ -1,0 +1,42 @@
+.screenTitle {
+  color: #2d2d2d;
+  font-size: $medium;
+  min-height: 0;
+  font-family: $fontBold;
+  transform: translateY(7px);
+}
+
+.container {
+  padding: 10px 0 20px 0;
+  box-shadow: 0px 3px 6px #00000029;
+  min-height: 48px;
+  box-sizing: border-box;
+}
+
+.backButton {
+  svg {
+    width: 10px;
+    height: 16px;
+
+    path {
+      fill: #000000;
+    }
+  }
+  left: 20px;
+  top: 20px;
+  z-index: 500;
+}
+
+.containerTransparent {
+  box-shadow: none;
+}
+
+.closeButton {
+  top: 15px;
+
+  svg {
+    path {
+      fill: #000000;
+    }
+  }
+}

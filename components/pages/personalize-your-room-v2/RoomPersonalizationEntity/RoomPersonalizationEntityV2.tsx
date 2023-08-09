@@ -1,0 +1,91 @@
+import React, { useCallback, useState } from 'react';
+import styles from './RoomPersonalizationEntityV2.module.scss';
+import cx from 'classnames';
+import { StyledButton } from '../../../shared/StyledButton/StyledButton';
+import RemoveOutlinedIcon from '@icons/RemoveOutlined.svg';
+import AddOutlinedIcon from '@icons/AddOutlined.svg';
+import { IRoomPersonalizationEntityProps } from './RoomPersonalizationEntityV2.types';
+import { useTranslation } from 'react-i18next';
+
+export const RoomPersonalizationEntityV2: React.FC<IRoomPersonalizationEntityProps> = ({
+  title,
+  description,
+  price,
+  type,
+  currency,
+  id,
+  setCurrentPersonalizationEntities,
+  count = 0,
+}) => {
+  const [quantity, setQuantity] = useState(count);
+  const { t } = useTranslation('personalize-your-room');
+
+  const handleAdd = useCallback(() => {
+    const newEntity = {
+      code: id as string,
+      quantity: String(+quantity + 1),
+      price: `${price}`,
+      title,
+      currency: `${currency}`,
+    };
+    setQuantity(+quantity + 1);
+    setCurrentPersonalizationEntities((oldEntities) => {
+      const newEntities = [...oldEntities.filter((el) => el.code !== id), newEntity];
+      return newEntities;
+    });
+  }, [quantity, currency, id, price, setCurrentPersonalizationEntities, title]);
+
+  const handleRemove = useCallback(() => {
+    const newEntity = {
+      code: id as string,
+      quantity: String(+quantity - 1),
+      price: `${price}`,
+      title,
+      currency: `${currency}`,
+    };
+    setQuantity(+quantity - 1);
+    setCurrentPersonalizationEntities((oldEntities) => {
+      const newEntities = [...oldEntities.filter((el) => el.code !== id), newEntity];
+      return newEntities;
+    });
+  }, [quantity, currency, id, price, setCurrentPersonalizationEntities, title]);
+
+  const isActive = Number(quantity) > 0;
+
+  return (
+    <div className={styles.roomPersonalizationEntityWrapper}>
+      <div className={styles.roomPersonalizationFirstColumn}>
+        <h2 className={styles.roomPersonalizationTitle}>{title}</h2>
+        <p className={styles.roomPersonalizationText}>{description}</p>
+        {/* </div>
+      <div
+        className={cx(styles.roomPersonalizationControls, {
+          [styles.roomPersonalizationControlsActive]: isActive,
+        })}
+      > */}
+        <div className={styles.bottomSec}>
+          <div className={cx(styles.price, { [styles.priceActive]: isActive })}>
+            {currency} <span>{price}</span>
+          </div>
+          {isActive ? (
+            <div className={styles.roomPersonalizationInputWrapper}>
+              <span className={styles.minusButton} onClick={handleRemove}>
+                <RemoveOutlinedIcon className={styles.minusIcon} />
+              </span>
+              <div className={styles.roomPersonalizationInput}>
+                <span>{quantity}</span>
+              </div>
+              <span className={styles.plusButton} onClick={handleAdd}>
+                <AddOutlinedIcon className={styles.plusIcon} />
+              </span>
+            </div>
+          ) : (
+            <StyledButton className={styles.addButton} onClick={handleAdd} variant='outlined'>
+              {t('SELECT')}
+            </StyledButton>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};

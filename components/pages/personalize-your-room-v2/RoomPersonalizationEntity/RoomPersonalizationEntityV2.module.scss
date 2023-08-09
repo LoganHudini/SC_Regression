@@ -1,0 +1,130 @@
+.roomPersonalizationEntityWrapper {
+  border-bottom: 1px solid $textColor;
+  display: flex;
+  margin-top: 5px;
+}
+
+.roomPersonalizationFirstColumn {
+  display: flex;
+  flex-direction: column;
+  padding: 13px 7px 20px 20px;
+  flex: 1;
+}
+
+.roomPersonalizationTitle {
+  font-family: $fontBold;
+  font-size: $medium;
+  margin-bottom: 12px;
+  line-height: 1;
+}
+
+.roomPersonalizationText {
+  font-size: $small;
+  margin-bottom: 12px;
+}
+
+.roomPersonalizationControls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 17px 11px 17px 13px;
+  background: transparent;
+}
+
+.roomPersonalizationControlsActive {
+  background: $colorPrimary;
+}
+
+.perDay {
+  font-size: 0.9375rem;
+  margin-bottom: 6px;
+  line-height: 1;
+  color: $textColor;
+}
+
+.perDayActive {
+  color: $textColorSecondary;
+}
+
+.price {
+  font-family: $fontBold;
+  font-size: $small;
+  margin-bottom: 11px;
+  color: $textColor;
+}
+
+.priceActive {
+  color: $textColor;
+}
+
+.addButton {
+  width: auto;
+  font-family: $fontBold;
+  font-size: $small;
+  min-width: 65px;
+  height: 33px;
+  width: 95px;
+}
+
+.roomPersonalizationInputWrapper {
+  width: 100px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.roomPersonalizationInputButton {
+  color: $textColor;
+}
+
+.roomPersonalizationInput {
+  width: 20px;
+  height: 15px;
+  font-size: 0.9375rem;
+  margin: 0 10px 0 10px;
+  background: transparent;
+  color: $textColor;
+  border: none;
+  outline: none;
+  text-align: center;
+  user-select: none;
+}
+
+.minusIcon {
+  width: 16px;
+  height: auto;
+  fill: $textColor;
+}
+
+.minusButton {
+  margin-left: 7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid;
+  border-radius: 17px;
+  width: 25px;
+  height: 25px;
+}
+
+.plusIcon {
+  width: 16px;
+  height: auto;
+  fill: $textColor;
+}
+
+.plusButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid;
+  border-radius: 17px;
+  width: 25px;
+  height: 25px;
+}
+.bottomSec {
+  display: flex;
+  justify-content: space-between;
+}

@@ -1,0 +1,108 @@
+.title {
+  font-size: $medium;
+  font-family: $fontPlayfair;
+  width: 80%;
+}
+
+.price {
+  font-size: $xsmall;
+  .currencyValue {
+    font-size: $large;
+    font-family: $fontMedium;
+  }
+}
+
+.desctiption {
+  font-size: 0.8125rem;
+  font-family: $fontRegular;
+  border-bottom: 1px solid $colorDivider;
+}
+
+.ingredientsText {
+  font-size: $small;
+  font-family: $fontMedium;
+}
+
+.ingredientsDescription {
+  font-size: 0.8125rem;
+  font-family: $fontRegular;
+  border-bottom: 1px solid $colorDivider;
+}
+
+.servingsText {
+  font-size: $small;
+  font-family: $fontMedium;
+}
+
+.totalTitle {
+  font-size: 0.9375rem;
+  font-family: $fontMedium;
+}
+
+.totalValue {
+  font-size: $small;
+  font-family: $fontRegular;
+  .currencyValue {
+    font-size: $large;
+    font-family: $fontMedium;
+  }
+}
+
+.totalButton {
+  font-size: $small;
+  font-family: $fontBold;
+  margin: 0;
+}
+
+.totalBlock {
+  padding: 15px 0px 78px 0px;
+  background: $colorPrimary;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 10px 10px 0 0;
+  box-shadow: $shadowColor 0 -6px 8px -2px;
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+.totalRow {
+  padding: 0px 25px 0px 25px;
+}
+
+.addonsText {
+  font-size: $medium;
+  font-family: $fontMedium;
+}
+
+.customisationsText {
+  font-size: $medium;
+  font-family: $fontMedium;
+}
+
+.optionalText {
+  font-size: $xsmall;
+  font-family: $fontRegular;
+  color: $textColor;
+  width: 4rem;
+  height: 1.5rem;
+  text-align: center;
+  border-radius: 1.25rem;
+  margin-left: 1rem;
+  border: 1px solid $textColor;
+  background-color: $colorPrimary;
+}
+
+.requiredText {
+  font-size: $xsmall;
+  font-family: $fontRegular;
+  color: $textColor;
+  width: 6rem;
+  height: 1.5rem;
+  text-align: center;
+  border-radius: 1.25rem;
+  margin-left: 1rem;
+  border: 1px solid $textColor;
+  background-color: $colorPrimary;
+}

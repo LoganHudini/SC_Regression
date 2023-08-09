@@ -1,0 +1,29 @@
+.emailText {
+  margin: 10px;
+}
+
+.button {
+  margin-left: auto;
+  width: auto;
+  padding: 8px 20px;
+  font-size: 15px;
+  font-family: $fontMedium;
+  color: $textColor !important;
+}
+
+.title {
+  font-size: $xlarge;
+  font-family: $fontPlayfair;
+  color: $colorSecondary;
+  margin: 1.5rem 0 0.75rem 0;
+}
+
+.body {
+  font-size: $small;
+  font-family: $fontRegular;
+}
+
+.highlight {
+  font-size: $small;
+  font-family: $fontRegular;
+}

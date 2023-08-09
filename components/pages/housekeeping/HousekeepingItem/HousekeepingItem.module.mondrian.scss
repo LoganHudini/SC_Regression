@@ -1,0 +1,59 @@
+.housekeepingItemWrapper {
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(168, 168, 168, 0.23);
+  margin-top: 31px;
+  display: flex;
+  flex-direction: column;
+
+  &:first-of-type {
+    margin-top: 23px;
+  }
+}
+
+.housekeepingItemTitle {
+  font-size: 16px;
+  margin-bottom: 15px;
+  font-family: $fontRegular;
+  line-height: 1;
+}
+
+.housekeepingItemText {
+  font-size: 13px;
+  line-height: 1.5;
+  font-family: $fontRegular;
+  min-height: 2rem;
+}
+
+.quantityWrapper {
+  margin-left: auto;
+  margin-top: 2px;
+  height: 37px;
+}
+
+.quantityText {
+  font-size: 0.9375rem;
+}
+
+.button {
+  width: 98px;
+  height: 35px;
+  margin-left: auto;
+  margin-top: 8px;
+  font-size: 15px;
+  font-weight: 100;
+  text-transform: none;
+  font-family: $fontBold;
+  text-transform: uppercase;
+}
+
+.readMore {
+  margin-top: 0.2rem;
+  color: $colorPrimary;
+  font-size: 14px;
+  line-height: 1.25;
+  cursor: pointer;
+  display: inline-block;
+  text-align: start;
+  margin-right: auto;
+  font-family: $fontRegular;
+}

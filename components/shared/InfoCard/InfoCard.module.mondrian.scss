@@ -1,0 +1,25 @@
+.okIcon {
+  width: 40px;
+}
+
+.homeIcon {
+  margin-bottom: 5px;
+}
+
+.infoCardStyles {
+  padding: 10px 15px 10px 15px;
+  border-radius: 10px;
+  position: relative;
+  border: 1px $background solid;
+  margin: 20px 0px;
+  background: $background;
+}
+
+.titeText {
+  font-size: $medium;
+  font-family: $fontMedium !important;
+}
+
+.homeCardInner {
+  padding: 10px 5px;
+}

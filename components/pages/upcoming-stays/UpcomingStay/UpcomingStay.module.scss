@@ -1,0 +1,155 @@
+.upcomingStayWrapper {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 165px;
+}
+
+.upcomingStayImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.precheckedinWrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+}
+
+.imageOverlay {
+  background: $textColor;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  position: absolute;
+  opacity: 0.3;
+}
+
+.upcomingStayImageTemplate {
+  background: #0f1b2a19;
+  width: 100%;
+  height: 100%;
+}
+
+.upcomingStayTextWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 12px 8px 13px 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.checkWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.checkInWrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.checkOutWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+
+  P {
+    text-align: right;
+  }
+}
+
+.checkText {
+  font-size: 0.75rem;
+  margin-bottom: 1px;
+  color: $textColorSecondary;
+  line-height: 1;
+}
+
+.checkDate {
+  font-size: 1.125rem;
+  margin-bottom: 1px;
+  color: $textColorSecondary;
+  line-height: 1;
+}
+
+.hotelDataWrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.hotelDataColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.hotelDataText {
+  font-size: 0.9375rem;
+  line-height: 1;
+  color: $textColorSecondary;
+  &:first-of-type {
+    margin-bottom: 7px;
+  }
+}
+
+.nightsCount {
+  height: 36px;
+  width: 36px;
+  background: $colorSecondary;
+  color: $textColorSecondary;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9375rem;
+  border-radius: 50%;
+}
+
+.buttonsWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+  padding: 0 13px;
+}
+
+.button {
+  width: 162px;
+  height: 44px;
+  font-weight: 900;
+}
+
+.wrapper {
+  margin-bottom: 41px;
+}
+
+.precheckedinIcon {
+  margin-right: 9px;
+
+  path {
+    fill: $colorSecondary;
+  }
+}
+
+.precheckedinText {
+  color: $textColorSecondary;
+  font-size: 1.3125rem;
+  line-height: 1.25;
+  font-weight: 900;
+}
+
+.preCheckinText {
+  color: $textColorTernary;
+  font-size: 0.9375rem;
+  text-align: center;
+  line-height: 1;
+  margin-top: 19px;
+}

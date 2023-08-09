@@ -1,0 +1,192 @@
+.centeredText {
+  text-align: center;
+  font-size: $medium;
+  font-family: $fontMedium;
+  padding: 10px 0px 10px 0;
+  background: #f4f4f4;
+}
+
+.roomInfoWrapper {
+  display: flex;
+  padding-top: 15px;
+  margin: 0 0 -5px -5px;
+}
+
+.roomInfoImage {
+  height: 58px;
+  width: 58px;
+  margin-right: 11px;
+}
+
+.roomInfoText {
+  display: flex;
+  flex-direction: column;
+}
+
+.roomInfoTitle {
+  font-size: 1rem;
+  font-weight: 900;
+  margin-bottom: 5px;
+  line-height: 1;
+}
+
+.roomData {
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.personalzizationWrapper {
+  padding: 0px;
+}
+
+.personalizationTitle {
+  font-size: 1rem;
+  font-weight: 900;
+  margin-bottom: 5px;
+}
+
+.specialRequestsTitle {
+  font-size: 1rem;
+  line-height: 1.25;
+  margin-top: 11px;
+}
+
+.specialRequestsText {
+  font-size: 1rem;
+  line-height: 1.25;
+  margin-top: 5px;
+}
+
+.personalizationData {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.personalizationText {
+  font-size: 1rem;
+}
+
+.cardWrapper {
+  margin-top: 22px;
+}
+
+.checkInButton {
+  margin-top: 50px;
+  font-weight: 900;
+}
+
+.agrementWrapper {
+  display: flex;
+  margin: 35px 0 13px 0;
+}
+
+.agrementText {
+  font-size: 0.75rem;
+  margin-left: 15px;
+  flex: 1;
+  max-width: 266px;
+  line-height: 1.4;
+  a {
+    color: $colorSecondary;
+    text-decoration: underline;
+    white-space: nowrap;
+  }
+}
+
+.guestSignatureWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 5px;
+  margin-right: -3px;
+}
+
+.guestSignature {
+  font-size: 1rem;
+}
+
+.clearBtn {
+  color: $colorSecondary;
+  text-transform: none;
+  width: auto;
+}
+
+.agrementSignatureWrapper {
+  canvas {
+    margin: -7px -15px -25px -15px;
+  }
+  width: 320px;
+  margin: 0 auto;
+}
+
+.settlementWrapper {
+  padding: 7px 16px 0 8px;
+}
+
+.settlementTitle {
+  font-size: 1rem;
+  font-weight: 900;
+  margin-bottom: 5px;
+}
+
+.settlementSubtitle {
+  font-size: 1rem;
+  line-height: 1.25;
+  margin-top: 12px;
+}
+
+.checkDates {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2vh;
+  border-bottom: 1px solid #b9b9b9;
+}
+.checkDatesText {
+  font-size: $xsmall;
+}
+.checkDatesDetails {
+  font-family: $fontBold;
+  font-size: $medium;
+  margin-bottom: 25px;
+}
+.description {
+  float: left;
+  font-family: $fontMedium;
+  font-size: $medium;
+  margin-bottom: 1rem;
+  div {
+    text-align: start;
+  }
+}
+.pageTitle {
+  font-family: $fontMedium;
+  font-size: $large;
+  margin-top: 20px;
+}
+
+.step {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+  border-bottom: 1px solid $colorPrimary;
+  div {
+    margin: 0px 0px 0px 8px;
+    font-size: $xsmall;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    border-radius: 50%;
+    text-align: center;
+    color: #ffff;
+  }
+  .active {
+    background-color: $colorPrimary;
+    border: 1px solid $colorPrimary;
+  }
+  .disabled {
+    background-color: #d2d1d0;
+    border: 1px solid #d2d1d0;
+  }
+}

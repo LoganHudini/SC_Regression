@@ -1,0 +1,42 @@
+.subCategoryName {
+  font-size: 1.125rem;
+  line-height: 1.05;
+  font-family: $fontPlayfair;
+  margin: 1.5rem 0;
+  color: #ffffff;
+  background: #000000;
+  font-weight: normal;
+  height: 24px;
+  padding: 12px 9px 12px 32px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+  justify-self: center;
+}
+
+.subCategoryNameSkeleton {
+  font-size: $large;
+  line-height: 1.05;
+  font-family: $fontPlayfair;
+  margin: 1.5rem 0;
+  text-align: start;
+  color: #ffffff;
+  background: #000000;
+  font-weight: normal;
+  height: 24px;
+  padding: 12px 9px 12px 32px;
+  display: flex;
+  align-items: center;
+  width: auto;
+  margin-bottom: 0;
+}
+
+.totalWrapper {
+  background: $colorPrimary;
+  padding: 21px 0px 74px 0px;
+  box-shadow: 0 -6px 8px -2px $shadowColor;
+}
+
+.totalButtonWrapper {
+  padding: 0px 25px 0px 26px;
+}

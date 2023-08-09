@@ -1,0 +1,18 @@
+.totalBillAmountWrapper {
+  margin: 0;
+  border-bottom: 1px solid $textColor;
+  padding: 24px 14px 16px 14px;
+  align-items: center;
+}
+
+.totalAmountDueWrapper {
+  margin: 0;
+  border-bottom: 1px solid $textColor;
+  padding: 22px 14px 20px 14px;
+  align-items: center;
+}
+
+.billAmountCurrency {
+  font-size: 13px;
+  font-family: $fontRegular;
+}

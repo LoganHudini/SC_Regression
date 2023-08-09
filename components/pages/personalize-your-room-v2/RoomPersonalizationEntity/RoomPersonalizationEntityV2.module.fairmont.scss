@@ -1,0 +1,30 @@
+.roomPersonalizationEntityWrapper {
+  border-bottom: 0px;
+  background: $background;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.roomPersonalizationTitle {
+  font-size: $xlarge;
+  font-family: $fontHeading;
+}
+
+.roomPersonalizationText {
+  font-size: $small;
+}
+
+.price {
+  font-family: $fontMedium;
+  margin-top: 12px;
+  margin-bottom: 0px;
+  font-size: $medium;
+}
+
+.bottomSec {
+  padding-right: 10px;
+}
+
+.addButton {
+  font-family: $fontMedium;
+}

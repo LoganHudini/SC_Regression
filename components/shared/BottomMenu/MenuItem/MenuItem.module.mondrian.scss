@@ -1,0 +1,10 @@
+.menuItemTitle {
+  font-family: $fontRegular;
+  font-size: $xsmall;
+}
+
+.menuItemIconWrapper {
+  & > svg > path {
+    fill: $colorPrimary;
+  }
+}

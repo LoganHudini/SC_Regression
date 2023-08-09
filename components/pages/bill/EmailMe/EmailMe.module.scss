@@ -1,0 +1,97 @@
+.emailMeWrapper {
+  padding: 50px 37px 39px 29px;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 35px 35px 0 0;
+  position: fixed;
+  box-sizing: border-box;
+  margin: 0 auto;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 250;
+  transition: all 0.2s;
+  transform: translateY(100%);
+  max-width: 768px;
+}
+
+.emailMeWrapperOpened {
+  transform: translateY(0);
+}
+
+.emailMeBackground {
+  position: fixed;
+  box-sizing: border-box;
+  margin: 0 auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(78, 81, 81, 0.75);
+  z-index: 200;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s;
+  max-width: 768px;
+}
+
+.emailMeBackgroundOpened {
+  opacity: 1;
+  visibility: visible;
+}
+
+.emailMeTitle {
+  font-family: 'Bodoni MT Std';
+  margin-bottom: 45px;
+  text-align: center;
+  align-self: center;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.emailId {
+  font-family: 'Bodoni MT Std';
+  color: $textColorTernary;
+  font-size: 1.125rem;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 62px;
+}
+
+.button {
+  width: 140px;
+  height: 36px;
+  font-weight: 900;
+}
+
+.input {
+  :global(.MuiInput-input) {
+    font-size: 0.875rem;
+    padding: 2px 0;
+  }
+}
+
+.successContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 -5px;
+}
+
+.checkMark {
+  margin-bottom: 30px;
+}
+
+.successText {
+  font-size: 1rem;
+  margin-bottom: 60px;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.succcessButton {
+}

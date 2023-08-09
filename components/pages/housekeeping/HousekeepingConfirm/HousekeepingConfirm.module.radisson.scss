@@ -1,0 +1,173 @@
+.background {
+  position: fixed;
+  box-sizing: border-box;
+  margin: 0 auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.61);
+  z-index: 200;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s;
+  max-width: 768px;
+}
+
+.totalRequestsWrapper {
+  max-height: 350px;
+  overflow: scroll;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  align-items: center;
+}
+
+.confirmationWrapper {
+  padding: 0px 26px;
+}
+
+.wrapper {
+  padding: 50px 0px 32px 0px;
+}
+
+.backgroundOpened {
+  opacity: 1;
+  visibility: visible;
+}
+
+.wrapper {
+  background: $textColorSecondary;
+  border-radius: 30px 30px 0 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transition: all 0.2s;
+  transform: translateY(100%);
+  max-width: 768px;
+  z-index: 300;
+}
+
+.wrapperOpened {
+  transform: translateY(0);
+}
+
+.title {
+  text-align: center;
+  font-size: $xlarge;
+  line-height: 1;
+  margin: 0 auto 40px auto;
+  font-family: $fontRegular;
+}
+
+.totalRequests {
+  font-size: $xlarge;
+  line-height: 1.33;
+  padding-bottom: 10px;
+  font-weight: bold;
+  font-family: $fontMedium;
+  font-size: $medium;
+  margin-bottom: 25px;
+  border-bottom: 1px solid $borderColor;
+}
+
+.option {
+  line-height: 1.3125;
+  font-size: $large;
+  font-weight: bold;
+  font-family: $fontRegular;
+  text-align: center;
+  padding-left: 28px;
+  align-self: center;
+  width: 75%;
+}
+
+.line {
+  margin: 20px 0;
+  height: 1px;
+  border-bottom: 1.5px dashed $borderColor;
+  background: none;
+  width: 100%;
+}
+
+.optionDescription {
+  font-size: $small;
+  line-height: 1.25;
+  margin-top: 7px;
+  font-family: $fontRegular;
+  width: 75%;
+  padding-left: 28px;
+  text-align: center;
+}
+
+.button {
+  width: 40%;
+  height: 35px;
+  margin-top: 46px;
+  font-family: $fontMedium;
+  padding-top: 14px;
+  font-size: $xsmall;
+}
+
+.itemsWrapper {
+  display: flex;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.closeIcon {
+  width: 5%;
+  height: 28px;
+}
+
+.selectedItems {
+  font-size: $medium;
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.container {
+  border-radius: 11px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.062745098);
+  margin-top: 15px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.roomInfoWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.roomDetails {
+  font-size: $small;
+  font-family: $fontSemibold;
+}
+
+.hotel {
+  width: 40%;
+  text-align: start;
+  font-size: $small;
+  color: $textColorTernary;
+}
+
+.date {
+  font-size: $small;
+  color: $textColorTernary;
+}
+
+.descTitle {
+  font-size: $small;
+  font-family: $fontRegular;
+  color: $textColorQuaternary;
+}
+
+.descContent {
+  color: $textColorTernary;
+  font-size: $medium;
+}

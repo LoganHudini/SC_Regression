@@ -1,0 +1,39 @@
+.diningMenuFilterWrapper {
+  display: flex;
+  flex-direction: row;
+  overflow: scroll;
+  margin-top: 2rem;
+  height: 50px;
+
+  @media (pointer: coarse) {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.diningMenuFilterButtonWrapper {
+  &:not(:last-of-type) {
+    margin-right: 10px;
+  }
+}
+
+.diningMenuFilterActive {
+  width: 126px;
+  height: 44px;
+
+  font-weight: normal;
+  text-transform: none;
+  font-size: 0.875rem;
+}
+
+.diningMenuFilterUnActive {
+  width: 126px;
+  height: 44px;
+  border: 1px solid #a0a0a0;
+  color: $textColor;
+
+  font-weight: normal;
+  text-transform: none;
+  font-size: 0.875rem;
+}
