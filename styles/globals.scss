@@ -1,63 +1,50 @@
 @font-face {
-  font-family: 'Bodoni MT Std';
-  src: url('/fonts/BodoniMTStd/BodoniMTStd.otf') format('opentype');
+  font-family: 'GillSans Medium';
+  src: url('/fonts/GillSans/Gill-Sans-Medium.ttf') format('ttf'),
+    url('/fonts/GillSans/Gill-Sans-Medium.woff') format('woff'),
+    url('/fonts/GillSans/Gill-Sans-Medium.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: 'Futura';
-  font-weight: bolder;
-  src: url('/fonts/Futura/Futura-Bol.otf') format('opentype');
+  font-family: 'GillSans Regular';
+  src: url('/fonts/GillSans/GillSans-01.ttf') format('ttf'),
+    url('/fonts/GillSans/GillSans-01.woff') format('woff'),
+    url('/fonts/GillSans/GillSans-01.woff2') format('woff2');
 }
+
 @font-face {
-  font-family: 'Futura';
-  font-weight: bolder;
-  src: url('/fonts/Futura/Futura-BolObl.otf') format('opentype');
-  font-style: italic;
+  font-family: 'GillSans Semibold';
+  src: url('/fonts/GillSans/GillSans-SemiBold-05.ttf') format('ttf'),
+    url('/fonts/GillSans/GillSans-SemiBold-05.woff') format('woff'),
+    url('/fonts/GillSans/GillSans-SemiBold-05.woff2') format('woff2');
 }
+
 @font-face {
-  font-family: 'Futura';
-  font-weight: normal;
-  src: url('/fonts/Futura/Futura-Boo.otf') format('opentype');
+  font-family: 'GillSans Bold';
+  src: url('/fonts/GillSans/GillSans-Bold-02.ttf') format('ttf'),
+    url('/fonts/GillSans/GillSans-Bold-02.woff') format('woff'),
+    url('/fonts/GillSans/GillSans-Bold-02.woff2') format('woff2');
 }
+
 @font-face {
-  font-family: 'Futura';
-  font-weight: normal;
-  src: url('/fonts/Futura/Futura-BooObl.otf') format('opentype');
-  font-style: italic;
-}
-@font-face {
-  font-family: 'Futura';
-  font-weight: 100;
-  src: url('/fonts/Futura/Futura-Lig.otf') format('opentype');
-}
-@font-face {
-  font-family: 'Futura';
-  font-weight: 100;
-  src: url('/fonts/Futura/Futura-LigObl.otf') format('opentype');
-  font-style: italic;
-}
-@font-face {
-  font-family: 'Futura';
-  font-weight: bold;
-  src: url('/fonts/Futura/Futura-Med.otf') format('opentype');
-}
-@font-face {
-  font-family: 'Futura';
-  font-weight: bold;
-  src: url('/fonts/Futura/Futura-MedObl.otf') format('opentype');
-  font-style: italic;
+  font-family: 'GillSans Light';
+  src: url('/fonts/GillSans/GillSans-Light-08.ttf') format('ttf'),
+    url('/fonts/GillSans/GillSans-Light-08.woff') format('woff'),
+    url('/fonts/GillSans/GillSans-Light-08.woff2') format('woff2');
 }
 
 :root {
-  font-family: 'Futura';
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: normal;
+  --custom-color: #000000; /* Default color */
+  --color-primary: #164194;
+}
 
-  color-scheme: light;
-  color: $textColor;
-  background-color: $textColorSecondary;
+.styled-element {
+  color: var(--custom-color); /* Using the CSS variable */
+}
 
+body {
+  font-family: $fontMedium;
+  font-size: $medium;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -65,13 +52,45 @@
   -webkit-text-size-adjust: 100%;
 }
 
-button {
-  padding: 0;
-  margin: 0;
+// Material UI overwrites
+
+.MuiButton-outlinedPrimary {
   background: transparent;
-  outline: none;
+  color: $colorPrimary;
+  border: 1px solid $colorPrimary;
+  width: 100%;
+  border-radius: 6px;
+  font-size: $xsmall;
+  font-family: $fontMedium !important;
+  text-align: center;
+  height: 46px;
+  line-height: 46px;
+
+  &:hover:enabled {
+    border-radius: 6px;
+    background: none;
+    border: 1px solid $colorPrimary;
+  }
+}
+
+.MuiButton-containedPrimary {
+  background: $colorPrimary;
+  color: $textColorSecondary;
   border: none;
-  cursor: pointer;
+  width: 100%;
+  border-radius: 6px;
+  font-size: $xsmall;
+  font-family: $fontMedium !important;
+  height: 44px;
+  line-height: 44px;
+  text-align: center;
+  &:hover:enabled {
+    background: $colorPrimary;
+  }
+}
+
+.MuiInput-root.Mui-disabled::before {
+  border-bottom: 1px solid $colorPrimary !important;
 }
 
 p,
@@ -82,166 +101,23 @@ h4,
 h5,
 h6 {
   margin: 0;
-  text-align: start;
   color: $textColor;
 }
 
-body {
-  max-width: 768px;
-  margin: 0 auto;
-  text-align: center;
-  position: relative;
-}
-
-.loaderWrapper {
-  display: flex;
-  flex-direction: row;
-  width: 100vw;
-  height: 100vh;
-  justify-content: center;
-}
-
-#__next {
-  position: absolute;
-  left: 0;
-  right: 0;
-  min-height: 100vh;
-}
-
-*::-webkit-scrollbar-track {
-  border-radius: 10px;
-  background-color: transparent;
-}
-
 *::-webkit-scrollbar {
-  width: 5px;
+  width: 2px;
   height: 3px;
   background-color: transparent;
 }
 
-*::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background-color: #d4d4d4;
+.MuiInputLabel-root {
+  color: #828282 !important;
 }
 
-// Material UI overwrites
-
-.MuiButton-outlinedPrimary {
-  background: transparent;
-  color: $colorPrimary;
-  border: 1px solid $colorPrimary;
-  width: 100%;
-  border-radius: 0;
-  font-size: 0.75rem;
-  font-weight: bold;
-  padding: 11px 0;
-
-  &:hover:enabled {
-    background: rgba(119, 64, 111, 0.2);
-    border: 1px solid #472643;
-  }
-}
-
-.MuiButton-containedPrimary {
-  background: $colorPrimary;
-  color: $textColorSecondary;
-  border: none;
-  width: 100%;
-  border-radius: 0;
-  font-size: 0.75rem;
-  font-weight: bold;
-  padding: 11px 0;
-
-  &:hover:enabled {
-    background: #472643;
-    border: none;
-  }
-}
-
-.MuiButton-textPrimary {
-  background: transparent;
-  color: $colorPrimary;
-  border: none;
-  width: 100%;
-  border-radius: 0;
-  font-size: 0.75rem;
-  font-weight: bold;
-  padding: 11px 0;
-  border-radius: 5px;
-  overflow: hidden;
-
-  &:hover:enabled {
-    background: none;
-    border: none;
-  }
-}
-
-.Toastify__toast--error {
-  background: #f7dfde;
-  border-radius: 8px;
-  box-sizing: border-box;
-  max-width: 293px;
-  margin: 15px auto;
-
-  color: #b65754;
-  font-size: 0.875rem;
-  text-align: start;
-  min-height: auto;
-  padding: 0;
-}
-
-.Toastify__toast--success {
-  background: #e7f7ed;
-  border-radius: 8px;
-  box-sizing: border-box;
-  max-width: 293px;
-  margin: 15px auto;
-
-  color: #2daa5c;
-  font-size: 0.875rem;
-  text-align: start;
-  min-height: auto;
-  padding: 0;
-
-  .Toastify__toast__close svg path {
-    fill: #2daa5c;
-  }
-}
-
-.Toastify__toast-body {
-  margin: 0;
-  padding: 15px 0px 15px 37px;
-  max-width: 70%;
-}
-
-.Toastify__toast__close {
-  width: 17px;
-  height: 17px;
-  position: absolute;
-  top: 58%;
-  right: 20px;
-
-  transform: translateY(-50%);
-
-  svg {
-    width: 17px;
-    height: 17px;
-  }
-}
-
-.Toastify__toast-icon {
-  svg {
-    width: 15px;
-    height: 15px;
-  }
-}
-
-.MuiMenu-paper {
-  max-height: 172px;
-}
-
+.MuiInputBase-root,
+.MuiInputBase-input,
+.MuiFormLabel-root,
+.MuiButtonBase-root,
 .MuiMenuItem-root {
-  padding-bottom: 0;
-  padding-top: 0;
-  min-height: 35px;
+  font-family: $fontRegular !important;
 }

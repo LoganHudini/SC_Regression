@@ -3,90 +3,46 @@
   "tasks": [
     {
       "type": "npm",
-      "script": "dev:radisson-dubai-stage",
+      "script": "dev:stage",
       "problemMatcher": [],
-      "label": "Dev(STAGE): Radisson Dubai",
-      "detail": "env-cmd -f .env.stage.radisson-dubai yarn next dev"
+      "label": "Dev: Stage",
+      "detail": "env-cmd -f .env.stage.local yarn next dev"
     },
     {
       "type": "npm",
-      "script": "build:radisson-dubai-stage",
+      "script": "build:stage",
       "problemMatcher": [],
-      "label": "Build(STAGE): Radisson Dubai",
-      "detail": "env-cmd -f .env.stage.radisson-dubai yarn build"
+      "label": "Build: Stage",
+      "detail": "env-cmd -f .env.stage.local yarn build"
     },
     {
       "type": "npm",
-      "script": "start:radisson-dubai-stage",
+      "script": "start:stage",
       "problemMatcher": [],
-      "label": "Start(STAGE): Radisson Dubai",
-      "detail": "env-cmd -f .env.stage.radisson-dubai next start"
+      "label": "Start: STAGE",
+      "detail": "env-cmd -f .env.stage.local next start"
     },
     {
       "type": "npm",
-      "script": "dev:radisson-dubai",
+      "script": "dev",
       "problemMatcher": [],
-      "label": "Dev(UAT): Radisson Dubai",
-      "detail": "env-cmd -f .env.radisson-dubai yarn next dev"
+      "label": "Dev: UAT",
+      "detail": "env-cmd -f .env.local yarn next dev"
     },
     {
       "type": "npm",
-      "script": "build:radisson-dubai",
+      "script": "build",
       "group": "build",
       "problemMatcher": [],
-      "label": "Build(UAT): Radisson Dubai",
-      "detail": "env-cmd -f .env.radisson-dubai yarn build"
+      "label": "Build: UAT",
+      "detail": "env-cmd -f .env.local yarn build"
     },
     {
       "type": "npm",
-      "script": "start:radisson-dubai",
+      "script": "start",
       "problemMatcher": [],
-      "label": "Start(UAT): Radisson Dubai",
-      "detail": "env-cmd -f .env.radisson-dubai next start"
-    },
-
-    {
-      "type": "npm",
-      "script": "dev:radisson-barcelona-stage",
-      "problemMatcher": [],
-      "label": "Dev(STAGE): Radisson Barcelona",
-      "detail": "env-cmd -f .env.stage.radisson-barcelona yarn next dev"
-    },
-    {
-      "type": "npm",
-      "script": "build:radisson-barcelona-stage",
-      "problemMatcher": [],
-      "label": "Build(STAGE): Radisson Barcelona",
-      "detail": "env-cmd -f .env.stage.radisson-barcelona yarn build"
-    },
-    {
-      "type": "npm",
-      "script": "start:radisson-barcelona-stage",
-      "problemMatcher": [],
-      "label": "Start(STAGE): Radisson Barcelona",
-      "detail": "env-cmd -f .env.stage.radisson-barcelona next start"
-    },
-    {
-      "type": "npm",
-      "script": "dev:radisson-barcelona",
-      "problemMatcher": [],
-      "label": "Dev(UAT): Radisson Barcelona",
-      "detail": "env-cmd -f .env.radisson-barcelona yarn next dev"
-    },
-    {
-      "type": "npm",
-      "script": "build:radisson-barcelona",
-      "group": "build",
-      "problemMatcher": [],
-      "label": "Build(UAT): Radisson Barcelona",
-      "detail": "env-cmd -f .env.radisson-barcelona yarn build"
-    },
-    {
-      "type": "npm",
-      "script": "start:radisson-barcelona",
-      "problemMatcher": [],
-      "label": "Start(UAT): Radisson Barcelona",
-      "detail": "env-cmd -f .env.radisson-barcelona next start"
+      "label": "Start: UAT",
+      "detail": "env-cmd -f .env.local next start"
     }
   ]
 }
