@@ -1,13 +1,5 @@
 import { HOTEL_CODE } from 'core/graphql/endpoints';
 
-export const CHECK_IN_FLOW_VERSION = process.env.NEXT_PUBLIC_CHECK_IN_FLOW_VERSION;
-export const CHECK_OUT_FLOW_VERSION = process.env.NEXT_PUBLIC_CHECK_OUT_FLOW_VERSION;
-export const DINING_FLOW_VERSION = process.env.NEXT_PUBLIC_DINING_FLOW_VERSION;
-export const TABLE_RESERVATION_FLOW_VERSION =
-  process.env.NEXT_PUBLIC_TABLE_RESERVATION_FLOW_VERSION;
-export const HOUSEKEEPING_FLOW_VERSION = process.env.NEXT_PUBLIC_HOUSEKEEPING_FLOW_VERSION;
-export const ROOM_CONTROLS_FLOW_VERSION = process.env.NEXT_PUBLIC_ROOM_CONTROLS_FLOW_VERSION;
-
 export const Headers = ['Restaurants & Bars', 'Offers', 'In-Room Dining', 'Hotel'];
 export const Schedules = ['TODAY', 'TOMORROW'];
 export const restaurantsBars = 'restaurants-bars';

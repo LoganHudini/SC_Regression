@@ -116,7 +116,7 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
 
   useEffect(() => {
     if (!reservationData) {
-      navigate(availablePaths.GET_RESERVATION);
+      // navigate(availablePaths.GET_RESERVATION);
     }
   }, [reservationData, navigate]);
 

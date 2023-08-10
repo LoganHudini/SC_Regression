@@ -2,14 +2,13 @@ import { GetStaticProps, NextPage } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import dynamic from 'next/dynamic';
-import { DINING_FLOW_VERSION } from 'utils/constants';
 import { getStaticPaths } from 'utils/getStatic';
 import { getHamburgerProps } from 'utils/hamburger/getHamburgerProps';
 import { RotatingLines } from 'react-loader-spinner';
 
 export { getStaticPaths };
 
-const DynamicDining = dynamic(() => import(`./dining.${DINING_FLOW_VERSION}`), {
+const DynamicDining = dynamic(() => import('./dining'), {
   loading: () => (
     <div className={'loaderWrapper'}>
       <RotatingLines strokeColor='grey' strokeWidth='5' width='100' visible={true} />
@@ -17,7 +16,7 @@ const DynamicDining = dynamic(() => import(`./dining.${DINING_FLOW_VERSION}`), {
   ),
 });
 
-const Dining: NextPage = (props) => {
+const Dining: NextPage = (props: any) => {
   return <DynamicDining {...props} />;
 };
 
