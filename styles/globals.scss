@@ -33,23 +33,129 @@
     url('/fonts/GillSans/GillSans-Light-08.woff2') format('woff2');
 }
 
+@font-face {
+  font-family: 'Bodoni MT Std';
+  src: url('/fonts/BodoniMTStd/BodoniMTStd.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Futura';
+  font-weight: bolder;
+  src: url('/fonts/Futura/Futura-Bol.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Futura';
+  font-weight: bolder;
+  src: url('/fonts/Futura/Futura-BolObl.otf') format('opentype');
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Futura';
+  font-weight: normal;
+  src: url('/fonts/Futura/Futura-Boo.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Futura';
+  font-weight: normal;
+  src: url('/fonts/Futura/Futura-BooObl.otf') format('opentype');
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Futura';
+  font-weight: 100;
+  src: url('/fonts/Futura/Futura-Lig.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Futura';
+  font-weight: 100;
+  src: url('/fonts/Futura/Futura-LigObl.otf') format('opentype');
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Futura';
+  font-weight: bold;
+  src: url('/fonts/Futura/Futura-Med.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Futura';
+  font-weight: bold;
+  src: url('/fonts/Futura/Futura-MedObl.otf') format('opentype');
+  font-style: italic;
+}
+
 :root {
+  color: $textColor;
+  background-color: $textColorSecondary;
   --custom-color: #000000; /* Default color */
   --color-primary: #164194;
-}
 
-.styled-element {
-  color: var(--custom-color); /* Using the CSS variable */
-}
-
-body {
-  font-family: $fontMedium;
-  font-size: $medium;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+
+button {
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  text-align: start;
+  color: $textColor;
+}
+
+body {
+  max-width: 768px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  font-family: $fontMedium;
+  font-size: $medium;
+}
+
+.loaderWrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+}
+
+#__next {
+  width: 100vw;
+  position: absolute;
+  left: 0;
+  right: 0;
+  min-height: 100vh;
+}
+
+*::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 2px;
+  height: 3px;
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #d4d4d4;
 }
 
 // Material UI overwrites
@@ -93,21 +199,22 @@ body {
   border-bottom: 1px solid $colorPrimary !important;
 }
 
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0;
-  color: $textColor;
-}
+.MuiButton-textPrimary {
+  background: transparent;
+  color: $colorPrimary;
+  border: none;
+  width: 100%;
+  border-radius: 0;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 11px 0;
+  border-radius: 5px;
+  overflow: hidden;
 
-*::-webkit-scrollbar {
-  width: 2px;
-  height: 3px;
-  background-color: transparent;
+  &:hover:enabled {
+    background: none;
+    border: none;
+  }
 }
 
 .MuiInputLabel-root {
@@ -120,4 +227,74 @@ h6 {
 .MuiButtonBase-root,
 .MuiMenuItem-root {
   font-family: $fontRegular !important;
+}
+
+.Toastify__toast--error {
+  background: #f7dfde;
+  border-radius: 8px;
+  box-sizing: border-box;
+  max-width: 293px;
+  margin: 15px auto;
+
+  color: #b65754;
+  font-size: 0.875rem;
+  text-align: start;
+  min-height: auto;
+  padding: 0;
+}
+
+.Toastify__toast--success {
+  background: #e7f7ed;
+  border-radius: 8px;
+  box-sizing: border-box;
+  max-width: 293px;
+  margin: 15px auto;
+
+  color: #2daa5c;
+  font-size: 0.875rem;
+  text-align: start;
+  min-height: auto;
+  padding: 0;
+
+  .Toastify__toast__close svg path {
+    fill: #2daa5c;
+  }
+}
+
+.Toastify__toast-body {
+  margin: 0;
+  padding: 15px 0px 15px 37px;
+  max-width: 70%;
+}
+
+.Toastify__toast__close {
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  top: 58%;
+  right: 20px;
+
+  transform: translateY(-50%);
+
+  svg {
+    width: 17px;
+    height: 17px;
+  }
+}
+
+.Toastify__toast-icon {
+  svg {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+.MuiMenu-paper {
+  max-height: 172px;
+}
+
+.MuiMenuItem-root {
+  padding-bottom: 0;
+  padding-top: 0;
+  min-height: 35px;
 }

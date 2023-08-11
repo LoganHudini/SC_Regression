@@ -108,7 +108,7 @@ const nextConfig = {
     }
 
     // Icons override logic
-    config.resolve.alias['@icons'] = path.resolve(__dirname, `assets/icons/${hotelCode}`);
+    // config.resolve.alias['@icons'] = path.resolve(__dirname, `assets/icons/${hotelCode}`);
 
     // Multibrand PWA logic
     config.plugins.push(

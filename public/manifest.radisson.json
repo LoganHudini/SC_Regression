@@ -1,0 +1,16 @@
+{
+  "theme_color": "#164194",
+  "background_color": "#ffff",
+  "display": "fullscreen",
+  "scope": "/",
+  "start_url": "/",
+  "name": "Radisson Blu",
+  "short_name": "Radisson Blu",
+  "icons": [
+    {
+      "src": "/images/radisson/icons/radisson.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ]
+}
