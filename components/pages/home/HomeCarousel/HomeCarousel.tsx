@@ -25,8 +25,12 @@ const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
       <StableImage className={styles.bannerImage} src={`${ASSETS_URL}/${carouselItem?.imgURL}`} />
 
       <div className={styles.pageTitle}>
-        {carouselItem?.titleH1 && <h1>{t(`${carouselItem?.titleH1}`)}</h1>}
-        {carouselItem?.titleH3 && <h3>{t(`${carouselItem?.titleH3}`)}</h3>}
+        {carouselItem?.titleH1 && (
+          <h1 className={styles.titleh1}>{t(`${carouselItem?.titleH1}`)}</h1>
+        )}
+        {carouselItem?.titleH3 && (
+          <h3 className={styles.titleh3}>{t(`${carouselItem?.titleH3}`)}</h3>
+        )}
       </div>
     </div>
   );

@@ -1,123 +1,86 @@
-import React, { useCallback, useState } from 'react';
-import cx from 'classnames';
+import React from 'react';
 import styles from './BottomMenu.module.scss';
 import { motion } from 'framer-motion';
-import MoreIcon from '@icons/more.svg';
-import MoreActiveIcon from '@icons/moreActive.svg';
-import HomeIcon from '@icons/home.svg';
-import HomeActiveIcon from '@icons/homeActive.svg';
-import DiningIcon from '@icons/dining.svg';
-import DiningActiveIcon from '@icons/diningActive.svg';
-import ChatIcon from '@icons/chat.svg';
-import ChatActiveIcon from '@icons/chatActive.svg';
-import HousekeepingIcon from '@icons/housekeeping.svg';
-import HousekeepingActiveIcon from '@icons/housekeepingActive.svg';
-import RoomControlIcon from '@icons/roomControl.svg';
-import CloseOutlinedIcon from '@icons/CloseOutlined.svg';
+import HamburgerIcon from '@icons/hamburger.svg';
+import CloseHamburgerIcon from '@icons/closeHamburger.svg';
 
 import { MenuItem, ModuleOptionsDrawer } from 'components/shared/BottomMenu/MenuItem/MenuItem';
-import Link from 'utils/link';
-import { useCheckedIn } from 'storage/check-in.storage';
 import { useTranslation } from 'react-i18next';
-import { useRouter } from 'next/router';
-import { availablePaths } from 'utils/availablePaths';
-import { IHamburgerProps } from 'utils/hamburger/getHamburgerProps';
-import { hamburgerIconsMap } from 'utils/hamburger/hamburgerIconsMap';
-import { DiningBottomBar } from 'components/pages/dining/DiningBottomBar/DiningBottomBar';
-import { Headers } from 'utils/constants';
-import { IParsedHotelPage } from 'core/graphql/queries/GET_HOTEL_INFO';
-import { HOME_PAGE } from 'core/graphql/endpoints';
 import { StyledButton } from '../StyledButton/StyledButton';
-import Drawer from '@mui/material/Drawer';
-import { useReactiveVar } from '@apollo/client';
-import { toggleModuleOptionsDrawer } from 'storage/home.storage';
-
-interface IHomeProps {
-  pageData: IParsedHotelPage;
-  paths: {
-    path: string;
-    id: string;
-  }[];
-}
+import { useQuery, useReactiveVar } from '@apollo/client';
+import { toggleHamburgerMenuDrawer, toggleModuleOptionsDrawer } from 'storage/home.storage';
+import {
+  GET_HAMBURGER_MENU,
+  IGetHamburgerMenuDetailsApiResponse,
+} from 'core/graphql/queries/GET_HAMBURGER_MENU';
+import { hamburgerIconsMap } from 'utils/hamburger/hamburgerIconsMap';
 
 export const BottomMenu = () => {
-  const router = useRouter();
+  const hamburgerMenuStatus = useReactiveVar(toggleHamburgerMenuDrawer);
 
-  const { t } = useTranslation('common');
-  const drawerStatus = useReactiveVar(toggleModuleOptionsDrawer);
+  const { data } = useQuery<IGetHamburgerMenuDetailsApiResponse>(GET_HAMBURGER_MENU, {
+    context: { clientName: 'host_v4' },
+    fetchPolicy: 'no-cache',
+  });
 
-  const checkinData = useCheckedIn();
+  const hamburger = data?.getUiBuilderHamburgerMenuDetails;
 
-  const [moreItemsDisplayed, setMoreItemsDisplayed] = useState(false);
-  const [diningBottomMenuDisplayed, setDiningBottomMenuDisplayed] = useState(false);
+  const { t } = useTranslation(['common']);
 
-  const toggleMoreItemsDisplayed = useCallback(() => {
-    setDiningBottomMenuDisplayed(false);
-    setMoreItemsDisplayed((oldState) => !oldState);
-  }, []);
+  const openModuleOptionsDrawer = () => {
+    toggleModuleOptionsDrawer(true);
+    toggleHamburgerMenuDrawer(false);
+  };
 
-  const toggleDiningBottomMenuDisplayed = useCallback(() => {
-    setMoreItemsDisplayed(false);
-    setDiningBottomMenuDisplayed((oldState) => !oldState);
-  }, []);
+  const openHamburgerMenuDrawer = () => {
+    toggleHamburgerMenuDrawer(true);
+    toggleModuleOptionsDrawer(false);
+  };
 
-  const toggleAllMenuDisplayed = useCallback(() => {
-    setMoreItemsDisplayed(false);
-    setDiningBottomMenuDisplayed(false);
-  }, []);
+  const closeHamburgerMenuDrawer = () => {
+    toggleHamburgerMenuDrawer(false);
+  };
 
   return (
     <>
       <div className={styles.bottomMenuWrapper}>
-        <motion.div
-          whileHover={{
-            scale: 1.2,
-            transition: { duration: 0.3 },
-          }}
-          whileTap={{ scale: 0.8 }}
-          className={styles.bottomMenuButton}
-        >
-          <StyledButton variant='contained' onClick={() => toggleModuleOptionsDrawer(true)}>
+        <motion.div whileTap={{ scale: 0.8 }} className={styles.bottomMenuButton}>
+          <StyledButton variant='contained' onClick={openModuleOptionsDrawer}>
             ROOM 0411
           </StyledButton>
         </motion.div>
+        {hamburgerMenuStatus ? (
+          <CloseHamburgerIcon
+            className={styles.hamburgerIcon}
+            onClick={() => toggleHamburgerMenuDrawer(false)}
+          />
+        ) : (
+          <HamburgerIcon className={styles.hamburgerIcon} onClick={openHamburgerMenuDrawer} />
+        )}
       </div>
 
       <ModuleOptionsDrawer />
 
-      {/* <div
-        className={cx(styles.blurOverlay, { [styles.blurOverlayDisplayed]: moreItemsDisplayed })}
-        onClick={toggleMoreItemsDisplayed}
-      />
-      <div
-        className={cx(styles.moreMenuItemsContainer, {
-          [styles.moreMenuItemsContainerDisplayed]: moreItemsDisplayed,
-        })}
-      >
-        <button className={styles.closeMoreMenuItemsButton} onClick={toggleMoreItemsDisplayed}>
-          <CloseOutlinedIcon className={styles.closeMoreMenuItemsIcon} />
-        </button>
-
-        <div className={styles.menuItems}>
-          {hamburger[checkinData.checkedIn ? 'post' : 'pre'].map((hamburgerMenuElement) => (
-            <MenuItem
-              Icon={
-                hamburgerIconsMap[hamburgerMenuElement.name as keyof typeof hamburgerIconsMap] ||
-                RoomControlIcon
-              }
-              title={hamburgerMenuElement.name}
-              key={hamburgerMenuElement.id}
-              externalLink={hamburgerMenuElement.externalLink}
-              flow={hamburgerMenuElement.flow}
-              pages={hamburgerMenuElement.pages}
-              redirectOptions={hamburgerMenuElement.redirectOptions}
-              paths={pages}
-              status={hamburgerMenuElement.isActive}
-              toggleOption={toggleMoreItemsDisplayed}
-            />
-          ))}
+      {hamburgerMenuStatus && (
+        <div className={styles.hamburgerMenuContainer}>
+          {hamburger &&
+            hamburger['pre'].map((hamburgerMenuElement) => (
+              <MenuItem
+                Icon={
+                  hamburgerIconsMap[hamburgerMenuElement.name as keyof typeof hamburgerIconsMap]
+                }
+                title={hamburgerMenuElement.name}
+                key={hamburgerMenuElement.id}
+                externalLink={hamburgerMenuElement.externalLink}
+                flow={hamburgerMenuElement.flow}
+                pages={hamburgerMenuElement.pages}
+                redirectOptions={hamburgerMenuElement.redirectOptions}
+                status={hamburgerMenuElement.isActive}
+                toggleOption={closeHamburgerMenuDrawer}
+              />
+            ))}
         </div>
-      </div> */}
+      )}
     </>
   );
 };

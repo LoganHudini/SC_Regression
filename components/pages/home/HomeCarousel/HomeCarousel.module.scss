@@ -18,14 +18,17 @@
   top: 40%;
   left: 0;
   right: 0;
+}
 
-  h1,
-  h3 {
-    color: var(--secondary-text-color);
-    text-align: center;
-    line-height: 1.25;
-    padding: 0 25px;
-  }
+.titleh1 {
+  font: $medium var(--primary-title-font-family);
+  color: var(--secondary-text-color);
+  text-transform: uppercase;
+}
+
+.titleh3 {
+  font: $xsmall var(--secondary-title-font-family);
+  color: var(--secondary-text-color);
 }
 
 .heroBannerButton {

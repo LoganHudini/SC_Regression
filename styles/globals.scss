@@ -1,14 +1,43 @@
 @font-face {
   font-family: 'ClanOT Extended Book';
-  src: url('/fonts/clanOT/clanOT-ExtdBook.otf') format('opentype'),
-    url('/fonts/clanOT/clanOT-ExtdBook.ttf') format('ttf'),
-    url('/fonts/clanOT/clanOT-ExtdBook.woff') format('woff'),
-    url('/fonts/clanOT/clanOT-ExtdBook.woff2') format('woff2');
+  src: url('/fonts/ClanOT/ClanOT-ExtdBook.otf') format('opentype'),
+    url('/fonts/ClanOT/ClanOT-ExtdBook.ttf') format('ttf'),
+    url('/fonts/ClanOT/ClanOT-ExtdBook.woff') format('woff'),
+    url('/fonts/ClanOT/ClanOT-ExtdBook.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'ClanOT Medium';
+  src: url('/fonts/ClanOT/ClanOT-Medium.otf') format('opentype'),
+    url('/fonts/ClanOT/ClanOT-Medium.ttf') format('ttf'),
+    url('/fonts/ClanOT/ClanOT-Medium.woff') format('woff'),
+    url('/fonts/ClanOT/ClanOT-Medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'ClanOT News';
+  src: url('/fonts/ClanOT/ClanOT-News.otf') format('opentype'),
+    url('/fonts/ClanOT/ClanOT-News.ttf') format('ttf'),
+    url('/fonts/ClanOT/ClanOT-News.woff') format('woff'),
+    url('/fonts/ClanOT/ClanOT-News.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Garamond Regular';
+  src: url('/fonts/Garamond/Garamond-Regular.otf') format('opentype'),
+    url('/fonts/Garamond/Garamond-Regular.ttf') format('ttf'),
+    url('/fonts/Garamond/Garamond-Regular.woff') format('woff'),
+    url('/fonts/Garamond/Garamond-Regular.woff2') format('woff2');
 }
 
 :root {
   // theme colors
   --primary-theme-color: #997300;
+  --primary-border-color: #e0e0e0;
+
+  // banner font-family
+  --primary-title-font-family: 'ClanOT Extended Book';
+  --secondary-title-font-family: 'ClanOT News';
 
   // text colors
   --primary-text-color: #000000;
@@ -29,7 +58,31 @@
   --primary-box-shadow-color: #00000029;
 
   // drawer colors
-  --primary-drawer-notch: #eeeef1;
+  --primary-drawer-color: #ffffff;
+  --primary-drawer-notch-color: #eeeef1;
+
+  // hamburger menu colors
+  --hamburgermenu-drawer-color: #121212;
+  --hamburgermenu-text-color: #ffffff;
+  --hamburgermenu-icon-color: #ffffff;
+
+  // font-families
+  --primary-font-regular: '';
+  --primary-font-medium: 'ClanOT Medium';
+  --primary-font-semibold: '';
+  --primary-font-bold: '';
+  --primary-font-news: 'ClanOT News';
+
+  --primary-font-extd-regular: 'ClanOT Extended Book';
+  --primary-font-extd-medium: '';
+  --primary-font-extd-semibold: '';
+  --primary-font-extd-bold: '';
+  --primary-font-extd-news: '';
+
+  --secondary-font-regular: 'Garamond Regular';
+  --secondary-font-medium: '';
+  --secondary-font-semibold: '';
+  --secondary-font-bold: '';
 }
 
 button {
@@ -57,7 +110,7 @@ body {
   margin: 0 auto;
   text-align: center;
   position: relative;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-size: $small;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -94,7 +147,7 @@ body {
 }
 
 .MuiButton-outlinedPrimary {
-  color: var(--secondary-button-color);
+  color: vsecondary-ar(--button-color);
   background: var(--secondary-button-background-color);
   border: 1px solid var(--secondary-button-color);
   border-radius: var(--primary-button-border-radius);

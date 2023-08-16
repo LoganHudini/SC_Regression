@@ -11,6 +11,7 @@ import RoomControlIcon from '@icons/roomControl.svg';
 import TvControlIcon from '@icons/tvControl.svg';
 import ActivateDeviceIcon from '@icons/activateDevice.svg';
 import ChangeLanguageIcon from '@icons/changeLanguage.svg';
+import CuisineIcon from '@icons/cuisine.svg';
 import LoyaltyIcon from '@icons/loyalty.svg';
 import OffersIcon from '@icons/offers.svg';
 import HotelInfoIcon from '@icons/facilities.svg';
@@ -35,6 +36,7 @@ export const hamburgerIconsMap = {
   Notifications: NotificationsIcon,
   'Guest Services': GuestServicesIcon,
   Dining: DiningIcon,
+  'In-Room Dining': CuisineIcon,
   'Hotel Director': GuestServicesIcon,
   'Explore The City': ExploreTheCityIcon,
   'Join Accor Live Limitless': AccorLiveLimitlessIcon,
