@@ -1,13 +1,13 @@
 .totalBillAmountWrapper {
   margin: 0;
-  border-bottom: 1px solid $textColor;
+  border-bottom: 1px solid var(--primary-text-color);
   padding: 24px 14px 16px 14px;
   align-items: center;
 }
 
 .totalAmountDueWrapper {
   margin: 0;
-  border-bottom: 1px solid $textColor;
+  border-bottom: 1px solid var(--primary-text-color);
   padding: 22px 14px 20px 14px;
   align-items: center;
 }

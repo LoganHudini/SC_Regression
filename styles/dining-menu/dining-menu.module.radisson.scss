@@ -50,7 +50,7 @@
   height: 44px;
   width: 100%;
   padding-top: 14px;
-  background-color: $colorPrimary;
+  background-color: var(--primary-theme-color);
   font-family: $fontMedium !important;
   font-size: $xsmall;
 }
@@ -90,7 +90,7 @@
   margin-left: 10px;
   font-family: $fontRegular;
   font-size: $xlarge;
-  color: $colorPrimary;
+  color: var(--primary-theme-color);
   font-size: $xlarge;
   margin-top: 20px;
 }
@@ -146,7 +146,7 @@
 
 .menuUnavailableContainer {
   height: auto;
-  background: $colorPrimary;
+  background: var(--primary-theme-color);
   color: $textColorSecondary;
   width: 100%;
   padding: 0.5rem 0.5rem 0 0.5rem;

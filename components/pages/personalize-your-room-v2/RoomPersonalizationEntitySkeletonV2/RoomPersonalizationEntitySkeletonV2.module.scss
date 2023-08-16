@@ -42,14 +42,14 @@
 }
 
 .roomPersonalizationControlsActive {
-  background: $colorPrimary;
+  background: var(--primary-theme-color);
 }
 
 .perDay {
   font-size: 0.9375rem;
   margin-bottom: 6px;
   line-height: 1;
-  color: $textColor;
+  color: var(--primary-text-color);
   height: 15px;
   width: 75px;
 }

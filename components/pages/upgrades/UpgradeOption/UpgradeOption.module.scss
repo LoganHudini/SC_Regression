@@ -22,7 +22,7 @@
 }
 
 .readMoreBtn {
-  color: $colorPrimary;
+  color: var(--primary-theme-color);
   font-size: 0.9375rem;
   display: inline;
 }

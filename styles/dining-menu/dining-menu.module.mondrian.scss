@@ -19,7 +19,7 @@
 .orderButton {
   font-size: $small;
   font-family: $fontBold;
-  background: $colorPrimary;
+  background: var(--primary-theme-color);
 }
 
 .totalWrapper {
@@ -38,5 +38,3 @@
 .totalButtonWrapper {
   padding: 0px 25px 0px 26px;
 }
-
-

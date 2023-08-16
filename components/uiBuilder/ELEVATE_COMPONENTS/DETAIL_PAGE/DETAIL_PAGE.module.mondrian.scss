@@ -25,12 +25,12 @@
 .thirdRowBtn {
   font-size: $xsmall;
   font-family: $fontRegular;
-  color: $colorPrimary;
-  border: 1px solid $colorPrimary;
+  color: var(--primary-theme-color);
+  border: 1px solid var(--primary-theme-color);
   background: $textColorSecondary;
   box-shadow: none;
   &:hover:enabled {
-    border: 1px solid $colorPrimary;
+    border: 1px solid var(--primary-theme-color);
     background: $textColorSecondary;
   }
 }

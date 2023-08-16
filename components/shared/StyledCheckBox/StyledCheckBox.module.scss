@@ -1,5 +1,5 @@
 .styledCheckBox {
-  color: $colorSecondary;
+  color: var(--secondary-text-color);
   padding: 0;
   background: none !important;
 
@@ -8,6 +8,6 @@
   }
 
   :global(.MuiSvgIcon-root) {
-    fill: $colorSecondary;
+    fill: var(--secondary-text-color);
   }
 }

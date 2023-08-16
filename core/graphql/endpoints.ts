@@ -35,7 +35,7 @@ export const ASSETS_URL = process.env.NEXT_PUBLIC_ASSETS_URL;
 export const ONPREM_API_URL = process.env.NEXT_PUBLIC_ONPREM_API_URL;
 
 export const HOME_PAGE = 'Home';
-export const THEME_COLOR = '##A98524';
+export const THEME_COLOR = '#997300';
 
 export const TERMS_AND_CONDITIONS = process.env.NEXT_PUBLIC_TERMS_AND_CONDITIONS;
 export const PRIVACY_LAWS = process.env.NEXT_PUBLIC_PRIVACY_LAWS;

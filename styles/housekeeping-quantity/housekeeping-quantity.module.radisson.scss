@@ -40,7 +40,7 @@
   font-weight: 900;
   font-family: $fontBold;
   font-size: $xsmall;
-  background: $colorPrimary;
+  background: var(--primary-theme-color);
   width: 85%;
 }
 

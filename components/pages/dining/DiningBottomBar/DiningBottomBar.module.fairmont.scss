@@ -1,7 +1,7 @@
 .wrapper {
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
-  background: $colorPrimary;
+  background: var(--primary-theme-color);
   left: 1rem;
   right: 1rem;
   bottom: 40px;

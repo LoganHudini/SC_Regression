@@ -51,7 +51,7 @@
   height: 7px;
   transform: translate(3px, -2.5px);
   path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }
 
@@ -63,7 +63,7 @@
   height: 7px;
   cursor: pointer;
   path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }
 
@@ -74,6 +74,6 @@
   flex: 1px;
   justify-content: space-between;
   path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }

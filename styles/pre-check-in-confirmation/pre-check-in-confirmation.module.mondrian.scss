@@ -13,7 +13,7 @@
 }
 
 .instructionsText {
-  color: $textColor;
+  color: var(--primary-text-color);
   font-size: 0.9375rem;
   margin: 0 auto 13px auto;
   text-align: center;
@@ -34,7 +34,7 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  fill: $colorPrimary;
+  fill: var(--primary-theme-color);
 }
 
 .roomNumber {
@@ -51,7 +51,7 @@
 }
 
 .download {
-  border: 0.5px solid $colorPrimary;
+  border: 0.5px solid var(--primary-theme-color);
   text-align: center;
   box-shadow: 0 4px 10px -2px $shadowColor;
 }
@@ -70,7 +70,7 @@
 
 .textWrapper {
   margin: 20px;
-  border-top: 0.5px solid $colorPrimary;
+  border-top: 0.5px solid var(--primary-theme-color);
 }
 
 .successText {

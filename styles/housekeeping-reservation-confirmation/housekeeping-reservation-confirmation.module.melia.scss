@@ -8,7 +8,7 @@
 
 .backButton {
   width: 200px;
-  background: $colorSecondary;
+  background: var(--secondary-text-color);
   color: $textColorSecondary !important;
   border: none;
   border-radius: 0;
@@ -39,7 +39,7 @@
 }
 
 .successText {
-  color: $textColor;
+  color: var(--primary-text-color);
   font-size: $extralarge;
   line-height: 1.28;
   margin-bottom: 13px;

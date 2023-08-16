@@ -27,7 +27,7 @@ class MyDocument extends Document {
               />
             </>
           )}
-          <link rel='manifest' href={'/manifest.json'} />
+          <link rel='manifest' href={`/manifest.${HOTEL_CODE}.json`} />
           <link rel='icon' type='image/png' href={`${HOTEL_CODE}.ico`} />
           <link rel='apple-touch-icon' type='image/png' href={`${HOTEL_CODE}.ico`} />
           <meta name='theme-color' content={THEME_COLOR} />

@@ -60,7 +60,7 @@
   font-size: 0.75rem;
   white-space: nowrap;
   font-weight: bold;
-  color: $colorPrimary;
+  color: var(--primary-theme-color);
 }
 
 .listComponentBookingBtn {
@@ -69,7 +69,7 @@
   padding: 5px 15px;
   margin-left: auto;
   font-weight: bold;
-  color: $colorPrimary;
+  color: var(--primary-theme-color);
 }
 
 .showAll {
@@ -108,7 +108,7 @@
     font-size: 0.75rem;
     line-height: 1.5;
     text-transform: capitalize;
-    color: $textColor;
+    color: var(--primary-text-color);
     margin-top: 2px;
   }
 }
@@ -122,7 +122,7 @@
 .callRow,
 .emailRow {
   text-decoration: none;
-  color: $colorPrimary;
+  color: var(--primary-theme-color);
 }
 
 .backToTop {
@@ -133,7 +133,7 @@
   width: 155px;
   font-size: 0.75rem;
   white-space: nowrap;
-  color: $colorPrimary;
+  color: var(--primary-theme-color);
   padding: 1.3rem 0;
 }
 

@@ -123,7 +123,7 @@
   font-size: $xsmall;
   font-family: $fontMedium;
   padding-top: 23px;
-  color: $colorPrimary;
+  color: var(--primary-theme-color);
   text-transform: uppercase;
 }
 
@@ -148,6 +148,6 @@
   font-size: $small;
   font-family: $fontRegular;
   text-transform: uppercase;
-  color: $colorPrimary;
+  color: var(--primary-theme-color);
   cursor: pointer;
 }

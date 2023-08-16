@@ -17,11 +17,11 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  fill: $colorSecondary;
+  fill: var(--secondary-text-color);
 }
 
 .wrapper {
-  background-color: $colorPrimary;
+  background-color: var(--primary-theme-color);
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
 }

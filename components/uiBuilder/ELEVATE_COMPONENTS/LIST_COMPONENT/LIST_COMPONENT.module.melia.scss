@@ -1,7 +1,7 @@
 .listComponentTitle {
   font-family: $fontPlayfair;
   font-size: $xlarge;
-  color: $colorSecondary;
+  color: var(--secondary-text-color);
 }
 
 .restaurantRow {

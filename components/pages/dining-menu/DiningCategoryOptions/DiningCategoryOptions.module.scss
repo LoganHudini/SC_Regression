@@ -42,7 +42,7 @@
   padding: 0 10px;
   text-transform: capitalize;
   color: $textColorSecondary !important;
-  background: var(--color-primary) !important;
+  background: var(--primary-theme-color) !important;
   width: fit-content;
   white-space: nowrap;
 }
@@ -50,7 +50,7 @@
 .DiningCategoryOptionInActive {
   height: 38px;
   line-height: 38px;
-  background: $background;
+  background: var(--primary-background-color);
   font-family: $fontRegular;
   font-size: $medium;
   padding: 0 10px;
@@ -62,7 +62,7 @@
 
   &:hover:enabled {
     color: $fontColor;
-    background: $background;
+    background: var(--primary-background-color);
     box-shadow: none;
   }
 }
@@ -71,7 +71,7 @@
   display: flex;
   height: 40px;
   width: min(104%, 748px);
-  background-color: $colorPrimary;
+  background-color: var(--primary-theme-color);
   color: $textColorSecondary;
   font-family: $fontLight;
   font-size: $small;

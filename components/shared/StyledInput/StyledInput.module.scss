@@ -1,26 +1,26 @@
 .styledInput {
   :global(.MuiInputLabel-standard) {
     font-size: 0.875rem;
-    color: $textColor;
+    color: var(--primary-text-color);
   }
 
   :global(.MuiFormLabel-filled) {
     font-size: 0.875rem;
-    color: $textColor;
+    color: var(--primary-text-color);
   }
 
   :global(.MuiInput-root)::after {
-    border-bottom: 2px solid $colorPrimary;
+    border-bottom: 2px solid var(--primary-theme-color);
   }
 
   :global(.MuiInput-root):hover {
     &::before {
-      border-bottom: 2px solid $colorPrimary;
+      border-bottom: 2px solid var(--primary-theme-color);
     }
   }
 
   :global(.Mui-focused) {
-    color: $colorPrimary !important;
+    color: var(--primary-theme-color) !important;
   }
 
   :global(.MuiInputLabel-asterisk),
@@ -35,7 +35,7 @@
   }
 
   :global(.MuiInputBase-input) {
-    color: $textColor;
+    color: var(--primary-text-color);
     font-size: 1rem;
     padding: 8px 0;
   }

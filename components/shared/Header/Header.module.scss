@@ -39,7 +39,7 @@
 .container {
   padding: 63px 0 10px 15px;
   z-index: 5;
-  background: $colorPrimary;
+  background: var(--primary-theme-color);
   position: relative;
 }
 

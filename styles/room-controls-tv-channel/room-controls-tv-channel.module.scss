@@ -36,7 +36,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid $colorSecondary;
+  border: 1px solid var(--secondary-text-color);
   border-radius: 50%;
   font-family: 'Bodoni MT Std';
   font-size: 1.875rem;
@@ -52,7 +52,7 @@
   transform: translate(6px, -1px);
   height: 27px;
   path {
-    fill: $textColor;
+    fill: var(--primary-text-color);
   }
 }
 

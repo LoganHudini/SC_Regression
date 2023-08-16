@@ -1,5 +1,5 @@
 .roomPersonalizationEntityWrapper {
-  border: 1px solid $textColor;
+  border: 1px solid var(--primary-text-color);
   display: flex;
   margin-top: 31px;
 
@@ -30,7 +30,7 @@
 }
 
 .roomPersonalizationControls {
-  border-left: 1px solid $textColor;
+  border-left: 1px solid var(--primary-text-color);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -40,14 +40,14 @@
 }
 
 .roomPersonalizationControlsActive {
-  background: $colorPrimary;
+  background: var(--primary-theme-color);
 }
 
 .perDay {
   font-size: 0.9375rem;
   margin-bottom: 6px;
   line-height: 1;
-  color: $textColor;
+  color: var(--primary-text-color);
 }
 
 .perDayActive {
@@ -57,7 +57,7 @@
 .price {
   font-size: 0.9375rem;
   margin-bottom: 11px;
-  color: $textColor;
+  color: var(--primary-text-color);
 
   & > span {
     font-size: 1.375rem;

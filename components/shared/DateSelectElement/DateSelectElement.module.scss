@@ -13,12 +13,12 @@
   height: 44px;
   flex: 0 0 165px;
   text-transform: capitalize;
-  color: $colorPrimary;
+  color: var(--primary-theme-color);
 }
 
 .wrapperSelected {
-  border: 1px solid $colorPrimary;
-  background-color: $colorPrimary;
+  border: 1px solid var(--primary-theme-color);
+  background-color: var(--primary-theme-color);
   color: $textColorSecondary;
   font-weight: normal;
 }

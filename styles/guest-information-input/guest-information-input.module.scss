@@ -62,7 +62,7 @@
   height: 21px;
 
   path {
-    fill: $colorSecondary;
+    fill: var(--secondary-text-color);
   }
 }
 
@@ -80,6 +80,6 @@
   width: auto;
   height: 22px;
   & > path {
-    fill: $textColor;
+    fill: var(--primary-text-color);
   }
 }

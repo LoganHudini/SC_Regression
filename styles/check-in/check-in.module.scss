@@ -88,7 +88,7 @@
   max-width: 266px;
   line-height: 1.4;
   a {
-    color: $colorSecondary;
+    color: var(--secondary-text-color);
     text-decoration: underline;
     white-space: nowrap;
   }
@@ -108,7 +108,7 @@
 }
 
 .clearBtn {
-  color: $colorSecondary;
+  color: var(--secondary-text-color);
   width: auto;
 }
 

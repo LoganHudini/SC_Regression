@@ -1,14 +1,17 @@
 //colors
-$colorPrimary: #164194;
-$colorSecondary: #000000;
+// var(--primary-theme-color): #164194;
+
 $shadowColor: #4b4b4b33;
 $shadowColorSecondary: #7b7b7b;
-$textColor: #2f2f2f;
+
+// var(--primary-text-color): #2f2f2f;
+// var(--secondary-text-color): #000000;
+
 $textColorSecondary: #ffffff;
 $textColorTernary: #3d3c3c;
 $textColorQuaternary: #7b7b7b;
 $fonttextColor: #58585a;
-$background: #f8f8f8;
+// var(--primary-background-color): #f8f8f8;
 $colorDivider: #00144626;
 $errorMsgColor: #d32f2f;
 $dividerColor: #d8d8d8;

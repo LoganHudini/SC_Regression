@@ -88,7 +88,7 @@
   max-width: 266px;
   line-height: 1.4;
   a {
-    color: $colorSecondary;
+    color: var(--secondary-text-color);
     text-decoration: underline;
     white-space: nowrap;
   }
@@ -108,7 +108,7 @@
 }
 
 .clearBtn {
-  color: $colorSecondary;
+  color: var(--secondary-text-color);
   text-transform: none;
   width: auto;
 }
@@ -170,7 +170,7 @@
   display: flex;
   justify-content: center;
   padding: 15px;
-  border-bottom: 1px solid $colorPrimary;
+  border-bottom: 1px solid var(--primary-theme-color);
   div {
     margin: 0px 0px 0px 8px;
     font-size: $xsmall;
@@ -182,8 +182,8 @@
     color: #ffff;
   }
   .active {
-    background-color: $colorPrimary;
-    border: 1px solid $colorPrimary;
+    background-color: var(--primary-theme-color);
+    border: 1px solid var(--primary-theme-color);
   }
   .disabled {
     background-color: #d2d1d0;

@@ -23,6 +23,6 @@
 
 .diningText {
   .p {
-    color: $colorSecondary;
+    color: var(--secondary-text-color);
   }
 }

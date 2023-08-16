@@ -27,7 +27,7 @@
   height: auto;
   transition: transform 0.2s;
   & > path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }
 
@@ -36,7 +36,7 @@
   width: auto;
 
   & > path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }
 
@@ -78,6 +78,6 @@
 }
 .detailsCard {
   margin-bottom: 3vh;
-  border: 1px $colorPrimary solid;
-  color: $textColor;
+  border: 1px var(--primary-theme-color) solid;
+  color: var(--primary-text-color);
 }

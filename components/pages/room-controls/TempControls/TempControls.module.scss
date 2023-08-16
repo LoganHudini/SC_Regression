@@ -12,7 +12,7 @@
   flex-direction: row;
   margin: 0 auto;
   border-radius: 10px;
-  border: 1px solid $colorSecondary;
+  border: 1px solid var(--secondary-text-color);
   overflow: hidden;
   width: 130px;
 }
@@ -27,12 +27,12 @@
   align-items: center;
   text-transform: uppercase;
   background: transparent;
-  color: $textColor;
+  color: var(--primary-text-color);
   transition: all 0.2s;
 }
 
 .onOffButtonActive {
-  background: $colorSecondary;
+  background: var(--secondary-text-color);
   color: $textColorSecondary;
 }
 
@@ -49,17 +49,17 @@
   padding: 4px 16px 5px 17px;
   width: 67px;
   height: 24px;
-  border: 1px solid $colorSecondary;
+  border: 1px solid var(--secondary-text-color);
   border-radius: 100px;
   transition: all 0.2s;
   background: transparent;
 
   & > p {
-    color: $textColor;
+    color: var(--primary-text-color);
   }
 
   & > svg path {
-    fill: $textColor;
+    fill: var(--primary-text-color);
   }
 
   &:first-of-type {
@@ -68,7 +68,7 @@
 }
 
 .tempMeasureUnitActive {
-  background: $colorSecondary;
+  background: var(--secondary-text-color);
 
   & > p {
     color: $textColorSecondary;
@@ -90,7 +90,7 @@
   width: auto;
   transition: all 0.2s;
   & > path {
-    fill: $textColor;
+    fill: var(--primary-text-color);
   }
 }
 
@@ -153,11 +153,11 @@
   width: 47px;
   height: 23px;
   font-size: 0.8125rem;
-  border: 1px solid $colorSecondary;
+  border: 1px solid var(--secondary-text-color);
   border-radius: 100px;
   transition: all 0.2s;
   background: transparent;
-  color: $textColor;
+  color: var(--primary-text-color);
 
   &:first-of-type {
     margin-right: 10px;
@@ -165,7 +165,7 @@
 }
 
 .autoEcoButtonActive {
-  background: $colorSecondary;
+  background: var(--secondary-text-color);
   color: $textColorSecondary;
 }
 
@@ -176,14 +176,14 @@
 .ventilatorControl {
   width: 39px;
   height: 24px;
-  border: 1px solid $colorSecondary;
+  border: 1px solid var(--secondary-text-color);
   display: flex;
   justify-content: center;
   align-items: center;
   background: transparent;
 
   & > svg path {
-    stroke: $colorSecondary;
+    stroke: var(--secondary-text-color);
   }
 
   &:first-of-type {
@@ -200,7 +200,7 @@
 }
 
 .ventilatorControlActive {
-  background: $colorSecondary;
+  background: var(--secondary-text-color);
 
   & > svg path {
     stroke: $textColorSecondary;

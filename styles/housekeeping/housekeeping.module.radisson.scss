@@ -18,7 +18,7 @@
   font-weight: 100;
   text-transform: none;
   font-family: $fontMedium;
-  background: $colorPrimary;
+  background: var(--primary-theme-color);
   color: $textColorSecondary;
   border-radius: 6px;
   padding: 0px 10px;
@@ -26,12 +26,12 @@
   margin-right: 10px;
   &:hover:enabled {
     border: 0px;
-    background: $colorPrimary !important;
+    background: var(--primary-theme-color) !important;
   }
 }
 
 .buttonFilterDisabled {
-  background: $background;
+  background: var(--primary-background-color);
   color: $shadowColorSecondary;
   min-width: fit-content;
   height: 30px;
@@ -67,7 +67,7 @@
   width: 25px;
   border-radius: 50%;
   background-color: white;
-  color: $colorPrimary;
+  color: var(--primary-theme-color);
   font-size: 0.875rem;
   font-family: $fontRegular;
 }

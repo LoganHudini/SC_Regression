@@ -12,7 +12,7 @@
   flex-direction: row;
   margin: 0 auto;
   border-radius: 10px;
-  border: 1px solid $colorSecondary;
+  border: 1px solid var(--secondary-text-color);
   overflow: hidden;
   width: 130px;
 }
@@ -27,17 +27,17 @@
   align-items: center;
   text-transform: uppercase;
   background: transparent;
-  color: $textColor;
+  color: var(--primary-text-color);
   transition: all 0.2s;
 }
 
 .onOffButtonActive {
-  background: $colorSecondary;
+  background: var(--secondary-text-color);
   color: $textColorSecondary;
 }
 
 .buttonCircle {
-  background: $colorSecondary;
+  background: var(--secondary-text-color);
   width: 183px;
   height: 183px;
   margin: 27px auto 30px auto;
@@ -108,7 +108,7 @@
 .tVBtn {
   width: 42px;
   height: 42px;
-  background: $colorSecondary;
+  background: var(--secondary-text-color);
   color: $textColorSecondary;
   border-radius: 50%;
   margin: 0 auto;
@@ -135,7 +135,7 @@
   height: 107px;
   box-sizing: border-box;
   border-radius: 150px;
-  background: $colorSecondary;
+  background: var(--secondary-text-color);
   justify-content: space-between;
   align-items: center;
 }

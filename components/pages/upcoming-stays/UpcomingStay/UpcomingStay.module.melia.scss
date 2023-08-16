@@ -41,7 +41,7 @@
 
 .precheckedinIcon {
   path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }
 

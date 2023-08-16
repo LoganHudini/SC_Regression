@@ -3,7 +3,7 @@
   margin-right: 0;
 
   :global(.MuiSelect-select) {
-    color: $textColor;
+    color: var(--primary-text-color);
     padding-bottom: 12px;
     font-size: 0.875rem;
     text-align: start;
@@ -11,21 +11,21 @@
 
   :global(.MuiInputLabel-standard) {
     font-size: 0.875rem;
-    color: $textColor;
+    color: var(--primary-text-color);
   }
 
   :global(.MuiFormHelperText-root) {
-    color: $textColor;
+    color: var(--primary-text-color);
   }
 
   :global(.MuiInputBase-root) {
     &::after {
-      border-bottom: 2px solid $colorPrimary;
+      border-bottom: 2px solid var(--primary-theme-color);
     }
 
     &:hover {
       &::before {
-        border-bottom: 2px solid $colorPrimary !important;
+        border-bottom: 2px solid var(--primary-theme-color) !important;
       }
     }
 

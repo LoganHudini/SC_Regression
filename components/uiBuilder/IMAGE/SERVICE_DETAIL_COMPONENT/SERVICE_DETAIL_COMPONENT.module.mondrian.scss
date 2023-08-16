@@ -19,13 +19,13 @@
 }
 
 .button {
-  background: $colorPrimary;
+  background: var(--primary-theme-color);
   color: $textColorSecondary;
   width: auto;
   font-size: $small;
   font-family: $fontBold;
   padding: 8px 20px;
-  border-color: $colorPrimary;
+  border-color: var(--primary-theme-color);
   &:hover:enabled {
     background: #838383;
   }

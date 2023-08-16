@@ -60,7 +60,7 @@
     margin-left: 10px;
     font-size: 1rem;
     line-height: 1.25;
-    color: $textColor;
+    color: var(--primary-text-color);
     text-align: start;
     width: fit-content;
   }
@@ -96,7 +96,7 @@
 }
 
 .readMore {
-  color: $colorPrimary;
+  color: var(--primary-theme-color);
   margin-top: 4px;
   font-size: 1rem;
   line-height: 1.25;
@@ -114,7 +114,7 @@
 .timeShowMoreIcon {
   transition: all 0.2s;
   path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }
 
@@ -146,7 +146,7 @@
 .callRowOffers,
 .emailRowOffers {
   text-decoration: none;
-  color: $colorPrimary;
+  color: var(--primary-theme-color);
 }
 
 .viewMenuOrder {

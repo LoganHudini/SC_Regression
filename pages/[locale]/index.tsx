@@ -1,3 +1,5 @@
+import { HomeCarousel } from 'components/pages/home/HomeCarousel/HomeCarousel';
+import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { GetStaticProps, NextPage } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -9,13 +11,29 @@ export { getStaticPaths };
 
 const Home: NextPage = () => {
   const { t } = useTranslation('common');
+  const homePageCarousel = {
+    slides: [
+      {
+        titleH1: 'Sofitel manila',
+        titleH3: 'manila',
+        imgURL: '',
+      },
+      {
+        titleH1: 'Sofitel manila',
+        titleH3: 'manila',
+        imgURL: '',
+      },
+    ],
+  };
+
   return (
     <>
       <Head>
         <title>{t('Home')}</title>
       </Head>
-      {/* <HERO_BANNER_W_CTA */}
-      <div>Hello</div>
+      <PageWrapper displayBottomMenu>
+        <HomeCarousel carouselDetails={homePageCarousel} />
+      </PageWrapper>
     </>
   );
 };

@@ -8,19 +8,19 @@
   box-sizing: border-box;
 
   background: transparent;
-  border: 1px solid $colorSecondary;
+  border: 1px solid var(--secondary-text-color);
 
   svg path {
-    fill: $textColor;
+    fill: var(--primary-text-color);
   }
 
   p {
-    color: $textColor;
+    color: var(--primary-text-color);
   }
 }
 
 .lightControlEntityWrapperActive {
-  background: $colorSecondary;
+  background: var(--secondary-text-color);
   border: none;
 
   svg path {
@@ -54,7 +54,7 @@
 }
 
 .statusText {
-  color: $textColor;
+  color: var(--primary-text-color);
   font-size: 0.75rem;
   line-height: 1;
   margin-top: 2px;
@@ -70,7 +70,7 @@
   text-transform: uppercase;
   line-height: 1;
   font-size: 0.8125rem;
-  color: $textColor;
+  color: var(--primary-text-color);
   position: absolute;
   top: 58px;
   left: 20px;

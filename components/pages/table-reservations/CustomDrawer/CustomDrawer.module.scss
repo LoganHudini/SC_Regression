@@ -116,7 +116,7 @@
   transform: translate(-8px, 2px);
   margin-left: auto;
   path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }
 

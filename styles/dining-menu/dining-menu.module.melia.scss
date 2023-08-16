@@ -32,7 +32,7 @@
 }
 
 .totalWrapper {
-  background: $colorPrimary;
+  background: var(--primary-theme-color);
   padding: 21px 0px 74px 0px;
   box-shadow: 0 -6px 8px -2px $shadowColor;
 }

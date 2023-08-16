@@ -58,7 +58,7 @@
   font-size: 45px;
   margin: 0 auto 10px auto;
   font-family: $fontRegular;
-  color: $colorSecondary;
+  color: var(--secondary-text-color);
 }
 
 .totalRequests {

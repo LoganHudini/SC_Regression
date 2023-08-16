@@ -1,5 +1,5 @@
 .styledRadio {
-  color: $colorPrimary;
+  color: var(--primary-theme-color);
   padding: 0;
   background: none !important;
   width: 20px;
@@ -22,7 +22,7 @@
 
   :global(.MuiFormControlLabel-label) {
     font-size: $medium;
-    color: $textColor;
+    color: var(--primary-text-color);
     font-family: $fontMedium;
   }
 

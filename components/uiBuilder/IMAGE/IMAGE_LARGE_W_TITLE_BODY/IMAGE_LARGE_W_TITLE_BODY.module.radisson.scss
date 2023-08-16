@@ -17,11 +17,11 @@
 
 .ctaButton {
   margin-top: 15px;
-  color: $textColor;
+  color: var(--primary-text-color);
   font-weight: 600;
   text-transform: none;
   font-size: $small;
-  border: 1px solid $textColor !important;
+  border: 1px solid var(--primary-text-color) !important;
   border-radius: 30px;
   width: 162px;
   height: 35px;

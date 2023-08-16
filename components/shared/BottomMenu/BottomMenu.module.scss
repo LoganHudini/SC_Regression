@@ -1,54 +1,21 @@
 .bottomMenuWrapper {
-  background: $colorPrimary;
   position: fixed;
-  box-sizing: border-box;
-  margin: 0 auto;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 15px 37px 15px 30px;
   display: flex;
-  justify-content: space-between;
-  border-radius: 8px 8px 0 0;
   max-width: 768px;
-  box-sizing: border-box;
-  margin: 0 auto;
-  z-index: 190;
+  margin: auto;
   max-width: 768px;
+  height: 84px;
+  box-shadow: 0px -2px 8px var(--primary-box-shadow-color);
+  background: var(--primary-background-color);
 }
 
-.bottomMenuLink {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.bottomMenuLinkInner {
-  cursor: pointer;
-  svg {
-    margin-top: -3px;
-    path {
-      fill: $textColorSecondary;
-    }
-  }
-
-  p {
-    color: $textColorSecondary;
-  }
-}
-
-.bottomMenuLinkInnerActive {
-  svg {
-    & path {
-      fill: $colorSecondary;
-    }
-  }
-
-  p {
-    color: $colorSecondary;
-  }
+.bottomMenuButton {
+  width: 80%;
+  margin: auto 0;
+  margin-left: 10px;
 }
 
 .bottomMenuText {
@@ -87,20 +54,20 @@
 
 .moreButtonActive {
   & > div {
-    border: 1px solid $colorSecondary;
+    border: 1px solid var(--secondary-text-color);
   }
 
   svg > path {
-    fill: $colorSecondary;
+    fill: var(--secondary-text-color);
   }
 
   p {
-    color: $colorSecondary;
+    color: var(--secondary-text-color);
   }
 }
 
 .blurOverlay {
-  background: $textColor;
+  background: var(--primary-text-color);
   position: fixed;
   box-sizing: border-box;
   margin: 0 auto;
@@ -154,7 +121,7 @@
   height: 32px;
   flex: 0 0 32px;
   border-radius: 50%;
-  background: $colorPrimary;
+  background: var(--primary-theme-color);
   margin-bottom: 77px;
   display: flex;
   justify-content: center;

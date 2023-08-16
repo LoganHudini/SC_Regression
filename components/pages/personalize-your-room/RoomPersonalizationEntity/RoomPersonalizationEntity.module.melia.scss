@@ -1,6 +1,6 @@
 .perDayActive,
 .priceActive {
-  color: $textColor;
+  color: var(--primary-text-color);
 }
 
 .roomPersonalizationInputWrapper {

@@ -19,7 +19,7 @@
   padding-top: 1px;
   line-height: 1.5;
   font-family: $fontSemibold;
-  color: $textColor;
+  color: var(--primary-text-color);
 }
 
 .desctiption {
@@ -41,7 +41,7 @@
 
 .ingredientsIcon {
   path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
   transform: translateY(-5px);
 }
@@ -141,7 +141,7 @@
   height: 44px;
   line-height: 44px;
   padding-top: 14px;
-  background-color: $colorPrimary;
+  background-color: var(--primary-theme-color);
   font-family: $fontMedium;
   font-size: $xsmall;
 }
@@ -244,7 +244,7 @@
 .customUnderline:before,
 .customUnderline:after {
   border-bottom: 0.5px solid;
-  border-bottom-color: $colorPrimary;
+  border-bottom-color: var(--primary-theme-color);
 }
 
 .placeHolderInstruction {
@@ -254,9 +254,9 @@
 
 .customizeButton {
   width: 43% !important;
-  background: $colorPrimary !important;
+  background: var(--primary-theme-color) !important;
   color: white !important;
-  border: 1px solid $colorPrimary !important;
+  border: 1px solid var(--primary-theme-color) !important;
   font-size: $small !important;
   font-family: $fontRegular !important;
   height: 30px !important;
@@ -272,7 +272,7 @@
 .customStyle {
   width: 43% !important;
   background: white !important;
-  color: $colorPrimary !important;
+  color: var(--primary-theme-color) !important;
   border: 1px solid #7b7b7b !important;
   font-size: $small !important;
   font-family: $fontRegular !important;

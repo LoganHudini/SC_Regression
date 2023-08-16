@@ -1,6 +1,6 @@
 .wrapper {
   margin: 5px 25px 14px 25px;
-  border: 1px solid $colorPrimary;
+  border: 1px solid var(--primary-theme-color);
   height: 44px;
   border-radius: 3px;
   display: flex;
@@ -14,7 +14,7 @@
 
   &:disabled {
     svg path {
-      fill: $textColor;
+      fill: var(--primary-text-color);
     }
   }
 }
@@ -27,6 +27,6 @@
   flex: 1;
 
   &::placeholder {
-    color: $textColor;
+    color: var(--primary-text-color);
   }
 }

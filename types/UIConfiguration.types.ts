@@ -134,7 +134,7 @@ export interface IConfig {
   moduleQuery?: string;
   moduleUrl?: string;
   moduleQueryResult?: { [key: string]: IQueryResultEntity[] };
-  hotelModule: string;
+  hotelModule?: string;
   hotelModuleId?: string;
   backgroundColor?: string;
   isTitleActive?: boolean;
@@ -179,7 +179,6 @@ export interface IConfig {
     isActive: boolean;
     linkId: string;
   };
-
   imgMain?: IConfig;
   slides?: IConfig[];
 }

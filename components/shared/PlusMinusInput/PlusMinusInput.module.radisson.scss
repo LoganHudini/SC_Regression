@@ -3,7 +3,7 @@
   flex-direction: row;
   width: 90px;
   justify-content: space-between;
-  border: 1.5px solid $colorPrimary;
+  border: 1.5px solid var(--primary-theme-color);
   border-radius: 8px;
   background-color: white;
   align-items: center;
@@ -36,7 +36,7 @@
 
   &:disabled {
     & > svg > path {
-      fill: $colorPrimary !important;
+      fill: var(--primary-theme-color) !important;
     }
     border-radius: 4px;
     display: flex;
@@ -50,7 +50,7 @@
   height: auto;
   border: none;
   path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }
 
@@ -58,7 +58,7 @@
   width: 20px;
   height: auto;
   path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }
 

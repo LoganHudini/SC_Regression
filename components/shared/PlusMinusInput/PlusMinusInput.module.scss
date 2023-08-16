@@ -30,7 +30,7 @@
   height: auto;
   border: none;
   path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }
 
@@ -38,6 +38,6 @@
   width: 20px;
   height: auto;
   path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }

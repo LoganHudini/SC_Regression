@@ -1,99 +1,35 @@
 @font-face {
-  font-family: 'GillSans Medium';
-  src: url('/fonts/GillSans/Gill-Sans-Medium.ttf') format('ttf'),
-    url('/fonts/GillSans/Gill-Sans-Medium.woff') format('woff'),
-    url('/fonts/GillSans/Gill-Sans-Medium.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'GillSans Regular';
-  src: url('/fonts/GillSans/GillSans-01.ttf') format('ttf'),
-    url('/fonts/GillSans/GillSans-01.woff') format('woff'),
-    url('/fonts/GillSans/GillSans-01.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'GillSans Semibold';
-  src: url('/fonts/GillSans/GillSans-SemiBold-05.ttf') format('ttf'),
-    url('/fonts/GillSans/GillSans-SemiBold-05.woff') format('woff'),
-    url('/fonts/GillSans/GillSans-SemiBold-05.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'GillSans Bold';
-  src: url('/fonts/GillSans/GillSans-Bold-02.ttf') format('ttf'),
-    url('/fonts/GillSans/GillSans-Bold-02.woff') format('woff'),
-    url('/fonts/GillSans/GillSans-Bold-02.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'GillSans Light';
-  src: url('/fonts/GillSans/GillSans-Light-08.ttf') format('ttf'),
-    url('/fonts/GillSans/GillSans-Light-08.woff') format('woff'),
-    url('/fonts/GillSans/GillSans-Light-08.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Bodoni MT Std';
-  src: url('/fonts/BodoniMTStd/BodoniMTStd.otf') format('opentype');
-}
-
-@font-face {
-  font-family: 'Futura';
-  font-weight: bolder;
-  src: url('/fonts/Futura/Futura-Bol.otf') format('opentype');
-}
-@font-face {
-  font-family: 'Futura';
-  font-weight: bolder;
-  src: url('/fonts/Futura/Futura-BolObl.otf') format('opentype');
-  font-style: italic;
-}
-@font-face {
-  font-family: 'Futura';
-  font-weight: normal;
-  src: url('/fonts/Futura/Futura-Boo.otf') format('opentype');
-}
-@font-face {
-  font-family: 'Futura';
-  font-weight: normal;
-  src: url('/fonts/Futura/Futura-BooObl.otf') format('opentype');
-  font-style: italic;
-}
-@font-face {
-  font-family: 'Futura';
-  font-weight: 100;
-  src: url('/fonts/Futura/Futura-Lig.otf') format('opentype');
-}
-@font-face {
-  font-family: 'Futura';
-  font-weight: 100;
-  src: url('/fonts/Futura/Futura-LigObl.otf') format('opentype');
-  font-style: italic;
-}
-@font-face {
-  font-family: 'Futura';
-  font-weight: bold;
-  src: url('/fonts/Futura/Futura-Med.otf') format('opentype');
-}
-@font-face {
-  font-family: 'Futura';
-  font-weight: bold;
-  src: url('/fonts/Futura/Futura-MedObl.otf') format('opentype');
-  font-style: italic;
+  font-family: 'ClanOT Extended Book';
+  src: url('/fonts/clanOT/clanOT-ExtdBook.otf') format('opentype'),
+    url('/fonts/clanOT/clanOT-ExtdBook.ttf') format('ttf'),
+    url('/fonts/clanOT/clanOT-ExtdBook.woff') format('woff'),
+    url('/fonts/clanOT/clanOT-ExtdBook.woff2') format('woff2');
 }
 
 :root {
-  color: $textColor;
-  background-color: $textColorSecondary;
-  --custom-color: #000000; /* Default color */
-  --color-primary: #164194;
+  // theme colors
+  --primary-theme-color: #997300;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+  // text colors
+  --primary-text-color: #000000;
+  --secondary-text-color: #ffffff;
+
+  // button colors
+  --primary-button-color: #ffffff;
+  --primary-button-background-color: #997300;
+  --primary-button-border-radius: 0px;
+  --primary-button-font-family: 'ClanOT Extended Book';
+
+  --secondary-button-color: #997300;
+  --secondary-button-background-color: #ffffff;
+  --secondary-button-border-radius: 0px;
+  --secondary-button-font-family: 'ClanOT Extended Book';
+
+  // shadow colors
+  --primary-box-shadow-color: #00000029;
+
+  // drawer colors
+  --primary-drawer-notch: #eeeef1;
 }
 
 button {
@@ -113,8 +49,7 @@ h4,
 h5,
 h6 {
   margin: 0;
-  text-align: start;
-  color: $textColor;
+  color: var(--primary-text-color);
 }
 
 body {
@@ -123,7 +58,12 @@ body {
   text-align: center;
   position: relative;
   font-family: $fontMedium;
-  font-size: $medium;
+  font-size: $small;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
 }
 
 .loaderWrapper {
@@ -134,74 +74,49 @@ body {
   justify-content: center;
 }
 
-#__next {
-  width: 100vw;
-  position: absolute;
-  left: 0;
-  right: 0;
-  min-height: 100vh;
-}
-
-*::-webkit-scrollbar-track {
-  border-radius: 10px;
-  background-color: transparent;
-}
-
-*::-webkit-scrollbar {
-  width: 2px;
-  height: 3px;
-  background-color: transparent;
-}
-
-*::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background-color: #d4d4d4;
-}
-
 // Material UI overwrites
 
-.MuiButton-outlinedPrimary {
-  background: transparent;
-  color: $colorPrimary;
-  border: 1px solid $colorPrimary;
+.MuiButton-containedPrimary {
+  color: var(--primary-button-color);
+  background: var(--primary-button-background-color);
+  border: none;
+  border-radius: var(--primary-button-border-radius);
   width: 100%;
-  border-radius: 6px;
-  font-size: $xsmall;
-  font-family: $fontMedium !important;
+  font-size: $small;
+  font-family: var(--primary-button-font-family) !important;
+  height: 48px;
+  line-height: 48px;
   text-align: center;
-  height: 46px;
-  line-height: 46px;
 
   &:hover:enabled {
-    border-radius: 6px;
-    background: none;
-    border: 1px solid $colorPrimary;
+    background: var(--primary-theme-color);
   }
 }
 
-.MuiButton-containedPrimary {
-  background: $colorPrimary;
-  color: $textColorSecondary;
-  border: none;
+.MuiButton-outlinedPrimary {
+  color: var(--secondary-button-color);
+  background: var(--secondary-button-background-color);
+  border: 1px solid var(--secondary-button-color);
+  border-radius: var(--primary-button-border-radius);
   width: 100%;
-  border-radius: 6px;
-  font-size: $xsmall;
-  font-family: $fontMedium !important;
-  height: 44px;
-  line-height: 44px;
+  font-size: $medium;
+  font-family: var(--secondary-button-font-family) !important;
+  height: 48px;
+  line-height: 48px;
   text-align: center;
+
   &:hover:enabled {
-    background: $colorPrimary;
+    border: 1px solid var(--primary-theme-color);
   }
 }
 
 .MuiInput-root.Mui-disabled::before {
-  border-bottom: 1px solid $colorPrimary !important;
+  border-bottom: 1px solid var(--primary-theme-color) !important;
 }
 
 .MuiButton-textPrimary {
   background: transparent;
-  color: $colorPrimary;
+  color: var(--primary-theme-color);
   border: none;
   width: 100%;
   border-radius: 0;
@@ -224,7 +139,6 @@ body {
 .MuiInputBase-root,
 .MuiInputBase-input,
 .MuiFormLabel-root,
-.MuiButtonBase-root,
 .MuiMenuItem-root {
   font-family: $fontRegular !important;
 }
@@ -297,4 +211,21 @@ body {
   padding-bottom: 0;
   padding-top: 0;
   min-height: 35px;
+}
+
+// webkit css
+*::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 2px;
+  height: 3px;
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #d4d4d4;
 }
