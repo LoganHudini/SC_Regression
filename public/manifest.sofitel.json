@@ -1,0 +1,16 @@
+{
+  "theme_color": "#997300",
+  "background_color": "#ffffff",
+  "display": "fullscreen",
+  "scope": "/",
+  "start_url": "/",
+  "name": "Sofitel Manila",
+  "short_name": "Sofitel Manila",
+  "icons": [
+    {
+      "src": "/images/sofitel/icons/sofitel.png",
+      "type": "image/png",
+      "sizes": "196x196"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 .screenTitle {
   font-family: $fontMedium;
   font-size: $medium;
-  color: $textColor;
+  color: var(--primary-text-color);
   margin: 0.25rem 0;
 }
 
@@ -12,12 +12,12 @@
 .backIcon {
   height: 20px;
   path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }
 
 .closeIcon {
-  fill: $colorPrimary;
+  fill: var(--primary-theme-color);
 }
 
 .container {
@@ -29,7 +29,7 @@
   width: 104px;
   height: 30px;
   path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }
 
@@ -38,6 +38,6 @@
 }
 
 .headerContainer {
-  background: $background;
+  background: var(--primary-background-color);
   padding: 0.4rem;
 }

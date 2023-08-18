@@ -88,7 +88,7 @@
 .nightsCount {
   height: 36px;
   width: 36px;
-  background: $colorSecondary;
+  background: var(--secondary-text-color);
   color: $textColorSecondary;
   display: flex;
   justify-content: center;

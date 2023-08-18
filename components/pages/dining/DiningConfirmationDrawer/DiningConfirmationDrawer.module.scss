@@ -97,7 +97,7 @@
 .count {
   font-size: $large;
   font-family: $fontRegular;
-  color: $textColor;
+  color: var(--primary-text-color);
 }
 
 .container {

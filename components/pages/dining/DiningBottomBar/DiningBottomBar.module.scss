@@ -44,7 +44,7 @@
   cursor: pointer;
 
   svg > circle {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }
 

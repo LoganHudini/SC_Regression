@@ -20,7 +20,7 @@
 .desctiption {
   margin-top: 19px;
   padding-bottom: 33px;
-  border-bottom: 1px solid $colorPrimary;
+  border-bottom: 1px solid var(--primary-theme-color);
   line-height: 1.25;
 }
 
@@ -33,7 +33,7 @@
 
 .ingredientsIcon {
   path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
   transform: translateY(-5px);
 }
@@ -49,7 +49,7 @@
   line-height: 1.25;
   margin-top: 11px;
   padding-bottom: 23px;
-  border-bottom: 1px solid $colorPrimary;
+  border-bottom: 1px solid var(--primary-theme-color);
 }
 
 .servingsRow {
@@ -81,7 +81,7 @@
 .optionalText {
   font-size: $xsmall;
   font-family: $fontRegular;
-  color: $textColor;
+  color: var(--primary-text-color);
   background-color: #f0f0f0;
   width: auto;
   height: 1.5rem;
@@ -172,7 +172,7 @@
 .requiredText {
   font-size: $xsmall;
   font-family: $fontRegular;
-  color: $textColor;
+  color: var(--primary-text-color);
   background-color: #f0f0f0;
   width: 6rem;
   height: 1.5rem;

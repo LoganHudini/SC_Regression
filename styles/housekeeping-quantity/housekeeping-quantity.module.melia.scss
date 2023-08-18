@@ -19,7 +19,7 @@
 .criteria {
   font-size: $small;
   font-family: $fontMedium;
-  color: $textColor;
+  color: var(--primary-text-color);
   line-height: 1.5;
 }
 
@@ -32,10 +32,10 @@
 .orderButton {
   font-size: $small;
   font-family: $fontMedium;
-  background: $colorSecondary;
+  background: var(--secondary-text-color);
 }
 
 .addBlock {
   padding: 1rem 0rem;
-  background: $colorPrimary;
+  background: var(--primary-theme-color);
 }

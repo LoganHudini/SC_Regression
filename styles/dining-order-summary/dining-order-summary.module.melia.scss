@@ -16,17 +16,17 @@
 }
 
 .specialRequestsInput {
-  color: $colorSecondary;
+  color: var(--secondary-text-color);
   font-family: $fontRegular;
   font-size: $small;
-  border: 1px solid $textColor;
-  background-color: $colorPrimary;
+  border: 1px solid var(--primary-text-color);
+  background-color: var(--primary-theme-color);
   border-radius: 0rem;
   padding: 0.5rem;
 }
 
 .confirmOrderButton {
-  background: $colorPrimary;
+  background: var(--primary-theme-color);
   padding: 16px 0px 16px 0px;
   box-shadow: 0 -6px 8px -2px $shadowColor;
 }
@@ -45,12 +45,12 @@
 
 .chooseAnotherDateArrow {
   path {
-    fill: $textColor;
+    fill: var(--primary-text-color);
   }
 }
 
 .timeBox {
-  border: 1px solid $textColor;
+  border: 1px solid var(--primary-text-color);
   border-radius: 0rem;
 }
 
@@ -60,6 +60,6 @@
 
 .datePickerWrapper {
   :global(.Mui-selected) {
-    background-color: $textColor !important;
+    background-color: var(--primary-text-color) !important;
   }
 }

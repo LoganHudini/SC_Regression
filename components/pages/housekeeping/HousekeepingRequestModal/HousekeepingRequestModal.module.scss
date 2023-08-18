@@ -75,7 +75,7 @@
 }
 
 .readMore {
-  color: $colorPrimary;
+  color: var(--primary-theme-color);
   margin-top: 4px;
   font-size: $small;
   line-height: 1.25;
@@ -101,11 +101,11 @@
   flex: 0 0 350px;
 
   :global(.Mui-selected) {
-    background-color: $colorPrimary !important;
+    background-color: var(--primary-theme-color) !important;
   }
 
   :global(.MuiPickersArrowSwitcher-button .MuiSvgIcon-root) {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 
   :global(.MuiPickersArrowSwitcher-button.Mui-disabled .MuiSvgIcon-root) {
@@ -136,7 +136,7 @@
   transform: translate(-8px, 2px);
   margin-left: auto;
   path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }
 

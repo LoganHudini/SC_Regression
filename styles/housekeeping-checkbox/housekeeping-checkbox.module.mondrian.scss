@@ -40,7 +40,7 @@
   font-weight: 900;
   font-family: $fontBold;
   font-size: 14px;
-  background: $colorPrimary;
+  background: var(--primary-theme-color);
 }
 
 .houseKeepingCheckboxWrapper {
@@ -67,7 +67,7 @@
   resize: none;
 }
 
-.addBlock{
+.addBlock {
   padding: 1.3rem 0rem;
 }
 

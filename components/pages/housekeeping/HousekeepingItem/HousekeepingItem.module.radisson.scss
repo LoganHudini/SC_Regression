@@ -48,7 +48,7 @@
 
 .readMore {
   margin-top: 0.2rem;
-  color: $colorPrimary;
+  color: var(--primary-theme-color);
   font-size: $small;
   line-height: 1.25;
   cursor: pointer;

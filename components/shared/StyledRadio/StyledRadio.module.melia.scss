@@ -1,5 +1,5 @@
 .styledRadio {
-  color: $colorPrimary;
+  color: var(--primary-theme-color);
 
   :global(.MuiSvgIcon-root) {
     fill: #000;
@@ -7,7 +7,7 @@
 
   :global(.MuiFormControlLabel-label) {
     font-size: 0.75rem;
-    color: $textColor;
+    color: var(--primary-text-color);
   }
 
   :global(.Mui-checked) {

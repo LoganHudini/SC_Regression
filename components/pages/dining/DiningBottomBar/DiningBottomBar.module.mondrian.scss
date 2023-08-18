@@ -17,7 +17,7 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  fill: $colorPrimary;
+  fill: var(--primary-theme-color);
 }
 
 .wrapper {

@@ -96,11 +96,11 @@
   transition: all 0.2s;
 
   :global(.Mui-selected) {
-    background-color: $colorPrimary !important;
+    background-color: var(--primary-theme-color) !important;
   }
 
   :global(.MuiPickersArrowSwitcher-button .MuiSvgIcon-root) {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 
   :global(.MuiPickersArrowSwitcher-button.Mui-disabled .MuiSvgIcon-root) {
@@ -131,7 +131,7 @@
   transform: translate(-8px, 2px);
   margin-left: auto;
   path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }
 
@@ -174,7 +174,7 @@
 }
 
 .horizontalLine {
-  background: $textColor;
+  background: var(--primary-text-color);
   opacity: 0.2;
   margin: 0.75rem 0;
   height: 1px;

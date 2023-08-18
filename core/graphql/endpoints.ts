@@ -22,32 +22,25 @@ export const API_KEY_MESSAGES = process.env.NEXT_PUBLIC_API_KEY_MESSAGES;
 export const HOST_HOUSEKEEPING_ORDER = process.env.NEXT_PUBLIC_HOST_HOUSEKEEPING_ORDER;
 export const API_KEY_HOUSEKEEPING_ORDER = process.env.NEXT_PUBLIC_API_KEY_HOUSEKEEPING_ORDER;
 
-export const HOTEL_ID = process.env.NEXT_PUBLIC_HOTEL_ID;
-export const VENUE_ID = process.env.NEXT_PUBLIC_VENUE_ID;
-export const HOTEL_GROUP_ID = process.env.NEXT_PUBLIC_HOTEL_GROUP_ID as string;
+export const HOST_SIMPHONY = process.env.NEXT_PUBLIC_HOST_SIMPHONY;
+export const API_KEY_SIMPHONY = process.env.NEXT_PUBLIC_API_KEY_SIMPHONY;
 
-export const HOTEL_CODE = process.env.NEXT_PUBLIC_HOTEL_CODE || 'default';
-export const BRANCH_CODE = process.env.NEXT_PUBLIC_BRANCH_CODE;
-export const ASSETS_URL = process.env.NEXT_PUBLIC_ASSETS_URL;
+export const HOTEL_ID = process.env.NEXT_PUBLIC_HOTEL_ID;
+export const HOTEL_CODE = 'sofitel';
 
 export const REST_API_URL = process.env.NEXT_PUBLIC_REST_API_URL;
 export const REST_V4_API_URL = process.env.NEXT_PUBLIC_REST_V4_API_URL;
 
+export const ASSETS_URL = process.env.NEXT_PUBLIC_ASSETS_URL;
 export const ONPREM_API_URL = process.env.NEXT_PUBLIC_ONPREM_API_URL;
 
-export const HOME_PAGE = process.env.NEXT_PUBLIC_HOME_PAGE;
-
-export const THEME_COLOR = process.env.NEXT_PUBLIC_THEME_COLOR;
-
-export const HOST_SIMPHONY = process.env.NEXT_PUBLIC_HOST_SIMPHONY;
-export const API_KEY_SIMPHONY = process.env.NEXT_PUBLIC_API_KEY_SIMPHONY;
+export const HOME_PAGE = 'Home';
+export const THEME_COLOR = '#997300';
 
 export const TERMS_AND_CONDITIONS = process.env.NEXT_PUBLIC_TERMS_AND_CONDITIONS;
 export const PRIVACY_LAWS = process.env.NEXT_PUBLIC_PRIVACY_LAWS;
-export const HOTEL_NAME = process.env.NEXT_PUBLIC_HOTEL_NAME;
 
 export const CURRENCY = process.env.NEXT_PUBLIC_CURRENCY;
-export const LANGUAGE = process.env.NEXT_PUBLIC_LANGUAGE;
 export const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
 
 export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;

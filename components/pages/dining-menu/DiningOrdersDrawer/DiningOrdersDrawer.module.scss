@@ -25,7 +25,7 @@
 .title {
   font-size: $medium;
   font-family: $fontMedium;
-  color: $colorSecondary;
+  color: var(--secondary-text-color);
   width: 210px;
   height: 20px;
   align-self: center;
@@ -37,7 +37,7 @@
 .status {
   font-size: 10px;
   font-family: $fontBold;
-  color: $colorPrimary;
+  color: var(--primary-theme-color);
   padding: 0 5px;
   width: auto;
   text-align: center;
@@ -61,7 +61,7 @@
 .dateTime {
   font-size: $small;
   font-family: $fontRegular;
-  color: $colorSecondary;
+  color: var(--secondary-text-color);
 }
 
 .itemsContainer {
@@ -315,13 +315,13 @@
 }
 
 .totalTitle {
-  color: $colorSecondary;
+  color: var(--secondary-text-color);
   font-family: $fontSemibold;
   font-size: $medium;
 }
 
 .totalTitlePrice {
-  color: $colorSecondary;
+  color: var(--secondary-text-color);
   font-family: $fontSemibold;
   font-size: $large;
 }

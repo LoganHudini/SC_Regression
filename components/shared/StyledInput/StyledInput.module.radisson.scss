@@ -12,7 +12,7 @@
   }
 
   :global(.MuiInputBase-input) {
-    color: $colorSecondary;
+    color: var(--secondary-text-color);
   }
 
   :global(.MuiInput-root):hover {

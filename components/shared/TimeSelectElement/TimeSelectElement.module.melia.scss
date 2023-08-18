@@ -1,5 +1,5 @@
 .wrapper {
-  border: 1px solid $textColor;
+  border: 1px solid var(--primary-text-color);
   width: 154px;
   flex: 0 0 154px;
   height: 47px;
@@ -7,7 +7,7 @@
   font-weight: normal;
   font-size: 0.75rem;
   text-transform: uppercase;
-  color: $textColor;
+  color: var(--primary-text-color);
   font-family: $fontBold;
   line-height: 1;
 }

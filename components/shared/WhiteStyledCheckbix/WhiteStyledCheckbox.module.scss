@@ -1,5 +1,5 @@
 .styledRadio {
-  color: $colorPrimary;
+  color: var(--primary-theme-color);
   padding: 0;
   background: none !important;
   width: 20px;
@@ -13,7 +13,7 @@
     font-size: 0.9375rem;
     margin-right: auto;
     white-space: nowrap;
-    color: $textColor;
+    color: var(--primary-text-color);
     margin-left: 15px;
   }
 

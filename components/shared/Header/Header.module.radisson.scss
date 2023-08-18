@@ -1,7 +1,7 @@
 .screenTitle {
   font-family: $fontMedium;
   font-size: $medium;
-  color: $textColor;
+  color: var(--primary-text-color);
   margin: 0.25rem 0;
 }
 
@@ -19,7 +19,7 @@
   height: 26px;
   width: 27px;
   path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }
 
@@ -28,7 +28,7 @@
   width: 27px;
   margin-top: 5px;
   path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }
 
@@ -50,7 +50,7 @@
   width: 104px;
   height: 30px;
   path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }
 
@@ -64,7 +64,7 @@
 }
 
 .headerContainer {
-  background: $background;
+  background: var(--primary-background-color);
   padding: 0.09rem;
 }
 
@@ -115,7 +115,7 @@
 }
 
 .closeIcon {
-  fill: $colorPrimary;
+  fill: var(--primary-theme-color);
   height: 18px;
 }
 

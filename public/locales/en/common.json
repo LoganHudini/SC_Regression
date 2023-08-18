@@ -85,5 +85,7 @@
   "IMMEDIATE": "IMMEDIATE",
   "TODAY": "TODAY",
   "TOMORROW": "TOMORROW",
-  "CUSTOM": "CUSTOM"
+  "CUSTOM": "CUSTOM",
+  "View Bill": "View Bill",
+  "Checkout": "Checkout"
 }

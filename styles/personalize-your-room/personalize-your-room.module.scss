@@ -36,7 +36,7 @@
 .specialRequestsInput {
   width: 100%;
   height: 97px;
-  border: 1px solid $textColor;
+  border: 1px solid var(--primary-text-color);
   outline: none;
   resize: none;
 }

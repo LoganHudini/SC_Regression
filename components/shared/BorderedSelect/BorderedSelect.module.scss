@@ -17,7 +17,7 @@
     width: 10px;
     transform: translate(-8px, 2px);
     path {
-      fill: $colorPrimary;
+      fill: var(--primary-theme-color);
     }
   }
 }

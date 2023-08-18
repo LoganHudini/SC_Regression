@@ -9,14 +9,14 @@
 
 .checkDatesDetails {
   margin-bottom: 15px;
-  color: $textColor;
+  color: var(--primary-text-color);
   font-family: $fontMedium;
   font-size: $medium;
 }
 
 .checkDatesText {
   font-family: $fontRegular;
-  color: $textColor;
+  color: var(--primary-text-color);
   font-size: $xsmall;
 }
 
@@ -39,7 +39,7 @@
 }
 
 .personalizationText {
-  color: $textColor;
+  color: var(--primary-text-color);
   font-size: $medium;
   width: 75%;
   text-align: start;
@@ -51,7 +51,7 @@
 
 .personalizationQuantity {
   font-size: $small;
-  color: $textColor;
+  color: var(--primary-text-color);
 }
 
 .agrementText {
@@ -60,7 +60,7 @@
   margin-top: 10px;
   margin-left: 20px;
   a {
-    color: $colorPrimary;
+    color: var(--primary-theme-color);
     white-space: nowrap;
   }
 }
@@ -71,7 +71,7 @@
 }
 
 .clearBtn {
-  color: $colorPrimary;
+  color: var(--primary-theme-color);
   font-size: $small;
   font-family: $fontMedium;
 }

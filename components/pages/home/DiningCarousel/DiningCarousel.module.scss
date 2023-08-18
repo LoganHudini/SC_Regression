@@ -1,0 +1,120 @@
+.diningCarouselWrapper {
+  margin: 1rem 0;
+}
+
+.diningCarouselTitle {
+  font: 30px var(--secondary-font-regular);
+}
+
+.diningOptions {
+  display: flex;
+  align-items: center;
+  background: var(--primary-background-color);
+  height: 50px;
+  width: 304px;
+  padding: 0 8px;
+  justify-content: center;
+  margin: 1rem auto;
+}
+
+.diningOptionsItem {
+  display: flex;
+  align-items: center;
+  font: $xsmall var(--primary-font-medium);
+  text-transform: uppercase;
+  height: 38px;
+  width: fit-content;
+  padding: 0 8px;
+  justify-content: center;
+}
+
+.diningOptionsItemActive {
+  background: var(--primary-theme-color);
+  font: $xsmall var(--primary-font-news);
+  color: var(--secondary-text-color);
+  animation: fade_in_show 0.5s;
+}
+
+@keyframes fade_in_show {
+  0% {
+    opacity: 1;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.carouselWrapper {
+  user-select: none;
+  overflow: scroll;
+  margin-left: 12px;
+}
+
+.carouselWrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.carouselSlideWrapper {
+  width: 273px;
+  height: 286px;
+}
+
+.carouselSlideImage {
+  margin-top: 10px;
+  height: 182px;
+  width: 273px;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.carouselSlideDetailsWrapper {
+  width: 251px;
+  height: 148px;
+  margin: -3rem auto 0;
+  background: var(--primary-background-color);
+  box-shadow: 0px 3px 6px var(--primary-box-shadow-color);
+}
+
+.carouselSlideTitle {
+  font: 24px var(--secondary-font-regular);
+  padding: 29px 1rem 19px;
+  height: 22px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.carouselSlideTimings {
+  height: 15px;
+  font-size: $xsmall var(--primary-font-book);
+  color: var(--tertiary-text-color);
+  padding-bottom: 30px;
+}
+
+.carouselSlideViewMore {
+  height: 12px;
+  font: 9px var(--primary-font-extd-regular);
+  color: var(--primary-theme-color);
+  text-transform: uppercase;
+}
+
+.viewAll {
+  height: 180px;
+  width: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #e2e2e2;
+  border: 1px solid #ccc;
+  position: relative;
+}
+
+.viewAllBtn {
+  width: auto;
+  min-width: 0;
+  color: var(--primary-text-color);
+  text-transform: none;
+  padding: 5px 10px;
+}

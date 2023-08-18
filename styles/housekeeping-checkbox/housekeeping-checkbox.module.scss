@@ -57,7 +57,7 @@
   width: 95%;
   text-align: center;
   margin: auto;
-  background-color: $colorPrimary;
+  background-color: var(--primary-theme-color);
 }
 
 .houseKeepingCheckboxWrapper {
@@ -110,11 +110,11 @@
   transition: all 0.2s;
 
   :global(.Mui-selected) {
-    background-color: $colorPrimary !important;
+    background-color: var(--primary-theme-color) !important;
   }
 
   :global(.MuiPickersArrowSwitcher-button .MuiSvgIcon-root) {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 
   :global(.MuiPickersArrowSwitcher-button.Mui-disabled .MuiSvgIcon-root) {
@@ -145,7 +145,7 @@
   transform: translate(-8px, 2px);
   margin-left: auto;
   path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }
 

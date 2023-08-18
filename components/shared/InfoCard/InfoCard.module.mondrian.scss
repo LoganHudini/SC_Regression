@@ -10,9 +10,9 @@
   padding: 10px 15px 10px 15px;
   border-radius: 10px;
   position: relative;
-  border: 1px $background solid;
+  border: 1px var(--primary-background-color) solid;
   margin: 20px 0px;
-  background: $background;
+  background: var(--primary-background-color);
 }
 
 .titeText {

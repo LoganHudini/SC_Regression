@@ -4,13 +4,12 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  margin: 8px;
 }
 
 .menuItemIconWrapper {
-  background: #e9e9e9;
   width: 65px;
   height: 65px;
-  margin-bottom: 11px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,17 +17,54 @@
   text-decoration: none;
   cursor: pointer;
   & > svg > path {
-    fill: $textColor;
+    fill: var(--hamburgermenu-icon-color);
   }
 }
 
 .menuItemTitle {
-  color: $textColor;
-  max-width: 66px;
-  font-size: 0.8125rem;
+  display: flex;
+  align-items: center;
+  color: var(--hamburgermenu-text-color);
+  max-width: 65px;
+  height: 25px;
+  font-size: $extraSmall;
   line-height: 1.25;
-  text-align: center;
-  font-family: 'Roboto';
-  font-size: 0.625rem;
-  font-weight: 500;
+  font-family: var(--primary-font-news);
+}
+
+.drawerNotch {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 8px;
+  margin: 0 auto;
+  width: 50px;
+  height: 6px;
+  background: var(--primary-drawer-notch-color) 0% 0% no-repeat padding-box;
+  border-radius: 3px;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-family: var(--secondary-font-regular);
+}
+
+.optionsList {
+  margin: 3rem 0;
+}
+
+.inActiveText {
+  padding: 10px 0;
+  font-size: $small;
+  font-family: var(--primary-font-news);
+  border-bottom: 1px solid var(--primary-border-color);
+  margin: 0 20px;
+}
+
+.activeText {
+  padding: 10px 0;
+  font-size: $medium;
+  color: var(--primary-theme-color);
+  font-family: var(--primary-font-medium);
+  border-bottom: 1px solid var(--primary-border-color);
 }

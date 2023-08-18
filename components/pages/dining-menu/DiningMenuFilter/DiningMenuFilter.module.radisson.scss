@@ -46,7 +46,7 @@
 }
 
 .dropDowniconActive {
-  background-color: $colorPrimary !important;
+  background-color: var(--primary-theme-color) !important;
   padding-bottom: 1px !important;
 }
 

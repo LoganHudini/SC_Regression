@@ -1,5 +1,5 @@
 .detailsCard {
-  background: $background;
+  background: var(--primary-background-color);
   border: 0px;
   padding-top: 15px;
   border-radius: 10px;
@@ -9,7 +9,7 @@
   font-family: $fontHeading;
   font-size: $xlarge;
   border-bottom: 0;
-  color: $textColor;
+  color: var(--primary-text-color);
 }
 
 .infoCardStyles {

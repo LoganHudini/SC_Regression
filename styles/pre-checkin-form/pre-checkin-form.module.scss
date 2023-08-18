@@ -8,7 +8,7 @@
 }
 
 .tripDetails {
-  border-bottom: 2px solid $textColor;
+  border-bottom: 2px solid var(--primary-text-color);
   display: flex;
   justify-content: space-between;
   padding-bottom: 8px;
@@ -18,13 +18,13 @@
   font-size: 1rem;
   font-weight: 400;
   text-transform: uppercase;
-  font-size: $textColor;
+  font-size: var(--primary-text-color);
   margin: 0;
 }
 .tripDetailsIcon {
   height: 15px;
   & > path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }
 
@@ -74,7 +74,7 @@
   height: auto;
   align-self: center;
   & > path {
-    fill: $textColor;
+    fill: var(--primary-text-color);
   }
 }
 
@@ -105,7 +105,7 @@
 }
 
 .yourRoom {
-  border-bottom: 2px solid $textColor;
+  border-bottom: 2px solid var(--primary-text-color);
   padding-bottom: 2px;
   font-size: 1rem;
   font-weight: 400;
@@ -148,7 +148,7 @@
   display: flex;
   justify-content: center;
   padding: 30px 15px 10px;
-  border-bottom: 1px solid $textColor;
+  border-bottom: 1px solid var(--primary-theme-color);
   div {
     margin: 0px 0px 0px 8px;
     font-size: $xsmall;
@@ -160,8 +160,8 @@
     color: #ffff;
   }
   .active {
-    background-color: $colorPrimary;
-    border: 1px solid $colorPrimary;
+    background-color: var(--primary-theme-color);
+    border: 1px solid var(--primary-theme-color);
   }
   .disabled {
     background-color: #d2d1d0;

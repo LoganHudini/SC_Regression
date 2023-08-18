@@ -7,7 +7,7 @@
   :global(.btnSubmit) {
     margin: 0 auto !important;
     border: none !important;
-    background: $colorPrimary !important;
+    background: var(--primary-theme-color) !important;
     color: $textColorSecondary !important;
     border-radius: 0 !important;
     font-size: 1.25rem !important;

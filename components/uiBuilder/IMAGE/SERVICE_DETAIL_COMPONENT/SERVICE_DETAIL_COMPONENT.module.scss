@@ -16,8 +16,8 @@
   padding: 5px 20px;
   font-family: $fontMedium;
   font-size: $small;
-  color: $textColor;
-  border-color: $textColor;
+  color: var(--primary-text-color);
+  border-color: var(--primary-text-color);
 }
 
 .bannerImage {
@@ -62,7 +62,7 @@
   font-size: $small;
   font-weight: 900;
   font-weight: normal;
-  color: $textColor;
+  color: var(--primary-text-color);
   text-decoration: none;
 }
 
@@ -76,7 +76,7 @@
   font-weight: 900;
   font-size: $small;
   font-weight: normal;
-  color: $textColor;
+  color: var(--primary-text-color);
   text-decoration: none;
   margin-left: 10px;
 }

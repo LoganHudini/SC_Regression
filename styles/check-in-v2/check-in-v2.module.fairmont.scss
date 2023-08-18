@@ -1,5 +1,5 @@
 .checkDates {
-  border-top: 1px solid $colorSecondary;
+  border-top: 1px solid var(--secondary-text-color);
   padding-top: 1rem;
 }
 
@@ -9,7 +9,7 @@
 
 .checkDatesDetails {
   margin-bottom: 15px;
-  color: $textColor;
+  color: var(--primary-text-color);
   font-family: $fontMedium;
   font-size: $medium;
 }
@@ -17,7 +17,7 @@
 .checkDatesText {
   text-transform: uppercase;
   font-family: $fontRegular;
-  color: $textColor;
+  color: var(--primary-text-color);
   font-size: $extraSmall;
 }
 
@@ -31,7 +31,7 @@
 }
 
 .border {
-  border-top: 1px solid $colorSecondary;
+  border-top: 1px solid var(--secondary-text-color);
   padding-bottom: 20px;
 }
 
@@ -40,7 +40,7 @@
 }
 
 .personalizationText {
-  color: $textColor;
+  color: var(--primary-text-color);
   font-size: $medium;
 }
 
@@ -50,7 +50,7 @@
   margin-top: 10px;
   margin-left: 20px;
   a {
-    color: $colorSecondary;
+    color: var(--secondary-text-color);
     text-decoration: none;
     white-space: nowrap;
   }
@@ -62,7 +62,7 @@
 }
 
 .clearBtn {
-  color: $textColor;
+  color: var(--primary-text-color);
   font-family: $fontRegular;
 }
 

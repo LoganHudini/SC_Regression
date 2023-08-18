@@ -4,7 +4,7 @@
 
 .row {
   display: flex;
-  border-bottom: 1px solid $textColor;
+  border-bottom: 1px solid var(--primary-text-color);
   padding-bottom: 11px;
   justify-content: space-between;
   align-items: center;
@@ -18,7 +18,7 @@
 
 .filtersIcon {
   & path {
-    fill: $colorSecondary;
+    fill: var(--secondary-text-color);
   }
 }
 
@@ -34,7 +34,7 @@
 
 .selectIcon {
   & path {
-    fill: $colorSecondary;
+    fill: var(--secondary-text-color);
   }
 }
 
@@ -69,8 +69,8 @@
   margin-bottom: 10px;
   margin-right: 10px;
   font-size: 1rem;
-  color: $textColor;
-  border: 1px solid $textColor;
+  color: var(--primary-text-color);
+  border: 1px solid var(--primary-text-color);
   box-sizing: border-box;
 }
 
@@ -86,8 +86,8 @@
   margin-bottom: 10px;
   margin-right: 10px;
   font-size: 1rem;
-  color: $textColor;
-  border: 1px solid $textColor;
+  color: var(--primary-text-color);
+  border: 1px solid var(--primary-text-color);
   box-sizing: border-box;
 }
 
@@ -98,8 +98,8 @@
   font-weight: normal;
   margin-bottom: 41px;
   font-size: 1rem;
-  color: $textColor;
-  border: 1px solid $textColor;
+  color: var(--primary-text-color);
+  border: 1px solid var(--primary-text-color);
   box-sizing: border-box;
   text-transform: capitalize;
 }

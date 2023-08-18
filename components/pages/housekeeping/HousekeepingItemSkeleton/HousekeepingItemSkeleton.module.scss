@@ -55,7 +55,7 @@
 }
 
 .readMore {
-  color: $colorPrimary;
+  color: var(--primary-theme-color);
   margin-top: 4px;
   font-size: 1rem;
   line-height: 1.25;

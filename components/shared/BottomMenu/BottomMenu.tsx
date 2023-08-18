@@ -1,192 +1,87 @@
-import React, { useCallback, useState } from 'react';
-import cx from 'classnames';
+import React from 'react';
 import styles from './BottomMenu.module.scss';
+import { motion } from 'framer-motion';
+import HamburgerIcon from '@icons/hamburger.svg';
+import CloseHamburgerIcon from '@icons/closeHamburger.svg';
 
-import MoreIcon from '@icons/more.svg';
-import FacilitiesIcon from '@icons/facilities.svg';
-import TripsIcon from '@icons/trips.svg';
-import DiningIcon from '@icons/dining.svg';
-import ChatIcon from '@icons/chat.svg';
-import HousekeepingIcon from '@icons/housekeeping.svg';
-import RoomControlIcon from '@icons/roomControl.svg';
-import CloseOutlinedIcon from '@icons/CloseOutlined.svg';
-
-import { MenuItem } from 'components/shared/BottomMenu/MenuItem/MenuItem';
-import Link from 'utils/link';
-import { useCheckedIn } from 'storage/check-in.storage';
+import { MenuItem, ModuleOptionsDrawer } from 'components/shared/BottomMenu/MenuItem/MenuItem';
 import { useTranslation } from 'react-i18next';
-import { useRouter } from 'next/router';
-import { availablePaths } from 'utils/availablePaths';
-import { IHamburgerProps } from 'utils/hamburger/getHamburgerProps';
+import { StyledButton } from '../StyledButton/StyledButton';
+import { useQuery, useReactiveVar } from '@apollo/client';
+import { toggleHamburgerMenuDrawer, toggleModuleOptionsDrawer } from 'storage/home.storage';
+import {
+  GET_HAMBURGER_MENU,
+  IGetHamburgerMenuDetailsApiResponse,
+} from 'core/graphql/queries/GET_HAMBURGER_MENU';
 import { hamburgerIconsMap } from 'utils/hamburger/hamburgerIconsMap';
-import { DiningBottomBar } from 'components/pages/dining/DiningBottomBar/DiningBottomBar';
 
-export const BottomMenu: React.FC<IHamburgerProps> = ({ hamburger, pages }) => {
-  const router = useRouter();
+export const BottomMenu = () => {
+  const hamburgerMenuStatus = useReactiveVar(toggleHamburgerMenuDrawer);
 
-  const { t } = useTranslation('common');
+  const { data } = useQuery<IGetHamburgerMenuDetailsApiResponse>(GET_HAMBURGER_MENU, {
+    context: { clientName: 'host_v4' },
+    fetchPolicy: 'no-cache',
+  });
 
-  const checkinData = useCheckedIn();
+  const hamburger = data?.getUiBuilderHamburgerMenuDetails;
 
-  const [moreItemsDisplayed, setMoreItemsDisplayed] = useState(false);
-  const [diningBottomMenuDisplayed, setDiningBottomMenuDisplayed] = useState(false);
+  const { t } = useTranslation(['common']);
 
-  const tripsActive = router.pathname.includes(availablePaths.TRIPS);
-  const housekeepingActive = router.pathname.includes(availablePaths.HOUSEKEEPING);
-  const roomControlsActive = router.pathname.includes(availablePaths.ROOM_CONTROLS);
-  const diningActive = router.pathname.includes(availablePaths.DINING);
-  const chatActive = router.pathname.includes(availablePaths.CHAT);
+  const openModuleOptionsDrawer = () => {
+    toggleModuleOptionsDrawer(true);
+    toggleHamburgerMenuDrawer(false);
+  };
 
-  const toggleMoreItemsDisplayed = useCallback(() => {
-    setMoreItemsDisplayed((oldState) => !oldState);
-  }, []);
-  const toggleDiningBottomMenuDisplayed = useCallback(() => {
-    setDiningBottomMenuDisplayed((oldState) => !oldState);
-  }, []);
+  const openHamburgerMenuDrawer = () => {
+    toggleHamburgerMenuDrawer(true);
+    toggleModuleOptionsDrawer(false);
+  };
+
+  const closeHamburgerMenuDrawer = () => {
+    toggleHamburgerMenuDrawer(false);
+  };
 
   return (
     <>
       <div className={styles.bottomMenuWrapper}>
-        {checkinData.checkedIn ? (
-          <>
-            <Link className={styles.bottomMenuLink} href={availablePaths.ROOM_CONTROLS}>
-              <div
-                className={cx(styles.bottomMenuLinkInner, {
-                  [styles.bottomMenuLinkInnerActive]: roomControlsActive,
-                })}
-              >
-                <div className={styles.bottomMenuLinkIconWrapper}>
-                  <RoomControlIcon />
-                </div>
-                <p className={styles.bottomMenuText}>{t('Room control')}</p>
-              </div>
-            </Link>
-            <Link className={styles.bottomMenuLink} href={availablePaths.HOUSEKEEPING}>
-              <div
-                className={cx(styles.bottomMenuLinkInner, {
-                  [styles.bottomMenuLinkInnerActive]: housekeepingActive,
-                })}
-              >
-                <div className={styles.bottomMenuLinkIconWrapper}>
-                  <HousekeepingIcon />
-                </div>
-                <p className={styles.bottomMenuText}>{t('Housekeeping')}</p>
-              </div>
-            </Link>
-          </>
+        <motion.div whileTap={{ scale: 0.8 }} className={styles.bottomMenuButton}>
+          <StyledButton variant='contained' onClick={openModuleOptionsDrawer}>
+            ROOM 0411
+          </StyledButton>
+        </motion.div>
+        {hamburgerMenuStatus ? (
+          <CloseHamburgerIcon
+            className={styles.hamburgerIcon}
+            onClick={() => toggleHamburgerMenuDrawer(false)}
+          />
         ) : (
-          <>
-            <Link className={styles.bottomMenuLink} href='/'>
-              <div className={styles.bottomMenuLinkInner}>
-                <div className={styles.bottomMenuLinkIconWrapper}>
-                  <FacilitiesIcon />
-                </div>
-                <p className={styles.bottomMenuText}>{t('Facilities')}</p>
-              </div>
-            </Link>
-            <Link className={styles.bottomMenuLink} href={availablePaths.TRIPS}>
-              <div
-                className={cx(styles.bottomMenuLinkInner, {
-                  [styles.bottomMenuLinkInnerActive]: tripsActive,
-                })}
-              >
-                <div className={styles.bottomMenuLinkIconWrapper}>
-                  <TripsIcon />
-                </div>
-                <p className={styles.bottomMenuText}>{t('Trips')}</p>
-              </div>
-            </Link>
-          </>
+          <HamburgerIcon className={styles.hamburgerIcon} onClick={openHamburgerMenuDrawer} />
         )}
-        {checkinData.checkedIn ? (
-          <Link className={styles.bottomMenuLink} href={availablePaths.DINING}>
-            <div
-              className={cx(styles.bottomMenuLinkInner, {
-                [styles.bottomMenuLinkInnerActive]: diningActive,
-              })}
-            >
-              <div className={styles.bottomMenuLinkIconWrapper}>
-                <DiningIcon />
-              </div>
-              <p className={styles.bottomMenuText}>{t('In-Room Dining')}</p>
-            </div>
-          </Link>
-        ) : (
-          <div onClick={toggleDiningBottomMenuDisplayed} className={styles.bottomMenuLink}>
-            <div
-              className={cx(styles.bottomMenuLinkInner, {
-                [styles.bottomMenuLinkInnerActive]: diningActive || diningBottomMenuDisplayed,
-              })}
-            >
-              <div className={styles.bottomMenuLinkIconWrapper}>
-                <DiningIcon />
-              </div>
-              <p className={styles.bottomMenuText}>{t('Dining')}</p>
-            </div>
-          </div>
-        )}
-        <Link className={styles.bottomMenuLink} href={availablePaths.CHAT}>
-          <div
-            className={cx(styles.bottomMenuLinkInner, {
-              [styles.bottomMenuLinkInnerActive]: chatActive,
-            })}
-          >
-            <div className={styles.bottomMenuLinkIconWrapper}>
-              <ChatIcon />
-            </div>
-            <p className={styles.bottomMenuText}>{t('Chat')}</p>
-          </div>
-        </Link>
-
-        <button
-          className={cx(styles.bottomMenuLinkInner, styles.moreButton, {
-            [styles.moreButtonActive]: moreItemsDisplayed,
-          })}
-          onClick={toggleMoreItemsDisplayed}
-        >
-          <MoreIcon />
-          <p className={styles.bottomMenuText}>{t('More')}</p>
-        </button>
       </div>
 
-      <div
-        className={cx(styles.blurOverlay, { [styles.blurOverlayDisplayed]: moreItemsDisplayed })}
-        onClick={toggleMoreItemsDisplayed}
-      />
-      <div
-        className={cx(styles.moreMenuItemsContainer, {
-          [styles.moreMenuItemsContainerDisplayed]: moreItemsDisplayed,
-        })}
-      >
-        <button className={styles.closeMoreMenuItemsButton} onClick={toggleMoreItemsDisplayed}>
-          <CloseOutlinedIcon className={styles.closeMoreMenuItemsIcon} />
-        </button>
+      <ModuleOptionsDrawer />
 
-        <div className={styles.menuItems}>
-          {hamburger[checkinData.checkedIn ? 'post' : 'pre'].map((hamburgerMenuElement) => (
-            <MenuItem
-              Icon={
-                hamburgerIconsMap[hamburgerMenuElement.name as keyof typeof hamburgerIconsMap] ||
-                RoomControlIcon
-              }
-              title={hamburgerMenuElement.name}
-              key={hamburgerMenuElement.id}
-              externalLink={hamburgerMenuElement.externalLink}
-              flow={hamburgerMenuElement.flow}
-              pages={hamburgerMenuElement.pages}
-              redirectOptions={hamburgerMenuElement.redirectOptions}
-              paths={pages}
-              status={hamburgerMenuElement.isActive}
-              toggleOption={toggleMoreItemsDisplayed}
-            />
-          ))}
+      {hamburgerMenuStatus && (
+        <div className={styles.hamburgerMenuContainer}>
+          {hamburger &&
+            hamburger['post'].map((hamburgerMenuElement) => (
+              <MenuItem
+                Icon={
+                  hamburgerIconsMap[hamburgerMenuElement.name as keyof typeof hamburgerIconsMap] ||
+                  HamburgerIcon
+                }
+                title={hamburgerMenuElement.name}
+                key={hamburgerMenuElement.id}
+                externalLink={hamburgerMenuElement.externalLink}
+                flow={hamburgerMenuElement.flow}
+                pages={hamburgerMenuElement.pages}
+                redirectOptions={hamburgerMenuElement.redirectOptions}
+                status={hamburgerMenuElement.isActive}
+                toggleOption={closeHamburgerMenuDrawer}
+              />
+            ))}
         </div>
-      </div>
-
-      <DiningBottomBar
-        toggleDiningBottomBarOpened={toggleDiningBottomMenuDisplayed}
-        opened={diningBottomMenuDisplayed}
-      />
+      )}
     </>
   );
 };

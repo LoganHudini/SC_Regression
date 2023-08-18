@@ -21,7 +21,7 @@
 }
 
 .imageOverlay {
-  background: $textColor;
+  background: var(--primary-text-color);
   left: 0;
   right: 0;
   top: 0;
@@ -105,7 +105,7 @@
 .nightsCount {
   height: 36px;
   width: 36px;
-  background: $colorSecondary;
+  background: var(--secondary-text-color);
   color: $textColorSecondary;
   display: flex;
   justify-content: center;
@@ -135,7 +135,7 @@
   margin-right: 9px;
 
   path {
-    fill: $colorSecondary;
+    fill: var(--secondary-text-color);
   }
 }
 

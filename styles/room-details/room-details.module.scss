@@ -24,7 +24,7 @@
     width: 22px;
     height: 22px;
     path {
-      fill: $textColor;
+      fill: var(--primary-text-color);
     }
   }
 }
@@ -38,27 +38,27 @@
 
 .roomBenefitTitle {
   margin-top: 5px;
-  color: $textColor;
+  color: var(--primary-text-color);
   font-size: 0.875rem;
   text-align: center;
 }
 
 .roomDetailsDescription {
-  color: $textColor;
+  color: var(--primary-text-color);
   font-size: 0.9375rem;
   line-height: 1.35;
 }
 .features {
-  border-bottom: 1px solid $textColor;
+  border-bottom: 1px solid var(--primary-text-color);
   padding-bottom: 7px;
   font-size: 1rem;
   font-weight: 400;
   margin: 10px 0 14px 0;
-  color: $textColor;
+  color: var(--primary-text-color);
 }
 
 .featuresText {
-  color: $textColor;
+  color: var(--primary-text-color);
   font-size: 0.9375rem;
   line-height: 1.35;
 }

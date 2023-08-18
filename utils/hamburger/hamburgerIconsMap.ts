@@ -5,12 +5,13 @@ import BillIcon from '@icons/bill.svg';
 import BookARoomIcon from '@icons/bookARoom.svg';
 import ExploreTheCityIcon from '@icons/exploreTheCity.svg';
 import GuestServicesIcon from '@icons/guestServices.svg';
-import HousekeepingIcon from '@icons/housekeeping.svg';
+import ServicesIcon from '@icons/services.svg';
 import NotificationsIcon from '@icons/notifications.svg';
 import RoomControlIcon from '@icons/roomControl.svg';
 import TvControlIcon from '@icons/tvControl.svg';
 import ActivateDeviceIcon from '@icons/activateDevice.svg';
 import ChangeLanguageIcon from '@icons/changeLanguage.svg';
+import CuisineIcon from '@icons/cuisine.svg';
 import LoyaltyIcon from '@icons/loyalty.svg';
 import OffersIcon from '@icons/offers.svg';
 import HotelInfoIcon from '@icons/facilities.svg';
@@ -31,10 +32,12 @@ export const hamburgerIconsMap = {
   'Book a room': BookARoomIcon,
   'TV Control': TvControlIcon,
   'Add Device': AddDeviceIcon,
-  Housekeeping: HousekeepingIcon,
   Notifications: NotificationsIcon,
   'Guest Services': GuestServicesIcon,
   Dining: DiningIcon,
+  'In-Room Dining': CuisineIcon,
+  Housekeeping: ServicesIcon,
+  Services: ServicesIcon,
   'Hotel Director': GuestServicesIcon,
   'Explore The City': ExploreTheCityIcon,
   'Join Accor Live Limitless': AccorLiveLimitlessIcon,

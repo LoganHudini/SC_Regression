@@ -13,21 +13,21 @@
   width: 108px;
   height: 77px;
   transition: all 0.2s;
-  border: 1px solid $colorSecondary;
+  border: 1px solid var(--secondary-text-color);
   background: transparent;
   margin-bottom: 27px;
 
   svg > path {
-    fill: $textColor;
+    fill: var(--primary-text-color);
   }
 
   p {
-    color: $textColor;
+    color: var(--primary-text-color);
   }
 }
 
 .masterLightControlActive {
-  background: $colorSecondary;
+  background: var(--secondary-text-color);
 
   svg > path {
     fill: $textColorSecondary;
@@ -52,7 +52,7 @@
   line-height: 1;
   text-align: center;
   font-size: 0.8125rem;
-  color: $textColor;
+  color: var(--primary-text-color);
 }
 
 .activeIcon {

@@ -12,7 +12,7 @@
 }
 
 .room {
-  color: $textColor;
+  color: var(--primary-text-color);
   margin-bottom: 26px;
   font-size: 1.125rem;
   text-align: center;
@@ -35,7 +35,7 @@
 }
 
 .instructionsText {
-  color: $textColor;
+  color: var(--primary-text-color);
   font-size: 0.9375rem;
   margin: 0 auto 135px auto;
   max-width: 220px;

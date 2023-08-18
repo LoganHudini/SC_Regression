@@ -52,7 +52,7 @@
 .viewAllBtn {
   width: auto;
   min-width: 0;
-  color: $textColor;
+  color: var(--primary-text-color);
   text-transform: none;
   padding: 5px 10px;
 }

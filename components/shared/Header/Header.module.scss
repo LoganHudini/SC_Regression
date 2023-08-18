@@ -35,7 +35,7 @@
 .container {
   padding: 15px 0px;
   z-index: 5;
-  background: #fcfcfc;
+  background: var(--primary-theme-color);
   position: relative;
   box-shadow: 0 5px 6px -6px #222;
 }

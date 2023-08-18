@@ -9,8 +9,6 @@ export const PageWrapper: React.FC<IPageWrapperProps & Partial<IHamburgerProps>>
   children,
   displayBottomMenu,
   className,
-  hamburger,
-  pages,
 }) => {
   return (
     <div
@@ -19,12 +17,7 @@ export const PageWrapper: React.FC<IPageWrapperProps & Partial<IHamburgerProps>>
       })}
     >
       {children}
-      {displayBottomMenu && (
-        <BottomMenu
-          pages={pages as IHamburgerProps['pages']}
-          hamburger={hamburger as IHamburgerProps['hamburger']}
-        />
-      )}
+      {displayBottomMenu && <BottomMenu />}
     </div>
   );
 };

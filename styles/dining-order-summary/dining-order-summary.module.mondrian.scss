@@ -13,7 +13,7 @@
 .button {
   font-size: $small;
   font-family: $fontBold;
-  background: $colorPrimary;
+  background: var(--primary-theme-color);
 }
 
 .specialRequestsInput {
@@ -29,10 +29,10 @@
 }
 
 .specialRequestsInput {
-  color: $colorPrimary;
+  color: var(--primary-theme-color);
   font-family: $fontRegular;
   font-size: $small;
-  border: 1px solid $colorPrimary;
+  border: 1px solid var(--primary-theme-color);
   border-radius: 0rem;
   padding: 0.5rem;
 }

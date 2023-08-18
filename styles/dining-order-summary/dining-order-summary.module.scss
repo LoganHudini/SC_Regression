@@ -136,11 +136,11 @@
   transition: all 0.2s;
 
   :global(.Mui-selected) {
-    background-color: $colorPrimary !important;
+    background-color: var(--primary-theme-color) !important;
   }
 
   :global(.MuiPickersArrowSwitcher-button .MuiSvgIcon-root) {
-    fill: $textColor;
+    fill: var(--primary-text-color);
   }
 
   :global(.MuiPickersArrowSwitcher-button.Mui-disabled .MuiSvgIcon-root) {
@@ -171,7 +171,7 @@
   transform: translate(-8px, 2px);
   margin-left: auto;
   path {
-    fill: $colorSecondary;
+    fill: var(--secondary-text-color);
   }
 }
 

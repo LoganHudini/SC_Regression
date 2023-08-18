@@ -8,10 +8,14 @@ export interface IMenuItemProps {
   flow: string;
   pages: string[];
   redirectOptions: string;
-  paths: {
+  paths?: {
     path: string;
     id: string;
   }[];
   status: string;
   toggleOption: () => void;
+}
+
+export interface IHamburgerMenuDrawerProps {
+  hamburger: any;
 }

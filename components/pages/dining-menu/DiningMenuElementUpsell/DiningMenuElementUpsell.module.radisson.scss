@@ -76,13 +76,13 @@
 .priceUpsell {
   font-family: $fontSemibold;
   font-size: $small;
-  color: $textColor;
+  color: var(--primary-text-color);
 }
 
 .totalButton {
   height: 10px;
   width: 24px;
-  background-color: $colorPrimary !important;
+  background-color: var(--primary-theme-color) !important;
   font-family: $fontBold;
   font-size: $xsmall;
 }

@@ -3,7 +3,7 @@
   margin-bottom: 45px;
   font-size: 1.5rem;
   font-family: $fontHeading;
-  color: $textColor;
+  color: var(--primary-text-color);
   display: flex;
   align-self: start;
 }

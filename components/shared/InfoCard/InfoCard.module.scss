@@ -29,7 +29,7 @@
   height: auto;
   transition: transform 0.2s;
   & > path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }
 
@@ -38,7 +38,7 @@
   width: auto;
 
   & > path {
-    fill: $colorPrimary;
+    fill: var(--primary-theme-color);
   }
 }
 

@@ -49,40 +49,6 @@ const carousalResponsive = {
   },
 };
 
-export const CAROUSEL_LANDSCAPE_W_BODY_CTA: React.FC<ICarouselProps> = ({ config, paths }) => {
-  const navigate = useLocalizedRouter();
-  const viewAllUrl = getRedirectLink(paths, config.viewAll?.linkId);
-
-  const { t } = useTranslation(['ui-builder']);
-
-  const onViewAllClick = useCallback(() => {
-    if (viewAllUrl) {
-      navigate(viewAllUrl);
-    }
-  }, [navigate, viewAllUrl]);
-
-  return (
-    <WithScrollbar responsive={carousalResponsive} className={styles.carouselWrapper}>
-      {config.slides?.map((slide) => (
-        <CarouselSlide key={`${slide.imgURL}${slide.titleH3}`} config={slide} paths={paths} />
-      ))}
-
-      {config.viewAll?.isActive && (
-        <div className={styles.viewAll}>
-          <StyledButton
-            onClick={onViewAllClick}
-            disableRipple
-            variant='text'
-            className={styles.viewAllBtn}
-          >
-            {t('View All')}
-          </StyledButton>
-        </div>
-      )}
-    </WithScrollbar>
-  );
-};
-
 const CarouselSlide: React.FC<ICarouselSlideProps> = ({ config, paths }) => {
   const router = useRouter();
   const redirectUrl = getRedirectLink(paths, config.redirectLink?.linkId);
@@ -116,5 +82,39 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ config, paths }) => {
         )}
       </div>
     </div>
+  );
+};
+
+export const CAROUSEL_LANDSCAPE_W_BODY_CTA: React.FC<ICarouselProps> = ({ config, paths }) => {
+  const navigate = useLocalizedRouter();
+  const viewAllUrl = getRedirectLink(paths, config.viewAll?.linkId);
+
+  const { t } = useTranslation(['ui-builder']);
+
+  const onViewAllClick = useCallback(() => {
+    if (viewAllUrl) {
+      navigate(viewAllUrl);
+    }
+  }, [navigate, viewAllUrl]);
+
+  return (
+    <WithScrollbar responsive={carousalResponsive} className={styles.carouselWrapper}>
+      {config.slides?.map((slide) => (
+        <CarouselSlide key={`${slide.imgURL}${slide.titleH3}`} config={slide} paths={paths} />
+      ))}
+
+      {config.viewAll?.isActive && (
+        <div className={styles.viewAll}>
+          <StyledButton
+            onClick={onViewAllClick}
+            disableRipple
+            variant='text'
+            className={styles.viewAllBtn}
+          >
+            {t('View All')}
+          </StyledButton>
+        </div>
+      )}
+    </WithScrollbar>
   );
 };

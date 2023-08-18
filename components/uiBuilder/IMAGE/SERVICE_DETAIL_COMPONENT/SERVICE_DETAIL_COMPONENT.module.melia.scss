@@ -8,13 +8,13 @@
   padding: 8px 20px;
   font-size: 15px;
   font-family: $fontMedium;
-  color: $textColor !important;
+  color: var(--primary-text-color) !important;
 }
 
 .title {
   font-size: $xlarge;
   font-family: $fontPlayfair;
-  color: $colorSecondary;
+  color: var(--secondary-text-color);
   margin: 1.5rem 0 0.75rem 0;
 }
 

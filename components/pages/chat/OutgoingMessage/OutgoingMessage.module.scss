@@ -1,5 +1,5 @@
 .outgoingMessage {
-  background: $colorPrimary;
+  background: var(--primary-theme-color);
   padding: 12px 0 0 13px;
   border-radius: 5px;
   margin-top: 20px;
@@ -31,7 +31,7 @@
   width: 0;
   height: 0;
   clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
-  background: $colorPrimary;
+  background: var(--primary-theme-color);
   width: 15px;
   height: 15px;
   position: absolute;

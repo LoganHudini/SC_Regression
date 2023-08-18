@@ -61,7 +61,7 @@ function App({ Component, pageProps }: AppProps) {
                 </button>
               )}
             />
-            {/* <style>{`:root { --custom-color: ${color}; --color-primary: ${color};}`}</style> */}
+            {/* <style>{`:root { --custom-color: ${color}; --primary-theme-color: ${color};}`}</style> */}
             <Component {...pageProps} />
           </React.StrictMode>
         </ApolloProvider>

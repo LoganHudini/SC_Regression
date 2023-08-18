@@ -1,96 +1,106 @@
 @font-face {
-  font-family: 'GillSans Medium';
-  src: url('/fonts/GillSans/Gill-Sans-Medium.ttf') format('ttf'),
-    url('/fonts/GillSans/Gill-Sans-Medium.woff') format('woff'),
-    url('/fonts/GillSans/Gill-Sans-Medium.woff2') format('woff2');
+  font-family: 'ClanOT Extended Book';
+  src: url('/fonts/ClanOT/ClanOT-ExtdBook.otf') format('opentype'),
+    url('/fonts/ClanOT/ClanOT-ExtdBook.ttf') format('ttf'),
+    url('/fonts/ClanOT/ClanOT-ExtdBook.woff') format('woff'),
+    url('/fonts/ClanOT/ClanOT-ExtdBook.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: 'GillSans Regular';
-  src: url('/fonts/GillSans/GillSans-01.ttf') format('ttf'),
-    url('/fonts/GillSans/GillSans-01.woff') format('woff'),
-    url('/fonts/GillSans/GillSans-01.woff2') format('woff2');
+  font-family: 'ClanOT Medium';
+  src: url('/fonts/ClanOT/ClanOT-Medium.otf') format('opentype'),
+    url('/fonts/ClanOT/ClanOT-Medium.ttf') format('ttf'),
+    url('/fonts/ClanOT/ClanOT-Medium.woff') format('woff'),
+    url('/fonts/ClanOT/ClanOT-Medium.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: 'GillSans Semibold';
-  src: url('/fonts/GillSans/GillSans-SemiBold-05.ttf') format('ttf'),
-    url('/fonts/GillSans/GillSans-SemiBold-05.woff') format('woff'),
-    url('/fonts/GillSans/GillSans-SemiBold-05.woff2') format('woff2');
+  font-family: 'ClanOT News';
+  src: url('/fonts/ClanOT/ClanOT-News.otf') format('opentype'),
+    url('/fonts/ClanOT/ClanOT-News.ttf') format('ttf'),
+    url('/fonts/ClanOT/ClanOT-News.woff') format('woff'),
+    url('/fonts/ClanOT/ClanOT-News.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: 'GillSans Bold';
-  src: url('/fonts/GillSans/GillSans-Bold-02.ttf') format('ttf'),
-    url('/fonts/GillSans/GillSans-Bold-02.woff') format('woff'),
-    url('/fonts/GillSans/GillSans-Bold-02.woff2') format('woff2');
+  font-family: 'ClanOT Book';
+  src: url('/fonts/ClanOT/ClanOT-Book.otf') format('opentype'),
+    url('/fonts/ClanOT/ClanOT-Book.ttf') format('ttf'),
+    url('/fonts/ClanOT/ClanOT-Book.woff') format('woff'),
+    url('/fonts/ClanOT/ClanOT-Book.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: 'GillSans Light';
-  src: url('/fonts/GillSans/GillSans-Light-08.ttf') format('ttf'),
-    url('/fonts/GillSans/GillSans-Light-08.woff') format('woff'),
-    url('/fonts/GillSans/GillSans-Light-08.woff2') format('woff2');
+  font-family: 'Garamond Regular';
+  src: url('/fonts/Garamond/Garamond-Regular.otf') format('opentype'),
+    url('/fonts/Garamond/Garamond-Regular.ttf') format('ttf'),
+    url('/fonts/Garamond/Garamond-Regular.woff') format('woff'),
+    url('/fonts/Garamond/Garamond-Regular.woff2') format('woff2');
 }
 
 :root {
-  --custom-color: #000000; /* Default color */
-  --color-primary: #164194;
+  // theme colors
+  --primary-theme-color: #997300;
+  --primary-background-color: #ffffff;
+  --primary-border-color: #e0e0e0;
+  --primary-box-shadow-color: #00000029;
+
+  // banner font-family
+  --primary-title-font-family: 'ClanOT Extended Book';
+  --secondary-title-font-family: 'ClanOT News';
+
+  // text colors
+  --primary-text-color: #000000;
+  --secondary-text-color: #ffffff;
+  --tertiary-text-color: #4a4a4a;
+
+  // button colors
+  --primary-button-color: #ffffff;
+  --primary-button-background-color: #997300;
+  --primary-button-border-radius: 0px;
+  --primary-button-font-family: 'ClanOT Extended Book';
+
+  --secondary-button-color: #997300;
+  --secondary-button-background-color: #ffffff;
+  --secondary-button-border-radius: 0px;
+  --secondary-button-font-family: 'ClanOT Extended Book';
+
+  // drawer colors
+  --primary-drawer-color: #ffffff;
+  --primary-drawer-notch-color: #eeeef1;
+
+  // hamburger menu colors
+  --hamburgermenu-background-color: #121212;
+  --hamburgermenu-text-color: #ffffff;
+  --hamburgermenu-icon-color: #ffffff;
+
+  // font-families
+  --primary-font-regular: '';
+  --primary-font-medium: 'ClanOT Medium';
+  --primary-font-semibold: '';
+  --primary-font-bold: '';
+  --primary-font-news: 'ClanOT News';
+  --primary-font-book: 'ClanOT Book';
+
+  --primary-font-extd-regular: 'ClanOT Extended Book';
+  --primary-font-extd-medium: '';
+  --primary-font-extd-semibold: '';
+  --primary-font-extd-bold: '';
+  --primary-font-extd-news: '';
+
+  --secondary-font-regular: 'Garamond Regular';
+  --secondary-font-medium: '';
+  --secondary-font-semibold: '';
+  --secondary-font-bold: '';
 }
 
-.styled-element {
-  color: var(--custom-color); /* Using the CSS variable */
-}
-
-body {
-  font-family: $fontMedium;
-  font-size: $medium;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-}
-
-// Material UI overwrites
-
-.MuiButton-outlinedPrimary {
+button {
+  padding: 0;
+  margin: 0;
   background: transparent;
-  color: $colorPrimary;
-  border: 1px solid $colorPrimary;
-  width: 100%;
-  border-radius: 0px;
-  font-size: $medium;
-  font-family: $fontMedium !important;
-  text-align: center;
-  height: 46px;
-  line-height: 46px;
-
-  &:hover:enabled {
-    border-radius: 6px;
-    background: none;
-    border: 1px solid $colorPrimary;
-  }
-}
-
-.MuiButton-containedPrimary {
-  background: $colorPrimary;
-  color: $textColorSecondary;
+  outline: none;
   border: none;
-  width: 100%;
-  border-radius: 0px;
-  font-size: $medium;
-  font-family: $fontMedium !important;
-  height: 44px;
-  line-height: 44px;
-  text-align: center;
-  &:hover:enabled {
-    background: $colorPrimary;
-  }
-}
-
-.MuiInput-root.Mui-disabled::before {
-  border-bottom: 1px solid $colorPrimary !important;
+  cursor: pointer;
 }
 
 p,
@@ -101,13 +111,84 @@ h4,
 h5,
 h6 {
   margin: 0;
-  color: $textColor;
+  color: var(--primary-text-color);
 }
 
-*::-webkit-scrollbar {
-  width: 2px;
-  height: 3px;
-  background-color: transparent;
+body {
+  max-width: 768px;
+  margin: auto;
+  text-align: center;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+.loaderWrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+}
+
+// Material UI overwrites
+
+.MuiButton-containedPrimary {
+  color: var(--primary-button-color);
+  background: var(--primary-button-background-color);
+  border: none;
+  border-radius: var(--primary-button-border-radius);
+  width: 100%;
+  font-size: $small;
+  font-family: var(--primary-button-font-family) !important;
+  height: 48px;
+  line-height: 48px;
+  text-align: center;
+
+  &:hover:enabled {
+    background: var(--primary-theme-color);
+  }
+}
+
+.MuiButton-outlinedPrimary {
+  color: vsecondary-ar(--button-color);
+  background: var(--secondary-button-background-color);
+  border: 1px solid var(--secondary-button-color);
+  border-radius: var(--primary-button-border-radius);
+  width: 100%;
+  font-size: $medium;
+  font-family: var(--secondary-button-font-family) !important;
+  height: 48px;
+  line-height: 48px;
+  text-align: center;
+
+  &:hover:enabled {
+    border: 1px solid var(--primary-theme-color);
+  }
+}
+
+.MuiInput-root.Mui-disabled::before {
+  border-bottom: 1px solid var(--primary-theme-color) !important;
+}
+
+.MuiButton-textPrimary {
+  background: transparent;
+  color: var(--primary-theme-color);
+  border: none;
+  width: 100%;
+  border-radius: 0;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 11px 0;
+  border-radius: 5px;
+  overflow: hidden;
+
+  &:hover:enabled {
+    background: none;
+    border: none;
+  }
 }
 
 .MuiInputLabel-root {
@@ -117,7 +198,93 @@ h6 {
 .MuiInputBase-root,
 .MuiInputBase-input,
 .MuiFormLabel-root,
-.MuiButtonBase-root,
 .MuiMenuItem-root {
   font-family: $fontRegular !important;
+}
+
+.Toastify__toast--error {
+  background: #f7dfde;
+  border-radius: 8px;
+  box-sizing: border-box;
+  max-width: 293px;
+  margin: 15px auto;
+
+  color: #b65754;
+  font-size: 0.875rem;
+  text-align: start;
+  min-height: auto;
+  padding: 0;
+}
+
+.Toastify__toast--success {
+  background: #e7f7ed;
+  border-radius: 8px;
+  box-sizing: border-box;
+  max-width: 293px;
+  margin: 15px auto;
+
+  color: #2daa5c;
+  font-size: 0.875rem;
+  text-align: start;
+  min-height: auto;
+  padding: 0;
+
+  .Toastify__toast__close svg path {
+    fill: #2daa5c;
+  }
+}
+
+.Toastify__toast-body {
+  margin: 0;
+  padding: 15px 0px 15px 37px;
+  max-width: 70%;
+}
+
+.Toastify__toast__close {
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  top: 58%;
+  right: 20px;
+
+  transform: translateY(-50%);
+
+  svg {
+    width: 17px;
+    height: 17px;
+  }
+}
+
+.Toastify__toast-icon {
+  svg {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+.MuiMenu-paper {
+  max-height: 172px;
+}
+
+.MuiMenuItem-root {
+  padding-bottom: 0;
+  padding-top: 0;
+  min-height: 35px;
+}
+
+// webkit css
+*::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 2px;
+  height: 3px;
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #d4d4d4;
 }
