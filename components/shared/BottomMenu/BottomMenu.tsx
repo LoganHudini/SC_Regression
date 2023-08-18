@@ -64,10 +64,11 @@ export const BottomMenu = () => {
       {hamburgerMenuStatus && (
         <div className={styles.hamburgerMenuContainer}>
           {hamburger &&
-            hamburger['pre'].map((hamburgerMenuElement) => (
+            hamburger['post'].map((hamburgerMenuElement) => (
               <MenuItem
                 Icon={
-                  hamburgerIconsMap[hamburgerMenuElement.name as keyof typeof hamburgerIconsMap]
+                  hamburgerIconsMap[hamburgerMenuElement.name as keyof typeof hamburgerIconsMap] ||
+                  HamburgerIcon
                 }
                 title={hamburgerMenuElement.name}
                 key={hamburgerMenuElement.id}

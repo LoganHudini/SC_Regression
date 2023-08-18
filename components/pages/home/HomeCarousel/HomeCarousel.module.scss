@@ -1,10 +1,6 @@
-.carouselWrapper {
-  margin: 0 -25px;
-}
-
 .carousel {
+  margin-bottom: 1rem;
   max-width: 768px;
-  height: 484px;
 }
 
 .bannerImage {
@@ -42,7 +38,7 @@
 .indicatorIconContainer {
   position: absolute;
   top: 440px;
-  z-index: 5;
+  z-index: 1;
 }
 
 .indicatorIcon {

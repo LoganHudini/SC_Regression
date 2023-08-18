@@ -1,15 +1,13 @@
 import React, { useCallback } from 'react';
 import styles from './MenuItem.module.scss';
-import { IHamburgerMenuDrawerProps, IMenuItemProps } from './MenuItem.types';
-import { useRouter } from 'next/router';
+import { IMenuItemProps } from './MenuItem.types';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { getRedirectLink } from 'utils/getRedirectLink';
 import { flowPathMap } from 'utils/flowPathMap';
 import Drawer from '@mui/material/Drawer';
 import { useReactiveVar } from '@apollo/client';
-import { toggleHamburgerMenuDrawer, toggleModuleOptionsDrawer } from 'storage/home.storage';
+import { toggleModuleOptionsDrawer } from 'storage/home.storage';
 import cx from 'classnames';
-import { hamburgerIconsMap } from 'utils/hamburger/hamburgerIconsMap';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
   title,

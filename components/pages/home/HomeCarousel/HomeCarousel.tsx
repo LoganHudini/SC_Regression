@@ -21,7 +21,7 @@ const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
   const { t } = useTranslation('common');
 
   return (
-    <div className={styles.bannerWrapper}>
+    <>
       <StableImage className={styles.bannerImage} src={`${ASSETS_URL}/${carouselItem?.imgURL}`} />
 
       <div className={styles.pageTitle}>
@@ -32,31 +32,28 @@ const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
           <h3 className={styles.titleh3}>{t(`${carouselItem?.titleH3}`)}</h3>
         )}
       </div>
-    </div>
+    </>
   );
 };
 
 export const HomeCarousel: React.FC<IHomeCarouselProps> = ({ carouselDetails }) => {
   return (
-    <div className={styles.carouselWrapper}>
-      <Carousel
-        navButtonsAlwaysInvisible
-        indicatorContainerProps={{
-          className: styles.indicatorIconContainer,
-        }}
-        indicatorIconButtonProps={{ style: { opacity: 0.5 } }}
-        activeIndicatorIconButtonProps={{
-          className: styles.activeIndicatorIcon,
-        }}
-        IndicatorIcon={<div className={styles.indicatorIcon} />}
-        indicators={(carouselDetails?.slides?.length || 0) > 1}
-        className={styles.carousel}
-        height={'calc(100vh - 58px)'}
-      >
-        {carouselDetails?.slides?.map((carouselItem: any, i) => (
-          <HeroBannerItem key={i} carouselItem={carouselItem} />
-        ))}
-      </Carousel>
-    </div>
+    <Carousel
+      navButtonsAlwaysInvisible
+      indicatorContainerProps={{
+        className: styles.indicatorIconContainer,
+      }}
+      indicatorIconButtonProps={{ style: { opacity: 0.5 } }}
+      activeIndicatorIconButtonProps={{
+        className: styles.activeIndicatorIcon,
+      }}
+      IndicatorIcon={<div className={styles.indicatorIcon} />}
+      indicators={(carouselDetails?.slides?.length || 0) > 1}
+      className={styles.carousel}
+    >
+      {carouselDetails?.slides?.map((carouselItem: any, i) => (
+        <HeroBannerItem key={i} carouselItem={carouselItem} />
+      ))}
+    </Carousel>
   );
 };

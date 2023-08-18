@@ -23,6 +23,14 @@
 }
 
 @font-face {
+  font-family: 'ClanOT Book';
+  src: url('/fonts/ClanOT/ClanOT-Book.otf') format('opentype'),
+    url('/fonts/ClanOT/ClanOT-Book.ttf') format('ttf'),
+    url('/fonts/ClanOT/ClanOT-Book.woff') format('woff'),
+    url('/fonts/ClanOT/ClanOT-Book.woff2') format('woff2');
+}
+
+@font-face {
   font-family: 'Garamond Regular';
   src: url('/fonts/Garamond/Garamond-Regular.otf') format('opentype'),
     url('/fonts/Garamond/Garamond-Regular.ttf') format('ttf'),
@@ -33,7 +41,9 @@
 :root {
   // theme colors
   --primary-theme-color: #997300;
+  --primary-background-color: #ffffff;
   --primary-border-color: #e0e0e0;
+  --primary-box-shadow-color: #00000029;
 
   // banner font-family
   --primary-title-font-family: 'ClanOT Extended Book';
@@ -42,6 +52,7 @@
   // text colors
   --primary-text-color: #000000;
   --secondary-text-color: #ffffff;
+  --tertiary-text-color: #4a4a4a;
 
   // button colors
   --primary-button-color: #ffffff;
@@ -54,15 +65,12 @@
   --secondary-button-border-radius: 0px;
   --secondary-button-font-family: 'ClanOT Extended Book';
 
-  // shadow colors
-  --primary-box-shadow-color: #00000029;
-
   // drawer colors
   --primary-drawer-color: #ffffff;
   --primary-drawer-notch-color: #eeeef1;
 
   // hamburger menu colors
-  --hamburgermenu-drawer-color: #121212;
+  --hamburgermenu-background-color: #121212;
   --hamburgermenu-text-color: #ffffff;
   --hamburgermenu-icon-color: #ffffff;
 
@@ -72,6 +80,7 @@
   --primary-font-semibold: '';
   --primary-font-bold: '';
   --primary-font-news: 'ClanOT News';
+  --primary-font-book: 'ClanOT Book';
 
   --primary-font-extd-regular: 'ClanOT Extended Book';
   --primary-font-extd-medium: '';
@@ -107,11 +116,8 @@ h6 {
 
 body {
   max-width: 768px;
-  margin: 0 auto;
+  margin: auto;
   text-align: center;
-  position: relative;
-  font-family: var(--primary-font-medium);
-  font-size: $small;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

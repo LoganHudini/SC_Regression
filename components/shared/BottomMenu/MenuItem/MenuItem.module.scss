@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  margin: 8px;
 }
 
 .menuItemIconWrapper {
@@ -21,11 +22,13 @@
 }
 
 .menuItemTitle {
+  display: flex;
+  align-items: center;
   color: var(--hamburgermenu-text-color);
   max-width: 65px;
+  height: 25px;
   font-size: $extraSmall;
   line-height: 1.25;
-  text-align: center;
   font-family: var(--primary-font-news);
 }
 
