@@ -55,54 +55,53 @@ const GetReservation: React.FC = () => {
   );
 
   const getReservation = async (confirmationNumber: any, lastName: any) => {
-    navigate(availablePaths?.GUEST_INFORMATION_INPUT);
-    // try {
-    //   setLoading(true);
-    //   const { data } = await client.query({
-    //     query: GET_RESERVATION,
-    //     context: { clientName: 'rest' },
-    //     variables: {
-    //       confirmationNumber: confirmationNumber,
-    //       lastName: lastName,
-    //     },
-    //     fetchPolicy: 'no-cache',
-    //   });
+    try {
+      setLoading(true);
+      const { data } = await client.query({
+        query: GET_RESERVATION,
+        context: { clientName: 'rest' },
+        variables: {
+          confirmationNumber: confirmationNumber,
+          lastName: lastName,
+        },
+        fetchPolicy: 'no-cache',
+      });
 
-    //   if (data) {
-    //     client.writeQuery({
-    //       query: GET_RESERVATION,
-    //       data,
-    //     });
+      if (data) {
+        client.writeQuery({
+          query: GET_RESERVATION,
+          data,
+        });
 
-    //     if (
-    //       data.getReservation.data.reservationStatus === 'CANCELED' ||
-    //       data.getReservation.data.reservationStatus === 'CHKOUT' ||
-    //       data.getReservation.data.reservationStatus === 'CHECKEDOUT'
-    //     ) {
-    //       toast(t('No Reservation Found'), { type: 'error' });
-    //       checkinStorage({
-    //         reservationId: data.getReservation.data.confirmationId as string,
-    //         checkedIn: false,
-    //         preCheckedIn: false,
-    //       });
-    //       setLoading(false);
-    //     } else if (data.getReservation.data.reservationStatus === 'INHOUSE') {
-    //       toast(t('Checked In Successfully'), { type: 'success' });
-    //       checkinStorage({
-    //         reservationId: data.getReservation.data.confirmationId as string,
-    //         checkedIn: true,
-    //         preCheckedIn: true,
-    //         bookingId: data.getReservation.data.reservationId,
-    //       });
-    //       navigate(availablePaths?.INDEX);
-    //     } else {
-    //       navigate(availablePaths?.GUEST_INFORMATION_INPUT);
-    //     }
-    //   }
-    // } catch (error) {
-    //   processError(t, error as ApolloError);
-    //   setLoading(false);
-    // }
+        // if (
+        //   data.getReservation.data.reservationStatus === 'CANCELED' ||
+        //   data.getReservation.data.reservationStatus === 'CHKOUT' ||
+        //   data.getReservation.data.reservationStatus === 'CHECKEDOUT'
+        // ) {
+        //   toast(t('No Reservation Found'), { type: 'error' });
+        //   checkinStorage({
+        //     reservationId: data.getReservation.data.confirmationId as string,
+        //     checkedIn: false,
+        //     preCheckedIn: false,
+        //   });
+        //   setLoading(false);
+        // } else if (data.getReservation.data.reservationStatus === 'INHOUSE') {
+        //   toast(t('Checked In Successfully'), { type: 'success' });
+        //   checkinStorage({
+        //     reservationId: data.getReservation.data.confirmationId as string,
+        //     checkedIn: true,
+        //     preCheckedIn: true,
+        //     bookingId: data.getReservation.data.reservationId,
+        //   });
+        //   navigate(availablePaths?.INDEX);
+        // } else {
+        navigate(availablePaths?.GUEST_INFORMATION_INPUT);
+        // }
+      }
+    } catch (error) {
+      processError(t, error as ApolloError);
+      setLoading(false);
+    }
   };
 
   const formik = useFormik({

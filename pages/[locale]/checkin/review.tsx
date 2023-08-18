@@ -88,19 +88,19 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       data?.getReservation?.data?.reservationStatus === 'CHECKEDOUT' ||
       data.getReservation.data.reservationStatus === 'CHKOUT'
     ) {
-      navigate(availablePaths.GET_RESERVATION);
+      // navigate(availablePaths.GET_RESERVATION);
     }
   }, [data, navigate]);
 
   useEffect(() => {
     if (checkinInfo?.preCheckedIn && !checkinInfo.checkedIn) {
-      navigate(availablePaths.GET_RESERVATION);
+      // navigate(availablePaths.GET_RESERVATION);
     }
   }, []);
 
   useEffect(() => {
     if (!guestReservationInfo?.isComplete) {
-      navigate(availablePaths?.GUEST_INFORMATION_INPUT);
+      // navigate(availablePaths?.GUEST_INFORMATION_INPUT);
     }
   }, [guestReservationInfo?.isComplete, navigate]);
 
@@ -218,15 +218,11 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       <Head>
         <title>{t('Check In')}</title>
       </Head>
-      <Header
-        displayBackButton
-        screenTitle={t('Please Complete Your Check-in Process') as string}
-      />
+      <Header displayBackButton screenTitle={t('Review & Sign') as string} />
       <PageWrapper>
-        <p className={styles.step}>
-          Step <div className={styles.disabled}>1</div>
-          <div className={styles.active}>2</div>
-        </p>
+        <div className={styles.infoText}>
+          {t('Please review and confirm the below information to complete the Check In process')}
+        </div>
         <DetailsCard title={'Guest Information'}>
           <div>
             <div className={styles.checkDates}>
@@ -391,7 +387,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         </div>
 
         <StyledButton
-          disabled={!btnStatus}
+          // disabled={!btnStatus}
           className={styles.checkInButton}
           onClick={goToCheckIn}
           loading={loading}

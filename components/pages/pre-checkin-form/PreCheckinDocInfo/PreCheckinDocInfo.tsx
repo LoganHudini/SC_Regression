@@ -53,9 +53,6 @@ export const PreCheckinDocInfo: React.FC<IPreCheckinDocInfoProps> = ({ docInfo }
       ...guestReservationInfo,
       docNo: formik.values?.docNo ?? '',
       docType: formik.values?.docType ?? '',
-      effectiveDate: formik.values?.effectiveDate ?? '',
-      expiryDate: formik.values?.expiryDate ?? '',
-      issueCountry: formik.values?.issueCountry ?? '',
     });
   }, [formik.values]);
 
@@ -125,7 +122,7 @@ export const PreCheckinDocInfo: React.FC<IPreCheckinDocInfoProps> = ({ docInfo }
           />
         </div>
       </div>
-      <div className={styles.col_100}>
+      {/* <div className={styles.col_100}>
         <div className={styles.col_100}>
           <DatePicker
             disableFuture={true}
@@ -210,7 +207,7 @@ export const PreCheckinDocInfo: React.FC<IPreCheckinDocInfoProps> = ({ docInfo }
             }}
           />
         </div>
-      </div>
+      </div> */}
 
       {/* <div className={styles.scanBtn}>
         <button onClick={scan}>

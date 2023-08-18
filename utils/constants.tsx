@@ -126,3 +126,11 @@ export const STATUS = [
   { key: 'DELIVERED', value: 'Delivered' },
   { key: 'ACCEPTED', value: 'Accepted' },
 ];
+
+export const Gender = [
+  { name: 'Male', value: 'MALE' },
+  { name: 'Female', value: 'FEMALE' },
+];
+export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const phoneRegex =
+  /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/;

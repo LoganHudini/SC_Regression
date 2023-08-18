@@ -3,9 +3,9 @@ import styles from './InfoCard.module.scss';
 import CheckMarkIcon from '@icons/checkMark.svg';
 import EditMarkIcon from '@icons/editMark.svg';
 import { IInfoCardProps } from './InfoCard.types';
-import CreditCardIcon from '@icons/creditCard.svg';
-import IdCard from '@icons/idCard.svg';
-import GuestIcon from '@icons/guestIcon.svg';
+import CreditCardIcon from '@icons/credit-cards.svg';
+import IdCard from '@icons/id-card.svg';
+import GuestIcon from '@icons/traveling.svg';
 import { availablePaths } from 'utils/availablePaths';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 
@@ -48,11 +48,11 @@ export const InfoCard: React.FC<IInfoCardProps> = ({
                 {status ? (
                   <div className={styles.detailsText}>{details}</div>
                 ) : (
-                  !cardOpened && <div className={styles.errorText}>Please update</div>
+                  <div className={styles.errorText}>Please update</div>
                 )}
               </div>
             </div>
-            <div>{status ? <CheckMarkIcon /> : cardOpened && <EditMarkIcon />}</div>
+            <div>{status && <CheckMarkIcon />}</div>
           </div>
         </div>
         {cardOpened && <div>{children}</div>}

@@ -59,8 +59,8 @@ body {
   color: $colorPrimary;
   border: 1px solid $colorPrimary;
   width: 100%;
-  border-radius: 6px;
-  font-size: $xsmall;
+  border-radius: 0px;
+  font-size: $medium;
   font-family: $fontMedium !important;
   text-align: center;
   height: 46px;
@@ -78,8 +78,8 @@ body {
   color: $textColorSecondary;
   border: none;
   width: 100%;
-  border-radius: 6px;
-  font-size: $xsmall;
+  border-radius: 0px;
+  font-size: $medium;
   font-family: $fontMedium !important;
   height: 44px;
   line-height: 44px;

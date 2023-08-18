@@ -32,8 +32,8 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({ selec
 
   return (
     <div className={styles.identityInputs}>
-      <div>
-        <div className={styles.col_100}>
+      <div className={styles.name_sec}>
+        <div className={styles.col_45}>
           <StyledInput
             required
             autoComplete='off'
@@ -43,16 +43,15 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({ selec
             name={'firstName'}
             id={'firstName'}
             value={formik.values?.firstName}
-            disabled={true}
+            disabled={false}
             onChange={(e) => {
               formik.handleChange(e);
               updateGuestDetails(e.target.id, e.target.value);
             }}
           />
         </div>
-      </div>
-      <div>
-        <div className={styles.col_100}>
+
+        <div className={styles.col_45}>
           <StyledInput
             required
             autoComplete='off'
@@ -62,7 +61,7 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({ selec
             name={'lastName'}
             id={'lastName'}
             value={formik.values?.lastName}
-            disabled={true}
+            disabled={false}
             onChange={(e) => {
               formik.handleChange(e);
               updateGuestDetails(e.target.id, e.target.value);

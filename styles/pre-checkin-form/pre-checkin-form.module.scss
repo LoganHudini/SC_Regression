@@ -51,10 +51,11 @@
 }
 
 .checkDatesText {
-  font-size: $small;
+  font-size: $xsmall;
   margin-bottom: 1vh;
   line-height: 1;
   margin-top: 2vh;
+  text-transform: uppercase;
 }
 .right {
   text-align: right;
@@ -65,6 +66,7 @@
   font-family: $fontMedium;
   margin-bottom: 3vh;
   line-height: 1;
+  font-weight: bold;
 }
 
 .checkDatesIcon {
@@ -142,10 +144,11 @@
 }
 
 .step {
+  font-size: $large;
   display: flex;
   justify-content: center;
-  padding: 15px;
-  border-bottom: 1px solid $colorPrimary;
+  padding: 30px 15px 10px;
+  border-bottom: 1px solid $textColor;
   div {
     margin: 0px 0px 0px 8px;
     font-size: $xsmall;

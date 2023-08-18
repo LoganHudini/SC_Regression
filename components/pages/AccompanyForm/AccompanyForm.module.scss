@@ -1,0 +1,168 @@
+.col_100 {
+  width: 100%;
+}
+
+.guestDataInput {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.btnText {
+  text-align: center;
+  font-size: 14px;
+  padding: 6px 10px;
+  width: 80px;
+}
+
+.scanBtn {
+  margin: 15px 0px;
+  display: flex;
+  justify-content: right;
+  button {
+    display: flex;
+  }
+}
+
+.alignment {
+  vertical-align: middle;
+}
+
+.buttonContainer {
+  margin-top: 1rem;
+}
+
+.buttonLeft {
+  font-size: $small;
+  font-family: $fontBold;
+  margin-right: 1rem;
+  border: 0.8px solid $textColorSecondary !important;
+  color: $textColorSecondary !important;
+  border-radius: 7px;
+  &:disabled {
+    color: #ffffffab !important;
+  }
+}
+
+.buttonRight {
+  font-size: $small;
+  font-family: $fontBold;
+  margin-top: 30px;
+  &:disabled {
+    opacity: 0.7 !important;
+    background-color: $colorPrimary;
+    color: $textColorSecondary;
+    font-size: $small;
+    font-family: $fontBold;
+    margin-top: 30px;
+    border: 1px solid $colorPrimary;
+  }
+}
+
+.pageWrapper {
+  justify-content: space-between;
+}
+
+.pageWrapper {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  min-height: calc(100vh - 70px);
+  position: relative;
+}
+
+.agrementWrapperTitle {
+  display: flex;
+  margin: 25px 0 5px 0;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.agrementText {
+  font-size: $xsmall;
+  max-width: none;
+  color: $textColorTernary !important;
+  margin-left: 20px;
+  font-family: $fontLight;
+  a {
+    color: $textColorTernary !important;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+}
+
+.guestDataInput {
+  width: 100%;
+  font-family: $fontBold !important;
+  margin-top: 15px;
+  text-transform: uppercase !important;
+  font-family: $fontLight !important;
+  color: $textColorTernary !important;
+  font-size: $medium !important;
+
+  label {
+    font-family: $fontLight !important;
+    letter-spacing: 0.72px !important;
+    // color: $textUnique !important;
+    text-transform: uppercase !important;
+    font-size: $xsmall !important;
+  }
+  div {
+    div {
+      padding-bottom: 0px !important;
+    }
+    input {
+      font-family: $fontLight !important;
+      color: $textColorTernary !important;
+      font-size: $medium !important;
+    }
+  }
+}
+
+.styledDateInput {
+  width: 100%;
+  margin-top: 17px;
+  color: $textColorTernary !important;
+  font-size: $medium !important;
+  label {
+    font-family: $fontLight !important;
+    letter-spacing: 0.72px !important;
+    // color: $textUnique !important;
+    text-transform: uppercase !important;
+    font-size: $xsmall !important;
+  }
+  div {
+    div {
+      padding-bottom: 0px !important;
+    }
+    input {
+      font-family: $fontLight !important;
+      color: $textColorTernary !important;
+      font-size: $medium !important;
+    }
+  }
+}
+
+.buttonContainerForm {
+  display: flex;
+  flex-direction: row;
+  padding: 0px 20px 0px 20px;
+}
+
+.update {
+  font-size: $small;
+  font-family: $fontBold;
+  margin-top: 30px;
+  margin-right: 1rem;
+  height: 40px;
+}
+
+.delete {
+  font-size: $small;
+  font-family: $fontBold;
+  margin-top: 30px;
+  border-radius: 7px;
+  color: $colorSecondary;
+  border: 1.4px solid $colorSecondary !important;
+  height: 40px;
+}
