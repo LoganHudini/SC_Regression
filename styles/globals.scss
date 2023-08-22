@@ -1,12 +1,4 @@
 @font-face {
-  font-family: 'ClanOT Extended Book';
-  src: url('/fonts/ClanOT/ClanOT-ExtdBook.otf') format('opentype'),
-    url('/fonts/ClanOT/ClanOT-ExtdBook.ttf') format('ttf'),
-    url('/fonts/ClanOT/ClanOT-ExtdBook.woff') format('woff'),
-    url('/fonts/ClanOT/ClanOT-ExtdBook.woff2') format('woff2');
-}
-
-@font-face {
   font-family: 'ClanOT Medium';
   src: url('/fonts/ClanOT/ClanOT-Medium.otf') format('opentype'),
     url('/fonts/ClanOT/ClanOT-Medium.ttf') format('ttf'),
@@ -31,6 +23,22 @@
 }
 
 @font-face {
+  font-family: 'ClanOT Extended Book';
+  src: url('/fonts/ClanOT/ClanOT-ExtdBook.otf') format('opentype'),
+    url('/fonts/ClanOT/ClanOT-ExtdBook.ttf') format('ttf'),
+    url('/fonts/ClanOT/ClanOT-ExtdBook.woff') format('woff'),
+    url('/fonts/ClanOT/ClanOT-ExtdBook.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'ClanOT Extended Medium';
+  src: url('/fonts/ClanOT/ClanOT-ExtdMedium.otf') format('opentype'),
+    url('/fonts/ClanOT/ClanOT-ExtdMedium.ttf') format('ttf'),
+    url('/fonts/ClanOT/ClanOT-ExtdMedium.woff') format('woff'),
+    url('/fonts/ClanOT/ClanOT-ExtdMedium.woff2') format('woff2');
+}
+
+@font-face {
   font-family: 'Garamond Regular';
   src: url('/fonts/Garamond/Garamond-Regular.otf') format('opentype'),
     url('/fonts/Garamond/Garamond-Regular.ttf') format('ttf'),
@@ -42,28 +50,14 @@
   // theme colors
   --primary-theme-color: #997300;
   --primary-background-color: #ffffff;
+  --primary-icon-color: #ffffff;
   --primary-border-color: #e0e0e0;
   --primary-box-shadow-color: #00000029;
-
-  // banner font-family
-  --primary-title-font-family: 'ClanOT Extended Book';
-  --secondary-title-font-family: 'ClanOT News';
 
   // text colors
   --primary-text-color: #000000;
   --secondary-text-color: #ffffff;
   --tertiary-text-color: #4a4a4a;
-
-  // button colors
-  --primary-button-color: #ffffff;
-  --primary-button-background-color: #997300;
-  --primary-button-border-radius: 0px;
-  --primary-button-font-family: 'ClanOT Extended Book';
-
-  --secondary-button-color: #997300;
-  --secondary-button-background-color: #ffffff;
-  --secondary-button-border-radius: 0px;
-  --secondary-button-font-family: 'ClanOT Extended Book';
 
   // drawer colors
   --primary-drawer-color: #ffffff;
@@ -83,7 +77,7 @@
   --primary-font-book: 'ClanOT Book';
 
   --primary-font-extd-regular: 'ClanOT Extended Book';
-  --primary-font-extd-medium: '';
+  --primary-font-extd-medium: 'ClanOT Extended Medium';
   --primary-font-extd-semibold: '';
   --primary-font-extd-bold: '';
   --primary-font-extd-news: '';
@@ -92,6 +86,29 @@
   --secondary-font-medium: '';
   --secondary-font-semibold: '';
   --secondary-font-bold: '';
+
+  // banner font-family
+  --primary-title-font-family: 'ClanOT Extended Book';
+  --secondary-title-font-family: 'ClanOT News';
+
+  //card component configs
+  --primary-card-title-font-family: 'ClanOT News';
+  --primary-card-desc-font-family: 'ClanOT Book';
+  --primary-card-cta-font-family: 'ClanOT Extended Medium';
+  --parimary-card-background-color: #f8f8f8;
+  --primary-card-border-radius: 0px;
+  --primary-card-shadow-color: #00000010;
+
+  // button configs
+  --primary-button-color: #ffffff;
+  --primary-button-background-color: #997300;
+  --primary-button-border-radius: 0px;
+  --primary-button-font-family: 'ClanOT Extended Book';
+
+  --secondary-button-color: #997300;
+  --secondary-button-background-color: #ffffff;
+  --secondary-button-border-radius: 0px;
+  --secondary-button-font-family: 'ClanOT Extended Book';
 }
 
 button {
@@ -103,7 +120,14 @@ button {
   cursor: pointer;
 }
 
-p,
+p {
+  margin: 0;
+  color: var(--primary-text-color);
+  font-family: var(--primary-font-regular);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 h1,
 h2,
 h3,
@@ -112,17 +136,21 @@ h5,
 h6 {
   margin: 0;
   color: var(--primary-text-color);
+  font-family: var(--secondary-font-regular);
 }
 
 body {
   max-width: 768px;
   margin: auto;
-  text-align: center;
+  color: var(--primary-text-color);
+  background-color: var(--primary-background-color);
+  font-family: var(--primary-font-regular);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  // direction: rtl;
 }
 
 .loaderWrapper {
@@ -141,8 +169,7 @@ body {
   border: none;
   border-radius: var(--primary-button-border-radius);
   width: 100%;
-  font-size: $small;
-  font-family: var(--primary-button-font-family) !important;
+  font: $small var(--primary-button-font-family);
   height: 48px;
   line-height: 48px;
   text-align: center;
@@ -158,8 +185,7 @@ body {
   border: 1px solid var(--secondary-button-color);
   border-radius: var(--primary-button-border-radius);
   width: 100%;
-  font-size: $medium;
-  font-family: var(--secondary-button-font-family) !important;
+  font: $medium var(--secondary-button-font-family);
   height: 48px;
   line-height: 48px;
   text-align: center;
@@ -286,5 +312,5 @@ body {
 
 *::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background-color: #d4d4d4;
+  background-color: var(--primary-theme-color);
 }

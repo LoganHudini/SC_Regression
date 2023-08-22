@@ -16,6 +16,11 @@ export interface IMenuItemProps {
   toggleOption: () => void;
 }
 
+export interface IModuleOptionsDrawerProps {
+  homeActive: boolean;
+  irdActive: boolean;
+}
+
 export interface IHamburgerMenuDrawerProps {
   hamburger: any;
 }

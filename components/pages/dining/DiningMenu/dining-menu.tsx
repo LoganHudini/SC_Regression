@@ -4,7 +4,7 @@ import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styles from '../../../styles/dining-menu/dining-menu.module.scss';
+import styles from '../../../../styles/dining-menu/dining-menu.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
 import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
 import { useQuery, useReactiveVar } from '@apollo/client';
@@ -281,9 +281,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     return (
       <div id={`Category${category?.id}`} className='category-element' key={category?.id}>
         {categoryItems?.length > 0 && (
-          <p className={styles.subCategoriesText}>
-            {category?.name} ({categoryItems?.length})
-          </p>
+          <h2 className={styles.subCategoriesText}>{category?.name}</h2>
         )}
         {renderMenuElements(categoryItems)}
         {category?.subCategories
@@ -293,9 +291,9 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             return (
               <div key={subCategory?.id}>
                 {subCategoryItems?.length !== 0 && (
-                  <p className={styles.subCategoriesText}>
-                    {category?.name} - {subCategory?.name} ({subCategoryItems?.length})
-                  </p>
+                  <h2 className={styles.subCategoriesText}>
+                    {category?.name} - {subCategory?.name}
+                  </h2>
                 )}
                 {renderMenuElements(subCategoryItems)}
               </div>
@@ -485,17 +483,6 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
       )}
     </>
   );
-};
-
-export const getStaticProps: GetStaticProps = async (ctx) => {
-  const locale = ctx?.params?.locale;
-
-  return {
-    props: {
-      ...(await serverSideTranslations(locale as string, ['dining-menu', 'common'], i18nConfig)),
-      ...(await getHamburgerProps()),
-    },
-  };
 };
 
 export default DiningMenu;

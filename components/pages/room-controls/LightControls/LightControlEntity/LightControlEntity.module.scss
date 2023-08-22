@@ -28,7 +28,7 @@
   }
 
   p {
-    color: $textColorSecondary;
+    color: var(--secpndary-text-color);
   }
 }
 
@@ -62,7 +62,7 @@
 }
 
 .statusTextActive {
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
 }
 
 .controlTitle {

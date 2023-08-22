@@ -94,7 +94,7 @@
   line-height: 35px;
   padding: 4px 30px 0;
   text-align: center;
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
   font-size: $xsmall;
   font-family: $fontMedium;
 }

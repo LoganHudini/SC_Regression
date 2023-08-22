@@ -15,9 +15,9 @@ export const availablePaths = {
 
   // Check-in flow
   GET_RESERVATION: '/check-in',
-  ABOUT_YOUR_STAY: `/check-in.${CHECK_IN_FLOW_VERSION}/about-your-stay`,
-  CHECK_IN_PAYMENT: `/check-in.${CHECK_IN_FLOW_VERSION}/check-in-payment`,
-  CHECK_IN: `/check-in.${CHECK_IN_FLOW_VERSION}/check-in`,
+  ABOUT_YOUR_STAY: '/check-in/about-your-stay',
+  CHECK_IN_PAYMENT: '/check-in/check-in-payment',
+  CHECK_IN: '/check-in/check-in',
   GUEST_INFORMATION_INPUT: `/check-in.${CHECK_IN_FLOW_VERSION}/guest-information-input`,
   GUEST_INFORMATION: `/check-in.${CHECK_IN_FLOW_VERSION}/guest-information`,
   PERSONALIZE_YOUR_ROOM: `/check-in.${CHECK_IN_FLOW_VERSION}/personalize-your-room`,

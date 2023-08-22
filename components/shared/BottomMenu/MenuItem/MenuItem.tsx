@@ -1,13 +1,21 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import styles from './MenuItem.module.scss';
-import { IMenuItemProps } from './MenuItem.types';
+import { IMenuItemProps, IModuleOptionsDrawerProps } from './MenuItem.types';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { getRedirectLink } from 'utils/getRedirectLink';
 import { flowPathMap } from 'utils/flowPathMap';
 import Drawer from '@mui/material/Drawer';
 import { useReactiveVar } from '@apollo/client';
-import { toggleModuleOptionsDrawer } from 'storage/home.storage';
+import {
+  diningOptions,
+  toggleHamburgerMenuDrawer,
+  toggleModuleOptionsDrawer,
+} from 'storage/home.storage';
 import cx from 'classnames';
+import { availablePaths } from 'utils/availablePaths';
+import { DINING_OPTIONS } from 'utils/constants';
+import { close } from 'inspector';
+import CheckIcon from '@icons/checkIcon.svg';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
   title,
@@ -21,7 +29,6 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
   toggleOption,
 }) => {
   const navigate = useLocalizedRouter();
-
   const onClick = useCallback(() => {
     if (redirectOptions === 'EXTERNAL') {
       window.open(externalLink, '_blank');
@@ -57,10 +64,17 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
   );
 };
 
-export const ModuleOptionsDrawer = () => {
+export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
+  homeActive,
+  irdActive,
+}) => {
+  const navigate = useLocalizedRouter();
+  const diningOptionSelected = useReactiveVar(diningOptions);
   const drawerStatus = useReactiveVar(toggleModuleOptionsDrawer);
+
   const closeDrawer = () => {
     toggleModuleOptionsDrawer(false);
+    toggleHamburgerMenuDrawer(false);
   };
   return (
     <>
@@ -81,23 +95,51 @@ export const ModuleOptionsDrawer = () => {
         }}
       >
         <div className={styles.drawerNotch}></div>
-        <p className={styles.title}>Room 411</p>
-        <div className={styles.optionsList}>
-          <p
-            className={cx(styles.inActiveText, {
-              [styles.activeText]: true,
-            })}
-          >
-            View Bill
-          </p>
-          <p
-            className={cx(styles.inActiveText, {
-              [styles.activeText]: false,
-            })}
-          >
-            Checkout
-          </p>
-        </div>
+        {homeActive && (
+          <div>
+            <p className={styles.title}>Room 411</p>
+            <div className={styles.optionsList}>
+              <p
+                className={cx(styles.inActiveText, {
+                  [styles.activeText]: true,
+                })}
+              >
+                View Bill
+              </p>
+              <p
+                className={cx(styles.inActiveText, {
+                  [styles.activeText]: false,
+                })}
+              >
+                Checkout
+              </p>
+            </div>
+          </div>
+        )}
+        {irdActive && (
+          <div>
+            <p className={styles.title}>Choose your category</p>
+            <div className={styles.optionsList}>
+              {DINING_OPTIONS?.map((dining) => (
+                <div key={dining?.id} className={cx(styles.optionsListItem)}>
+                  <p
+                    className={cx(styles.inActiveText, {
+                      [styles.activeText]: diningOptionSelected?.id === dining?.id,
+                    })}
+                    onClick={() => {
+                      diningOptions(dining);
+                      closeDrawer();
+                      // navigate(dining?.path);
+                    }}
+                  >
+                    {dining?.title}{' '}
+                  </p>
+                  {diningOptionSelected?.id === dining?.id && <CheckIcon className={styles.icon} />}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </Drawer>
     </>
   );

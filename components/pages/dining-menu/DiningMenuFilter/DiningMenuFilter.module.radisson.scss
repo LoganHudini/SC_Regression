@@ -23,7 +23,7 @@
 .fixedTop {
   position: fixed;
   top: 38px;
-  background-color: $textColorSecondary;
+  background-color: var(--primary-background-color);
   display: flex;
   width: 92% !important;
   height: 35px;
@@ -55,7 +55,7 @@
   left: 0;
   right: 0;
   margin: auto;
-  background-color: $textColorSecondary;
+  background-color: var(--primary-background-color);
   z-index: 10;
   -webkit-fill-available: 100%;
   width: 91%;

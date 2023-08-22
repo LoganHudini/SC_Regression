@@ -58,7 +58,7 @@
 }
 
 .carouselSlideTitle {
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
   font-size: $medium;
   font-family: $fontMedium;
   position: absolute;

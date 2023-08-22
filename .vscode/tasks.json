@@ -22,27 +22,27 @@
       "label": "Start: STAGE",
       "detail": "env-cmd -f .env.stage.local next start"
     },
-    {
-      "type": "npm",
-      "script": "dev",
-      "problemMatcher": [],
-      "label": "Dev: UAT",
-      "detail": "env-cmd -f .env.local yarn next dev"
-    },
-    {
-      "type": "npm",
-      "script": "build",
-      "group": "build",
-      "problemMatcher": [],
-      "label": "Build: UAT",
-      "detail": "env-cmd -f .env.local yarn build"
-    },
-    {
-      "type": "npm",
-      "script": "start",
-      "problemMatcher": [],
-      "label": "Start: UAT",
-      "detail": "env-cmd -f .env.local next start"
-    }
+    // {
+    //   "type": "npm",
+    //   "script": "dev",
+    //   "problemMatcher": [],
+    //   "label": "Dev: UAT",
+    //   "detail": "env-cmd -f .env.local yarn next dev"
+    // },
+    // {
+    //   "type": "npm",
+    //   "script": "build",
+    //   "group": "build",
+    //   "problemMatcher": [],
+    //   "label": "Build: UAT",
+    //   "detail": "env-cmd -f .env.local yarn build"
+    // },
+    // {
+    //   "type": "npm",
+    //   "script": "start",
+    //   "problemMatcher": [],
+    //   "label": "Start: UAT",
+    //   "detail": "env-cmd -f .env.local next start"
+    // }
   ]
 }

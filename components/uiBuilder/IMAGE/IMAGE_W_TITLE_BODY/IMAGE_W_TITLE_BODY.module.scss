@@ -40,9 +40,9 @@
 .imageTitle {
   font-size: $medium;
   font-family: $fontRegular;
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
   text-align: center;
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
 }
 
 .ctaButton {

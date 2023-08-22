@@ -1,50 +1,112 @@
 .wrapper {
   display: flex;
-  margin: 22px 4px 0 0px;
+  margin: 1rem 0;
+  padding: 0.8rem;
   flex-direction: column;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid $colorDivider;
+  text-align: start;
+  border-radius: var(--primary-card-border-radius);
+  box-shadow: 0px 3px 6px var(--primary-card-shadow-color);
 }
 
-.titleRow {
+.card {
   display: flex;
+  flex-direction: row;
+  min-height: 50px;
   justify-content: space-between;
-  align-items: center;
+}
+
+.topWrapper {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: start;
+  width: 70%;
 }
 
 .title {
-  font-size: 1.5rem;
-  line-height: 1.208;
-  font-family: 'Bodoni MT Std';
-  font-weight: bold;
+  font: $medium var(--primary-card-title-font-family);
+  color: var(--primary-text-color);
+  margin: 5px 0;
+  width: 140%;
 }
 
-.price {
-  font-size: 0.937rem;
-  text-transform: capitalize;
-  font-weight: bold;
+.titleWithImage {
+  width: 100%;
 }
 
 .description {
-  font-size: 1rem;
-  line-height: 1.25;
-  margin-bottom: 30px;
-  margin-top: 15px;
+  font: $small var(--primary-card-desc-font-family);
+  margin: 10px 0;
+  color: var(--tertiary-text-color);
+  width: 140%;
+  min-height: 1rem;
+  max-height: 3.25rem;
 }
 
-.servingsRow {
+.descriptionWithImage {
+  width: 90%;
+}
+
+.currency {
+  font: $xsmall var(--primary-card-title-font-family);
+  margin: 20px 0 5px;
+}
+
+.price {
+  font-size: $medium;
+}
+
+.imageWrapper {
   display: flex;
-  justify-content: space-between;
+  width: 120px;
   align-items: center;
+  flex-direction: column;
+  justify-content: end;
 }
 
-.servingsText {
-  font-size: 0.9375rem;
-  line-height: 1.33;
+.image {
+  width: 120px;
+  height: 120px;
+  border-radius: var(--primary-card-border-radius);
+  top: 15px;
+  position: relative;
+  object-fit: cover;
+  cursor: pointer;
 }
 
 .customisableText {
-  font-size: 0.9375rem;
-  line-height: 1.33;
+  font: $extraSmall var(--primary-card-desc-font-family);
+  color: var(--tertiary-text-color);
+  margin: 4px 0 0 0;
 }
 
+.addCta {
+  height: 30px;
+  width: 90px;
+  line-height: 30px;
+  text-align: center;
+  padding-top: 10px;
+  background-color: var(--primary-theme-color) !important;
+  font: $extraSmall var(--primary-card-cta-font-family) !important;
+}
+
+.menuUnavailable {
+  background-color: var(tertiary-text-color) !important;
+  color: var(secondary-text-color);
+  pointer-events: none;
+}
+
+.disable {
+  pointer-events: none;
+}
+
+.counterStyle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pointer {
+  cursor: pointer;
+}

@@ -10,7 +10,7 @@
 
   h2 {
     font-size: 1.5rem;
-    color: $textColorSecondary;
+    color: var(--secpndary-text-color);
 
     max-width: 315px;
     z-index: 20;
