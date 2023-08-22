@@ -27,6 +27,7 @@ export const API_KEY_SIMPHONY = process.env.NEXT_PUBLIC_API_KEY_SIMPHONY;
 
 export const HOTEL_ID = process.env.NEXT_PUBLIC_HOTEL_ID;
 export const HOTEL_CODE = 'sofitel';
+export const HOTEL_NAME = 'sofitel';
 
 export const REST_API_URL = process.env.NEXT_PUBLIC_REST_API_URL;
 export const REST_V4_API_URL = process.env.NEXT_PUBLIC_REST_V4_API_URL;
