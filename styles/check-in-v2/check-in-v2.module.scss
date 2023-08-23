@@ -78,18 +78,21 @@
 
 .agrementWrapper {
   display: flex;
-  margin: 35px 0 13px 0;
+  margin: 0px 0 13px 0;
 }
 
 .agrementText {
-  font-size: 0.75rem;
+  text-align: start;
+  font-size: $small;
   margin-left: 15px;
   flex: 1;
-  max-width: 266px;
+  max-width: 280px;
   line-height: 1.4;
+  color: var(--quaternary-text-color);
+  font-family: var(--primary-font-book);
   a {
-    color: var(--secondary-text-color);
-    text-decoration: underline;
+    color: var(--quaternary-text-color);
+    text-decoration: none;
     white-space: nowrap;
   }
 }
@@ -99,25 +102,28 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-left: 5px;
   margin-right: -3px;
 }
 
 .guestSignature {
-  font-size: 1rem;
+  font-size: $medium;
+  font-family: var(--primary-font-news);
 }
 
 .clearBtn {
-  color: var(--secondary-text-color);
+  color: var(--primary-theme-color);
+  font-size: $medium;
   text-transform: none;
   width: auto;
+  margin-right: -6px;
+  font-family: var(--primary-font-medium);
 }
 
 .agrementSignatureWrapper {
   canvas {
     margin: -7px -15px -25px -15px;
+    background: var(---signaturepad-background);
   }
-  width: 320px;
   margin: 0 auto;
 }
 
@@ -143,23 +149,32 @@
   margin-bottom: 2vh;
   border-bottom: 1px solid #b9b9b9;
 }
+
 .checkDatesText {
-  font-size: $xsmall;
+  font-size: $extraSmall;
+  text-align: start;
+  color: var(--tertiary-text-color);
+  font-family: var(--primary-font-book);
+  padding-bottom: 5px;
 }
+
 .checkDatesDetails {
-  font-family: $fontBold;
-  font-size: $medium;
-  margin-bottom: 25px;
+  font-family: var(--primary-font-news);
+  font-size: $small;
+  margin-bottom: 20px;
+  color: var(--tertiary-text-color);
 }
+
 .description {
   float: left;
-  font-family: $fontMedium;
-  font-size: $medium;
-  margin-bottom: 1rem;
+  font-family: var(--primary-font-news);
+  font-size: $small;
+  margin-bottom: 20px;
   div {
     text-align: start;
   }
 }
+
 .pageTitle {
   font-family: $fontMedium;
   font-size: $large;
@@ -167,10 +182,13 @@
 }
 
 .infoText {
-  font-size: $medium;
-  padding: 20px 18px;
+  font-size: $small;
+  padding: 25px 10px;
   text-align: center;
+  font-family: var(--primary-font-book);
+  color: var(--quaternary-text-color);
 }
+
 .step {
   display: flex;
   justify-content: center;
@@ -194,4 +212,24 @@
     background-color: #d2d1d0;
     border: 1px solid #d2d1d0;
   }
+}
+
+.pageWrapper {
+  padding: 0px 20px;
+}
+
+.right {
+  text-align: end;
+}
+
+.left {
+  text-align: start;
+}
+
+.textTransform {
+  text-transform: uppercase;
+}
+
+.checkBoxAlign {
+  margin-bottom: 10px;
 }
