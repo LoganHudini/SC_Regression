@@ -62,7 +62,7 @@
   align-items: center;
   font-size: 1rem;
   margin: 0 20px;
-  color: $textColorQuaternary;
+  color: var(--tertiary-text-color);
   border-bottom: 1px solid var(--primary-border-color);
 }
 

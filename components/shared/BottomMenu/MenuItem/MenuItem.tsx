@@ -16,6 +16,7 @@ import { availablePaths } from 'utils/availablePaths';
 import { DINING_OPTIONS } from 'utils/constants';
 import { close } from 'inspector';
 import CheckIcon from '@icons/checkIcon.svg';
+import { handleTouchEnd, handleTouchStart } from 'utils/hooks/useDrawerSwipe';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
   title,
@@ -71,11 +72,13 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   const navigate = useLocalizedRouter();
   const diningOptionSelected = useReactiveVar(diningOptions);
   const drawerStatus = useReactiveVar(toggleModuleOptionsDrawer);
+  const [startY, setStartY] = useState(0);
 
   const closeDrawer = () => {
     toggleModuleOptionsDrawer(false);
     toggleHamburgerMenuDrawer(false);
   };
+
   return (
     <>
       {' '}
@@ -93,6 +96,8 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
             maxHeight: '40vh',
           },
         }}
+        onTouchStart={(e) => handleTouchStart(e, setStartY)}
+        onTouchEnd={(e) => handleTouchEnd(e, startY, setStartY, closeDrawer)}
       >
         <div className={styles.drawerNotch}></div>
         {homeActive && (
