@@ -1,21 +1,18 @@
 .backButton {
   cursor: pointer;
   position: absolute;
-  top: 63px;
   left: 20px;
+  border: 0;
+  background: none;
 }
 
 .backIcon {
   height: 20px;
-  path {
-    fill: $textColorSecondary;
-  }
 }
 
 .closeButton {
   cursor: pointer;
   position: absolute;
-  top: 63px;
   right: 23px;
 }
 
@@ -46,10 +43,11 @@
 }
 
 .container {
-  padding: 63px 0 10px 15px;
+  padding: 15px 0px;
   z-index: 5;
   background: var(--primary-theme-color);
   position: relative;
+  box-shadow: 0 5px 6px -6px var(--primary-box-shadow-color);
 }
 
 .containerTransparent {

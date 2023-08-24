@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { ENVIRONMENT, HOTEL_ID } from '../endpoints';
+import { HOTEL_ID } from '../endpoints';
 
 export interface IUpdateGuestDetailsApiRequest {
   reservationId: string;
@@ -13,16 +13,15 @@ export interface IUpdateGuestDetailsApiRequest {
   placeOfIssue?: string;
   countryOfIssue?: string;
   isPrimary: string;
-  gender?: string;
   guestDocument?: string;
   updateGuestDetails: {
-    name?: {
+    name: {
       firstName: string;
       lastName: string;
       dob?: string;
       nationality?: string;
     };
-    address?: {
+    address: {
       id: string;
       addressLine1?: string;
       addressLine2?: string;
@@ -33,13 +32,13 @@ export interface IUpdateGuestDetailsApiRequest {
       postalCode?: string;
     };
     phone?: {
-      id?: string;
+      id: string;
       phoneType: string;
       phoneNumber: string;
       phoneRole: string;
     };
     email?: {
-      id?: string;
+      id: string;
       email: string;
     };
   };
@@ -49,12 +48,12 @@ export interface IUpdateGuestDetailsApiResponse {
   updateGuestDetails: { status: string; data: Record<string, never> };
 }
 
-export const UPDATE_GUEST_DETAILS = gql`
-query UpdateGuestDetails($confirmationNumber: String, $body: UpdateGuestDetailsPayload) {
-  updateGuestDetails(confirmationNumber: $confirmationNumber, body: $body)
+export const AddaccompanyDetails = gql`
+query AddAccompanyDetails($confirmationNumber: String, $body: AddAccompanyDetailsPayload) {
+  addAccompanyDetails(confirmationNumber: $confirmationNumber, body: $body)
     @rest(
-      type: "UpdateGuestDetailsPayload"
-      path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/bookings/{args.confirmationNumber}/document"
+      type: "AddAccompanyDetailsPayload"
+      path: "/uat/hotel/${HOTEL_ID}/booking/{args.confirmationNumber}/guest/add"
       method: "POST"
       bodyKey: "body"
     ) {

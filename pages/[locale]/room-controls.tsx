@@ -8,7 +8,7 @@ import { RotatingLines } from 'react-loader-spinner';
 
 export { getStaticPaths };
 
-const DynamicRoomControls = dynamic(() => import('./room-controls.alpha'), {
+const DynamicRoomControls = dynamic(() => import('./room-controls'), {
   loading: () => (
     <div className={'loaderWrapper'}>
       <RotatingLines strokeColor='grey' strokeWidth='5' width='100' visible={true} />
@@ -16,7 +16,7 @@ const DynamicRoomControls = dynamic(() => import('./room-controls.alpha'), {
   ),
 });
 
-const RoomControls: NextPage<IHamburgerProps> = (props) => {
+const RoomControls: NextPage<IHamburgerProps> = (props: any) => {
   return <DynamicRoomControls {...props} />;
 };
 

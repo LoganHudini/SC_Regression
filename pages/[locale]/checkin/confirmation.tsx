@@ -16,7 +16,7 @@ import i18nConfig from 'next-i18next.config';
 import { availablePaths } from 'utils/availablePaths';
 import { IHamburgerProps, getHamburgerProps } from 'utils/hamburger/getHamburgerProps';
 import { Drawer } from '@mui/material';
-import { HOTEL_CODE, HOTEL_NAME } from 'core/graphql/endpoints';
+import { HOTEL_CODE } from 'core/graphql/endpoints';
 import CloseOutlinedIcon from '@icons/CloseOutlined.svg';
 import ShareIcon from '@icons/share.svg';
 import AppStoreIcon from '@icons/AppStoreIcon.svg';
@@ -111,7 +111,7 @@ const PreCheckinConfirmation: React.FC<IHamburgerProps> = ({ hamburger, pages })
                 <RWebShare
                   data={{
                     url: 'https://mondrian.hudinielevate-uat.io',
-                    title: HOTEL_NAME,
+                    title: HOTEL_CODE,
                   }}
                 >
                   <ShareIcon className={styles.pointer} />

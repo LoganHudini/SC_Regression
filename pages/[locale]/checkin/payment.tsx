@@ -11,6 +11,7 @@ import {
   IInitiatePaymentApiRequest,
   IInitiatePaymentApiResponse,
   INITIATE_PAYMENT,
+  INITIATE_PAYMENT_CYBERSOURCE,
   INITIATE_PAYMENT_FISERV,
 } from 'core/graphql/queries/INITIATE_PAYMENT';
 import Head from 'next/head';
@@ -99,17 +100,16 @@ const CheckInPayment: React.FC = () => {
         currency: reservationInfo?.details.holdAmount.currency as string,
         amount: 2,
         bookingId: reservationInfo?.confirmationId as string,
-        txnType: 'sale',
-        timeZone: 'Asia/Singapore',
+        orderId: reservationInfo?.confirmationId as string,
       };
 
       let paymentData: IInitiatePaymentApiResponse | null = null;
 
       try {
         const { data } = await client.query<IInitiatePaymentApiResponse>({
-          query: INITIATE_PAYMENT_FISERV,
+          query: INITIATE_PAYMENT_CYBERSOURCE,
           variables: { body: initiatePaymentPayload },
-          context: { clientName: 'rest_v4' },
+          context: { clientName: 'rest' },
           fetchPolicy: 'network-only',
         });
 
@@ -128,6 +128,7 @@ const CheckInPayment: React.FC = () => {
         if (doc) {
           doc.open();
           doc.write(html as string);
+          (doc.getElementById('payForm') as HTMLFormElement).submit();
           doc.close();
           setLoading(false);
         }

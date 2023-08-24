@@ -116,7 +116,7 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
 
   useEffect(() => {
     if (!reservationData) {
-      navigate(availablePaths.GET_RESERVATION);
+      // navigate(availablePaths.GET_RESERVATION);
     }
   }, [reservationData, navigate]);
 
@@ -165,20 +165,20 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
         },
       };
 
-      await client.query({
-        query: UPDATE_GUEST_DETAILS,
-        context: { clientName: 'rest' },
-        variables: {
-          confirmationNumber: reservationInfo?.confirmationId as string,
-          body: updateGuestDetailsPayload,
-        },
-      });
+      // await client.query({
+      //   query: UPDATE_GUEST_DETAILS,
+      //   context: { clientName: 'rest' },
+      //   variables: {
+      //     confirmationNumber: reservationInfo?.confirmationId as string,
+      //     body: updateGuestDetailsPayload,
+      //   },
+      // });
     } catch (error) {
       processError(t, error as ApolloError);
       setLoading(false);
     }
     setLoading(false);
-    navigate(availablePaths.PERSONALIZE_YOUR_ROOM);
+    navigate(availablePaths.ACCOMPANY_GUEST);
   }, [navigate]);
 
   const goToTheRoomDetails = useCallback(() => {
@@ -195,14 +195,12 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
       </Head>
       <Header
         displayBackButton
-        backRoute='/check-in'
-        screenTitle={t('Please Complete Your Check-in Process') as string}
+        backRoute={availablePaths?.GUEST_INFORMATION_INPUT}
+        screenTitle={t('Check-In') as string}
+        displayHome
       />
       <PageWrapper className={styles.pageWrapper}>
-        <p className={styles.step}>
-          Step <div className={styles.active}>1</div>
-          <div className={styles.disabled}>2</div>
-        </p>
+        <p className={styles.step}>{t('Please Complete Your Check-In Process')}</p>
         <div className={styles.checkDates}>
           <div className={styles.checkDatesColumn}>
             <p className={styles.checkDatesText}>{t('Check In')}</p>{' '}
@@ -222,15 +220,6 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
           <div className={styles.checkDatesColumn}>
             <p className={styles.checkDatesText}>{t('Number of Guests')}</p>{' '}
             <p className={styles.checkDatesDetails}>{reservationInfo?.details?.adultGuestCount}</p>
-          </div>
-
-          <div className={styles.checkDatesColumn}>
-            <p className={cx(styles.checkDatesText, styles.right)}>{t('Estimated Charges')}</p>{' '}
-            <p className={cx(styles.checkDatesDetails, styles.right)}>
-              {' '}
-              <span className={styles.currency}>{CURRENCY}</span>{' '}
-              {reservationInfo?.roomTypes[0]?.totalCharge}
-            </p>
           </div>
         </div>
 
@@ -270,15 +259,7 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
             title={t('Identity Verification')}
             icon='idCard'
             details={guestReservationInfo?.docType as string}
-            status={
-              guestReservationInfo?.docNo &&
-              guestReservationInfo?.docType &&
-              guestReservationInfo?.effectiveDate !== 'Invalid Date' &&
-              guestReservationInfo?.effectiveDate !== '' &&
-              guestReservationInfo?.issueCountry
-                ? true
-                : false
-            }
+            status={guestReservationInfo?.docNo && guestReservationInfo?.docType}
           >
             <PreCheckinDocInfo docInfo={guestReservationInfo}></PreCheckinDocInfo>
           </InfoCard>
@@ -287,7 +268,7 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
         <StyledButton
           className={styles.nextButton}
           loading={loading}
-          disabled={!buttonStatus}
+          // disabled={!buttonStatus}
           onClick={goToTheNextStep}
           variant='contained'
         >

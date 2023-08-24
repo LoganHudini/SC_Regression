@@ -1,14 +1,6 @@
 import { HOTEL_CODE } from 'core/graphql/endpoints';
 import { availablePaths } from './availablePaths';
 
-export const CHECK_IN_FLOW_VERSION = process.env.NEXT_PUBLIC_CHECK_IN_FLOW_VERSION;
-export const CHECK_OUT_FLOW_VERSION = process.env.NEXT_PUBLIC_CHECK_OUT_FLOW_VERSION;
-export const DINING_FLOW_VERSION = process.env.NEXT_PUBLIC_DINING_FLOW_VERSION;
-export const TABLE_RESERVATION_FLOW_VERSION =
-  process.env.NEXT_PUBLIC_TABLE_RESERVATION_FLOW_VERSION;
-export const HOUSEKEEPING_FLOW_VERSION = process.env.NEXT_PUBLIC_HOUSEKEEPING_FLOW_VERSION;
-export const ROOM_CONTROLS_FLOW_VERSION = process.env.NEXT_PUBLIC_ROOM_CONTROLS_FLOW_VERSION;
-
 export const Headers = ['Restaurants & Bars', 'Offers', 'In-Room Dining', 'Hotel'];
 export const DINING_OPTIONS = [
   {
@@ -152,3 +144,17 @@ export const STATUS = [
   { key: 'DELIVERED', value: 'Delivered' },
   { key: 'ACCEPTED', value: 'Accepted' },
 ];
+
+export const Gender = [
+  { name: 'Male', value: 'MALE' },
+  { name: 'Female', value: 'FEMALE' },
+];
+export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const phoneRegex =
+  /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/;
+export const checkIn = 'checkin';
+export const review = 'review';
+export const CANCELED = 'CANCELED';
+
+export const CHECKEDOUT = 'CHECKEDOUT';
+export const CHKOUT = 'CHKOUT';

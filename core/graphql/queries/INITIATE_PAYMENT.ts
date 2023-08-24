@@ -7,6 +7,7 @@ export interface IInitiatePaymentApiRequest {
   bookingId: string;
   txnType?: string;
   timeZone?: string;
+  orderId?: string;
 }
 
 export interface IInitiatePaymentApiResponse {
@@ -47,6 +48,22 @@ query InitiatePayment( $body: UpdateGuestDetailsPayload) {
     @rest(
       type: "InitiatePaymentPayload"
       path: "/loadpaymentzone2/fiserv/hotel/${HOTEL_ID}"
+      method: "POST"
+      bodyKey: "body"
+    ) {
+    errors
+    data
+    status
+  }
+}
+`;
+
+export const INITIATE_PAYMENT_CYBERSOURCE = gql`
+query InitiatePayment( $body: UpdateGuestDetailsPayload) {
+    initiatePayment(body: $body)
+    @rest(
+      type: "InitiatePaymentPayload"
+      path: "/${ENVIRONMENT}/payment/cybersource/hotel/${HOTEL_ID}/loadPaymentZone"
       method: "POST"
       bodyKey: "body"
     ) {

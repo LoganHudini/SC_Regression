@@ -10,7 +10,7 @@ import { StyledCheckBox } from '../../../components/shared/StyledCheckBox/Styled
 import styles from '../../../styles/check-in-v2/check-in-v2.module.scss';
 import { StyledButton } from '../../../components/shared/StyledButton/StyledButton';
 import { guestInformationStorage } from 'storage/guest-information.storage';
-import { ApolloError, useReactiveVar } from '@apollo/client';
+import { ApolloError, useQuery, useReactiveVar } from '@apollo/client';
 import {
   personalizeYourRoomStorage,
   specialRequestsStorage,
@@ -49,7 +49,17 @@ import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.
 import { CURRENCY, PRIVACY_LAWS, TERMS_AND_CONDITIONS } from 'core/graphql/endpoints';
 import { PRECHECKIN } from 'core/graphql/queries/PRECHECKIN';
 import { toast } from 'react-toastify';
-import { precheckinErrorMsg, cardTypes } from 'utils/constants';
+import {
+  precheckinErrorMsg,
+  cardTypes,
+  checkIn,
+  review,
+  CHKOUT,
+  CHECKEDOUT,
+  CANCELED,
+} from 'utils/constants';
+import { GET_E_REG_DETAILS } from 'core/graphql/queries/GET_E_REG_DETAILS';
+import { getConfig } from 'utils/getConfiguration';
 
 export { getStaticPaths };
 
@@ -75,32 +85,49 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const [signature, setSignature] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
-  const data = client.readQuery<IGetReservationApiResponse>({
+  const config = getConfig();
+  const checkinInfo = useCheckedIn();
+
+  const checkinModule: any = config?.modules?.find((module) => module?.name === checkIn);
+  const reviewConfig = checkinModule?.submodules?.find(
+    (submodule: any) => submodule?.name === review && submodule.isActive,
+  );
+
+  const data: any = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
   });
-  const checkinInfo = useCheckedIn();
+
+  const getEregDetails = useQuery(GET_E_REG_DETAILS, {
+    context: { clientName: 'host_v6' },
+    fetchPolicy: 'no-cache',
+  });
+
+  const eRegDocumentInformationDetails =
+    getEregDetails?.data?.getHotelSystemsDigitalCheckinConfig?.eRegistrationForm?.documentInformation?.filter(
+      (showData: any) => showData?.required,
+    );
 
   useEffect(() => {
     if (
       !reservationData ||
       !data ||
-      data?.getReservation?.data?.reservationStatus === 'CANCELED' ||
-      data?.getReservation?.data?.reservationStatus === 'CHECKEDOUT' ||
-      data.getReservation.data.reservationStatus === 'CHKOUT'
+      data?.getReservation?.data?.reservationStatus === CANCELED ||
+      data?.getReservation?.data?.reservationStatus === CHECKEDOUT ||
+      data.getReservation.data.reservationStatus === CHKOUT
     ) {
-      navigate(availablePaths.GET_RESERVATION);
+      // navigate(availablePaths.GET_RESERVATION);
     }
   }, [data, navigate]);
 
   useEffect(() => {
     if (checkinInfo?.preCheckedIn && !checkinInfo.checkedIn) {
-      navigate(availablePaths.GET_RESERVATION);
+      // navigate(availablePaths.GET_RESERVATION);
     }
   }, []);
 
   useEffect(() => {
     if (!guestReservationInfo?.isComplete) {
-      navigate(availablePaths?.GUEST_INFORMATION_INPUT);
+      // navigate(availablePaths?.GUEST_INFORMATION_INPUT);
     }
   }, [guestReservationInfo?.isComplete, navigate]);
 
@@ -216,22 +243,16 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   return (
     <>
       <Head>
-        <title>{t('Check In')}</title>
+        <title>{t(`${reviewConfig.title}`)}</title>
       </Head>
-      <Header
-        displayBackButton
-        screenTitle={t('Please Complete Your Check-in Process') as string}
-      />
-      <PageWrapper>
-        <p className={styles.step}>
-          Step <div className={styles.disabled}>1</div>
-          <div className={styles.active}>2</div>
-        </p>
-        <DetailsCard title={'Guest Information'}>
+      <Header displayBackButton screenTitle={t(`${reviewConfig.label}`) as string} />
+      <PageWrapper className={styles.pageWrapper}>
+        <div className={styles.infoText}>{t(`${reviewConfig.subTitle}`)}</div>
+        <DetailsCard title={reviewConfig.guestInformationDetails[0].title}>
           <div>
             <div className={styles.checkDates}>
               <div className={styles.checkDatesColumn}>
-                <p className={styles.checkDatesText}>{t('Check In')}</p>{' '}
+                <p className={cx(styles.checkDatesText, styles.textTransform)}>{t('Check-In')}</p>{' '}
                 <p className={styles.checkDatesDetails}>
                   {dayjs(data?.getReservation.data.details.checkInDate).format(
                     timeFormats.DAY_MONTH_YEAR,
@@ -239,7 +260,9 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                 </p>
               </div>
               <div className={styles.checkDatesColumn}>
-                <p className={cx(styles.checkDatesText, styles.right)}>{t('Check Out')}</p>{' '}
+                <p className={cx(styles.checkDatesText, styles.right, styles.textTransform)}>
+                  {t('Checkout')}
+                </p>{' '}
                 <p className={cx(styles.checkDatesDetails, styles.right)}>
                   {dayjs(data?.getReservation.data.details.checkOutDate).format(
                     timeFormats.DAY_MONTH_YEAR,
@@ -250,40 +273,40 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           </div>
           <div className={styles.description}>
             <div>
-              {data?.getReservation.data.guests[0].firstName}{' '}
-              {data?.getReservation.data.guests[0].lastName}
+              {data?.getReservation.data.guests[0].firstName ?? ''}{' '}
+              {data?.getReservation.data.guests[0].lastName ?? ''}
             </div>
-            <div>{data?.getReservation.data.guests[0].emails}</div>
-            <div>{data?.getReservation.data.guests[0].phone}</div>
+            <div>{data?.getReservation.data.guests[0].emails ?? ''}</div>
+            <div>{data?.getReservation.data.guests[0].phone ?? ''}</div>
           </div>
         </DetailsCard>
 
-        <DetailsCard title={'Credit Card Info'}>
+        <DetailsCard title={reviewConfig.creditCardDetails[0].title}>
           <div>
             <div className={styles.border}></div>
             <div>
               <div className={styles.checkDatesColumn}>
                 <p className={styles.checkDatesText}>{t('Card Number')}</p>
-                <p className={styles.checkDatesDetails}>
+                <p className={cx(styles.checkDatesDetails, styles.left)}>
                   {guestReservationInfo?.cardNumber ??
                     data?.getReservation.data.reservePayments[0].cardNumber ??
                     ''}
                 </p>
                 <p className={styles.checkDatesText}>{t('Card Holder Name')}</p>
-                <p className={styles.checkDatesDetails}>
+                <p className={cx(styles.checkDatesDetails, styles.left)}>
                   {guestReservationInfo?.cardHolderName ??
                     data?.getReservation.data.reservePayments[0].cardHolderName ??
                     ''}
                 </p>
                 <p className={styles.checkDatesText}>{t('Card Type')}</p>
-                <p className={styles.checkDatesDetails}>
+                <p className={cx(styles.checkDatesDetails, styles.left)}>
                   {cardType?.name ??
                     guestReservationInfo?.cardType ??
                     data?.getReservation.data.reservePayments[0].cardType ??
                     ''}
                 </p>
                 <p className={styles.checkDatesText}>{t('Expiry Date')}</p>
-                <p className={styles.checkDatesDetails}>
+                <p className={cx(styles.checkDatesDetails, styles.left)}>
                   {guestReservationInfo?.cardExpiryDate ??
                     data?.getReservation.data.reservePayments[0].cardExpiryDate ??
                     ''}
@@ -293,39 +316,46 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           </div>
         </DetailsCard>
 
-        <DetailsCard title={'Identity Verification'}>
-          <div>
-            <div className={styles.border}></div>
+        {eRegDocumentInformationDetails?.length !== 0 && (
+          <DetailsCard title={reviewConfig.identityVerificationDetails[0].title}>
             <div>
-              <div className={styles.checkDatesColumn}>
-                <p className={styles.checkDatesText}>{t('Doc Type')}</p>
-                <p className={styles.checkDatesDetails}>
-                  {guestReservationInfo?.docType ??
-                    data?.getReservation.data.guests[0].docType ??
-                    ''}
-                </p>
-                <p className={styles.checkDatesText}>{t('Id Number')}</p>
-                <p className={styles.checkDatesDetails}>
-                  {guestReservationInfo?.docNo ?? data?.getReservation.data.guests[0].docNo ?? ''}
-                </p>
+              <div className={styles.border}></div>
+              <div>
+                {eRegDocumentInformationDetails?.map((showData: any, index: number) => (
+                  <div key={index} className={styles.checkDatesColumn}>
+                    {reviewConfig?.identityVerificationDetails
+                      .filter((cmsData: any) => cmsData.cmsName === showData?.name)
+                      .map((configData: any) => (
+                        <div key={index}>
+                          <p className={styles.checkDatesText}>{configData.label}</p>
+                          <p className={cx(styles.checkDatesDetails, styles.left)}>
+                            {guestReservationInfo?.[configData.name] ??
+                              data?.getReservation?.data?.guests[0]?.[configData.name] ??
+                              ''}
+                          </p>
+                        </div>
+                      ))}
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
-        </DetailsCard>
+          </DetailsCard>
+        )}
 
         {(personalizationEntities.length > 0 || specialRequests) && (
           <div className={styles.cardWrapper}>
             <DetailsCard title={'Add-Ons'}>
               <div className={styles.personalzizationWrapper}>
                 <div className={styles.border}></div>
-                {personalizationEntities.map((personalizationEntity) => (
-                  <div key={personalizationEntity.code} className={styles.personalizationData}>
+                {personalizationEntities?.map((personalizationEntity) => (
+                  <div key={personalizationEntity?.code} className={styles.personalizationData}>
                     <p className={styles.personalizationText}>
-                      {personalizationEntity.quantity} x {personalizationEntity.title}
+                      {personalizationEntity?.quantity} x {personalizationEntity?.title}
                     </p>
                     <p className={styles.personalizationQuantity}>
                       {CURRENCY}{' '}
-                      {Number(personalizationEntity.price) * Number(personalizationEntity.quantity)}
+                      {Number(personalizationEntity?.price) *
+                        Number(personalizationEntity?.quantity)}
                     </p>
                   </div>
                 ))}
@@ -358,7 +388,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           </div>
         )}
         <div className={styles.agrementWrapper}>
-          <StyledCheckBox onClick={toggleConditionsAccepted} value={conditionsAccepted} />
+          <div className={styles.checkBoxAlign}>
+            <StyledCheckBox onClick={toggleConditionsAccepted} value={conditionsAccepted} />
+          </div>
+
           <p className={styles.agrementText}>
             {t('I have read, understood and agree to the ')}
             <Link href={`${TERMS_AND_CONDITIONS}`} target='_blank' rel='noopener'>
@@ -383,22 +416,25 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               ref={sigCanvas}
               maxWidth={1.5}
               penColor='#3D3C3C'
-              canvasProps={{ height: 100, width: 320 }}
+              canvasProps={{ height: 100, width: 350 }}
               clearOnResize={false}
               onEnd={() => handleSignatureChange()}
             />
           </Card>
         </div>
-
-        <StyledButton
-          disabled={!btnStatus}
-          className={styles.checkInButton}
-          onClick={goToCheckIn}
-          loading={loading}
-          variant='contained'
-        >
-          {t('CHECK-IN')}
-        </StyledButton>
+        <div className={styles.btnWrapper}>
+          <div className={styles.bottomButton}>
+            <StyledButton
+              // disabled={!btnStatus}
+              className={styles.checkInButton}
+              onClick={goToCheckIn}
+              loading={loading}
+              variant='contained'
+            >
+              {t('CHECK-IN')}
+            </StyledButton>
+          </div>
+        </div>
       </PageWrapper>
     </>
   );
