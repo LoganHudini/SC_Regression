@@ -30,6 +30,7 @@
   font-size: $extraSmall;
   line-height: 1.25;
   font-family: var(--primary-font-news);
+  text-align: center;
 }
 
 .drawerNotch {
@@ -47,18 +48,31 @@
 .title {
   font-size: 1.5rem;
   font-family: var(--secondary-font-regular);
+  text-align: center;
 }
 
 .optionsList {
   margin: 3rem 0;
+  text-align: center;
+}
+
+.optionsListItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  margin: 0 20px;
+  color: $textColorQuaternary;
+  border-bottom: 1px solid var(--primary-border-color);
 }
 
 .inActiveText {
   padding: 10px 0;
   font-size: $small;
   font-family: var(--primary-font-news);
-  border-bottom: 1px solid var(--primary-border-color);
-  margin: 0 20px;
+  width: 100%;
+  height: 15px;
+  color: var(--tertiary-text-color);
 }
 
 .activeText {
@@ -66,5 +80,8 @@
   font-size: $medium;
   color: var(--primary-theme-color);
   font-family: var(--primary-font-medium);
-  border-bottom: 1px solid var(--primary-border-color);
+}
+
+.icon {
+  margin-left: -1.31rem;
 }

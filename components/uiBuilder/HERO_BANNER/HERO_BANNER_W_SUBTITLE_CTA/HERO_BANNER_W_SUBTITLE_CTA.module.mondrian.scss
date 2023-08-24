@@ -6,7 +6,7 @@
 
   h1,
   h3 {
-    color: $textColorSecondary;
+    color: var(--secpndary-text-color);
     text-align: center;
     line-height: 2;
     padding: 0 25px;

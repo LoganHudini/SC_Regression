@@ -44,7 +44,7 @@ export const THEME_COLOR = '#997300';
 export const TERMS_AND_CONDITIONS = process.env.NEXT_PUBLIC_TERMS_AND_CONDITIONS;
 export const PRIVACY_LAWS = process.env.NEXT_PUBLIC_PRIVACY_LAWS;
 
-export const CURRENCY = process.env.NEXT_PUBLIC_CURRENCY;
+export const CURRENCY = 'SGD';
 export const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
 
 export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;

@@ -71,11 +71,6 @@
   margin-top: 22px;
 }
 
-.checkInButton {
-  margin-top: 50px;
-  font-weight: 900;
-}
-
 .agrementWrapper {
   display: flex;
   margin: 0px 0 13px 0;
@@ -125,6 +120,7 @@
     background: var(---signaturepad-background);
   }
   margin: 0 auto;
+  margin-bottom: 150px;
 }
 
 .settlementWrapper {
@@ -216,6 +212,7 @@
 
 .pageWrapper {
   padding: 0px 20px;
+  padding-top: 65px;
 }
 
 .right {
@@ -232,4 +229,28 @@
 
 .checkBoxAlign {
   margin-bottom: 10px;
+}
+
+.bottomButton {
+  width: 90%;
+  max-width: 768px;
+}
+
+.checkInButton {
+  margin-top: 10px;
+  font-weight: 900;
+}
+
+.btnWrapper {
+  max-width: 768px;
+  padding: 15px 0px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-background-color);
 }

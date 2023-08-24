@@ -21,7 +21,7 @@
 
 .carouselText {
   font-size: 20px;
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
   position: absolute;
   left: 26px;
   bottom: 51px;

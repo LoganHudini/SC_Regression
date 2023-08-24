@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './BottomMenu.module.scss';
 import { motion } from 'framer-motion';
 import HamburgerIcon from '@icons/hamburger.svg';
+import DownArrowIcon from '@icons/downArrow.svg';
 import CloseHamburgerIcon from '@icons/closeHamburger.svg';
 
 import { MenuItem, ModuleOptionsDrawer } from 'components/shared/BottomMenu/MenuItem/MenuItem';
@@ -14,9 +15,18 @@ import {
   IGetHamburgerMenuDetailsApiResponse,
 } from 'core/graphql/queries/GET_HAMBURGER_MENU';
 import { hamburgerIconsMap } from 'utils/hamburger/hamburgerIconsMap';
+import { availablePaths } from 'utils/availablePaths';
+import { useRouter } from 'next/router';
+import { Headers } from 'utils/constants';
 
 export const BottomMenu = () => {
+  const router = useRouter();
   const hamburgerMenuStatus = useReactiveVar(toggleHamburgerMenuDrawer);
+  const arrowActive = true;
+  const homeActive = router.pathname === '/[locale]';
+  const irdActive = router.pathname.includes(availablePaths?.DINING);
+  const restaurantActive = router.pathname.includes(Headers[0]);
+  const housekeepingActive = router.pathname.includes(availablePaths.HOUSEKEEPING);
 
   const { data } = useQuery<IGetHamburgerMenuDetailsApiResponse>(GET_HAMBURGER_MENU, {
     context: { clientName: 'host_v4' },
@@ -46,7 +56,9 @@ export const BottomMenu = () => {
       <div className={styles.bottomMenuWrapper}>
         <motion.div whileTap={{ scale: 0.8 }} className={styles.bottomMenuButton}>
           <StyledButton variant='contained' onClick={openModuleOptionsDrawer}>
-            ROOM 0411
+            {homeActive && t('Room 401')}
+            {irdActive && t('In-Room Dining')}
+            {arrowActive && <DownArrowIcon className={styles.downArrow} />}
           </StyledButton>
         </motion.div>
         {hamburgerMenuStatus ? (
@@ -59,7 +71,7 @@ export const BottomMenu = () => {
         )}
       </div>
 
-      <ModuleOptionsDrawer />
+      <ModuleOptionsDrawer {...{ homeActive, irdActive }} />
 
       {hamburgerMenuStatus && (
         <div className={styles.hamburgerMenuContainer}>

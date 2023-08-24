@@ -1,12 +1,10 @@
 .menuOptionsWrapper {
   display: flex;
+  max-width: 768px;
   overflow: scroll;
-  margin-top: 1.9rem;
-  margin-left: -0.6rem;
-  padding: 1rem;
-  height: 38px;
-  width: min(100%, 740px);
-  background-color: $textColorSecondary;
+  padding: 1.6rem 1rem 1.4rem;
+  background-color: var(--primary-background-color);
+  transition: all 0.5s ease-in-out;
 }
 
 .menuOptionsWrapperSecondary {
@@ -15,53 +13,54 @@
 }
 
 .fixedTop {
-  position: fixed;
-  width: min(95%, 740px);
-  top: 30px;
-  left: 0px;
-  right: 0px;
-  background-color: $textColorSecondary;
-  display: flex;
-  height: 38px;
-  z-index: 3;
+  max-width: 736px;
   margin: auto;
+  position: fixed;
+  top: 30px;
+  left: 0;
+  right: 0;
+  background-color: var(--primary-background-color);
+  z-index: 3;
   margin-top: 2rem;
+  transition: all 0.5s ease-in-out;
 }
 
 .diningMenuFilterButtonWrapper {
-  &:not(:last-of-type) {
-    margin-right: 10px;
-  }
+  margin: 0 5px;
 }
 
 .DiningCategoryOptionActive {
-  height: 38px;
-  line-height: 38px;
-  font-family: $fontRegular;
-  font-size: $medium;
+  height: 30px;
+  line-height: 30px;
+  font: $extraSmall var(--primary-font-extd-regular);
   padding: 0 10px;
   text-transform: capitalize;
-  color: $textColorSecondary !important;
+  color: var(--secondary-text-color) !important;
   background: var(--primary-theme-color) !important;
+  border: none;
   width: fit-content;
   white-space: nowrap;
+
+  &:hover:enabled {
+    border: none;
+  }
 }
 
 .DiningCategoryOptionInActive {
-  height: 38px;
-  line-height: 38px;
+  height: 30px;
+  line-height: 30px;
   background: var(--primary-background-color);
-  font-family: $fontRegular;
-  font-size: $medium;
+  font: $extraSmall var(--primary-font-extd-regular);
   padding: 0 10px;
   text-transform: capitalize;
   box-shadow: none;
   width: fit-content;
   white-space: nowrap;
-  color: $fontColor;
+  color: var(--primary-theme-color);
+  border: 1px solid var(--primary-border-color);
 
   &:hover:enabled {
-    color: $fontColor;
+    color: var(--primary-theme-color);
     background: var(--primary-background-color);
     box-shadow: none;
   }
@@ -72,7 +71,7 @@
   height: 40px;
   width: min(104%, 748px);
   background-color: var(--primary-theme-color);
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
   font-family: $fontLight;
   font-size: $small;
   align-items: center;

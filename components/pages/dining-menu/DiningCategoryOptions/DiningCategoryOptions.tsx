@@ -57,7 +57,7 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
     const categoryElement = document.getElementById(`Category${el?.id}`);
     if (categoryElement) {
       setScrollHide(false);
-      const headerOffset = 150;
+      const headerOffset = 180;
       const elementPosition = categoryElement.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.scrollY - headerOffset;
       window.scrollTo({

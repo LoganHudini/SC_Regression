@@ -413,16 +413,19 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             />
           </Card>
         </div>
-
-        <StyledButton
-          // disabled={!btnStatus}
-          className={styles.checkInButton}
-          onClick={goToCheckIn}
-          loading={loading}
-          variant='contained'
-        >
-          {t('CHECK-IN')}
-        </StyledButton>
+        <div className={styles.btnWrapper}>
+          <div className={styles.bottomButton}>
+            <StyledButton
+              // disabled={!btnStatus}
+              className={styles.checkInButton}
+              onClick={goToCheckIn}
+              loading={loading}
+              variant='contained'
+            >
+              {t('CHECK-IN')}
+            </StyledButton>
+          </div>
+        </div>
       </PageWrapper>
     </>
   );

@@ -1,15 +1,22 @@
 import { HOTEL_CODE } from 'core/graphql/endpoints';
+import { availablePaths } from './availablePaths';
 
 export const Headers = ['Restaurants & Bars', 'Offers', 'In-Room Dining', 'Hotel'];
 export const DINING_OPTIONS = [
   {
     id: 'ird',
     title: 'In-Room Dining',
+    path: '/dining',
   },
-  { id: 'rest', title: 'Restaurants' },
+  {
+    id: 'restaurants',
+    title: 'Restaurants',
+    path: '/restaurants-bars',
+  },
   {
     id: 'bars',
     title: 'Bars',
+    path: '/restaurants-bars',
   },
 ];
 export const Schedules = ['TODAY', 'TOMORROW'];

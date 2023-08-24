@@ -71,14 +71,14 @@
 .checkText {
   font-size: 0.75rem;
   margin-bottom: 1px;
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
   line-height: 1;
 }
 
 .checkDate {
   font-size: 1.125rem;
   margin-bottom: 1px;
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
   line-height: 1;
 }
 
@@ -96,7 +96,7 @@
 .hotelDataText {
   font-size: 0.9375rem;
   line-height: 1;
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
   &:first-of-type {
     margin-bottom: 7px;
   }
@@ -106,7 +106,7 @@
   height: 36px;
   width: 36px;
   background: var(--secondary-text-color);
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -140,7 +140,7 @@
 }
 
 .precheckedinText {
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
   font-size: 1.3125rem;
   line-height: 1.25;
   font-weight: 900;

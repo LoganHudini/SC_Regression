@@ -10,7 +10,7 @@
   right: 0;
 
   h1 {
-    color: $textColorSecondary;
+    color: var(--secpndary-text-color);
     text-align: center;
     line-height: 1.25;
     padding: 0 25px;
@@ -31,7 +31,7 @@
 
 .heroBannerButton {
   margin-top: 15px;
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
   font-weight: 600;
   text-transform: none;
   font-size: 1.1rem;
