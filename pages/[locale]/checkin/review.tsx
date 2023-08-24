@@ -308,7 +308,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           </div>
         </DetailsCard>
 
-        {eRegDocumentInformationDetails && (
+        {eRegDocumentInformationDetails?.length !== 0 && (
           <DetailsCard title={reviewConfig.identityVerificationDetails[0].title}>
             <div>
               <div className={styles.border}></div>
@@ -318,14 +318,14 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                     {reviewConfig?.identityVerificationDetails
                       .filter((cmsData: any) => cmsData.cmsName === showData.name)
                       .map((configData: any) => (
-                        <>
+                        <div key={index}>
                           <p className={styles.checkDatesText}>{configData.label}</p>
                           <p className={cx(styles.checkDatesDetails, styles.left)}>
                             {guestReservationInfo?.[configData.name] ??
                               data?.getReservation?.data?.guests[0]?.[configData.name] ??
                               '--'}
                           </p>
-                        </>
+                        </div>
                       ))}
                   </div>
                 ))}
