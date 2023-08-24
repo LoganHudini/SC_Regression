@@ -196,7 +196,7 @@ export const configuration = {
           subTitle:
             'Please review and confirm the below information to complete the Check In process',
           type: 'cms',
-          isActive: 'true',
+          isActive: true,
           guestInformationDetails: [
             {
               title: 'Guest Information',

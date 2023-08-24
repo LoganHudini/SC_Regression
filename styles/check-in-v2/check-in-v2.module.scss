@@ -83,10 +83,10 @@
   flex: 1;
   max-width: 280px;
   line-height: 1.4;
-  color: var(--quaternary-text-color);
+  color: var(--tertiary-text-color);
   font-family: var(--primary-font-book);
   a {
-    color: var(--quaternary-text-color);
+    color: var(--tertiary-text-color);
     text-decoration: none;
     white-space: nowrap;
   }
@@ -117,7 +117,7 @@
 .agrementSignatureWrapper {
   canvas {
     margin: -7px -15px -25px -15px;
-    background: var(---signaturepad-background);
+    background: var(--primary-card-background-color);
   }
   margin: 0 auto;
   margin-bottom: 150px;
@@ -182,7 +182,7 @@
   padding: 25px 10px;
   text-align: center;
   font-family: var(--primary-font-book);
-  color: var(--quaternary-text-color);
+  color: var(--tertiary-text-color);
 }
 
 .step {

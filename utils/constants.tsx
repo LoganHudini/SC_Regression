@@ -152,3 +152,9 @@ export const Gender = [
 export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const phoneRegex =
   /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/;
+export const checkIn = 'checkin';
+export const review = 'review';
+export const CANCELED = 'CANCELED';
+
+export const CHECKEDOUT = 'CHECKEDOUT';
+export const CHKOUT = 'CHKOUT';

@@ -47,7 +47,7 @@
   z-index: 5;
   background: var(--primary-theme-color);
   position: relative;
-  box-shadow: 0 5px 6px -6px #222;
+  box-shadow: 0 5px 6px -6px var(--primary-box-shadow-color);
 }
 
 .containerTransparent {

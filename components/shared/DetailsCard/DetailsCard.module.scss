@@ -61,7 +61,7 @@
   text-align: left;
   line-height: 4vh;
   border-bottom: 1px solid;
-  color: var(--quinary-text-color);
+  color: var(--primary-text-color);
 }
 
 .detailsText {
@@ -81,5 +81,5 @@
 .detailsCard {
   margin-bottom: 3vh;
   padding: 20px 20px 0px 20px;
-  background: var(--primary-card-background);
+  background: var(--primary-card-background-color);
 }

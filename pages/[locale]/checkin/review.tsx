@@ -49,7 +49,15 @@ import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.
 import { CURRENCY, PRIVACY_LAWS, TERMS_AND_CONDITIONS } from 'core/graphql/endpoints';
 import { PRECHECKIN } from 'core/graphql/queries/PRECHECKIN';
 import { toast } from 'react-toastify';
-import { precheckinErrorMsg, cardTypes } from 'utils/constants';
+import {
+  precheckinErrorMsg,
+  cardTypes,
+  checkIn,
+  review,
+  CHKOUT,
+  CHECKEDOUT,
+  CANCELED,
+} from 'utils/constants';
 import { GET_E_REG_DETAILS } from 'core/graphql/queries/GET_E_REG_DETAILS';
 import { getConfig } from 'utils/getConfiguration';
 
@@ -80,9 +88,9 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const config = getConfig();
   const checkinInfo = useCheckedIn();
 
-  const checkinModule: any = config?.modules?.find((module) => module?.name === 'checkin');
+  const checkinModule: any = config?.modules?.find((module) => module?.name === checkIn);
   const reviewConfig = checkinModule?.submodules?.find(
-    (submodule: any) => submodule?.name === 'review' && submodule.isActive == 'true',
+    (submodule: any) => submodule?.name === review && submodule.isActive,
   );
 
   const data: any = client.readQuery<IGetReservationApiResponse>({
@@ -103,9 +111,9 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     if (
       !reservationData ||
       !data ||
-      data?.getReservation?.data?.reservationStatus === 'CANCELED' ||
-      data?.getReservation?.data?.reservationStatus === 'CHECKEDOUT' ||
-      data.getReservation.data.reservationStatus === 'CHKOUT'
+      data?.getReservation?.data?.reservationStatus === CANCELED ||
+      data?.getReservation?.data?.reservationStatus === CHECKEDOUT ||
+      data.getReservation.data.reservationStatus === CHKOUT
     ) {
       // navigate(availablePaths.GET_RESERVATION);
     }
@@ -244,7 +252,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           <div>
             <div className={styles.checkDates}>
               <div className={styles.checkDatesColumn}>
-                <p className={cx(styles.checkDatesText, styles.textTransform)}>{t('Check In')}</p>{' '}
+                <p className={cx(styles.checkDatesText, styles.textTransform)}>{t('Check-In')}</p>{' '}
                 <p className={styles.checkDatesDetails}>
                   {dayjs(data?.getReservation.data.details.checkInDate).format(
                     timeFormats.DAY_MONTH_YEAR,
@@ -253,7 +261,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               </div>
               <div className={styles.checkDatesColumn}>
                 <p className={cx(styles.checkDatesText, styles.right, styles.textTransform)}>
-                  {t('Check Out')}
+                  {t('Checkout')}
                 </p>{' '}
                 <p className={cx(styles.checkDatesDetails, styles.right)}>
                   {dayjs(data?.getReservation.data.details.checkOutDate).format(
@@ -265,11 +273,11 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           </div>
           <div className={styles.description}>
             <div>
-              {data?.getReservation.data.guests[0].firstName ?? '--'}{' '}
-              {data?.getReservation.data.guests[0].lastName ?? '--'}
+              {data?.getReservation.data.guests[0].firstName ?? ''}{' '}
+              {data?.getReservation.data.guests[0].lastName ?? ''}
             </div>
-            <div>{data?.getReservation.data.guests[0].emails ?? '--'}</div>
-            <div>{data?.getReservation.data.guests[0].phone ?? '--'}</div>
+            <div>{data?.getReservation.data.guests[0].emails ?? ''}</div>
+            <div>{data?.getReservation.data.guests[0].phone ?? ''}</div>
           </div>
         </DetailsCard>
 
@@ -282,26 +290,26 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                 <p className={cx(styles.checkDatesDetails, styles.left)}>
                   {guestReservationInfo?.cardNumber ??
                     data?.getReservation.data.reservePayments[0].cardNumber ??
-                    '--'}
+                    ''}
                 </p>
                 <p className={styles.checkDatesText}>{t('Card Holder Name')}</p>
                 <p className={cx(styles.checkDatesDetails, styles.left)}>
                   {guestReservationInfo?.cardHolderName ??
                     data?.getReservation.data.reservePayments[0].cardHolderName ??
-                    '--'}
+                    ''}
                 </p>
                 <p className={styles.checkDatesText}>{t('Card Type')}</p>
                 <p className={cx(styles.checkDatesDetails, styles.left)}>
                   {cardType?.name ??
                     guestReservationInfo?.cardType ??
                     data?.getReservation.data.reservePayments[0].cardType ??
-                    '--'}
+                    ''}
                 </p>
                 <p className={styles.checkDatesText}>{t('Expiry Date')}</p>
                 <p className={cx(styles.checkDatesDetails, styles.left)}>
                   {guestReservationInfo?.cardExpiryDate ??
                     data?.getReservation.data.reservePayments[0].cardExpiryDate ??
-                    '--'}
+                    ''}
                 </p>
               </div>
             </div>
@@ -316,14 +324,14 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                 {eRegDocumentInformationDetails?.map((showData: any, index: number) => (
                   <div key={index} className={styles.checkDatesColumn}>
                     {reviewConfig?.identityVerificationDetails
-                      .filter((cmsData: any) => cmsData.cmsName === showData.name)
+                      .filter((cmsData: any) => cmsData.cmsName === showData?.name)
                       .map((configData: any) => (
                         <div key={index}>
                           <p className={styles.checkDatesText}>{configData.label}</p>
                           <p className={cx(styles.checkDatesDetails, styles.left)}>
                             {guestReservationInfo?.[configData.name] ??
                               data?.getReservation?.data?.guests[0]?.[configData.name] ??
-                              '--'}
+                              ''}
                           </p>
                         </div>
                       ))}
@@ -339,14 +347,15 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             <DetailsCard title={'Add-Ons'}>
               <div className={styles.personalzizationWrapper}>
                 <div className={styles.border}></div>
-                {personalizationEntities.map((personalizationEntity) => (
-                  <div key={personalizationEntity.code} className={styles.personalizationData}>
+                {personalizationEntities?.map((personalizationEntity) => (
+                  <div key={personalizationEntity?.code} className={styles.personalizationData}>
                     <p className={styles.personalizationText}>
-                      {personalizationEntity.quantity} x {personalizationEntity.title}
+                      {personalizationEntity?.quantity} x {personalizationEntity?.title}
                     </p>
                     <p className={styles.personalizationQuantity}>
                       {CURRENCY}{' '}
-                      {Number(personalizationEntity.price) * Number(personalizationEntity.quantity)}
+                      {Number(personalizationEntity?.price) *
+                        Number(personalizationEntity?.quantity)}
                     </p>
                   </div>
                 ))}
