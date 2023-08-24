@@ -125,6 +125,10 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 
+.css-1d1r5q-MuiFormHelperText-root {
+  color: red !important;
+}
+
 .loaderWrapper {
   display: flex;
   flex-direction: row;
@@ -194,12 +198,16 @@ body {
 .MuiInputLabel-root {
   color: #828282 !important;
 }
+.MuiFormLabel-asterisk {
+  color: blue !important;
+}
 
 .MuiInputBase-root,
 .MuiInputBase-input,
 .MuiFormLabel-root,
 .MuiMenuItem-root {
-  font-family: $fontRegular !important;
+  font-size: $small;
+  font-family: var(--primary-font-book) !important;
 }
 
 .Toastify__toast--error {

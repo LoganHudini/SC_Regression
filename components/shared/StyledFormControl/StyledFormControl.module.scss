@@ -32,12 +32,13 @@
     :global(.MuiInputBase-input) {
       text-align: start;
       background: transparent !important;
+      padding-bottom: 6px !important;
     }
   }
 
   :global(.MuiInputLabel-asterisk),
   :global(.Mui-error) {
-    color: $errorMsgColor !important;
+    color: var(--tertiary-text-color) !important;
   }
 
   :global(.Mui-error) {

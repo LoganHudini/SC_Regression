@@ -22,8 +22,12 @@
   :global(.Mui-focused) {
     color: var(--primary-theme-color) !important;
   }
-
-  :global(.MuiInputLabel-asterisk),
+  :global(.MuiFormHelperText-root) {
+    color: red !important;
+  }
+  :global(.MuiInputLabel-asterisk) {
+    color: var(--tertiary-text-color) !important;
+  }
   :global(.Mui-error) {
     color: red !important;
   }

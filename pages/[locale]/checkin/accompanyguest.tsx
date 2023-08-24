@@ -18,6 +18,7 @@ import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
 import DateRangeIcon from '@icons/DateRangeIcon.svg';
+import DropDown from '@icons/dropDownIcon.svg';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -41,6 +42,9 @@ import { AddaccompanyDetails } from 'core/graphql/queries/ADD_GUEST';
 import { accompanyGuestDetails } from 'storage/accompany-guest-details';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
 import { Gender, emailRegex, phoneRegex } from 'utils/constants';
+import { getConfig } from 'utils/getConfiguration';
+import React from 'react';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 export { getStaticPaths };
 
@@ -50,6 +54,33 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
     query: GET_RESERVATION,
   });
   const reservationInfo: any = reservationData?.getReservation.data;
+  const config = getConfig();
+  const checkinModule: any = config?.modules?.find((module) => module?.name === 'checkin');
+  const accompanyingGuestSubmodule = checkinModule?.submodules?.find(
+    (submodule: any) => submodule?.name === 'accompanyingGuest' && submodule.isActive == 'true',
+  );
+  const [emailErrors, setEmailErrors] = useState<string[]>([]);
+  const [phoneErrors, setPhoneErrors] = useState<string[]>([]);
+  const [otherFieldErrors, setOtherFieldErrors] = useState<any>([]);
+  let isValid: any = true;
+  let errorMessage: any = '';
+  const handleFieldBlur: any = (index: any, fieldName: any, value: any) => {
+    if (!value) {
+      errorMessage = t(`${fieldName} is required`);
+    } else if (fieldName === 'email' && !emailRegex.test(value)) {
+      isValid = false;
+      errorMessage = t('Invalid email address');
+    } else if (fieldName === 'phoneNo' && !phoneRegex.test(value)) {
+      isValid = false;
+      errorMessage = t('Invalid phone number');
+    }
+
+    setOtherFieldErrors((prevErrors: any) => {
+      const updatedErrors: any = [...prevErrors];
+      updatedErrors[index] = { fieldName, isValid, errorMessage };
+      return updatedErrors;
+    });
+  };
 
   const [infoCards, setInfoCards] = useState<any>([]);
   const [statusClass, setStatus] = useState<any>([]);
@@ -62,30 +93,50 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
 
   useEffect(() => {
-    if (accompanyGuestData) {
-      setInfoCards(accompanyGuestData);
-    } else if (reservationInfo?.guests?.length > 1) {
-      const initialInfoCards: any = reservationInfo?.guests?.map((guest: any, index: number) => {
-        if (index != 0) {
-          return {
-            formData: {
-              firstName: guest.firstName || '',
-              lastName: guest.lastName || '',
-              id: guest.docNumber || '',
-              email: undefined,
-              gender: guest.gender || '',
-              phoneNo: undefined,
-              condition: 'false',
-              alreadyUpdated: true,
-            },
-          };
-        }
+    if (accompanyGuestData && accompanyGuestData.length > 0) {
+      const updatedInfoCards = accompanyGuestData.map((guest: any) => {
+        const formData: any = {
+          alreadyUpdated: true,
+        };
+
+        accompanyingGuestSubmodule.details.forEach((item: any) => {
+          if (guest[item.name] && guest[item.name].isActive === 'true') {
+            formData[item.name] = guest[item.name].value;
+          } else if (item.name in guest) {
+            formData[item.name] = guest[item.name];
+          } else if (item.isActive == 'true') {
+            formData[item.name] = '';
+          }
+        });
+
+        return { formData };
       });
-      setInfoCards([...initialInfoCards].slice(1));
+
+      setInfoCards(updatedInfoCards);
+    } else if (reservationInfo?.guests?.length > 1) {
+      const initialInfoCards = reservationInfo.guests.slice(1).map((guest: any) => {
+        const formData: any = {
+          alreadyUpdated: true,
+        };
+
+        accompanyingGuestSubmodule.details.forEach((item: any) => {
+          if (guest[item.name] && guest[item.name].isActive === 'true') {
+            formData[item.name] = guest[item.name].value;
+          } else if (item.name in guest) {
+            formData[item.name] = guest[item.name];
+          } else if (item.isActive == 'true') {
+            formData[item.name] = '';
+          }
+        });
+
+        return { formData };
+      });
+
+      setInfoCards(initialInfoCards);
     } else {
-      setInfoCards(() => [{ formData: { alreadyUpdated: false } }]);
+      setInfoCards([{ formData: { alreadyUpdated: false } }]);
     }
-  }, [reservationInfo]);
+  }, []);
 
   const buttonValidation = statusClass.some((item: any) => item === false);
 
@@ -102,13 +153,34 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
   }, [reservationData, navigate]);
 
   const handleInputChange = (index: number) => (e: any) => {
-    const { name, value } = e.target;
+    const { name, value, required } = e.target;
 
     setInfoCards((prevCards: any) =>
       prevCards.map((card: any, i: number) =>
         i === index ? { ...card, formData: { ...card.formData, [name]: value } } : card,
       ),
     );
+    if (required) {
+      setOtherFieldErrors((prevErrors: any) => {
+        const updatedErrors = [...prevErrors];
+        const fieldName = name;
+        let isValid = true;
+        let errorMessage = '';
+
+        if (!value) {
+          errorMessage = t(`${fieldName} is required`);
+        } else if (fieldName === 'email' && !emailRegex.test(value)) {
+          isValid = false;
+          errorMessage = t('Invalid email address');
+        } else if (fieldName === 'phoneNo' && !phoneRegex.test(value)) {
+          isValid = false;
+          errorMessage = t('Invalid phone number');
+        }
+
+        updatedErrors[index] = { fieldName, isValid, errorMessage };
+        return updatedErrors;
+      });
+    }
   };
 
   const addInfoCard = () => {
@@ -209,21 +281,47 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
 
     setLoading(false);
   };
-
   useEffect(() => {
-    const updatedStatus = infoCards.map((card: any) =>
-      Boolean(
-        card.formData.firstName &&
-          card.formData.lastName &&
-          emailRegex.test(card.formData.email) &&
-          phoneRegex.test(card.formData.phoneNo) &&
-          card.formData.id &&
-          card.formData.gender &&
-          card.formData.condition == 'false',
-      ),
-    );
+    const updatedStatus = infoCards.map((card: any) => {
+      let cardStatus = true;
+
+      accompanyingGuestSubmodule.details.forEach((item: any) => {
+        if (item.isActive === 'true' && item.required === 'true') {
+          // Check if the field is required and not valid
+          if (item.required === 'true') {
+            if (!card.formData[item.name]) {
+              cardStatus = false;
+            }
+          }
+
+          // Add more validation logic based on the field type and requirements
+          if (item.type === 'email' && !emailRegex.test(card.formData[item.name])) {
+            cardStatus = false;
+          }
+          if (item.type === 'number' && !phoneRegex.test(card.formData[item.name])) {
+            cardStatus = false;
+          }
+
+          // Add more validation
+        }
+      });
+
+      // status check
+      // if (
+      //   cardStatus &&
+      //   card.formData.condition === 'false' &&
+      //   card.formData.gender &&
+      // ) {
+      //   cardStatus = true;
+      // } else {
+      //   cardStatus = false;
+      // }
+
+      return cardStatus;
+    });
+
     setStatus(updatedStatus);
-  }, [infoCards, conditionsAccepted, cardOPen]);
+  }, [infoCards, accompanyingGuestSubmodule.details]);
 
   const toggleConditionsAccepted = useCallback(() => {
     setConditionsAccepted((oldState) => !oldState);
@@ -271,198 +369,126 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
       <Header
         displayBackButton
         backRoute={availablePaths?.GUEST_INFORMATION_INPUT}
-        screenTitle={t('Secondary Guests') as string}
+        screenTitle={t(`${accompanyingGuestSubmodule?.label}`) as string}
       />
       <PageWrapper className={styles.pageWrapper}>
         <div>
           {infoCards.map((card: any, index: number) => {
-            const status = Boolean(
-              card.formData.firstName &&
-                card.formData.lastName &&
-                card.formData.email &&
-                card.formData.phoneNo &&
-                card.formData.id &&
-                card.formData.gender &&
-                card.formData.condition == 'false',
-            );
+            const status = statusClass[index];
 
             return (
               <InfoCard
                 key={index}
-                title={
-                  status &&
-                  !isValidEmail(card.formData.email) &&
-                  !isValidPhone(card.formData.phoneNo)
-                    ? `${card.formData.firstName} ${card.formData.lastName}`
-                    : t('Accompanying Guest')
-                }
-                icon={
-                  status &&
-                  !isValidEmail(card.formData.email) &&
-                  !isValidPhone(card.formData.phoneNo)
-                    ? 'user'
-                    : 'userGroup'
-                }
-                status={
-                  status &&
-                  !isValidEmail(card.formData.email) &&
-                  !isValidPhone(card.formData.phoneNo)
-                }
+                title={status ? `${card.formData.firstName}` : t('Accompanying Guest')}
+                icon={status ? accompanyingGuestSubmodule?.cardIcon : 'userGroup'}
+                status={status}
                 isCardOpened={cardOPen}
               >
                 <div className={styles.identityInputs}>
-                  <div className={styles.col_100}>
-                    <StyledInput
-                      required
-                      autoComplete='off'
-                      label={t('FIRST NAME')}
-                      className={styles.guestDataInput}
-                      variant='standard'
-                      name={'firstName'}
-                      value={card?.formData?.firstName || ''}
-                      onChange={handleInputChange(index)}
-                    />
-                  </div>
-
-                  <div>
-                    <StyledInput
-                      required
-                      autoComplete='off'
-                      label={t('LAST NAME')}
-                      className={styles.guestDataInput}
-                      variant='standard'
-                      name={'lastName'}
-                      value={card.formData.lastName || ''}
-                      onChange={handleInputChange(index)}
-                    />
-                  </div>
-                  <div></div>
-                  <div>
-                    <StyledInput
-                      required
-                      autoComplete='off'
-                      className={styles.guestDataInput}
-                      label={t('PASSPORT/ ID NUMBER')}
-                      variant='standard'
-                      name={'id'}
-                      value={card.formData.id || ''}
-                      onChange={handleInputChange(index)}
-                    />
-                  </div>
-                  <div className={styles.col_100}>
-                    <StyledFormControl
-                      required
-                      className={styles.guestDataInput}
-                      variant='standard'
-                      sx={{ m: 1, minWidth: '100%' }}
-                    >
-                      <InputLabel>GENDER</InputLabel>
-                      <Select
-                        className={styles.guestDataInput}
-                        label={t('GENDER')}
-                        variant='standard'
-                        name={'gender'}
-                        id={'gender'}
-                        value={card.formData.gender || ''}
-                        onChange={handleInputChange(index)}
-                      >
-                        {Gender.map((item: any) => {
-                          return (
-                            <MenuItem value={item.value} key={item.value}>
-                              <em>{item.name}</em>
-                            </MenuItem>
-                          );
-                        })}
-                      </Select>
-                    </StyledFormControl>
-                  </div>
-
-                  <div>
-                    <StyledInput
-                      required
-                      autoComplete='off'
-                      label={t('EMAIL')}
-                      className={styles.guestDataInput}
-                      variant='standard'
-                      name={'email'}
-                      value={card.formData.email || ''}
-                      onChange={handleInputChange(index)}
-                      type='email'
-                      onFocus={() => isValidEmail(card.formData.email)}
-                      error={isValidEmail(card.formData.email)}
-                      helperText={!isValidEmail(card.formData.email) ? '' : 'Invalid email address'}
-                    />
-                  </div>
-                  <div>
-                    <StyledInput
-                      required
-                      autoComplete='off'
-                      label={t('PHONE NUMBER')}
-                      variant='standard'
-                      className={styles.guestDataInput}
-                      name={'phoneNo'}
-                      value={card.formData.phoneNo || ''}
-                      onChange={handleInputChange(index)}
-                      type='number'
-                      onFocus={() => isValidPhone(card.formData.phoneNo)}
-                      error={isValidPhone(card.formData.phoneNo)}
-                      helperText={
-                        !isValidPhone(card.formData.phoneNo) ? '' : 'Invalid phone number'
-                      }
-                    />
-                  </div>
-                  <div className={styles.agrementWrapperTitle}>
-                    <StyledCheckBox
-                      onChange={handleInputChange(index)}
-                      onClick={toggleConditionsAccepted}
-                      name={'condition'}
-                      value={conditionsAccepted}
-                      checked={card.formData.condition == 'false'}
-                    />
-                    <p className={styles.agrementText}>
-                      {t(
-                        'I agree to receive an invitation email to validate and sign up for a complimentary ALL PESTANA CR7 Membership.',
-                      )}
-                    </p>
-                  </div>
-                  <div className={styles.buttonContainerForm}>
-                    <StyledButton
-                      variant='contained'
-                      className={styles.update}
-                      onClick={() => setCard(!cardOPen)}
-                    >
-                      ADD
-                    </StyledButton>
-
-                    {!card.formData.alreadyUpdated && (
-                      <StyledButton
-                        variant='outlined'
-                        className={styles.delete}
-                        onClick={() => {
-                          AccompanyDrawer();
-                          setaccompanyDeleteDrawer({ index: index, name: card.formData.firstName });
-                        }}
-                        disabled={infoCards.length === 1 ? true : false}
-                      >
-                        DELETE
-                      </StyledButton>
-                    )}
-                  </div>
+                  {accompanyingGuestSubmodule.details.map((item: any) => {
+                    if (item.isActive == 'true') {
+                      return (
+                        <React.Fragment key={item.name}>
+                          {item.type == 'Select' ? (
+                            <div className={styles.col_100}>
+                              <StyledFormControl
+                                required={item.required === 'true' ? true : false}
+                                disabled={item.isDisabled == 'true' ? true : false}
+                                className={styles.guestDataInput}
+                                variant='standard'
+                                sx={{ m: 1, minWidth: '100%' }}
+                              >
+                                <InputLabel>{item.label}</InputLabel>
+                                <Select
+                                  className={styles.guestDataInput}
+                                  label={item.label}
+                                  variant='standard'
+                                  name={item.name}
+                                  id={item.name}
+                                  value={card?.formData?.[item.name] || ''}
+                                  onChange={handleInputChange(index)}
+                                  disabled={item.isDisabled == 'true' ? true : false}
+                                  IconComponent={DropDown}
+                                >
+                                  {item.options.map((item: any) => {
+                                    return (
+                                      <MenuItem value={item.value} key={item.value}>
+                                        <em>{item.name}</em>
+                                      </MenuItem>
+                                    );
+                                  })}
+                                </Select>
+                              </StyledFormControl>
+                            </div>
+                          ) : item.type == 'CheckBox' ? (
+                            <div className={styles.agrementWrapperTitle}>
+                              <StyledCheckBox
+                                onChange={handleInputChange(index)}
+                                onClick={toggleConditionsAccepted}
+                                name={item.name}
+                                value={conditionsAccepted}
+                                checked={card.formData.condition == 'false'}
+                              />
+                              <p className={styles.agrementText}>{t(`${item?.label}`) as string}</p>
+                            </div>
+                          ) : (
+                            <div className={styles.col_100}>
+                              <StyledInput
+                                required={item.required === 'true' ? true : false}
+                                autoComplete='off'
+                                label={item.label.toLowerCase()}
+                                className={styles.guestDataInput}
+                                variant='standard'
+                                name={item.name}
+                                value={card?.formData?.[item.name]?.toLowerCase() || ''}
+                                type={item.type}
+                                disabled={item.isDisabled == 'true' ? true : false}
+                                onChange={handleInputChange(index)}
+                                onFocus={() => {
+                                  item.required == 'true' &&
+                                    handleFieldBlur(
+                                      index,
+                                      item.name,
+                                      card?.formData?.[item.name]?.toLowerCase() || '',
+                                    );
+                                }}
+                                error={
+                                  otherFieldErrors[index]?.fieldName === item.name &&
+                                  !otherFieldErrors[index]?.isValid
+                                }
+                                helperText={
+                                  otherFieldErrors[index]?.fieldName === item.name
+                                    ? otherFieldErrors[index]?.errorMessage
+                                    : ''
+                                }
+                              />
+                            </div>
+                          )}
+                        </React.Fragment>
+                      );
+                    } else {
+                      return null;
+                    }
+                  })}
                 </div>
               </InfoCard>
             );
           })}
         </div>
-        <div className={styles.buttonContainer}>
-          <StyledButton
-            variant='contained'
-            className={styles.buttonRight}
-            onClick={submit}
-            disabled={buttonValidation}
-            loading={loading}
-          >
-            CONTINUE
-          </StyledButton>
+
+        <div className={styles.confirmOrderButton}>
+          <div className={styles.confirmationWrapperBotton}>
+            <StyledButton
+              disabled={buttonValidation}
+              loading={loading}
+              className={styles.button}
+              onClick={submit}
+              variant='contained'
+              arrow
+            >
+              {t('continue')}
+            </StyledButton>
+          </div>
         </div>
       </PageWrapper>
     </>

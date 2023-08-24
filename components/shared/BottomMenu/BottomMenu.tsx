@@ -14,9 +14,12 @@ import {
   IGetHamburgerMenuDetailsApiResponse,
 } from 'core/graphql/queries/GET_HAMBURGER_MENU';
 import { hamburgerIconsMap } from 'utils/hamburger/hamburgerIconsMap';
+import { availablePaths } from 'utils/availablePaths';
+import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 
 export const BottomMenu = () => {
   const hamburgerMenuStatus = useReactiveVar(toggleHamburgerMenuDrawer);
+  const navigate = useLocalizedRouter();
 
   const { data } = useQuery<IGetHamburgerMenuDetailsApiResponse>(GET_HAMBURGER_MENU, {
     context: { clientName: 'host_v4' },

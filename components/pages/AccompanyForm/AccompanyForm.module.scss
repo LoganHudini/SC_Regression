@@ -4,7 +4,16 @@
 
 .guestDataInput {
   width: 100%;
-  margin-top: 15px;
+  label {
+    text-transform: capitalize !important;
+  }
+  div {
+    input {
+      font-weight: bold;
+      text-transform: capitalize;
+      color: var(--tertiary-text-color) !important;
+    }
+  }
 }
 
 .btnText {
@@ -32,11 +41,7 @@
 }
 
 .buttonLeft {
-  font-size: $small;
-  font-family: $fontBold;
   margin-right: 1rem;
-  border: 0.8px solid $textColorSecondary !important;
-  color: $textColorSecondary !important;
   border-radius: 7px;
   &:disabled {
     color: #ffffffab !important;
@@ -44,30 +49,25 @@
 }
 
 .buttonRight {
-  font-size: $small;
-  font-family: $fontBold;
   margin-top: 30px;
   &:disabled {
     opacity: 0.7 !important;
-    background-color: $colorPrimary;
-    color: $textColorSecondary;
-    font-size: $small;
-    font-family: $fontBold;
     margin-top: 30px;
-    border: 1px solid $colorPrimary;
   }
 }
 
 .pageWrapper {
   justify-content: space-between;
-}
-
-.pageWrapper {
+  padding-bottom: 116px !important;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   min-height: calc(100vh - 70px);
   position: relative;
+  padding: 0px 29px 100px 29px;
+  &:last-child {
+    padding-bottom: 116px !important;
+  }
 }
 
 .agrementWrapperTitle {
@@ -79,13 +79,9 @@
 }
 
 .agrementText {
-  font-size: $xsmall;
   max-width: none;
-  color: $textColorTernary !important;
   margin-left: 20px;
-  font-family: $fontLight;
   a {
-    color: $textColorTernary !important;
     text-decoration: none;
     white-space: nowrap;
   }
@@ -93,28 +89,18 @@
 
 .guestDataInput {
   width: 100%;
-  font-family: $fontBold !important;
   margin-top: 15px;
-  text-transform: uppercase !important;
-  font-family: $fontLight !important;
-  color: $textColorTernary !important;
-  font-size: $medium !important;
 
   label {
-    font-family: $fontLight !important;
     letter-spacing: 0.72px !important;
-    // color: $textUnique !important;
-    text-transform: uppercase !important;
-    font-size: $xsmall !important;
   }
   div {
     div {
       padding-bottom: 0px !important;
     }
     input {
-      font-family: $fontLight !important;
-      color: $textColorTernary !important;
-      font-size: $medium !important;
+      padding: 0px !important;
+      padding-bottom: 6px !important;
     }
   }
 }
@@ -122,23 +108,15 @@
 .styledDateInput {
   width: 100%;
   margin-top: 17px;
-  color: $textColorTernary !important;
-  font-size: $medium !important;
   label {
-    font-family: $fontLight !important;
     letter-spacing: 0.72px !important;
-    // color: $textUnique !important;
     text-transform: uppercase !important;
-    font-size: $xsmall !important;
   }
   div {
     div {
       padding-bottom: 0px !important;
     }
     input {
-      font-family: $fontLight !important;
-      color: $textColorTernary !important;
-      font-size: $medium !important;
     }
   }
 }
@@ -158,11 +136,27 @@
 }
 
 .delete {
-  font-size: $small;
-  font-family: $fontBold;
   margin-top: 30px;
   border-radius: 7px;
-  color: $colorSecondary;
-  border: 1.4px solid $colorSecondary !important;
   height: 40px;
+}
+.confirmOrderButton {
+  margin: 0 auto;
+  padding: 50px 50px 29px 50px;
+  background: #fff;
+  position: fixed;
+  bottom: 0rem;
+  left: 0;
+  right: 0;
+  border-radius: 0;
+  box-shadow: #00000029 0 1px 20px;
+  max-width: 768px;
+  margin-top: -20px;
+}
+.confirmationWrapperBotton {
+  margin-top: -20px;
+}
+.button {
+  padding-top: 10px;
+  padding-left: 22px;
 }
