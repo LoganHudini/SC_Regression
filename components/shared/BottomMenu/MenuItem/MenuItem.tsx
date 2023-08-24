@@ -128,7 +128,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
               {DINING_OPTIONS?.map((dining) => (
                 <div key={dining?.id} className={cx(styles.optionsListItem)}>
                   <p
-                    className={cx(styles.inActiveText, {
+                    className={cx(styles.inActiveDiningText, {
                       [styles.activeText]: diningOptionSelected?.id === dining?.id,
                     })}
                     onClick={() => {

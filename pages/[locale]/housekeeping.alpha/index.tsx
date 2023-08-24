@@ -28,7 +28,6 @@ import {
 } from 'core/graphql/queries/GET_HOTEL_INFO';
 import { IHousekeepingProps } from 'types/housekeeping.types';
 import { useTranslation } from 'react-i18next';
-import { BRANCH_CODE } from 'core/graphql/endpoints';
 import { DUBAI_WATERFRONT } from 'utils/constants';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 
@@ -99,7 +98,7 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
                 variant={'outlined'}
                 onClick={showConcierge}
               >
-                {BRANCH_CODE === DUBAI_WATERFRONT ? t('Maintenance') : t('Concierge')}
+                {t('Concierge')}
               </StyledButton>
             </div>
 

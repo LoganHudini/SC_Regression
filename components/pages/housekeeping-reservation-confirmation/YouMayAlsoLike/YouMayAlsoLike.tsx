@@ -1,5 +1,4 @@
 import { StableImage } from 'components/shared/StableImage/StableImage';
-import { HOTEL_NAME } from 'core/graphql/endpoints';
 import React from 'react';
 import styles from './YouMayAlsoLike.module.scss';
 import { templateItems } from 'utils/constants';
@@ -11,7 +10,6 @@ export const YouMayAlsoLike: React.FC = () => {
   return (
     <>
       <div className={styles.confirmationWrapper}>
-        <h2 className={styles.youMayAlsoLikeText}>{HOTEL_NAME}</h2>
         <div className={styles.youMayAlsoLikeWrapper}>
           <div className={styles.scroll}>
             {templateItems?.map((el, index) => (

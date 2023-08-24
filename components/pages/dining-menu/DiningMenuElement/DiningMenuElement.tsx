@@ -5,7 +5,7 @@ import styles from './DiningMenuElement.module.scss';
 import { IDiningMenuElementProps } from './DiningMenuElement.types';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
-import { diningMenuStorage } from 'storage/dining-menu.storage';
+import { diningMenuStorage, toggleDiningDetailsDrawer } from 'storage/dining-menu.storage';
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { ASSETS_URL, CURRENCY } from 'core/graphql/endpoints';
 import produce from 'immer';
@@ -15,6 +15,7 @@ import { DiningCustomisationDrawer } from 'components/pages/dining-menu/DiningCu
 import { toast } from 'react-toastify';
 import cx from 'classnames';
 import { addToCartEvent, viewItemEvent } from 'utils/gtag';
+import DiningDetailsDrawer from '../DiningDetailsDrawer/DiningDetailsDrawer';
 
 export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
   title,
@@ -54,9 +55,9 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
       );
       const item = { id: id, name: title, price: price };
       viewItemEvent(item);
-      navigate(availablePaths.DINING_DETAILS);
+      toggleDiningDetailsDrawer(true);
     }
-  }, [id, navigate, price, restaurantId, t, tableNumber, title]);
+  }, [id, price, restaurantId, t, tableNumber, title]);
 
   const onClickPlus = useCallback(() => {
     const selectedItem = diningData?.items?.find((item) => item?.itemId === id);
@@ -102,11 +103,8 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.card}>
-        <div
-          className={cx(styles.topWrapper, { [styles.disable]: !menuAvailability })}
-          onClick={handleDiningDetails}
-        >
+      <div className={cx(styles.card, { [styles.disable]: !menuAvailability })}>
+        <div className={styles.topWrapper} onClick={handleDiningDetails}>
           <h4 className={cx(styles.title, { [styles.titleWithImage]: image })}>{title}</h4>
           {description && (
             <p className={cx(styles.description, { [styles.descriptionWithImage]: image })}>
@@ -148,6 +146,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
           customisationDrawer={customisationDrawer}
           closeCustomisationDrawer={closeCustomisationDrawer}
         />
+        <DiningDetailsDrawer />
       </div>
     </div>
   );

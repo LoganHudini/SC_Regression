@@ -36,10 +36,7 @@ export const availablePaths = {
 
   // Dining flow
   DINING: '/dining',
-  DINING_DETAILS: `/dining.${DINING_FLOW_VERSION}/dining-detail`,
-  DINING_MENU: `/dining.${DINING_FLOW_VERSION}/dining-menu`,
-  DINING_ORDER_SUMMARY: `/dining.${DINING_FLOW_VERSION}/dining-order-summary`,
-  DINING_RESERVATION_CONFIRMATION: `/dining.${DINING_FLOW_VERSION}/dining-reservation-confirmation`,
+  DINING_ORDER_SUMMARY: '/dining-order-summary',
   RESTAURANTS_BARS: '/restaurants-bars',
 
   // Housekeeping flow

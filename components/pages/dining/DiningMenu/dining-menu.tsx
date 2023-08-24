@@ -39,6 +39,7 @@ import {
 } from 'utils/functions';
 import { DiningCategoryOptions } from 'components/pages/dining-menu/DiningCategoryOptions/DiningCategoryOptions';
 import produce from 'immer';
+import DiningDetailsDrawer from 'components/pages/dining-menu/DiningDetailsDrawer/DiningDetailsDrawer';
 
 export { getStaticPaths };
 interface DiningMenuProps {
@@ -54,7 +55,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   openCategory,
   menuAvailability,
 }) => {
-  const { t } = useTranslation('dining');
+  const { t } = useTranslation(['dining']);
   const navigate = useLocalizedRouter();
   const scrollRef = useRef<HTMLDivElement>(null);
   const stickyHeaderSearch: any = useRef();
