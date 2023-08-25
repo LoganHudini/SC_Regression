@@ -73,6 +73,16 @@ export const driversLicence = 'DRL';
 export const driverLicence = 'DL';
 export const passport = 'PASSPORT';
 export const CUSTOM = 'CUSTOM';
+export const email = 'email';
+export const phoneNumber = 'phoneNumber';
+export const phone = 'phone';
+export const checkin = 'checkin';
+export const cybersource = 'cybersource';
+export const selectDropdown = 'Select';
+export const guestInformation = 'Guest Information';
+export const creditCardInfo = 'Credit Card Info';
+export const identityVerification = 'Identity Verification';
+export const information = 'information';
 export const PAYMENT = [
   { id: '2', name: 'CASH', message: '' },
   { id: '3', name: 'CARD', message: '' },

@@ -20,17 +20,10 @@ export const configuration = {
           },
           details: [
             {
+              isActive: 'true',
               name: 'Guest Information',
               type: 'manual-entry',
               details: [
-                {
-                  name: 'firstName',
-                  label: 'First Name',
-                  type: 'Text',
-                  required: 'true',
-                  isDisabled: 'false',
-                  isActive: 'true',
-                },
                 {
                   name: 'firstName',
                   label: 'First Name',
@@ -104,7 +97,7 @@ export const configuration = {
                 },
                 {
                   name: 'cvv',
-                  label: 'Cvv',
+                  label: 'CVV',
                   type: 'Text',
                   required: 'true',
                   isDisabled: 'false',
@@ -119,8 +112,8 @@ export const configuration = {
               details: [
                 {
                   name: 'documentType',
-                  label: 'Document Type',
-                  type: 'Dropdown',
+                  label: 'Doc Type',
+                  type: 'Select',
                   required: 'true',
                   isDisabled: 'false',
                   isActive: 'true',
@@ -129,6 +122,7 @@ export const configuration = {
                     { name: 'ID Card', value: 'UNKNOWN' },
                   ],
                 },
+
                 {
                   name: 'documentNumber',
                   label: 'Document Number',

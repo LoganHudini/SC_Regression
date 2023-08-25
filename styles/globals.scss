@@ -59,6 +59,7 @@
   --primary-button-background-color: #997300;
   --primary-button-border-radius: 0px;
   --primary-button-font-family: 'ClanOT Extended Book';
+  --primary-button-background-color-disabled: #997300ab;
 
   --secondary-button-color: #997300;
   --secondary-button-background-color: #ffffff;
@@ -150,7 +151,10 @@ body {
   height: 48px;
   line-height: 48px;
   text-align: center;
-
+  &:disabled {
+    background: var(--primary-button-background-color-disabled) !important;
+    color: var(--primary-button-color);
+  }
   &:hover:enabled {
     background: var(--primary-theme-color);
   }

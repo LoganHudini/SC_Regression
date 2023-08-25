@@ -6,12 +6,13 @@
   width: 45%;
 }
 
-.guestDataInput{
+.guestDataInput {
   width: 100%;
   margin-top: 15px;
 }
 
-.name_sec{
+.name_sec {
   display: flex;
   justify-content: space-between;
+  flex-direction: row;
 }

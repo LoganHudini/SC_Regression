@@ -1,5 +1,6 @@
 export interface IPreCheckinGuestInfoProps {
-  selectedGuest: SelectedGuest;
+  selectedGuest: any; // SelectedGuest
+  guestInformationSection?: any;
 }
 
 export interface SelectedGuest {

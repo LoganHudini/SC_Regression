@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { IDocInfo } from 'types/guest-information.types';
 import { identityVerificationValidation } from 'validation/guest-information-input.validation';
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { ApolloError, useReactiveVar } from '@apollo/client';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
 import InputLabel from '@mui/material/InputLabel';
@@ -43,7 +43,6 @@ import { accompanyGuestDetails } from 'storage/accompany-guest-details';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
 import { Gender, emailRegex, phoneRegex } from 'utils/constants';
 import { getConfig } from 'utils/getConfiguration';
-import React from 'react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 export { getStaticPaths };
@@ -64,9 +63,10 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
   const [otherFieldErrors, setOtherFieldErrors] = useState<any>([]);
   let isValid: any = true;
   let errorMessage: any = '';
-  const handleFieldBlur: any = (index: any, fieldName: any, value: any) => {
+
+  const handleFieldBlur: any = (index: any, fieldName: any, value: any, item?: any) => {
     if (!value) {
-      errorMessage = t(`${fieldName} is required`);
+      errorMessage = t(`${item} is required`);
     } else if (fieldName === 'email' && !emailRegex.test(value)) {
       isValid = false;
       errorMessage = t('Invalid email address');
@@ -152,7 +152,7 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
     }
   }, [reservationData, navigate]);
 
-  const handleInputChange = (index: number) => (e: any) => {
+  const handleInputChange = (index: number, label?: any) => (e: any) => {
     const { name, value, required } = e.target;
 
     setInfoCards((prevCards: any) =>
@@ -168,7 +168,7 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
         let errorMessage = '';
 
         if (!value) {
-          errorMessage = t(`${fieldName} is required`);
+          errorMessage = t(`${label} is required`);
         } else if (fieldName === 'email' && !emailRegex.test(value)) {
           isValid = false;
           errorMessage = t('Invalid email address');
@@ -287,14 +287,12 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
 
       accompanyingGuestSubmodule.details.forEach((item: any) => {
         if (item.isActive === 'true' && item.required === 'true') {
-          // Check if the field is required and not valid
           if (item.required === 'true') {
             if (!card.formData[item.name]) {
               cardStatus = false;
             }
           }
 
-          // Add more validation logic based on the field type and requirements
           if (item.type === 'email' && !emailRegex.test(card.formData[item.name])) {
             cardStatus = false;
           }
@@ -443,13 +441,14 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
                                 value={card?.formData?.[item.name]?.toLowerCase() || ''}
                                 type={item.type}
                                 disabled={item.isDisabled == 'true' ? true : false}
-                                onChange={handleInputChange(index)}
+                                onChange={handleInputChange(index, item.label)}
                                 onFocus={() => {
                                   item.required == 'true' &&
                                     handleFieldBlur(
                                       index,
                                       item.name,
                                       card?.formData?.[item.name]?.toLowerCase() || '',
+                                      item.label
                                     );
                                 }}
                                 error={

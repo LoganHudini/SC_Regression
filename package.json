@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+
     "dev": "env-cmd -f .env.local yarn next dev",
     "build": "env-cmd -f .env.local yarn build",
     "start": "env-cmd -f .env.local next start",
     "dev:stage": "env-cmd -f .env.stage.local yarn next dev",
-    "build:stage": "env-cmd -f .env.stage.local yarn build",
+    "build:stage": "env-cmd -f .env.stage.local yarn next build",
     "start:stage": "env-cmd -f .env.stage.local next start",
     "lint": "eslint ./**/*.{js,jsx,ts,tsx}",
     "lint:fix": "eslint --fix ./**/*.{js,jsx,ts,tsx}",

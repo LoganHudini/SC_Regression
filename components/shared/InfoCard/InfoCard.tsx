@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './InfoCard.module.scss';
 import CheckMarkIcon from '@icons/checkMark.svg';
 import EditMarkIcon from '@icons/editMark.svg';
+import CheckMark from '@icons/checkMarkProduct.svg';
 import { IInfoCardProps } from './InfoCard.types';
 import CreditCardIcon from '@icons/credit-cards.svg';
 import IdCard from '@icons/id-card.svg';
@@ -12,6 +13,7 @@ import DownArrow from '@icons/downArrowCard.svg';
 import GuestGroup from '@icons/guestsGroupCard.svg';
 import { availablePaths } from 'utils/availablePaths';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
+import { cybersource } from 'utils/constants';
 
 export const InfoCard: React.FC<IInfoCardProps> = ({
   icon,
@@ -20,16 +22,22 @@ export const InfoCard: React.FC<IInfoCardProps> = ({
   status,
   isCardOpened,
   children,
+  completedCheck,
+  paymentType
 }) => {
   const [cardOpened, setCardOpened] = useState(isCardOpened);
-  const [exapnded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const navigate = useLocalizedRouter();
 
   const toggleCard = () => {
-    setExpanded((state) => !state)
+    setExpanded((state) => !state);
+    setCardOpened(!cardOpened);
+
     if (icon === 'creditCard' && !status) {
-      navigate(availablePaths.CHECK_IN_PAYMENT);
-    } else {
+      if (paymentType === cybersource)
+        navigate(availablePaths.CHECK_IN_PAYMENT);
+    }
+    else {
       setCardOpened(!cardOpened);
     }
   };
@@ -54,7 +62,7 @@ export const InfoCard: React.FC<IInfoCardProps> = ({
                 )}
               </div>
               <div className={styles.homeCardInfo}>
-                <div className={styles.titeText}>{title}</div>
+                <div className={styles.titleText}>{title}</div>
 
                 {status ? (
                   <div className={styles.detailsText}>{details}</div>
@@ -63,7 +71,13 @@ export const InfoCard: React.FC<IInfoCardProps> = ({
                 )}
               </div>
             </div>
-            <div>{status && (exapnded ? <DownArrow /> : <EditIcon />)}</div>
+            <div>
+              {status && (
+                expanded && !completedCheck ? <DownArrow /> :
+                  completedCheck ? <CheckMark /> :
+                    <EditIcon />
+              )}
+            </div>
           </div>
         </div>
         {cardOpened && <div>{children}</div>}

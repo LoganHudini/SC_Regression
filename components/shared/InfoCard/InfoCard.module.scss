@@ -56,7 +56,7 @@
   text-align: initial;
   padding: 8px 0px;
 }
-.titeText {
+.titleText {
   font-size: $medium;
   font-family: var(--primary-font-news);
 }
@@ -68,9 +68,8 @@
   display: flex;
 }
 .homeIcon {
-  padding-right: 2vw;
-  margin: auto;
-  width: 64px;
+  width: 60px;
+  display: flex;
 }
 .homeCardInfo {
   align-items: flex-start;

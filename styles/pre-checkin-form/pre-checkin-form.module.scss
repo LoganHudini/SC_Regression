@@ -48,6 +48,7 @@
 .checkDatesColumn {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 
 .checkDatesText {
@@ -59,6 +60,7 @@
 }
 .right {
   text-align: right;
+  align-self: flex-end;
 }
 
 .checkDatesDetails {
@@ -167,4 +169,25 @@
     background-color: #d2d1d0;
     border: 1px solid #d2d1d0;
   }
+}
+
+.confirmOrderButton {
+  margin: 0 auto;
+  padding: 50px 50px 29px 50px;
+  background: #fff;
+  position: fixed;
+  bottom: 0rem;
+  left: 0;
+  right: 0;
+  border-radius: 0;
+  box-shadow: #00000029 0 1px 20px;
+  max-width: 768px;
+  margin-top: -20px;
+}
+.confirmationWrapperBotton {
+  margin-top: -20px;
+}
+.button {
+  padding-top: 10px;
+  padding-left: 22px;
 }
