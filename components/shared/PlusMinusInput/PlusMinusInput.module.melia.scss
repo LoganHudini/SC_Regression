@@ -1,7 +1,7 @@
 .value {
   padding-top: 3px;
   font-size: $large;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   user-select: none;
 }
 
@@ -16,7 +16,7 @@
 
   &:disabled {
     & > svg > path {
-      fill: $shadowColor !important;
+      fill: var(--primary-box-shadow-color) !important;
     }
   }
 }

@@ -10,10 +10,8 @@ import React, { useEffect } from 'react';
 import { getStaticPaths } from 'utils/getStatic';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { IHamburgerProps, getHamburgerProps } from 'utils/hamburger/getHamburgerProps';
 import { availablePaths } from 'utils/availablePaths';
 import { HOME_PAGE } from 'core/graphql/endpoints';
-import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 
 export { getStaticPaths };
 
@@ -76,7 +74,7 @@ const AVAILABLE_PAGES = [
   availablePaths.NOTIFICATIONS,
 ];
 
-const HomePage: NextPage<IHomePageProps & IHamburgerProps> = ({ paths, hamburger, pages }) => {
+const HomePage: NextPage<IHomePageProps> = ({ paths }) => {
   // const navigate = useLocalizedRouter();
 
   // useEffect(() => {
@@ -89,7 +87,7 @@ const HomePage: NextPage<IHomePageProps & IHamburgerProps> = ({ paths, hamburger
         <title>Hudini PWA</title>
       </Head>
       <Header screenTitle='Hudini PWA' />
-      <PageWrapper hamburger={hamburger} pages={pages} displayBottomMenu>
+      <PageWrapper displayBottomMenu>
         <h1 style={{ marginTop: '25px' }}>Wecome to the hudini-pwa-sdk</h1>
         <h2 style={{ marginTop: '25px' }}>Available routes:</h2>
         <hr />
@@ -186,7 +184,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     props: {
       paths,
       ...(await serverSideTranslations(locale as string, ['common'], i18nConfig)),
-      ...(await getHamburgerProps()),
     },
   };
 };

@@ -6,7 +6,7 @@
 }
 
 .titeText {
-  font-family: $fontHeading;
+  font-family: var(--primary-font-regular);
   font-size: $xlarge;
   border-bottom: 0;
   color: var(--primary-text-color);

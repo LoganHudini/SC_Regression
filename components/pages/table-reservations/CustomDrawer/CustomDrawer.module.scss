@@ -61,8 +61,8 @@
   line-height: 1.25;
   text-align: start;
   margin-top: 20px;
-  color: $fontColor;
-  font-family: $fontSemibold;
+  color: var(--tertiary-text-color);
+  font-family: var(--primary-font-medium);
 }
 
 .plusMinusInputWrapper {
@@ -78,8 +78,8 @@
   font-size: $large;
   line-height: 1.333;
   font-weight: bold;
-  color: $fontColor;
-  font-family: $fontSemibold;
+  color: var(--tertiary-text-color);
+  font-family: var(--primary-font-medium);
 }
 
 .chooseTimeRow {
@@ -93,8 +93,8 @@
 .chooseTimeTitle {
   font-size: $large;
   line-height: 1.25;
-  color: $fontColor;
-  font-family: $fontSemibold;
+  color: var(--tertiary-text-color);
+  font-family: var(--primary-font-medium);
 }
 
 .timeBox {
@@ -129,8 +129,8 @@
 .chooseRequestTitle {
   font-size: $xsmall;
   line-height: 1.25;
-  color: $fonttitle;
-  font-family: $fontRegular;
+  color: var(--tertiary-text-color);
+  font-family: var(--primary-font-regular);
   margin-top: 10px;
 }
 
@@ -147,22 +147,22 @@
 }
 
 .title {
-  font-size: 24px;
-  font-family: $fontRegular;
-  color: $fonttitle;
+  font-size: $extralarge;
+  font-family: var(--primary-font-regular);
+  color: var(--tertiary-text-color);
   margin-bottom: 20px;
 }
 
 .confirmmessage {
   font-size: $small;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   margin-top: 3px;
 }
 
 .continuebutton {
   margin-top: 3rem;
   font-size: $xsmall;
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   width: 180px;
 }
 
@@ -179,21 +179,21 @@
 .choosetable {
   font-size: $medium;
   line-height: 1.25;
-  color: $fontColor !important;
-  font-family: $fontSemibold;
+  color: var(--tertiary-text-color) !important;
+  font-family: var(--primary-font-medium);
   text-align: start !important;
   margin-top: 20px;
 }
 
 .select {
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .chooseExposure {
   font-size: $large;
   line-height: 1.25;
-  color: $fontColor;
-  font-family: $fontSemibold;
+  color: var(--tertiary-text-color);
+  font-family: var(--primary-font-medium);
   margin-top: -20px;
 }
 
@@ -223,8 +223,8 @@
 
 .guest {
   font-size: $small;
-  font-family: $fontRegular;
-  color: $textColorQuaternary;
+  font-family: var(--primary-font-regular);
+  color: var(--tertiary-text-color);
   margin-left: 6px;
 }
 
@@ -235,7 +235,7 @@
 }
 
 .error {
-  color: $errorMsgColor;
+  color: var(--primary-error-text-color);
   padding: 10px 0;
 }
 
@@ -260,7 +260,7 @@
 }
 
 .orderButton {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   display: flex;
   margin: 1rem 0;
   width: 80%;

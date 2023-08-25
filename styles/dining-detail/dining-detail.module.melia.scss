@@ -8,49 +8,49 @@
   font-size: $xsmall;
   .currencyValue {
     font-size: $large;
-    font-family: $fontMedium;
+    font-family: var(--primary-font-medium);
   }
 }
 
 .desctiption {
   font-size: 0.8125rem;
-  font-family: $fontRegular;
-  border-bottom: 1px solid $colorDivider;
+  font-family: var(--primary-font-regular);
+  border-bottom: 1px solid var(--primary-border-color);
 }
 
 .ingredientsText {
   font-size: $small;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .ingredientsDescription {
   font-size: 0.8125rem;
-  font-family: $fontRegular;
-  border-bottom: 1px solid $colorDivider;
+  font-family: var(--primary-font-regular);
+  border-bottom: 1px solid var(--primary-border-color);
 }
 
 .servingsText {
   font-size: $small;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .totalTitle {
   font-size: 0.9375rem;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .totalValue {
   font-size: $small;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   .currencyValue {
     font-size: $large;
-    font-family: $fontMedium;
+    font-family: var(--primary-font-medium);
   }
 }
 
 .totalButton {
   font-size: $small;
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   margin: 0;
 }
 
@@ -62,7 +62,7 @@
   left: 0;
   right: 0;
   border-radius: 10px 10px 0 0;
-  box-shadow: $shadowColor 0 -6px 8px -2px;
+  box-shadow: var(--primary-box-shadow-color) 0 -6px 8px -2px;
   max-width: 768px;
   margin: 0 auto;
 }
@@ -73,17 +73,17 @@
 
 .addonsText {
   font-size: $medium;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .customisationsText {
   font-size: $medium;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .optionalText {
   font-size: $xsmall;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   color: var(--primary-text-color);
   width: 4rem;
   height: 1.5rem;
@@ -96,7 +96,7 @@
 
 .requiredText {
   font-size: $xsmall;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   color: var(--primary-text-color);
   width: 6rem;
   height: 1.5rem;

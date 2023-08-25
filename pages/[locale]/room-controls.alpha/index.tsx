@@ -15,7 +15,6 @@ import { ControlableEntities } from '../../../types/room-controls.types';
 import { getStaticPaths } from 'utils/getStatic';
 import i18nConfig from 'next-i18next.config';
 import { useRouter } from 'next/router';
-import { IHamburgerProps, getHamburgerProps } from 'utils/hamburger/getHamburgerProps';
 
 export { getStaticPaths };
 
@@ -25,7 +24,7 @@ const AVAILABLE_SELECT_ENTITIES = [
   ControlableEntities.TV,
 ];
 
-const RoomControls: React.FC<IHamburgerProps> = ({ hamburger, pages }) => {
+const RoomControls = () => {
   const [activeControl, setActiveControl] = useState<ControlableEntities>(
     ControlableEntities.LIGHTS,
   );
@@ -49,12 +48,7 @@ const RoomControls: React.FC<IHamburgerProps> = ({ hamburger, pages }) => {
       </Head>
       <Header displayBackButton screenTitle={t('Room Controls') as string} />
       <RoomControlsFilter />
-      <PageWrapper
-        className={styles.pageWrapper}
-        displayBottomMenu
-        hamburger={hamburger}
-        pages={pages}
-      >
+      <PageWrapper className={styles.pageWrapper} displayBottomMenu>
         <div className={styles.roomControlsWrapper}>
           <ControlEntities setActiveControl={setActiveControl} activeControl={activeControl} />
 
@@ -72,7 +66,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ['room-controls', 'common'], i18nConfig)),
-      ...(await getHamburgerProps()),
     },
   };
 };

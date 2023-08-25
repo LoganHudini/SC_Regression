@@ -1,12 +1,12 @@
 .diningMenuFilterActive {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-size: $small;
   padding: 0.5rem 1rem;
   width: max-content;
 }
 
 .diningMenuFilterUnActive {
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   font-size: $small;
   color: #b2b2b2;
   padding: 0.5rem 1rem;

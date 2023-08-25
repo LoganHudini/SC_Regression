@@ -1,8 +1,7 @@
 .youMayAlsoLikeText {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-size: $medium;
 }
-
 
 .youMayAlsoLikeItemText {
   font-size: $small;
@@ -15,4 +14,3 @@
   flex-direction: row;
   width: 100%;
 }
-

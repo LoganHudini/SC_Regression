@@ -14,7 +14,7 @@
 .housekeepingQuantityItemTitle {
   font-size: $medium;
   margin-right: auto;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .plusMinusWrapper {

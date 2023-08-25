@@ -53,6 +53,7 @@
   --primary-icon-color: #ffffff;
   --primary-border-color: #e0e0e0;
   --primary-box-shadow-color: #00000029;
+  --primary-error-text-color: #d32f2f;
 
   // text colors
   --primary-text-color: #000000;
@@ -69,12 +70,11 @@
   --hamburgermenu-icon-color: #ffffff;
 
   // font-families
-  --primary-font-regular: '';
+  --primary-font-regular: 'ClanOT Book';
   --primary-font-medium: 'ClanOT Medium';
   --primary-font-semibold: '';
   --primary-font-bold: '';
   --primary-font-news: 'ClanOT News';
-  --primary-font-book: 'ClanOT Book';
 
   --primary-font-extd-regular: 'ClanOT Extended Book';
   --primary-font-extd-medium: 'ClanOT Extended Medium';
@@ -82,6 +82,7 @@
   --primary-font-extd-bold: '';
   --primary-font-extd-news: '';
 
+  // headings
   --secondary-font-regular: 'Garamond Regular';
   --secondary-font-medium: '';
   --secondary-font-semibold: '';
@@ -218,14 +219,14 @@ body {
 }
 
 .MuiInputLabel-root {
-  color: #828282 !important;
+  color: var(--tertiary-text-color) !important;
 }
 
 .MuiInputBase-root,
 .MuiInputBase-input,
 .MuiFormLabel-root,
 .MuiMenuItem-root {
-  font-family: $fontRegular !important;
+  font-family: var(--primary-font-regular) !important;
 }
 
 .Toastify__toast--error {

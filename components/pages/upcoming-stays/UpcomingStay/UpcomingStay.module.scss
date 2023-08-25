@@ -147,7 +147,7 @@
 }
 
 .preCheckinText {
-  color: $textColorTernary;
+  color: var(--tertiary-text-color);
   font-size: 0.9375rem;
   text-align: center;
   line-height: 1;

@@ -50,8 +50,8 @@
   font-size: $large;
   line-height: 1;
   margin: 0 auto 10px auto;
-  font-family: $fontRegular;
-  color: $fonttitle;
+  font-family: var(--primary-font-regular);
+  color: var(--tertiary-text-color);
 }
 
 .button {
@@ -59,7 +59,7 @@
   line-height: 46px;
   padding-top: 14px;
   font-size: $xsmall;
-  font-family: $fontSemibold;
+  font-family: var(--primary-font-medium);
 }
 .guestDataInput {
   width: 210px;
@@ -74,7 +74,6 @@
   background-color: #f3e6e2;
   border: 1px solid #ee3253 !important;
   width: 215px;
-  
 }
 
 .buttonWrapper {
@@ -85,8 +84,8 @@
   text-align: center;
   margin-top: 8px;
   font-size: $small;
-  font-family: $fontRegular;
-  color: $shadowColorSecondary;
+  font-family: var(--primary-font-regular);
+  color: var(--primary-box-shadow-color) Secondary;
   width: 80%;
   display: inline-block;
   line-height: 20px;

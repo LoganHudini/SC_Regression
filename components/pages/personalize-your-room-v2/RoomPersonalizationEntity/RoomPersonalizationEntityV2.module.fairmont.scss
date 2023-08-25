@@ -7,7 +7,7 @@
 
 .roomPersonalizationTitle {
   font-size: $xlarge;
-  font-family: $fontHeading;
+  font-family: var(--primary-font-regular);
 }
 
 .roomPersonalizationText {
@@ -15,7 +15,7 @@
 }
 
 .price {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   margin-top: 12px;
   margin-bottom: 0px;
   font-size: $medium;
@@ -26,5 +26,5 @@
 }
 
 .addButton {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }

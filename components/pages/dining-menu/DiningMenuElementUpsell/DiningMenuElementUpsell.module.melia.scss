@@ -1,18 +1,18 @@
 .title {
   font-size: $medium;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   width: 75%;
   text-align: start;
 }
 
 .price {
   font-size: $large;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .description {
   font-size: 0.8125rem;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   min-height: 1rem;
   display: -webkit-box;
   overflow: hidden;
@@ -24,7 +24,7 @@
 
 .noDescription {
   font-size: 0.8125rem;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   height: 1rem;
   display: -webkit-box;
   overflow: hidden;
@@ -35,18 +35,18 @@
 
 .servingsText {
   font-size: $small;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .customisableText {
   font-size: 0.8125rem;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   padding-left: 4rem;
 }
 
 .currency {
   font-size: $small;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .topWrapper {

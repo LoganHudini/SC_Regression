@@ -17,7 +17,7 @@
 
 .titeText {
   font-size: $medium;
-  font-family: $fontMedium !important;
+  font-family: var(--primary-font-medium) !important;
 }
 
 .homeCardInner {

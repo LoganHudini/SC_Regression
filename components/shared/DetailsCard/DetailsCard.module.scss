@@ -54,7 +54,7 @@
   text-align: initial;
 }
 .titeText {
-  font-family: $fontOblique;
+  font-family: var(--primary-font-bold);
   font-size: $large;
   height: 4vh;
   text-align: left;

@@ -16,7 +16,6 @@ import { IDiningMenuStorageData, diningMenuStorage } from 'storage/dining-menu.s
 import { availablePaths } from 'utils/availablePaths';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { processError } from 'utils/processError';
-import { IHamburgerProps, getHamburgerProps } from 'utils/hamburger/getHamburgerProps';
 import produce from 'immer';
 import dayjs from 'dayjs';
 import { CURRENCY } from 'core/graphql/endpoints';
@@ -37,7 +36,7 @@ import { diningInformationStorage } from 'storage/dining.storage';
 
 export { getStaticPaths };
 
-const DiningOrderSummary: React.FC<IHamburgerProps> = ({ hamburger, pages }) => {
+const DiningOrderSummary = () => {
   const { t } = useTranslation(['dining-order-summary', 'common']);
   const navigate = useLocalizedRouter();
   const locale = useLocale();
@@ -382,7 +381,7 @@ const DiningOrderSummary: React.FC<IHamburgerProps> = ({ hamburger, pages }) => 
         <title>{t('Order Details')}</title>
       </Head>
       <Header displayBackButton screenTitle={t('Order Details') as string} />
-      <PageWrapper hamburger={hamburger} pages={pages} className={styles.pageWrapper}>
+      <PageWrapper className={styles.pageWrapper}>
         <p className={styles.itemsTitle}>{t('Item(s) Added')}</p>
         <div className={styles.itemsWrapper}>
           {items?.map((item, index) => {
@@ -604,7 +603,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
         ['dining-order-summary', 'common'],
         i18nConfig,
       )),
-      ...(await getHamburgerProps()),
     },
   };
 };

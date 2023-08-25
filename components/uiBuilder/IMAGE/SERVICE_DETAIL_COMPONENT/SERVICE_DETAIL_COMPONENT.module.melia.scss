@@ -7,7 +7,7 @@
   width: auto;
   padding: 8px 20px;
   font-size: 15px;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   color: var(--primary-text-color) !important;
 }
 
@@ -20,10 +20,10 @@
 
 .body {
   font-size: $small;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .highlight {
   font-size: $small;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }

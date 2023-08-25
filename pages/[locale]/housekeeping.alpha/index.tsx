@@ -1,10 +1,9 @@
 import Head from 'next/head';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { HousekeepingItem } from 'components/pages/housekeeping/HousekeepingItem/HousekeepingItem';
 import { Header } from 'components/shared/Header/Header';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import styles from '../../../styles/housekeeping/housekeeping.module.scss';
-import urlSlug from 'url-slug';
 import { getStaticPaths } from 'utils/getStatic';
 import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
@@ -14,26 +13,16 @@ import {
   GET_HOUSEKEEPING,
   IGetHousekeepingApiResponse,
 } from 'core/graphql/queries/GET_HOUSEKEEPING';
-import { IHamburgerProps, getHamburgerProps } from 'utils/hamburger/getHamburgerProps';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { housekeepingStorage } from 'storage/housekeeping.storage';
 import { HousekeepingItemSkeleton } from 'components/pages/housekeeping/HousekeepingItemSkeleton/HousekeepingItemSkeleton';
 import { HousekeepingRequestModal } from 'components/pages/housekeeping/HousekeepingRequestModal/HousekeepingRequestModal';
-import { client } from 'core/graphql/client';
-import {
-  IGetHotelInfoApiResponse,
-  GET_HOTEL_INFO,
-  IHotelPage,
-  IParsedHotelPage,
-} from 'core/graphql/queries/GET_HOTEL_INFO';
-import { IHousekeepingProps } from 'types/housekeeping.types';
 import { useTranslation } from 'react-i18next';
-import { DUBAI_WATERFRONT } from 'utils/constants';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 
 export { getStaticPaths };
 
-const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
+const HouseKeeping = () => {
   const { t } = useTranslation('housekeeping');
   const locale = useLocale();
   const [confirmOpened, setConfirmOpened] = useState(false);
@@ -138,33 +127,9 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const locale = ctx?.params?.locale;
 
-  const { data } = await client.query<IGetHotelInfoApiResponse>({
-    query: GET_HOTEL_INFO,
-  });
-
-  const pageData = data.listUiBuilderPages.find((el) => {
-    const pageName = urlSlug(el.name);
-
-    return pageName === 'housekeeping';
-  }) as IHotelPage;
-
-  const updatedPageData: IParsedHotelPage = {
-    ...pageData,
-    uiConfiguration: JSON.parse(pageData?.uiConfiguration || '[]'),
-  };
-
-  const paths = data.listUiBuilderPages.map((el) => {
-    const pageName = urlSlug(el.name);
-
-    return { path: pageName, id: el.id };
-  });
-
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ['housekeeping', 'common'], i18nConfig)),
-      ...(await getHamburgerProps()),
-      pageData: updatedPageData,
-      paths,
     },
   };
 };

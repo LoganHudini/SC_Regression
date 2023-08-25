@@ -20,7 +20,7 @@ export const DiningMenuElementUpsell: React.FC<IDiningMenuElementProps> = ({
   customisation,
   code,
 }) => {
-  const { t } = useTranslation('dining-menu');
+  const { t } = useTranslation('dining');
   const navigate = useLocalizedRouter();
 
   const diningData = useReactiveVar(diningMenuStorage);

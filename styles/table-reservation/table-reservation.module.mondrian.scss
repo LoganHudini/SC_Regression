@@ -1,5 +1,5 @@
 .tableReservationTitle {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-size: $large;
   margin: 2rem auto;
 }
@@ -10,7 +10,7 @@
 }
 
 .orderButton {
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   font-size: $small;
   max-width: 678px;
 }
@@ -32,13 +32,13 @@
 }
 
 .itemTitle {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .text {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-size: $medium;
-  margin-top: 2px ;
+  margin-top: 2px;
   margin-top: 15px;
 }
 

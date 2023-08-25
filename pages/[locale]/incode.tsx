@@ -6,8 +6,8 @@ import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { getStaticPaths } from 'utils/getStatic';
 import i18nConfig from 'next-i18next.config';
-
 import AppIncode from 'components/pages/app-incode/app-incode';
+
 export { getStaticPaths };
 
 const Incode: React.FC = () => {

@@ -4,17 +4,17 @@
 }
 
 .title {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-size: $large;
 }
 
 .items {
   margin-top: 1rem;
   display: flex;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   font-size: $small;
   padding: 0.5rem 0;
-  border-bottom: 1px solid $dividerColor;
+  border-bottom: 1px solid var(--primary-border-color);
 }
 
 .name {

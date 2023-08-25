@@ -70,8 +70,8 @@
   & > svg {
     opacity: 1;
     path {
-      stroke: $textColorSecondary;
-      fill: $textColorSecondary;
+      stroke: var(--secondary-text-color);
+      fill: var(--secondary-text-color);
     }
   }
 }

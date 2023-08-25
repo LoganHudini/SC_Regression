@@ -1,23 +1,23 @@
 .totalCostTitle {
   font-size: $medium;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .totalCostValue {
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   .currencyValue {
-    font-family: $fontMedium;
+    font-family: var(--primary-font-medium);
   }
 }
 
 .button {
   font-size: $small;
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
 }
 
 .specialRequestsInput {
   color: var(--secondary-text-color);
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   font-size: $small;
   border: 1px solid var(--primary-text-color);
   background-color: var(--primary-theme-color);
@@ -28,7 +28,7 @@
 .confirmOrderButton {
   background: var(--primary-theme-color);
   padding: 16px 0px 16px 0px;
-  box-shadow: 0 -6px 8px -2px $shadowColor;
+  box-shadow: 0 -6px 8px -2px var(--primary-box-shadow-color);
 }
 
 .confirmationWrapper {

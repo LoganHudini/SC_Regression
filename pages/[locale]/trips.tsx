@@ -21,15 +21,10 @@ import { getStaticPaths } from 'utils/getStatic';
 import i18nConfig from 'next-i18next.config';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
-import { IHamburgerProps, getHamburgerProps } from 'utils/hamburger/getHamburgerProps';
 
 export { getStaticPaths };
 
-const UpcomingStays: React.FC<ITripsProps & IHamburgerProps> = ({
-  roomDetails,
-  hamburger,
-  pages,
-}) => {
+const UpcomingStays: React.FC<ITripsProps> = ({ roomDetails }) => {
   const navigate = useLocalizedRouter();
 
   const { t } = useTranslation('trips');
@@ -51,12 +46,7 @@ const UpcomingStays: React.FC<ITripsProps & IHamburgerProps> = ({
         <title>{t('Trips')}</title>
       </Head>
       <Header displayBackButton screenTitle={t('Trips') as string} />
-      <PageWrapper
-        displayBottomMenu
-        hamburger={hamburger}
-        pages={pages}
-        className={styles.pageWrapper}
-      >
+      <PageWrapper displayBottomMenu className={styles.pageWrapper}>
         <div className={styles.upcomingStaysWrapper}>
           <UpcomingStaysFilter
             selectedFilter={selectedFilter}
@@ -108,7 +98,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     props: {
       roomDetails: data,
       ...(await serverSideTranslations(locale as string, ['trips', 'common'], i18nConfig)),
-      ...(await getHamburgerProps()),
     },
   };
 };

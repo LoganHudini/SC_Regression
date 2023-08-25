@@ -57,5 +57,14 @@
   "Online requests will be available from": "ستكون طلبات الإنترنت مُتاحة اعتبارًا من",
   "Customisation": "التخصيص",
   "Instructions": "تعليمات",
-  "all day": "طوال اليوم"
+  "all day": "طوال اليوم",
+  "Ingredients": "المُكوِّنات",
+  "Add-Ons": "إضافات",
+  "Optional": "اختياري",
+  "total item price": "إجمالي سعر العنصر",
+  "Add to cart": "أَضِف إلى السلة",
+  "Required": "مطلوب",
+  "Limit exceeded": "تَمَّ تجاوُز الحد المسموح به",
+  "Select up to options": "اِختَر حتى {{value}} خيار",
+  "Add instructions": "أَضِف تعليمات الطهي"
 }

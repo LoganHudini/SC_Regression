@@ -13,7 +13,7 @@ export const DinningCategory: React.FC<IDinningCategoryProps> = ({
   categoryId,
   hours,
 }) => {
-  const { t } = useTranslation(['dining']);
+  const { t } = useTranslation('dining');
   const [selected, setSelected] = useState('');
   const diningInformation = useReactiveVar(diningInformationStorage);
   const handleSelect = useCallback(

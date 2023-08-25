@@ -1,7 +1,7 @@
 .centeredText {
   text-align: center;
   font-size: $medium;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   padding: 10px 0px 10px 0;
   background: #f4f4f4;
 }
@@ -147,13 +147,13 @@
   font-size: $xsmall;
 }
 .checkDatesDetails {
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   font-size: $medium;
   margin-bottom: 25px;
 }
 .description {
   float: left;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-size: $medium;
   margin-bottom: 1rem;
   div {
@@ -161,7 +161,7 @@
   }
 }
 .pageTitle {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-size: $large;
   margin-top: 20px;
 }

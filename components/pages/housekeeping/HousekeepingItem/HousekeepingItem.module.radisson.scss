@@ -1,12 +1,12 @@
 .housekeepingItemTitle {
-  font-family: $fontHeading;
+  font-family: var(--primary-font-regular);
   font-size: $xlarge;
   line-height: 1;
   text-align: start;
 }
 
 .button {
-  font-family: $fontMedium !important;
+  font-family: var(--primary-font-medium) !important;
   text-transform: uppercase;
   font-size: $xsmall;
   border-radius: 6px;
@@ -55,5 +55,5 @@
   display: inline-block;
   text-align: start;
   margin-right: auto;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }

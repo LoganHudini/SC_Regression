@@ -57,7 +57,7 @@
 }
 .titeText {
   font-size: $medium;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 .detailsText {
   font-size: $small;

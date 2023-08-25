@@ -1,5 +1,5 @@
 .tableReservationTitle {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-size: $large;
   margin: 2rem 0;
 }
@@ -10,17 +10,17 @@
 }
 
 .orderButton {
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   font-size: $small;
 }
 
 .label {
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   font-size: $small;
 }
 
 .text {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-size: $medium;
   margin-top: 2px;
 }
@@ -31,5 +31,5 @@
   margin: 0.75rem 0;
 }
 .requiredfield {
-  color: $errorMsgColor;
+  color: var(--primary-error-text-color);
 }

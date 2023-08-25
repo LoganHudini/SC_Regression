@@ -17,7 +17,7 @@ export const DiningMenuElementUpsell: React.FC<IDiningMenuElementProps> = ({
   image,
   code,
 }) => {
-  const { t } = useTranslation('dining-menu');
+  const { t } = useTranslation('dining');
   const diningData = useReactiveVar(diningMenuStorage);
   const totalQuantity = diningData?.items
     ?.filter((el) => el.itemId === id && el.quantity > 0)

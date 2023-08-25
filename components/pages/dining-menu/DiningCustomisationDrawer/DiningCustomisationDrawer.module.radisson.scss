@@ -5,8 +5,8 @@
 
 .title {
   font-size: $large;
-  font-family: $fontRegular;
-  color: $textColorTernary;
+  font-family: var(--primary-font-regular);
+  color: var(--tertiary-text-color);
   width: 100%;
 }
 
@@ -18,28 +18,28 @@
 
 .itemTitle {
   font-size: $large;
-  font-family: $fontRegular;
-  color: $textColorTernary;
+  font-family: var(--primary-font-regular);
+  color: var(--tertiary-text-color);
   margin: 1.25rem 0;
   width: 65%;
 }
 
 .itemPrice {
   font-size: $large;
-  font-family: $fontRegular;
-  color: $textColorTernary;
+  font-family: var(--primary-font-regular);
+  color: var(--tertiary-text-color);
   margin: 1.25rem 0;
   width: 30%;
   text-align: end;
 }
 
 .grayText {
-  color: $shadowColorSecondary;
+  color: var(--primary-box-shadow-color) Secondary;
 }
 
 .itemDescription {
   font-size: $small;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .item + .item::before {
@@ -57,7 +57,7 @@
 .buttonLeft {
   height: 35px;
   font-size: $small;
-  font-family: $fontSemibold;
+  font-family: var(--primary-font-medium);
   margin-right: 0rem;
   padding: 10px;
   margin-right: 3px;
@@ -67,7 +67,7 @@
 .buttonRight {
   height: 35px;
   font-size: $small;
-  font-family: $fontSemibold;
+  font-family: var(--primary-font-medium);
   padding: 10px;
   min-width: fit-content;
   margin-left: 3px;

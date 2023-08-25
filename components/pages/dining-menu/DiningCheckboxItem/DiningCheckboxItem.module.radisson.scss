@@ -7,7 +7,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  color: $shadowColorSecondary;
+  color: var(--primary-box-shadow-color) Secondary;
 }
 
 .currency {

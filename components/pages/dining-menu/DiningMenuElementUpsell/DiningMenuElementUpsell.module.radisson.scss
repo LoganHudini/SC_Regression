@@ -47,9 +47,9 @@
   margin-top: 1px;
   line-height: 1;
   text-transform: capitalize;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   font-size: $xsmall;
-  color: $textColorQuaternary;
+  color: var(--tertiary-text-color);
   width: 75px;
 }
 
@@ -74,7 +74,7 @@
 }
 
 .priceUpsell {
-  font-family: $fontSemibold;
+  font-family: var(--primary-font-medium);
   font-size: $small;
   color: var(--primary-text-color);
 }
@@ -83,7 +83,7 @@
   height: 10px;
   width: 24px;
   background-color: var(--primary-theme-color) !important;
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   font-size: $xsmall;
 }
 

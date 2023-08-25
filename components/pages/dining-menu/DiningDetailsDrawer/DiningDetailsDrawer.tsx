@@ -13,7 +13,7 @@ import { ASSETS_URL, CURRENCY } from 'core/graphql/endpoints';
 import produce from 'immer';
 import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
 import { DiningCheckboxItem } from 'components/pages/dining-menu/DiningCheckboxItem/DiningCheckboxItem';
-import { Drawer, InputAdornment, Backdrop, Box } from '@mui/material';
+import { Drawer, InputAdornment } from '@mui/material';
 import { DiningMenuElementSkeleton } from 'components/pages/dining-menu/DiningMenuElementSkeleton/DiningMenuElementSkeleton';
 import { sortBy } from 'lodash';
 import TextField from '@mui/material/TextField';
@@ -24,7 +24,7 @@ import { handleTouchEnd, handleTouchStart } from 'utils/hooks/useDrawerSwipe';
 import CloseIcon from '@icons/close.svg';
 
 const DiningDetailsDrawer = () => {
-  const { t } = useTranslation(['dining']);
+  const { t } = useTranslation(['dining', 'common']);
   const navigate = useLocalizedRouter();
   const locale = useLocale();
   const selectedItemId = useReactiveVar(diningMenuStorage)?.selectedItemId;
@@ -77,7 +77,8 @@ const DiningDetailsDrawer = () => {
     }),
   );
 
-  const selectedItem = irdItemsList?.find((item: any) => item?.id === selectedItemId);
+  const selectedItem =
+    selectedItemId && irdItemsList?.find((item: any) => item?.id === selectedItemId);
 
   useEffect(() => {
     if (selectedItem?.addOnLimit) {
@@ -311,14 +312,21 @@ const DiningDetailsDrawer = () => {
         elevation: 0,
         style: {
           maxWidth: '720px',
-          padding: '1rem 1.5rem',
-          maxHeight: '60vh',
+          padding: '0rem 1.5rem',
+          maxHeight: '70vh',
           margin: 'auto',
         },
       }}
-      slotProps={{ backdrop: { style: { opacity: '0.3' } } }}
-      // onTouchStart={(e) => handleTouchStart(e, setStartY)}
-      // onTouchEnd={(e) => handleTouchEnd(e, startY, setStartY, closeDrawer)}
+      // ModalProps={{
+      //   onBackdropClick: closeDrawer,
+      //   style: {
+      //     transform: diningDetailsDrawerStatus ? 'translateX(0)' : 'translateX(-250px)', // Slide animation
+      //     transition: 'transform 0.6s ease-in-out', // Customize the animation here
+      //   },
+      // }}
+      slotProps={{ backdrop: { style: { opacity: '0.7' } } }}
+      onTouchStart={(e) => handleTouchStart(e, setStartY)}
+      onTouchEnd={(e) => handleTouchEnd(e, startY, setStartY, closeDrawer)}
     >
       {loading ? (
         <>
@@ -330,6 +338,7 @@ const DiningDetailsDrawer = () => {
         </>
       ) : (
         <>
+          {' '}
           {selectedItem?.name && <h3 className={styles.title}>{selectedItem?.name}</h3>}
           {selectedItem?.images[0] && (
             <StableImage
@@ -338,7 +347,6 @@ const DiningDetailsDrawer = () => {
             />
           )}
           <CloseIcon />
-
           <div className={styles.wrapper}>
             {selectedItem?.allergens && (
               <div className={styles.tagsWrapper}>
@@ -357,7 +365,7 @@ const DiningDetailsDrawer = () => {
               </div>
             )}
             {selectedItem?.description && (
-              <p className={styles.desctiption}>{selectedItem?.description}</p>
+              <p className={styles.description}>{selectedItem?.description}</p>
             )}
 
             {selectedItem?.ingredients && (

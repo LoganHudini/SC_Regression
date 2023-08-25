@@ -57,5 +57,15 @@
   "Online requests will be available from": "Las solicitudes online estarán disponibles a partir de las",
   "Customisation": "Personalización",
   "Instructions": "Instrucciones",
-  "all day": "todo el dia"
+  "all day": "todo el dia",
+  "Ingredients": "Ingredientes",
+  "Add-Ons": "Complementos",
+  "Optional": "Opcional",
+  "total item price": "precio total del articulo",
+  "Add to cart": "Añadir a la cesta",
+  "Required": "Requeridos",
+  "Limit exceeded": "Límite excedido",
+  "Select up to options": "Seleccione hasta {{value}} opciones",
+  "options": "opciones",
+  "Add instructions": "Agregar instrucciones"
 }

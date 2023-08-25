@@ -25,17 +25,17 @@ import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
 import { processError } from 'utils/processError';
 import { toast } from 'react-toastify';
-import { GetStaticProps, NextPage } from 'next';
-import { IHamburgerProps, getHamburgerProps } from 'utils/hamburger/getHamburgerProps';
+import { GetStaticProps } from 'next';
 import { getStaticPaths } from 'utils/getStatic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import i18nConfig from 'next-i18next.config';
 import Head from 'next/head';
 import { Header } from 'components/shared/Header/Header';
 import { ThankYouDrawer } from 'components/pages/ThankYouDrawer/ThankYouDrawer';
+
 export { getStaticPaths };
 
-const TableReservation: NextPage<IHamburgerProps> = () => {
+const TableReservation = () => {
   const navigate = useLocalizedRouter();
   const { t } = useTranslation(['housekeeping', 'common', 'check-in']);
   const [loading, setLoading] = useState(false);
@@ -331,7 +331,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ['common'], i18nConfig)),
-      ...(await getHamburgerProps()),
     },
   };
 };

@@ -12,7 +12,7 @@
 }
 
 .roomPersonalizationTitle {
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   font-size: $medium;
   margin-bottom: 12px;
   line-height: 1;
@@ -48,7 +48,7 @@
 }
 
 .price {
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   font-size: $small;
   margin-bottom: 11px;
   color: var(--primary-text-color);
@@ -60,7 +60,7 @@
 
 .addButton {
   width: auto;
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   font-size: $small;
   min-width: 65px;
   height: 33px;

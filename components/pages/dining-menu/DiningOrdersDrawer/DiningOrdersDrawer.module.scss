@@ -7,7 +7,7 @@
 .heading {
   font-size: $xlarge;
   text-align: center;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .titleRow {
@@ -17,14 +17,14 @@
   align-items: center;
   height: 59px;
   padding: 0 20px;
-  background: $backgroundTertiary;
+  background: var(primary-card-background-color);
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
 }
 
 .title {
   font-size: $medium;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   color: var(--secondary-text-color);
   width: 210px;
   height: 20px;
@@ -36,12 +36,12 @@
 
 .status {
   font-size: 10px;
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   color: var(--primary-theme-color);
   padding: 0 5px;
   width: auto;
   text-align: center;
-  border: 1px solid $dropShadowColor;
+  border: 1px solid var(--primary-box-shadow-color);
 }
 
 .container {
@@ -54,13 +54,13 @@
 
 .date {
   font-size: $xsmall;
-  font-family: $fontRegular;
-  color: $shadowColorSecondary;
+  font-family: var(--primary-font-regular);
+  color: var(--primary-box-shadow-color) Secondary;
 }
 
 .dateTime {
   font-size: $small;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   color: var(--secondary-text-color);
 }
 
@@ -70,7 +70,7 @@
   align-items: center;
   margin: 10px 0;
   padding: 10px 0;
-  border-bottom: 1px solid $dividerColor;
+  border-bottom: 1px solid var(--primary-border-color);
 }
 
 .itemsContainerBill {
@@ -82,7 +82,7 @@
 
 .itemsPrice {
   font-size: $large;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .totalContainer {
@@ -100,29 +100,29 @@
   align-items: center;
   margin: 10px 0;
   padding: 15px 0 0;
-  border-top: 1px solid $dividerColor;
+  border-top: 1px solid var(--primary-border-color);
 }
 
 .total {
   font-size: $medium;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .totalPrice {
   font-size: $large;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .button {
   font-size: $small;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   margin: 1.5rem 0;
   padding-top: 16px;
 }
 
 .billDetailsContainer {
   margin-top: 2rem;
-  background: $backgroundTertiary;
+  background: var(primary-card-background-color);
   border-radius: 8px;
 }
 
@@ -132,13 +132,13 @@
   align-items: center;
   height: 59px;
   padding: 0 1rem;
-  background: $backgroundTertiary;
+  background: var(primary-card-background-color);
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }
 
 .billContainer {
-  background: $backgroundQuaternary;
+  background: var(primary-card-background-color);
   padding: 1.5rem 1rem 5px 1rem;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
@@ -156,14 +156,14 @@
   align-items: center;
   margin: 10px 0;
   padding: 15px 0 5px 0;
-  border-top: 0.5px solid $dividerColor;
+  border-top: 0.5px solid var(--primary-border-color);
   flex-direction: column;
 }
 
 .taxText {
   font-size: $small;
-  font-family: $fontRegular;
-  color: $shadowColorSecondary;
+  font-family: var(--primary-font-regular);
+  color: var(--primary-box-shadow-color) Secondary;
   width: 257px;
   height: 37px;
   margin: 1rem auto;
@@ -180,14 +180,14 @@
 
 .buttonLeft {
   font-size: $xsmall;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   margin-right: 1rem;
   height: 35px;
 }
 
 .buttonRight {
   font-size: $xsmall;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   height: 35px;
 }
 
@@ -199,24 +199,24 @@
   align-items: center;
   height: 90px;
   border-radius: 1rem;
-  box-shadow: 2px 6px 8px -2px $dropShadowColor;
+  box-shadow: 2px 6px 8px -2px var(--primary-box-shadow-color);
 }
 
 .billTitle {
   font-size: $small;
-  font-family: $fontSemibold;
+  font-family: var(--primary-font-medium);
 }
 
 .billAmount {
   font-size: 26px;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   padding-top: 10px;
 }
 
 .buttonConfirm {
   margin-top: 4rem;
   font-size: $xsmall;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .thankyouRow {
@@ -229,19 +229,19 @@
 
 .thankyouTitle {
   font-size: $xlarge;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   padding: 0.5rem 0;
 }
 
 .message {
   font-size: $small;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .buttonOk {
   margin: 2rem 0 3rem;
   font-size: $small;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   width: 170px;
   padding-top: 14px;
 }
@@ -257,7 +257,7 @@
   width: 85px;
   height: 30px;
   font-size: $small;
-  font-family: $fontBold !important;
+  font-family: var(--primary-font-bold) !important;
   margin: 5px;
 }
 
@@ -277,8 +277,8 @@
 }
 
 .orderHeading {
-  color: $textColorQuaternary;
-  font-family: $fontRegular;
+  color: var(--tertiary-text-color);
+  font-family: var(--primary-font-regular);
   font-size: $xsmall;
 }
 
@@ -286,7 +286,7 @@
   padding: 5px 10px;
   margin-top: 8px;
   background-color: white;
-  box-shadow: 0 2px 3px $shadowColor;
+  box-shadow: 0 2px 3px var(--primary-box-shadow-color);
   &:first-child {
     margin-top: 0px;
   }
@@ -294,7 +294,7 @@
 
 .expandCard {
   background-color: white;
-  box-shadow: 0 2px 3px $shadowColor;
+  box-shadow: 0 2px 3px var(--primary-box-shadow-color);
   margin-top: 5px;
   padding: 0px 10px 4px 10px;
 }
@@ -316,18 +316,18 @@
 
 .totalTitle {
   color: var(--secondary-text-color);
-  font-family: $fontSemibold;
+  font-family: var(--primary-font-medium);
   font-size: $medium;
 }
 
 .totalTitlePrice {
   color: var(--secondary-text-color);
-  font-family: $fontSemibold;
+  font-family: var(--primary-font-medium);
   font-size: $large;
 }
 
 .buttonPayment {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-size: $xsmall;
   padding-bottom: 6px !important;
   width: auto !important;
@@ -346,9 +346,9 @@
 }
 
 .paymentTitle {
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   font-size: $large;
-  color: $fontColor;
+  color: var(--tertiary-text-color);
   margin-top: 20px;
 }
 
@@ -360,7 +360,7 @@
   font-size: $small;
   line-height: 1.25;
   color: #7b7b7b;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .items + .items::before {

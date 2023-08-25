@@ -10,13 +10,13 @@
 .checkDatesDetails {
   margin-bottom: 15px;
   color: var(--primary-text-color);
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-size: $medium;
 }
 
 .checkDatesText {
   text-transform: uppercase;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   color: var(--primary-text-color);
   font-size: $extraSmall;
 }
@@ -58,12 +58,12 @@
 
 .guestSignature {
   font-size: $xlarge;
-  font-family: $fontHeading;
+  font-family: var(--primary-font-regular);
 }
 
 .clearBtn {
   color: var(--primary-text-color);
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .right {

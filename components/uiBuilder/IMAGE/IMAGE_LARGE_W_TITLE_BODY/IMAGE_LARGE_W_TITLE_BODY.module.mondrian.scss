@@ -1,7 +1,7 @@
 .imageTitle {
   margin-top: 15px;
   font-size: $xlarge;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   align-self: start;
 }
 
@@ -15,18 +15,17 @@
 
 .imagesBody {
   font-size: $xsmall;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   margin-top: 0.5rem;
 }
 
 .ctaButton {
   margin-top: 0px;
   font-size: $xsmall;
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   text-align: start;
   left: 0;
 }
-
 
 .buttonWrapper {
   display: flex;

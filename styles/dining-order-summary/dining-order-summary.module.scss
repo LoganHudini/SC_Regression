@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem 0;
-  border-bottom: 1px solid $colorDivider;
+  border-bottom: 1px solid var(--primary-border-color);
 
   &:first-child {
     margin-top: 31px;
@@ -28,7 +28,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 1.5rem 0;
-  border-bottom: 1px solid $colorDivider;
+  border-bottom: 1px solid var(--primary-border-color);
   margin-bottom: 30px;
 }
 
@@ -184,7 +184,7 @@
   left: 0;
   right: 0;
   border-radius: 10px 10px 0 0;
-  box-shadow: $shadowColor 0 1px 20px;
+  box-shadow: var(--primary-box-shadow-color) 0 1px 20px;
   max-width: 768px;
   margin: 0 auto;
 }

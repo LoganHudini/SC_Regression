@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import React from 'react';
 import { Header } from 'components/shared/Header/Header';
-
 import styles from '../../styles/notifications/notifications.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
 import { GetStaticProps } from 'next';
@@ -9,8 +8,8 @@ import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { useTranslation } from 'react-i18next';
-import { IHamburgerProps, getHamburgerProps } from 'utils/hamburger/getHamburgerProps';
 import { Notification } from '../../components/pages/notifications/Notification/Notification';
+
 export { getStaticPaths };
 
 const TEMPLATE_NOTIFICATIONS = [
@@ -52,7 +51,7 @@ const TEMPLATE_NOTIFICATIONS = [
   },
 ];
 
-const Language: React.FC<IHamburgerProps> = ({ hamburger, pages }) => {
+const Language = () => {
   const { t } = useTranslation('notifications');
 
   return (
@@ -61,7 +60,7 @@ const Language: React.FC<IHamburgerProps> = ({ hamburger, pages }) => {
         <title>{t('Notifications')}</title>
       </Head>
       <Header displayCloseButton screenTitle={t('Notifications') as string} />
-      <PageWrapper className={styles.wrapper} displayBottomMenu hamburger={hamburger} pages={pages}>
+      <PageWrapper className={styles.wrapper} displayBottomMenu>
         <div className={styles.topRow}>
           <button className={styles.topBtn}>{t('MARK ALL AS READ')}</button>
           <button className={styles.topBtn}>{t('CLEAR ALL')}</button>
@@ -88,7 +87,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ['notifications', 'common'], i18nConfig)),
-      ...(await getHamburgerProps()),
     },
   };
 };

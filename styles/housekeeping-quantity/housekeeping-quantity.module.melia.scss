@@ -18,7 +18,7 @@
 
 .criteria {
   font-size: $small;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   color: var(--primary-text-color);
   line-height: 1.5;
 }
@@ -31,7 +31,7 @@
 
 .orderButton {
   font-size: $small;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   background: var(--secondary-text-color);
 }
 

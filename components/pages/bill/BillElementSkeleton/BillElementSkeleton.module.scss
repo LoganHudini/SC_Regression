@@ -23,7 +23,7 @@
 .title {
   font-family: 'Bodoni MT Std';
   font-size: 1.125rem;
-  color: $textColorTernary;
+  color: var(--tertiary-text-color);
   line-height: 1;
   text-align: left;
   width: 125px;

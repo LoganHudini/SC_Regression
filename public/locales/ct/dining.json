@@ -57,5 +57,15 @@
   "Online requests will be available from": "Les sol·licituds en línia estaran disponibles des de",
   "Customisation": "Personalització",
   "Instructions": "Instruccions",
-  "all day": "tot el dia"
+  "all day": "tot el dia",
+  "Ingredients": "Ingredients",
+  "Add-Ons": "Complements",
+  "Optional": "Opcional",
+  "total item price": "preu total de l'article",
+  "Add to cart": "Afegeix a la cistella",
+  "Required": "Obligatori",
+  "Limit exceeded": "S'ha superat el límit",
+  "Select up to options": "Seleccioneu fins a {{value}} opcions",
+  "options": "opcions",
+  "Add instructions": "Afegiu instruccions"
 }

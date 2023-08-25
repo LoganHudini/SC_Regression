@@ -1,31 +1,28 @@
 //colors
 // var(--primary-theme-color): #164194;
-
-$shadowColor: #4b4b4b33;
-$shadowColorSecondary: #7b7b7b;
-
+// $shadowColor: #4b4b4b33;
 // var(--primary-text-color): #2f2f2f;
 // var(--secondary-text-color): #000000;
-
-$textColorSecondary: #ffffff;
-$textColorTernary: #3d3c3c;
-$textColorQuaternary: #7b7b7b;
-$fonttextColor: #58585a;
+// var(--secondary-text-color): #ffffff;
+// var(--tertiary-text-color): #3d3c3c;
+// var(--tertiary-text-color): #7b7b7b;
+// var(--tertiary-text-color): #58585a;
 // var(--primary-background-color): #f8f8f8;
-$colorDivider: #00144626;
-$errorMsgColor: #d32f2f;
-$dividerColor: #d8d8d8;
-$borderColor: #cccccc;
-$fontColor: #3d3c3c;
-$fonttitle: #58585a;
-$boxBorder: #e0e0e0;
-$backgroundSecondary: #1641940b;
-$backgroundTertiary: #efefef;
-$backgroundQuaternary: #f6f6f6;
+// var(--primary-border-color): #00144626;
+// $var( --primary-error-text-color): #d32f2f;
+// var(--primary-border-color): #d8d8d8;
+// var(--primary-border-color): #cccccc;
+// var(--tertiary-text-color): #3d3c3c;
+// var(--tertiary-text-color): #58585a;
+// var(primary-card-background-color): #1641940b;
+// var(primary-card-background-color): #efefef;
+// var(primary-card-background-color): #f6f6f6;
+// var(--primary-box-shadow-color): #00000010;
+
+// my orders gradient
 $gradientPrimary: #7b301a;
 $gradientSecondary: #d08d21;
 $gradientTertiary: #ccf7b1;
-$dropShadowColor: #00000010;
 
 //text sizes
 $extraSmall: 0.625rem; //10px
@@ -34,13 +31,13 @@ $small: 0.875rem; //14px
 $medium: 1rem; //16px
 $large: 1.125rem; //18px
 $xlarge: 1.25rem; //20px
-$extralarge: 1.625rem; //26px
+$extralarge: 1.5rem; //24px
 
 //font family
-$fontRegular: 'GillSans Regular';
-$fontMedium: 'GillSans Medium';
-$fontBold: 'GillSans Bold';
-$fontOblique: 'Helvetica Oblique';
-$fontHeading: 'GillSans Regular';
-$fontLight: 'GillSans Light';
-$fontSemibold: 'GillSans Semibold';
+// var(--primary-font-regular): 'GillSans Regular';
+// var(--primary-font-medium): 'GillSans Medium';
+// var(--primary-font-bold): 'GillSans Bold';
+// var(--primary-font-bold): 'Helvetica Oblique';
+// var(--primary-font-regular): 'GillSans Regular';
+// var(--primary-font-regular): 'GillSans Light';
+// var(--primary-font-medium): 'GillSans Semibold';

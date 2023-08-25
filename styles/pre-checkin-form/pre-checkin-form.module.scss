@@ -1,7 +1,7 @@
 .centeredText {
   text-align: center;
   font-size: $medium;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   padding: 10px 0px 10px 0;
   background: #f4f4f4;
   // border-bottom: 1px solid #0000001A;
@@ -62,7 +62,7 @@
 
 .checkDatesDetails {
   font-size: $medium;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   margin-bottom: 3vh;
   line-height: 1;
 }

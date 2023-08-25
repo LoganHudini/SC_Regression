@@ -3,7 +3,7 @@
   margin: 22px 4px 0 0px;
   flex-direction: column;
   padding-bottom: 1rem;
-  border-bottom: 1px solid $colorDivider;
+  border-bottom: 1px solid var(--primary-border-color);
 }
 
 .titleRow {

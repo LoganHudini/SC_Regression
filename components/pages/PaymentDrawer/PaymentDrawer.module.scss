@@ -7,8 +7,8 @@
 .heading {
   font-size: $xlarge;
   text-align: center;
-  font-family: $fontRegular;
-  color: $fonttextColor;
+  font-family: var(--primary-font-regular);
+  color: var(--tertiary-text-color);
   margin-bottom: 25px;
   margin-top: 15px;
 }
@@ -21,17 +21,17 @@
   align-items: center;
   height: 90px;
   border-radius: 1rem;
-  box-shadow: 2px 6px 8px -2px $dropShadowColor;
+  box-shadow: 2px 6px 8px -2px var(--primary-box-shadow-color);
 }
 
 .billTitle {
   font-size: $small;
-  font-family: $fontSemibold;
+  font-family: var(--primary-font-medium);
 }
 
 .billAmount {
   font-size: 26px;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   padding-top: 10px;
 }
 
@@ -40,11 +40,11 @@
   height: 43px;
   margin-top: 2rem;
   font-size: $medium;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .buttonConfirm {
   margin-top: 4rem;
   font-size: $xsmall;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }

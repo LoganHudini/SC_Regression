@@ -14,7 +14,6 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { getStaticPaths } from 'utils/getStatic';
 import i18nConfig from 'next-i18next.config';
 import { availablePaths } from 'utils/availablePaths';
-import { IHamburgerProps, getHamburgerProps } from 'utils/hamburger/getHamburgerProps';
 import { Drawer } from '@mui/material';
 import { HOTEL_CODE } from 'core/graphql/endpoints';
 import CloseOutlinedIcon from '@icons/CloseOutlined.svg';
@@ -24,7 +23,7 @@ import { RWebShare } from 'react-web-share';
 
 export { getStaticPaths };
 
-const PreCheckinConfirmation: React.FC<IHamburgerProps> = () => {
+const PreCheckinConfirmation = () => {
   const navigate = useLocalizedRouter();
 
   const { t } = useTranslation('pre-check-in-confirmation');
@@ -136,7 +135,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
         ['pre-check-in-confirmation', 'common'],
         i18nConfig,
       )),
-      ...(await getHamburgerProps()),
     },
   };
 };

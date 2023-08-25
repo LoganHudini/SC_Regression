@@ -10,7 +10,7 @@
 
     // svg {
     //   g {
-    //     // fill: $textColorSecondary;
+    //     // fill: var(--secondary-text-color);
     //     // stroke: #000;
     //   }
 
@@ -23,7 +23,7 @@
   :global(.MuiFormControlLabel-label) {
     font-size: $medium;
     color: var(--primary-text-color);
-    font-family: $fontMedium;
+    font-family: var(--primary-font-medium);
   }
 
   :global(.MuiTouchRipple-root) {

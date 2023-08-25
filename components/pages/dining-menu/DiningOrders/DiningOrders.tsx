@@ -5,7 +5,7 @@ import { IDiningOrdersProps } from './DiningOrders.types';
 import { useTranslation } from 'react-i18next';
 
 export const DiningOrders: React.FC<IDiningOrdersProps> = ({ openOrdersDrawer, ordersData }) => {
-  const { t } = useTranslation(['dining']);
+  const { t } = useTranslation('dining');
   const orderId = ordersData[ordersData?.length - 1]?.id?.slice(0, 6);
 
   return (

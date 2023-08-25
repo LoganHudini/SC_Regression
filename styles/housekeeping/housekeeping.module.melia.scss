@@ -6,7 +6,7 @@
   right: 0;
   box-sizing: border-box;
   background: var(--primary-theme-color);
-  box-shadow: 0 -6px 8px -2px $shadowColor;
+  box-shadow: 0 -6px 8px -2px var(--primary-box-shadow-color);
   display: flex;
   flex-direction: row;
   max-width: 768px;
@@ -34,7 +34,7 @@
   height: 44px;
   flex: 1;
   font-size: 14px;
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
 }
 
 .housekeepingWrapper {

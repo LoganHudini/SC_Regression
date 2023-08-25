@@ -103,7 +103,7 @@
 .minusIcon {
   width: 16px;
   height: auto;
-  fill: $textColorSecondary;
+  fill: var(--secondary-text-color);
 }
 
 .minusButton {
@@ -116,7 +116,7 @@
 .plusIcon {
   width: 16px;
   height: auto;
-  fill: $textColorSecondary;
+  fill: var(--secondary-text-color);
 }
 
 .plusButton {

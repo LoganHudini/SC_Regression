@@ -9,13 +9,13 @@
 
 .itemTitle {
   font-size: $large;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   margin: 1.25rem 0;
 }
 
 .itemDescription {
   font-size: $medium;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .buttonContainer {
@@ -25,13 +25,13 @@
 
 .buttonLeft {
   font-size: $small;
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   margin-right: 1rem;
   padding-top: 16px;
 }
 
 .buttonRight {
   font-size: $small;
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   padding-top: 16px;
 }

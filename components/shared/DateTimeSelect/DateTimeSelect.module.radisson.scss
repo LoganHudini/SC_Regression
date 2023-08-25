@@ -9,7 +9,7 @@
   font-size: $large;
   line-height: 1.333;
   font-weight: bold;
-  font-family: $fontSemibold;
+  font-family: var(--primary-font-medium);
   display: none;
 }
 
@@ -19,13 +19,13 @@
   font-size: $medium;
   line-height: 1.333;
   font-weight: bold;
-  font-family: $fontSemibold;
+  font-family: var(--primary-font-medium);
 }
 
 .chooseTimeTitle {
   font-size: $medium;
   line-height: 1.25;
-  font-family: $fontSemibold;
+  font-family: var(--primary-font-medium);
 }
 
 .chooseTimeRow {

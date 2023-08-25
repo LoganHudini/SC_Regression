@@ -17,7 +17,7 @@
   font-size: $small;
   font-weight: 100;
   text-transform: none;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   background: var(--primary-theme-color);
   color: var(--secpndary-text-color);
   border-radius: 6px;
@@ -32,12 +32,12 @@
 
 .buttonFilterDisabled {
   background: var(--primary-background-color);
-  color: $shadowColorSecondary;
+  color: var(--primary-box-shadow-color) Secondary;
   min-width: fit-content;
   height: 30px;
   margin-top: 2px;
   font-size: $small;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-weight: 100;
   text-transform: none;
   border-radius: 6px;
@@ -69,13 +69,13 @@
   background-color: white;
   color: var(--primary-theme-color);
   font-size: 0.875rem;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .orderText {
   padding-top: 3px;
   font-size: $small;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   padding-top: 6px;
   padding-left: 20px;
 }

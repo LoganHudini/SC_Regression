@@ -1,8 +1,8 @@
 .housekeepingItemTitle {
-  font-family: $fontHeading;
+  font-family: var(--primary-font-regular);
   font-size: $xlarge;
 }
 
 .button {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }

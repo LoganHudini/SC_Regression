@@ -54,7 +54,7 @@
   font-size: 20px;
   line-height: 1;
   margin: 0 auto 38px auto;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .totalRequests {
@@ -62,7 +62,7 @@
   line-height: 1.33;
   padding-bottom: 10px;
   font-weight: bold;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-size: 16px;
   margin-bottom: 25px;
   border-bottom: 1px solid #707070;
@@ -72,7 +72,7 @@
   line-height: 1.3125;
   font-size: 16px;
   font-weight: bold;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .line {
@@ -85,13 +85,13 @@
   font-size: 16px;
   line-height: 1.25;
   margin-top: 8px;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .button {
   width: 100%;
   height: 44px;
   margin-top: 46px;
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   font-size: 14px;
 }

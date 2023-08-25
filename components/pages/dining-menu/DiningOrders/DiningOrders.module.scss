@@ -1,5 +1,5 @@
 .wrapper {
-  background: $backgroundSecondary;
+  background: var(primary-card-background-color);
   margin-top: 40px;
   height: 80px;
   border-radius: 20px;
@@ -22,13 +22,13 @@
 .title {
   font-size: $small;
   padding-top: 10px;
-  font-family: $fontSemibold;
+  font-family: var(--primary-font-medium);
 }
 
 .id {
   font-size: $small;
   padding-top: 10px;
-  font-family: $fontSemibold;
+  font-family: var(--primary-font-medium);
 }
 
 .secondRow {
@@ -46,7 +46,7 @@
 }
 
 .myOrders {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   width: 120px;
   height: 30px;
   padding-top: 14px;

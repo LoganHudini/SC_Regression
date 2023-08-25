@@ -16,7 +16,7 @@
   margin-left: -17px;
   border-radius: 15px;
   padding: 0 8px;
-  box-shadow: 0 2px 6px $shadowColor;
+  box-shadow: 0 2px 6px var(--primary-box-shadow-color);
   margin-top: 20px;
 }
 
@@ -32,7 +32,7 @@
   padding: 0.1rem 0;
   padding-left: 0.5rem;
   color: #7b7b7b;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .totalCostRow {
@@ -51,8 +51,8 @@
 }
 
 .totalCostValue {
-  color: $textColorTernary;
-  font-family: $fontSemibold;
+  color: var(--tertiary-text-color);
+  font-family: var(--primary-font-medium);
   font-size: $medium;
   line-height: 1.333;
   font-weight: bold;
@@ -198,7 +198,7 @@
   left: 0;
   right: 0;
   border-radius: 15px 15px 0 0;
-  box-shadow: $shadowColor 0 1px 20px;
+  box-shadow: var(--primary-box-shadow-color) 0 1px 20px;
   max-width: 768px;
   margin-top: -20px;
 }
@@ -222,8 +222,8 @@
   align-items: center;
   display: grid;
   border-bottom: 1px dashed #7b7b7b72;
-  color: $textColorTernary;
-  font-family: $fontRegular;
+  color: var(--tertiary-text-color);
+  font-family: var(--primary-font-regular);
   font-size: $large;
 }
 
@@ -253,7 +253,7 @@
   width: 107%;
   margin-left: -17px;
   margin-top: 25px;
-  box-shadow: 0 2px 4px $shadowColor;
+  box-shadow: 0 2px 4px var(--primary-box-shadow-color);
   border-radius: 10px;
   height: 40px;
   padding-left: 10px !important;
@@ -267,7 +267,7 @@
 }
 
 .placeHolderInstruction {
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   font-size: $medium;
   color: #7b7b7b;
   margin-left: 10px;
@@ -276,7 +276,7 @@
 .guestCount {
   width: 104%;
   margin-left: -17px;
-  box-shadow: 0 2px 4px $shadowColor;
+  box-shadow: 0 2px 4px var(--primary-box-shadow-color);
   flex-direction: row;
   display: flex;
   justify-content: space-between;
@@ -287,14 +287,14 @@
 }
 
 .totalCostTitle {
-  color: $textColorTernary;
-  font-family: $fontRegular;
+  color: var(--tertiary-text-color);
+  font-family: var(--primary-font-regular);
   font-size: $large;
 }
 
 .totalCostTitleCutlury {
   color: #7b7b7b;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   font-size: $small;
   width: 200px;
   line-height: 18px;
@@ -305,7 +305,7 @@
 }
 
 .button {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-size: $xsmall;
   padding-top: 14px;
 }
@@ -317,7 +317,7 @@
 }
 
 .buttonPayment {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-size: $xsmall;
   padding-bottom: 6px !important;
   min-width: fit-content !important;
@@ -330,9 +330,9 @@
 }
 
 .paymentTitle {
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   font-size: $large;
-  color: $fontColor;
+  color: var(--tertiary-text-color);
 }
 
 .paymentContainer {
@@ -354,12 +354,12 @@
 .tax {
   display: list-item;
   color: #7b7b7b;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   font-size: $small;
 }
 
 .deliverStatus {
-  font-family: $fontSemibold;
+  font-family: var(--primary-font-medium);
 }
 
 .edit {
@@ -367,12 +367,12 @@
   text-transform: lowercase;
   color: var(--primary-theme-color);
   font-size: $small;
-  font-family: $fontSemibold;
+  font-family: var(--primary-font-medium);
 }
 
 .totalCostTitleButton {
-  color: $textColorTernary;
-  font-family: $fontSemibold;
+  color: var(--tertiary-text-color);
+  font-family: var(--primary-font-medium);
   font-size: $medium;
   font-weight: bold;
 }
@@ -397,15 +397,15 @@
 }
 
 .youMayAlsoLikeText {
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   font-size: $large;
-  color: $fontColor;
+  color: var(--tertiary-text-color);
 }
 
 .taxText {
   font-size: $small;
-  font-family: $fontRegular;
-  color: $shadowColorSecondary;
+  font-family: var(--primary-font-regular);
+  color: var(--primary-box-shadow-color) Secondary;
   width: 290px;
   height: 37px;
   margin: 1rem auto;

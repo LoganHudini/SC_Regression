@@ -57,5 +57,14 @@
   "Online requests will be available from": "Online requests will be available from",
   "Customisation": "Customisation",
   "Instructions": "Instructions",
-  "all day": "all day"
+  "all day": "all day",
+  "Ingredients": "Ingredients",
+  "Add-Ons": "Add-Ons",
+  "Optional": "Optional",
+  "total item price": "total item price",
+  "Add to cart": "Add to cart",
+  "Required": "Required",
+  "Limit exceeded": "Limit exceeded",
+  "Select up to options": "Select up to {{value}} options",
+  "Add instructions": "Add instructions"
 }

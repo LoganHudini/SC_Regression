@@ -13,7 +13,7 @@
 .indicatorIcon {
   width: 6px;
   height: 6px;
-  background: $textColorSecondary;
+  background: var(--secondary-text-color);
 
   &:not(:last-child) {
     margin-right: 6px;
@@ -129,7 +129,7 @@
   width: 140px;
   height: 36px;
   margin: 1rem auto 0;
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   width: 155px;
   font-size: 0.75rem;
   white-space: nowrap;

@@ -11,7 +11,7 @@
 }
 
 .title {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-size: 1.18rem;
   line-height: 1.26;
   margin-bottom: 18px;
@@ -35,10 +35,10 @@
 
 .price {
   font-size: $medium;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .currency {
   font-size: 13px;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }

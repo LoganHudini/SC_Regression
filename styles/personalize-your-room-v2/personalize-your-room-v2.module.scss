@@ -41,7 +41,7 @@
   resize: none;
 }
 .sectionTitle {
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   padding: 10px 0px 10px 0;
   background: #f4f4f4;
 }

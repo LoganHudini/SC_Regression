@@ -12,7 +12,7 @@ export const handleTouchEnd = (
   closeDrawer: () => void,
 ) => {
   const deltaY = event.changedTouches[0].clientY - startY;
-  if (deltaY > 0) {
+  if (deltaY > 150) {
     closeDrawer();
   }
 };

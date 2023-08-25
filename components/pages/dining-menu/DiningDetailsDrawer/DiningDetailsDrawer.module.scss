@@ -1,5 +1,6 @@
 .title {
-  font: 24px var(--secondary-font-regular);
+  font: $extralarge var(--secondary-font-regular);
+  padding: 0.5rem 0;
   // color: var(--secondary-text-color);
   // position: fixed;
   // max-width: 768px;
@@ -21,37 +22,41 @@
   // margin-top: -8rem;
 }
 
-.tagsWrapper {
-  flex-wrap: wrap;
-  flex-direction: row;
-  display: flex;
-  margin-top: 6rem;
-}
-
 .wrapper {
   padding-bottom: 4rem;
 }
 
+.tagsWrapper {
+  flex-wrap: wrap;
+  flex-direction: row;
+  display: flex;
+  margin: 1rem 0;
+}
+
 .tags {
+  display: flex;
   border: 1px solid #d0d0d0;
-  border-radius: 23px;
+  border-radius: var(--primary-card-border-radius);
   height: 23px;
-  color: #7b7b7b;
+  color: var(--tertiary-text-color);
   background-color: #f4f4f4;
-  font-size: $extraSmall;
-  font-family: $fontRegular;
-  margin-top: 5px;
-  margin-right: 5px;
+  font: $extraSmall var(--primary-font-regular);
+  margin-right: 10px;
   width: fit-content;
   min-width: 50px;
   padding: 0 10px;
+  justify-content: center;
+  align-items: center;
 }
 
-.desctiption {
-  margin-top: 19px;
-  padding-bottom: 33px;
-  border-bottom: 1px solid var(--primary-theme-color);
-  line-height: 1.25;
+.allergens {
+  margin-right: 4px;
+  margin-bottom: 2px;
+}
+
+.description {
+  margin: 0.5rem 0;
+  font: $small var(--primary-font-regular);
 }
 
 .ingredientsRow {
@@ -110,7 +115,7 @@
 
 .optionalText {
   font-size: $xsmall;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   color: var(--primary-text-color);
   background-color: #f0f0f0;
   width: 4rem;
@@ -128,7 +133,7 @@
   left: 0;
   right: 0;
   border-radius: 10px 10px 0 0;
-  box-shadow: $shadowColor 0 -2px 10px;
+  box-shadow: var(--primary-box-shadow-color) 0 -2px 10px;
   max-width: 768px;
   margin: 0 auto;
 }
@@ -179,7 +184,7 @@
 
 .requiredText {
   font-size: $xsmall;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   color: var(--primary-text-color);
   background-color: #f0f0f0;
   width: 6rem;
@@ -202,7 +207,7 @@
   border-bottom: none;
   line-height: 1.25;
   color: #7b7b7b;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   font-size: $small;
 }
 
@@ -224,13 +229,13 @@
   font-size: $medium;
   line-height: 1.26;
   margin-left: 0px;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   font-size: $large;
-  color: $textColorTernary;
+  color: var(--tertiary-text-color);
 }
 
 .ingredientsDescription {
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   color: #7b7b7b;
   font-size: $small;
   line-height: 1.25;
@@ -252,7 +257,7 @@
   font-weight: normal;
   text-transform: uppercase;
   color: #7b7b7b;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .totalAmount {
@@ -260,7 +265,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   margin-top: 5px;
 }
 
@@ -273,7 +278,7 @@
 
 .addonsText {
   font-size: $large;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .optionalText {
@@ -288,7 +293,7 @@
   left: 0;
   right: 0;
   border-radius: 0;
-  box-shadow: $shadowColor 0 -2px 10px;
+  box-shadow: var(--primary-box-shadow-color) 0 -2px 10px;
   max-width: 768px;
   margin: 0 auto;
 }
@@ -319,7 +324,7 @@
   line-height: 44px;
   padding-top: 14px;
   background-color: var(--primary-theme-color);
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-size: $xsmall;
 }
 
@@ -345,14 +350,14 @@
 
 .customisationsText {
   font-size: $large;
-  color: $fontColor;
-  font-family: $fontRegular;
+  color: var(--tertiary-text-color);
+  font-family: var(--primary-font-regular);
 }
 
 .requiredText {
   font-size: $medium;
-  font-family: $fontRegular;
-  color: $shadowColorSecondary;
+  font-family: var(--primary-font-regular);
+  color: var(--primary-box-shadow-color) Secondary;
   background-color: transparent;
   width: 6rem;
   text-align: center;
@@ -404,7 +409,7 @@
   color: white !important;
   border: 1px solid var(--primary-theme-color) !important;
   font-size: $small !important;
-  font-family: $fontRegular !important;
+  font-family: var(--primary-font-regular) !important;
   height: 30px !important;
   flex: 1px;
   box-shadow: none !important;
@@ -422,16 +427,12 @@
   color: var(--primary-theme-color) !important;
   border: 1px solid #7b7b7b !important;
   font-size: $small !important;
-  font-family: $fontRegular !important;
+  font-family: var(--primary-font-regular) !important;
   flex: 1px;
   height: 30px !important;
   text-transform: capitalize;
   padding: 0 0.5rem;
   box-shadow: none !important;
-}
-
-.allergens {
-  margin-right: 4px;
 }
 
 .detailWrapper {

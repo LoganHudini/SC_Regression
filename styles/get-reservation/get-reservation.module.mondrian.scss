@@ -1,10 +1,10 @@
 .pageTitle {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-size: $large;
 }
 
 .findMyBookingBtn {
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   font-size: $small;
   margin: 60px 20px 0 20px;
 }
