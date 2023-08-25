@@ -72,9 +72,9 @@ const PreCheckinConfirmation: React.FC<IHamburgerProps> = () => {
         }}
       >
         <PageWrapper>
-          <button onClick={closeInputDrawer} className={styles.closeBtn}>
+          <div onClick={closeInputDrawer} className={styles.closeBtn}>
             <CloseOutlinedIcon />
-          </button>
+          </div>
           <div className={styles.dataWrapper}>
             <CheckMarkIcon className={styles.okIcon} />
             <h2 className={styles.checkInCompleteText}>

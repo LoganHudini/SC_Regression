@@ -13,15 +13,7 @@ import { IHeaderProps } from './Header.types';
 import { useRouter } from 'next/router';
 import ArrowBackIosIcon from '@icons/ArrowBack.svg';
 import { availablePaths } from 'utils/availablePaths';
-import {
-  ALL_DAY,
-  BARCELONA,
-  DUBAI_WATERFRONT,
-  Headers,
-  LANGUAGE_LIST_BARCELONA,
-  LANGUAGE_LIST_DUBAI,
-  home,
-} from 'utils/constants';
+import { ALL_DAY, Headers, LANGUAGE_LIST_BARCELONA, home } from 'utils/constants';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import CrossDropdown from '@icons/crossDropdown.svg';
@@ -120,15 +112,15 @@ export const Header: React.FC<IHeaderProps> = ({
       >
         <div className={styles.categoryContainer}>
           {displayHome && (
-            <button className={styles.backButton} onClick={goHome}>
+            <div className={styles.backButton} onClick={goHome}>
               <HomeHeader className={styles.backIcon} viewBox='0 0 25.204 25.927' />
-            </button>
+            </div>
           )}
 
           {displayBackButton && (
-            <button className={styles.backButton} onClick={goBack}>
+            <div className={styles.backButton} onClick={goBack}>
               <ArrowBackIosIcon className={styles.backIconIrd} viewBox='0 0 30.204 35.927' />
-            </button>
+            </div>
           )}
 
           {irdModule ? (
@@ -156,9 +148,9 @@ export const Header: React.FC<IHeaderProps> = ({
           )}
 
           {displaySearchButton && search && (
-            <button className={styles.closeButton1} onClick={onSearchBtnClick}>
+            <div className={styles.closeButton1} onClick={onSearchBtnClick}>
               <SearchIrd className={styles.closeIcon} />
-            </button>
+            </div>
           )}
           {ordersData?.length > 0 && screenTitle === home && (
             <div className={styles.myOrdersIconContainer}>

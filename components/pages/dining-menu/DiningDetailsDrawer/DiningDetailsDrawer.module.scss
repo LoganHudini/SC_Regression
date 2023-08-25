@@ -42,6 +42,7 @@
   font-family: $fontRegular;
   margin-top: 5px;
   margin-right: 5px;
+  width: -moz-fit-content;
   width: fit-content;
   min-width: 50px;
   padding: 0 10px;
@@ -221,7 +222,6 @@
 }
 
 .ingredientsText {
-  font-size: $medium;
   line-height: 1.26;
   margin-left: 0px;
   font-family: $fontRegular;
@@ -339,6 +339,7 @@
 .radioItemWrapper {
   display: flex;
   flex-direction: row;
+  width: -moz-fit-content;
   width: fit-content;
   margin-right: 0.5rem;
 }
@@ -374,7 +375,6 @@
 
 .counter {
   border: none;
-  display: flex;
   align-items: flex-end;
   display: flex;
   flex-wrap: nowrap;
