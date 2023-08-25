@@ -87,13 +87,13 @@
   line-height: 30px;
   text-align: center;
   padding-top: 10px;
-  background-color: var(--primary-theme-color) !important;
-  font: $extraSmall var(--primary-card-cta-font-family) !important;
+  background-color: var(--primary-theme-color);
+  font: $extraSmall var(--primary-card-cta-font-family);
 }
 
 .menuUnavailable {
-  background-color: var(tertiary-text-color) !important;
-  color: var(secondary-text-color);
+  background-color: var(--tertiary-text-color) !important;
+  color: var(--secondary-text-color);
   pointer-events: none;
 }
 

@@ -159,7 +159,7 @@ const Bill: NextPage<IHamburgerProps> = ({ hamburger, pages }) => {
           )}
         </div>
 
-        <BottomMenu pages={pages} hamburger={hamburger} />
+        <BottomMenu />
       </div>
 
       <ConfirmCheckout

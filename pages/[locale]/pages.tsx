@@ -26,7 +26,6 @@ interface IHomePageProps {
 
 const CHECK_IN_FLOW = [
   availablePaths.GET_RESERVATION,
-  availablePaths.ABOUT_YOUR_STAY,
   availablePaths.CHECK_IN_PAYMENT,
   availablePaths.CHECK_IN,
   availablePaths.GUEST_INFORMATION_INPUT,
@@ -36,7 +35,6 @@ const CHECK_IN_FLOW = [
   availablePaths.RESERVAION_CONFIRMATION,
   availablePaths.ROOM_ASSIGNED,
   availablePaths.ROOM_DETAILS,
-  availablePaths.SELECT_ROOM,
   availablePaths.UPGRADES,
 ];
 
@@ -67,13 +65,7 @@ const ROOM_CONTROLS = [
   availablePaths.ROOM_CONTROLS_TV,
 ];
 
-const DINING_FLOW = [
-  availablePaths.DINING,
-  availablePaths.DINING_DETAILS,
-  availablePaths.DINING_MENU,
-  availablePaths.DINING_ORDER_SUMMARY,
-  availablePaths.DINING_RESERVATION_CONFIRMATION,
-];
+const DINING_FLOW = [availablePaths.DINING, availablePaths.DINING_ORDER_SUMMARY];
 
 const AVAILABLE_PAGES = [
   availablePaths.TRIPS,

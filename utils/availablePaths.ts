@@ -6,19 +6,17 @@ export const availablePaths = {
 
   // Check-in flow
   GET_RESERVATION: '/check-in',
-  ABOUT_YOUR_STAY: '/check-in/about-your-stay',
-  CHECK_IN_PAYMENT: '/checkin/payment',
-  CHECK_IN: '/checkin/review',
-  GUEST_INFORMATION_INPUT: '/checkin/information',
+  CHECK_IN_PAYMENT: '/check-in/payment',
+  CHECK_IN: '/check-in/review',
+  GUEST_INFORMATION_INPUT: '/check-in/information',
   GUEST_INFORMATION: '/check-in/guest-information',
-  PERSONALIZE_YOUR_ROOM: '/checkin/personalization',
-  ACCOMPANY_GUEST: '/checkin/accompanyguest',
-  PRE_CHECK_IN_CONFIRMATION: '/check-in/pre-check-in-confirmation',
+  PERSONALIZE_YOUR_ROOM: '/check-in/personalization',
+  ACCOMPANY_GUEST: '/check-in/accompanyguest',
+  PRE_CHECK_IN_CONFIRMATION: '/check-in/precheck-in-confirmation',
   CHECK_IN_CONFIRMATION: '/check-in/check-in-confirmation',
-  RESERVAION_CONFIRMATION: '/checkin/confirmation',
+  RESERVAION_CONFIRMATION: '/check-in/confirmation',
   ROOM_ASSIGNED: '/check-in/room-assigned',
   ROOM_DETAILS: '/check-in/room-details',
-  SELECT_ROOM: '/check-in/select-room',
   UPGRADES: '/check-in/upgrades',
 
   // Checkout flow
@@ -28,10 +26,7 @@ export const availablePaths = {
 
   // Dining flow
   DINING: '/dining',
-  DINING_DETAILS: '/dining/dining-detail',
-  DINING_MENU: '/dining/dining-menu',
-  DINING_ORDER_SUMMARY: '/dining/dining-order-summary',
-  DINING_RESERVATION_CONFIRMATION: '/dining/dining-reservation-confirmation',
+  DINING_ORDER_SUMMARY: '/dining-order-summary',
   RESTAURANTS_BARS: '/restaurants-bars',
 
   // Housekeeping flow

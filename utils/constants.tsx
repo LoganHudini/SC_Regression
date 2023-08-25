@@ -155,6 +155,7 @@ export const phoneRegex =
 export const checkIn = 'checkin';
 export const review = 'review';
 export const CANCELED = 'CANCELED';
-
 export const CHECKEDOUT = 'CHECKEDOUT';
 export const CHKOUT = 'CHKOUT';
+export const PERSONALISATION = 'PERSONALISATION';
+export const personalisation = 'personalisation';

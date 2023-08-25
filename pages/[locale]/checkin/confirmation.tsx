@@ -24,7 +24,7 @@ import { RWebShare } from 'react-web-share';
 
 export { getStaticPaths };
 
-const PreCheckinConfirmation: React.FC<IHamburgerProps> = ({ hamburger, pages }) => {
+const PreCheckinConfirmation: React.FC<IHamburgerProps> = () => {
   const navigate = useLocalizedRouter();
 
   const { t } = useTranslation('pre-check-in-confirmation');
@@ -72,9 +72,9 @@ const PreCheckinConfirmation: React.FC<IHamburgerProps> = ({ hamburger, pages })
         }}
       >
         <PageWrapper>
-          <button onClick={closeInputDrawer} className={styles.closeBtn}>
+          <div onClick={closeInputDrawer} className={styles.closeBtn}>
             <CloseOutlinedIcon />
-          </button>
+          </div>
           <div className={styles.dataWrapper}>
             <CheckMarkIcon className={styles.okIcon} />
             <h2 className={styles.checkInCompleteText}>
@@ -111,7 +111,6 @@ const PreCheckinConfirmation: React.FC<IHamburgerProps> = ({ hamburger, pages })
                 <RWebShare
                   data={{
                     url: 'https://mondrian.hudinielevate-uat.io',
-                    title: HOTEL_CODE,
                   }}
                 >
                   <ShareIcon className={styles.pointer} />

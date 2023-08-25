@@ -185,14 +185,15 @@ export const configuration = {
         {
           name: 'personalisation',
           label: 'Cutomize My Stay',
-          title: '',
+          title: 'Check-In',
           type: 'cms',
           isActive: 'true',
         },
         {
           name: 'review',
           label: 'Review & Sign',
-          title: 'Check In',
+          title: 'Check-In',
+          buttonLabelCheckIn: 'CHECK-IN',
           subTitle:
             'Please review and confirm the below information to complete the Check In process',
           type: 'cms',
@@ -202,8 +203,8 @@ export const configuration = {
               title: 'Guest Information',
             },
             {
-              checkIn: 'Check In',
-              checkOut: 'Check Out',
+              checkIn: 'Check-In',
+              checkOut: 'Checkout',
             },
           ],
           creditCardDetails: [
@@ -239,6 +240,11 @@ export const configuration = {
               name: 'issueCountry',
               cmsName: 'COUNTRY',
               label: 'Issue country',
+            },
+          ],
+          personalizationDetails: [
+            {
+              title: 'Add-Ons',
             },
           ],
         },

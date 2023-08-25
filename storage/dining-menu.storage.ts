@@ -62,3 +62,5 @@ export interface IAddons {
     price: number;
   }[];
 }
+
+export const toggleDiningDetailsDrawer = makeVar(false);

@@ -28,6 +28,8 @@ import { timeFormats } from 'utils/timeFormats';
 import { RoomPersonalizationEntitySkeletonV2 } from 'components/pages/personalize-your-room-v2/RoomPersonalizationEntitySkeletonV2/RoomPersonalizationEntitySkeletonV2';
 import { RoomPersonalizationEntityV2 } from 'components/pages/personalize-your-room-v2/RoomPersonalizationEntity/RoomPersonalizationEntityV2';
 import { UPDATE_BOOKING_DETAILS } from 'core/graphql/queries/UPDATE_BOOKING_DETAILS';
+import { getConfig } from 'utils/getConfiguration';
+import { checkIn, personalisation } from 'utils/constants';
 
 export { getStaticPaths };
 
@@ -41,6 +43,13 @@ const PersonalizeYourRoom: React.FC = () => {
 
   const [currentPersonalizationEntities, setCurrentPersonalizationEntities] = useState(
     personalizationEntities || [],
+  );
+
+  const config = getConfig();
+
+  const checkinModule: any = config?.modules?.find((module) => module?.name === checkIn);
+  const personalisationConfig = checkinModule?.submodules?.find(
+    (submodule: any) => submodule?.name === personalisation && submodule.isActive,
   );
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
@@ -122,10 +131,10 @@ const PersonalizeYourRoom: React.FC = () => {
   return (
     <>
       <Head>
-        <title>{t('Check-In')}</title>
+        <title>{t(`${personalisationConfig.title}`)}</title>
       </Head>
-      <Header displayBackButton screenTitle={t('Cutomize My Stay') as string} />
-      <PageWrapper>
+      <Header displayBackButton screenTitle={t(`${personalisationConfig.label}`) as string} />
+      <PageWrapper className={styles.pageWrapper}>
         <div className={styles.personalizationEntitiesWrapper}>
           {loading ? (
             <>
