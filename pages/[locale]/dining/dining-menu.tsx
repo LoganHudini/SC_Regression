@@ -4,7 +4,7 @@ import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styles from '../../../../styles/dining-menu/dining-menu.module.scss';
+import styles from 'styles/dining-menu/dining-menu.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
 import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
 import { useQuery, useReactiveVar } from '@apollo/client';

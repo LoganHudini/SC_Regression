@@ -2,7 +2,7 @@ import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput'
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import Cookinginstructions from '@icons/cooking_instructions.svg';
 import React, { useCallback, useEffect, useState } from 'react';
-import styles from './DiningDetailsDrawer.module.scss';
+import styles from '../../../components/pages/dining-menu/DiningDetailsDrawer/DiningDetailsDrawer.module.scss';
 import { useTranslation } from 'react-i18next';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { diningMenuStorage, toggleDiningDetailsDrawer } from 'storage/dining-menu.storage';

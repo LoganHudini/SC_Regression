@@ -6,7 +6,7 @@ import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import React, { useCallback, useEffect, useState } from 'react';
-import styles from '../../styles/dining-order-summary/dining-order-summary.module.scss';
+import styles from 'styles/dining-order-summary/dining-order-summary.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { useTranslation } from 'react-i18next';
