@@ -28,10 +28,7 @@ export const availablePaths = {
 
   // Dining flow
   DINING: '/dining',
-  DINING_DETAILS: '/dining/dining-detail',
-  DINING_MENU: '/dining/dining-menu',
-  DINING_ORDER_SUMMARY: '/dining/dining-order-summary',
-  DINING_RESERVATION_CONFIRMATION: '/dining/dining-reservation-confirmation',
+  DINING_ORDER_SUMMARY: '/dining-order-summary',
   RESTAURANTS_BARS: '/restaurants-bars',
 
   // Housekeeping flow

@@ -5,7 +5,7 @@ import styles from './DiningMenuElementUpsell.module.scss';
 import { IDiningMenuElementProps } from './DiningMenuElementUpsell.types';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
-import { diningMenuStorage } from 'storage/dining-menu.storage';
+import { diningMenuStorage, toggleDiningDetailsDrawer } from 'storage/dining-menu.storage';
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { ASSETS_URL, CURRENCY } from 'core/graphql/endpoints';
 import produce from 'immer';
@@ -34,8 +34,8 @@ export const DiningMenuElementUpsell: React.FC<IDiningMenuElementProps> = ({
         draft.selectedItemId = id;
       }),
     );
-    navigate(availablePaths.DINING_DETAILS);
-  }, [id, navigate]);
+    toggleDiningDetailsDrawer(true);
+  }, [id]);
 
   const onClickPlus = useCallback(() => {
     diningMenuStorage(

@@ -67,13 +67,7 @@ const ROOM_CONTROLS = [
   availablePaths.ROOM_CONTROLS_TV,
 ];
 
-const DINING_FLOW = [
-  availablePaths.DINING,
-  availablePaths.DINING_DETAILS,
-  availablePaths.DINING_MENU,
-  availablePaths.DINING_ORDER_SUMMARY,
-  availablePaths.DINING_RESERVATION_CONFIRMATION,
-];
+const DINING_FLOW = [availablePaths.DINING, availablePaths.DINING_ORDER_SUMMARY];
 
 const AVAILABLE_PAGES = [
   availablePaths.TRIPS,

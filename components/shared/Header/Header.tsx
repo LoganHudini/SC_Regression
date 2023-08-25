@@ -27,7 +27,6 @@ import { useQuery, useReactiveVar } from '@apollo/client';
 import CrossDropdown from '@icons/crossDropdown.svg';
 import { GET_ORDERS } from 'core/graphql/queries/GET_ORDERS_BY_ID';
 import { DiningOrdersDrawer } from 'components/pages/dining-menu/DiningOrdersDrawer/DiningOrdersDrawer';
-import { BRANCH_CODE } from 'core/graphql/endpoints';
 import languageDetector from 'utils/languageDetector';
 import { setScrollPosition } from 'utils/functions';
 import produce from 'immer';
@@ -196,18 +195,11 @@ export const Header: React.FC<IHeaderProps> = ({
                     languageHandler(language);
                   }}
                 >
-                  <CrossDropdown
-                    className={cx(styles.close, {
-                      [styles.closeSecondary]: BRANCH_CODE === BARCELONA,
-                    })}
-                  />
+                  <CrossDropdown className={cx(styles.close)} />
                 </div>
                 <div className={styles.filterView}>
                   <div className={styles.filterViewOptionContainer}>
-                    {(BRANCH_CODE === DUBAI_WATERFRONT
-                      ? LANGUAGE_LIST_DUBAI
-                      : LANGUAGE_LIST_BARCELONA
-                    )?.map((el, index) => (
+                    {LANGUAGE_LIST_BARCELONA?.map((el, index) => (
                       <div
                         className={cx(styles.dropDowntext, {
                           [styles.selected]: languageSelected?.title === el?.title,
