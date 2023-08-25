@@ -57,6 +57,7 @@ import {
   CHKOUT,
   CHECKEDOUT,
   CANCELED,
+  PERSONALISATION,
 } from 'utils/constants';
 import { GET_E_REG_DETAILS } from 'core/graphql/queries/GET_E_REG_DETAILS';
 import { getConfig } from 'utils/getConfiguration';
@@ -102,10 +103,16 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     fetchPolicy: 'no-cache',
   });
 
-  const eRegDocumentInformationDetails =
-    getEregDetails?.data?.getHotelSystemsDigitalCheckinConfig?.eRegistrationForm?.documentInformation?.filter(
-      (showData: any) => showData?.required,
-    );
+  const eRegistration =
+    getEregDetails?.data?.getHotelSystemsDigitalCheckinConfig?.eRegistrationForm;
+
+  const eRegDocumentInformationDetails = eRegistration?.documentInformation?.filter(
+    (showData: any) => showData?.required,
+  );
+
+  const eRegPersonalization = eRegistration?.roomDetails?.filter(
+    (showData: any) => showData?.name === PERSONALISATION,
+  );
 
   useEffect(() => {
     if (
@@ -248,7 +255,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       <Header displayBackButton screenTitle={t(`${reviewConfig.label}`) as string} />
       <PageWrapper className={styles.pageWrapper}>
         <div className={styles.infoText}>{t(`${reviewConfig.subTitle}`)}</div>
-        <DetailsCard title={reviewConfig.guestInformationDetails[0].title}>
+        <DetailsCard title={t(`${reviewConfig.guestInformationDetails[0].title}`)}>
           <div>
             <div className={styles.checkDates}>
               <div className={styles.checkDatesColumn}>
@@ -281,7 +288,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           </div>
         </DetailsCard>
 
-        <DetailsCard title={reviewConfig.creditCardDetails[0].title}>
+        <DetailsCard title={t(`${reviewConfig.creditCardDetails[0].title}`)}>
           <div>
             <div className={styles.border}></div>
             <div>
@@ -317,7 +324,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         </DetailsCard>
 
         {eRegDocumentInformationDetails?.length !== 0 && (
-          <DetailsCard title={reviewConfig.identityVerificationDetails[0].title}>
+          <DetailsCard title={t(`${reviewConfig.identityVerificationDetails[0].title}`)}>
             <div>
               <div className={styles.border}></div>
               <div>
@@ -342,9 +349,12 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           </DetailsCard>
         )}
 
-        {(personalizationEntities.length > 0 || specialRequests) && (
+        {((eRegPersonalization &&
+          eRegPersonalization[0]?.required &&
+          personalizationEntities.length > 0) ||
+          specialRequests) && (
           <div className={styles.cardWrapper}>
-            <DetailsCard title={'Add-Ons'}>
+            <DetailsCard title={t(`${reviewConfig.personalizationDetails[0].title}`)}>
               <div className={styles.personalzizationWrapper}>
                 <div className={styles.border}></div>
                 {personalizationEntities?.map((personalizationEntity) => (
@@ -354,8 +364,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                     </p>
                     <p className={styles.personalizationQuantity}>
                       {CURRENCY}{' '}
-                      {Number(personalizationEntity?.price) *
-                        Number(personalizationEntity?.quantity)}
+                      <span className={styles.price}>
+                        {Number(personalizationEntity?.price) *
+                          Number(personalizationEntity?.quantity)}
+                      </span>
                     </p>
                   </div>
                 ))}
@@ -423,17 +435,15 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           </Card>
         </div>
         <div className={styles.btnWrapper}>
-          <div className={styles.bottomButton}>
-            <StyledButton
-              // disabled={!btnStatus}
-              className={styles.checkInButton}
-              onClick={goToCheckIn}
-              loading={loading}
-              variant='contained'
-            >
-              {t('CHECK-IN')}
-            </StyledButton>
-          </div>
+          <StyledButton
+            // disabled={!btnStatus}
+            className={styles.checkInButton}
+            onClick={goToCheckIn}
+            loading={loading}
+            variant='contained'
+          >
+            {t(`${reviewConfig.buttonLabelCheckIn}`)}
+          </StyledButton>
         </div>
       </PageWrapper>
     </>
