@@ -13,9 +13,10 @@ import {
 } from 'storage/home.storage';
 import cx from 'classnames';
 import { availablePaths } from 'utils/availablePaths';
-import { DINING_OPTIONS } from 'utils/constants';
+import { DINING_OPTIONS, SERVICE_REQUEST_OPTIONS } from 'utils/constants';
 import { close } from 'inspector';
 import CheckIcon from '@icons/checkIcon.svg';
+import { housekeepingOptions } from 'storage/housekeeping.storage';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
   title,
@@ -67,9 +68,11 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
 export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   homeActive,
   irdActive,
+  housekeepingActive,
 }) => {
   const navigate = useLocalizedRouter();
   const diningOptionSelected = useReactiveVar(diningOptions);
+  const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
   const drawerStatus = useReactiveVar(toggleModuleOptionsDrawer);
 
   const closeDrawer = () => {
@@ -135,6 +138,32 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                     {dining?.title}{' '}
                   </p>
                   {diningOptionSelected?.id === dining?.id && <CheckIcon className={styles.icon} />}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {housekeepingActive && (
+          <div>
+            <p className={styles.title}>Choose your category</p>
+            <div className={styles.optionsList}>
+              {SERVICE_REQUEST_OPTIONS?.map((request) => (
+                <div key={request?.id} className={cx(styles.optionsListItem)}>
+                  <p
+                    className={cx(styles.inActiveText, {
+                      [styles.activeText]: houseKeepingOptionSelected?.id === request?.id,
+                    })}
+                    onClick={() => {
+                      housekeepingOptions(request);
+                      closeDrawer();
+                    }}
+                  >
+                    {request?.title}{' '}
+                  </p>
+                  {houseKeepingOptionSelected?.id === request?.id && (
+                    <CheckIcon className={styles.icon} />
+                  )}
                 </div>
               ))}
             </div>

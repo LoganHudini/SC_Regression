@@ -19,6 +19,7 @@ export interface IMenuItemProps {
 export interface IModuleOptionsDrawerProps {
   homeActive: boolean;
   irdActive: boolean;
+  housekeepingActive: boolean;
 }
 
 export interface IHamburgerMenuDrawerProps {
