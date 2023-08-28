@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styles from './DETAIL_PAGE.module.scss';
 import { IConfig, IQueryResultEntity } from '../../../../types/UIConfiguration.types';
-import { ASSETS_URL, BRANCH_CODE, HOTEL_CODE } from 'core/graphql/endpoints';
+import { ASSETS_URL, HOTEL_CODE } from 'core/graphql/endpoints';
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import ForkKnifeIcon from '@icons/forkKnife.svg';
@@ -77,7 +77,7 @@ export const DETAIL_PAGE: React.FC<IDetailPageProps> = ({ config }) => {
   const navigate = useLocalizedRouter();
 
   const onCtaClick = useCallback(() => {
-    if (HOTEL_CODE === 'radisson') {
+    if (checkinData?.checkedIn) {
       if (queryResultEntity?.cta?.redirectOption === 'External URL') {
         router.push(queryResultEntity?.cta?.redirectUrl);
       }
@@ -90,28 +90,11 @@ export const DETAIL_PAGE: React.FC<IDetailPageProps> = ({ config }) => {
               queryResultEntity?.customAttributes[0]?.value) ??
             '',
         });
-        navigate(flowPathMap?.RESTAURANT_BOOKING);
+        localStorage.setItem('restaurantId', JSON.stringify(queryResultEntity?.id) ?? '');
+        navigate(flowPathMap.RESTAURANT_BOOKING);
       }
     } else {
-      if (checkinData?.checkedIn) {
-        if (queryResultEntity?.cta?.redirectOption === 'External URL') {
-          router.push(queryResultEntity?.cta?.redirectUrl);
-        }
-        if (queryResultEntity?.cta?.redirectOption === 'Restaurant Booking Flow') {
-          tableReservationStorage({
-            restaurantName: queryResultEntity?.name,
-            id: queryResultEntity?.id,
-            venueId:
-              (queryResultEntity?.customAttributes &&
-                queryResultEntity?.customAttributes[0]?.value) ??
-              '',
-          });
-          localStorage.setItem('restaurantId', JSON.stringify(queryResultEntity?.id) ?? '');
-          navigate(flowPathMap.RESTAURANT_BOOKING);
-        }
-      } else {
-        navigate(availablePaths.CHECK_IN);
-      }
+      navigate(availablePaths.CHECK_IN);
     }
   }, [
     checkinData?.checkedIn,
@@ -261,22 +244,20 @@ export const DETAIL_PAGE: React.FC<IDetailPageProps> = ({ config }) => {
       )}
 
       <div className={styles.thirdRow}>
-        {BRANCH_CODE !== BARCELONA && (
-          <>
-            {queryResultEntity?.contactNumber && (
-              <a href={`tel:${queryResultEntity?.contactNumber}`} className={styles.callRow}>
-                <PhoneIcon className={styles.callIcon} />
-                <span className={styles.icon_text}>{t('Call')}</span>
-              </a>
-            )}
-            {queryResultEntity?.email && (
-              <a href={`mailto:${queryResultEntity?.email}`} className={styles.emailRow}>
-                <EmailIcon className={styles.emailIcon} />{' '}
-                <span className={styles.icon_text}>{t('Email')}</span>
-              </a>
-            )}
-          </>
-        )}
+        <>
+          {queryResultEntity?.contactNumber && (
+            <a href={`tel:${queryResultEntity?.contactNumber}`} className={styles.callRow}>
+              <PhoneIcon className={styles.callIcon} />
+              <span className={styles.icon_text}>{t('Call')}</span>
+            </a>
+          )}
+          {queryResultEntity?.email && (
+            <a href={`mailto:${queryResultEntity?.email}`} className={styles.emailRow}>
+              <EmailIcon className={styles.emailIcon} />{' '}
+              <span className={styles.icon_text}>{t('Email')}</span>
+            </a>
+          )}
+        </>
 
         {queryResultEntity?.menuStatus === 'Active' && (
           <StyledButton onClick={onSeeMenuClick} className={styles.thirdRowBtn}>
@@ -285,15 +266,13 @@ export const DETAIL_PAGE: React.FC<IDetailPageProps> = ({ config }) => {
         )}
       </div>
 
-      {BRANCH_CODE !== DUBAI_WATERFRONT && (
-        <StyledButton
-          variant={queryResultEntity?.cta?.ctaTitle ? 'outlined' : 'contained'}
-          onClick={handleViewMenu}
-          className={styles.viewMenuOrder}
-        >
-          {t('view menu & order')}
-        </StyledButton>
-      )}
+      <StyledButton
+        variant={queryResultEntity?.cta?.ctaTitle ? 'outlined' : 'contained'}
+        onClick={handleViewMenu}
+        className={styles.viewMenuOrder}
+      >
+        {t('view menu & order')}
+      </StyledButton>
 
       {queryResultEntity?.cta?.status === 'Active' && (
         <StyledButton onClick={onCtaClick} className={styles.bookTableBtn}>

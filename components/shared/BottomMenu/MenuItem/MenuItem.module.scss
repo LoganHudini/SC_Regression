@@ -61,12 +61,22 @@
   justify-content: center;
   align-items: center;
   font-size: 1rem;
-  margin: 0 20px;
-  color: $textColorQuaternary;
+  margin: 0 15px;
+  color: var(--tertiary-text-color);
   border-bottom: 1px solid var(--primary-border-color);
 }
 
 .inActiveText {
+  padding: 10px 0;
+  font-size: $small;
+  font-family: var(--primary-font-news);
+  height: 15px;
+  color: var(--tertiary-text-color);
+  border-bottom: 1px solid var(--primary-border-color);
+  margin: 0 15px;
+}
+
+.inActiveDiningText {
   padding: 10px 0;
   font-size: $small;
   font-family: var(--primary-font-news);

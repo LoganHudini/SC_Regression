@@ -4,7 +4,11 @@ import styles from './DiningCustomisationDrawer.module.scss';
 import Drawer from '@mui/material/Drawer';
 import { IDiningCustomisationDrawerProps } from './DiningCustomisationDrawer.types';
 import { useReactiveVar } from '@apollo/client';
-import { diningMenuStorage, IDiningMenuStorageData } from 'storage/dining-menu.storage';
+import {
+  diningMenuStorage,
+  IDiningMenuStorageData,
+  toggleDiningDetailsDrawer,
+} from 'storage/dining-menu.storage';
 import { availablePaths } from 'utils/availablePaths';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import produce from 'immer';
@@ -31,8 +35,8 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
 
   const handleAddNew = useCallback(() => {
     closeCustomisationDrawer();
-    navigate(availablePaths.DINING_DETAILS);
-  }, [closeCustomisationDrawer, navigate]);
+    toggleDiningDetailsDrawer(true);
+  }, [closeCustomisationDrawer]);
 
   const handleRepeatLast = useCallback(() => {
     const addedItem = {

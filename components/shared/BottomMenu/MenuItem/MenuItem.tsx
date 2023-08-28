@@ -17,6 +17,7 @@ import { DINING_OPTIONS, SERVICE_REQUEST_OPTIONS } from 'utils/constants';
 import { close } from 'inspector';
 import CheckIcon from '@icons/checkIcon.svg';
 import { housekeepingOptions } from 'storage/housekeeping.storage';
+import { handleTouchEnd, handleTouchStart } from 'utils/hooks/useDrawerSwipe';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
   title,
@@ -74,11 +75,13 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   const diningOptionSelected = useReactiveVar(diningOptions);
   const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
   const drawerStatus = useReactiveVar(toggleModuleOptionsDrawer);
+  const [startY, setStartY] = useState(0);
 
   const closeDrawer = () => {
     toggleModuleOptionsDrawer(false);
     toggleHamburgerMenuDrawer(false);
   };
+
   return (
     <>
       {' '}
@@ -96,6 +99,8 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
             maxHeight: '40vh',
           },
         }}
+        onTouchStart={(e) => handleTouchStart(e, setStartY)}
+        onTouchEnd={(e) => handleTouchEnd(e, startY, setStartY, closeDrawer)}
       >
         <div className={styles.drawerNotch}></div>
         {homeActive && (
@@ -126,7 +131,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
               {DINING_OPTIONS?.map((dining) => (
                 <div key={dining?.id} className={cx(styles.optionsListItem)}>
                   <p
-                    className={cx(styles.inActiveText, {
+                    className={cx(styles.inActiveDiningText, {
                       [styles.activeText]: diningOptionSelected?.id === dining?.id,
                     })}
                     onClick={() => {

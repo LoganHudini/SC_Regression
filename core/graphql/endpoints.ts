@@ -47,3 +47,4 @@ export const CURRENCY = 'SGD';
 export const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
 
 export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+export const VENUE_ID = '';

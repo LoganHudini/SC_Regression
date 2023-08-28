@@ -1,58 +1,31 @@
-.centeredText {
-  text-align: center;
-  font-size: $medium;
-  font-family: $fontMedium;
-  padding: 10px 0px 10px 0;
-  background: #f4f4f4;
-}
-
-.roomInfoWrapper {
-  display: flex;
-  padding-top: 15px;
-  margin: 0 0 -5px -5px;
-}
-
-.roomInfoImage {
-  height: 58px;
-  width: 58px;
-  margin-right: 11px;
-}
-
-.roomInfoText {
-  display: flex;
-  flex-direction: column;
-}
-
-.roomInfoTitle {
-  font-size: 1rem;
-  font-weight: 900;
-  margin-bottom: 5px;
-  line-height: 1;
-}
-
-.roomData {
-  font-size: 1rem;
-  line-height: 1.25;
+.personalizationQuantity {
+  font-family: var(--primary-font-medium);
+  font-size: $xsmall;
+  color: var(--tertiary-text-color);
+  .price {
+    font-size: $small;
+  }
 }
 
 .personalzizationWrapper {
   padding: 0px;
+  line-height: 2;
 }
 
 .personalizationTitle {
-  font-size: 1rem;
+  font-size: $medium;
   font-weight: 900;
   margin-bottom: 5px;
 }
 
 .specialRequestsTitle {
-  font-size: 1rem;
+  font-size: $medium;
   line-height: 1.25;
   margin-top: 11px;
 }
 
 .specialRequestsText {
-  font-size: 1rem;
+  font-size: $medium;
   line-height: 1.25;
   margin-top: 5px;
 }
@@ -64,7 +37,9 @@
 }
 
 .personalizationText {
-  font-size: 1rem;
+  font-size: $medium;
+  font-family: var(--primary-font-news);
+  color: var(--tertiary-text-color);
 }
 
 .cardWrapper {
@@ -128,13 +103,13 @@
 }
 
 .settlementTitle {
-  font-size: 1rem;
+  font-size: $medium;
   font-weight: 900;
   margin-bottom: 5px;
 }
 
 .settlementSubtitle {
-  font-size: 1rem;
+  font-size: $medium;
   line-height: 1.25;
   margin-top: 12px;
 }
@@ -171,12 +146,6 @@
   }
 }
 
-.pageTitle {
-  font-family: $fontMedium;
-  font-size: $large;
-  margin-top: 20px;
-}
-
 .infoText {
   font-size: $small;
   padding: 25px 10px;
@@ -198,15 +167,15 @@
     line-height: 18px;
     border-radius: 50%;
     text-align: center;
-    color: #ffff;
+    color: var(--primary-background-color);
   }
   .active {
     background-color: var(--primary-theme-color);
     border: 1px solid var(--primary-theme-color);
   }
   .disabled {
-    background-color: #d2d1d0;
-    border: 1px solid #d2d1d0;
+    background-color: var(--primary-background-color);
+    border: 1px solid var(--primary-background-color);
   }
 }
 
@@ -237,20 +206,18 @@
 }
 
 .checkInButton {
-  margin-top: 10px;
   font-weight: 900;
 }
 
 .btnWrapper {
-  max-width: 768px;
-  padding: 15px 0px;
+  padding: 20px 26px 20px 26px;
   position: fixed;
-  left: 0;
-  right: 0;
+  box-sizing: border-box;
+  margin: 0 auto;
   bottom: 0;
-  margin: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--primary-background-color);
+  right: 0;
+  background: var(--primary-background-color);
+  left: 0;
+  max-width: 768px;
+  box-shadow: 5px 0px 20px var(--primary-box-shadow-color);
 }

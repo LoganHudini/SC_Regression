@@ -6,7 +6,7 @@ import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import React, { useCallback, useEffect, useState } from 'react';
-import styles from '../../../styles/dining-order-summary/dining-order-summary.module.scss';
+import styles from '../../styles/dining-order-summary/dining-order-summary.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { useTranslation } from 'react-i18next';
@@ -19,10 +19,10 @@ import { processError } from 'utils/processError';
 import { IHamburgerProps, getHamburgerProps } from 'utils/hamburger/getHamburgerProps';
 import produce from 'immer';
 import dayjs from 'dayjs';
-import { BRANCH_CODE, CURRENCY } from 'core/graphql/endpoints';
+import { CURRENCY } from 'core/graphql/endpoints';
 import { DiningCustomisationDrawer } from 'components/pages/dining-menu/DiningCustomisationDrawer/DiningCustomisationDrawer';
 import { TimeSelect } from 'components/shared/TimeSelectModal/TimeSelectModal';
-import { BARCELONA, DINING, DUBAI_WATERFRONT, PAYMENT, PAYMENTFANDB } from 'utils/constants';
+import { DINING, PAYMENT } from 'utils/constants';
 import { InputAdornment, TextField } from '@mui/material';
 import Cookinginstructions from '@icons/cooking_instructions.svg';
 import { CheckinDetails } from 'components/shared/CheckinDetailsDrawer/CheckinDetailsDrawer';
@@ -38,7 +38,7 @@ import { diningInformationStorage } from 'storage/dining.storage';
 export { getStaticPaths };
 
 const DiningOrderSummary: React.FC<IHamburgerProps> = ({ hamburger, pages }) => {
-  const { t } = useTranslation('dining-order-summary');
+  const { t } = useTranslation(['dining-order-summary', 'common']);
   const navigate = useLocalizedRouter();
   const locale = useLocale();
   const [customisationDrawer, setCustomisationDrawer] = useState(false);
@@ -47,9 +47,7 @@ const DiningOrderSummary: React.FC<IHamburgerProps> = ({ hamburger, pages }) => 
   const [selectedTime, setSelectedTime] = useState('00:00');
   const [timeSelectOpened, setTimeSelectOpened] = useState(false);
   const [confirmOpened, setConfirmOpened] = useState(false);
-  const [paymentType, setpaymentType] = useState<any>({
-    name: BRANCH_CODE === BARCELONA ? PAYMENTFANDB[0]?.name : PAYMENT[0]?.name,
-  });
+  const [paymentType, setpaymentType] = useState<any>(PAYMENT[0]?.name);
   const [thankYouDrawer, setthankYouDrawer] = useState(false);
   const [restDrawer, setrestDrawer] = useState(false);
   const [guestNumber, setguestNumber] = useState(1);
@@ -515,7 +513,7 @@ const DiningOrderSummary: React.FC<IHamburgerProps> = ({ hamburger, pages }) => 
         <div className={styles.paymentContainer}>
           <p className={styles.paymentTitle}>{t('Payment Method')}</p>
           <div className={styles.buttonPaymentWrapper}>
-            {(BRANCH_CODE === BARCELONA ? PAYMENTFANDB : PAYMENT)?.map((item) => (
+            {PAYMENT?.map((item) => (
               <StyledButton
                 key={item.id}
                 variant={item.name === paymentType?.name ? 'contained' : 'outlined'}
@@ -529,16 +527,7 @@ const DiningOrderSummary: React.FC<IHamburgerProps> = ({ hamburger, pages }) => 
         </div>
 
         <div className={styles.taxWrapper}>
-          {BRANCH_CODE === DUBAI_WATERFRONT ? (
-            <p className={styles.taxText}>
-              {' '}
-              {t(
-                '* All prices include 5% VAT, 10% service charge, and 7% municipality fee, but exclude AED 5 tray fee',
-              )}
-            </p>
-          ) : (
-            <p className={styles.taxText}> {t('* All prices include 10% VAT')}</p>
-          )}
+          <p className={styles.taxText}> {t('* All prices include 10% VAT')}</p>
         </div>
         <TimeSelect
           opened={timeSelectOpened}

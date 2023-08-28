@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { ASSETS_URL, BRANCH_CODE, HOTEL_CODE } from '../../../../core/graphql/endpoints';
+import { ASSETS_URL, HOTEL_CODE } from '../../../../core/graphql/endpoints';
 import { IConfig, IQueryResultEntity } from '../../../../types/UIConfiguration.types';
 import styles from './LIST_COMPONENT.module.scss';
 import { StyledButton } from '../../../shared/StyledButton/StyledButton';
@@ -65,7 +65,7 @@ const ListComponentEntity: React.FC<IListComponentEntityProps> = ({
   }, [navigate, redirectUrl]);
 
   const onReservationClick = useCallback(() => {
-    if (HOTEL_CODE === 'radisson') {
+    if (checkinData?.checkedIn) {
       if (queryResultEntity?.cta?.redirectOption === 'External URL') {
         router.push(queryResultEntity?.cta?.redirectUrl);
       }
@@ -78,28 +78,10 @@ const ListComponentEntity: React.FC<IListComponentEntityProps> = ({
               queryResultEntity?.customAttributes[0]?.value) ??
             '',
         });
-        localStorage.setItem('restaurantId', JSON.stringify(queryResultEntity?.id) ?? '');
         navigate(flowPathMap?.RESTAURANT_BOOKING);
       }
     } else {
-      if (checkinData?.checkedIn) {
-        if (queryResultEntity?.cta?.redirectOption === 'External URL') {
-          router.push(queryResultEntity?.cta?.redirectUrl);
-        }
-        if (queryResultEntity?.cta?.redirectOption === 'Restaurant Booking Flow') {
-          tableReservationStorage({
-            restaurantName: queryResultEntity?.name,
-            id: queryResultEntity?.id,
-            venueId:
-              (queryResultEntity?.customAttributes &&
-                queryResultEntity?.customAttributes[0]?.value) ??
-              '',
-          });
-          navigate(flowPathMap?.RESTAURANT_BOOKING);
-        }
-      } else {
-        navigate(availablePaths.CHECK_IN);
-      }
+      navigate(availablePaths.CHECK_IN);
     }
   }, [
     checkinData?.checkedIn,
@@ -206,15 +188,13 @@ const ListComponentEntity: React.FC<IListComponentEntityProps> = ({
             </StyledButton>
           )}
 
-          {BRANCH_CODE !== DUBAI_WATERFRONT && (
-            <StyledButton
-              className={styles.viewMenuBtn}
-              variant={queryResultEntity?.cta?.ctaTitle ? 'outlined' : 'contained'}
-              onClick={onViewMenu}
-            >
-              {t('view menu & order')}
-            </StyledButton>
-          )}
+          <StyledButton
+            className={styles.viewMenuBtn}
+            variant={queryResultEntity?.cta?.ctaTitle ? 'outlined' : 'contained'}
+            onClick={onViewMenu}
+          >
+            {t('view menu & order')}
+          </StyledButton>
 
           {queryResultEntity?.cta?.ctaTitle && (
             <StyledButton
