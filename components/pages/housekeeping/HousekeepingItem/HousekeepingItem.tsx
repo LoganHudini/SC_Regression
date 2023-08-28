@@ -11,8 +11,8 @@ import { housekeepingStorage } from 'storage/housekeeping.storage';
 import { produce } from 'immer';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-import { serviceRequestIcons } from 'utils/constants';
 import Image from 'next/image';
+import { serviceRequestIcons } from 'utils/serviceRequestIcons';
 
 export const HousekeepingItem: React.FC<IHousekeepingItemProps> = ({ housekeepingItem }) => {
   const navigate = useLocalizedRouter();
