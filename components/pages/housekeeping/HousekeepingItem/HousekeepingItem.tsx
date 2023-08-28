@@ -153,8 +153,8 @@ export const HousekeepingItem: React.FC<IHousekeepingItemProps> = ({ housekeepin
       }
     }
   }, [housekeepingItem, navigate]);
-  const selectedIcon: any = serviceRequestIcons.find(
-    (icon) => housekeepingItem?.icon === icon.name,
+  const selectedIcon: any = serviceRequestIcons?.find(
+    (icon) => housekeepingItem?.icon === icon?.name,
   );
 
   return (
