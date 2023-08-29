@@ -187,7 +187,7 @@ export const configuration = {
           label: 'Cutomize My Stay',
           title: 'Check-In',
           type: 'cms',
-          isActive: 'true',
+          isActive: true,
         },
         {
           name: 'review',

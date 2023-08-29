@@ -19,6 +19,18 @@ export const DINING_OPTIONS = [
     path: '/restaurants-bars',
   },
 ];
+export const SERVICE_REQUEST_OPTIONS = [
+  {
+    id: 'services',
+    title: 'Services',
+    label: 'houseKeeping',
+  },
+  {
+    id: 'concierge',
+    title: 'Concierge',
+    label: 'concierge',
+  },
+];
 export const Schedules = ['TODAY', 'TOMORROW'];
 export const restaurantsBars = 'restaurants-bars';
 export const offers = 'offers';
@@ -157,5 +169,5 @@ export const review = 'review';
 export const CANCELED = 'CANCELED';
 export const CHECKEDOUT = 'CHECKEDOUT';
 export const CHKOUT = 'CHKOUT';
-export const PERSONALISATION = 'PERSONALISATION';
 export const personalisation = 'personalisation';
+export const PERSONALISATION = 'PERSONALISATION';
