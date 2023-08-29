@@ -49,7 +49,7 @@ import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.
 import { CURRENCY, PRIVACY_LAWS, TERMS_AND_CONDITIONS } from 'core/graphql/endpoints';
 import { PRECHECKIN } from 'core/graphql/queries/PRECHECKIN';
 import { toast } from 'react-toastify';
-import { precheckinErrorMsg, cardTypes } from 'utils/constants';
+import { PRE_CHECKIN_ERROR_MSG, cardTypes } from 'utils/constants';
 
 export { getStaticPaths };
 
@@ -194,7 +194,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       const error = checkinError as ApolloError;
       const networkError = error?.networkError as { result?: { errors?: string } };
 
-      if (networkError?.result?.errors === precheckinErrorMsg) {
+      if (networkError?.result?.errors === PRE_CHECKIN_ERROR_MSG) {
         toast('You are Pre Checked-In', { type: 'error' });
       } else {
         toast('Please try again', { type: 'error' });

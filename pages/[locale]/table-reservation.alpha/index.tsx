@@ -3,7 +3,7 @@ import styles from '../../../components/pages/table-reservations/CustomDrawer/Cu
 import dayjs from 'dayjs';
 import { TextField } from '@mui/material';
 import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
-import { restaurantsBars } from 'utils/constants';
+import { RESTAURANTS_BARS } from 'utils/constants';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { ApolloError } from '@apollo/client';
 import { client } from 'core/graphql/client';
@@ -31,7 +31,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import i18nConfig from 'next-i18next.config';
 import Head from 'next/head';
 import { Header } from 'components/shared/Header/Header';
-import { ThankYouDrawer } from 'components/pages/ThankYouDrawer/ThankYouDrawer';
+import { ThankYouDrawer } from 'components/shared/ThankYouDrawer/ThankYouDrawer';
 
 export { getStaticPaths };
 
@@ -319,7 +319,7 @@ const TableReservation = () => {
         opened={thankYou}
         close={setThankYou}
         title={t('Your booking has been confirmed.') as string}
-        redirect={restaurantsBars}
+        redirect={RESTAURANTS_BARS}
       />
     </>
   );

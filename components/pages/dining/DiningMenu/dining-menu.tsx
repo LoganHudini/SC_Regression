@@ -1,4 +1,4 @@
-import { DiningMenuElement } from 'components/pages/dining-menu/DiningMenuElement/DiningMenuElement';
+import { DiningMenuElement } from 'components/pages/dining/DiningMenuElement/DiningMenuElement';
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from '../../../../styles/dining-menu/dining-menu.module.scss';
@@ -9,8 +9,8 @@ import { diningInformationStorage } from 'storage/dining.storage';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
 import cx from 'classnames';
-import { DiningMenuElementSkeleton } from 'components/pages/dining-menu/DiningMenuElementSkeleton/DiningMenuElementSkeleton';
-import { DiningMenuFilterSkeleton } from 'components/pages/dining-menu/DiningMenuFilterSkeleton/DiningMenuFilterSkeleton';
+import { DiningMenuElementSkeleton } from 'components/pages/dining/DiningMenuElementSkeleton/DiningMenuElementSkeleton';
+import { DiningMenuFilterSkeleton } from 'components/pages/dining/DiningMenuFilterSkeleton/DiningMenuFilterSkeleton';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import {
   diningMenuStorage,
@@ -18,12 +18,11 @@ import {
   IScrollPosition,
   scrollState,
 } from 'storage/dining-menu.storage';
-import { CURRENCY } from 'core/graphql/endpoints';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
 import SearchClose from '@icons/search_close.svg';
 import SearchText from '@icons/search_text_delete.svg';
-import { DiningOrders } from 'components/pages/dining-menu/DiningOrders/DiningOrders';
-import { DiningOrdersDrawer } from 'components/pages/dining-menu/DiningOrdersDrawer/DiningOrdersDrawer';
+import { DiningOrders } from 'components/pages/dining/DiningOrders/DiningOrders';
+import { DiningOrdersDrawer } from 'components/pages/dining/DiningOrdersDrawer/DiningOrdersDrawer';
 import { GET_ORDERS } from 'core/graphql/queries/GET_ORDERS_BY_ID';
 import { GET_F_AND_B_ORDER } from 'core/graphql/queries/GET_F_AND_B_ORDER';
 import {
@@ -32,7 +31,7 @@ import {
   irdActiveMenuList,
   setScrollPosition,
 } from 'utils/functions';
-import { DiningCategoryOptions } from 'components/pages/dining-menu/DiningCategoryOptions/DiningCategoryOptions';
+import { DiningCategoryOptions } from 'components/pages/dining/DiningCategoryOptions/DiningCategoryOptions';
 import produce from 'immer';
 
 export { getStaticPaths };
@@ -67,11 +66,6 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
       localStorage.getItem('tableNumber') &&
       JSON.parse(localStorage.getItem('tableNumber') ?? '')) ??
     '';
-  const reservationId =
-    (typeof window !== 'undefined' &&
-      localStorage.getItem('guestDetails') &&
-      JSON.parse(localStorage.getItem('guestDetails') ?? '')?.roomNumber) ??
-    '';
   const [scroll, setScroll] = useState(false);
   const [scrollSearch, setScrollSearch] = useState(false);
   const [totalAmount, setTotalAmount] = useState(0);
@@ -93,7 +87,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   const { data: myOrders } = useQuery(GET_ORDERS, {
     context: { clientName: 'host_v3' },
     variables: {
-      bookingId: reservationId,
+      bookingId: '',
       lang: locale === 'en' ? '' : locale,
     },
     fetchPolicy: 'no-cache',
@@ -459,21 +453,15 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
 
       {diningData?.items?.length > 0 && totalAmount !== 0 && !search && (
         <div className={styles.totalWrapper}>
-          <div className={styles.totalButtonWrapper}>
-            <div className={styles.totalRow}>
+          {/* <div className={styles.totalRow}>
               <p className={styles.totalText}>{t('Total')}</p>
               <p className={styles.totalPrice}>
                 {CURRENCY} <span className={styles.currencyValue}>{totalAmount?.toFixed(2)}</span>
               </p>
-            </div>
-            <StyledButton
-              count={diningData.items.length}
-              onClick={confirmOrder}
-              className={styles.orderButton}
-            >
-              {t('cart')}
-            </StyledButton>
-          </div>
+            </div> */}
+          <StyledButton count={diningData.items.length} onClick={confirmOrder}>
+            {t('cart')}
+          </StyledButton>
         </div>
       )}
     </>

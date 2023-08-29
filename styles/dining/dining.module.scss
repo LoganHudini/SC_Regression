@@ -1,3 +1,17 @@
+.pageWrapper {
+  justify-content: center;
+  align-items: center;
+  margin-top: 4rem;
+}
+
+.pageWrapperSecondary {
+  padding-bottom: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4rem;
+}
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -38,20 +52,6 @@
   margin-right: 24px;
 }
 
-.pageWrapper {
-  justify-content: center;
-  align-items: center;
-  margin-top: 4rem;
-}
-
-.pageWrapperSecondary {
-  padding-bottom: 120px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 4rem;
-}
-
 .overlay {
   position: fixed;
   top: 60px;
@@ -89,7 +89,7 @@
   width: 100%;
   min-height: 844px;
   position: absolute;
-  margin-left: -10px;
+  max-width: 768px;
   margin-top: 77px;
   z-index: 1;
   overflow-y: hidden;

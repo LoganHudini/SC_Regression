@@ -1,7 +1,7 @@
 {
   "In-Room Dining": "En el comedor",
   "Dining": "Comida",
-  "Repeat previous customisation?": "¿Repetir la última comanda usada?",
+  "Repeat previous customization?": "¿Repetir la última comanda usada?",
   "Add-ons :": "Complementos:",
   "ADD NEW": "AÑADIR NUEVO",
   "REPEAT LAST": "REPETIR ÚLTIMO",
@@ -37,7 +37,7 @@
   "Order": "Orden",
   "Search": "Buscar",
   "cart": "CARRO",
-  "customisable": "personalizable",
+  "customizable": "personalizable",
   "Add": "Agregar",
   "dining-menu": "menú del comedor",
   "Online requests presently unavailable": "Solicitudes en línea actualmente no disponibles",

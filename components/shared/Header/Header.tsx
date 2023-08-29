@@ -13,12 +13,12 @@ import { IHeaderProps } from './Header.types';
 import { useRouter } from 'next/router';
 import ArrowBackIosIcon from '@icons/ArrowBack.svg';
 import { availablePaths } from 'utils/availablePaths';
-import { ALL_DAY, Headers, LANGUAGE_LIST_BARCELONA, home } from 'utils/constants';
+import { ALL_DAY, HEADERS, LANGUAGE_LIST_BARCELONA, HOME } from 'utils/constants';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import CrossDropdown from '@icons/crossDropdown.svg';
 import { GET_ORDERS } from 'core/graphql/queries/GET_ORDERS_BY_ID';
-import { DiningOrdersDrawer } from 'components/pages/dining-menu/DiningOrdersDrawer/DiningOrdersDrawer';
+import { DiningOrdersDrawer } from 'components/pages/dining/DiningOrdersDrawer/DiningOrdersDrawer';
 import languageDetector from 'utils/languageDetector';
 import { setScrollPosition } from 'utils/functions';
 import produce from 'immer';
@@ -148,7 +148,7 @@ export const Header: React.FC<IHeaderProps> = ({
               <SearchIrd className={styles.searchIcon} />
             </button>
           )}
-          {ordersData?.length > 0 && screenTitle === home && (
+          {ordersData?.length > 0 && screenTitle === HOME && (
             <div className={styles.myOrdersIconContainer}>
               <div className={styles.myOrdersIconWrapper} onClick={openOrdersDrawer}>
                 <MyOrders className={styles.myOrdersIcon} />
@@ -221,7 +221,7 @@ export const Header: React.FC<IHeaderProps> = ({
           </>
         )}
       </>
-      {screenTitle === Headers[0] && <p className={styles.screenTitle}>{t(`${screenTitle}`)}</p>}
+      {screenTitle === HEADERS[0] && <p className={styles.screenTitle}>{t(`${screenTitle}`)}</p>}
     </>
   );
 };
