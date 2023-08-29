@@ -11,6 +11,8 @@ import { housekeepingStorage } from 'storage/housekeeping.storage';
 import { produce } from 'immer';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import Image from 'next/image';
+import { serviceRequestIcons } from 'utils/serviceRequestIcons';
 
 export const HousekeepingItem: React.FC<IHousekeepingItemProps> = ({ housekeepingItem }) => {
   const navigate = useLocalizedRouter();
@@ -91,8 +93,8 @@ export const HousekeepingItem: React.FC<IHousekeepingItemProps> = ({ housekeepin
 
   const toggleRequest = useCallback(() => {
     housekeepingStorage(
-      produce(housekeepingStorage(), (draft) => {
-        const item = draft?.selectedItems.find((el) => el.itemId === housekeepingItem.id);
+      produce(housekeepingStorage(), (draft: any) => {
+        const item = draft?.selectedItems.find((el: any) => el.itemId === housekeepingItem.id);
 
         if (item?.quantity === 1) {
           item.quantity = 0;
@@ -107,7 +109,7 @@ export const HousekeepingItem: React.FC<IHousekeepingItemProps> = ({ housekeepin
 
   const goToHousekeepingDetailsPage = useCallback(() => {
     housekeepingStorage(
-      produce(housekeepingStorage(), (draft) => {
+      produce(housekeepingStorage(), (draft: any) => {
         draft.currentItem = housekeepingItem;
       }),
     );
@@ -115,15 +117,15 @@ export const HousekeepingItem: React.FC<IHousekeepingItemProps> = ({ housekeepin
       {
         housekeepingItem?.scheduleActive
           ? housekeepingStorage(
-              produce(housekeepingStorage(), (draft) => {
+              produce(housekeepingStorage(), (draft: any) => {
                 draft.requestModalOpened = true;
                 draft.currentItem = housekeepingItem;
               }),
             )
           : housekeepingStorage(
-              produce(housekeepingStorage(), (draft) => {
+              produce(housekeepingStorage(), (draft: any) => {
                 const item = draft?.selectedItems?.find(
-                  (el) => el?.itemId === draft?.currentItem?.id,
+                  (el: any) => el?.itemId === draft?.currentItem?.id,
                 );
 
                 if (item) {
@@ -151,50 +153,18 @@ export const HousekeepingItem: React.FC<IHousekeepingItemProps> = ({ housekeepin
       }
     }
   }, [housekeepingItem, navigate]);
+  const selectedIcon: any = serviceRequestIcons?.find(
+    (icon) => housekeepingItem?.icon === icon?.name,
+  );
 
   return (
-    <div className={styles.housekeepingItemWrapper}>
-      <h2 className={styles.housekeepingItemTitle}>{housekeepingItem.name}</h2>
-      {housekeepingItem.description && (
-        <p
-          className={cx(styles.housekeepingItemText, {
-            [styles.housekeepingItemTextExpanded]: descriptionExpanded,
-          })}
-        >
-          {housekeepingItem.description}
-        </p>
-      )}
-      {housekeepingItem.description && !descriptionExpanded && (
-        <button onClick={expandDescription} className={styles.readMore}>
-          {t('Read More...')}
-        </button>
-      )}
-      <div className={styles.quantityWrapper}>
-        {housekeepingItem?.isItemActive && housekeepingItem?.items?.length > 0 ? (
-          <StyledButton
-            onClick={goToHousekeepingDetailsPage}
-            className={styles.button}
-            variant={hasSelectedSubItems || hasSelectedItems ? 'contained' : 'outlined'}
-          >
-            {hasSelectedSubItems || hasSelectedItems ? t('Selected') : t('Select')}
-          </StyledButton>
-        ) : housekeepingItem.maxQuantityActive ? (
-          <PlusMinusInput
-            className={styles.plusMinusInput}
-            value={quantity}
-            onClickPlus={onClickPlus}
-            onClickMinus={onClickMinus}
-          />
-        ) : (
-          <StyledButton
-            onClick={goToHousekeepingDetailsPage}
-            className={styles.button}
-            variant={quantity > 0 ? 'contained' : 'outlined'}
-          >
-            {quantity > 0 ? t('Selected') : t('Select')}
-          </StyledButton>
-        )}
+    <>
+      <div className={styles.housekeepingItemWrapper}>
+        <div className={styles.iconWrapper}>
+          {selectedIcon && <Image src={selectedIcon?.icon} alt='Icon' width={45} height={45} />}
+        </div>
+        <h2 className={styles.housekeepingItemTitle}>{housekeepingItem.name}</h2>
       </div>
-    </div>
+    </>
   );
 };

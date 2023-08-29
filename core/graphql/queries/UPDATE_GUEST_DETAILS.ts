@@ -13,15 +13,16 @@ export interface IUpdateGuestDetailsApiRequest {
   placeOfIssue?: string;
   countryOfIssue?: string;
   isPrimary: string;
+  gender?: string;
   guestDocument?: string;
   updateGuestDetails: {
-    name: {
+    name?: {
       firstName: string;
       lastName: string;
       dob?: string;
       nationality?: string;
     };
-    address: {
+    address?: {
       id: string;
       addressLine1?: string;
       addressLine2?: string;
@@ -32,13 +33,13 @@ export interface IUpdateGuestDetailsApiRequest {
       postalCode?: string;
     };
     phone?: {
-      id: string;
+      id?: string;
       phoneType: string;
       phoneNumber: string;
       phoneRole: string;
     };
     email?: {
-      id: string;
+      id?: string;
       email: string;
     };
   };

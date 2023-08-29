@@ -1,5 +1,5 @@
 .infoCardStyles {
-  padding: 10px 15px 10px 15px;
+  padding: 20px 0px 10px 0px;
   border-radius: 3px;
   position: relative;
 }
@@ -53,15 +53,17 @@
   font-size: $small;
   text-align: initial;
 }
-.titeText {
-  font-family: var(--primary-font-bold);
-  font-size: $large;
+
+.titleText {
+  font-family: var(--primary-font-news);
+  font-size: $medium;
   height: 4vh;
   text-align: left;
-  padding-left: 20px;
   line-height: 4vh;
   border-bottom: 1px solid;
+  color: var(--primary-text-color);
 }
+
 .detailsText {
   font-size: $small;
   text-align: initial;
@@ -78,6 +80,6 @@
 }
 .detailsCard {
   margin-bottom: 3vh;
-  border: 1px var(--primary-theme-color) solid;
-  color: var(--primary-text-color);
+  padding: 20px 20px 0px 20px;
+  background: var(--primary-card-background-color);
 }

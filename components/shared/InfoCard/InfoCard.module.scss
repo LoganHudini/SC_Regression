@@ -1,9 +1,9 @@
 .infoCardStyles {
-  padding: 10px 15px 10px 15px;
+  padding: 20px 15px;
   border-radius: 3px;
   position: relative;
-  border: 1px black solid;
   margin: 20px 0px;
+  background-color: var(--primary-card-background-color);
 }
 
 .showMoreBtn {
@@ -45,31 +45,39 @@
 .homeCard {
   display: block;
 }
+
 .homeCardInner {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .errorText {
   color: #dc4d40;
-  font-size: $small;
-  text-align: initial;
-}
-.titeText {
   font-size: $medium;
+  text-align: initial;
+  padding: 8px 0px;
+}
+
+.titleText {
+  font-size: $large;
   font-family: var(--primary-font-medium);
 }
+
 .detailsText {
-  font-size: $small;
+  font-size: $medium;
   text-align: initial;
 }
+
 .firstSection {
   display: flex;
 }
+
 .homeIcon {
   padding-right: 4vw;
   margin: auto;
 }
+
 .homeCardInfo {
   align-items: flex-start;
 }

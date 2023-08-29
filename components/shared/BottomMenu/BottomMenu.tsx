@@ -18,10 +18,13 @@ import { hamburgerIconsMap } from 'utils/hamburger/hamburgerIconsMap';
 import { availablePaths } from 'utils/availablePaths';
 import { useRouter } from 'next/router';
 import { HEADERS } from 'utils/constants';
+import { housekeepingOptions } from 'storage/housekeeping.storage';
 
 export const BottomMenu = () => {
   const router = useRouter();
   const hamburgerMenuStatus = useReactiveVar(toggleHamburgerMenuDrawer);
+  const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
+
   const arrowActive = true;
   const homeActive = router.pathname === '/[locale]';
   const irdActive = router.pathname.includes(availablePaths?.DINING);
@@ -58,6 +61,7 @@ export const BottomMenu = () => {
           <StyledButton variant='contained' onClick={openModuleOptionsDrawer}>
             {homeActive && t('Room 401')}
             {irdActive && t('In-Room Dining')}
+            {housekeepingActive && t(`${houseKeepingOptionSelected?.id}`)}
             {arrowActive && <DownArrowIcon className={styles.downArrow} />}
           </StyledButton>
         </motion.div>
@@ -71,7 +75,7 @@ export const BottomMenu = () => {
         )}
       </div>
 
-      <ModuleOptionsDrawer {...{ homeActive, irdActive }} />
+      <ModuleOptionsDrawer {...{ homeActive, irdActive, housekeepingActive }} />
 
       {hamburgerMenuStatus && (
         <div className={styles.hamburgerMenuContainer}>

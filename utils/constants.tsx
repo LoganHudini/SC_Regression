@@ -36,7 +36,18 @@ export const DINING_OPTIONS = [
     path: '/restaurants-bars',
   },
 ];
-
+export const SERVICE_REQUEST_OPTIONS = [
+  {
+    id: 'services',
+    title: 'Services',
+    label: 'houseKeeping',
+  },
+  {
+    id: 'concierge',
+    title: 'Concierge',
+    label: 'concierge',
+  },
+];
 export const Schedules = ['TODAY', 'TOMORROW'];
 
 export const cardTypes = [
@@ -105,3 +116,17 @@ export const STATUS = [
 export const HOUSEKEEPING = 'HOUSEKEEPING';
 export const DINING = 'DINING';
 export const RESTAURANTS_BARS = 'RESTAURANTS_BARS';
+export const Gender = [
+  { name: 'Male', value: 'MALE' },
+  { name: 'Female', value: 'FEMALE' },
+];
+export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const phoneRegex =
+  /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/;
+export const checkIn = 'checkin';
+export const review = 'review';
+export const CANCELED = 'CANCELED';
+export const CHECKEDOUT = 'CHECKEDOUT';
+export const CHKOUT = 'CHKOUT';
+export const personalisation = 'personalisation';
+export const PERSONALISATION = 'PERSONALISATION';

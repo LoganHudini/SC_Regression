@@ -24,7 +24,6 @@ interface IHomePageProps {
 
 const CHECK_IN_FLOW = [
   availablePaths.GET_RESERVATION,
-  availablePaths.ABOUT_YOUR_STAY,
   availablePaths.CHECK_IN_PAYMENT,
   availablePaths.CHECK_IN,
   availablePaths.GUEST_INFORMATION_INPUT,
@@ -34,7 +33,6 @@ const CHECK_IN_FLOW = [
   availablePaths.RESERVAION_CONFIRMATION,
   availablePaths.ROOM_ASSIGNED,
   availablePaths.ROOM_DETAILS,
-  availablePaths.SELECT_ROOM,
   availablePaths.UPGRADES,
 ];
 

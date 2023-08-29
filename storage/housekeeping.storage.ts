@@ -1,5 +1,6 @@
 import { makeVar } from '@apollo/client';
 import { IGetHousekeepingApiResponse } from 'core/graphql/queries/GET_HOUSEKEEPING';
+import { SERVICE_REQUEST_OPTIONS } from 'utils/constants';
 
 export type IHousekeepingStorageData = {
   selectedItems: {
@@ -19,4 +20,12 @@ export type IHousekeepingStorageData = {
   requestModalOpened?: boolean;
 };
 
+export type IhousekeepingOptionsProps = {
+  id: string;
+  title: string;
+  label: string;
+};
+
 export const housekeepingStorage = makeVar<IHousekeepingStorageData>({ selectedItems: [] });
+
+export const housekeepingOptions = makeVar<IhousekeepingOptionsProps>(SERVICE_REQUEST_OPTIONS[0]);

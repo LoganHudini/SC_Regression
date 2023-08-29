@@ -87,11 +87,7 @@ These maps have `index.tsx` - it is the first page of the flow, it should contai
 In the `.env` file you have to specify the version for the each of the existing flows
 
 ```bash
-NEXT_PUBLIC_CHECK_IN_FLOW_VERSION='alpha'
-NEXT_PUBLIC_CHECK_OUT_FLOW_VERSION='alpha'
-NEXT_PUBLIC_DINING_FLOW_VERSION='alpha'
-NEXT_PUBLIC_HOUSEKEEPING_FLOW_VERSION='alpha'
-NEXT_PUBLIC_ROOM_CONTROLS_FLOW_VERSION='alpha'
+
 ```
 
 Also in case if you add a new page to the flow, you have also to add the new route into the `pwa-common\utils\availablePaths.ts` file

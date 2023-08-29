@@ -1,12 +1,3 @@
-import {
-  CHECK_IN_FLOW_VERSION,
-  CHECK_OUT_FLOW_VERSION,
-  DINING_FLOW_VERSION,
-  HOUSEKEEPING_FLOW_VERSION,
-  ROOM_CONTROLS_FLOW_VERSION,
-  TABLE_RESERVATION_FLOW_VERSION,
-} from './constants';
-
 export const availablePaths = {
   INDEX: '/',
 
@@ -15,24 +6,23 @@ export const availablePaths = {
 
   // Check-in flow
   GET_RESERVATION: '/check-in',
-  ABOUT_YOUR_STAY: '/check-in/about-your-stay',
-  CHECK_IN_PAYMENT: '/check-in/check-in-payment',
-  CHECK_IN: '/check-in/check-in',
-  GUEST_INFORMATION_INPUT: `/check-in.${CHECK_IN_FLOW_VERSION}/guest-information-input`,
-  GUEST_INFORMATION: `/check-in.${CHECK_IN_FLOW_VERSION}/guest-information`,
-  PERSONALIZE_YOUR_ROOM: `/check-in.${CHECK_IN_FLOW_VERSION}/personalize-your-room`,
-  PRE_CHECK_IN_CONFIRMATION: `/check-in.${CHECK_IN_FLOW_VERSION}/pre-check-in-confirmation`,
-  CHECK_IN_CONFIRMATION: `/check-in.${CHECK_IN_FLOW_VERSION}/check-in-confirmation`,
-  RESERVAION_CONFIRMATION: `/check-in.${CHECK_IN_FLOW_VERSION}/reservation-confirmation`,
-  ROOM_ASSIGNED: `/check-in.${CHECK_IN_FLOW_VERSION}/room-assigned`,
-  ROOM_DETAILS: `/check-in.${CHECK_IN_FLOW_VERSION}/room-details`,
-  SELECT_ROOM: `/check-in.${CHECK_IN_FLOW_VERSION}/select-room`,
-  UPGRADES: `/check-in.${CHECK_IN_FLOW_VERSION}/upgrades`,
+  CHECK_IN_PAYMENT: '/check-in/payment',
+  CHECK_IN: '/check-in/review',
+  GUEST_INFORMATION_INPUT: '/check-in/information',
+  GUEST_INFORMATION: '/check-in/guest-information',
+  PERSONALIZE_YOUR_ROOM: '/check-in/personalization',
+  ACCOMPANY_GUEST: '/check-in/accompanyguest',
+  PRE_CHECK_IN_CONFIRMATION: '/check-in/precheck-in-confirmation',
+  CHECK_IN_CONFIRMATION: '/check-in/check-in-confirmation',
+  RESERVAION_CONFIRMATION: '/check-in/confirmation',
+  ROOM_ASSIGNED: '/check-in/room-assigned',
+  ROOM_DETAILS: '/check-in/room-details',
+  UPGRADES: '/check-in/upgrades',
 
   // Checkout flow
   BILL: '/checkout',
-  CHECKOUT_CONFIRMATION: `/checkout.${CHECK_OUT_FLOW_VERSION}/checkout-confirmation`,
-  CHECKOUT_PAYMENT: `/checkout.${CHECK_OUT_FLOW_VERSION}/checkout-payment`,
+  CHECKOUT_CONFIRMATION: '/checkout/checkout-confirmation',
+  CHECKOUT_PAYMENT: '/checkout/checkout-payment',
 
   // Dining flow
   DINING: '/dining',
@@ -41,13 +31,13 @@ export const availablePaths = {
 
   // Housekeeping flow
   HOUSEKEEPING: '/housekeeping',
-  HOUSEKEEPING_CHECKBOX: `/housekeeping.${HOUSEKEEPING_FLOW_VERSION}/housekeeping-checkbox`,
-  HOUSEKEEPING_QUANTITY: `/housekeeping.${HOUSEKEEPING_FLOW_VERSION}/housekeeping-quantity`,
-  HOUSEKEEPING_RESERVATION_CONFIRMATION: `/housekeeping.${HOUSEKEEPING_FLOW_VERSION}/housekeeping-reservation-confirmation`,
+  HOUSEKEEPING_CHECKBOX: '/housekeeping/housekeeping-checkbox',
+  HOUSEKEEPING_QUANTITY: '/housekeeping/housekeeping-quantity',
+  HOUSEKEEPING_RESERVATION_CONFIRMATION: '/housekeeping/housekeeping-reservation-confirmation',
 
   // Room controls flow
-  ROOM_CONTROLS_TV_CHANNEL: `/room-controls.${ROOM_CONTROLS_FLOW_VERSION}/room-controls-tv-channel`,
-  ROOM_CONTROLS_TV_LIST: `/room-controls.${ROOM_CONTROLS_FLOW_VERSION}/room-controls-tv-list`,
+  ROOM_CONTROLS_TV_CHANNEL: '/room-controls/room-controls-tv-channel',
+  ROOM_CONTROLS_TV_LIST: '/room-controls/room-controls-tv-list',
   ROOM_CONTROLS: '/room-controls',
   ROOM_CONTROLS_TV: '/room-controls?selectedEntity=TV',
 
@@ -57,9 +47,9 @@ export const availablePaths = {
 
   // Table reservations
   TABLE_RESERVATION: '/table-reservation',
-  TABLE_RESERVATION_TIME: `/table-reservation.${TABLE_RESERVATION_FLOW_VERSION}/table-reservation-time`,
-  TABLE_RESERVATION_DETAILS: `/table-reservation.${TABLE_RESERVATION_FLOW_VERSION}/table-reservation-details`,
-  TABLE_RESERVATION_CONFIRMATION: `/table-reservation.${TABLE_RESERVATION_FLOW_VERSION}/table-reservation-confirmation`,
+  TABLE_RESERVATION_TIME: '/table-reservation/table-reservation-time',
+  TABLE_RESERVATION_DETAILS: '/table-reservation/table-reservation-details',
+  TABLE_RESERVATION_CONFIRMATION: '/table-reservation/table-reservation-confirmation',
 
   // notifications
   NOTIFICATIONS: '/notifications',

@@ -1,0 +1,162 @@
+.col_100 {
+  width: 100%;
+}
+
+.guestDataInput {
+  width: 100%;
+  label {
+    text-transform: capitalize !important;
+  }
+  div {
+    input {
+      font-weight: bold;
+      text-transform: capitalize;
+      color: var(--tertiary-text-color) !important;
+    }
+  }
+}
+
+.btnText {
+  text-align: center;
+  font-size: 14px;
+  padding: 6px 10px;
+  width: 80px;
+}
+
+.scanBtn {
+  margin: 15px 0px;
+  display: flex;
+  justify-content: right;
+  button {
+    display: flex;
+  }
+}
+
+.alignment {
+  vertical-align: middle;
+}
+
+.buttonContainer {
+  margin-top: 1rem;
+}
+
+.buttonLeft {
+  margin-right: 1rem;
+  border-radius: 7px;
+  &:disabled {
+    color: #ffffffab !important;
+  }
+}
+
+.buttonRight {
+  margin-top: 30px;
+  &:disabled {
+    opacity: 0.7 !important;
+    margin-top: 30px;
+  }
+}
+
+.pageWrapper {
+  justify-content: space-between;
+  padding-bottom: 116px !important;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  min-height: calc(100vh - 70px);
+  position: relative;
+  padding: 0px 29px 100px 29px;
+  &:last-child {
+    padding-bottom: 116px !important;
+  }
+}
+
+.agrementWrapperTitle {
+  display: flex;
+  margin: 25px 0 5px 0;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.agrementText {
+  max-width: none;
+  margin-left: 20px;
+  a {
+    text-decoration: none;
+    white-space: nowrap;
+  }
+}
+
+.guestDataInput {
+  width: 100%;
+  margin-top: 15px;
+
+  label {
+    letter-spacing: 0.72px !important;
+  }
+  div {
+    div {
+      padding-bottom: 0px !important;
+    }
+    input {
+      padding: 0px !important;
+      padding-bottom: 6px !important;
+    }
+  }
+}
+
+.styledDateInput {
+  width: 100%;
+  margin-top: 17px;
+  label {
+    letter-spacing: 0.72px !important;
+    text-transform: uppercase !important;
+  }
+  div {
+    div {
+      padding-bottom: 0px !important;
+    }
+    input {
+    }
+  }
+}
+
+.buttonContainerForm {
+  display: flex;
+  flex-direction: row;
+  padding: 0px 20px 0px 20px;
+}
+
+.update {
+  font-size: $small;
+  font-family: var(--primary-font-regular);
+  margin-top: 30px;
+  margin-right: 1rem;
+  height: 40px;
+}
+
+.delete {
+  margin-top: 30px;
+  border-radius: 7px;
+  height: 40px;
+}
+.confirmOrderButton {
+  margin: 0 auto;
+  padding: 50px 50px 29px 50px;
+  background: #fff;
+  position: fixed;
+  bottom: 0rem;
+  left: 0;
+  right: 0;
+  border-radius: 0;
+  box-shadow: #00000029 0 1px 20px;
+  max-width: 768px;
+  margin-top: -20px;
+}
+.confirmationWrapperBotton {
+  margin-top: -20px;
+}
+.button {
+  padding-top: 10px;
+  padding-left: 22px;
+}

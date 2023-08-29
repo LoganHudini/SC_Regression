@@ -112,15 +112,15 @@ export const Header: React.FC<IHeaderProps> = ({
       >
         <div className={styles.categoryContainer}>
           {displayHome && (
-            <button className={styles.backButton} onClick={goHome}>
+            <div className={styles.backButton} onClick={goHome}>
               <HomeHeader className={styles.backIcon} viewBox='0 0 25.204 25.927' />
-            </button>
+            </div>
           )}
 
           {displayBackButton && (
-            <button className={styles.backButton} onClick={goBack}>
+            <div className={styles.backButton} onClick={goBack}>
               <ArrowBackIosIcon className={styles.backIconIrd} viewBox='0 0 30.204 35.927' />
-            </button>
+            </div>
           )}
 
           {irdModule && irdMenu ? (

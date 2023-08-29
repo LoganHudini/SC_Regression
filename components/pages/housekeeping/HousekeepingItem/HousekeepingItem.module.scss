@@ -1,63 +1,21 @@
 .housekeepingItemWrapper {
-  padding-bottom: 20px;
-  border-bottom: 1px solid rgba(168, 168, 168, 0.23);
-  margin-top: 31px;
-  display: flex;
-  flex-direction: column;
-
-  &:first-of-type {
-    margin-top: 23px;
-  }
+  width: 171px;
+  height: 155px;
+  margin: 7px;
+  text-align: center;
+  background: var(--primary-card-background-color);
 }
 
 .housekeepingItemTitle {
-  font-size: 1.5rem;
-  margin-bottom: 15px;
-  font-family: 'Bodoni MT Std';
-  line-height: 1;
+  font-size: $small;
+  font-family: var(--primary-font-medium);
+  color: var(--primary-text-color);
+  margin: 0px 25px;
+  padding-top: 17px;
+  line-height: 1.4;
+  text-transform: uppercase;
 }
 
-.housekeepingItemText {
-  font-size: 1rem;
-  line-height: 1.25;
-
-  max-height: 40px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition: all 0.4s;
-}
-
-.housekeepingItemTextExpanded {
-  max-height: 250px;
-}
-
-.quantityWrapper {
-  margin-left: auto;
-  margin-top: 2px;
-  height: 37px;
-}
-
-.quantityText {
-  font-size: 0.9375rem;
-}
-
-.button {
-  width: 98px;
-  height: 35px;
-  margin-left: auto;
-  margin-top: 2px;
-  font-size: 0.8125rem;
-  font-weight: 100;
-  text-transform: none;
-}
-
-.readMore {
-  color: var(--primary-theme-color);
-  margin-top: 4px;
-  font-size: 1rem;
-  line-height: 1.25;
-  cursor: pointer;
-  display: inline-block;
-  text-align: start;
-  margin-right: auto;
+.iconWrapper {
+  padding-top: 28px;
 }

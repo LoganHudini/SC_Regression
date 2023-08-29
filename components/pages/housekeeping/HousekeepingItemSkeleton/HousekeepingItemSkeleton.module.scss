@@ -1,89 +1,29 @@
+
 .housekeepingItemWrapper {
-  padding-bottom: 20px;
-  border-bottom: 1px solid rgba(168, 168, 168, 0.23);
-  margin-top: 31px;
-  display: flex;
-  flex-direction: column;
-
-  &:first-of-type {
-    margin-top: 23px;
-  }
-}
-
-.housekeepingItemTitle {
-  font-size: 1.5rem;
-  margin-bottom: 15px;
-  font-family: 'Bodoni MT Std';
-  line-height: 1;
-  height: 24px;
-}
-
-.housekeepingItemText {
-  font-size: 1rem;
-  line-height: 1.25;
-
-  max-height: 40px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition: all 0.4s;
-  height: 40px;
-}
-
-.housekeepingItemTextExpanded {
-  max-height: 250px;
-}
-
-.quantityWrapper {
-  margin-left: auto;
-  margin-top: 2px;
-  height: 37px;
-}
-
-.quantityText {
-  font-size: 0.9375rem;
-}
-
-.button {
-  width: 98px;
-  height: 35px;
-  margin-left: auto;
-  margin-top: 2px;
-  font-size: 0.8125rem;
-  font-weight: 100;
-  text-transform: none;
-  border: none;
-}
-
-.readMore {
-  color: var(--primary-theme-color);
-  margin-top: 4px;
-  font-size: 1rem;
-  line-height: 1.25;
-  cursor: pointer;
-  display: inline-block;
-  text-align: start;
-  margin-right: auto;
-  height: 20px;
-  width: 80px;
+  width: 171px;
+  height: 155px;
+  margin: 7px;
+  text-align: center;
+  background: var(--primary-card-background-color);
 }
 
 .animation {
   position: relative;
   overflow: hidden;
   background-color: #dee3ea;
-
   opacity: 0.45;
-  &::before {
-    content: '';
-    display: block;
-    position: absolute;
-    left: -150px;
-    top: 0;
-    height: 100%;
-    width: 150px;
-    background: linear-gradient(to right, transparent 0%, #fff 50%, transparent 100%);
-    animation: load 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  }
+}
+
+.animation::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: -150px;
+  top: 0;
+  height: 100%;
+  width: 150px;
+  background: linear-gradient(to right, transparent 0%, #fff 50%, transparent 100%);
+  animation: load 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 @keyframes load {
