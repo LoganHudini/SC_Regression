@@ -6,7 +6,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: var(--primary-box-shadow-color);
+  background: var(--primary-drawer-box-shadow-color);
   z-index: 200;
   opacity: 0;
   visibility: hidden;
@@ -20,8 +20,6 @@
 }
 
 .wrapper {
-  background: var(--primary-background-color);
-  padding: 50px 26px 32px 26px;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -32,7 +30,9 @@
   z-index: 300;
   overflow: auto;
   margin: 0 auto;
-  max-height: 500px;
+  max-height: var(--primary-drawer-height);
+  padding: 25px 26px 32px 26px;
+  background: var(--primary-background-color);
 
   @media (pointer: coarse) {
     &::-webkit-scrollbar {
@@ -47,9 +47,10 @@
 
 .title {
   text-align: center;
-  font-size: 1.5rem;
+  font-size: $header;
   line-height: 1;
-  margin: 0 auto 38px auto;
+  margin: 0 auto 35px auto;
+  font-family: var(--secondary-font-regular);
 }
 
 .calendarDateWrapper {

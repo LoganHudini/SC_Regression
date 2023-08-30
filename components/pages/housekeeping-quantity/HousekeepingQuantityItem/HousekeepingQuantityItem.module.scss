@@ -1,24 +1,27 @@
 .housekeepingQuantityItemWrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  margin-top: 30px;
-  height: 30px;
-
-  &:first-of-type {
-    margin-top: 37px;
-  }
+  text-align: center;
 }
 
 .housekeepingQuantityItemTitle {
-  font-size: 1rem;
+  font-size: $medium;
   margin-right: auto;
+  font-family: var(--primary-font-news);
+  margin-bottom: 15px;
+}
+
+.maxCount {
+  font-family: var(--primary-font-regular);
+  font-size: $xsmall;
+  margin-bottom: 25px;
+  color: var(--tertiary-text-color);
 }
 
 .plusMinusWrapper {
   margin-top: 2px;
   margin-right: 8px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
 }
 
 .button {

@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 import Picker from 'rmc-picker/lib/Picker';
 import MultiPicker from 'rmc-picker/lib/MultiPicker';
+import { HousekeepingQuantityItem } from 'components/pages/housekeeping-quantity/HousekeepingQuantityItem/HousekeepingQuantityItem';
+import { HousekeepingCheckboxItem } from 'components/pages/housekeeping-checkbox/HousekeepingCheckboxItem/HousekeepingCheckboxItem';
 
 const dayMonthArray: any = [];
 for (let month = 0; month < 12; month++) {
@@ -22,7 +24,7 @@ const timeFormat = ['AM', 'PM'];
 export const HousekeepingDrawer = (props: any) => {
   const { opened, toggleOpened, showSchedules } = props;
   const { t } = useTranslation(['housekeeping', 'common']);
-  const [showCalendar, setShowCalendar] = useState(true);
+  const [showCalendar, setShowCalendar] = useState(false);
   const [disable, setDisable] = useState(false);
   const [selectedTime, setSelectedTime] = useState(dayjs().format('DD MMM:hh:mm:A'));
 
@@ -47,12 +49,16 @@ export const HousekeepingDrawer = (props: any) => {
     setShowCalendar(false);
   };
 
+  const handleShowSchedules = () => {
+    setShowCalendar(true);
+  };
+
   return (
     <>
       <div
         onClick={() => {
           toggleOpened();
-          setShowCalendar(true);
+          setShowCalendar(false);
           setSelectedTime(dayjs().format('DD MMM:hh:mm:A'));
         }}
         className={cx(styles.background, { [styles.backgroundOpened]: opened })}
@@ -62,25 +68,85 @@ export const HousekeepingDrawer = (props: any) => {
         <div className={styles.confirmationWrapper}>
           <h2 className={styles.title}>{showSchedules?.name}</h2>
           <div className={styles.totalRequestsWrapper}>
-            {showCalendar && showSchedules?.customSchedule === 'Time' && (
+            <div>
+              {showSchedules && showSchedules?.maxQuantityActive ? (
+                <HousekeepingQuantityItem
+                  id={showSchedules?.id}
+                  title={showSchedules?.name}
+                  maxQuantity={showSchedules?.maxQuantity}
+                  maxQuantityActive={showSchedules?.maxQuantityActive}
+                />
+              ) : (
+                <>
+                  {showSchedules?.items?.length !== 0 &&
+                    showSchedules?.items?.map((schedule: any) => (
+                      <React.Fragment key={schedule?.id}>
+                        {schedule?.maxQuantityActive ? (
+                          <HousekeepingQuantityItem
+                            id={schedule?.id}
+                            title={schedule?.name}
+                            maxQuantity={schedule?.maxQuantity}
+                            maxQuantityActive={schedule?.maxQuantityActive}
+                          />
+                        ) : (
+                          <HousekeepingCheckboxItem id={schedule?.id} title={schedule?.name} />
+                        )}
+                      </React.Fragment>
+                    ))}
+                </>
+              )}
+              <StyledButton>PLACE ORDER</StyledButton>
+            </div>
+
+            {showSchedules?.scheduleActive && (
+              <div onClick={() => handleShowSchedules()}>Schedule</div>
+            )}
+
+            {!showCalendar && dayjs().format('DD MMM:hh:mm:A') !== selectedTime && (
+              <div className={styles.calendarDateWrapper}>
+                <div className={styles.calendarDateLabel}>Scheduled Time</div>
+                <div className={styles.calendarDateText}>
+                  {dayjs(selectedTime).format('DD MMM hh:mm A')}
+                </div>
+
+                <StyledButton>PLACE ORDER</StyledButton>
+              </div>
+            )}
+
+            {showCalendar && (
               <>
                 <div className={styles.timePickerWrapper}>
                   <MultiPicker onValueChange={onChange} selectedValue={selectedTime?.split(':')}>
-                    <Picker indicatorClassName='my-picker-indicator'>
+                    <Picker
+                      indicatorClassName='my-picker-indicator'
+                      disabled={
+                        showCalendar && showSchedules?.customSchedule === 'Time' ? true : false
+                      }
+                    >
                       {dayMonthArray?.map((day: any) => (
                         <Picker.Item className='my-picker-view-item day' key={day} value={day}>
                           {day === dayjs().format('DD MMM') ? 'Today' : day}
                         </Picker.Item>
                       ))}
                     </Picker>
-                    <Picker indicatorClassName='my-picker-indicator'>
+                    <Picker
+                      indicatorClassName='my-picker-indicator'
+                      disabled={
+                        showCalendar && showSchedules?.customSchedule === 'Date ' ? true : false
+                      }
+                    >
                       {hoursArray.map((hour) => (
                         <Picker.Item className='my-picker-view-item hour' key={hour} value={hour}>
                           {hour}
                         </Picker.Item>
                       ))}
                     </Picker>
-                    <Picker indicatorClassName='my-picker-indicator'>
+                    <Picker
+                      indicatorClassName='my-picker-indicator'
+                      disabled={
+                        showCalendar && showSchedules?.customSchedule === 'Date ' ? true : false
+                      }
+                    >
                       {minutesArray?.map((minute) => (
                         <Picker.Item
                           className='my-picker-view-item minute'
@@ -91,7 +157,12 @@ export const HousekeepingDrawer = (props: any) => {
                         </Picker.Item>
                       ))}
                     </Picker>
-                    <Picker indicatorClassName='my-picker-indicator'>
+                    <Picker
+                      indicatorClassName='my-picker-indicator'
+                      disabled={
+                        showCalendar && showSchedules?.customSchedule === 'Date ' ? true : false
+                      }
+                    >
                       {timeFormat?.map((format) => (
                         <Picker.Item
                           className='my-picker-view-item format'
@@ -109,16 +180,6 @@ export const HousekeepingDrawer = (props: any) => {
                   Save
                 </StyledButton>
               </>
-            )}
-            {!showCalendar && (
-              <div className={styles.calendarDateWrapper}>
-                <div className={styles.calendarDateLabel}>Scheduled Time</div>
-                <div className={styles.calendarDateText}>
-                  {dayjs(selectedTime).format('DD MMM hh:mm A')}
-                </div>
-
-                <StyledButton>PLACE ORDER</StyledButton>
-              </div>
             )}
           </div>
         </div>

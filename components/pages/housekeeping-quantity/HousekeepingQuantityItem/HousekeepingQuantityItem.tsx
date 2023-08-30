@@ -72,7 +72,8 @@ export const HousekeepingQuantityItem: React.FC<IHousekeepingQuantityItemProps> 
   return (
     <>
       <div className={styles.housekeepingQuantityItemWrapper}>
-        <p className={styles.housekeepingQuantityItemTitle}>{title}</p>
+        <p className={styles.housekeepingQuantityItemTitle}>Quantity</p>
+        <p className={styles.maxCount}>(Max Count: {maxQuantity} )</p>
         <div className={styles.plusMinusWrapper}>
           {maxQuantityActive ? (
             <PlusMinusInput
