@@ -17,7 +17,7 @@ import {
 import { hamburgerIconsMap } from 'utils/hamburger/hamburgerIconsMap';
 import { availablePaths } from 'utils/availablePaths';
 import { useRouter } from 'next/router';
-import { Headers } from 'utils/constants';
+import { HEADERS } from 'utils/constants';
 import { housekeepingOptions } from 'storage/housekeeping.storage';
 
 export const BottomMenu = () => {
@@ -28,7 +28,7 @@ export const BottomMenu = () => {
   const arrowActive = true;
   const homeActive = router.pathname === '/[locale]';
   const irdActive = router.pathname.includes(availablePaths?.DINING);
-  const restaurantActive = router.pathname.includes(Headers[0]);
+  const restaurantActive = router.pathname.includes(HEADERS[0]);
   const housekeepingActive = router.pathname.includes(availablePaths.HOUSEKEEPING);
 
   const { data } = useQuery<IGetHamburgerMenuDetailsApiResponse>(GET_HAMBURGER_MENU, {

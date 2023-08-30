@@ -42,7 +42,7 @@
 }
 
 .emailMeTitle {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   margin-bottom: 45px;
   text-align: center;
   align-self: center;
@@ -51,7 +51,7 @@
 }
 
 .emailId {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   color: var(--primary-text-color);
   font-size: $medium;
 }
@@ -66,7 +66,7 @@
   width: 140px;
   height: 36px;
   font-weight: 900;
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   font-size: $xsmall;
 }
 
@@ -93,10 +93,10 @@
   margin-bottom: 60px;
   text-align: center;
   line-height: 1.25;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .succcessButton {
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   font-size: $xsmall;
 }

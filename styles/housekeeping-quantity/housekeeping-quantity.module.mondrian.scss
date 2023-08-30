@@ -1,5 +1,5 @@
 .housekeepingQuantityTitle {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   margin: 36px 0 17px 0;
   line-height: 1.2;
   font-size: 18px;
@@ -9,7 +9,7 @@
   margin-bottom: 45px;
   font-size: 13px;
   line-height: 1.25;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .housekeepingQuantityRow {
@@ -22,7 +22,7 @@
 .criteria {
   font-size: 0.9375rem;
   font-weight: bold;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-size: 14px;
 }
 .housekeepingItemsWrapper {
@@ -33,12 +33,12 @@
   margin: auto -25px 0 -25px;
   padding: 54px 26px;
   border-radius: 10px 10px 0 0;
-  box-shadow: 0 -2px 10px $shadowColor;
+  box-shadow: 0 -2px 10px var(--primary-box-shadow-color);
 }
 
 .orderButton {
   font-weight: 900;
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   font-size: 14px;
   background: var(--primary-theme-color);
 }

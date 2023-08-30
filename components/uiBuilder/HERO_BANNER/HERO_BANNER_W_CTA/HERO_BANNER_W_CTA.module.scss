@@ -40,7 +40,7 @@
 .indicatorIcon {
   width: 6px;
   height: 6px;
-  background: $textColorSecondary;
+  background: var(--secondary-text-color);
 
   &:not(:last-child) {
     margin-right: 6px;

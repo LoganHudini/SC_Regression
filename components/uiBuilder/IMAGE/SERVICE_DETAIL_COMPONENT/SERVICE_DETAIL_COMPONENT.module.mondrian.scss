@@ -1,5 +1,5 @@
 .title {
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   font-size: $xlarge;
   margin: 1.5rem 0 0.75rem 0;
 }
@@ -23,7 +23,7 @@
   color: var(--secpndary-text-color);
   width: auto;
   font-size: $small;
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   padding: 8px 20px;
   border-color: var(--primary-theme-color);
   &:hover:enabled {

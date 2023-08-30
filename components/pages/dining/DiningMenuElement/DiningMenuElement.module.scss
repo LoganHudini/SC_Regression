@@ -1,0 +1,114 @@
+.wrapper {
+  display: flex;
+  margin: 1rem 0;
+  padding: 0.8rem;
+  flex-direction: column;
+  text-align: start;
+  border-radius: var(--primary-card-border-radius);
+  box-shadow: 0px 3px 6px var(--primary-card-shadow-color);
+}
+
+.card {
+  display: flex;
+  flex-direction: row;
+  min-height: 50px;
+  justify-content: space-between;
+}
+
+.topWrapper {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: start;
+  width: 70%;
+}
+
+.title {
+  font: $medium var(--primary-card-title-font-family);
+  color: var(--primary-text-color);
+  margin: 5px 0;
+  width: 140%;
+}
+
+.titleWithImage {
+  width: 100%;
+}
+
+.description {
+  font: $small var(--primary-card-desc-font-family);
+  margin: 10px 0;
+  color: var(--tertiary-text-color);
+  width: 140%;
+  min-height: 1rem;
+  max-height: 3.25rem;
+}
+
+.descriptionWithImage {
+  width: 90%;
+}
+
+.currency {
+  font: $xsmall var(--primary-card-title-font-family);
+  margin: 20px 0 5px;
+}
+
+.price {
+  font-size: $medium;
+}
+
+.imageWrapper {
+  display: flex;
+  width: 120px;
+  align-items: center;
+  flex-direction: column;
+  justify-content: end;
+}
+
+.image {
+  width: 120px;
+  height: 120px;
+  border-radius: var(--primary-card-border-radius);
+  top: 15px;
+  position: relative;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.customisableText {
+  font: $extraSmall var(--primary-card-desc-font-family);
+  color: var(--tertiary-text-color);
+  margin: 4px 0 0 0;
+}
+
+.addCta {
+  height: 30px;
+  width: 90px;
+  line-height: 30px;
+  text-align: center;
+  background-color: var(--primary-theme-color);
+  font: $extraSmall var(--primary-card-cta-font-family);
+}
+
+.menuUnavailable {
+  background-color: var(--tertiary-text-color) !important;
+  color: var(--secondary-text-color);
+  pointer-events: none;
+}
+
+.disable {
+  pointer-events: none;
+}
+
+.counterStyle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-background-color);
+  z-index: 0;
+  box-shadow: 0px 3px 6px var(--primary-box-shadow-color);
+}
+
+.pointer {
+  cursor: pointer;
+}

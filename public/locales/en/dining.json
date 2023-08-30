@@ -1,7 +1,7 @@
 {
   "In-Room Dining": "In-Room Dining",
   "Dining": "Dining",
-  "Repeat previous customisation?": "Repeat previous customisation?",
+  "Repeat previous customization?": "Repeat previous customization?",
   "Add-ons :": "Add-ons:",
   "ADD NEW": "ADD NEW",
   "REPEAT LAST": "REPEAT LAST",
@@ -37,7 +37,7 @@
   "Order": "Order",
   "Search": "Search",
   "cart": "cart",
-  "customisable": "customisable",
+  "customizable": "customizable",
   "Add": "Add",
   "dining-menu": "dining-menu",
   "Online requests presently unavailable": "Online requests presently unavailable",
@@ -57,5 +57,14 @@
   "Online requests will be available from": "Online requests will be available from",
   "Customisation": "Customisation",
   "Instructions": "Instructions",
-  "all day": "all day"
+  "all day": "all day",
+  "Ingredients": "Ingredients",
+  "Add-Ons": "Add-Ons",
+  "Optional": "Optional",
+  "total item price": "total item price",
+  "Add to cart": "Add to cart",
+  "Required": "Required",
+  "Limit exceeded": "Limit exceeded",
+  "Select up to options": "Select up to {{value}} options",
+  "Add instructions": "Add instructions"
 }

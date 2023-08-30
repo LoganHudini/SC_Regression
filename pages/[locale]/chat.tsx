@@ -21,10 +21,10 @@ import {
 } from 'core/graphql/queries/GET_RESERVATION';
 import { useCheckedIn } from 'storage/check-in.storage';
 import dayjs from 'dayjs';
-import { IHamburgerProps, getHamburgerProps } from 'utils/hamburger/getHamburgerProps';
+
 export { getStaticPaths };
 
-const Chat: React.FC<IHamburgerProps> = ({ hamburger, pages }) => {
+const Chat = () => {
   const { t } = useTranslation('chat');
 
   const checkedInData = useCheckedIn();
@@ -88,7 +88,7 @@ const Chat: React.FC<IHamburgerProps> = ({ hamburger, pages }) => {
         <title>{t('Live Chat')}</title>
       </Head>
       <Header screenTitle={t('Live Chat') as string} />
-      <PageWrapper className={styles.wrapper} displayBottomMenu hamburger={hamburger} pages={pages}>
+      <PageWrapper className={styles.wrapper} displayBottomMenu>
         <div className={styles.messagesWrapper}>
           {loading ? (
             <>
@@ -130,7 +130,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ['chat', 'common'], i18nConfig)),
-      ...(await getHamburgerProps()),
     },
   };
 };

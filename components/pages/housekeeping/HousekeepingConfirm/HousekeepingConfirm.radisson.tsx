@@ -10,11 +10,11 @@ import { useTranslation } from 'react-i18next';
 import { processError } from 'utils/processError';
 import { HOTEL_ID } from 'core/graphql/endpoints';
 import CloseIcon from '@icons/closeIcon.svg';
-import { CUSTOM, HOUSEKEEPING, servicesEvent } from 'utils/constants';
+import { CUSTOM, HOUSEKEEPING } from 'utils/constants';
 import { CheckinDetails } from 'components/shared/CheckinDetailsDrawer/CheckinDetailsDrawer';
-import { ThankYouDrawer } from 'components/pages/ThankYouDrawer/ThankYouDrawer';
 import dayjs from 'dayjs';
-import { analyticsEvent, serviceRequestEvent } from 'utils/gtag';
+import { serviceRequestEvent } from 'utils/gtag';
+import { ThankYouDrawer } from 'components/shared/ThankYouDrawer/ThankYouDrawer';
 
 export const HousekeepingConfirm: React.FC<IHousekeepingConfirmProps> = ({
   opened,

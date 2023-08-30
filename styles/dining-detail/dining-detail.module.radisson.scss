@@ -9,8 +9,8 @@
 .title {
   font-size: $large;
   line-height: 1.208;
-  font-family: $fontRegular;
-  color: $textColorTernary;
+  font-family: var(--primary-font-regular);
+  color: var(--tertiary-text-color);
   width: 75%;
 }
 
@@ -18,7 +18,7 @@
   font-size: $small;
   padding-top: 1px;
   line-height: 1.5;
-  font-family: $fontSemibold;
+  font-family: var(--primary-font-medium);
   color: var(--primary-text-color);
 }
 
@@ -28,7 +28,7 @@
   border-bottom: none;
   line-height: 1.25;
   color: #7b7b7b;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   font-size: $small;
 }
 
@@ -50,13 +50,13 @@
   font-size: $medium;
   line-height: 1.26;
   margin-left: 0px;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   font-size: $large;
-  color: $textColorTernary;
+  color: var(--tertiary-text-color);
 }
 
 .ingredientsDescription {
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   color: #7b7b7b;
   font-size: $small;
   line-height: 1.25;
@@ -78,7 +78,7 @@
   font-weight: normal;
   text-transform: uppercase;
   color: #7b7b7b;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .totalAmount {
@@ -86,7 +86,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   margin-top: 5px;
 }
 
@@ -99,7 +99,7 @@
 
 .addonsText {
   font-size: $large;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   max-width: 40%;
 }
 
@@ -111,7 +111,7 @@
   left: 0;
   right: 0;
   border-radius: 0;
-  box-shadow: $shadowColor 0 -2px 10px;
+  box-shadow: var(--primary-box-shadow-color) 0 -2px 10px;
   max-width: 768px;
   margin: 0 auto;
 }
@@ -142,7 +142,7 @@
   line-height: 44px;
   padding-top: 14px;
   background-color: var(--primary-theme-color);
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-size: $xsmall;
 }
 
@@ -177,14 +177,14 @@
 
 .customisationsText {
   font-size: $large;
-  color: $fontColor;
-  font-family: $fontRegular;
+  color: var(--tertiary-text-color);
+  font-family: var(--primary-font-regular);
 }
 
 .requiredText {
   font-size: $medium;
-  font-family: $fontRegular;
-  color: $shadowColorSecondary;
+  font-family: var(--primary-font-regular);
+  color: var(--primary-box-shadow-color) Secondary;
   background-color: transparent;
   width: 6rem;
   text-align: center;
@@ -212,7 +212,7 @@
   color: #7b7b7b;
   background-color: #f4f4f4;
   font-size: $extraSmall;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   margin-top: 5px;
   margin-right: 5px;
   width: fit-content;
@@ -258,7 +258,7 @@
   color: white !important;
   border: 1px solid var(--primary-theme-color) !important;
   font-size: $small !important;
-  font-family: $fontRegular !important;
+  font-family: var(--primary-font-regular) !important;
   height: 30px !important;
   flex: 1px;
   box-shadow: none !important;
@@ -275,7 +275,7 @@
   color: var(--primary-theme-color) !important;
   border: 1px solid #7b7b7b !important;
   font-size: $small !important;
-  font-family: $fontRegular !important;
+  font-family: var(--primary-font-regular) !important;
   flex: 1px;
   height: 30px !important;
   text-transform: capitalize;

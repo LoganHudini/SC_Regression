@@ -6,7 +6,7 @@ export const DetailsCard: React.FC<IInfoCardProps> = ({ title, children }) => {
   return (
     <div className={styles.detailsCard}>
       <div
-        className={styles.titeText}
+        className={styles.titleText}
         // style={title == 'Add-Ons' ? { backgroundColor: '#B2B2B2', color: 'white' } : {}}
       >
         {title}

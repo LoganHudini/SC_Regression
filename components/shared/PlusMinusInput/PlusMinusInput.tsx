@@ -11,13 +11,12 @@ export const PlusMinusInput: React.FC<IPlusMinusInputProps> = ({
   onClickPlus,
   minQuantity,
   maxQuantity,
-  irdSummary,
   className,
 }) => {
   return (
     <div className={cx(styles.plusMinusInputWrapper, className)}>
       <button
-        className={cx(styles.plusMinusButton, irdSummary && styles.plusMinusButtonIrd)}
+        className={styles.plusMinusButton}
         disabled={value <= (minQuantity || 0)}
         onClick={onClickMinus}
       >
@@ -27,7 +26,7 @@ export const PlusMinusInput: React.FC<IPlusMinusInputProps> = ({
       <button
         disabled={maxQuantity ? value === maxQuantity : false}
         onClick={onClickPlus}
-        className={cx(styles.plusMinusButton, irdSummary && styles.plusMinusButtonIrd)}
+        className={styles.plusMinusButton}
       >
         <AddOutlinedIcon className={styles.plusIcon} />
       </button>

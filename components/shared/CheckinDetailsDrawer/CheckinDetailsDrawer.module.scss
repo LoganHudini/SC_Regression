@@ -50,7 +50,7 @@
   font-size: $large;
   line-height: 1;
   margin: 0 auto 10px auto;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .totalRequests {
@@ -83,7 +83,7 @@
   line-height: 46px;
   padding-top: 14px;
   font-size: $xsmall;
-  font-family: $fontSemibold;
+  font-family: var(--primary-font-medium);
 }
 
 .guestDataInput {

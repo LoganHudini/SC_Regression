@@ -45,32 +45,39 @@
 .homeCard {
   display: block;
 }
+
 .homeCardInner {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .errorText {
   color: #dc4d40;
   font-size: $medium;
   text-align: initial;
   padding: 8px 0px;
 }
-.titeText {
+
+.titleText {
   font-size: $large;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
+
 .detailsText {
   font-size: $medium;
   text-align: initial;
 }
+
 .firstSection {
   display: flex;
 }
+
 .homeIcon {
   padding-right: 4vw;
   margin: auto;
 }
+
 .homeCardInfo {
   align-items: flex-start;
 }

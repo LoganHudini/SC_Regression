@@ -33,16 +33,16 @@
 
   :global(.MuiInputLabel-asterisk),
   :global(.Mui-error) {
-    color: $errorMsgColor !important;
+    color: var(--primary-error-text-color) !important;
   }
 
   :global(.Mui-error) {
     &::after {
-      border-bottom: 1px solid $errorMsgColor !important;
+      border-bottom: 1px solid var(--primary-error-text-color) !important;
     }
 
     &::before {
-      border-bottom: 1px solid $errorMsgColor !important;
+      border-bottom: 1px solid var(--primary-error-text-color) !important;
     }
   }
 }

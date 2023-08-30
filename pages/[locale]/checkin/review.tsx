@@ -50,7 +50,7 @@ import { CURRENCY, PRIVACY_LAWS, TERMS_AND_CONDITIONS } from 'core/graphql/endpo
 import { PRECHECKIN } from 'core/graphql/queries/PRECHECKIN';
 import { toast } from 'react-toastify';
 import {
-  precheckinErrorMsg,
+  PRE_CHECKIN_ERROR_MSG,
   cardTypes,
   checkIn,
   review,
@@ -228,7 +228,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       const error = checkinError as ApolloError;
       const networkError = error?.networkError as { result?: { errors?: string } };
 
-      if (networkError?.result?.errors === precheckinErrorMsg) {
+      if (networkError?.result?.errors === PRE_CHECKIN_ERROR_MSG) {
         toast('You are Pre Checked-In', { type: 'error' });
       } else {
         toast('Please try again', { type: 'error' });

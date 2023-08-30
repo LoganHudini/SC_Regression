@@ -27,13 +27,13 @@
   bottom: 51px;
   max-width: 243px;
   z-index: 20;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .indicatorIcon {
   width: 6px;
   height: 6px;
-  background: $textColorSecondary;
+  background: var(--secondary-text-color);
 
   &:not(:last-child) {
     margin-right: 6px;

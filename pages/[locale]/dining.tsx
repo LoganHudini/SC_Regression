@@ -12,7 +12,6 @@ import { DinningCategory } from 'components/pages/dining/DiningCategory/DiningCa
 import { diningInformationStorage } from 'storage/dining.storage';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { DiningCategorySkeleton } from 'components/pages/dining/DiningCategorySkeleton/DiningCategorySkeleton';
-import { IHamburgerProps } from 'utils/hamburger/getHamburgerProps';
 import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
 import { useRouter } from 'next/router';
 import CrossDropdown from '@icons/crossDropdown.svg';
@@ -22,12 +21,11 @@ import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { filterMenuWrtTimings, irdActiveMenuList } from 'utils/functions';
 import { availablePaths } from 'utils/availablePaths';
 import DiningMenu from 'components/pages/dining/DiningMenu/dining-menu';
-import DiningDetailsDrawer from 'components/pages/dining-menu/DiningDetailsDrawer/DiningDetailsDrawer';
 
 export { getStaticPaths };
 
-const Dining: React.FC<IHamburgerProps> = ({ hamburger, pages }) => {
-  const { t } = useTranslation(['dining']);
+const Dining = () => {
+  const { t } = useTranslation('dining');
   const router = useRouter();
   const locale = useLocale();
   const navigate = useLocalizedRouter();
@@ -139,8 +137,6 @@ const Dining: React.FC<IHamburgerProps> = ({ hamburger, pages }) => {
         displayHome
       />
       <PageWrapper
-        hamburger={hamburger}
-        pages={pages}
         className={cx(styles.pageWrapper, {
           [styles.pageWrapperSecondary]: diningData?.items?.length > 0,
         })}

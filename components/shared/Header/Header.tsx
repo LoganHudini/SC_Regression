@@ -13,12 +13,12 @@ import { IHeaderProps } from './Header.types';
 import { useRouter } from 'next/router';
 import ArrowBackIosIcon from '@icons/ArrowBack.svg';
 import { availablePaths } from 'utils/availablePaths';
-import { ALL_DAY, Headers, LANGUAGE_LIST_BARCELONA, home } from 'utils/constants';
+import { ALL_DAY, HEADERS, LANGUAGE_LIST_BARCELONA, HOME } from 'utils/constants';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import CrossDropdown from '@icons/crossDropdown.svg';
 import { GET_ORDERS } from 'core/graphql/queries/GET_ORDERS_BY_ID';
-import { DiningOrdersDrawer } from 'components/pages/dining-menu/DiningOrdersDrawer/DiningOrdersDrawer';
+import { DiningOrdersDrawer } from 'components/pages/dining/DiningOrdersDrawer/DiningOrdersDrawer';
 import languageDetector from 'utils/languageDetector';
 import { setScrollPosition } from 'utils/functions';
 import produce from 'immer';
@@ -46,8 +46,8 @@ export const Header: React.FC<IHeaderProps> = ({
   const router = useRouter();
   const locale = useLocale();
   const filter = useReactiveVar(diningInformationStorage);
-  const irdMenuCategory = filter?.menuName || (header && header[0]?.name);
-  const irdMenuCategorytime = header && header[0]?.hours;
+  const irdMenu = filter?.menuName || (header && header[0]?.name);
+  const irdMenuTimings = header && header[0]?.hours;
   const [language, setLanguage] = useState<boolean>(false);
   const [orderDrawer, setOrderDrawer] = useState(false);
   const [languageSelected, setLanguageSelected] = useState(useLanguage());
@@ -123,36 +123,32 @@ export const Header: React.FC<IHeaderProps> = ({
             </div>
           )}
 
-          {irdModule ? (
-            <div className={styles.irdCatagory} onClick={() => setOpencategory(!openCategory)}>
-              <div className={styles.irdCatagoryCase}>
-                {irdMenuCategory}
-                {irdMenuCategory && <DropDownIrdCategory className={styles.categoryDropdown} />}
-              </div>
-              <div>
-                {irdMenuCategorytime?.length > 0 && (
-                  <p className={styles.irdCatagoryTime}>
-                    {irdMenuCategorytime[0]?.open === ALL_DAY
-                      ? t(`${irdMenuCategorytime[0]?.open}`)
-                      : `${irdMenuCategorytime[0]?.open} - ${
-                          irdMenuCategorytime[0]?.close === '00:00'
-                            ? '24:00'
-                            : irdMenuCategorytime[0]?.close
+          {irdModule && irdMenu ? (
+            <div className={styles.irdMenu} onClick={() => setOpencategory(!openCategory)}>
+              <div className={styles.irdMenuTitle}>
+                {irdMenu}
+                {irdMenuTimings?.length > 0 && (
+                  <p className={styles.irdMenuTiming}>
+                    {irdMenuTimings[0]?.open === ALL_DAY
+                      ? t(`${irdMenuTimings[0]?.open}`)
+                      : `${irdMenuTimings[0]?.open} - ${
+                          irdMenuTimings[0]?.close === '00:00' ? '24:00' : irdMenuTimings[0]?.close
                         }`}
                   </p>
                 )}
               </div>
+              {irdMenu && <DropDownIrdCategory className={styles.categoryDropdown} />}
             </div>
           ) : (
             <RadissonLogo />
           )}
 
           {displaySearchButton && search && (
-            <div className={styles.closeButton1} onClick={onSearchBtnClick}>
-              <SearchIrd className={styles.closeIcon} />
-            </div>
+            <button className={styles.searchIconButton} onClick={onSearchBtnClick}>
+              <SearchIrd className={styles.searchIcon} />
+            </button>
           )}
-          {ordersData?.length > 0 && screenTitle === home && (
+          {ordersData?.length > 0 && screenTitle === HOME && (
             <div className={styles.myOrdersIconContainer}>
               <div className={styles.myOrdersIconWrapper} onClick={openOrdersDrawer}>
                 <MyOrders className={styles.myOrdersIcon} />
@@ -225,7 +221,7 @@ export const Header: React.FC<IHeaderProps> = ({
           </>
         )}
       </>
-      {screenTitle === Headers[0] && <p className={styles.screenTitle}>{t(`${screenTitle}`)}</p>}
+      {screenTitle === HEADERS[0] && <p className={styles.screenTitle}>{t(`${screenTitle}`)}</p>}
     </>
   );
 };

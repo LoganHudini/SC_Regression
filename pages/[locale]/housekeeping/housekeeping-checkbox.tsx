@@ -25,12 +25,11 @@ import { HousekeepingCheckboxItem } from 'components/pages/housekeeping-checkbox
 import { housekeepingCheckboxStorage } from 'storage/housekeeping-checkbox.storage';
 import { useTranslation } from 'react-i18next';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
-import { getHamburgerProps, IHamburgerProps } from 'utils/hamburger/getHamburgerProps';
 import { CUSTOM } from 'utils/constants';
 
 export { getStaticPaths };
 
-const HousekeepingCheckbox: React.FC<IHamburgerProps> = ({ hamburger, pages }) => {
+const HousekeepingCheckbox = () => {
   const { t } = useTranslation('housekeeping-checkbox');
 
   const navigate = useLocalizedRouter();
@@ -187,7 +186,7 @@ const HousekeepingCheckbox: React.FC<IHamburgerProps> = ({ hamburger, pages }) =
         <title>{t('Services')}</title>
       </Head>
       <Header displayBackButton screenTitle={t('Services') as string} />
-      <PageWrapper className={styles.pageWrapper} hamburger={hamburger} pages={pages}>
+      <PageWrapper className={styles.pageWrapper}>
         {housekeepingInfo?.currentItem?.name && (
           <h1 className={styles.housekeepingCheckboxTitle}>
             {housekeepingInfo?.currentItem?.name}
@@ -304,7 +303,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
         ['common', 'housekeeping-checkbox'],
         i18nConfig,
       )),
-      ...(await getHamburgerProps()),
     },
   };
 };

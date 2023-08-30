@@ -165,8 +165,6 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
               },
             });
           } catch (error) {
-            console.error('API call failed:', error);
-            console.log('err', data.formData.firstName);
             break;
           }
         }

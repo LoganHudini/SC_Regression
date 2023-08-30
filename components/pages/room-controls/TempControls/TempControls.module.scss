@@ -75,7 +75,7 @@
   }
 
   & > svg path {
-    fill: $textColorSecondary;
+    fill: var(--secondary-text-color);
   }
 }
 
@@ -203,6 +203,6 @@
   background: var(--secondary-text-color);
 
   & > svg path {
-    stroke: $textColorSecondary;
+    stroke: var(--secondary-text-color);
   }
 }

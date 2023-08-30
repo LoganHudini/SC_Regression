@@ -7,8 +7,8 @@ import urlSlug from 'url-slug';
 import { GET_HOTEL_PAGES, IGetHotelPagesResponse } from 'core/graphql/queries/GET_HOTEL_PAGES';
 
 export interface IHamburgerProps {
-  hamburger: IGetHamburgerMenuDetailsApiResponse['getUiBuilderHamburgerMenuDetails'];
-  pages: {
+  hamburger?: IGetHamburgerMenuDetailsApiResponse['getUiBuilderHamburgerMenuDetails'];
+  pages?: {
     path: string;
     id: string;
   }[];

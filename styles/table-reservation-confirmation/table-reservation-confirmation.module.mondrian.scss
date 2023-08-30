@@ -1,26 +1,26 @@
 .successText {
   font-size: $xlarge;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .dateText {
   font-size: $small;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .dateValue {
   font-size: $small;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .timeText {
   font-size: $small;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .timeValue {
   font-size: $small;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .backButtonWrapper {
@@ -29,6 +29,6 @@
 }
 
 .backButton {
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   font-size: $small;
 }

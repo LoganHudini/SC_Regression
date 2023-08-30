@@ -2,22 +2,22 @@
   width: 170px;
   p {
     font-size: $medium;
-    font-family: $fontRegular;
-    color: $fonttextColor;
+    font-family: var(--primary-font-regular);
+    color: var(--tertiary-text-color);
   }
 }
 
 .listComponentTitle {
-  font-family: $fontRegular;
-  color: $fonttextColor;
+  font-family: var(--primary-font-regular);
+  color: var(--tertiary-text-color);
 }
 
 .listComponentDataText {
   line-height: 1.5;
   text-align: left;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   font-size: $medium;
-  color: $fonttextColor;
+  color: var(--tertiary-text-color);
   white-space: pre-wrap;
 }
 
@@ -33,13 +33,13 @@
   align-items: center;
   justify-content: space-between;
   text-decoration: none;
-  color: $fonttextColor;
+  color: var(--tertiary-text-color);
   padding-right: 0px;
 
   span {
     margin-left: 10px;
     font-size: $medium;
-    color: $fonttextColor;
+    color: var(--tertiary-text-color);
     line-height: 1.25;
     text-align: start;
     width: fit-content;
@@ -109,7 +109,7 @@
 }
 
 .bookTableBtn {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   margin: 20px 0 0 0;
   height: 44px;
   line-height: 44px;

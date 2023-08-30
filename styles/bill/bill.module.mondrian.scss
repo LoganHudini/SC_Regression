@@ -23,7 +23,7 @@
 .button {
   width: 140px;
   height: 36px;
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   font-size: 12px;
 
   &:first-child {

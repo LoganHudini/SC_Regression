@@ -143,33 +143,9 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const locale = ctx?.params?.locale;
 
-  const { data } = await client.query<IGetHotelInfoApiResponse>({
-    query: GET_HOTEL_INFO,
-  });
-
-  const pageData = data.listUiBuilderPages.find((el) => {
-    const pageName = urlSlug(el.name);
-
-    return pageName === 'housekeeping';
-  }) as IHotelPage;
-
-  const updatedPageData: IParsedHotelPage = {
-    ...pageData,
-    uiConfiguration: JSON.parse(pageData?.uiConfiguration || '[]'),
-  };
-
-  const paths = data.listUiBuilderPages.map((el) => {
-    const pageName = urlSlug(el.name);
-
-    return { path: pageName, id: el.id };
-  });
-
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ['housekeeping', 'common'], i18nConfig)),
-      ...(await getHamburgerProps()),
-      pageData: updatedPageData,
-      paths,
     },
   };
 };

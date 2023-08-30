@@ -16,12 +16,12 @@
 }
 
 .listComponentTitle {
-  font-size: 24px;
+  font-size: $header;
   line-height: 1.25;
   margin-top: 15px;
   margin-bottom: 13px;
-  font-family: $fontRegular;
-  color: $fonttextColor;
+  font-family: var(--primary-font-regular);
+  color: var(--tertiary-text-color);
 }
 
 .restaurantRow {
@@ -37,8 +37,8 @@
     font-size: 1rem;
     line-height: 1.5;
     text-transform: capitalize;
-    color: $fonttextColor;
-    font-family: $fontRegular;
+    color: var(--tertiary-text-color);
+    font-family: var(--primary-font-regular);
   }
 }
 
@@ -60,9 +60,9 @@
     font-size: 1rem;
     line-height: 1.5;
     text-transform: capitalize;
-    color: $fonttextColor;
+    color: var(--tertiary-text-color);
     margin-top: 4px;
-    font-family: $fontRegular;
+    font-family: var(--primary-font-regular);
   }
 }
 
@@ -96,14 +96,14 @@
   text-align: center;
   color: var(--secpndary-text-color);
   font-size: $xsmall;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .listComponentDescription {
   cursor: pointer;
   font-size: $small;
-  font-family: $fontRegular;
-  color: $fonttextColor;
+  font-family: var(--primary-font-regular);
+  color: var(--tertiary-text-color);
   margin-bottom: 0.5rem;
   height: 70px;
   width: 100%;
@@ -121,7 +121,7 @@
   height: 35px;
   line-height: 35px;
   font-size: $xsmall;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   padding-top: 23px;
   color: var(--primary-theme-color);
   text-transform: uppercase;
@@ -134,7 +134,7 @@
   line-height: 35px;
   padding-top: 14px;
   text-align: center;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   font-size: $xsmall;
   white-space: nowrap;
   overflow: hidden;
@@ -146,7 +146,7 @@
 .listViewDetails {
   display: flex;
   font-size: $small;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   text-transform: uppercase;
   color: var(--primary-theme-color);
   cursor: pointer;

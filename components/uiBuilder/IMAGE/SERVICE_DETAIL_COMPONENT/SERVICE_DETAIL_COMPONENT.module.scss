@@ -14,7 +14,7 @@
   width: auto;
   min-width: 0;
   padding: 5px 20px;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-size: $small;
   color: var(--primary-text-color);
   border-color: var(--primary-text-color);
@@ -29,7 +29,7 @@
 .indicatorIcon {
   width: 6px;
   height: 6px;
-  background: $textColorSecondary;
+  background: var(--secondary-text-color);
 
   &:not(:last-child) {
     margin-right: 6px;

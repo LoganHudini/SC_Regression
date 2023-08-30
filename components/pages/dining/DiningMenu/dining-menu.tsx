@@ -1,7 +1,4 @@
-import { DiningMenuElement } from 'components/pages/dining-menu/DiningMenuElement/DiningMenuElement';
-import { GetStaticProps } from 'next';
-import i18nConfig from 'next-i18next.config';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { DiningMenuElement } from 'components/pages/dining/DiningMenuElement/DiningMenuElement';
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from '../../../../styles/dining-menu/dining-menu.module.scss';
@@ -12,9 +9,8 @@ import { diningInformationStorage } from 'storage/dining.storage';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
 import cx from 'classnames';
-import { DiningMenuElementSkeleton } from 'components/pages/dining-menu/DiningMenuElementSkeleton/DiningMenuElementSkeleton';
-import { DiningMenuFilterSkeleton } from 'components/pages/dining-menu/DiningMenuFilterSkeleton/DiningMenuFilterSkeleton';
-import { getHamburgerProps } from 'utils/hamburger/getHamburgerProps';
+import { DiningMenuElementSkeleton } from 'components/pages/dining/DiningMenuElementSkeleton/DiningMenuElementSkeleton';
+import { DiningMenuFilterSkeleton } from 'components/pages/dining/DiningMenuFilterSkeleton/DiningMenuFilterSkeleton';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import {
   diningMenuStorage,
@@ -22,13 +18,11 @@ import {
   IScrollPosition,
   scrollState,
 } from 'storage/dining-menu.storage';
-import { CURRENCY } from 'core/graphql/endpoints';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
 import SearchClose from '@icons/search_close.svg';
 import SearchText from '@icons/search_text_delete.svg';
-import { useRouter } from 'next/router';
-import { DiningOrders } from 'components/pages/dining-menu/DiningOrders/DiningOrders';
-import { DiningOrdersDrawer } from 'components/pages/dining-menu/DiningOrdersDrawer/DiningOrdersDrawer';
+import { DiningOrders } from 'components/pages/dining/DiningOrders/DiningOrders';
+import { DiningOrdersDrawer } from 'components/pages/dining/DiningOrdersDrawer/DiningOrdersDrawer';
 import { GET_ORDERS } from 'core/graphql/queries/GET_ORDERS_BY_ID';
 import { GET_F_AND_B_ORDER } from 'core/graphql/queries/GET_F_AND_B_ORDER';
 import {
@@ -37,9 +31,8 @@ import {
   irdActiveMenuList,
   setScrollPosition,
 } from 'utils/functions';
-import { DiningCategoryOptions } from 'components/pages/dining-menu/DiningCategoryOptions/DiningCategoryOptions';
+import { DiningCategoryOptions } from 'components/pages/dining/DiningCategoryOptions/DiningCategoryOptions';
 import produce from 'immer';
-import DiningDetailsDrawer from 'components/pages/dining-menu/DiningDetailsDrawer/DiningDetailsDrawer';
 
 export { getStaticPaths };
 interface DiningMenuProps {
@@ -55,7 +48,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   openCategory,
   menuAvailability,
 }) => {
-  const { t } = useTranslation(['dining']);
+  const { t } = useTranslation('dining');
   const navigate = useLocalizedRouter();
   const scrollRef = useRef<HTMLDivElement>(null);
   const stickyHeaderSearch: any = useRef();
@@ -72,11 +65,6 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     (typeof window !== 'undefined' &&
       localStorage.getItem('tableNumber') &&
       JSON.parse(localStorage.getItem('tableNumber') ?? '')) ??
-    '';
-  const reservationId =
-    (typeof window !== 'undefined' &&
-      localStorage.getItem('guestDetails') &&
-      JSON.parse(localStorage.getItem('guestDetails') ?? '')?.roomNumber) ??
     '';
   const [scroll, setScroll] = useState(false);
   const [scrollSearch, setScrollSearch] = useState(false);
@@ -99,7 +87,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   const { data: myOrders } = useQuery(GET_ORDERS, {
     context: { clientName: 'host_v3' },
     variables: {
-      bookingId: reservationId,
+      bookingId: '',
       lang: locale === 'en' ? '' : locale,
     },
     fetchPolicy: 'no-cache',
@@ -383,16 +371,16 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                 onChange={(e) => setSearchQuery(e.target.value)}
                 fullWidth
                 placeholder={`${t('Search for items')}`}
-                className={styles.searchPlaceholder}
                 sx={{
                   '& fieldset': {
                     borderRadius: '50px',
+                    border: '1px solid var(--primary-theme-color) !important',
                   },
                 }}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position='start'>
-                      {searchQuery != '' && (
+                      {searchQuery && (
                         <IconButton onClick={() => setSearchQuery('')}>
                           <SearchText />
                         </IconButton>
@@ -465,21 +453,15 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
 
       {diningData?.items?.length > 0 && totalAmount !== 0 && !search && (
         <div className={styles.totalWrapper}>
-          <div className={styles.totalButtonWrapper}>
-            <div className={styles.totalRow}>
+          {/* <div className={styles.totalRow}>
               <p className={styles.totalText}>{t('Total')}</p>
               <p className={styles.totalPrice}>
                 {CURRENCY} <span className={styles.currencyValue}>{totalAmount?.toFixed(2)}</span>
               </p>
-            </div>
-            <StyledButton
-              count={diningData.items.length}
-              onClick={confirmOrder}
-              className={styles.orderButton}
-            >
-              {t('cart')}
-            </StyledButton>
-          </div>
+            </div> */}
+          <StyledButton count={diningData.items.length} onClick={confirmOrder}>
+            {t('cart')}
+          </StyledButton>
         </div>
       )}
     </>

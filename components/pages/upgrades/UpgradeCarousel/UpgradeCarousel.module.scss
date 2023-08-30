@@ -6,7 +6,7 @@
 
 .nextIcon {
   & > path {
-    fill: $textColorSecondary;
+    fill: var(--secondary-text-color);
   }
   height: 35px;
   width: auto;
@@ -14,7 +14,7 @@
 
 .prevIcon {
   & > path {
-    fill: $textColorSecondary;
+    fill: var(--secondary-text-color);
   }
   height: 35px;
   width: auto;

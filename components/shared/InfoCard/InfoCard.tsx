@@ -43,7 +43,7 @@ export const InfoCard: React.FC<IInfoCardProps> = ({
                 )}
               </div>
               <div className={styles.homeCardInfo}>
-                <div className={styles.titeText}>{title}</div>
+                <div className={styles.titleText}>{title}</div>
 
                 {status ? (
                   <div className={styles.detailsText}>{details}</div>

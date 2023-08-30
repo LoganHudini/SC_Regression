@@ -1,11 +1,11 @@
 .imageTitle {
-  font-family: $fontHeading;
+  font-family: var(--primary-font-regular);
   display: flex;
   align-self: start;
 }
 
 .imageTitleSmall {
-  font-family: $fontHeading;
+  font-family: var(--primary-font-regular);
   display: flex;
   align-self: start;
 }
@@ -18,5 +18,5 @@
 .ctaButton {
   padding: 0px;
   display: flex;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }

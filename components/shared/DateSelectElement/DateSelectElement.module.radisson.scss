@@ -1,6 +1,6 @@
 .wrapper {
   font-size: $xsmall;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   flex: 1 0 154px;
   border-radius: 6px;
   // display:none;

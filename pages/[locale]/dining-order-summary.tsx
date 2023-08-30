@@ -14,47 +14,39 @@ import { client } from 'core/graphql/client';
 import { ApolloError, useReactiveVar } from '@apollo/client';
 import { IDiningMenuStorageData, diningMenuStorage } from 'storage/dining-menu.storage';
 import { availablePaths } from 'utils/availablePaths';
-import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
+import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { processError } from 'utils/processError';
-import { IHamburgerProps, getHamburgerProps } from 'utils/hamburger/getHamburgerProps';
 import produce from 'immer';
 import dayjs from 'dayjs';
 import { CURRENCY } from 'core/graphql/endpoints';
-import { DiningCustomisationDrawer } from 'components/pages/dining-menu/DiningCustomisationDrawer/DiningCustomisationDrawer';
-import { TimeSelect } from 'components/shared/TimeSelectModal/TimeSelectModal';
+import { DiningCustomisationDrawer } from 'components/pages/dining/DiningCustomisationDrawer/DiningCustomisationDrawer';
 import { DINING, PAYMENT } from 'utils/constants';
 import { InputAdornment, TextField } from '@mui/material';
 import Cookinginstructions from '@icons/cooking_instructions.svg';
-import { CheckinDetails } from 'components/shared/CheckinDetailsDrawer/CheckinDetailsDrawer';
 import { IRD_ORDER } from 'core/graphql/queries/IRD_ORDER';
-import { ThankYouDrawer } from 'components/pages/ThankYouDrawer/ThankYouDrawer';
-import { CREATE_FANDB_ORDER } from 'core/graphql/queries/CREATE_FOOD_AND_BEVERAGES_ORDER';
-import { FandBDetailsDrawer } from 'components/pages/FandBDetailsDrawer/FandBDetailsDrawer';
-import { DiningMenuElementUpsell } from 'components/pages/dining-menu/DiningMenuElementUpsell/DiningMenuElementUpsell';
-import { addToCartEvent, fAndBOrderEvent, irdOrderEvent } from 'utils/gtag';
-import { FandBOrders, setScrollPosition } from 'utils/functions';
+import { Notification } from 'components/shared/Notification/Notification';
+import { addToCartEvent, irdOrderEvent } from 'utils/gtag';
+import { setScrollPosition } from 'utils/functions';
 import { diningInformationStorage } from 'storage/dining.storage';
+import DiningDetailsDrawer from 'components/pages/dining/DiningDetailsDrawer/DiningDetailsDrawer';
+import { WithScrollbar } from 'components/shared/WithScrollbar/WithScrollbar';
+import { DiningMenuElement } from 'components/pages/dining/DiningMenuElement/DiningMenuElement';
+import { toggleNotification } from 'storage/home.storage';
+import { ThankYouDrawer } from 'components/shared/ThankYouDrawer/ThankYouDrawer';
 
 export { getStaticPaths };
 
-const DiningOrderSummary: React.FC<IHamburgerProps> = ({ hamburger, pages }) => {
+const DiningOrderSummary = () => {
   const { t } = useTranslation(['dining-order-summary', 'common']);
   const navigate = useLocalizedRouter();
-  const locale = useLocale();
+  const renderedItemIds: any = [];
   const [customisationDrawer, setCustomisationDrawer] = useState(false);
   const [specialRequests, setSpecialRequests] = useState('');
   const [loading, setLoading] = useState(false);
-  const [selectedTime, setSelectedTime] = useState('00:00');
-  const [timeSelectOpened, setTimeSelectOpened] = useState(false);
-  const [confirmOpened, setConfirmOpened] = useState(false);
   const [paymentType, setpaymentType] = useState<any>(PAYMENT[0]?.name);
   const [thankYouDrawer, setthankYouDrawer] = useState(false);
-  const [restDrawer, setrestDrawer] = useState(false);
   const [guestNumber, setguestNumber] = useState(1);
   const [totalAmount, setTotalAmount] = useState(0);
-  const [buttonTitle, setbuttonTitle] = useState('');
-  const [thankYouDrawerConfirm, setthankYouDrawerConfirm] = useState(false);
-  const existingOrders = FandBOrders();
 
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
 
@@ -65,14 +57,6 @@ const DiningOrderSummary: React.FC<IHamburgerProps> = ({ hamburger, pages }) => 
       JSON.parse(localStorage.getItem('restaurantId') ?? '')) ??
     '';
 
-  const toggleConfirmDrawerOpened = useCallback(() => {
-    setConfirmOpened((oldState) => !oldState);
-  }, [confirmOpened]);
-
-  const restDrawerOpened = useCallback(() => {
-    setrestDrawer((oldState) => !oldState);
-  }, [restDrawer]);
-
   useEffect(() => {
     const totalAmount = diningData?.items?.reduce((allTotal, item) => {
       const addonsTotal = item?.addons?.reduce((acc, addon) => {
@@ -82,10 +66,6 @@ const DiningOrderSummary: React.FC<IHamburgerProps> = ({ hamburger, pages }) => 
     }, 0);
     setTotalAmount(totalAmount);
   }, [diningData?.items]);
-
-  const toggleTimeSelectOpened = useCallback(() => {
-    setTimeSelectOpened((oldState) => !oldState);
-  }, []);
 
   useEffect(() => {
     if (items?.length === 0 && !thankYouDrawer) {
@@ -151,87 +131,8 @@ const DiningOrderSummary: React.FC<IHamburgerProps> = ({ hamburger, pages }) => 
     setCustomisationDrawer((state) => !state);
   }, []);
 
-  const restOrder = useCallback(async () => {
-    localStorage.setItem('NoOfGuest', JSON.stringify(guestNumber) ?? '');
-    const roomNumber =
-      (typeof window !== 'undefined' &&
-        localStorage.getItem('FandB_guestDetails') &&
-        JSON.parse(localStorage.getItem('FandB_guestDetails') ?? '')?.roomNumber) ??
-      '';
-    const restOrderPayload = {
-      additionalNote: specialRequests,
-      guestName:
-        (typeof window !== 'undefined' &&
-          localStorage.getItem('FandB_guestDetails') &&
-          JSON.parse(localStorage.getItem('FandB_guestDetails') ?? '')?.name) ??
-        '',
-      guestType: roomNumber ? 'Resident' : 'Non-Resident',
-      items: diningData?.items?.map((el) => ({
-        name: el?.title,
-        code: el?.code,
-        count: el?.quantity,
-        amount: el?.price,
-        addons: el?.addons?.map((item) => ({
-          code: item?.code,
-          name: item?.name,
-          price: item?.price,
-        })),
-        customisations: el?.customisation?.ingredient
-          ? [{ name: el?.customisation?.name, code: el?.customisation?.code }]
-          : [],
-        cookingInstructions: el?.cookingInstruction,
-      })),
-      noOfGuests: guestNumber,
-      noOfItems: diningData?.items?.length,
-      phoneNumber:
-        (typeof window !== 'undefined' &&
-          localStorage.getItem('FandB_guestDetails') &&
-          JSON.parse(localStorage.getItem('FandB_guestDetails') ?? '').phoneNumber) ??
-        '',
-      restaurantId:
-        (typeof window !== 'undefined' &&
-          localStorage.getItem('restaurantId') &&
-          JSON.parse(localStorage.getItem('restaurantId') ?? '')) ??
-        '',
-      roomNo: roomNumber,
-      startTime: dayjs().format('YYYY-MM-DD HH:mm'),
-      tableNumber:
-        (typeof window !== 'undefined' &&
-          localStorage.getItem('tableNumber') &&
-          JSON.parse(localStorage.getItem('tableNumber') ?? '')) ??
-        '',
-      totalAmount,
-      paymentMethod: paymentType?.name ?? '',
-      lang: locale === 'en' ? '' : locale,
-    };
-    try {
-      const response = await client.mutate({
-        mutation: CREATE_FANDB_ORDER,
-        context: { clientName: 'host_v5' },
-        fetchPolicy: 'network-only',
-        variables: restOrderPayload,
-      });
-      localStorage.setItem(
-        'FandBOrders',
-        JSON.stringify([...existingOrders, response?.data?.createFAndBOrder?.id]) ?? '',
-      );
-      setthankYouDrawer(true);
-      fAndBOrderEvent(response?.data?.createFAndBOrder);
-    } catch (getUpdatedReservationError) {
-      processError(t, getUpdatedReservationError as ApolloError);
-    }
-  }, [
-    guestNumber,
-    specialRequests,
-    diningData?.items,
-    totalAmount,
-    paymentType?.name,
-    locale,
-    existingOrders,
-    t,
-  ]);
-
   const handleOrder = useCallback(async () => {
+    setLoading(true);
     setScrollPosition(0, 0);
     diningInformationStorage(
       produce(diningInformationStorage(), (draft) => {
@@ -241,105 +142,57 @@ const DiningOrderSummary: React.FC<IHamburgerProps> = ({ hamburger, pages }) => 
         }
       }),
     );
-    const roomNumber =
-      (typeof window !== 'undefined' &&
-        localStorage.getItem('guestDetails') &&
-        JSON.parse(localStorage.getItem('guestDetails') ?? '').roomNumber) ??
-      '';
 
-    if (
-      (typeof window !== 'undefined' &&
-        localStorage.getItem('tableNumber') &&
-        JSON.parse(localStorage.getItem('tableNumber') ?? '')) ??
-      ''
-    ) {
-      restDrawerOpened();
-    }
-
-    if (
-      ((typeof window !== 'undefined' &&
-        localStorage.getItem('restaurantId') &&
-        JSON.parse(localStorage.getItem('restaurantId') ?? '')) ??
-        '') == '' &&
-      !thankYouDrawerConfirm
-    ) {
-      toggleConfirmDrawerOpened();
-    } else if (roomNumber != '' && thankYouDrawerConfirm) {
-      setLoading(true);
-      const irdOrderPayload = {
-        additionalNote: specialRequests,
-        bookingId:
-          (typeof window !== 'undefined' &&
-            localStorage.getItem('guestDetails') &&
-            JSON.parse(localStorage.getItem('guestDetails') ?? '').roomNumber) ??
-          '',
-        deliveryLocation: '',
-        guestEmail: '',
-        guestName:
-          (typeof window !== 'undefined' &&
-            localStorage.getItem('guestDetails') &&
-            JSON.parse(localStorage.getItem('guestDetails') ?? '').name) ??
-          '',
-        noOfItems: diningData.items.length,
-        totalAmount,
-        paymentMethod: paymentType?.name ?? '',
-        roomNo:
-          (typeof window !== 'undefined' &&
-            localStorage.getItem('guestDetails') &&
-            JSON.parse(localStorage.getItem('guestDetails') ?? '').roomNumber) ??
-          '',
-        startTime: dayjs().format('YYYY-MM-DD HH:mm'),
-        noOfGuests: guestNumber,
-        items: diningData?.items?.map((el) => ({
-          name: el?.title,
-          code: el?.code,
-          count: el?.quantity,
-          amount: el?.price,
-          addOns: el?.addons?.map((item) => ({
-            code: item?.code,
-            name: item?.name,
-            price: item?.price,
-          })),
-          customisations: el?.customisation?.ingredient
-            ? [{ name: el?.customisation?.name, code: el?.customisation?.code }]
-            : [],
-          cookingInstructions: el?.cookingInstruction,
+    const irdOrderPayload = {
+      additionalNote: specialRequests,
+      bookingId: '123',
+      deliveryLocation: '',
+      guestEmail: '',
+      guestName: 'Xz',
+      noOfItems: diningData.items.length,
+      totalAmount,
+      paymentMethod: paymentType?.name ?? '',
+      roomNo: '123',
+      startTime: dayjs().format('YYYY-MM-DD HH:mm'),
+      noOfGuests: guestNumber,
+      items: diningData?.items?.map((el) => ({
+        name: el?.title,
+        code: el?.code,
+        count: el?.quantity,
+        amount: el?.price,
+        addOns: el?.addons?.map((item) => ({
+          code: item?.code,
+          name: item?.name,
+          price: item?.price,
         })),
-      };
-      try {
-        const response = await client.mutate({
-          mutation: IRD_ORDER,
-          context: { clientName: 'host_v3' },
-          fetchPolicy: 'network-only',
-          variables: irdOrderPayload,
-        });
-        irdOrderEvent(response?.data?.createOrder);
-        setthankYouDrawerConfirm(false);
-        setthankYouDrawer(true);
-        diningMenuStorage({ items: [] });
-      } catch (getUpdatedReservationError) {
-        processError(t, getUpdatedReservationError as ApolloError);
-      }
-      setLoading(false);
+        customisations: el?.customisation?.ingredient
+          ? [{ name: el?.customisation?.name, code: el?.customisation?.code }]
+          : [],
+        cookingInstructions: el?.cookingInstruction,
+      })),
+    };
+    try {
+      // const response = await client.mutate({
+      //   mutation: IRD_ORDER,
+      //   context: { clientName: 'host_v3' },
+      //   fetchPolicy: 'network-only',
+      //   variables: irdOrderPayload,
+      // });
+      // irdOrderEvent(response?.data?.createOrder);
+      // setthankYouDrawer(true);
+      toggleNotification(true);
+    } catch (getUpdatedReservationError) {
+      processError(t, getUpdatedReservationError as ApolloError);
     }
-  }, [
-    diningData?.items,
-    guestNumber,
-    paymentType?.name,
-    restDrawerOpened,
-    specialRequests,
-    t,
-    thankYouDrawerConfirm,
-    toggleConfirmDrawerOpened,
-    totalAmount,
-  ]);
+    setLoading(false);
+  }, [diningData.items, guestNumber, paymentType?.name, specialRequests, t, totalAmount]);
 
   const renderMenuElements = (items: any[]) => {
     return items
       ?.filter((item) => item?.price >= 0)
       ?.map((el, index) => (
         <React.Fragment key={el?.id}>
-          <DiningMenuElementUpsell
+          <DiningMenuElement
             key={el?.id}
             id={el?.id}
             title={el?.name}
@@ -355,36 +208,15 @@ const DiningOrderSummary: React.FC<IHamburgerProps> = ({ hamburger, pages }) => 
       ));
   };
 
-  const renderedItemIds: any = [];
-
-  const isWindowDefined = typeof window !== 'undefined';
-  const guestDetails =
-    (isWindowDefined &&
-      localStorage.getItem('guestDetails') &&
-      JSON.parse(localStorage.getItem('guestDetails') ?? '')) ??
-    '';
-  const tableNumber =
-    (isWindowDefined &&
-      localStorage.getItem('tableNumber') &&
-      JSON.parse(localStorage.getItem('tableNumber') ?? '')) ??
-    '';
-  useEffect(() => {
-    if (guestDetails.roomNumber) {
-      setbuttonTitle(t('ROOM NO - ') + guestDetails.roomNumber);
-    } else if (tableNumber) {
-      setbuttonTitle(t('TABLE NO - ') + tableNumber);
-    }
-  }, [tableNumber, guestDetails, t]);
-
   return (
     <>
       <Head>
         <title>{t('Order Details')}</title>
       </Head>
       <Header displayBackButton screenTitle={t('Order Details') as string} />
-      <PageWrapper hamburger={hamburger} pages={pages} className={styles.pageWrapper}>
-        <p className={styles.itemsTitle}>{t('Item(s) Added')}</p>
-        <div className={styles.itemsWrapper}>
+      <PageWrapper className={styles.pageWrapper}>
+        <p className={styles.itemsAddedText}>{t('Item(s) Added')}</p>
+        <div className={styles.cartWrapper}>
           {items?.map((item, index) => {
             const totalAddonPrice: any = item?.addons?.reduce(
               (acc, addon) => acc + addon?.price,
@@ -393,9 +225,19 @@ const DiningOrderSummary: React.FC<IHamburgerProps> = ({ hamburger, pages }) => 
             const totalPrice = item?.price + totalAddonPrice ?? 0;
             return (
               item?.quantity > 0 && (
-                <div key={index} className={styles.itemRow}>
-                  <div className={styles.itemDesc}>
+                <div key={index} className={styles.cartItemWrapper}>
+                  <div className={styles.itemTitleWrapper}>
                     <p className={styles.itemTitle}>{item.title}</p>
+                    <PlusMinusInput
+                      value={item.quantity as number}
+                      onClickMinus={() => decrement(item?.itemId ?? '', index)}
+                      onClickPlus={() => increment(item?.itemId ?? '', index)}
+                      minQuantity={0}
+                      className={styles.plusMinus}
+                      irdSummary
+                    />
+                  </div>
+                  <div>
                     {item?.customisation?.name && (
                       <p className={styles.itemDescription}>
                         {' '}
@@ -418,54 +260,44 @@ const DiningOrderSummary: React.FC<IHamburgerProps> = ({ hamburger, pages }) => 
                         {t('Instructions')} : {item?.cookingInstruction}
                       </p>
                     )}
+                  </div>
 
-                    <p className={styles.itemTitle}>
-                      {CURRENCY}{' '}
+                  <div className={styles.priceEditWrapper}>
+                    <p className={styles.itemPrice}>
+                      <span className={styles.itemCurrency}>{CURRENCY} </span>
                       {(isNaN(totalPrice)
                         ? item.quantity * item.price
                         : item.quantity * totalPrice
                       )?.toFixed(2)}
                     </p>
-                  </div>
-                  <div className={styles.plusMinusInputWrapper}>
-                    <PlusMinusInput
-                      value={item.quantity as number}
-                      onClickMinus={() => decrement(item?.itemId ?? '', index)}
-                      onClickPlus={() => increment(item?.itemId ?? '', index)}
-                      minQuantity={0}
-                      className={styles.plusMinus}
-                      irdSummary
-                    />
-                    {/* <p onClick={editHandler} className={styles.edit}>{`${t('edit')}`}</p> */}
+                    <p className={styles.edit}>{`${t('edit')}`}</p>
                   </div>
                 </div>
               )
             );
           })}
         </div>
+
         {items?.some((item: any) => item?.upsell?.length > 0) && (
           <>
-            <div className={styles.divider}></div>
-            <div className={styles.upsell}>
-              <h2 className={styles.youMayAlsoLikeText}>{t('You May Also Like')}</h2>
-              <div className={styles.upsellWrapper}>
-                {items.map((item) => {
+            <div className={styles.upsellWrapper}>
+              <p className={styles.youMayAlsoLikeText}>{t('You May Also Like')}</p>
+              <div className={styles.upsell}>
+                {items?.map((item) => {
                   if (!renderedItemIds.includes(item.itemId)) {
                     renderedItemIds.push(item.itemId);
-
                     return (
-                      <React.Fragment key={item.itemId}>
+                      <WithScrollbar key={item.itemId} itemClass={styles.carouselItemWidth}>
                         {renderMenuElements(item?.upsell ?? [])}
-                      </React.Fragment>
+                      </WithScrollbar>
                     );
                   }
-                  return null;
                 })}
               </div>
             </div>
           </>
         )}
-        <div className={styles.divider}></div>
+
         <TextField
           autoComplete='off'
           onChange={handleSpecialRequestsChange}
@@ -476,7 +308,7 @@ const DiningOrderSummary: React.FC<IHamburgerProps> = ({ hamburger, pages }) => 
           placeholder={`${t('Special Requests')}`}
           InputProps={{
             startAdornment: (
-              <InputAdornment position='start'>
+              <InputAdornment position='end'>
                 <Cookinginstructions />
               </InputAdornment>
             ),
@@ -486,17 +318,19 @@ const DiningOrderSummary: React.FC<IHamburgerProps> = ({ hamburger, pages }) => 
             inputProps: {
               maxLength: 30,
               style: {
-                fontFamily: styles.placeHolderInstruction,
+                font: '14px var(--primary-font-news)',
+                color: 'var(--tertiary-text-color)',
+                marginInlineStart: '0.5rem',
               },
             },
           }}
           variant='standard'
-          style={{ borderBottomColor: 'red' }}
         />
-        <div className={styles.guestCount}>
+
+        <div className={styles.noOfGuests}>
           <div className={styles.guestTititle}>
-            <p className={styles.totalCostTitle}>{t('No of Guests')}</p>
-            <p className={styles.totalCostTitleCutlury}>
+            <p className={styles.noOfGuestsTitle}>{t('No of Guests')}</p>
+            <p className={styles.noOfGuestsDesc}>
               {t('Cutlery will be sent based on the number of guests')}
             </p>
           </div>
@@ -526,69 +360,46 @@ const DiningOrderSummary: React.FC<IHamburgerProps> = ({ hamburger, pages }) => 
           </div>
         </div>
 
-        <div className={styles.taxWrapper}>
-          <p className={styles.taxText}> {t('* All prices include 10% VAT')}</p>
-        </div>
-        <TimeSelect
-          opened={timeSelectOpened}
-          toggleOpened={toggleTimeSelectOpened}
-          setSelectedTime={setSelectedTime}
-          selectedTime={selectedTime}
-        />
+        <p className={styles.taxText}> {t('* All prices include 10% VAT')}</p>
+
         {items?.length > 0 && (
-          <div className={styles.confirmOrderButton}>
-            <div className={styles.confirmationWrapperBotton}>
-              <div className={styles.totalCostRow}>
-                <p className={styles.totalCostTitleButton}>
-                  {buttonTitle ?? ''}
-                  {/* {router.query['restId'] ? ` Table - Number ${router.query['restId']}` : ''} */}
-                </p>
-                <p className={styles.totalCostValue}>
-                  {t('TOTAL')}
-                  {'  '}
-                  {CURRENCY} <span className={styles.currencyValue}>{totalAmount?.toFixed(2)}</span>
-                </p>
-              </div>
-              <StyledButton
-                disabled={items?.length === 0 || (restaurantId == '' && paymentType.length === 0)}
-                loading={loading}
-                className={styles.button}
-                onClick={handleOrder}
-                variant='contained'
-                count={items?.length}
-              >
-                {t('Confirm Order')}
-              </StyledButton>
+          <div className={styles.confirmOrderButtonWrapper}>
+            <div className={styles.totalCostRow}>
+              <p className={styles.roomNumber}>{t('ROOM NO - ')}123</p>
+              <p className={styles.totalCost}>
+                {t('TOTAL')} -{'  '}
+                <span className={styles.currency}>{CURRENCY} </span> {totalAmount?.toFixed(2)}
+              </p>
             </div>
+            <StyledButton
+              disabled={items?.length === 0 || (restaurantId == '' && paymentType.length === 0)}
+              loading={loading}
+              className={styles.confirmButton}
+              onClick={handleOrder}
+              variant='contained'
+              count={items?.length}
+            >
+              {t('Confirm Order')}
+            </StyledButton>
           </div>
         )}
         <DiningCustomisationDrawer
           customisationDrawer={customisationDrawer}
           closeCustomisationDrawer={closeCustomisationDrawer}
         />
-        <CheckinDetails
-          setthankYouDrawerConfirm={setthankYouDrawerConfirm}
-          opened={confirmOpened}
-          toggleOpened={toggleConfirmDrawerOpened}
-        />
-        <FandBDetailsDrawer
-          restOrder={restOrder}
-          opened={restDrawer}
-          toggleOpened={restDrawerOpened}
-          paymentSelected={paymentType?.name}
-        />
-        {/* <PaymentDrawer
-          setpaymentType={setpaymentType}
-          opened={paymentDrawer}
-          toggleOpened={paymentdrawerOpen}
-        /> */}
         <ThankYouDrawer
           opened={thankYouDrawer}
           title={t('Your order has been confirmed.') as string}
           redirect={DINING}
           close={setthankYouDrawer}
         />
-        {/* <DiningConfirmationDrawer opened={opened} toggleOpened={toggleOpened} /> */}
+        <Notification
+          title={t('Thank You!') as string}
+          description={t('Your order has been confirmed.') as string}
+          redirect={DINING}
+          type='success'
+        />
+        <DiningDetailsDrawer />
       </PageWrapper>
     </>
   );
@@ -604,7 +415,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
         ['dining-order-summary', 'common'],
         i18nConfig,
       )),
-      ...(await getHamburgerProps()),
     },
   };
 };

@@ -30,7 +30,7 @@
   background: var(--secondary-text-color);
 
   svg > path {
-    fill: $textColorSecondary;
+    fill: var(--secondary-text-color);
   }
 
   p {

@@ -1,4 +1,4 @@
-import { WhiteStyledCheckbox } from 'components/shared/WhiteStyledCheckbix/WhiteStyledCheckbox';
+import { WhiteStyledCheckbox } from 'components/shared/WhiteStyledCheckbox/WhiteStyledCheckbox';
 import React, { useCallback } from 'react';
 import styles from './HousekeepingCheckboxItem.module.scss';
 import { IHousekeepingCheckboxItemProps } from './HousekeepingCheckboxItem.types';

@@ -35,7 +35,7 @@ import {
 } from 'core/graphql/queries/UPDATE_GUEST_DETAILS';
 import { processError } from 'utils/processError';
 import { CURRENCY } from 'core/graphql/endpoints';
-import { driversLicence, passport } from 'utils/constants';
+import { DRIVERS_LICENCE, PASSPORT } from 'utils/constants';
 
 export { getStaticPaths };
 
@@ -124,7 +124,7 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
     try {
       setLoading(true);
       const updateGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
-        docType: guestReservationInfo.docType == 'Passport' ? passport : driversLicence,
+        docType: guestReservationInfo.docType == 'Passport' ? PASSPORT : DRIVERS_LICENCE,
         docNumber: guestReservationInfo?.docNo,
         reservationId: reservationInfo?.confirmationId as string,
         firstName: guestReservationInfo?.firstName,

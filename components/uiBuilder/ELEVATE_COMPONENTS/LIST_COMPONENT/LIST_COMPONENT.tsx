@@ -1,5 +1,5 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import { ASSETS_URL, HOTEL_CODE } from '../../../../core/graphql/endpoints';
+import React, { useCallback, useState } from 'react';
+import { ASSETS_URL } from '../../../../core/graphql/endpoints';
 import { IConfig, IQueryResultEntity } from '../../../../types/UIConfiguration.types';
 import styles from './LIST_COMPONENT.module.scss';
 import { StyledButton } from '../../../shared/StyledButton/StyledButton';
@@ -15,10 +15,10 @@ import { useCheckedIn } from 'storage/check-in.storage';
 import { availablePaths } from 'utils/availablePaths';
 import { restaurantListStorage, tableReservationStorage } from 'storage/table-reservation.storage';
 import { flowPathMap } from 'utils/flowPathMap';
-import { DUBAI_WATERFRONT, offers, reservationFlow } from 'utils/constants';
+import { OFFERS, RESTAURANT_BOOKIN_FLOW } from 'utils/constants';
 import dayjs from 'dayjs';
 import { diningInformationStorage } from 'storage/dining.storage';
-import { TableNumberDrawer } from 'components/shared/TableNumberDrawer/TableNumberDrawer';
+import { TableNumberDrawer } from 'components/pages/dining/TableNumberDrawer/TableNumberDrawer';
 
 interface IListComponentProps {
   config: Partial<IConfig>;
@@ -248,7 +248,7 @@ export const LIST_COMPONENT: React.FC<IListComponentProps> = ({ config, paths })
   let queryResults: IQueryResultEntity[] = [];
   let data = {};
 
-  if (config?.hotelModule?.toLowerCase() === offers) {
+  if (config?.hotelModule?.toLowerCase() === OFFERS) {
     data = config?.moduleQueryResult ? { 0: config?.moduleQueryResult } : {};
     queryResults = data[0 as keyof typeof data];
   } else {
@@ -260,7 +260,7 @@ export const LIST_COMPONENT: React.FC<IListComponentProps> = ({ config, paths })
   const queryResultsData = queryResults?.filter(
     (item) =>
       item?.cta?.status === 'Active' &&
-      item?.cta?.redirectOption === reservationFlow &&
+      item?.cta?.redirectOption === RESTAURANT_BOOKIN_FLOW &&
       item?.isActive,
   );
   restaurantListStorage(queryResultsData?.map((item) => ({ id: item?.id, name: item?.name })));
