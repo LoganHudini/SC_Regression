@@ -24,13 +24,12 @@ import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
 import { useTranslation } from 'react-i18next';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
-import { getHamburgerProps, IHamburgerProps } from 'utils/hamburger/getHamburgerProps';
 
 export { getStaticPaths };
 
 const availableSchedules = ['TODAY', 'TOMORROW', 'IMMEDIATE'];
 
-const HousekeepingQuantity: React.FC<IHamburgerProps> = ({ hamburger, pages }) => {
+const HousekeepingQuantity = () => {
   const { t } = useTranslation('housekeeping-quantity');
 
   const navigate = useLocalizedRouter();
@@ -188,7 +187,7 @@ const HousekeepingQuantity: React.FC<IHamburgerProps> = ({ hamburger, pages }) =
         <title>{t('Services')}</title>
       </Head>
       <Header displayBackButton screenTitle={t('Services') as string} />
-      <PageWrapper className={styles.pageWrapper} hamburger={hamburger} pages={pages}>
+      <PageWrapper className={styles.pageWrapper}>
         <h1 className={styles.housekeepingQuantityTitle}>{housekeepingInfo.currentItem?.name}</h1>
         <p className={styles.housekeepingQuantityText}>
           {housekeepingInfo.currentItem?.description}
@@ -304,7 +303,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
         ['common', 'housekeeping-quantity'],
         i18nConfig,
       )),
-      ...(await getHamburgerProps()),
     },
   };
 };

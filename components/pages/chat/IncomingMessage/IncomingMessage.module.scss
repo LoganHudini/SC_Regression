@@ -14,11 +14,11 @@
   margin-right: 90px;
   font-size: 0.9375rem;
   line-height: 1.46;
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
 }
 
 .messageTime {
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
   font-size: 0.75rem;
   text-transform: uppercase;
   line-height: 1.46;

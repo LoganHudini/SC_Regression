@@ -8,7 +8,7 @@
 
   h1 {
     text-align: start !important;
-    font-family: $fontSemibold;
+    font-family: var(--primary-font-medium);
     font-weight: 600;
     color: #ffffff;
     font-size: 30px;
@@ -18,7 +18,7 @@
   }
 
   h3 {
-    font-family: $fontRegular;
+    font-family: var(--primary-font-regular);
     font-weight: normal;
     font-size: 25px;
     color: #ffffff;

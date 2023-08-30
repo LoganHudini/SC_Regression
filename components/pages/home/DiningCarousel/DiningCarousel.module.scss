@@ -4,6 +4,7 @@
 
 .diningCarouselTitle {
   font: 30px var(--secondary-font-regular);
+  text-align: center;
 }
 
 .diningOptions {
@@ -75,10 +76,11 @@
   margin: -3rem auto 0;
   background: var(--primary-background-color);
   box-shadow: 0px 3px 6px var(--primary-box-shadow-color);
+  text-align: center;
 }
 
 .carouselSlideTitle {
-  font: 24px var(--secondary-font-regular);
+  font: $header var(--secondary-font-regular);
   padding: 29px 1rem 19px;
   height: 22px;
   text-overflow: ellipsis;
@@ -88,7 +90,7 @@
 
 .carouselSlideTimings {
   height: 15px;
-  font-size: $xsmall var(--primary-font-book);
+  font-size: $xsmall var(--primary-font-regular);
   color: var(--tertiary-text-color);
   padding-bottom: 30px;
 }

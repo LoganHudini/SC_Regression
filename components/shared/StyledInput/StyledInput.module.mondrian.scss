@@ -1,6 +1,6 @@
 .styledInput {
   :global(.MuiInputBase-input) {
-    font-family: $fontRegular;
+    font-family: var(--primary-font-regular);
     font-size: $medium;
   }
 }

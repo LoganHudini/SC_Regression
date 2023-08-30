@@ -50,17 +50,6 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide }) => {
   return (
     <div className={styles.carouselSlideWrapper}>
       <StableImage className={styles.carouselSlideImage} src={`${ASSETS_URL}/${slide.images[0]}`} />
-
-      {/* {config.cta?.isActive && (
-          <StyledButton
-            className={styles.ctaButton}
-            onClick={onCtaClick}
-            disableRipple
-            variant='text'
-          >
-            {config.cta.title}
-          </StyledButton>
-        )} */}
       <div className={styles.carouselSlideDetailsWrapper}>
         <h3 className={styles.carouselSlideTitle}>{slide.name}</h3>
         <p className={styles.carouselSlideTimings}>{slide.hours[0]?.day}</p>

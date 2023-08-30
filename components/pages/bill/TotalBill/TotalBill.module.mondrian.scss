@@ -9,18 +9,18 @@
 .billAmountTitle {
   font-size: 16px;
   font-weight: 600;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .billAmountValue {
   font-size: $medium;
   font-weight: 600;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .billAmountCurrency {
   font-size: 0.813rem;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .totalAmountDueWrapper {

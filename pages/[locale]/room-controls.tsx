@@ -3,7 +3,6 @@ import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import dynamic from 'next/dynamic';
 import { getStaticPaths } from 'utils/getStatic';
-import { IHamburgerProps, getHamburgerProps } from 'utils/hamburger/getHamburgerProps';
 import { RotatingLines } from 'react-loader-spinner';
 
 export { getStaticPaths };
@@ -16,7 +15,7 @@ const DynamicRoomControls = dynamic(() => import('./room-controls'), {
   ),
 });
 
-const RoomControls: NextPage<IHamburgerProps> = (props: any) => {
+const RoomControls: NextPage = (props) => {
   return <DynamicRoomControls {...props} />;
 };
 
@@ -26,7 +25,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ['room-controls', 'common'], i18nConfig)),
-      ...(await getHamburgerProps()),
     },
   };
 };

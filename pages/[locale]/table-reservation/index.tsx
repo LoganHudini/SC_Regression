@@ -3,7 +3,7 @@ import styles from '../../../components/pages/table-reservations/CustomDrawer/Cu
 import dayjs from 'dayjs';
 import { TextField } from '@mui/material';
 import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
-import { restaurantsBars } from 'utils/constants';
+import { RESTAURANTS_BARS } from 'utils/constants';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { ApolloError } from '@apollo/client';
 import { client } from 'core/graphql/client';
@@ -25,17 +25,17 @@ import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
 import { processError } from 'utils/processError';
 import { toast } from 'react-toastify';
-import { GetStaticProps, NextPage } from 'next';
-import { IHamburgerProps, getHamburgerProps } from 'utils/hamburger/getHamburgerProps';
+import { GetStaticProps } from 'next';
 import { getStaticPaths } from 'utils/getStatic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import i18nConfig from 'next-i18next.config';
 import Head from 'next/head';
 import { Header } from 'components/shared/Header/Header';
-import { ThankYouDrawer } from 'components/pages/ThankYouDrawer/ThankYouDrawer';
+import { ThankYouDrawer } from 'components/shared/ThankYouDrawer/ThankYouDrawer';
+
 export { getStaticPaths };
 
-const TableReservation: NextPage<IHamburgerProps> = () => {
+const TableReservation = () => {
   const navigate = useLocalizedRouter();
   const { t } = useTranslation(['housekeeping', 'common', 'check-in']);
   const [loading, setLoading] = useState(false);
@@ -319,7 +319,7 @@ const TableReservation: NextPage<IHamburgerProps> = () => {
         opened={thankYou}
         close={setThankYou}
         title={t('Your booking has been confirmed.') as string}
-        redirect={restaurantsBars}
+        redirect={RESTAURANTS_BARS}
       />
     </>
   );
@@ -331,7 +331,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ['common'], i18nConfig)),
-      ...(await getHamburgerProps()),
     },
   };
 };

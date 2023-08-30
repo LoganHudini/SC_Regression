@@ -56,7 +56,7 @@
 
 .empty {
   font-size: $xlarge;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   height: 10rem;
   display: flex;
   justify-content: center;

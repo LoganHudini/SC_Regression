@@ -10,10 +10,8 @@ import React, { useEffect } from 'react';
 import { getStaticPaths } from 'utils/getStatic';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { IHamburgerProps, getHamburgerProps } from 'utils/hamburger/getHamburgerProps';
 import { availablePaths } from 'utils/availablePaths';
 import { HOME_PAGE } from 'core/graphql/endpoints';
-import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 
 export { getStaticPaths };
 
@@ -26,7 +24,6 @@ interface IHomePageProps {
 
 const CHECK_IN_FLOW = [
   availablePaths.GET_RESERVATION,
-  availablePaths.ABOUT_YOUR_STAY,
   availablePaths.CHECK_IN_PAYMENT,
   availablePaths.CHECK_IN,
   availablePaths.GUEST_INFORMATION_INPUT,
@@ -36,7 +33,6 @@ const CHECK_IN_FLOW = [
   availablePaths.RESERVAION_CONFIRMATION,
   availablePaths.ROOM_ASSIGNED,
   availablePaths.ROOM_DETAILS,
-  availablePaths.SELECT_ROOM,
   availablePaths.UPGRADES,
 ];
 
@@ -67,13 +63,7 @@ const ROOM_CONTROLS = [
   availablePaths.ROOM_CONTROLS_TV,
 ];
 
-const DINING_FLOW = [
-  availablePaths.DINING,
-  availablePaths.DINING_DETAILS,
-  availablePaths.DINING_MENU,
-  availablePaths.DINING_ORDER_SUMMARY,
-  availablePaths.DINING_RESERVATION_CONFIRMATION,
-];
+const DINING_FLOW = [availablePaths.DINING, availablePaths.DINING_ORDER_SUMMARY];
 
 const AVAILABLE_PAGES = [
   availablePaths.TRIPS,
@@ -82,7 +72,7 @@ const AVAILABLE_PAGES = [
   availablePaths.NOTIFICATIONS,
 ];
 
-const HomePage: NextPage<IHomePageProps & IHamburgerProps> = ({ paths, hamburger, pages }) => {
+const HomePage: NextPage<IHomePageProps> = ({ paths }) => {
   // const navigate = useLocalizedRouter();
 
   // useEffect(() => {
@@ -95,7 +85,7 @@ const HomePage: NextPage<IHomePageProps & IHamburgerProps> = ({ paths, hamburger
         <title>Hudini PWA</title>
       </Head>
       <Header screenTitle='Hudini PWA' />
-      <PageWrapper hamburger={hamburger} pages={pages} displayBottomMenu>
+      <PageWrapper displayBottomMenu>
         <h1 style={{ marginTop: '25px' }}>Wecome to the hudini-pwa-sdk</h1>
         <h2 style={{ marginTop: '25px' }}>Available routes:</h2>
         <hr />
@@ -192,7 +182,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     props: {
       paths,
       ...(await serverSideTranslations(locale as string, ['common'], i18nConfig)),
-      ...(await getHamburgerProps()),
     },
   };
 };

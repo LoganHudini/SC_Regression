@@ -37,7 +37,7 @@
 }
 
 .wrapper {
-  background: $textColorSecondary;
+  background: var(--secondary-text-color);
   border-radius: 30px 30px 0 0;
   position: fixed;
   bottom: 0;
@@ -58,7 +58,7 @@
   font-size: $xlarge;
   line-height: 1;
   margin: 0 auto 40px auto;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .totalRequests {
@@ -66,17 +66,17 @@
   line-height: 1.33;
   padding-bottom: 10px;
   font-weight: bold;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-size: $medium;
   margin-bottom: 25px;
-  border-bottom: 1px solid $borderColor;
+  border-bottom: 1px solid var(--primary-border-color);
 }
 
 .option {
   line-height: 1.3125;
   font-size: $large;
   font-weight: bold;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   text-align: center;
   padding-left: 28px;
   align-self: center;
@@ -86,7 +86,7 @@
 .line {
   margin: 20px 0;
   height: 1px;
-  border-bottom: 1.5px dashed $borderColor;
+  border-bottom: 1.5px dashed var(--primary-border-color);
   background: none;
   width: 100%;
 }
@@ -95,7 +95,7 @@
   font-size: $small;
   line-height: 1.25;
   margin-top: 7px;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   width: 75%;
   padding-left: 28px;
   text-align: center;
@@ -105,7 +105,7 @@
   width: 40%;
   height: 35px;
   margin-top: 46px;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   padding-top: 14px;
   font-size: $xsmall;
 }
@@ -146,28 +146,28 @@
 
 .roomDetails {
   font-size: $small;
-  font-family: $fontSemibold;
+  font-family: var(--primary-font-medium);
 }
 
 .hotel {
   width: 40%;
   text-align: start;
   font-size: $small;
-  color: $textColorTernary;
+  color: var(--tertiary-text-color);
 }
 
 .date {
   font-size: $small;
-  color: $textColorTernary;
+  color: var(--tertiary-text-color);
 }
 
 .descTitle {
   font-size: $small;
-  font-family: $fontRegular;
-  color: $textColorQuaternary;
+  font-family: var(--primary-font-regular);
+  color: var(--tertiary-text-color);
 }
 
 .descContent {
-  color: $textColorTernary;
+  color: var(--tertiary-text-color);
   font-size: $medium;
 }

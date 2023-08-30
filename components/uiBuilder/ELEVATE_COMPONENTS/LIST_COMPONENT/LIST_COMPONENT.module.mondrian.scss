@@ -1,17 +1,17 @@
 .listComponentTitle {
   color: var(--primary-text-color);
   font-size: $medium;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .listComponentBtn {
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   width: 155px;
 }
 
 .listComponentBookingBtn {
-  font-family: $fontBold;
-  color: $textColorSecondary;
+  font-family: var(--primary-font-bold);
+  color: var(--secpndary-text-color);
 }
 .locationIcon {
   margin-left: 4px;

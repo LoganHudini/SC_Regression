@@ -1,9 +1,7 @@
 import Head from 'next/head';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Header } from 'components/shared/Header/Header';
-import { PageWrapper } from '../../../components/shared/PageWrapper/PageWrapper';
-import styles from '../../../styles/personalize-your-room-v2/personalize-your-room-v2.module.scss';
-import { StyledButton } from '../../../components/shared/StyledButton/StyledButton';
+import styles from 'styles/personalize-your-room-v2/personalize-your-room-v2.module.scss';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import {
   GET_AVAILABLE_PERSONALIZATIONS_CMS,
@@ -27,6 +25,8 @@ import { availablePaths } from 'utils/availablePaths';
 import { timeFormats } from 'utils/timeFormats';
 import { RoomPersonalizationEntitySkeletonV2 } from 'components/pages/personalize-your-room-v2/RoomPersonalizationEntitySkeletonV2/RoomPersonalizationEntitySkeletonV2';
 import { RoomPersonalizationEntityV2 } from 'components/pages/personalize-your-room-v2/RoomPersonalizationEntity/RoomPersonalizationEntityV2';
+import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
+import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 
 export { getStaticPaths };
 

@@ -55,7 +55,7 @@
 }
 
 .perDayActive {
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
 }
 
 .price {
@@ -65,7 +65,7 @@
 }
 
 .priceActive {
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
 }
 
 .addButton {
@@ -85,7 +85,7 @@
 }
 
 .roomPersonalizationInputButton {
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
 }
 
 .roomPersonalizationInput {
@@ -94,7 +94,7 @@
   font-size: 0.9375rem;
   margin: 0 10px 0 10px;
   background: transparent;
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
   border: none;
   outline: none;
   text-align: center;
@@ -103,7 +103,7 @@
 .minusIcon {
   width: 16px;
   height: auto;
-  fill: $textColorSecondary;
+  fill: var(--secondary-text-color);
 }
 
 .minusButton {
@@ -116,7 +116,7 @@
 .plusIcon {
   width: 16px;
   height: auto;
-  fill: $textColorSecondary;
+  fill: var(--secondary-text-color);
 }
 
 .plusButton {

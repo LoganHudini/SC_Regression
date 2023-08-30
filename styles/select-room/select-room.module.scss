@@ -75,7 +75,7 @@
 }
 
 .floorButtonActive {
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
 }
 
 .roomButton {
@@ -105,9 +105,9 @@
 }
 
 .gridButtonActive {
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
 }
 
 .roomButtonActive {
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
 }

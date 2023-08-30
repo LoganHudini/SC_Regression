@@ -1,7 +1,7 @@
 .carouselTitle {
   margin: 3rem 0 1rem 0;
   font-size: $xlarge;
-  font-family: $fontSemibold;
+  font-family: var(--primary-font-medium);
   line-height: 1;
 }
 
@@ -58,9 +58,9 @@
 }
 
 .carouselSlideTitle {
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
   font-size: $medium;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   position: absolute;
   bottom: 7px;
   left: 0;

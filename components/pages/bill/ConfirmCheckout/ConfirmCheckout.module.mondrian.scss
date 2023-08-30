@@ -43,7 +43,7 @@
 }
 
 .confirmCheckoutTitle {
-  font-family: "Helvetica Medium";
+  font-family: 'Helvetica Medium';
   margin-bottom: 29px;
   text-align: center;
   align-self: center;
@@ -53,7 +53,7 @@
 
 .emailId {
   font-family: 'Bodoni MT Std';
-  color: $textColorTernary;
+  color: var(--tertiary-text-color);
   font-size: 1.125rem;
 }
 
@@ -68,7 +68,7 @@
   width: 140px;
   height: 36px;
   font-weight: 900;
-  font-family: "Helvetica Bold";
+  font-family: 'Helvetica Bold';
   font-size: $xsmall;
 }
 
@@ -77,5 +77,5 @@
   max-width: none;
   line-height: 1.25;
   text-align: center;
-  font-family: "Helvetica";
+  font-family: 'Helvetica';
 }

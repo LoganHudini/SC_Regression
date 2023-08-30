@@ -50,14 +50,14 @@
   font-size: $large;
   line-height: 1;
   margin: 0 auto 38px auto;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .button {
   width: 100%;
   height: 44px;
   margin-top: 26px;
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
 }
 
 .housekeepingItemText {
@@ -67,7 +67,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   transition: all 0.4s;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .housekeepingItemTextExpanded {

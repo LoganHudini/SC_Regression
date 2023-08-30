@@ -1,7 +1,7 @@
 {
   "In-Room Dining": "تناول الطعام بالغرفة",
   "Dining": "تناول الطعام",
-  "Repeat previous customisation?": "تكرار التخصيص السابق؟",
+  "Repeat previous customization?": "تكرار التخصيص السابق؟",
   "Add-ons :": "إضافات",
   "ADD NEW": "أَضِف جديد",
   "REPEAT LAST": "تكرار آخر",
@@ -37,7 +37,7 @@
   "Order": "الطلب",
   "Search": "بحث",
   "cart": "السلة",
-  "customisable": "قابل للتخصيص",
+  "customizable": "قابل للتخصيص",
   "Add": "أَضِف",
   "dining-menu": "قائمة تناول الطعام",
   "Online requests presently unavailable": "الطلبات عبر الإنترنت غير مُتاحَة حاليًا",
@@ -57,5 +57,14 @@
   "Online requests will be available from": "ستكون طلبات الإنترنت مُتاحة اعتبارًا من",
   "Customisation": "التخصيص",
   "Instructions": "تعليمات",
-  "all day": "طوال اليوم"
+  "all day": "طوال اليوم",
+  "Ingredients": "المُكوِّنات",
+  "Add-Ons": "إضافات",
+  "Optional": "اختياري",
+  "total item price": "إجمالي سعر العنصر",
+  "Add to cart": "أَضِف إلى السلة",
+  "Required": "مطلوب",
+  "Limit exceeded": "تَمَّ تجاوُز الحد المسموح به",
+  "Select up to options": "اِختَر حتى {{value}} خيار",
+  "Add instructions": "أَضِف تعليمات الطهي"
 }

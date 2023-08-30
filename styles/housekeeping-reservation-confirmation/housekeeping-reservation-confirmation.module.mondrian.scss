@@ -12,7 +12,7 @@
 
 .successText {
   font-size: 20px;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   line-height: 1.5;
   margin-bottom: 25px;
   text-align: center;
@@ -24,7 +24,7 @@
   text-align: center;
   margin-bottom: 10px;
   font-size: 13px;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   padding: 0px 60px 0px 60px;
 }
 
@@ -73,7 +73,7 @@
 
 .backButton {
   font-weight: 900;
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   font-size: 12px;
   background: #fff;
   position: fixed;

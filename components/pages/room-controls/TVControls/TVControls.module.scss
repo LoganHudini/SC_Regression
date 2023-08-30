@@ -33,7 +33,7 @@
 
 .onOffButtonActive {
   background: var(--secondary-text-color);
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
 }
 
 .buttonCircle {
@@ -52,7 +52,7 @@
   width: 109px;
   height: 109px;
   border-radius: 50%;
-  background: $textColorSecondary;
+  background: var(--secondary-text-color);
   font-size: 0.9375rem;
   font-weight: 900;
 }
@@ -60,7 +60,7 @@
 .buttonCircleUpButton {
   width: 5px;
   height: 5px;
-  background: $textColorSecondary;
+  background: var(--secondary-text-color);
   border-radius: 50%;
 
   position: absolute;
@@ -72,7 +72,7 @@
 .buttonCircleDownButton {
   width: 5px;
   height: 5px;
-  background: $textColorSecondary;
+  background: var(--secondary-text-color);
   border-radius: 50%;
 
   position: absolute;
@@ -84,7 +84,7 @@
 .buttonCircleRightButton {
   width: 5px;
   height: 5px;
-  background: $textColorSecondary;
+  background: var(--secondary-text-color);
   border-radius: 50%;
 
   position: absolute;
@@ -96,7 +96,7 @@
 .buttonCircleLeftButton {
   width: 5px;
   height: 5px;
-  background: $textColorSecondary;
+  background: var(--secondary-text-color);
   border-radius: 50%;
 
   position: absolute;
@@ -109,7 +109,7 @@
   width: 42px;
   height: 42px;
   background: var(--secondary-text-color);
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
   border-radius: 50%;
   margin: 0 auto;
   display: flex;
@@ -143,7 +143,7 @@
 .verticalButtonText {
   font-size: 0.75rem;
   font-weight: 900;
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
 }
 
 .volumePlusIcon {
@@ -151,7 +151,7 @@
   height: 20px;
   margin-top: 10px;
   & > path {
-    fill: $textColorSecondary;
+    fill: var(--secondary-text-color);
   }
 }
 
@@ -160,7 +160,7 @@
   height: 20px;
   margin-bottom: 5px;
   & > path {
-    fill: $textColorSecondary;
+    fill: var(--secondary-text-color);
   }
 }
 
@@ -168,7 +168,7 @@
   width: 30px;
   height: auto;
   & > path {
-    fill: $textColorSecondary;
+    fill: var(--secondary-text-color);
   }
 }
 
@@ -176,12 +176,12 @@
   width: 30px;
   height: auto;
   & > path {
-    fill: $textColorSecondary;
+    fill: var(--secondary-text-color);
   }
 }
 
 .muteIcon {
-  fill: $textColorSecondary;
+  fill: var(--secondary-text-color);
   width: 21px;
   height: auto;
 }

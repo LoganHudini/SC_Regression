@@ -1,7 +1,7 @@
 .centeredText {
   text-align: center;
   font-size: $medium;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   padding: 10px 0px 10px 0;
   background: #f4f4f4;
   // border-bottom: 1px solid #0000001A;
@@ -52,7 +52,7 @@
 }
 
 .checkDatesText {
-  font-size: $xsmall;
+  font-size: $extraSmall;
   margin-bottom: 1vh;
   line-height: 1;
   margin-top: 2vh;
@@ -64,9 +64,9 @@
 }
 
 .checkDatesDetails {
-  font-size: $medium;
-  font-family: $fontMedium;
-  margin-bottom: 3vh;
+  font-size: $small;
+  font-family: var(--primary-font-news);
+  color: var(--tertiary-text-color);
   line-height: 1;
   font-weight: bold;
 }
@@ -146,11 +146,12 @@
 }
 
 .step {
-  font-size: $large;
+  font-size: $small;
   display: flex;
   justify-content: center;
   padding: 30px 15px 10px;
   border-bottom: 1px solid var(--primary-theme-color);
+  font-family: var(--secondary-title-font-family);
   div {
     margin: 0px 0px 0px 8px;
     font-size: $xsmall;

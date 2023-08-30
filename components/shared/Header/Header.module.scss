@@ -1,45 +1,238 @@
+.container {
+  padding: 0;
+  height: 4rem;
+  background: none;
+  box-shadow: 0 5px 10px var(--primary-box-shadow-color);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background-color: var(--primary-background-color);
+  max-width: 768px;
+  z-index: 5;
+}
+
+.containerTransparent {
+  background: transparent;
+}
+
+.categoryContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
 .backButton {
   cursor: pointer;
   position: absolute;
   left: 20px;
-  border: 0;
-  background: none;
+  top: 1.15rem;
+  margin-left: 0px;
 }
 
 .backIcon {
-  height: 20px;
+  height: 26px;
+  width: 27px;
+  path {
+    fill: var(--primary-theme-color);
+  }
+}
+
+.backIconIrd {
+  height: 26px;
+  width: 27px;
+  margin-top: 5px;
+  path {
+    fill: var(--primary-theme-color);
+  }
+}
+
+.irdMenu {
+  display: flex;
+  width: min(50vw, 250px);
+  height: 43px;
+  margin: auto;
+  border: 1px solid var(--primary-border-color);
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 0.5rem;
+}
+
+.irdMenuTitle {
+  font: $small var(--primary-font-medium);
+  text-transform: capitalize;
+  width: 90%;
+  text-align: center;
+}
+
+.irdMenuTiming {
+  font: $extraSmall var(--primary-font-regular);
+  color: var(--tertiary-text-color);
+  word-break: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 .closeButton {
   cursor: pointer;
   position: absolute;
+  top: 63px;
   right: 23px;
 }
 
 .closeIcon {
   width: 22px;
   height: auto;
-  fill: $textColorSecondary;
+  fill: var(--secondary-text-color);
 }
 
 .screenTitle {
   margin: 0;
-  font-size: $large;
   text-align: center;
-  color: #4a4a4a;
-  // font-family: 'Bodoni MT Std', 'Regular';
-  font-weight: normal;
+  margin-left: -20px;
   min-height: 24px;
+  font-family: var(--primary-font-medium);
+  font-size: $medium;
+  color: var(--primary-text-color);
+  margin: 0.25rem 0;
+  position: fixed;
+  width: 100%;
+  margin-top: 3.5rem;
+  font-family: var(--primary-font-regular);
+  height: 45px;
+  padding-top: 20px;
+  background-color: var(--primary-background-color);
+  z-index: 4;
+  max-width: 768px;
 }
 
-.container {
-  padding: 15px 0px;
-  z-index: 5;
-  background: var(--primary-theme-color);
-  position: relative;
-  box-shadow: 0 5px 6px -6px #222;
+.backButtonIrd {
+  top: 1rem;
+  margin-left: 0px;
 }
 
-.containerTransparent {
-  background: transparent;
+.logo {
+  width: 104px;
+  height: 30px;
+  path {
+    fill: var(--primary-theme-color);
+  }
+}
+
+.headerContainer {
+  background: var(--primary-background-color);
+}
+
+.categoryDropdown {
+  // margin-left: 8px;
+  // margin-bottom: -2px;
+  cursor: pointer;
+}
+
+.searchIconButton {
+  flex: 1px;
+  position: absolute;
+  right: 15px;
+  top: 22px;
+}
+
+.searchIcon {
+  height: 18px;
+
+  & > path {
+    fill: var(--primary-theme-color);
+  }
+}
+
+.containerLang {
+  flex-direction: row;
+}
+
+.close {
+  position: fixed;
+  z-index: 11;
+  top: 156px;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.closeSecondary {
+  position: fixed;
+  z-index: 11;
+  top: 240px;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.filterView {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 50px;
+  margin: auto;
+  background-color: var(--primary-background-color);
+  z-index: 10;
+  -webkit-fill-available: 100%;
+  max-width: 734px;
+  justify-content: center;
+}
+
+.filterViewScroll {
+  top: 64px;
+}
+
+.filterViewOptionContainer {
+  max-width: 734px;
+  min-height: 60px;
+  max-height: 180px;
+  margin-bottom: 2rem;
+}
+
+.dropDowntext {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  font-family: var(--primary-font-regular);
+  font-size: $medium;
+  width: 300px;
+  font-size: 1rem;
+  color: var(--tertiary-text-color);
+  background: linear-gradient(to right, #00000029 0%, #00000029 60%, transparent 10%) repeat-x left
+    bottom;
+  &:last-child {
+    background: none;
+  }
+  background-size: 15px 1px;
+  padding: 12px 0;
+}
+
+.selected {
+  font-family: var(--primary-font-medium);
+  color: var(--tertiary-text-color);
+}
+
+.myOrdersIconWrapper {
+  position: absolute;
+  display: flex;
+  top: 85px;
+  right: 27px;
+  width: 48px;
+  height: 48px;
+  background-color: var(--primary-background-color);
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  margin-left: 45px;
+}
+
+.screenHeader {
+  font-size: $small;
+  font-family: var(--secondary-title-font-family);
+  color: var(--tertiary-text-color);
 }

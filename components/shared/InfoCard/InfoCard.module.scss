@@ -3,7 +3,7 @@
   border-radius: 3px;
   position: relative;
   margin: 20px 0px;
-  background-color: #f8f8f8;
+  background-color: var(--primary-card-background-color);
 }
 
 .showMoreBtn {
@@ -45,32 +45,41 @@
 .homeCard {
   display: block;
 }
+
 .homeCardInner {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .errorText {
-  color: #dc4d40;
+  color: var(--secondary-error-text-color);
+  font-size: $small;
+  text-align: initial;
+  padding: 8px 0px;
+}
+
+.titleText {
+  font-size: $medium;
+  font-family: var(--primary-font-news);
+  color: var(--quaternary-text-color);
+}
+
+.detailsText {
   font-size: $medium;
   text-align: initial;
   padding: 8px 0px;
 }
-.titleText {
-  font-size: $medium;
-  font-family: var(--primary-font-news);
-}
-.detailsText {
-  font-size: $medium;
-  text-align: initial;
-}
+
 .firstSection {
   display: flex;
 }
+
 .homeIcon {
   width: 60px;
   display: flex;
 }
+
 .homeCardInfo {
   align-items: flex-start;
 

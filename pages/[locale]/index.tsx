@@ -35,7 +35,6 @@ const Home: NextPage = () => {
   };
 
   const config = getConfig();
-  console.log(config);
 
   const { data, loading: irdMenuLoading } = useQuery<IRDMenuApiResponse>(IRD_MENU, {
     context: { clientName: 'host_v2' },
@@ -45,8 +44,6 @@ const Home: NextPage = () => {
     },
     fetchPolicy: 'no-cache',
   });
-
-  const irdActiveMenu = irdActiveMenuList(data);
 
   return (
     <>

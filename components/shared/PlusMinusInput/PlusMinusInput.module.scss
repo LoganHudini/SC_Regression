@@ -3,32 +3,33 @@
   flex-direction: row;
   width: 100px;
   justify-content: space-between;
+  background-color: var(--primary-background-color);
+  align-items: center;
 }
 
 .plusMinusButton {
   height: 30px;
   width: 30px;
-  border: 1px solid #cccccc;
-  border-radius: 50%;
+  border: none;
   display: flex;
   justify-content: center;
   align-items: center;
+  border: none;
 
   &:disabled {
     & > svg > path {
-      fill: #cccccc;
+      fill: var(--primary-theme-color) !important;
     }
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-}
-
-.value {
-  font-size: 0.875rem;
 }
 
 .plusIcon {
   width: 20px;
   height: auto;
-  border: none;
   path {
     fill: var(--primary-theme-color);
   }
@@ -40,4 +41,14 @@
   path {
     fill: var(--primary-theme-color);
   }
+}
+
+.value {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font: $medium var(--primary-font-medium);
+  user-select: none;
+  width: 30px;
+  height: 30px;
 }

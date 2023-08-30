@@ -34,8 +34,9 @@ export const InfoCard: React.FC<IInfoCardProps> = ({
     setCardOpened(!cardOpened);
 
     if (icon === 'creditCard' && !status) {
-      if (paymentType === cybersource)
+      if (paymentType === cybersource) {
         navigate(availablePaths.CHECK_IN_PAYMENT);
+      }
     }
     else {
       setCardOpened(!cardOpened);

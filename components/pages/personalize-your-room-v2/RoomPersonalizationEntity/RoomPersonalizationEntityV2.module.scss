@@ -1,26 +1,29 @@
 .roomPersonalizationEntityWrapper {
-  border-bottom: 1px solid var(--primary-text-color);
+  background: var(--primary-card-background-color);
   display: flex;
-  margin-top: 5px;
+  margin-top: 15px;
 }
 
 .roomPersonalizationFirstColumn {
   display: flex;
   flex-direction: column;
-  padding: 13px 7px 20px 20px;
+  padding: 20px;
   flex: 1;
 }
 
 .roomPersonalizationTitle {
-  font-family: $fontBold;
+  font-family: var(--primary-card-title-font-family);
   font-size: $medium;
   margin-bottom: 12px;
   line-height: 1;
 }
 
 .roomPersonalizationText {
+  font-family: var(--primary-card-desc-font-family);
   font-size: $small;
-  margin-bottom: 12px;
+  color: var(--tertiary-text-color);
+  margin-bottom: 35px;
+  line-height: 1.5;
 }
 
 .roomPersonalizationControls {
@@ -36,35 +39,27 @@
   background: var(--primary-theme-color);
 }
 
-.perDay {
-  font-size: 0.9375rem;
-  margin-bottom: 6px;
-  line-height: 1;
-  color: var(--primary-text-color);
-}
-
-.perDayActive {
-  color: $textColorSecondary;
-}
-
 .price {
-  font-family: $fontBold;
-  font-size: $small;
-  margin-bottom: 11px;
-  color: var(--primary-text-color);
+  font-family: var(--primary-font-medium);
+  font-size: $xsmall;
+  margin-top: 9px;
+  color: var(--tertiary-text-color);
+  .priceNo {
+    font-size: $small;
+    color: var(--primary-text-color);
+  }
 }
 
 .priceActive {
-  color: var(--primary-text-color);
+  color: var(--tertiary-text-color);
 }
 
 .addButton {
-  width: auto;
-  font-family: $fontBold;
-  font-size: $small;
+  font-family: var(--primary-button-font-family);
+  font-size: $extraSmall;
   min-width: 65px;
   height: 33px;
-  width: 95px;
+  width: 98px;
 }
 
 .roomPersonalizationInputWrapper {
@@ -82,13 +77,15 @@
 .roomPersonalizationInput {
   width: 20px;
   height: 15px;
-  font-size: 0.9375rem;
-  margin: 0 10px 0 10px;
+  font-size: $medium;
+  font-family: var(--primary-font-medium);
+  margin: 0 10px 1px 10px;
   background: transparent;
   color: var(--primary-text-color);
   border: none;
   outline: none;
   text-align: center;
+  -webkit-user-select: none;
   user-select: none;
 }
 
@@ -103,10 +100,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid;
-  border-radius: 17px;
+  border: none;
   width: 25px;
   height: 25px;
+
+  svg > path {
+    fill: var(--primary-theme-color);
+  }
 }
 
 .plusIcon {
@@ -119,12 +119,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid;
-  border-radius: 17px;
+  border: none;
   width: 25px;
   height: 25px;
+
+  svg > path {
+    fill: var(--primary-theme-color);
+  }
 }
+
 .bottomSec {
   display: flex;
   justify-content: space-between;
+  height: 33px;
 }

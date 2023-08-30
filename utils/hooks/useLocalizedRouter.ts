@@ -1,5 +1,4 @@
-import { BRANCH_CODE } from 'core/graphql/endpoints';
-import { DUBAI_WATERFRONT, LANGUAGE_LIST_BARCELONA, LANGUAGE_LIST_DUBAI } from 'utils/constants';
+import { LANGUAGE_LIST_BARCELONA } from 'utils/constants';
 import { useRouter } from 'next/router';
 
 export const useLocalizedRouter = () => {
@@ -13,8 +12,7 @@ export const useLocalizedRouter = () => {
 export const useLanguage = () => {
   const router = useRouter();
   const locale = router.query.locale;
-  const languageList =
-    BRANCH_CODE === DUBAI_WATERFRONT ? LANGUAGE_LIST_DUBAI : LANGUAGE_LIST_BARCELONA;
+  const languageList = LANGUAGE_LIST_BARCELONA;
   return languageList?.find((item: any) => item?.value === locale);
 };
 

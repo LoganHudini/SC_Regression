@@ -49,7 +49,7 @@
 .chooseTimeTitle {
   font-size: $medium;
   line-height: 1.25;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .dateSelectInput {
@@ -107,13 +107,13 @@
 .confirmOrderButton {
   margin: 0 auto;
   padding: 16px 26px;
-  background: $textColorSecondary;
+  background: var(--secondary-text-color);
   position: fixed;
   bottom: 4rem;
   left: 0;
   right: 0;
   border-radius: 10px 10px 0 0;
-  box-shadow: $shadowColor 0 1px 20px;
+  box-shadow: var(--primary-box-shadow-color) 0 1px 20px;
   max-width: 768px;
   margin: 0 auto;
 }

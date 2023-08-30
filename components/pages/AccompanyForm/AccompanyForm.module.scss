@@ -58,13 +58,11 @@
 
 .pageWrapper {
   justify-content: space-between;
-  padding-bottom: 116px !important;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   min-height: calc(100vh - 70px);
   position: relative;
-  padding: 0px 29px 100px 29px;
   &:last-child {
     padding-bottom: 116px !important;
   }
@@ -129,7 +127,7 @@
 
 .update {
   font-size: $small;
-  font-family: $fontBold;
+  font-family: var(--primary-font-regular);
   margin-top: 30px;
   margin-right: 1rem;
   height: 40px;

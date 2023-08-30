@@ -1,0 +1,10 @@
+.diningMenuFilterActive {
+  font-family: var(--primary-font-bold);
+  font-size: $small;
+}
+
+.diningMenuFilterUnActive {
+  font-family: var(--primary-font-regular);
+  font-size: $small;
+  color: #b2b2b2;
+}

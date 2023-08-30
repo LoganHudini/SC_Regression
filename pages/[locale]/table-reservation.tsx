@@ -3,7 +3,6 @@ import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import dynamic from 'next/dynamic';
 import { getStaticPaths } from 'utils/getStatic';
-import { getHamburgerProps } from 'utils/hamburger/getHamburgerProps';
 import { RotatingLines } from 'react-loader-spinner';
 
 export { getStaticPaths };
@@ -30,7 +29,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
         ['table-reservation', 'common'],
         i18nConfig,
       )),
-      ...(await getHamburgerProps()),
     },
   };
 };

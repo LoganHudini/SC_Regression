@@ -1,5 +1,5 @@
 export interface IPageWrapperProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
   displayBottomMenu?: boolean;
 }

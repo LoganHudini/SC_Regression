@@ -47,18 +47,18 @@
 
 .title {
   text-align: center;
-  font-size: $extralarge;
+  font-size: $header;
   line-height: 1;
   margin: 0 auto 10px auto;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .orderNo {
   padding: 20px 0px 30px 10px;
   font-size: $large;
-  color: $textColorQuaternary;
-  font-family: $fontRegular;
-  border-bottom: 1px solid $textColorQuaternary;
+  color: var(--tertiary-text-color);
+  font-family: var(--primary-font-regular);
+  border-bottom: 1px solid var(--tertiary-text-color);
 }
 
 .orderDetails {
@@ -70,33 +70,33 @@
 
 .itemName {
   font-size: $large;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .itemPrice {
   font-size: $large;
-  font-family: $fontSemibold;
+  font-family: var(--primary-font-medium);
 }
 
 .description {
   font-size: $small;
-  font-family: $fontRegular;
-  color: $textColorQuaternary;
+  font-family: var(--primary-font-regular);
+  color: var(--tertiary-text-color);
   text-align: start;
   padding: 2px 0px 7px 10px;
-  border-bottom: 1px solid $textColorQuaternary;
+  border-bottom: 1px solid var(--tertiary-text-color);
 }
 
 .guestNo {
   padding: 30px 0px 7px 10px;
   font-size: $medium;
-  color: $textColorQuaternary;
-  border-bottom: 1px solid $textColorQuaternary;
+  color: var(--tertiary-text-color);
+  border-bottom: 1px solid var(--tertiary-text-color);
 }
 
 .count {
   font-size: $large;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   color: var(--primary-text-color);
 }
 
@@ -117,22 +117,22 @@
   width: 40%;
   text-align: start;
   font-size: $small;
-  color: $textColorQuaternary;
+  color: var(--tertiary-text-color);
 }
 
 .date {
   font-size: $small;
-  color: $textColorQuaternary;
+  color: var(--tertiary-text-color);
 }
 
 .roomDetails {
   font-size: $small;
-  font-family: $fontSemibold;
+  font-family: var(--primary-font-medium);
 }
 
 .guest {
   padding-top: 10px;
-  font-family: $fontSemibold;
+  font-family: var(--primary-font-medium);
   font-size: $small;
 }
 
@@ -142,7 +142,7 @@
 
 .button {
   width: 85%;
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   font-size: $xsmall;
   height: 46px;
 }

@@ -1,7 +1,7 @@
 .styledInput {
   :global(.MuiInputLabel-standard) {
     font-size: 0.875rem;
-    color: var(--primary-text-color);
+    color: var(--tertiary-text-color);
   }
 
   :global(.MuiFormLabel-filled) {
@@ -39,9 +39,9 @@
   }
 
   :global(.MuiInputBase-input) {
-    color: var(--primary-text-color);
+    color: var(--tertiary-text-color);
     font-size: 1rem;
-    padding: 8px 0;
+    font-family: var(--primary-font-news);
   }
 
   /* Chrome, Safari, Edge, Opera */

@@ -65,7 +65,7 @@ export const RoomPersonalizationEntityV2: React.FC<IRoomPersonalizationEntityPro
       > */}
         <div className={styles.bottomSec}>
           <div className={cx(styles.price, { [styles.priceActive]: isActive })}>
-            {currency} <span>{price}</span>
+            {currency} <span className={styles.priceNo}>{price}</span>
           </div>
           {isActive ? (
             <div className={styles.roomPersonalizationInputWrapper}>
@@ -80,8 +80,8 @@ export const RoomPersonalizationEntityV2: React.FC<IRoomPersonalizationEntityPro
               </span>
             </div>
           ) : (
-            <StyledButton className={styles.addButton} onClick={handleAdd} variant='outlined'>
-              {t('SELECT')}
+            <StyledButton className={styles.addButton} onClick={handleAdd} variant='contained'>
+              {t('Select')}
             </StyledButton>
           )}
         </div>

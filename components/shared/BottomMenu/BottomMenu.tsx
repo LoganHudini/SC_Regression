@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './BottomMenu.module.scss';
 import { motion } from 'framer-motion';
 import HamburgerIcon from '@icons/hamburger.svg';
+import DownArrowIcon from '@icons/downArrow.svg';
 import CloseHamburgerIcon from '@icons/closeHamburger.svg';
 
 import { MenuItem, ModuleOptionsDrawer } from 'components/shared/BottomMenu/MenuItem/MenuItem';
@@ -15,10 +16,21 @@ import {
 } from 'core/graphql/queries/GET_HAMBURGER_MENU';
 import { hamburgerIconsMap } from 'utils/hamburger/hamburgerIconsMap';
 import { availablePaths } from 'utils/availablePaths';
+import { useRouter } from 'next/router';
+import { HEADERS } from 'utils/constants';
+import { housekeepingOptions } from 'storage/housekeeping.storage';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 
 export const BottomMenu = () => {
+  const router = useRouter();
   const hamburgerMenuStatus = useReactiveVar(toggleHamburgerMenuDrawer);
+  const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
+
+  const arrowActive = true;
+  const homeActive = router.pathname === '/[locale]';
+  const irdActive = router.pathname.includes(availablePaths?.DINING);
+  const restaurantActive = router.pathname.includes(HEADERS[0]);
+  const housekeepingActive = router.pathname.includes(availablePaths.HOUSEKEEPING);
   const navigate = useLocalizedRouter();
 
   const { data } = useQuery<IGetHamburgerMenuDetailsApiResponse>(GET_HAMBURGER_MENU, {
@@ -49,7 +61,10 @@ export const BottomMenu = () => {
       <div className={styles.bottomMenuWrapper}>
         <motion.div whileTap={{ scale: 0.8 }} className={styles.bottomMenuButton}>
           <StyledButton variant='contained' onClick={openModuleOptionsDrawer}>
-            ROOM 0411
+            {homeActive && t('Room 401')}
+            {irdActive && t('In-Room Dining')}
+            {housekeepingActive && t(`${houseKeepingOptionSelected?.id}`)}
+            {arrowActive && <DownArrowIcon className={styles.downArrow} />}
           </StyledButton>
         </motion.div>
         {hamburgerMenuStatus ? (
@@ -62,7 +77,7 @@ export const BottomMenu = () => {
         )}
       </div>
 
-      <ModuleOptionsDrawer />
+      <ModuleOptionsDrawer {...{ homeActive, irdActive, housekeepingActive }} />
 
       {hamburgerMenuStatus && (
         <div className={styles.hamburgerMenuContainer}>

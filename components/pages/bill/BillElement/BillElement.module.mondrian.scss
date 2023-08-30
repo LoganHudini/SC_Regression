@@ -16,12 +16,12 @@
   margin-bottom: 10px;
   font-size: $xsmall;
   text-align: left;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   color: var(--primary-text-color);
 }
 
 .title {
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   font-size: $medium;
   color: var(--primary-text-color);
   line-height: 1;
@@ -33,7 +33,7 @@
   line-height: 1;
   margin-bottom: 13px;
   font-size: $xsmall;
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   color: var(--primary-text-color);
 }
 
@@ -45,10 +45,10 @@
   font-size: $medium;
   text-align: end;
   font-weight: 600;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .currency {
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
   font-size: 0.813rem;
 }

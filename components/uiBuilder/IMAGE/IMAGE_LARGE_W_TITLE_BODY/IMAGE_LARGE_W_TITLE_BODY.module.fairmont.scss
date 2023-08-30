@@ -2,7 +2,7 @@
   margin-top: 15px;
   margin-bottom: 45px;
   font-size: 1.5rem;
-  font-family: $fontHeading;
+  font-family: var(--primary-font-regular);
   color: var(--primary-text-color);
   display: flex;
   align-self: start;
@@ -20,11 +20,11 @@
 
 .ctaButton {
   margin-top: 0px;
-  font-family: $fontHeading;
+  font-family: var(--primary-font-regular);
   font-size: $xsmall;
 }
 
 .imagesBody {
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
   font-size: $small;
 }

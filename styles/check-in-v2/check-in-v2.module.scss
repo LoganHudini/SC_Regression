@@ -1,58 +1,31 @@
-.centeredText {
-  text-align: center;
-  font-size: $medium;
-  font-family: $fontMedium;
-  padding: 10px 0px 10px 0;
-  background: #f4f4f4;
-}
-
-.roomInfoWrapper {
-  display: flex;
-  padding-top: 15px;
-  margin: 0 0 -5px -5px;
-}
-
-.roomInfoImage {
-  height: 58px;
-  width: 58px;
-  margin-right: 11px;
-}
-
-.roomInfoText {
-  display: flex;
-  flex-direction: column;
-}
-
-.roomInfoTitle {
-  font-size: 1rem;
-  font-weight: 900;
-  margin-bottom: 5px;
-  line-height: 1;
-}
-
-.roomData {
-  font-size: 1rem;
-  line-height: 1.25;
+.personalizationQuantity {
+  font-family: var(--primary-font-medium);
+  font-size: $xsmall;
+  color: var(--tertiary-text-color);
+  .price {
+    font-size: $small;
+  }
 }
 
 .personalzizationWrapper {
   padding: 0px;
+  line-height: 2;
 }
 
 .personalizationTitle {
-  font-size: 1rem;
+  font-size: $medium;
   font-weight: 900;
   margin-bottom: 5px;
 }
 
 .specialRequestsTitle {
-  font-size: 1rem;
+  font-size: $medium;
   line-height: 1.25;
   margin-top: 11px;
 }
 
 .specialRequestsText {
-  font-size: 1rem;
+  font-size: $medium;
   line-height: 1.25;
   margin-top: 5px;
 }
@@ -64,32 +37,32 @@
 }
 
 .personalizationText {
-  font-size: 1rem;
+  font-size: $medium;
+  font-family: var(--primary-font-news);
+  color: var(--tertiary-text-color);
 }
 
 .cardWrapper {
   margin-top: 22px;
 }
 
-.checkInButton {
-  margin-top: 50px;
-  font-weight: 900;
-}
-
 .agrementWrapper {
   display: flex;
-  margin: 35px 0 13px 0;
+  margin: 0px 0 13px 0;
 }
 
 .agrementText {
-  font-size: 0.75rem;
+  text-align: start;
+  font-size: $small;
   margin-left: 15px;
   flex: 1;
-  max-width: 266px;
+  max-width: 280px;
   line-height: 1.4;
+  color: var(--tertiary-text-color);
+  font-family: var(--primary-font-book);
   a {
-    color: var(--secondary-text-color);
-    text-decoration: underline;
+    color: var(--tertiary-text-color);
+    text-decoration: none;
     white-space: nowrap;
   }
 }
@@ -99,26 +72,30 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-left: 5px;
   margin-right: -3px;
 }
 
 .guestSignature {
-  font-size: 1rem;
+  font-size: $medium;
+  font-family: var(--primary-font-news);
 }
 
 .clearBtn {
-  color: var(--secondary-text-color);
+  color: var(--primary-theme-color);
+  font-size: $medium;
   text-transform: none;
   width: auto;
+  margin-right: -6px;
+  font-family: var(--primary-font-medium);
 }
 
 .agrementSignatureWrapper {
   canvas {
     margin: -7px -15px -25px -15px;
+    background: var(--primary-card-background-color);
   }
-  width: 320px;
   margin: 0 auto;
+  margin-bottom: 150px;
 }
 
 .settlementWrapper {
@@ -126,13 +103,13 @@
 }
 
 .settlementTitle {
-  font-size: 1rem;
+  font-size: $medium;
   font-weight: 900;
   margin-bottom: 5px;
 }
 
 .settlementSubtitle {
-  font-size: 1rem;
+  font-size: $medium;
   line-height: 1.25;
   margin-top: 12px;
 }
@@ -143,34 +120,40 @@
   margin-bottom: 2vh;
   border-bottom: 1px solid #b9b9b9;
 }
+
 .checkDatesText {
-  font-size: $xsmall;
+  font-size: $extraSmall;
+  text-align: start;
+  color: var(--tertiary-text-color);
+  font-family: var(--primary-font-book);
+  padding-bottom: 5px;
 }
+
 .checkDatesDetails {
-  font-family: $fontBold;
-  font-size: $medium;
-  margin-bottom: 25px;
+  font-family: var(--primary-font-news);
+  font-size: $small;
+  margin-bottom: 20px;
+  color: var(--tertiary-text-color);
 }
+
 .description {
   float: left;
-  font-family: $fontMedium;
-  font-size: $medium;
-  margin-bottom: 1rem;
+  font-family: var(--primary-font-news);
+  font-size: $small;
+  margin-bottom: 20px;
   div {
     text-align: start;
   }
 }
-.pageTitle {
-  font-family: $fontMedium;
-  font-size: $large;
-  margin-top: 20px;
-}
 
 .infoText {
-  font-size: $medium;
-  padding: 20px 18px;
+  font-size: $small;
+  padding: 25px 10px;
   text-align: center;
+  font-family: var(--primary-font-book);
+  color: var(--tertiary-text-color);
 }
+
 .step {
   display: flex;
   justify-content: center;
@@ -184,14 +167,57 @@
     line-height: 18px;
     border-radius: 50%;
     text-align: center;
-    color: #ffff;
+    color: var(--primary-background-color);
   }
   .active {
     background-color: var(--primary-theme-color);
     border: 1px solid var(--primary-theme-color);
   }
   .disabled {
-    background-color: #d2d1d0;
-    border: 1px solid #d2d1d0;
+    background-color: var(--primary-background-color);
+    border: 1px solid var(--primary-background-color);
   }
+}
+
+.pageWrapper {
+  padding: 0px 20px;
+  padding-top: 65px;
+}
+
+.right {
+  text-align: end;
+}
+
+.left {
+  text-align: start;
+}
+
+.textTransform {
+  text-transform: uppercase;
+}
+
+.checkBoxAlign {
+  margin-bottom: 10px;
+}
+
+.bottomButton {
+  width: 90%;
+  max-width: 768px;
+}
+
+.checkInButton {
+  font-weight: 900;
+}
+
+.btnWrapper {
+  padding: 20px 26px 20px 26px;
+  position: fixed;
+  box-sizing: border-box;
+  margin: 0 auto;
+  bottom: 0;
+  right: 0;
+  background: var(--primary-background-color);
+  left: 0;
+  max-width: 768px;
+  box-shadow: 5px 0px 20px var(--primary-box-shadow-color);
 }

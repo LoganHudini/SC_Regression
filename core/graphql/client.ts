@@ -23,6 +23,8 @@ import {
   ONPREM_API_URL,
   HOST_V5,
   API_KEY_V5,
+  API_KEY_V6,
+  HOST_V6,
 } from './endpoints';
 import { checkinStorage } from 'storage/check-in.storage';
 
@@ -117,6 +119,14 @@ const hostSimphonyLink = new HttpLink({
   },
 });
 
+const hostV6Link = new HttpLink({
+  uri: HOST_V6 as string,
+  headers: {
+    ['x-api-key']: API_KEY_V6 as string,
+    ['Content-Type']: 'application/json',
+  },
+});
+
 const onPremLink = new RestLink({
   uri: ONPREM_API_URL as string,
 });
@@ -155,9 +165,13 @@ export const client = new ApolloClient({
                         (operation) => operation.getContext().clientName === 'onprem',
                         onPremLink,
                         ApolloLink.split(
-                          (operation) => operation.getContext().clientName === 'housekeeping',
-                          housekeepingLink,
-                          hostV2Link,
+                          (operation) => operation.getContext().clientName === 'host_v6',
+                          hostV6Link,
+                          ApolloLink.split(
+                            (operation) => operation.getContext().clientName === 'housekeeping',
+                            housekeepingLink,
+                            hostV2Link,
+                          ),
                         ),
                       ),
                     ),

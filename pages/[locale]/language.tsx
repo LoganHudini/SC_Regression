@@ -16,11 +16,10 @@ import languageDetector from 'utils/languageDetector';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-import { IHamburgerProps, getHamburgerProps } from 'utils/hamburger/getHamburgerProps';
 
 export { getStaticPaths };
 
-const Language: React.FC<IHamburgerProps> = ({ hamburger, pages }) => {
+const Language = () => {
   const router = useRouter();
 
   const { t } = useTranslation('language');
@@ -50,12 +49,7 @@ const Language: React.FC<IHamburgerProps> = ({ hamburger, pages }) => {
         <title>{t('Language')}</title>
       </Head>
       <Header displayBackButton screenTitle={t('Language') as string} />
-      <PageWrapper
-        displayBottomMenu
-        hamburger={hamburger}
-        pages={pages}
-        className={styles.radioWrapper}
-      >
+      <PageWrapper displayBottomMenu className={styles.radioWrapper}>
         <p className={styles.criteria}>{t('Choose Language')}</p>
         <div className={styles.languagesWrapper}>
           <RadioGroup
@@ -91,7 +85,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ['language', 'common'], i18nConfig)),
-      ...(await getHamburgerProps()),
     },
   };
 };

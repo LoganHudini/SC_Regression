@@ -1,9 +1,22 @@
+.pageWrapper {
+  justify-content: center;
+  align-items: center;
+  margin-top: 4rem;
+}
+
+.pageWrapperSecondary {
+  padding-bottom: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4rem;
+}
+
 .wrapper {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding-top: 81px;
-  margin: 0 auto;
+  width: 100%;
 }
 
 .diningElement {
@@ -28,14 +41,6 @@
   flex-direction: column;
 }
 
-.diningTitle {
-  font-family: 'Bodoni MT Std';
-  font-size: 1.25rem;
-  margin-bottom: 4px;
-  font-weight: normal;
-  line-height: 1.15;
-}
-
 .diningTime {
   font-size: 0.75rem;
   line-height: 1;
@@ -45,4 +50,52 @@
   width: 120px;
   height: 120px;
   margin-right: 24px;
+}
+
+.overlay {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--secondary-text-color);
+  z-index: 5;
+  max-width: 768px;
+  min-height: 80px;
+  max-height: 250px;
+  margin: auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  justify-content: center;
+  align-items: center;
+  display: grid;
+}
+
+.scroll {
+  overflow: auto;
+  width: 768px;
+  max-height: 220px;
+  margin-bottom: 1rem;
+}
+
+// temporary change
+.close {
+  display: none;
+}
+
+.backdrop {
+  background-color: #0b0a0a3c;
+  height: 100%;
+  width: 100%;
+  min-height: 844px;
+  position: absolute;
+  max-width: 768px;
+  margin-top: 77px;
+  z-index: 1;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.disable {
+  pointer-events: none;
 }

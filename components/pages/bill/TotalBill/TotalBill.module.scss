@@ -1,6 +1,6 @@
 .totalBillAmountWrapper {
   padding: 15px 5px 23px 0;
-  border-bottom: 1px solid $dividerColor;
+  border-bottom: 1px solid var(--primary-border-color);
   display: flex;
   justify-content: space-between;
   margin: 0 15px;
@@ -15,10 +15,10 @@
 
 .billAmountTitle {
   font-size: $medium;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }
 
 .billAmountValue {
   font-size: $medium;
-  font-family: $fontMedium;
+  font-family: var(--primary-font-medium);
 }

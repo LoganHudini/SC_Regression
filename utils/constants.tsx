@@ -1,23 +1,57 @@
-import { HOTEL_CODE } from 'core/graphql/endpoints';
+import { HOTEL_CODE } from "core/graphql/endpoints";
 
-export const Headers = ['Restaurants & Bars', 'Offers', 'In-Room Dining', 'Hotel'];
+export const CHECK_IN_FLOW_VERSION = process.env.NEXT_PUBLIC_CHECK_IN_FLOW_VERSION;
+export const CHECK_OUT_FLOW_VERSION = process.env.NEXT_PUBLIC_CHECK_OUT_FLOW_VERSION;
+export const DINING_FLOW_VERSION = process.env.NEXT_PUBLIC_DINING_FLOW_VERSION;
+export const TABLE_RESERVATION_FLOW_VERSION =
+  process.env.NEXT_PUBLIC_TABLE_RESERVATION_FLOW_VERSION;
+export const HOUSEKEEPING_FLOW_VERSION = process.env.NEXT_PUBLIC_HOUSEKEEPING_FLOW_VERSION;
+export const ROOM_CONTROLS_FLOW_VERSION = process.env.NEXT_PUBLIC_ROOM_CONTROLS_FLOW_VERSION;
+
+// key constants
+export const HOME = 'Home';
+export const OFFERS = 'offers';
+export const DRIVERS_LICENCE = 'DRL';
+export const PASSPORT = 'PASSPORT';
+export const CUSTOM = 'CUSTOM';
+export const BARCELONA = 'barcelona';
+export const HEADERS = ['Restaurants & Bars', 'Offers', 'In-Room Dining', 'Hotel'];
+export const ALL_DAY = 'all day';
+export const RESTAURANT_BOOKIN_FLOW = 'Restaurant Booking Flow';
+export const PRE_CHECKIN_ERROR_MSG = 'Booking is already checked in with type:PreCheckIn';
+
+// flow constants
 export const DINING_OPTIONS = [
   {
     id: 'ird',
     title: 'In-Room Dining',
+    path: '/dining',
   },
-  { id: 'rest', title: 'Restaurants' },
+  {
+    id: 'restaurants',
+    title: 'Restaurants',
+    path: '/restaurants-bars',
+  },
   {
     id: 'bars',
     title: 'Bars',
+    path: '/restaurants-bars',
+  },
+];
+export const SERVICE_REQUEST_OPTIONS = [
+  {
+    id: 'services',
+    title: 'Services',
+    label: 'houseKeeping',
+  },
+  {
+    id: 'concierge',
+    title: 'Concierge',
+    label: 'concierge',
   },
 ];
 export const Schedules = ['TODAY', 'TOMORROW'];
-export const restaurantsBars = 'restaurants-bars';
-export const offers = 'offers';
-export const ALL_DAY = 'all day';
-export const reservationFlow = 'Restaurant Booking Flow';
-export const precheckinErrorMsg = 'Booking is already checked in with type:PreCheckIn';
+
 export const cardTypes = [
   {
     id: '1',
@@ -72,7 +106,6 @@ export const templateItems = [
 export const driversLicence = 'DRL';
 export const driverLicence = 'DL';
 export const passport = 'PASSPORT';
-export const CUSTOM = 'CUSTOM';
 export const email = 'email';
 export const phoneNumber = 'phoneNumber';
 export const phone = 'phone';
@@ -85,7 +118,18 @@ export const identityVerification = 'Identity Verification';
 export const information = 'information';
 export const PAYMENT = [
   { id: '2', name: 'CASH', message: '' },
-  { id: '3', name: 'CARD', message: '' },
+  { id: '3', name: 'CARD', message: '' },]
+
+export const LANGUAGE_LIST_DUBAI = [
+  { title: 'English', value: 'en' },
+  { title: 'عربي', value: 'ar' },
+];
+
+export const LANGUAGE_LIST_BARCELONA = [
+  { title: 'English', value: 'en' },
+  { title: 'Español', value: 'es' },
+  { title: 'Català', value: 'ct' },
+  { title: 'Français', value: 'fr' },
 ];
 
 export const PAYMENTFANDB = [
@@ -93,6 +137,7 @@ export const PAYMENTFANDB = [
   { id: '2', name: 'CASH', message: '' },
   { id: '3', name: 'CARD', message: '' },
 ];
+
 export const TIPS = [
   { id: '1', value: 10 },
   { id: '2', value: 20 },
@@ -101,45 +146,6 @@ export const TIPS = [
   { id: '5', value: 50 },
   { id: '6', value: 60 },
 ];
-export const home = 'Home';
-export const radisson = 'radisson';
-export const HOUSEKEEPING = 'Housekeeping';
-export const DINING = 'Dining';
-export const LANGUAGE_LIST_DUBAI = [
-  { title: 'English', value: 'en' },
-  { title: 'عربي', value: 'ar' },
-];
-export const LANGUAGE_LIST_BARCELONA = [
-  { title: 'English', value: 'en' },
-  { title: 'Español', value: 'es' },
-  { title: 'Català', value: 'ct' },
-  { title: 'Français', value: 'fr' },
-];
-
-export const DUBAI_WATERFRONT = 'dubai-waterfront';
-
-export const BARCELONA = 'barcelona';
-
-export const servicesEvent = {
-  action: 'Click',
-  category: 'Services',
-  label: 'Service Requests',
-  value: 1,
-};
-
-export const fandbDiningEvent = {
-  action: 'Click',
-  category: 'F&B Dining',
-  label: 'F&B Dining Order',
-  value: 1,
-};
-
-export const irdEvent = {
-  action: 'Click',
-  category: 'In-Room Dining',
-  label: 'In-Room Dining Order',
-  value: 1,
-};
 
 export const STATUS = [
   { key: 'NEW_ORDER', value: 'New Order' },
@@ -148,6 +154,10 @@ export const STATUS = [
   { key: 'ACCEPTED', value: 'Accepted' },
 ];
 
+// path constants
+export const HOUSEKEEPING = 'HOUSEKEEPING';
+export const DINING = 'DINING';
+export const RESTAURANTS_BARS = 'RESTAURANTS_BARS';
 export const Gender = [
   { name: 'Male', value: 'MALE' },
   { name: 'Female', value: 'FEMALE' },
@@ -155,3 +165,10 @@ export const Gender = [
 export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const phoneRegex =
   /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/;
+export const checkIn = 'checkin';
+export const review = 'review';
+export const CANCELED = 'CANCELED';
+export const CHECKEDOUT = 'CHECKEDOUT';
+export const CHKOUT = 'CHKOUT';
+export const personalisation = 'personalisation';
+export const PERSONALISATION = 'PERSONALISATION';

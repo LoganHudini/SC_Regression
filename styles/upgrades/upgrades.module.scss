@@ -15,7 +15,7 @@
 }
 
 .confirmBtnWrapper {
-  background: $textColorSecondary;
+  background: var(--secondary-text-color);
   display: flex;
   position: fixed;
   box-sizing: border-box;

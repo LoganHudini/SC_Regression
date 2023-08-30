@@ -1,14 +1,13 @@
 .orderButtonWrapper {
   padding: 39px 26px 54px 31px;
   border-radius: 10px 10px 0 0;
-  box-shadow: 0 -2px 10px $shadowColor;
   position: fixed;
   bottom: 64px;
   left: 0;
   right: 0;
   box-sizing: border-box;
   background: #fff;
-  box-shadow: $shadowColor 0 -2px 10px;
+  box-shadow: var(--primary-box-shadow-color) 0 -2px 10px;
   display: flex;
   flex-direction: row;
   max-width: 768px;
@@ -38,11 +37,32 @@
 }
 
 .housekeepingWrapper {
-  padding: 0 25px 275px;
+  padding: 0 10px 120px;
   display: flex;
   flex-direction: column;
   position: relative;
   min-height: calc(100vh - 376px);
   box-sizing: border-box;
   margin-top: 15px;
+}
+
+.pageWrapper {
+  margin-top: 60px;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.margin {
+  margin-top: 5px;
+}
+
+.information {
+  position: absolute;
+  top: 75%;
+  font-size: $large;
+  font-family: var(--primary-font-extd-medium);
 }

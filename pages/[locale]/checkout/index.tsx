@@ -21,18 +21,17 @@ import {
 } from 'core/graphql/queries/GET_RESERVATION';
 import { useQuery } from '@apollo/client';
 import { IInvoiceApiResponse, INVOICE } from 'core/graphql/queries/INVOICE';
-import { GetStaticProps, NextPage } from 'next';
+import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'react-i18next';
 import i18nConfig from 'next-i18next.config';
-import { IHamburgerProps, getHamburgerProps } from 'utils/hamburger/getHamburgerProps';
 import { client } from 'core/graphql/client';
 import { availablePaths } from 'utils/availablePaths';
 import { getStaticPaths } from 'utils/getStatic';
 
 export { getStaticPaths };
 
-const Bill: NextPage<IHamburgerProps> = ({ hamburger, pages }) => {
+const Bill = () => {
   const navigate = useLocalizedRouter();
 
   const { t } = useTranslation('bill');
@@ -159,7 +158,7 @@ const Bill: NextPage<IHamburgerProps> = ({ hamburger, pages }) => {
           )}
         </div>
 
-        <BottomMenu pages={pages} hamburger={hamburger} />
+        <BottomMenu />
       </div>
 
       <ConfirmCheckout
@@ -179,7 +178,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ['bill', 'common'], i18nConfig)),
-      ...(await getHamburgerProps()),
     },
   };
 };

@@ -57,7 +57,7 @@ export interface IGetHousekeepingApiResponse {
       }[];
       icon: string;
       id: string;
-      mages: {
+      images: {
         index: string;
         master: string;
       }[];

@@ -47,7 +47,7 @@
 .checkText {
   font-size: 0.75rem;
   margin-bottom: 1px;
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
   line-height: 1;
   height: 12px;
   width: 70px;
@@ -56,7 +56,7 @@
 .checkDate {
   font-size: 1.125rem;
   margin-bottom: 1px;
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
   line-height: 1;
   height: 18px;
   width: 95px;
@@ -76,7 +76,7 @@
 .hotelDataText {
   font-size: 0.9375rem;
   line-height: 1;
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
   height: 15px;
   width: 120px;
   &:first-of-type {
@@ -89,7 +89,7 @@
   height: 36px;
   width: 36px;
   background: var(--secondary-text-color);
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
   display: flex;
   justify-content: center;
   align-items: center;

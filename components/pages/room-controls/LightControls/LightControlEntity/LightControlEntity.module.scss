@@ -24,11 +24,11 @@
   border: none;
 
   svg path {
-    fill: $textColorSecondary;
+    fill: var(--secondary-text-color);
   }
 
   p {
-    color: $textColorSecondary;
+    color: var(--secpndary-text-color);
   }
 }
 
@@ -62,7 +62,7 @@
 }
 
 .statusTextActive {
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
 }
 
 .controlTitle {

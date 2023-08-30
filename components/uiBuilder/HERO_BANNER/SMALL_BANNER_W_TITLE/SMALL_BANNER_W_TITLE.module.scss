@@ -9,7 +9,7 @@
   left: 25px;
 
   h2 {
-    color: $textColorSecondary;
+    color: var(--secpndary-text-color);
     min-width: 100px;
     line-height: 1.25;
   }
@@ -24,7 +24,7 @@
 .indicatorIcon {
   width: 6px;
   height: 6px;
-  background: $textColorSecondary;
+  background: var(--secondary-text-color);
 
   &:not(:last-child) {
     margin-right: 6px;

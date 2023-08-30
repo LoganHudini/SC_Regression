@@ -2,7 +2,6 @@ import { GetStaticProps, NextPage } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import dynamic from 'next/dynamic';
-import { getHamburgerProps } from 'utils/hamburger/getHamburgerProps';
 import { getStaticPaths } from 'utils/getStatic';
 import { RotatingLines } from 'react-loader-spinner';
 
@@ -25,7 +24,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ['bill', 'common'], i18nConfig)),
-      ...(await getHamburgerProps()),
     },
   };
 };

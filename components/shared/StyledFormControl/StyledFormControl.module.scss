@@ -3,7 +3,7 @@
   margin-right: 0;
 
   :global(.MuiSelect-select) {
-    color: var(--primary-text-color);
+    color: var(--tertiary-text-color);
     padding-bottom: 12px;
     font-size: 0.875rem;
     text-align: start;
@@ -11,7 +11,7 @@
 
   :global(.MuiInputLabel-standard) {
     font-size: 0.875rem;
-    color: var(--primary-text-color);
+    color: var(--tertiary-text-color);
   }
 
   :global(.MuiFormHelperText-root) {
@@ -38,12 +38,12 @@
 
   :global(.MuiInputLabel-asterisk),
   :global(.Mui-error) {
-    color: var(--tertiary-text-color) !important;
+    color: var((--tertiary-text-color)) !important;
   }
 
   :global(.Mui-error) {
     &::after {
-      border-bottom: 2px solid $errorMsgColor !important;
+      border-bottom: 2px solid var(--primary-error-text-color) !important;
     }
   }
 }

@@ -33,7 +33,7 @@
 
 .onOffButtonActive {
   background: var(--secondary-text-color);
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
 }
 
 .tempMeasureUnitSwitcher {
@@ -71,11 +71,11 @@
   background: var(--secondary-text-color);
 
   & > p {
-    color: $textColorSecondary;
+    color: var(--secpndary-text-color);
   }
 
   & > svg path {
-    fill: $textColorSecondary;
+    fill: var(--secondary-text-color);
   }
 }
 
@@ -166,7 +166,7 @@
 
 .autoEcoButtonActive {
   background: var(--secondary-text-color);
-  color: $textColorSecondary;
+  color: var(--secpndary-text-color);
 }
 
 .ventilatorControls {
@@ -203,6 +203,6 @@
   background: var(--secondary-text-color);
 
   & > svg path {
-    stroke: $textColorSecondary;
+    stroke: var(--secondary-text-color);
   }
 }

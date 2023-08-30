@@ -1,9 +1,9 @@
 .title {
-  font-family: $fontRegular;
+  font-family: var(--primary-font-regular);
 }
 
 .button {
-  font-family: $fontBold;
+  font-family: var(--primary-font-bold);
   width: 85%;
 }
 
