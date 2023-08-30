@@ -1,0 +1,126 @@
+.background {
+  position: fixed;
+  box-sizing: border-box;
+  margin: 0 auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--primary-box-shadow-color);
+  z-index: 200;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s;
+  max-width: 768px;
+}
+
+.backgroundOpened {
+  opacity: 1;
+  visibility: visible;
+}
+
+.wrapper {
+  background: var(--primary-background-color);
+  padding: 50px 26px 32px 26px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transition: all 0.2s;
+  transform: translateY(100%);
+  max-width: 768px;
+  z-index: 300;
+  overflow: auto;
+  margin: 0 auto;
+  max-height: 500px;
+
+  @media (pointer: coarse) {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.wrapperOpened {
+  transform: translateY(0);
+}
+
+.title {
+  text-align: center;
+  font-size: 1.5rem;
+  line-height: 1;
+  margin: 0 auto 38px auto;
+}
+
+.calendarDateWrapper {
+  text-align: center;
+}
+
+.calendarDateLabel {
+  font-size: $medium;
+  color: var(--tertiary-text-color);
+  margin-bottom: 10px;
+  font-family: var(--primary-font-news);
+}
+
+.calendarDateText {
+  font-size: $small;
+  color: var(--primary-theme-color);
+  margin-bottom: 60px;
+  font-family: var(--primary-font-news);
+}
+
+.timePickerWrapper {
+  margin: 0 8px;
+
+  :global(.rmc-multi-picker) {
+    height: 160px;
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  :global(.rmc-picker) {
+    height: 110px;
+    width: 90%;
+  }
+
+  :global(.my-picker-view-item) {
+    color: var(--tertiary-text-color);
+    margin: 0;
+    width: 80%;
+    font-size: $large;
+    font-family: var(--primary-font-book);
+  }
+
+  :global(.format) {
+    width: 53% !important;
+    margin: 0 auto;
+  }
+
+  :global(.minute) {
+    width: 44% !important;
+    margin: 0 auto;
+    margin-left: 21px;
+  }
+
+  :global(.hour) {
+    width: 50% !important;
+    margin: 0 auto;
+    margin-left: 25px;
+  }
+
+  :global(.day) {
+    width: 103% !important;
+    margin: 0 auto;
+  }
+
+  :global(.rmc-picker-item-selected) {
+    color: var(--primary-theme-color);
+    font-size: $large !important;
+    font-family: var(--primary-font-medium);
+  }
+  :global(.rmc-picker-item) {
+    padding: 0px;
+    width: 90%;
+  }
+}

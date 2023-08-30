@@ -30,6 +30,7 @@ import { IHousekeepingProps } from 'types/housekeeping.types';
 import { useTranslation } from 'react-i18next';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
+import { HousekeepingDrawer } from 'components/pages/housekeeping/HousekeepingDrawer/HousekeepingDrawer';
 
 export { getStaticPaths };
 
@@ -38,6 +39,7 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
   const locale = useLocale();
   const [confirmOpened, setConfirmOpened] = useState(false);
   const [showServiceRequest, setShowServiceRequest] = useState([]);
+  const [showSchedules, setShowSchedules] = useState([]);
 
   const housekeepingInfo = useReactiveVar(housekeepingStorage);
   const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
@@ -66,6 +68,11 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
     }
   }, [data, houseKeepingOptionSelected?.label]);
 
+  const handleClick = (selectedRequest: any) => {
+    setConfirmOpened(true);
+    setShowSchedules(selectedRequest);
+  };
+
   return (
     <>
       <Head>
@@ -93,7 +100,7 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
                 {showServiceRequest?.length !== 0 ? (
                   showServiceRequest?.map((item: any) => (
                     <div className={styles.margin} key={item.id}>
-                      <HousekeepingItem housekeepingItem={item} />
+                      <HousekeepingItem housekeepingItem={item} handleClick={handleClick} />
                     </div>
                   ))
                 ) : (
@@ -116,12 +123,17 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
           </div>
         )}
 
-        <HousekeepingConfirm
+        <HousekeepingDrawer
+          opened={confirmOpened}
+          toggleOpened={toggleConfirmOpened}
+          showSchedules={showSchedules}
+        />
+        {/* <HousekeepingConfirm
           // housekeepingItems={data?.getServiceRequestDetails?.houseKeeping}
           // conciergeItems={data?.getServiceRequestDetails?.concierge}
           opened={confirmOpened}
           toggleOpened={toggleConfirmOpened}
-        />
+        /> */}
         <HousekeepingRequestModal />
       </div>
     </>

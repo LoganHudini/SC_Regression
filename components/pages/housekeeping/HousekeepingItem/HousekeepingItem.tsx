@@ -14,7 +14,10 @@ import { useTranslation } from 'react-i18next';
 import Image from 'next/image';
 import { serviceRequestIcons } from 'utils/serviceRequestIcons';
 
-export const HousekeepingItem: React.FC<IHousekeepingItemProps> = ({ housekeepingItem }) => {
+export const HousekeepingItem: React.FC<IHousekeepingItemProps> = ({
+  housekeepingItem,
+  handleClick,
+}) => {
   const navigate = useLocalizedRouter();
 
   const { t } = useTranslation('housekeeping');
@@ -159,11 +162,11 @@ export const HousekeepingItem: React.FC<IHousekeepingItemProps> = ({ housekeepin
 
   return (
     <>
-      <div className={styles.housekeepingItemWrapper}>
+      <div className={styles.housekeepingItemWrapper} onClick={() => handleClick(housekeepingItem)}>
         <div className={styles.iconWrapper}>
           {selectedIcon && <Image src={selectedIcon?.icon} alt='Icon' width={45} height={45} />}
         </div>
-        <h2 className={styles.housekeepingItemTitle}>{housekeepingItem.name}</h2>
+        <h2 className={styles.housekeepingItemTitle}>{housekeepingItem?.name}</h2>
       </div>
     </>
   );
