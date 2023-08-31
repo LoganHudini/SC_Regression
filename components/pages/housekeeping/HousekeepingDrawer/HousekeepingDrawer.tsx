@@ -1,5 +1,5 @@
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import cx from 'classnames';
 import styles from './HousekeepingDrawer.module.scss';
 import { useTranslation } from 'react-i18next';
@@ -13,44 +13,35 @@ export const HousekeepingDrawer = (props: any) => {
   const { opened, toggleOpened, showSchedules } = props;
   const { t } = useTranslation(['housekeeping', 'common']);
   const [showCalendar, setShowCalendar] = useState(false);
-  const [showImmediateTime, setShowImmediateTime] = useState(false);
   const [selectedTime, setSelectedTime] = useState(
     dayjs().format(timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM),
   );
-
-  useEffect(() => {
-    let newSelectedTime = selectedTime;
-
-    if (showSchedules?.schedule?.includes('TOMORROW')) {
-      const originalDate = dayjs(selectedTime, timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM);
-      const newDate = originalDate?.add(1, 'day');
-      newSelectedTime = newDate?.format(timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM);
-    } else if (showSchedules?.schedule.includes('IMMEDIATE')) {
-      setShowImmediateTime(true);
-    } else if (showSchedules?.schedule.includes('TODAY')) {
-      // Handle 'TODAY' case
-      // Update newSelectedTime accordingly
-    }
-
-    setSelectedTime(newSelectedTime);
-  }, [showSchedules.schedule, setSelectedTime]);
 
   const handleSave = () => {
     setShowCalendar(false);
   };
 
   const handleShowSchedules = () => {
-    setShowCalendar(true);
+    if (
+      showSchedules?.schedule?.includes('TODAY') &&
+      showSchedules?.schedule?.includes('TOMORROW')
+    ) {
+      setShowCalendar(true);
+    } else {
+      setShowCalendar(true);
+    }
+  };
+
+  const handleClose = () => {
+    toggleOpened();
+    setShowCalendar(false);
+    setSelectedTime(dayjs().format(timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM));
   };
 
   return (
     <>
       <div
-        onClick={() => {
-          toggleOpened();
-          setShowCalendar(false);
-          setSelectedTime(dayjs().format(timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM));
-        }}
+        onClick={() => handleClose()}
         className={cx(styles.background, { [styles.backgroundOpened]: opened })}
       />
 
@@ -97,30 +88,19 @@ export const HousekeepingDrawer = (props: any) => {
                 </>
               )}
 
-              {showSchedules?.scheduleActive && showImmediateTime && (
+              {showSchedules?.scheduleActive && showSchedules?.schedule?.includes('IMMEDIATE') && (
                 <>
-                  {!showCalendar && (
-                    <div className={styles.calendarDateWrapper}>
-                      <div
-                        className={styles.calendarDateLabel}
-                        onClick={() => handleShowSchedules()}
-                      >
-                        Scheduled Time
-                      </div>
-                      {!showCalendar &&
-                        !dayjs().isAfter(
-                          dayjs(selectedTime, timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM),
-                        ) && (
-                          <div className={styles.calendarDateText}>
-                            {dayjs(selectedTime).format(timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2)}
-                          </div>
-                        )}
+                  <div className={styles.calendarDateWrapper}>
+                    <div className={styles.calendarDateLabel}>Scheduled Time</div>
+
+                    <div className={styles.calendarDateText}>
+                      {dayjs(selectedTime).format(timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2)}
                     </div>
-                  )}
+                  </div>
                 </>
               )}
 
-              {showSchedules?.scheduleActive && (
+              {showSchedules?.scheduleActive && !showSchedules?.schedule?.includes('IMMEDIATE') && (
                 <>
                   {!showCalendar && (
                     <div className={styles.calendarDateWrapper}>
@@ -147,15 +127,7 @@ export const HousekeepingDrawer = (props: any) => {
                         setSelectedTime={setSelectedTime}
                         selectedTime={selectedTime}
                         handleSave={handleSave}
-                        // schedules={showSchedules?.schedule}
-                        // showImmediateTime={showImmediateTime}
-                        // setShowImmediateTime={setShowImmediateTime}
-                        disableDay={
-                          showSchedules?.schedule[0] === 'TODAY' ||
-                          showSchedules?.schedule[0] === 'TOMORROW'
-                            ? true
-                            : false
-                        }
+                        showSchedules={showSchedules}
                       />
                     </>
                   )}

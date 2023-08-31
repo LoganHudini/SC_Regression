@@ -23,49 +23,52 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
   setSelectedTime,
   selectedTime,
   handleSave,
-  disableDay,
-  // schedules,
-  // setShowImmediateTime,
-  // showImmediateTime,
+  showSchedules,
 }) => {
   const [disable, setDisable] = useState(false);
 
-  // useEffect(() => {
-  //   if (selectedTime) {
-  //     const selectedDateTime = dayjs(selectedTime, timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2);
-
-  //     if (schedules[0] === 'TOMORROW') {
-  //       if (selectedDateTime.isSame(newDate, 'day')) {
-  //         // console.log('yes TOMORROW');
-  //         setDisable(true);
-  //       } else if (selectedDateTime.isAfter(newDate, 'day')) {
-  //         // console.log('Done');
-  //         setDisable(false);
-  //       } else {
-  //         // console.log('yes');
-  //         setDisable(false);
-  //       }
-  //     } else {
-  //       if (!dayjs().isAfter(dayjs(selectedTime, timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2))) {
-  //         // console.log('Past time');
-  //         setDisable(true);
-  //       } else {
-  //         // console.log('Future time');
-  //         setDisable(false);
-  //       }
-  //     }
-  //   }
-  // }, [schedules, selectedTime]);
-
   useEffect(() => {
-    if (selectedTime) {
+    if (!selectedTime) {
+      return;
+    }
+    if (
+      showSchedules?.schedule?.includes('TODAY') &&
+      showSchedules?.schedule?.includes('TOMORROW')
+    ) {
+      if (
+        dayjs(selectedTime, timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2).isAfter(
+          dayjs().add(1, 'day'),
+          'day',
+        )
+      ) {
+        setDisable(false);
+      } else if (dayjs().isAfter(dayjs(selectedTime, timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2))) {
+        setDisable(false);
+      } else {
+        setDisable(true);
+      }
+    } else {
       if (dayjs().isAfter(dayjs(selectedTime, timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2))) {
         setDisable(false);
       } else {
         setDisable(true);
       }
     }
-  }, [selectedTime]);
+  }, [selectedTime, showSchedules?.schedule]);
+
+  useEffect(() => {
+    let newSelectedTime = selectedTime;
+    if (
+      showSchedules?.schedule?.includes('TOMORROW') &&
+      !showSchedules?.schedule?.includes('TODAY') &&
+      !showSchedules?.schedule?.includes('IMMEDIATE')
+    ) {
+      const originalDate = dayjs(selectedTime, timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM);
+      const newDate = originalDate?.add(1, 'day');
+      newSelectedTime = newDate?.format(timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM);
+      setSelectedTime(newSelectedTime);
+    }
+  }, [setSelectedTime, showSchedules?.schedule]);
 
   const onChange = useCallback(
     (value: [string, string, string, string]) => {
@@ -79,11 +82,30 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
       <>
         <div className={styles.timePickerWrapper}>
           <MultiPicker onValueChange={onChange} selectedValue={selectedTime?.split(':')}>
-            <Picker indicatorClassName='my-picker-indicator' disabled={disableDay}>
+            <Picker
+              indicatorClassName='my-picker-indicator'
+              disabled={
+                (!showSchedules?.schedule.includes('TODAY') &&
+                  !showSchedules?.schedule?.includes('IMMEDIATE') &&
+                  showSchedules?.schedule.includes('TOMORROW')) ||
+                (showSchedules?.schedule.includes('TODAY') &&
+                  !showSchedules?.schedule?.includes('IMMEDIATE') &&
+                  !showSchedules?.schedule.includes('TOMORROW'))
+                  ? true
+                  : false
+              }
+            >
               {dayMonthArray?.map((day: any) => (
                 <Picker.Item
                   className={
-                    disableDay ? 'my-picker-view-item dayDisabled' : 'my-picker-view-item day'
+                    (!showSchedules?.schedule.includes('TODAY') &&
+                      !showSchedules?.schedule?.includes('IMMEDIATE') &&
+                      showSchedules?.schedule.includes('TOMORROW')) ||
+                    (showSchedules?.schedule.includes('TODAY') &&
+                      !showSchedules?.schedule?.includes('IMMEDIATE') &&
+                      !showSchedules?.schedule.includes('TOMORROW'))
+                      ? 'my-picker-view-item dayDisabled'
+                      : 'my-picker-view-item day'
                   }
                   key={day}
                   value={day}
@@ -92,30 +114,21 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
                 </Picker.Item>
               ))}
             </Picker>
-            <Picker
-              indicatorClassName='my-picker-indicator'
-              // disabled={showCalendar && showSchedules?.customSchedule === 'Date ' ? true : false}
-            >
+            <Picker indicatorClassName='my-picker-indicator'>
               {hoursArray.map((hour) => (
                 <Picker.Item className='my-picker-view-item hour' key={hour} value={hour}>
                   {hour}
                 </Picker.Item>
               ))}
             </Picker>
-            <Picker
-              indicatorClassName='my-picker-indicator'
-              // disabled={showCalendar && showSchedules?.customSchedule === 'Date ' ? true : false}
-            >
+            <Picker indicatorClassName='my-picker-indicator'>
               {minutesArray?.map((minute) => (
                 <Picker.Item className='my-picker-view-item minute' key={minute} value={minute}>
                   {minute}
                 </Picker.Item>
               ))}
             </Picker>
-            <Picker
-              indicatorClassName='my-picker-indicator'
-              // disabled={showCalendar && showSchedules?.customSchedule === 'Date ' ? true : false}
-            >
+            <Picker indicatorClassName='my-picker-indicator'>
               {timeFormat?.map((format) => (
                 <Picker.Item className='my-picker-view-item format' key={format} value={format}>
                   {format}
