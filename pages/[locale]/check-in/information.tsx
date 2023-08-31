@@ -37,7 +37,7 @@ import { processError } from 'utils/processError';
 import { CURRENCY } from 'core/graphql/endpoints';
 
 import { getConfig } from 'utils/getConfiguration';
-import { Checkin, CreditCard, CreditCardInfo, DRIVERS_LICENCE, Email, EmailRegex, GuestInformation, Guest_Icon, IdCard, IdentityVerification, Information, PASSPORT, Phone, PhoneRegex } from 'utils/constants';
+import { Checkin, CreditCard, CreditCardInfo, DRIVERS_LICENCE, Email, EmailRegex, GuestInformation, Guesticon, IdCard, IdentityVerification, Information, PASSPORT, Phone, PhoneRegex } from 'utils/constants';
 
 export { getStaticPaths };
 
@@ -322,7 +322,7 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
           {guestInformationSection && (
             <InfoCard
               title={t(`${guestInformationSection?.name}`) as string}
-              icon={Guest_Icon}
+              icon={Guesticon}
               details={guestReservationInfo?.firstName + ' ' + guestReservationInfo?.lastName}
               status={validateGuestReservation(guestInformationSection?.details)}
               isCardOpened={false}

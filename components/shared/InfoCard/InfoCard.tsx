@@ -13,7 +13,7 @@ import DownArrow from '@icons/downArrowCard.svg';
 import GuestGroup from '@icons/guestsGroupCard.svg';
 import { availablePaths } from 'utils/availablePaths';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { CreditCard, Cybersource, Guest, Guest_Icon, UserGroup } from 'utils/constants';
+import { CreditCard, Cybersource, Guest, Guesticon, UserGroup } from 'utils/constants';
 
 export const InfoCard: React.FC<IInfoCardProps> = ({
   icon,
@@ -52,7 +52,7 @@ export const InfoCard: React.FC<IInfoCardProps> = ({
               <div className={styles.homeIcon}>
                 {icon === CreditCard ? (
                   <CreditCardIcon className={styles.okIcon} />
-                ) : icon === Guest_Icon ? (
+                ) : icon === Guesticon ? (
                   <GuestIcon className={styles.okIcon} />
                 ) : icon === Guest ? (
                   <GuestUSer className={styles.okIcon} />
