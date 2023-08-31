@@ -12,7 +12,8 @@ import {
   reservationGuestInfoStorageData,
 } from 'storage/reservation-guest-info.storage';
 import * as yup from 'yup';
-import { email, phone, phoneRegex } from 'utils/constants';
+import { Email, EmailRegex, Phone, PhoneRegex } from 'utils/constants';
+import { generateValidationSchema } from 'utils/functions';
 
 export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
   selectedGuest,
@@ -35,33 +36,17 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
     return values;
   }, {});
   // const initialFieldValues: any = dynamicInitialValues(guestInformationSection, selectedGuest)
-  const validationSchema = guestInformationSection.reduce((schema: any, field: any) => {
-    if (field?.isActive && field?.required === 'true') {
-      schema[field?.name] = yup.string().required(`${field?.label} is required`);
-    }
-    if (field?.name === email) {
-      schema[field?.name] = yup
-        .string()
-        .email('Invalid email format')
-        .required('Email is required');
-    }
-    if (field?.name === phone) {
-      schema[field?.name] = yup
-        .string()
-        .matches(phoneRegex, 'Invalid phone number')
-        .required('Phone is required');
-    }
 
-    return schema;
-  }, {});
-  const combinedValidationSchema = yup.object(validationSchema);
+  const validationSchema = generateValidationSchema(guestInformationSection);
+
 
   const formik = useFormik({
     initialValues: initialFieldValues,
-    validationSchema: combinedValidationSchema,
+    validationSchema: validationSchema,
     onSubmit: handleInputChange,
   });
-  // const firstNameField = guestInformationSection.some((field: any) => field?.name === 'firstName' && field?.isActive == 'true') && guestInformationSection.some((field: any) => field?.name === 'lastName' && field?.isActive == 'true');
+
+  // const firstNameField = guestInformationSection.some((field: any) => field?.name === 'firstName' && field?.isActive) && guestInformationSection.some((field: any) => field?.name === 'lastName' && field?.isActive);
 
   return (
     <div className={styles.identityInputs}>
@@ -70,7 +55,7 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
           field?.isActive && (
             <div key={field?.name} className={styles.col_100}>
               <StyledInput
-                required={field?.required === 'true'}
+                required={field?.required}
                 autoComplete='off'
                 className={styles.guestDataInput}
                 label={t(field?.label)}
@@ -78,7 +63,7 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                 name={field?.name}
                 id={field?.name}
                 value={formik.values[field?.name]}
-                disabled={field?.isDisabled === 'true'}
+                disabled={field?.isDisabled}
                 onChange={(e) => {
                   formik.handleChange(e);
                   updateGuestDetails(e.target.id, e.target.value);

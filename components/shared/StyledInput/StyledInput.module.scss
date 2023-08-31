@@ -23,18 +23,18 @@
     color: var(--primary-theme-color) !important;
   }
   :global(.MuiFormHelperText-root) {
-    color: red !important;
+    color: var(--primary-error-text-color) !important;
   }
   :global(.MuiInputLabel-asterisk) {
     color: var(--tertiary-text-color) !important;
   }
   :global(.Mui-error) {
-    color: red !important;
+    color: var(--primary-error-text-color) !important;
   }
 
   :global(.Mui-error) {
     &::after {
-      border-bottom: 2px solid red !important;
+      border-bottom: 2px solid var(--primary-error-text-color) !important;
     }
   }
 

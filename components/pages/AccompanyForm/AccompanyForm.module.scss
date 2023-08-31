@@ -147,7 +147,7 @@
   left: 0;
   right: 0;
   border-radius: 0;
-  box-shadow: #00000029 0 1px 20px;
+  box-shadow: var(--primary-box-shadow-color) 0 1px 20px;
   max-width: 768px;
   margin-top: -20px;
 }

@@ -10,8 +10,9 @@ import { useReactiveVar } from '@apollo/client';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
-import { cybersource, email, phone, phoneRegex } from 'utils/constants';
+import { Cybersource, Email, Phone, PhoneRegex } from 'utils/constants';
 import * as yup from 'yup';
+import { generateValidationSchema } from 'utils/functions';
 
 
 export const PreCheckinPaymentInfo: React.FC<IPreCheckinPaymentInfoProps> = ({ paymentInfo, creditCardInfoSection, paymentType }) => {
@@ -32,7 +33,7 @@ export const PreCheckinPaymentInfo: React.FC<IPreCheckinPaymentInfoProps> = ({ p
   };
 
   const edit = () => {
-    if (paymentType === cybersource) {
+    if (paymentType === Cybersource) {
       navigate(availablePaths.CHECK_IN_PAYMENT);
     }
   };
@@ -42,23 +43,11 @@ export const PreCheckinPaymentInfo: React.FC<IPreCheckinPaymentInfoProps> = ({ p
     return values;
   }, {});
 
-  const validationSchema = creditCardInfoSection.reduce((schema: any, field: any) => {
-    if (field?.isActive && field?.required === 'true') {
-      schema[field?.name] = yup.string().required(`${field?.label} is required`);
-    }
-    if (field?.name === email) {
-      schema[field?.name] = yup.string().email('Invalid email format').required('Email is required');
-    }
-    if (field?.name === phone) {
-      schema[field?.name] = yup.string().matches(phoneRegex, 'Invalid phone number').required('Phone is required');
-    }
+  const validationSchema = generateValidationSchema(creditCardInfoSection);
 
-    return schema;
-  }, {});
-  const combinedValidationSchema = yup.object(validationSchema);
   const formik = useFormik({
     initialValues: initialFieldValues,
-    validationSchema: combinedValidationSchema,
+    validationSchema: validationSchema,
     onSubmit: handleInputChange,
   });
 
@@ -70,7 +59,7 @@ export const PreCheckinPaymentInfo: React.FC<IPreCheckinPaymentInfoProps> = ({ p
           <div key={field?.name} className={styles.col_100}>
 
             <StyledInput
-              required={field?.required === 'true'}
+              required={field?.required}
               autoComplete='off'
               className={styles.guestDataInput}
               label={t(field?.label)}
@@ -78,7 +67,7 @@ export const PreCheckinPaymentInfo: React.FC<IPreCheckinPaymentInfoProps> = ({ p
               name={field?.name}
               id={field?.name}
               value={formik.values[field?.name]}
-              disabled={field?.isDisabled === 'true'}
+              disabled={field?.isDisabled}
               onChange={(e) => {
                 formik.handleChange(e);
                 updateGuestDetails(e.target.id, e.target.value);

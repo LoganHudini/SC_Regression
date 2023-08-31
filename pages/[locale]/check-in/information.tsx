@@ -35,22 +35,9 @@ import {
 } from 'core/graphql/queries/UPDATE_GUEST_DETAILS';
 import { processError } from 'utils/processError';
 import { CURRENCY } from 'core/graphql/endpoints';
-import {
-  phoneRegex,
-  checkin,
-  creditCardInfo,
-  driversLicence,
-  email,
-  emailRegex,
-  guestInformation,
-  identityVerification,
-  information,
-  passport,
-  phone,
-  phoneNumber,
-  DRIVERS_LICENCE, PASSPORT
-} from 'utils/constants';
+
 import { getConfig } from 'utils/getConfiguration';
+import { Checkin, CreditCard, CreditCardInfo, DRIVERS_LICENCE, Email, EmailRegex, GuestInformation, Guest_Icon, IdCard, IdentityVerification, Information, PASSPORT, Phone, PhoneRegex } from 'utils/constants';
 
 export { getStaticPaths };
 
@@ -67,22 +54,22 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
   });
-  const checkinModule: any = config?.modules?.find((module) => module?.name === checkin);
+  const checkinModule: any = config?.modules?.find((module) => module?.name === Checkin);
   const accompanyingGuestSubmodule = checkinModule?.submodules?.find(
-    (submodule: any) => submodule?.name === information && submodule.isActive === 'true',
+    (submodule: any) => submodule?.name === Information && submodule.isActive,
   );
   const activeSections = accompanyingGuestSubmodule.details.filter(
-    (section: any) => section.isActive === 'true',
+    (section: any) => section.isActive,
   );
 
   const guestInformationSection = activeSections.find(
-    (section: any) => section.name === guestInformation,
+    (section: any) => section.name === GuestInformation,
   );
   const creditCardInfoSection = activeSections.find(
-    (section: any) => section.name === creditCardInfo,
+    (section: any) => section.name === CreditCardInfo,
   );
   const identityVerificationSection = activeSections.find(
-    (section: any) => section.name === identityVerification,
+    (section: any) => section.name === IdentityVerification,
   );
   const paymentType = creditCardInfoSection.type;
 
@@ -170,7 +157,7 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
     for (const source of Object.values(sources)) {
       if (source) {
         const fieldValue = getFieldFromSource(source, fieldName);
-        if (fieldValue !== undefined) {
+        if (fieldValue) {
           extractedValue = fieldValue;
           break;
         }
@@ -181,18 +168,17 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
   }
 
   function getFieldFromSource(source: any, fieldName: any) {
-    const fieldPath = fieldName.split('.'); // Handle nested fields
+    const fieldPath = fieldName.split('.');
     let fieldValue = source;
 
     for (const field of fieldPath) {
-      if (fieldValue && fieldValue[field] !== undefined) {
+      if (fieldValue && fieldValue[field]) {
         fieldValue = fieldValue[field];
       } else {
         fieldValue = undefined;
         break;
       }
     }
-
     return fieldValue;
   }
 
@@ -279,16 +265,16 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
   const validateGuestReservation = (field: any) => {
     if (guestReservationInfo) {
       return field.every((fieldItem: any) => {
-        if (fieldItem.required == 'false') {
+        if (!fieldItem.required) {
           return true;
         }
         const infoValue = guestReservationInfo[fieldItem?.name];
-        if (fieldItem.name === phone) {
-          return phoneRegex.test(infoValue);
+        if (fieldItem.name === Phone) {
+          return PhoneRegex.test(infoValue);
         }
 
-        if (fieldItem.name === email) {
-          return emailRegex.test(infoValue);
+        if (fieldItem.name === Email) {
+          return EmailRegex.test(infoValue);
         }
         return infoValue !== undefined && infoValue !== null && infoValue !== '';
       });
@@ -336,7 +322,7 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
           {guestInformationSection && (
             <InfoCard
               title={t(`${guestInformationSection?.name}`) as string}
-              icon='guestIcon'
+              icon={Guest_Icon}
               details={guestReservationInfo?.firstName + ' ' + guestReservationInfo?.lastName}
               status={validateGuestReservation(guestInformationSection?.details)}
               isCardOpened={false}
@@ -351,7 +337,7 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
           {creditCardInfoSection && (
             <InfoCard
               title={t(`${creditCardInfoSection?.name}`) as string}
-              icon='creditCard'
+              icon={CreditCard}
               details={guestReservationInfo?.cardNumber as string}
               status={validateGuestReservation(creditCardInfoSection?.details)}
               completedCheck
@@ -367,7 +353,7 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
           {identityVerificationSection && (
             <InfoCard
               title={t(`${identityVerificationSection?.name}`) as string}
-              icon='idCard'
+              icon={IdCard}
               details={guestReservationInfo?.docType as string}
               status={validateGuestReservation(identityVerificationSection?.details)}
               completedCheck

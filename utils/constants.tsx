@@ -103,19 +103,27 @@ export const templateItems = [
     image: `/images/${HOTEL_CODE}/offers.png`,
   },
 ];
-export const driversLicence = 'DRL';
-export const driverLicence = 'DL';
-export const passport = 'PASSPORT';
-export const email = 'email';
-export const phoneNumber = 'phoneNumber';
-export const phone = 'phone';
-export const checkin = 'checkin';
-export const cybersource = 'cybersource';
-export const selectDropdown = 'Select';
-export const guestInformation = 'Guest Information';
-export const creditCardInfo = 'Credit Card Info';
-export const identityVerification = 'Identity Verification';
-export const information = 'information';
+export const DriversLicence = 'DRL';
+export const DriverLicence = 'DL';
+export const Passport = 'PASSPORT';
+export const Email = 'email';
+export const PhoneNumber = 'phoneNumber';
+export const Phone = 'phone';
+export const Checkin = 'checkin';
+export const Cybersource = 'cybersource';
+export const SelectDropdown = 'Select';
+export const GuestInformation = 'Guest Information';
+export const CreditCardInfo = 'Credit Card Info';
+export const IdentityVerification = 'Identity Verification';
+export const Information = 'information';
+export const CreditCard = 'creditCard';
+export const Guest_Icon = 'guestIcon';
+export const Guest = 'guest';
+export const UserGroup = 'userGroup';
+export const IdCard = 'idCard';
+export const AccompanyingGuest = 'accompanyingGuest';
+export const CheckBox = 'CheckBox';
+
 export const PAYMENT = [
   { id: '2', name: 'CASH', message: '' },
   { id: '3', name: 'CARD', message: '' },]
@@ -162,8 +170,8 @@ export const Gender = [
   { name: 'Male', value: 'MALE' },
   { name: 'Female', value: 'FEMALE' },
 ];
-export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-export const phoneRegex =
+export const EmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const PhoneRegex =
   /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/;
 export const checkIn = 'checkin';
 export const review = 'review';

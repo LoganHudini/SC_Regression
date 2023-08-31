@@ -20,8 +20,9 @@ import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
 import DateRangeIcon from '@icons/DateRangeIcon.svg';
 import * as yup from 'yup';
-import { email, phone, phoneRegex, selectDropdown } from 'utils/constants';
+import { Email, Phone, PhoneRegex, SelectDropdown } from 'utils/constants';
 import DropDown from '@icons/dropDownIcon.svg';
+import { generateValidationSchema } from 'utils/functions';
 
 
 
@@ -43,27 +44,16 @@ export const PreCheckinDocInfo: React.FC<IPreCheckinDocInfoProps> = ({ docInfo, 
   const updateDocType = (value: string) => {
     sessionStorage.setItem('docType', value);
   };
-  const initialFieldValues = identityVerificationSection.reduce((values: any, field: any) => {
+  const initialFieldValues = identityVerificationSection?.reduce((values: any, field: any) => {
     values[field?.name] = docInfo[field?.name] || ''; // Use the value from selectedGuest if available, otherwise use an empty string
     return values;
   }, {});
-  const validationSchema = identityVerificationSection.reduce((schema: any, field: any) => {
-    if (field?.isActive && field?.required === 'true') {
-      schema[field?.name] = yup.string().required(`${field?.label} is required`);
-    }
-    if (field?.name === email) {
-      schema[field?.name] = yup.string().email('Invalid email format').required('Email is required');
-    }
-    if (field?.name === phone) {
-      schema[field?.name] = yup.string().matches(phoneRegex, 'Invalid phone number').required('Phone is required');
-    }
 
-    return schema;
-  }, {});
-  const combinedValidationSchema = yup.object(validationSchema);
+  const validationSchema = generateValidationSchema(identityVerificationSection);
+
   const formik = useFormik({
     initialValues: initialFieldValues,
-    validationSchema: combinedValidationSchema,
+    validationSchema: validationSchema,
     onSubmit: handleInputChange,
   });
 
@@ -93,33 +83,33 @@ export const PreCheckinDocInfo: React.FC<IPreCheckinDocInfoProps> = ({ docInfo, 
       {identityVerificationSection.map((field: any) => (
         field?.isActive && (
           <>
-            {field.type == selectDropdown ?
+            {field?.type == SelectDropdown ?
               <StyledFormControl
-                required={field.required === 'true' ? true : false}
-                disabled={field.isDisabled == 'true' ? true : false}
+                required={field?.required}
+                disabled={field?.isDisabled}
                 className={styles.guestDataInput}
                 variant='standard'
                 sx={{ m: 1, minWidth: '100%' }}
               >
-                <InputLabel>{field.label}</InputLabel>
+                <InputLabel>{field?.label}</InputLabel>
                 <Select
                   className={styles.guestDataInput}
-                  label={field.label}
+                  label={field?.label}
                   variant='standard'
-                  name={field.name}
-                  id={field.name}
+                  name={field?.name}
+                  id={field?.name}
                   value={formik.values[field?.name] || ''}
                   onChange={(e: any) => {
                     formik.handleChange(e);
                     updateGuestDetails(e.target.name, e.target.value);
                   }}
-                  disabled={field.isDisabled == 'true' ? true : false}
+                  disabled={field?.isDisabled}
                   IconComponent={DropDown}
                 >
-                  {field.options.map((item: any) => {
+                  {field?.options.map((item: any) => {
                     return (
-                      <MenuItem value={item.value} key={item.value}>
-                        <em>{item.name}</em>
+                      <MenuItem value={item?.value} key={item?.value}>
+                        <em>{item?.name}</em>
                       </MenuItem>
                     );
                   })}
@@ -127,7 +117,7 @@ export const PreCheckinDocInfo: React.FC<IPreCheckinDocInfoProps> = ({ docInfo, 
               </StyledFormControl> : <div key={field?.name} className={styles.col_100}>
 
                 <StyledInput
-                  required={field?.required === 'true'}
+                  required={field?.required}
                   autoComplete='off'
                   className={styles.guestDataInput}
                   label={t(field?.label)}
@@ -135,7 +125,7 @@ export const PreCheckinDocInfo: React.FC<IPreCheckinDocInfoProps> = ({ docInfo, 
                   name={field?.name}
                   id={field?.name}
                   value={formik.values[field?.name]}
-                  disabled={field?.isDisabled === 'true'}
+                  disabled={field?.isDisabled}
                   onChange={(e) => {
                     formik.handleChange(e);
                     updateGuestDetails(e.target.id, e.target.value);
@@ -168,7 +158,7 @@ export const PreCheckinDocInfo: React.FC<IPreCheckinDocInfoProps> = ({ docInfo, 
               formik.setFieldValue('effectiveDate', effectiveDate, true);
             }}
             value={
-              formik.values?.effectiveDate !== ''
+              formik.values?.effectiveDate
                 ? dayjs(formik.values?.effectiveDate, timeFormats.YEAR_MONTH_DAY)
                 : null
             }

@@ -41,7 +41,7 @@ import {
 import { AddaccompanyDetails } from 'core/graphql/queries/ADD_GUEST';
 import { accompanyGuestDetails } from 'storage/accompany-guest-details';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
-import { Gender, emailRegex, phoneRegex } from 'utils/constants';
+import { Gender, EmailRegex, PhoneRegex, Email, Phone, Checkin, AccompanyingGuest, Passport, SelectDropdown, UserGroup, CheckBox } from 'utils/constants';
 import { getConfig } from 'utils/getConfiguration';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
@@ -54,9 +54,9 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
   });
   const reservationInfo: any = reservationData?.getReservation.data;
   const config = getConfig();
-  const checkinModule: any = config?.modules?.find((module) => module?.name === 'checkin');
+  const checkinModule: any = config?.modules?.find((module) => module?.name === Checkin);
   const accompanyingGuestSubmodule = checkinModule?.submodules?.find(
-    (submodule: any) => submodule?.name === 'accompanyingGuest' && submodule.isActive == 'true',
+    (submodule: any) => submodule?.name === AccompanyingGuest && submodule.isActive,
   );
   const [emailErrors, setEmailErrors] = useState<string[]>([]);
   const [phoneErrors, setPhoneErrors] = useState<string[]>([]);
@@ -67,10 +67,10 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
   const handleFieldBlur: any = (index: any, fieldName: any, value: any, item?: any) => {
     if (!value) {
       errorMessage = t(`${item} is required`);
-    } else if (fieldName === 'email' && !emailRegex.test(value)) {
+    } else if (fieldName === Email && !EmailRegex.test(value)) {
       isValid = false;
       errorMessage = t('Invalid email address');
-    } else if (fieldName === 'phoneNo' && !phoneRegex.test(value)) {
+    } else if (fieldName === Phone && !PhoneRegex.test(value)) {
       isValid = false;
       errorMessage = t('Invalid phone number');
     }
@@ -100,12 +100,12 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
         };
 
         accompanyingGuestSubmodule.details.forEach((item: any) => {
-          if (guest[item.name] && guest[item.name].isActive === 'true') {
-            formData[item.name] = guest[item.name].value;
-          } else if (item.name in guest) {
-            formData[item.name] = guest[item.name];
-          } else if (item.isActive == 'true') {
-            formData[item.name] = '';
+          if (guest[item?.name] && guest[item?.name].isActive) {
+            formData[item?.name] = guest[item?.name].value;
+          } else if (item?.name in guest) {
+            formData[item?.name] = guest[item?.name];
+          } else if (item?.isActive) {
+            formData[item?.name] = '';
           }
         });
 
@@ -120,12 +120,12 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
         };
 
         accompanyingGuestSubmodule.details.forEach((item: any) => {
-          if (guest[item.name] && guest[item.name].isActive === 'true') {
-            formData[item.name] = guest[item.name].value;
-          } else if (item.name in guest) {
-            formData[item.name] = guest[item.name];
-          } else if (item.isActive == 'true') {
-            formData[item.name] = '';
+          if (guest[item?.name] && guest[item?.name].isActive) {
+            formData[item?.name] = guest[item?.name].value;
+          } else if (item?.name in guest) {
+            formData[item?.name] = guest[item?.name];
+          } else if (item?.isActive) {
+            formData[item?.name] = '';
           }
         });
 
@@ -169,10 +169,10 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
 
         if (!value) {
           errorMessage = t(`${label} is required`);
-        } else if (fieldName === 'email' && !emailRegex.test(value)) {
+        } else if (fieldName === Email && !EmailRegex.test(value)) {
           isValid = false;
           errorMessage = t('Invalid email address');
-        } else if (fieldName === 'phoneNo' && !phoneRegex.test(value)) {
+        } else if (fieldName === Phone && !PhoneRegex.test(value)) {
           isValid = false;
           errorMessage = t('Invalid phone number');
         }
@@ -198,7 +198,7 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
         for (let i = 0; i < updatedData.length; i++) {
           const data = updatedData[i];
           const updateGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
-            docType: 'PASSPORT',
+            docType: Passport,
             docNumber: data.formData.id,
             reservationId: reservationInfo?.reservationId as string,
             firstName: data.formData.firstName,
@@ -280,38 +280,27 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
     setLoading(false);
   };
   useEffect(() => {
-    const updatedStatus = infoCards.map((card: any) => {
+    const updatedStatus = infoCards?.map((card: any) => {
       let cardStatus = true;
 
-      accompanyingGuestSubmodule.details.forEach((item: any) => {
-        if (item.isActive === 'true' && item.required === 'true') {
-          if (item.required === 'true') {
-            if (!card.formData[item.name]) {
+      accompanyingGuestSubmodule?.details.forEach((item: any) => {
+        if (item?.isActive && item?.required) {
+          if (item?.required) {
+            if (!card?.formData[item?.name]) {
               cardStatus = false;
             }
           }
 
-          if (item.type === 'email' && !emailRegex.test(card.formData[item.name])) {
+          if (item?.name === Email && !EmailRegex.test(card.formData[item?.name])) {
             cardStatus = false;
           }
-          if (item.type === 'number' && !phoneRegex.test(card.formData[item.name])) {
+          if (item?.name === Phone && !PhoneRegex.test(card.formData[item?.name])) {
             cardStatus = false;
           }
 
           // Add more validation
         }
       });
-
-      // status check
-      // if (
-      //   cardStatus &&
-      //   card.formData.condition === 'false' &&
-      //   card.formData.gender &&
-      // ) {
-      //   cardStatus = true;
-      // } else {
-      //   cardStatus = false;
-      // }
 
       return cardStatus;
     });
@@ -338,22 +327,6 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
     AccompanyDrawer();
   };
 
-  const isValidEmail = (email: any) => {
-    if (email === undefined) {
-      return false;
-    } else {
-      return !emailRegex.test(email);
-    }
-  };
-
-  const isValidPhone = (num: any) => {
-    if (num === undefined) {
-      return false;
-    } else {
-      return !phoneRegex.test(num);
-    }
-  };
-
   // useEffect(() => {
   //   if (infoCards.length === 0) {
   //     navigate(availablePaths?.PERSONALIZE_YOUR_ROOM);
@@ -376,52 +349,52 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
               <InfoCard
                 key={index}
                 title={status ? `${card.formData.firstName}` : t('Accompanying Guest')}
-                icon={status ? accompanyingGuestSubmodule?.cardIcon : 'userGroup'}
+                icon={status ? accompanyingGuestSubmodule?.cardIcon : UserGroup}
                 status={status}
                 isCardOpened={cardOPen}
               >
                 <div className={styles.identityInputs}>
                   {accompanyingGuestSubmodule.details.map((item: any) => {
-                    if (item.isActive == 'true') {
+                    if (item?.isActive) {
                       return (
-                        <React.Fragment key={item.name}>
-                          {item.type == 'Select' ? (
+                        <React.Fragment key={item?.name}>
+                          {item?.type === SelectDropdown ? (
                             <div className={styles.col_100}>
                               <StyledFormControl
-                                required={item.required === 'true' ? true : false}
-                                disabled={item.isDisabled == 'true' ? true : false}
+                                required={item?.required}
+                                disabled={item?.isDisabled}
                                 className={styles.guestDataInput}
                                 variant='standard'
                                 sx={{ m: 1, minWidth: '100%' }}
                               >
-                                <InputLabel>{item.label}</InputLabel>
+                                <InputLabel>{item?.label}</InputLabel>
                                 <Select
                                   className={styles.guestDataInput}
-                                  label={item.label}
+                                  label={item?.label}
                                   variant='standard'
-                                  name={item.name}
-                                  id={item.name}
-                                  value={card?.formData?.[item.name] || ''}
+                                  name={item?.name}
+                                  id={item?.name}
+                                  value={card?.formData?.[item?.name] || ''}
                                   onChange={handleInputChange(index)}
-                                  disabled={item.isDisabled == 'true' ? true : false}
+                                  disabled={item?.isDisabled}
                                   IconComponent={DropDown}
                                 >
-                                  {item.options.map((item: any) => {
+                                  {item?.options.map((item: any) => {
                                     return (
-                                      <MenuItem value={item.value} key={item.value}>
-                                        <em>{item.name}</em>
+                                      <MenuItem value={item?.value} key={item?.value}>
+                                        <em>{item?.name}</em>
                                       </MenuItem>
                                     );
                                   })}
                                 </Select>
                               </StyledFormControl>
                             </div>
-                          ) : item.type == 'CheckBox' ? (
+                          ) : item?.type === CheckBox ? (
                             <div className={styles.agrementWrapperTitle}>
                               <StyledCheckBox
                                 onChange={handleInputChange(index)}
                                 onClick={toggleConditionsAccepted}
-                                name={item.name}
+                                name={item?.name}
                                 value={conditionsAccepted}
                                 checked={card.formData.condition == 'false'}
                               />
@@ -430,31 +403,31 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
                           ) : (
                             <div className={styles.col_100}>
                               <StyledInput
-                                required={item.required === 'true' ? true : false}
+                                required={item?.required}
                                 autoComplete='off'
-                                label={item.label.toLowerCase()}
+                                label={item?.label.toLowerCase()}
                                 className={styles.guestDataInput}
                                 variant='standard'
-                                name={item.name}
-                                value={card?.formData?.[item.name]?.toLowerCase() || ''}
-                                type={item.type}
-                                disabled={item.isDisabled == 'true' ? true : false}
-                                onChange={handleInputChange(index, item.label)}
+                                name={item?.name}
+                                value={card?.formData?.[item?.name]?.toLowerCase() || ''}
+                                type={item?.type}
+                                disabled={item?.isDisabled}
+                                onChange={handleInputChange(index, item?.label)}
                                 onFocus={() => {
-                                  item.required == 'true' &&
+                                  item?.required &&
                                     handleFieldBlur(
                                       index,
-                                      item.name,
-                                      card?.formData?.[item.name]?.toLowerCase() || '',
-                                      item.label
+                                      item?.name,
+                                      card?.formData?.[item?.name]?.toLowerCase() || '',
+                                      item?.label
                                     );
                                 }}
                                 error={
-                                  otherFieldErrors[index]?.fieldName === item.name &&
+                                  otherFieldErrors[index]?.fieldName === item?.name &&
                                   !otherFieldErrors[index]?.isValid
                                 }
                                 helperText={
-                                  otherFieldErrors[index]?.fieldName === item.name
+                                  otherFieldErrors[index]?.fieldName === item?.name
                                     ? otherFieldErrors[index]?.errorMessage
                                     : ''
                                 }
