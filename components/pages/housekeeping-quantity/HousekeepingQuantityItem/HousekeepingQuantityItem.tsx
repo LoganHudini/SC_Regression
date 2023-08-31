@@ -8,12 +8,14 @@ import { toast } from 'react-toastify';
 import { housekeepingQuantityStorage } from 'storage/housekeeping-quantity.storage';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { useTranslation } from 'react-i18next';
+import cx from 'classnames';
 
 export const HousekeepingQuantityItem: React.FC<IHousekeepingQuantityItemProps> = ({
   title,
   id,
   maxQuantity,
   maxQuantityActive,
+  changeAlignment,
 }) => {
   const { t } = useTranslation('housekeeping-quantity');
 
@@ -71,10 +73,33 @@ export const HousekeepingQuantityItem: React.FC<IHousekeepingQuantityItemProps> 
 
   return (
     <>
-      <div className={styles.housekeepingQuantityItemWrapper}>
-        <p className={styles.housekeepingQuantityItemTitle}>Quantity</p>
-        <p className={styles.maxCount}>(Max Count: {maxQuantity} )</p>
-        <div className={styles.plusMinusWrapper}>
+      <div
+        className={cx(styles.housekeepingQuantityItemWrapper, {
+          [styles.housekeepingQuantityItemWrapperInner]: changeAlignment,
+        })}
+      >
+        <p
+          className={cx(styles.housekeepingQuantityItemTitle, {
+            [styles.housekeepingQuantityItemTitleInner]: changeAlignment,
+          })}
+        >
+          {changeAlignment ? title : 'Quantity'}
+          <div className={styles.CountInner}>
+            {changeAlignment ? `(Max Count: ${maxQuantity} )` : ''}
+          </div>
+        </p>
+        <p
+          className={cx(styles.maxCount, {
+            [styles.disabled]: changeAlignment,
+          })}
+        >
+          (Max Count: {maxQuantity} )
+        </p>
+        <div
+          className={cx(styles.plusMinusWrapper, {
+            [styles.plusMinusWrapperTitleInner]: changeAlignment,
+          })}
+        >
           {maxQuantityActive ? (
             <PlusMinusInput
               value={quantity}

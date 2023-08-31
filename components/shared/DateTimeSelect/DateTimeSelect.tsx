@@ -1,92 +1,134 @@
-import { CalendarPicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import styles from './DateTimeSelect.module.scss';
-import ArrowBottomIcon from '@icons/arrowBottom.svg';
-import cx from 'classnames';
 import { IDateTimeSelectProps } from './DateTimeSelect.types';
-import { TimeSelect } from '../TimeSelectModal/TimeSelectModal';
+import Picker from 'rmc-picker/lib/Picker';
+import MultiPicker from 'rmc-picker/lib/MultiPicker';
+import { StyledButton } from '../StyledButton/StyledButton';
+import { timeFormats } from 'utils/timeFormats';
+
+const dayMonthArray: any = [];
+for (let month = 0; month < 12; month++) {
+  const daysInMonth = dayjs().month(month).daysInMonth();
+  for (let day = 1; day <= daysInMonth; day++) {
+    const formattedDate = dayjs().month(month).date(day).format(timeFormats.DAY_MONTH);
+    dayMonthArray.push(formattedDate);
+  }
+}
+const hoursArray = new Array(13).fill(0).map((_el, index) => String(index).padStart(2, '0'));
+const minutesArray = new Array(60).fill(0).map((_el, index) => String(index).padStart(2, '0'));
+const timeFormat = ['AM', 'PM'];
 
 const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
-  setSelectedDate,
-  selectedDate,
   setSelectedTime,
   selectedTime,
-  minutesArray,
-  disable,
-  setDisable,
+  handleSave,
+  disableDay,
+  // schedules,
+  // setShowImmediateTime,
+  // showImmediateTime,
 }) => {
-  const [datePickerOpened, setDatePickerOpened] = useState(false);
-  const [timeSelectOpened, setTimeSelectOpened] = useState(false);
-  const handleOpenDatePicker = useCallback(() => {
-    setDatePickerOpened((oldState) => !oldState);
-  }, []);
+  const [disable, setDisable] = useState(false);
 
-  const handleDateChange = useCallback(
-    (value: dayjs.Dayjs | null) => {
-      setSelectedDate(dayjs(value).format('YYYY-MM-DD'));
+  // useEffect(() => {
+  //   if (selectedTime) {
+  //     const selectedDateTime = dayjs(selectedTime, timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2);
+
+  //     if (schedules[0] === 'TOMORROW') {
+  //       if (selectedDateTime.isSame(newDate, 'day')) {
+  //         // console.log('yes TOMORROW');
+  //         setDisable(true);
+  //       } else if (selectedDateTime.isAfter(newDate, 'day')) {
+  //         // console.log('Done');
+  //         setDisable(false);
+  //       } else {
+  //         // console.log('yes');
+  //         setDisable(false);
+  //       }
+  //     } else {
+  //       if (!dayjs().isAfter(dayjs(selectedTime, timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2))) {
+  //         // console.log('Past time');
+  //         setDisable(true);
+  //       } else {
+  //         // console.log('Future time');
+  //         setDisable(false);
+  //       }
+  //     }
+  //   }
+  // }, [schedules, selectedTime]);
+
+  useEffect(() => {
+    if (selectedTime) {
+      if (dayjs().isAfter(dayjs(selectedTime, timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2))) {
+        setDisable(false);
+      } else {
+        setDisable(true);
+      }
+    }
+  }, [selectedTime]);
+
+  const onChange = useCallback(
+    (value: [string, string, string, string]) => {
+      setSelectedTime(value.join(':'));
     },
-    [setSelectedDate],
+    [setSelectedTime],
   );
-
-  const toggleTimeSelectOpened = useCallback(() => {
-    setTimeSelectOpened((oldState) => !oldState);
-  }, []);
 
   return (
     <div>
-      <div className={styles.dateTimeHeading}>Add Delivery Date & Time</div>
-      <div className={styles.dateTimeWrapper}>
-        <>
-          <>
-            <div className={styles.chooseAnotherDateRow}>
-              <p className={styles.chooseAnotherDateText}>{'Date'}</p>
-              <div onClick={handleOpenDatePicker}>
-                {dayjs(selectedDate).format('YYYY-MM-DD')}
-                {'   '}
-                <ArrowBottomIcon
-                  className={cx(styles.chooseAnotherDateArrow, {
-                    [styles.chooseAnotherDateArrowOpened]: datePickerOpened,
-                  })}
-                />
-              </div>
-            </div>
-
-            <div
-              className={cx(styles.datePickerWrapper, {
-                [styles.datePickerWrapperOpened]: datePickerOpened,
-              })}
+      <>
+        <div className={styles.timePickerWrapper}>
+          <MultiPicker onValueChange={onChange} selectedValue={selectedTime?.split(':')}>
+            <Picker indicatorClassName='my-picker-indicator' disabled={disableDay}>
+              {dayMonthArray?.map((day: any) => (
+                <Picker.Item
+                  className={
+                    disableDay ? 'my-picker-view-item dayDisabled' : 'my-picker-view-item day'
+                  }
+                  key={day}
+                  value={day}
+                >
+                  {day === dayjs().format(timeFormats.DAY_MONTH) ? 'Today' : day}
+                </Picker.Item>
+              ))}
+            </Picker>
+            <Picker
+              indicatorClassName='my-picker-indicator'
+              // disabled={showCalendar && showSchedules?.customSchedule === 'Date ' ? true : false}
             >
-              <CalendarPicker
-                className={styles.styledDateInput}
-                onChange={handleDateChange}
-                minDate={dayjs(new Date())}
-                date={selectedDate ? dayjs(selectedDate) : null}
-              />
-            </div>
-          </>
+              {hoursArray.map((hour) => (
+                <Picker.Item className='my-picker-view-item hour' key={hour} value={hour}>
+                  {hour}
+                </Picker.Item>
+              ))}
+            </Picker>
+            <Picker
+              indicatorClassName='my-picker-indicator'
+              // disabled={showCalendar && showSchedules?.customSchedule === 'Date ' ? true : false}
+            >
+              {minutesArray?.map((minute) => (
+                <Picker.Item className='my-picker-view-item minute' key={minute} value={minute}>
+                  {minute}
+                </Picker.Item>
+              ))}
+            </Picker>
+            <Picker
+              indicatorClassName='my-picker-indicator'
+              // disabled={showCalendar && showSchedules?.customSchedule === 'Date ' ? true : false}
+            >
+              {timeFormat?.map((format) => (
+                <Picker.Item className='my-picker-view-item format' key={format} value={format}>
+                  {format}
+                </Picker.Item>
+              ))}
+            </Picker>
+          </MultiPicker>
+        </div>
 
-          <div className={styles.chooseTimeRow}>
-            <p className={styles.chooseTimeTitle}>{'Preferred Time'}</p>
-            <div className={styles.timeBox} onClick={toggleTimeSelectOpened}>
-              {disable ? dayjs().format('HH:mm') : selectedTime}
-              <ArrowBottomIcon className={styles.timeBoxArrow} />
-            </div>
-          </div>
-        </>
-      </div>
-      {timeSelectOpened && (
-        <TimeSelect
-          opened={timeSelectOpened}
-          disable={disable}
-          setDisable={setDisable}
-          toggleOpened={toggleTimeSelectOpened}
-          setSelectedTime={setSelectedTime}
-          selectedTime={selectedTime}
-          minutesArrayProps={minutesArray}
-          selectedDate={selectedDate}
-        />
-      )}
+        <StyledButton disabled={!disable} onClick={() => handleSave()}>
+          Save
+        </StyledButton>
+      </>
     </div>
   );
 };

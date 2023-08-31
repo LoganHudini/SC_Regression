@@ -2,11 +2,33 @@
   text-align: center;
 }
 
+.housekeepingQuantityItemWrapperInner {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.disabled {
+  display: none;
+}
+
+.CountInner {
+  font-family: var(--primary-font-regular);
+  font-size: $xsmall;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  color: var(--tertiary-text-color);
+}
+
 .housekeepingQuantityItemTitle {
   font-size: $medium;
-  margin-right: auto;
   font-family: var(--primary-font-news);
-  margin-bottom: 15px;
+}
+
+.housekeepingQuantityItemTitleInner {
+  font-size: $medium;
+  text-align: start;
+  font-family: var(--primary-font-news);
 }
 
 .maxCount {
@@ -22,6 +44,14 @@
   display: flex;
   justify-content: center;
   margin-bottom: 50px;
+}
+
+.plusMinusWrapperTitleInner {
+  margin-top: -10px;
+  margin-right: 8px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
 }
 
 .button {
