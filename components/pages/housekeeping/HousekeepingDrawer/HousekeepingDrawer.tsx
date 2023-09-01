@@ -1,6 +1,5 @@
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
-import React, { useState } from 'react';
-import cx from 'classnames';
+import React, { useEffect, useMemo, useState } from 'react';
 import styles from './HousekeepingDrawer.module.scss';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
@@ -10,7 +9,6 @@ import DateTimeSelect from 'components/shared/DateTimeSelect/DateTimeSelect';
 import { timeFormats } from 'utils/timeFormats';
 import { ApolloError, useMutation, useReactiveVar } from '@apollo/client';
 import { HOUSEKEEPING_ORDER } from 'core/graphql/queries/HOUSEKEEPING_ORDER';
-import { housekeepingStorage } from 'storage/housekeeping.storage';
 import { HOTEL_ID } from 'core/graphql/endpoints';
 import { processError } from 'utils/processError';
 import { housekeepingQuantityStorage } from 'storage/housekeeping-quantity.storage';
@@ -25,6 +23,7 @@ export const HousekeepingDrawer = (props: any) => {
   const { opened, toggleOpened, showSchedules } = props;
   const { t } = useTranslation(['housekeeping', 'common']);
   const [showCalendar, setShowCalendar] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
   const [selectedTime, setSelectedTime] = useState(
     dayjs().format(timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM),
@@ -35,10 +34,10 @@ export const HousekeepingDrawer = (props: any) => {
   const housekeepingInfo: any = useReactiveVar(housekeepingQuantityStorage);
   const housekeepingInfo1 = useReactiveVar(housekeepingCheckboxStorage);
 
-  const combinedServiceRequestArray: any = [
-    ...housekeepingInfo.selectedItems,
-    ...housekeepingInfo1.selectedItems,
-  ];
+  const combinedServiceRequestArray = useMemo(
+    () => [...housekeepingInfo.selectedItems, ...housekeepingInfo1.selectedItems],
+    [housekeepingInfo.selectedItems, housekeepingInfo1.selectedItems],
+  );
 
   const [sendHousekeepingOrder] = useMutation(HOUSEKEEPING_ORDER, {
     context: { clientName: 'host_v4' },
@@ -47,6 +46,20 @@ export const HousekeepingDrawer = (props: any) => {
   const showQuantityLabel = showSchedules?.items?.filter(
     (schedule: any) => schedule?.maxQuantityActive,
   );
+
+  useEffect(() => {
+    if (opened && combinedServiceRequestArray?.length > 0) {
+      setDisabled(true);
+      const value = combinedServiceRequestArray?.find((x: any) => x?.quantity > 0);
+      if (showSchedules?.maxQuantityActive && value !== undefined) {
+        setDisabled(true);
+      } else if (value !== undefined) {
+        setDisabled(true);
+      } else {
+        setDisabled(false);
+      }
+    }
+  }, [opened, combinedServiceRequestArray, showSchedules?.maxQuantityActive]);
 
   const handleSave = () => {
     setShowCalendar(false);
@@ -63,6 +76,7 @@ export const HousekeepingDrawer = (props: any) => {
   const handleClose = () => {
     toggleOpened();
     setShowCalendar(false);
+    setDisabled(false);
     setSelectedTime(dayjs().format(timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM));
     housekeepingQuantityStorage({ selectedItems: [] });
     housekeepingCheckboxStorage({ selectedItems: [] });
@@ -253,7 +267,9 @@ export const HousekeepingDrawer = (props: any) => {
                 )}
 
                 {!showCalendar && (
-                  <StyledButton onClick={() => handleOrder()}>PLACE ORDER</StyledButton>
+                  <StyledButton disabled={!disabled} onClick={() => handleOrder()}>
+                    PLACE ORDER
+                  </StyledButton>
                 )}
               </div>
             </div>
