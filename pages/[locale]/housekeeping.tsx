@@ -128,13 +128,6 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
           toggleOpened={toggleConfirmOpened}
           showSchedules={showSchedules}
         />
-        {/* <HousekeepingConfirm
-          // housekeepingItems={data?.getServiceRequestDetails?.houseKeeping}
-          // conciergeItems={data?.getServiceRequestDetails?.concierge}
-          opened={confirmOpened}
-          toggleOpened={toggleConfirmOpened}
-        /> */}
-        <HousekeepingRequestModal />
       </div>
     </>
   );

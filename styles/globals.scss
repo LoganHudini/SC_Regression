@@ -320,3 +320,12 @@ h6 {
   border-radius: 10px;
   background-color: var(--primary-theme-color);
 }
+
+.MuiDialog-paper {
+  position: absolute !important;
+  bottom: 2rem !important;
+  border-radius: 10px;
+  width: 80%;
+  margin: 0 auto;
+  height: 100px;
+}

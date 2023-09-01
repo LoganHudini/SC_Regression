@@ -1,0 +1,21 @@
+.content {
+  display: flex;
+  justify-content: center;
+  padding-top: 15px;
+}
+
+.heading {
+  font-family: var(--secondary-font-regular);
+  font-size: $header;
+  padding-top: 10px;
+}
+
+.request {
+  font-family: var(--primary-font-regular);
+  font-size: $xsmall;
+}
+
+.wrapper {
+  margin-right: 14px;
+  padding-top: 5px;
+}

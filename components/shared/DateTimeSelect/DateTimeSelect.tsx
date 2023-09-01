@@ -6,6 +6,7 @@ import Picker from 'rmc-picker/lib/Picker';
 import MultiPicker from 'rmc-picker/lib/MultiPicker';
 import { StyledButton } from '../StyledButton/StyledButton';
 import { timeFormats } from 'utils/timeFormats';
+import { CUSTOM, DATE, DAY, IMMEDIATE, TODAY, TOMORROW } from 'utils/constants';
 
 const dayMonthArray: any = [];
 for (let month = 0; month < 12; month++) {
@@ -28,30 +29,26 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
   const [disable, setDisable] = useState(false);
 
   useEffect(() => {
-    if (!selectedTime) {
-      return;
-    }
-    if (
-      showSchedules?.schedule?.includes('TODAY') &&
-      showSchedules?.schedule?.includes('TOMORROW')
-    ) {
-      if (
-        dayjs(selectedTime, timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2).isAfter(
-          dayjs().add(1, 'day'),
-          'day',
-        )
-      ) {
-        setDisable(false);
-      } else if (dayjs().isAfter(dayjs(selectedTime, timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2))) {
-        setDisable(false);
+    if (selectedTime) {
+      if (showSchedules?.schedule?.includes(TODAY) && showSchedules?.schedule?.includes(TOMORROW)) {
+        if (
+          dayjs(selectedTime, timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2).isAfter(
+            dayjs().add(1, DAY),
+            DAY,
+          )
+        ) {
+          setDisable(false);
+        } else if (dayjs().isAfter(dayjs(selectedTime, timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2))) {
+          setDisable(false);
+        } else {
+          setDisable(true);
+        }
       } else {
-        setDisable(true);
-      }
-    } else {
-      if (dayjs().isAfter(dayjs(selectedTime, timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2))) {
-        setDisable(false);
-      } else {
-        setDisable(true);
+        if (dayjs().isAfter(dayjs(selectedTime, timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2))) {
+          setDisable(false);
+        } else {
+          setDisable(true);
+        }
       }
     }
   }, [selectedTime, showSchedules?.schedule]);
@@ -59,12 +56,13 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
   useEffect(() => {
     let newSelectedTime = selectedTime;
     if (
-      showSchedules?.schedule?.includes('TOMORROW') &&
-      !showSchedules?.schedule?.includes('TODAY') &&
-      !showSchedules?.schedule?.includes('IMMEDIATE')
+      showSchedules?.schedule?.includes(TOMORROW) &&
+      !showSchedules?.schedule?.includes(TODAY) &&
+      !showSchedules?.schedule.includes(CUSTOM) &&
+      !showSchedules?.schedule?.includes(IMMEDIATE)
     ) {
       const originalDate = dayjs(selectedTime, timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM);
-      const newDate = originalDate?.add(1, 'day');
+      const newDate = originalDate?.add(1, DAY);
       newSelectedTime = newDate?.format(timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM);
       setSelectedTime(newSelectedTime);
     }
@@ -85,12 +83,12 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
             <Picker
               indicatorClassName='my-picker-indicator'
               disabled={
-                (!showSchedules?.schedule.includes('TODAY') &&
-                  !showSchedules?.schedule?.includes('IMMEDIATE') &&
-                  showSchedules?.schedule.includes('TOMORROW')) ||
-                (showSchedules?.schedule.includes('TODAY') &&
-                  !showSchedules?.schedule?.includes('IMMEDIATE') &&
-                  !showSchedules?.schedule.includes('TOMORROW'))
+                (!showSchedules?.schedule.includes(TODAY) &&
+                  !showSchedules?.schedule?.includes(IMMEDIATE) &&
+                  showSchedules?.schedule.includes(TOMORROW)) ||
+                (showSchedules?.schedule.includes(TODAY) &&
+                  !showSchedules?.schedule?.includes(IMMEDIATE) &&
+                  !showSchedules?.schedule.includes(TOMORROW))
                   ? true
                   : false
               }
@@ -98,39 +96,87 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
               {dayMonthArray?.map((day: any) => (
                 <Picker.Item
                   className={
-                    (!showSchedules?.schedule.includes('TODAY') &&
-                      !showSchedules?.schedule?.includes('IMMEDIATE') &&
-                      showSchedules?.schedule.includes('TOMORROW')) ||
-                    (showSchedules?.schedule.includes('TODAY') &&
-                      !showSchedules?.schedule?.includes('IMMEDIATE') &&
-                      !showSchedules?.schedule.includes('TOMORROW'))
+                    (!showSchedules?.schedule.includes(TODAY) &&
+                      !showSchedules?.schedule?.includes(IMMEDIATE) &&
+                      showSchedules?.schedule.includes(TOMORROW)) ||
+                    (showSchedules?.schedule.includes(TODAY) &&
+                      !showSchedules?.schedule?.includes(IMMEDIATE) &&
+                      !showSchedules?.schedule.includes(TOMORROW))
                       ? 'my-picker-view-item dayDisabled'
                       : 'my-picker-view-item day'
                   }
                   key={day}
                   value={day}
                 >
-                  {day === dayjs().format(timeFormats.DAY_MONTH) ? 'Today' : day}
+                  {day === dayjs().format(timeFormats.DAY_MONTH) ? TODAY : day}
                 </Picker.Item>
               ))}
             </Picker>
-            <Picker indicatorClassName='my-picker-indicator'>
+            <Picker
+              indicatorClassName='my-picker-indicator'
+              disabled={
+                showSchedules?.schedule.includes(CUSTOM) && showSchedules?.customSchedule === DATE
+                  ? true
+                  : false
+              }
+            >
               {hoursArray.map((hour) => (
-                <Picker.Item className='my-picker-view-item hour' key={hour} value={hour}>
+                <Picker.Item
+                  className={
+                    showSchedules?.schedule.includes(CUSTOM) &&
+                    showSchedules?.customSchedule === DATE
+                      ? 'my-picker-view-item hourDisabled'
+                      : 'my-picker-view-item hour'
+                  }
+                  key={hour}
+                  value={hour}
+                >
                   {hour}
                 </Picker.Item>
               ))}
             </Picker>
-            <Picker indicatorClassName='my-picker-indicator'>
+            <Picker
+              indicatorClassName='my-picker-indicator'
+              disabled={
+                showSchedules?.schedule.includes(CUSTOM) && showSchedules?.customSchedule === DATE
+                  ? true
+                  : false
+              }
+            >
               {minutesArray?.map((minute) => (
-                <Picker.Item className='my-picker-view-item minute' key={minute} value={minute}>
+                <Picker.Item
+                  className={
+                    showSchedules?.schedule.includes(CUSTOM) &&
+                    showSchedules?.customSchedule === DATE
+                      ? 'my-picker-view-item minuteDisabled'
+                      : 'my-picker-view-item minute'
+                  }
+                  key={minute}
+                  value={minute}
+                >
                   {minute}
                 </Picker.Item>
               ))}
             </Picker>
-            <Picker indicatorClassName='my-picker-indicator'>
+            <Picker
+              indicatorClassName='my-picker-indicator'
+              disabled={
+                showSchedules?.schedule.includes(CUSTOM) && showSchedules?.customSchedule === DATE
+                  ? true
+                  : false
+              }
+            >
               {timeFormat?.map((format) => (
-                <Picker.Item className='my-picker-view-item format' key={format} value={format}>
+                <Picker.Item
+                  className={
+                    showSchedules?.schedule.includes(CUSTOM) &&
+                    showSchedules?.customSchedule === DATE
+                      ? 'my-picker-view-item formatDisabled'
+                      : 'my-picker-view-item format'
+                  }
+                  key={format}
+                  value={format}
+                >
                   {format}
                 </Picker.Item>
               ))}

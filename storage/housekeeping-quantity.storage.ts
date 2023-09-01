@@ -5,6 +5,7 @@ export type IHousekeepingQuantityStorageData = {
     itemId: string;
     quantity: number;
     requested?: boolean;
+    name: string;
   }[];
 };
 

@@ -25,16 +25,39 @@
     margin: 0 auto;
   }
 
+  :global(.formatDisabled) {
+    width: 53% !important;
+    margin: 0 auto;
+    color: var(--tertiary-text-color) !important;
+    opacity: 0.6;
+  }
+
   :global(.minute) {
     width: 44% !important;
     margin: 0 auto;
     margin-left: 21px;
   }
 
+  :global(.minuteDisabled) {
+    width: 44% !important;
+    margin: 0 auto;
+    margin-left: 21px;
+    color: var(--tertiary-text-color) !important;
+    opacity: 0.6;
+  }
+
   :global(.hour) {
     width: 50% !important;
     margin: 0 auto;
     margin-left: 25px;
+  }
+
+  :global(.hourDisabled) {
+    width: 50% !important;
+    margin: 0 auto;
+    margin-left: 25px;
+    color: var(--tertiary-text-color) !important;
+    opacity: 0.6;
   }
 
   :global(.day) {

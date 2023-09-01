@@ -32,14 +32,14 @@ export const HousekeepingQuantityItem: React.FC<IHousekeepingQuantityItemProps> 
           if (item) {
             item.quantity++;
           } else {
-            draft?.selectedItems.push({ itemId: id, quantity: 1 });
+            draft?.selectedItems.push({ itemId: id, quantity: 1, name: title });
           }
         }),
       );
     } else {
       toast(t('Max limit reached for the selected item'), { type: 'error' });
     }
-  }, [id, maxQuantity, quantity, t]);
+  }, [id, maxQuantity, quantity, t, title]);
 
   const toggleRequested = useCallback(() => {
     housekeepingQuantityStorage(
@@ -54,7 +54,7 @@ export const HousekeepingQuantityItem: React.FC<IHousekeepingQuantityItemProps> 
             item.requested = false;
           }
         } else {
-          draft?.selectedItems.push({ itemId: id, quantity: 1, requested: true });
+          draft?.selectedItems.push({ itemId: id, quantity: 1, requested: true, name: title });
         }
       }),
     );
