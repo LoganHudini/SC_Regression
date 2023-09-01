@@ -26,7 +26,7 @@ export const HousekeepingDrawer = (props: any) => {
   const [disabled, setDisabled] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
   const [selectedTime, setSelectedTime] = useState(
-    dayjs().format(timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM),
+    dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM),
   );
 
   const [startY, setStartY] = useState(0);
@@ -77,7 +77,7 @@ export const HousekeepingDrawer = (props: any) => {
     toggleOpened();
     setShowCalendar(false);
     setDisabled(false);
-    setSelectedTime(dayjs().format(timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM));
+    setSelectedTime(dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM));
     housekeepingQuantityStorage({ selectedItems: [] });
     housekeepingCheckboxStorage({ selectedItems: [] });
   };
@@ -86,13 +86,8 @@ export const HousekeepingDrawer = (props: any) => {
     try {
       const response = await sendHousekeepingOrder({
         variables: {
-          bookingTime: dayjs().format(timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2),
-          // guestName: 'test test',
-          guestName:
-            (typeof window !== 'undefined' &&
-              localStorage.getItem('guestDetails') &&
-              JSON.parse(localStorage.getItem('guestDetails') ?? '').name) ??
-            '',
+          bookingTime: dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2),
+          guestName: 'test test',
           serviceName: showSchedules?.name,
           requestType: showSchedules?.__typename,
           hotelId: HOTEL_ID,
@@ -115,12 +110,12 @@ export const HousekeepingDrawer = (props: any) => {
                   : showSchedules?.schedule?.includes(CUSTOM) &&
                     showSchedules?.scheduleActive &&
                     showSchedules?.customSchedule === DATETIME
-                  ? dayjs(selectedTime).format(timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2)
+                  ? dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
                   : (showSchedules?.schedule?.includes(IMMEDIATE) ||
                       showSchedules?.schedule?.includes(TODAY) ||
                       showSchedules?.schedule?.includes(TOMORROW)) &&
                     showSchedules?.scheduleActive
-                  ? dayjs(selectedTime).format(timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2)
+                  ? dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
                   : '',
             })),
         },
@@ -130,7 +125,7 @@ export const HousekeepingDrawer = (props: any) => {
       housekeepingCheckboxStorage({ selectedItems: [] });
       toggleOpened();
       setShowCalendar(false);
-      setSelectedTime(dayjs().format(timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM));
+      setSelectedTime(dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM));
     } catch (e) {
       processError(t, e as ApolloError);
     }
@@ -147,6 +142,8 @@ export const HousekeepingDrawer = (props: any) => {
           elevation: 0,
           style: {
             maxWidth: '768px',
+            borderTopLeftRadius: 'var(--primary-drawer-top-left-border-radius)',
+            borderTopRightRadius: 'var(--primary-drawer-top-right-border-radius)',
             maxHeight: 'var(--primary-drawer-height)',
             margin: 'auto',
           },
@@ -183,7 +180,7 @@ export const HousekeepingDrawer = (props: any) => {
                       <>
                         <div className={styles.itemsWrapper}>
                           <div>Items Required</div>
-                          {showQuantityLabel?.length > 0 && <div>Quantity</div>}
+                          {showQuantityLabel?.length > 0 && <div>{t('Quantity')}</div>}
                         </div>
 
                         {showSchedules?.items
@@ -223,7 +220,7 @@ export const HousekeepingDrawer = (props: any) => {
                       </div>
 
                       <div className={styles.calendarDateText}>
-                        {dayjs(selectedTime).format(timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2)}
+                        {dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)}
                       </div>
                     </div>
                   </>
@@ -244,10 +241,10 @@ export const HousekeepingDrawer = (props: any) => {
                         </div>
                         {!showCalendar &&
                           !dayjs().isAfter(
-                            dayjs(selectedTime, timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM),
+                            dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM),
                           ) && (
                             <div className={styles.calendarDateText}>
-                              {dayjs(selectedTime).format(timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2)}
+                              {dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)}
                             </div>
                           )}
                       </div>
@@ -268,7 +265,7 @@ export const HousekeepingDrawer = (props: any) => {
 
                 {!showCalendar && (
                   <StyledButton disabled={!disabled} onClick={() => handleOrder()}>
-                    PLACE ORDER
+                    {t('PLACE ORDER')}
                   </StyledButton>
                 )}
               </div>

@@ -83,7 +83,7 @@ export const HousekeepingQuantityItem: React.FC<IHousekeepingQuantityItemProps> 
             [styles.housekeepingQuantityItemTitleInner]: changeAlignment,
           })}
         >
-          {changeAlignment ? title : 'Quantity'}
+          {changeAlignment ? title : t('Quantity')}
           <div className={styles.CountInner}>
             {changeAlignment ? `(Max Count: ${maxQuantity} )` : ''}
           </div>

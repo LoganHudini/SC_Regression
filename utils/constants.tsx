@@ -15,6 +15,7 @@ export const CUSTOM = 'CUSTOM';
 export const TODAY = 'TODAY';
 export const TOMORROW = 'TOMORROW';
 export const IMMEDIATE = 'IMMEDIATE';
+export const QUANTITY = 'Quantity';
 export const DATE = 'Date ';
 export const DAY = 'day';
 export const DATETIME = 'Date & Time';
@@ -118,6 +119,8 @@ export const STATUS = [
   { key: 'DELIVERED', value: 'Delivered' },
   { key: 'ACCEPTED', value: 'Accepted' },
 ];
+
+export const TimeFormatArray = ['AM', 'PM'];
 
 // path constants
 export const HOUSEKEEPING = 'HOUSEKEEPING';

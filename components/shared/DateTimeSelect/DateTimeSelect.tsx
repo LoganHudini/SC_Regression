@@ -6,7 +6,8 @@ import Picker from 'rmc-picker/lib/Picker';
 import MultiPicker from 'rmc-picker/lib/MultiPicker';
 import { StyledButton } from '../StyledButton/StyledButton';
 import { timeFormats } from 'utils/timeFormats';
-import { CUSTOM, DATE, DAY, IMMEDIATE, TODAY, TOMORROW } from 'utils/constants';
+import { CUSTOM, DATE, DAY, IMMEDIATE, TODAY, TOMORROW, TimeFormatArray } from 'utils/constants';
+import { useTranslation } from 'react-i18next';
 
 const dayMonthArray: any = [];
 for (let month = 0; month < 12; month++) {
@@ -18,7 +19,6 @@ for (let month = 0; month < 12; month++) {
 }
 const hoursArray = new Array(13).fill(0).map((_el, index) => String(index).padStart(2, '0'));
 const minutesArray = new Array(60).fill(0).map((_el, index) => String(index).padStart(2, '0'));
-const timeFormat = ['AM', 'PM'];
 
 const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
   setSelectedTime,
@@ -26,25 +26,30 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
   handleSave,
   showSchedules,
 }) => {
+  const { t } = useTranslation(['common']);
   const [disable, setDisable] = useState(false);
+  const scheduledToday = showSchedules?.schedule?.includes(TODAY);
+  const scheduledTomorrow = showSchedules?.schedule?.includes(TOMORROW);
+  const scheduledCustom = showSchedules?.schedule?.includes(CUSTOM);
+  const scheduledImmediate = showSchedules?.schedule?.includes(IMMEDIATE);
 
   useEffect(() => {
     if (selectedTime) {
-      if (showSchedules?.schedule?.includes(TODAY) && showSchedules?.schedule?.includes(TOMORROW)) {
+      if (scheduledToday && scheduledTomorrow) {
         if (
-          dayjs(selectedTime, timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2).isAfter(
+          dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2).isAfter(
             dayjs().add(1, DAY),
             DAY,
           )
         ) {
           setDisable(false);
-        } else if (dayjs().isAfter(dayjs(selectedTime, timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2))) {
+        } else if (dayjs().isAfter(dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2))) {
           setDisable(false);
         } else {
           setDisable(true);
         }
       } else {
-        if (dayjs().isAfter(dayjs(selectedTime, timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM_2))) {
+        if (dayjs().isAfter(dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2))) {
           setDisable(false);
         } else {
           setDisable(true);
@@ -55,15 +60,10 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
 
   useEffect(() => {
     let newSelectedTime = selectedTime;
-    if (
-      showSchedules?.schedule?.includes(TOMORROW) &&
-      !showSchedules?.schedule?.includes(TODAY) &&
-      !showSchedules?.schedule.includes(CUSTOM) &&
-      !showSchedules?.schedule?.includes(IMMEDIATE)
-    ) {
-      const originalDate = dayjs(selectedTime, timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM);
+    if (scheduledTomorrow && !scheduledToday && !scheduledCustom && !scheduledImmediate) {
+      const originalDate = dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM);
       const newDate = originalDate?.add(1, DAY);
-      newSelectedTime = newDate?.format(timeFormats.DAY_MOUNTH_HOUR_MINUTE_AM);
+      newSelectedTime = newDate?.format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM);
       setSelectedTime(newSelectedTime);
     }
   }, [setSelectedTime, showSchedules?.schedule]);
@@ -83,12 +83,8 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
             <Picker
               indicatorClassName='my-picker-indicator'
               disabled={
-                (!showSchedules?.schedule.includes(TODAY) &&
-                  !showSchedules?.schedule?.includes(IMMEDIATE) &&
-                  showSchedules?.schedule.includes(TOMORROW)) ||
-                (showSchedules?.schedule.includes(TODAY) &&
-                  !showSchedules?.schedule?.includes(IMMEDIATE) &&
-                  !showSchedules?.schedule.includes(TOMORROW))
+                (!scheduledToday && !scheduledImmediate && scheduledTomorrow) ||
+                (scheduledToday && !scheduledImmediate && !scheduledTomorrow)
                   ? true
                   : false
               }
@@ -96,12 +92,8 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
               {dayMonthArray?.map((day: any) => (
                 <Picker.Item
                   className={
-                    (!showSchedules?.schedule.includes(TODAY) &&
-                      !showSchedules?.schedule?.includes(IMMEDIATE) &&
-                      showSchedules?.schedule.includes(TOMORROW)) ||
-                    (showSchedules?.schedule.includes(TODAY) &&
-                      !showSchedules?.schedule?.includes(IMMEDIATE) &&
-                      !showSchedules?.schedule.includes(TOMORROW))
+                    (!scheduledToday && !scheduledImmediate && scheduledTomorrow) ||
+                    (scheduledToday && !scheduledImmediate && !scheduledTomorrow)
                       ? 'my-picker-view-item dayDisabled'
                       : 'my-picker-view-item day'
                   }
@@ -114,17 +106,12 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
             </Picker>
             <Picker
               indicatorClassName='my-picker-indicator'
-              disabled={
-                showSchedules?.schedule.includes(CUSTOM) && showSchedules?.customSchedule === DATE
-                  ? true
-                  : false
-              }
+              disabled={scheduledCustom && showSchedules?.customSchedule === DATE ? true : false}
             >
               {hoursArray.map((hour) => (
                 <Picker.Item
                   className={
-                    showSchedules?.schedule.includes(CUSTOM) &&
-                    showSchedules?.customSchedule === DATE
+                    scheduledCustom && showSchedules?.customSchedule === DATE
                       ? 'my-picker-view-item hourDisabled'
                       : 'my-picker-view-item hour'
                   }
@@ -137,17 +124,12 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
             </Picker>
             <Picker
               indicatorClassName='my-picker-indicator'
-              disabled={
-                showSchedules?.schedule.includes(CUSTOM) && showSchedules?.customSchedule === DATE
-                  ? true
-                  : false
-              }
+              disabled={scheduledCustom && showSchedules?.customSchedule === DATE ? true : false}
             >
               {minutesArray?.map((minute) => (
                 <Picker.Item
                   className={
-                    showSchedules?.schedule.includes(CUSTOM) &&
-                    showSchedules?.customSchedule === DATE
+                    scheduledCustom && showSchedules?.customSchedule === DATE
                       ? 'my-picker-view-item minuteDisabled'
                       : 'my-picker-view-item minute'
                   }
@@ -160,17 +142,12 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
             </Picker>
             <Picker
               indicatorClassName='my-picker-indicator'
-              disabled={
-                showSchedules?.schedule.includes(CUSTOM) && showSchedules?.customSchedule === DATE
-                  ? true
-                  : false
-              }
+              disabled={scheduledCustom && showSchedules?.customSchedule === DATE ? true : false}
             >
-              {timeFormat?.map((format) => (
+              {TimeFormatArray?.map((format) => (
                 <Picker.Item
                   className={
-                    showSchedules?.schedule.includes(CUSTOM) &&
-                    showSchedules?.customSchedule === DATE
+                    scheduledCustom && showSchedules?.customSchedule === DATE
                       ? 'my-picker-view-item formatDisabled'
                       : 'my-picker-view-item format'
                   }
@@ -185,7 +162,7 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
         </div>
 
         <StyledButton disabled={!disable} onClick={() => handleSave()}>
-          Save
+          {t('Save')}
         </StyledButton>
       </>
     </div>
