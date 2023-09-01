@@ -12,8 +12,8 @@ import {
   reservationGuestInfoStorageData,
 } from 'storage/reservation-guest-info.storage';
 import * as yup from 'yup';
-import { Email, EmailRegex, Phone, PhoneRegex } from 'utils/constants';
-import { generateValidationSchema } from 'utils/functions';
+import { EMAIL, EmailRegex, PHONE, PhoneRegex } from 'utils/constants';
+import { generateInitialFieldValues, generateValidationSchema } from 'utils/functions';
 
 export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
   selectedGuest,
@@ -31,10 +31,8 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
     const inputValue = value;
     reservationGuestInfoStorageData({ ...guestReservationInfo, [inputField]: inputValue });
   };
-  const initialFieldValues = guestInformationSection.reduce((values: any, field: any) => {
-    values[field?.name] = selectedGuest[field?.name] || '';
-    return values;
-  }, {});
+  const initialFieldValues = generateInitialFieldValues(guestInformationSection, selectedGuest);
+
   // const initialFieldValues: any = dynamicInitialValues(guestInformationSection, selectedGuest)
 
   const validationSchema = generateValidationSchema(guestInformationSection);
@@ -72,8 +70,7 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                 error={Boolean(formik.touched[field?.name]) && Boolean(formik.errors[field?.name])}
                 helperText={
                   formik.touched[field?.name] && formik.errors[field?.name]
-                    ? `${formik.errors[field?.name]}`
-                    : ''
+                  && `${formik.errors[field?.name]}`
                 }
               />
             </div>

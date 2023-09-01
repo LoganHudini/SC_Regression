@@ -43,8 +43,10 @@ export const BottomMenu = () => {
   const { t } = useTranslation(['common']);
 
   const openModuleOptionsDrawer = () => {
-    toggleModuleOptionsDrawer(true);
-    toggleHamburgerMenuDrawer(false);
+    navigate(availablePaths.GUEST_INFORMATION_INPUT);
+
+    // toggleModuleOptionsDrawer(true);
+    // toggleHamburgerMenuDrawer(false);
   };
 
   const openHamburgerMenuDrawer = () => {

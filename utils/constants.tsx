@@ -103,26 +103,25 @@ export const templateItems = [
     image: `/images/${HOTEL_CODE}/offers.png`,
   },
 ];
-export const DriversLicence = 'DRL';
-export const DriverLicence = 'DL';
-export const Passport = 'PASSPORT';
-export const Email = 'email';
-export const PhoneNumber = 'phoneNumber';
-export const Phone = 'phone';
-export const Checkin = 'checkin';
-export const Cybersource = 'cybersource';
-export const SelectDropdown = 'Select';
-export const GuestInformation = 'Guest Information';
-export const CreditCardInfo = 'Credit Card Info';
-export const IdentityVerification = 'Identity Verification';
-export const Information = 'information';
-export const CreditCard = 'creditCard';
-export const Guesticon = 'guestIcon';
-export const Guest = 'guest';
-export const UserGroup = 'userGroup';
-export const IdCard = 'idCard';
-export const AccompanyingGuest = 'accompanyingGuest';
-export const CheckBox = 'CheckBox';
+export const DRIVERSLICENCE = 'DRL';
+export const DRIVERLICENCE = 'DL';
+export const EMAIL = 'email';
+export const PHONENUMBER = 'phoneNumber';
+export const PHONE = 'phone';
+export const CHECKIN = 'checkin';
+export const CYBERSOURCE = 'cybersource';
+export const SELECTDROPDOWN = 'Select';
+export const GUESTINFORMATION = 'Guest Information';
+export const CREDITCARDINFO = 'Credit Card Info';
+export const IDENTITYVERIFICATION = 'Identity Verification';
+export const INFORMATION = 'information';
+export const CREDITCARD = 'creditCard';
+export const GUESTICON = 'guestIcon';
+export const GUEST = 'guest';
+export const USERGROUP = 'userGroup';
+export const IDCARD = 'idCard';
+export const ACCOMPANYINGGUEST = 'accompanyingGuest';
+export const CHECKBOX = 'CheckBox';
 
 export const PAYMENT = [
   { id: '2', name: 'CASH', message: '' },

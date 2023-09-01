@@ -13,7 +13,7 @@ import DownArrow from '@icons/downArrowCard.svg';
 import GuestGroup from '@icons/guestsGroupCard.svg';
 import { availablePaths } from 'utils/availablePaths';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { CreditCard, Cybersource, Guest, Guesticon, UserGroup } from 'utils/constants';
+import { CREDITCARD, CYBERSOURCE, GUEST, GUESTICON, USERGROUP } from 'utils/constants';
 
 export const InfoCard: React.FC<IInfoCardProps> = ({
   icon,
@@ -33,9 +33,9 @@ export const InfoCard: React.FC<IInfoCardProps> = ({
     setExpanded((state) => !state);
     setCardOpened(!cardOpened);
 
-    if (icon === CreditCard && !status) {
-      if (paymentType === Cybersource) {
-        navigate(availablePaths.CHECK_IN_PAYMENT);
+    if (icon === CREDITCARD && !status) {
+      if (paymentType === CYBERSOURCE) {
+        // navigate(availablePaths.CHECK_IN_PAYMENT);
       }
     }
     else {
@@ -50,13 +50,13 @@ export const InfoCard: React.FC<IInfoCardProps> = ({
           <div className={styles.homeCardInner}>
             <div className={styles.firstSection}>
               <div className={styles.homeIcon}>
-                {icon === CreditCard ? (
+                {icon === CREDITCARD ? (
                   <CreditCardIcon className={styles.okIcon} />
-                ) : icon === Guesticon ? (
+                ) : icon === GUESTICON ? (
                   <GuestIcon className={styles.okIcon} />
-                ) : icon === Guest ? (
+                ) : icon === GUEST ? (
                   <GuestUSer className={styles.okIcon} />
-                ) : icon === UserGroup ? (
+                ) : icon === USERGROUP ? (
                   <GuestGroup className={styles.okIcon} />
                 ) : (
                   <IdCard className={styles.okIcon} />

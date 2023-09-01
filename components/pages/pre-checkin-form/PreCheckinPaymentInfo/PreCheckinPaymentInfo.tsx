@@ -10,9 +10,9 @@ import { useReactiveVar } from '@apollo/client';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
-import { Cybersource, Email, Phone, PhoneRegex } from 'utils/constants';
+import { CYBERSOURCE, EMAIL, PHONE, PhoneRegex } from 'utils/constants';
 import * as yup from 'yup';
-import { generateValidationSchema } from 'utils/functions';
+import { generateInitialFieldValues, generateValidationSchema } from 'utils/functions';
 
 
 export const PreCheckinPaymentInfo: React.FC<IPreCheckinPaymentInfoProps> = ({ paymentInfo, creditCardInfoSection, paymentType }) => {
@@ -33,15 +33,12 @@ export const PreCheckinPaymentInfo: React.FC<IPreCheckinPaymentInfoProps> = ({ p
   };
 
   const edit = () => {
-    if (paymentType === Cybersource) {
+    if (paymentType === CYBERSOURCE) {
       navigate(availablePaths.CHECK_IN_PAYMENT);
     }
   };
 
-  const initialFieldValues = creditCardInfoSection.reduce((values: any, field: any) => {
-    values[field?.name] = paymentInfo[field?.name] || '';
-    return values;
-  }, {});
+  const initialFieldValues = generateInitialFieldValues(creditCardInfoSection, paymentInfo);
 
   const validationSchema = generateValidationSchema(creditCardInfoSection);
 
@@ -74,7 +71,7 @@ export const PreCheckinPaymentInfo: React.FC<IPreCheckinPaymentInfoProps> = ({ p
               }}
               onFocus={() => formik.setFieldTouched(field?.name, true)}
               error={Boolean(formik.touched[field?.name]) && Boolean(formik.errors[field?.name])}
-              helperText={formik.touched[field?.name] && formik.errors[field?.name] ? `${formik.errors[field?.name]}` : ''}
+              helperText={formik.touched[field?.name] && formik.errors[field?.name] && `${formik.errors[field?.name]}`}
             />
 
           </div>

@@ -20,9 +20,9 @@ import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
 import DateRangeIcon from '@icons/DateRangeIcon.svg';
 import * as yup from 'yup';
-import { Email, Phone, PhoneRegex, SelectDropdown } from 'utils/constants';
+import { EMAIL, PHONE, PhoneRegex, SELECTDROPDOWN } from 'utils/constants';
 import DropDown from '@icons/dropDownIcon.svg';
-import { generateValidationSchema } from 'utils/functions';
+import { generateInitialFieldValues, generateValidationSchema } from 'utils/functions';
 
 
 
@@ -44,10 +44,8 @@ export const PreCheckinDocInfo: React.FC<IPreCheckinDocInfoProps> = ({ docInfo, 
   const updateDocType = (value: string) => {
     sessionStorage.setItem('docType', value);
   };
-  const initialFieldValues = identityVerificationSection?.reduce((values: any, field: any) => {
-    values[field?.name] = docInfo[field?.name] || ''; // Use the value from selectedGuest if available, otherwise use an empty string
-    return values;
-  }, {});
+  const initialFieldValues = generateInitialFieldValues(identityVerificationSection, docInfo);
+
 
   const validationSchema = generateValidationSchema(identityVerificationSection);
 
@@ -82,8 +80,8 @@ export const PreCheckinDocInfo: React.FC<IPreCheckinDocInfoProps> = ({ docInfo, 
     <div className={styles.identityInputs}>
       {identityVerificationSection.map((field: any) => (
         field?.isActive && (
-          <>
-            {field?.type == SelectDropdown ?
+          <div key={field?.name}>
+            {field?.type == SELECTDROPDOWN ?
               <StyledFormControl
                 required={field?.required}
                 disabled={field?.isDisabled}
@@ -137,7 +135,7 @@ export const PreCheckinDocInfo: React.FC<IPreCheckinDocInfoProps> = ({ docInfo, 
 
               </div>}
 
-          </>
+          </div>
         )
       ))}
 

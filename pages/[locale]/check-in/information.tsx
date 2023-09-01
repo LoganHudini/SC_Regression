@@ -37,7 +37,7 @@ import { processError } from 'utils/processError';
 import { CURRENCY } from 'core/graphql/endpoints';
 
 import { getConfig } from 'utils/getConfiguration';
-import { Checkin, CreditCard, CreditCardInfo, DRIVERS_LICENCE, Email, EmailRegex, GuestInformation, Guesticon, IdCard, IdentityVerification, Information, PASSPORT, Phone, PhoneRegex } from 'utils/constants';
+import { CHECKIN, CREDITCARD, CREDITCARDINFO, DRIVERS_LICENCE, EMAIL, EmailRegex, GUESTINFORMATION, GUESTICON, IDCARD, IDENTITYVERIFICATION, INFORMATION, PASSPORT, PHONE, PhoneRegex } from 'utils/constants';
 
 export { getStaticPaths };
 
@@ -54,22 +54,22 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
   });
-  const checkinModule: any = config?.modules?.find((module) => module?.name === Checkin);
+  const checkinModule: any = config?.modules?.find((module) => module?.name === CHECKIN);
   const accompanyingGuestSubmodule = checkinModule?.submodules?.find(
-    (submodule: any) => submodule?.name === Information && submodule.isActive,
+    (submodule: any) => submodule?.name === INFORMATION && submodule.isActive,
   );
   const activeSections = accompanyingGuestSubmodule.details.filter(
     (section: any) => section.isActive,
   );
 
   const guestInformationSection = activeSections.find(
-    (section: any) => section.name === GuestInformation,
+    (section: any) => section.name === GUESTINFORMATION,
   );
   const creditCardInfoSection = activeSections.find(
-    (section: any) => section.name === CreditCardInfo,
+    (section: any) => section.name === CREDITCARDINFO,
   );
   const identityVerificationSection = activeSections.find(
-    (section: any) => section.name === IdentityVerification,
+    (section: any) => section.name === IDENTITYVERIFICATION,
   );
   const paymentType = creditCardInfoSection.type;
 
@@ -90,61 +90,6 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
       isComplete: buttonStatus,
     });
   }, [reservationInfo]);
-
-  // useEffect(() => {
-  //   setButtonStatus(
-  //     guestReservationInfo?.firstName &&
-  //       guestReservationInfo?.lastName &&
-  //       guestReservationInfo?.email &&
-  //       guestReservationInfo?.phone &&
-  //       guestReservationInfo?.cardHolderName &&
-  //       guestReservationInfo?.cardNumber &&
-  //       guestReservationInfo?.cardType &&
-  //       guestReservationInfo?.cardExpiryDate &&
-  //       guestReservationInfo?.docNo &&
-  //       guestReservationInfo?.docType &&
-  //       guestReservationInfo?.effectiveDate !== 'Invalid Date' &&
-  //       guestReservationInfo?.effectiveDate !== '' &&
-  //       guestReservationInfo?.issueCountry
-  //       ? true
-  //       : false,
-  //   );
-  // }, [guestReservationInfo]);
-
-  // useEffect(() => {
-  //   reservationGuestInfoStorageData({
-  //     ...guestReservationInfo,
-  //     firstName: reservationInfo?.guests[0]?.firstName,
-  //     lastName: reservationInfo?.guests[0]?.lastName,
-  //     email: guestReservationInfo?.email
-  //       ? guestReservationInfo?.email
-  //       : reservationInfo?.guests[0]?.emails && reservationInfo?.guests[0]?.emails.length > 0
-  //         ? reservationInfo?.guests[0]?.emails[0]
-  //         : '',
-  //     phone: guestReservationInfo?.phone
-  //       ? guestReservationInfo?.phone
-  //       : reservationInfo?.guests[0]?.phone
-  //         ? reservationInfo?.guests[0]?.phone[0]
-  //         : '',
-  //     docNo: guestReservationInfo?.docNo ?? reservationInfo?.guests[0]?.docNo,
-  //     docType:
-  //       guestReservationInfo?.docType ??
-  //       reservationInfo?.guests[0]?.docType ??
-  //       sessionStorage.getItem('docType') ??
-  //       'Passport',
-  //     effectiveDate: guestReservationInfo?.effectiveDate ?? '',
-  //     expiryDate: guestReservationInfo?.expiryDate ?? '',
-  //     countryOfIssue: guestReservationInfo?.issueCountry ?? '',
-  //     cardNumber:
-  //       guestReservationInfo?.cardNumber ?? reservationInfo?.reservePayments[0]?.cardNumber,
-  //     cardHolderName:
-  //       guestReservationInfo?.cardHolderName ?? reservationInfo?.reservePayments[0]?.cardHolderName,
-  //     cardType: guestReservationInfo?.cardType ?? reservationInfo?.reservePayments[0]?.cardType,
-  //     cardExpiryDate:
-  //       guestReservationInfo?.cardExpiryDate ?? reservationInfo?.reservePayments[0]?.cardExpiryDate,
-  //     isComplete: buttonStatus,
-  //   });
-  // }, [reservationInfo, buttonStatus]);
 
   function extractDataForField(fieldName: any) {
     const sources = {
@@ -264,16 +209,16 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
 
   const validateGuestReservation = (field: any) => {
     if (guestReservationInfo) {
-      return field.every((fieldItem: any) => {
+      return field?.every((fieldItem: any) => {
         if (!fieldItem.required) {
           return true;
         }
         const infoValue = guestReservationInfo[fieldItem?.name];
-        if (fieldItem.name === Phone) {
+        if (fieldItem.name === PHONE) {
           return PhoneRegex.test(infoValue);
         }
 
-        if (fieldItem.name === Email) {
+        if (fieldItem.name === EMAIL) {
           return EmailRegex.test(infoValue);
         }
         return infoValue !== undefined && infoValue !== null && infoValue !== '';
@@ -322,7 +267,7 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
           {guestInformationSection && (
             <InfoCard
               title={t(`${guestInformationSection?.name}`) as string}
-              icon={Guesticon}
+              icon={GUESTICON}
               details={guestReservationInfo?.firstName + ' ' + guestReservationInfo?.lastName}
               status={validateGuestReservation(guestInformationSection?.details)}
               isCardOpened={false}
@@ -337,7 +282,7 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
           {creditCardInfoSection && (
             <InfoCard
               title={t(`${creditCardInfoSection?.name}`) as string}
-              icon={CreditCard}
+              icon={CREDITCARD}
               details={guestReservationInfo?.cardNumber as string}
               status={validateGuestReservation(creditCardInfoSection?.details)}
               completedCheck
@@ -353,7 +298,7 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
           {identityVerificationSection && (
             <InfoCard
               title={t(`${identityVerificationSection?.name}`) as string}
-              icon={IdCard}
+              icon={IDCARD}
               details={guestReservationInfo?.docType as string}
               status={validateGuestReservation(identityVerificationSection?.details)}
               completedCheck

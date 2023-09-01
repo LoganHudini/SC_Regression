@@ -41,7 +41,7 @@ import {
 import { AddaccompanyDetails } from 'core/graphql/queries/ADD_GUEST';
 import { accompanyGuestDetails } from 'storage/accompany-guest-details';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
-import { Gender, EmailRegex, PhoneRegex, Email, Phone, Checkin, AccompanyingGuest, Passport, SelectDropdown, UserGroup, CheckBox } from 'utils/constants';
+import { Gender, EmailRegex, PhoneRegex, EMAIL, PHONE, CHECKIN, ACCOMPANYINGGUEST, PASSPORT, SELECTDROPDOWN, USERGROUP, CHECKBOX } from 'utils/constants';
 import { getConfig } from 'utils/getConfiguration';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
@@ -54,9 +54,9 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
   });
   const reservationInfo: any = reservationData?.getReservation.data;
   const config = getConfig();
-  const checkinModule: any = config?.modules?.find((module) => module?.name === Checkin);
+  const checkinModule: any = config?.modules?.find((module) => module?.name === CHECKIN);
   const accompanyingGuestSubmodule = checkinModule?.submodules?.find(
-    (submodule: any) => submodule?.name === AccompanyingGuest && submodule.isActive,
+    (submodule: any) => submodule?.name === ACCOMPANYINGGUEST && submodule.isActive,
   );
   const [emailErrors, setEmailErrors] = useState<string[]>([]);
   const [phoneErrors, setPhoneErrors] = useState<string[]>([]);
@@ -67,10 +67,10 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
   const handleFieldBlur: any = (index: any, fieldName: any, value: any, item?: any) => {
     if (!value) {
       errorMessage = t(`${item} is required`);
-    } else if (fieldName === Email && !EmailRegex.test(value)) {
+    } else if (fieldName === EMAIL && !EmailRegex.test(value)) {
       isValid = false;
       errorMessage = t('Invalid email address');
-    } else if (fieldName === Phone && !PhoneRegex.test(value)) {
+    } else if (fieldName === PHONE && !PhoneRegex.test(value)) {
       isValid = false;
       errorMessage = t('Invalid phone number');
     }
@@ -169,10 +169,10 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
 
         if (!value) {
           errorMessage = t(`${label} is required`);
-        } else if (fieldName === Email && !EmailRegex.test(value)) {
+        } else if (fieldName === EMAIL && !EmailRegex.test(value)) {
           isValid = false;
           errorMessage = t('Invalid email address');
-        } else if (fieldName === Phone && !PhoneRegex.test(value)) {
+        } else if (fieldName === PHONE && !PhoneRegex.test(value)) {
           isValid = false;
           errorMessage = t('Invalid phone number');
         }
@@ -198,7 +198,7 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
         for (let i = 0; i < updatedData.length; i++) {
           const data = updatedData[i];
           const updateGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
-            docType: Passport,
+            docType: PASSPORT,
             docNumber: data.formData.id,
             reservationId: reservationInfo?.reservationId as string,
             firstName: data.formData.firstName,
@@ -291,10 +291,10 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
             }
           }
 
-          if (item?.name === Email && !EmailRegex.test(card.formData[item?.name])) {
+          if (item?.name === EMAIL && !EmailRegex.test(card.formData[item?.name])) {
             cardStatus = false;
           }
-          if (item?.name === Phone && !PhoneRegex.test(card.formData[item?.name])) {
+          if (item?.name === PHONE && !PhoneRegex.test(card.formData[item?.name])) {
             cardStatus = false;
           }
 
@@ -349,7 +349,7 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
               <InfoCard
                 key={index}
                 title={status ? `${card.formData.firstName}` : t('Accompanying Guest')}
-                icon={status ? accompanyingGuestSubmodule?.cardIcon : UserGroup}
+                icon={status ? accompanyingGuestSubmodule?.cardIcon : USERGROUP}
                 status={status}
                 isCardOpened={cardOPen}
               >
@@ -358,7 +358,7 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
                     if (item?.isActive) {
                       return (
                         <React.Fragment key={item?.name}>
-                          {item?.type === SelectDropdown ? (
+                          {item?.type === SELECTDROPDOWN ? (
                             <div className={styles.col_100}>
                               <StyledFormControl
                                 required={item?.required}
@@ -389,7 +389,7 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
                                 </Select>
                               </StyledFormControl>
                             </div>
-                          ) : item?.type === CheckBox ? (
+                          ) : item?.type === CHECKBOX ? (
                             <div className={styles.agrementWrapperTitle}>
                               <StyledCheckBox
                                 onChange={handleInputChange(index)}

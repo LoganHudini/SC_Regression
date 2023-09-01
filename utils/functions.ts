@@ -118,3 +118,10 @@ export const generateValidationSchema = (sections: any) => {
     }, {}),
   );
 };
+
+export const generateInitialFieldValues = (field: any, selectedField: any) => {
+  return field.reduce((values: any, field: any) => {
+    values[field?.name] = selectedField[field?.name] || ' ';
+    return values;
+  }, {});
+};
