@@ -14,37 +14,6 @@ pipelines:
           - rm -rf yarn.lock
           - rm -rf node_modules
           - yarn
-
-  branches: # Pipelines that run automatically on a push to a develop
-    master:
-      - step:
-          deployment: dev
-          caches:
-            - node
-          name: Automatacilly Deploy to Dev https://sofitel.hudinielevate-dev.io/
-          script:
-            - rm -rf package-lock.json
-            - rm -rf yarn.lock
-            - rm -rf node_modules
-            - yarn
-            - CI='' yarn build
-            - CI='' yarn export
-            - cd out
-            - pipe: atlassian/aws-s3-deploy:0.4.1
-              variables:
-                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_DEV # Optional if already defined in the context.
-                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_DEV # Optional if already defined in the context.
-                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_DEV # Optional if already defined in the context.
-                #ACL: 'public-read'
-                S3_BUCKET: $S3_BUCKET_DEV
-                LOCAL_PATH: $(pwd)
-            - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
-              variables:
-                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_DEV
-                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_DEV
-                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_DEV
-                DISTRIBUTION_ID: 'EPNGSH4XM126U'
-
   custom:
     deployToSofitelStaging:
       - step:
@@ -58,7 +27,7 @@ pipelines:
             - rm -rf yarn.lock
             - rm -rf node_modules
             - yarn
-            - CI='' yarn build:mondrian
+            - CI='' yarn build:stage.local
             - CI='' yarn export
             - cd out
             - pipe: atlassian/aws-s3-deploy:0.4.1
@@ -67,14 +36,14 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING # Optional if already defined in the context.
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING # Optional if already defined in the context.
                 #ACL: 'public-read'
-                S3_BUCKET: $S3_BUCKET_STAGING_MONDRIAN
+                S3_BUCKET: $S3_BUCKET_SOFITEL_STAGE
                 LOCAL_PATH: $(pwd)
             - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
               variables:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING
-                DISTRIBUTION_ID: 'EJR7LQAS89QFB'
+                DISTRIBUTION_ID: 'EU8Z583GKAK65'
     deployToSofitelUAT:
       - step:
           caches:
@@ -87,7 +56,7 @@ pipelines:
             - rm -rf yarn.lock
             - rm -rf node_modules
             - yarn
-            - CI='' yarn build:mondrian
+            - CI='' yarn build:local
             - CI='' yarn export
             - cd out
             - pipe: atlassian/aws-s3-deploy:0.4.1
@@ -96,12 +65,12 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING # Optional if already defined in the context.
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING # Optional if already defined in the context.
                 #ACL: 'public-read'
-                S3_BUCKET: $S3_BUCKET_STAGING_MONDRIAN
+                S3_BUCKET: $S3_BUCKET_SOFITEL_UAT
                 LOCAL_PATH: $(pwd)
             - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
               variables:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING
-                DISTRIBUTION_ID: 'EJR7LQAS89QFB'
+                DISTRIBUTION_ID: 'E3DU5R0R1H7FSF'
     
