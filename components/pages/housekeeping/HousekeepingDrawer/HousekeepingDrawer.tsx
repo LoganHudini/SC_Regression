@@ -12,19 +12,28 @@ import { HOUSEKEEPING_ORDER } from 'core/graphql/queries/HOUSEKEEPING_ORDER';
 import { HOTEL_ID } from 'core/graphql/endpoints';
 import { processError } from 'utils/processError';
 import { housekeepingQuantityStorage } from 'storage/housekeeping-quantity.storage';
-import { CUSTOM, DATE, DATETIME, IMMEDIATE, TIME, TODAY, TOMORROW } from 'utils/constants';
+import {
+  CUSTOM,
+  DATE,
+  DATETIME,
+  HOUSEKEEPING,
+  IMMEDIATE,
+  TIME,
+  TODAY,
+  TOMORROW,
+} from 'utils/constants';
 import { housekeepingCheckboxStorage } from 'storage/housekeeping-checkbox.storage';
 import { Drawer } from '@mui/material';
 import { handleTouchEnd, handleTouchStart } from 'utils/hooks/useDrawerSwipe';
 import TimeIcon from '@icons/time-left.svg';
-import ThankYouPopup from 'components/shared/ThankyouPopup/ThankYouPopup';
+import { Notification } from 'components/shared/Notification/Notification';
+import { toggleNotification } from 'storage/home.storage';
 
 export const HousekeepingDrawer = (props: any) => {
   const { opened, toggleOpened, showSchedules } = props;
   const { t } = useTranslation(['housekeeping', 'common']);
   const [showCalendar, setShowCalendar] = useState(false);
   const [disabled, setDisabled] = useState(false);
-  const [openPopup, setOpenPopup] = useState(false);
   const [selectedTime, setSelectedTime] = useState(
     dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM),
   );
@@ -98,34 +107,29 @@ export const HousekeepingDrawer = (props: any) => {
               id: el?.itemId,
               name: el?.name + ' X ' + el?.quantity,
               instructions: '',
-              scheduledFor:
-                showSchedules?.schedule?.includes(CUSTOM) &&
-                showSchedules?.scheduleActive &&
-                showSchedules?.customSchedule === DATE
-                  ? dayjs(selectedTime).format(timeFormats.DAY_MONTH)
-                  : showSchedules?.schedule?.includes(CUSTOM) &&
-                    showSchedules?.scheduleActive &&
-                    showSchedules?.customSchedule === TIME
-                  ? dayjs(selectedTime).format(timeFormats.HOURS_MINUTES_AM)
-                  : showSchedules?.schedule?.includes(CUSTOM) &&
-                    showSchedules?.scheduleActive &&
-                    showSchedules?.customSchedule === DATETIME
-                  ? dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
-                  : (showSchedules?.schedule?.includes(IMMEDIATE) ||
-                      showSchedules?.schedule?.includes(TODAY) ||
-                      showSchedules?.schedule?.includes(TOMORROW)) &&
-                    showSchedules?.scheduleActive
-                  ? dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
-                  : '',
+              scheduledFor: showSchedules?.scheduleActive
+                ? showSchedules?.schedule?.includes(CUSTOM)
+                  ? showSchedules?.customSchedule === DATE
+                    ? dayjs(selectedTime).format(timeFormats.DAY_MONTH)
+                    : showSchedules?.customSchedule === TIME
+                    ? dayjs(selectedTime).format(timeFormats.HOURS_MINUTES_AM)
+                    : showSchedules?.customSchedule === DATETIME
+                    ? dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
+                    : dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
+                  : dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
+                : '',
             })),
         },
       });
-      setOpenPopup(true);
-      housekeepingQuantityStorage({ selectedItems: [] });
-      housekeepingCheckboxStorage({ selectedItems: [] });
-      toggleOpened();
-      setShowCalendar(false);
-      setSelectedTime(dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM));
+      toggleNotification(true);
+      setTimeout(() => {
+        setDisabled(false);
+        housekeepingQuantityStorage({ selectedItems: [] });
+        housekeepingCheckboxStorage({ selectedItems: [] });
+        setShowCalendar(false);
+        setSelectedTime(dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM));
+        toggleOpened();
+      }, 4000);
     } catch (e) {
       processError(t, e as ApolloError);
     }
@@ -272,7 +276,12 @@ export const HousekeepingDrawer = (props: any) => {
             </div>
           </div>
         </div>
-        <ThankYouPopup openPopup={openPopup} setOpenPopup={setOpenPopup} />
+        <Notification
+          title={t('Thank You!') as string}
+          description={t('Your request has been confirmed') as string}
+          redirect={HOUSEKEEPING}
+          type='success'
+        />
       </Drawer>
     </>
   );
