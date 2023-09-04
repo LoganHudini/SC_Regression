@@ -208,23 +208,29 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
   }, [navigate]);
 
   const validateGuestReservation = (field: any) => {
-    if (guestReservationInfo) {
-      return field?.every((fieldItem: any) => {
-        if (!fieldItem.required) {
-          return true;
-        }
-        const infoValue = guestReservationInfo[fieldItem?.name];
-        if (fieldItem.name === PHONE) {
-          return PhoneRegex.test(infoValue);
-        }
-
-        if (fieldItem.name === EMAIL) {
-          return EmailRegex.test(infoValue);
-        }
-        return infoValue !== undefined && infoValue !== null && infoValue !== '';
-      });
+    if (!guestReservationInfo) {
+      return true;
     }
+
+    return field?.every((fieldItem: any) => {
+      if (!fieldItem.required) {
+        return true;
+      }
+
+      const infoValue = guestReservationInfo[fieldItem?.name];
+
+      if (fieldItem.name === PHONE) {
+        return PhoneRegex.test(infoValue);
+      }
+
+      if (fieldItem.name === EMAIL) {
+        return EmailRegex.test(infoValue);
+      }
+
+      return !!infoValue;
+    });
   };
+
   const validButton =
     validateGuestReservation(guestInformationSection?.details) &&
     validateGuestReservation(creditCardInfoSection?.details) &&

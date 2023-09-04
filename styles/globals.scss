@@ -231,6 +231,10 @@ h6 {
   color: var(--tertiary-text-color);
 }
 
+.MuiInputLabel-root.Mui-focused {
+  color: var(--tertiary-text-color);
+}
+
 .MuiInputBase-root,
 .MuiInputBase-input,
 .MuiFormLabel-root,
@@ -305,6 +309,39 @@ h6 {
   padding-bottom: 0;
   padding-top: 0;
   min-height: 35px;
+}
+
+.MuiFormLabel-filled {
+  font-size: $small;
+  color: var(--primary-text-color);
+}
+
+.MuiInputLabel-standard {
+  font-size: $small;
+  color: var(--tertiary-text-color);
+}
+
+.MuiInput-root::after,
+.MuiInput-root:hover::before {
+  border-bottom: 2px solid var(--primary-theme-color);
+}
+
+.MuiFormHelperText-root {
+  color: var(--primary-error-text-color);
+}
+
+.MuiInputLabel-asterisk {
+  color: var(--tertiary-text-color);
+}
+
+.Mui-error {
+  color: var(--primary-error-text-color);
+}
+
+.Mui-error {
+  &::after {
+    border-bottom: 2px solid var(--primary-error-text-color);
+  }
 }
 
 // webkit css

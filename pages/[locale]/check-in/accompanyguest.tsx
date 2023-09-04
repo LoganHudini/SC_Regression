@@ -93,15 +93,14 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
 
   useEffect(() => {
-    if (accompanyGuestData && accompanyGuestData.length > 0) {
-      const updatedInfoCards = accompanyGuestData.map((guest: any) => {
-        const formData: any = {
-          alreadyUpdated: true,
-        };
+    const generateInfoCards = (guestData: any, initial = false) => {
+      return guestData.map((guest: any) => {
+        const formData: any = { alreadyUpdated: !initial };
 
         accompanyingGuestSubmodule.details.forEach((item: any) => {
-          if (guest[item?.name] && guest[item?.name].isActive) {
-            formData[item?.name] = guest[item?.name].value;
+          const guestItem = guest[item?.name];
+          if (guestItem && guestItem.isActive) {
+            formData[item?.name] = guestItem.value;
           } else if (item?.name in guest) {
             formData[item?.name] = guest[item?.name];
           } else if (item?.isActive) {
@@ -111,32 +110,20 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
 
         return { formData };
       });
+    };
 
+    if (accompanyGuestData && accompanyGuestData.length > 0) {
+      const updatedInfoCards = generateInfoCards(accompanyGuestData);
       setInfoCards(updatedInfoCards);
     } else if (reservationInfo?.guests?.length > 1) {
-      const initialInfoCards = reservationInfo.guests.slice(1).map((guest: any) => {
-        const formData: any = {
-          alreadyUpdated: true,
-        };
-
-        accompanyingGuestSubmodule.details.forEach((item: any) => {
-          if (guest[item?.name] && guest[item?.name].isActive) {
-            formData[item?.name] = guest[item?.name].value;
-          } else if (item?.name in guest) {
-            formData[item?.name] = guest[item?.name];
-          } else if (item?.isActive) {
-            formData[item?.name] = '';
-          }
-        });
-
-        return { formData };
-      });
-
+      const initialInfoCards = generateInfoCards(reservationInfo.guests.slice(1), true);
       setInfoCards(initialInfoCards);
     } else {
       setInfoCards([{ formData: { alreadyUpdated: false } }]);
     }
-  }, []);
+  }, [accompanyGuestData, reservationInfo]);
+
+
 
   const buttonValidation = statusClass.some((item: any) => item === false);
 

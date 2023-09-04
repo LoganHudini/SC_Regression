@@ -1,49 +1,4 @@
 .styledInput {
-  :global(.MuiInputLabel-standard) {
-    font-size: 0.875rem;
-    color: var(--tertiary-text-color);
-  }
-
-  :global(.MuiFormLabel-filled) {
-    font-size: 0.875rem;
-    color: var(--primary-text-color);
-  }
-
-  :global(.MuiInput-root)::after {
-    border-bottom: 2px solid var(--primary-theme-color);
-  }
-
-  :global(.MuiInput-root):hover {
-    &::before {
-      border-bottom: 2px solid var(--primary-theme-color);
-    }
-  }
-
-  :global(.Mui-focused) {
-    color: var(--primary-theme-color) !important;
-  }
-  :global(.MuiFormHelperText-root) {
-    color: var(--primary-error-text-color) !important;
-  }
-  :global(.MuiInputLabel-asterisk) {
-    color: var(--tertiary-text-color) !important;
-  }
-  :global(.Mui-error) {
-    color: var(--primary-error-text-color) !important;
-  }
-
-  :global(.Mui-error) {
-    &::after {
-      border-bottom: 2px solid var(--primary-error-text-color) !important;
-    }
-  }
-
-  :global(.MuiInputBase-input) {
-    color: var(--tertiary-text-color);
-    font-size: 1rem;
-    font-family: var(--primary-font-news);
-  }
-
   /* Chrome, Safari, Edge, Opera */
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
