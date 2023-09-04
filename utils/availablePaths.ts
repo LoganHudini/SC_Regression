@@ -1,5 +1,5 @@
 export const availablePaths = {
-  INDEX: '/',
+  HOME: '/',
 
   // Incode Check-in
   INCODE: '/incode',

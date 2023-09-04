@@ -5,14 +5,14 @@
       "type": "npm",
       "script": "dev:stage",
       "problemMatcher": [],
-      "label": "Dev: Stage",
+      "label": "Dev: STAGE",
       "detail": "env-cmd -f .env.stage.local yarn next dev"
     },
     {
       "type": "npm",
       "script": "build:stage",
       "problemMatcher": [],
-      "label": "Build: Stage",
+      "label": "Build: STAGE",
       "detail": "env-cmd -f .env.stage.local yarn build"
     },
     {

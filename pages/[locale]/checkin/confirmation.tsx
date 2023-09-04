@@ -40,7 +40,7 @@ const PreCheckinConfirmation = () => {
 
   const closeInputDrawer = useCallback(() => {
     setInputDrawer((state) => !state);
-    navigate(availablePaths?.INDEX);
+    navigate(availablePaths?.HOME);
   }, [navigate]);
 
   return (

@@ -27,20 +27,23 @@ export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
   const showCurrency = () => {
     return (
       <>
-        <div className={styles.currencyWrapper}>
-          <div className={styles.name}>{element?.name}</div>
-          <div className={styles.currencyWrapperSecondary}>
-            <span className={styles.currency}>{CURRENCY}</span>
-            <span className={styles.price}> {element?.price?.toFixed(2)}</span>
-          </div>
-        </div>
+        <p className={styles.price}>
+          <span className={styles.currency}>{CURRENCY}</span>
+          {element?.price?.toFixed(2)}
+        </p>
       </>
     );
   };
 
   return (
     <div className={styles.irdCheckboxItem}>
-      <WhiteStyledCheckbox onChange={toggleRequested} value={element.id} label={showCurrency()} />
+      <div className={styles.name}>{element?.name}</div>
+      <WhiteStyledCheckbox
+        onChange={toggleRequested}
+        value={element.id}
+        label={showCurrency()}
+        labelPlacement='start'
+      />
     </div>
   );
 };

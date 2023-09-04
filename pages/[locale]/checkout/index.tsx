@@ -79,7 +79,7 @@ const Bill = () => {
 
   useEffect(() => {
     if (!checkedInData.checkedIn || reservationError || invoiceError) {
-      navigate(availablePaths.INDEX);
+      navigate(availablePaths.HOME);
     }
   }, [
     checkedInData.checkedIn,

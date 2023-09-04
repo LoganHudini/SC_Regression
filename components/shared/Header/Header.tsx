@@ -16,7 +16,7 @@ import { availablePaths } from 'utils/availablePaths';
 import { ALL_DAY, HEADERS, LANGUAGE_LIST_BARCELONA, HOME } from 'utils/constants';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { useQuery, useReactiveVar } from '@apollo/client';
-import CrossDropdown from '@icons/crossDropdown.svg';
+import CrossDropdown from '@icons/close.svg';
 import { GET_ORDERS } from 'core/graphql/queries/GET_ORDERS_BY_ID';
 import { DiningOrdersDrawer } from 'components/pages/dining/DiningOrdersDrawer/DiningOrdersDrawer';
 import languageDetector from 'utils/languageDetector';
@@ -86,7 +86,7 @@ export const Header: React.FC<IHeaderProps> = ({
 
   const goHome = useCallback(() => {
     setScrollPosition(0, 0);
-    navigate(availablePaths?.INDEX);
+    navigate(availablePaths?.HOME);
     diningInformationStorage(
       produce(diningInformationStorage(), (draft) => {
         if (draft) {

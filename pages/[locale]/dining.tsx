@@ -8,19 +8,18 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from '../../styles/dining/dining.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
-import { DinningCategory } from 'components/pages/dining/DiningCategory/DiningCategory';
+import { DiningMenuOptions } from 'components/pages/dining/DiningMenuOptions/DiningMenuOptions';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { DiningCategorySkeleton } from 'components/pages/dining/DiningCategorySkeleton/DiningCategorySkeleton';
 import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
 import { useRouter } from 'next/router';
-import CrossDropdown from '@icons/crossDropdown.svg';
 import { IDiningMenuStorageData, diningMenuStorage } from 'storage/dining-menu.storage';
 import cx from 'classnames';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { filterMenuWrtTimings, irdActiveMenuList } from 'utils/functions';
 import { availablePaths } from 'utils/availablePaths';
-import DiningMenu from 'components/pages/dining/DiningMenu/dining-menu';
+import DiningMenu from 'components/pages/dining/DiningMenu/DiningMenu';
 
 export { getStaticPaths };
 
@@ -65,8 +64,7 @@ const Dining = () => {
 
   useEffect(() => {
     if (data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length === 0) {
-      navigate(availablePaths?.RESTAURANTS_BARS);
-      // toast(t('Menu Unavailable'), { type: 'error' });
+      navigate(availablePaths?.HOME);
     }
   }, [data?.getIRDMenuOutputDetails, navigate, t]);
 
@@ -94,7 +92,7 @@ const Dining = () => {
     diningInformationStorage({ selectedMenu: '' });
   }, [search]);
 
-  const selectCategory = useCallback(
+  const selectMenu = useCallback(
     (category: string, name: string, hours: any) => {
       setOpencategory(!openCategory);
       setcategoryId(category);
@@ -105,6 +103,7 @@ const Dining = () => {
     },
     [filter, openCategory],
   );
+
   function disableScroll() {
     document.body.style.overflow = 'hidden';
   }
@@ -156,22 +155,22 @@ const Dining = () => {
                   className={styles.backdrop}
                   onClick={() => setOpencategory(!openCategory)}
                 ></div>
-                <div className={styles.overlay}>
-                  <div onClick={() => setOpencategory(!openCategory)}>
-                    <CrossDropdown className={styles.close} />
-                  </div>
-                  <div className={styles.scroll}>
+                <div className={styles.menuDropdown}>
+                  <div className={styles.menuList}>
                     {irdActiveMenu?.map((el: any) => (
-                      <DinningCategory
+                      <DiningMenuOptions
                         key={el.id}
                         name={el?.name}
                         image={el.images[0] ? el.images[0].master : null}
                         categoryId={el.id}
-                        selectCategory={selectCategory}
+                        selectMenu={selectMenu}
                         hours={el.hours}
                       />
                     ))}
                   </div>
+                  {/* <div className={styles.close} onClick={() => setOpencategory(!openCategory)}>
+                    <CrossDropdown />
+                  </div> */}
                 </div>
               </>
             )

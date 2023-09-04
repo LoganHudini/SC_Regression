@@ -50,7 +50,7 @@ export const EmailMe: React.FC<EmailMeProps> = ({
         });
       } catch (getUpdatedReservationError) {
         processError(t, getUpdatedReservationError as ApolloError);
-        navigate(availablePaths.INDEX);
+        navigate(availablePaths.HOME);
       }
 
       setSuccess(true);

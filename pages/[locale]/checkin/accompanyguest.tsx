@@ -40,7 +40,7 @@ import {
 import { AddaccompanyDetails } from 'core/graphql/queries/ADD_GUEST';
 import { accompanyGuestDetails } from 'storage/accompany-guest-details';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
-import { Gender, emailRegex, phoneRegex } from 'utils/constants';
+import { Gender, EMAIL_REGEX, PHONE_REGEX } from 'utils/constants';
 
 export { getStaticPaths };
 
@@ -213,8 +213,8 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
       Boolean(
         card.formData.firstName &&
           card.formData.lastName &&
-          emailRegex.test(card.formData.email) &&
-          phoneRegex.test(card.formData.phoneNo) &&
+          EMAIL_REGEX.test(card.formData.email) &&
+          PHONE_REGEX.test(card.formData.phoneNo) &&
           card.formData.id &&
           card.formData.gender &&
           card.formData.condition == 'false',
@@ -246,7 +246,7 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
     if (email === undefined) {
       return false;
     } else {
-      return !emailRegex.test(email);
+      return !EMAIL_REGEX.test(email);
     }
   };
 
@@ -254,7 +254,7 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
     if (num === undefined) {
       return false;
     } else {
-      return !phoneRegex.test(num);
+      return !PHONE_REGEX.test(num);
     }
   };
 

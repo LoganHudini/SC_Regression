@@ -10,14 +10,14 @@ import { useReactiveVar } from '@apollo/client';
 import { toggleNotification } from 'storage/home.storage';
 import { diningMenuStorage } from 'storage/dining-menu.storage';
 
-interface IThankYouDrawerProps {
+interface INotificationProps {
   title: string;
   description?: string;
   redirect: string;
   type: string;
 }
 
-export const Notification: React.FC<IThankYouDrawerProps> = ({
+export const Notification: React.FC<INotificationProps> = ({
   title,
   description,
   redirect,

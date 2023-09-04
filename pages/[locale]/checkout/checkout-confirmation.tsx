@@ -20,7 +20,7 @@ const CheckoutConfirmation = () => {
   const { t } = useTranslation('checkout-confirmation');
 
   const goToHomePage = useCallback(() => {
-    navigate(availablePaths.INDEX);
+    navigate(availablePaths.HOME);
   }, [navigate]);
 
   return (

@@ -1,11 +1,12 @@
 .wrapper {
   background: var(primary-card-background-color);
-  margin-top: 40px;
-  height: 80px;
-  border-radius: 20px;
   color: var(--primary-text-color);
-  width: 100%;
-  padding: 0 8px;
+  max-width: 768px;
+  width: 96%;
+  border-radius: var(--primary-card-border-radius);
+  box-shadow: 0px 3px 6px var(--primary-card-shadow-color);
+  z-index: 1;
+  margin: 1rem auto 0;
 }
 
 .titleRow {
@@ -13,20 +14,25 @@
   justify-content: space-between;
   align-items: center;
   text-align: center;
-  margin: 0 8px;
+  margin: 0 12px;
+  padding: 8px 0;
   border-bottom: 2px solid transparent;
   border-image: linear-gradient(0.25turn, $gradientPrimary, $gradientSecondary, $gradientTertiary);
   border-image-slice: 1;
 }
 
 .title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
   font-size: $small;
   padding-top: 10px;
   font-family: var(--primary-font-medium);
 }
 
 .id {
-  font-size: $small;
+  font-size: $xsmall;
   padding-top: 10px;
   font-family: var(--primary-font-medium);
 }
@@ -36,17 +42,17 @@
   justify-content: space-between;
   align-items: center;
   text-align: center;
-  margin: 0 8px;
-  padding-top: 5px;
+  margin: 0 12px;
+  padding: 8px 0;
 }
 
 .items {
-  font-size: $small;
+  font: $small var(--primary-font-news);
   text-transform: capitalize;
 }
 
 .myOrders {
-  font-family: var(--primary-font-medium);
+  font-size: $xsmall;
   width: 120px;
   height: 30px;
   padding-top: 14px;

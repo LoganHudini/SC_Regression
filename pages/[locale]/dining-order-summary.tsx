@@ -29,10 +29,9 @@ import { addToCartEvent, irdOrderEvent } from 'utils/gtag';
 import { setScrollPosition } from 'utils/functions';
 import { diningInformationStorage } from 'storage/dining.storage';
 import DiningDetailsDrawer from 'components/pages/dining/DiningDetailsDrawer/DiningDetailsDrawer';
-import { WithScrollbar } from 'components/shared/WithScrollbar/WithScrollbar';
-import { DiningMenuElement } from 'components/pages/dining/DiningMenuElement/DiningMenuElement';
 import { toggleNotification } from 'storage/home.storage';
 import { ThankYouDrawer } from 'components/shared/ThankYouDrawer/ThankYouDrawer';
+import { DiningMenuElementUpsell } from 'components/pages/dining/DiningMenuElementUpsell/DiningMenuElementUpsell';
 
 export { getStaticPaths };
 
@@ -172,13 +171,13 @@ const DiningOrderSummary = () => {
       })),
     };
     try {
-      // const response = await client.mutate({
-      //   mutation: IRD_ORDER,
-      //   context: { clientName: 'host_v3' },
-      //   fetchPolicy: 'network-only',
-      //   variables: irdOrderPayload,
-      // });
-      // irdOrderEvent(response?.data?.createOrder);
+      const response = await client.mutate({
+        mutation: IRD_ORDER,
+        context: { clientName: 'host_v3' },
+        fetchPolicy: 'network-only',
+        variables: irdOrderPayload,
+      });
+      irdOrderEvent(response?.data?.createOrder);
       // setthankYouDrawer(true);
       toggleNotification(true);
     } catch (getUpdatedReservationError) {
@@ -192,7 +191,7 @@ const DiningOrderSummary = () => {
       ?.filter((item) => item?.price >= 0)
       ?.map((el, index) => (
         <React.Fragment key={el?.id}>
-          <DiningMenuElement
+          <DiningMenuElementUpsell
             key={el?.id}
             id={el?.id}
             title={el?.name}
@@ -287,9 +286,9 @@ const DiningOrderSummary = () => {
                   if (!renderedItemIds.includes(item.itemId)) {
                     renderedItemIds.push(item.itemId);
                     return (
-                      <WithScrollbar key={item.itemId} itemClass={styles.carouselItemWidth}>
+                      <React.Fragment key={item.itemId}>
                         {renderMenuElements(item?.upsell ?? [])}
-                      </WithScrollbar>
+                      </React.Fragment>
                     );
                   }
                 })}

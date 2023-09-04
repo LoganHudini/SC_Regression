@@ -27,6 +27,7 @@
   width: fit-content;
   padding: 0 8px;
   justify-content: center;
+  cursor: pointer;
 }
 
 .diningOptionsItemActive {
@@ -60,14 +61,16 @@
 .carouselSlideWrapper {
   width: 273px;
   height: 286px;
+  cursor: pointer;
 }
 
 .carouselSlideImage {
+  position: relative;
+  z-index: -1;
   margin-top: 10px;
   height: 182px;
   width: 273px;
   object-fit: cover;
-  pointer-events: none;
 }
 
 .carouselSlideDetailsWrapper {
@@ -90,7 +93,7 @@
 
 .carouselSlideTimings {
   height: 15px;
-  font-size: $xsmall var(--primary-font-regular);
+  font: $xsmall var(--primary-font-regular);
   color: var(--tertiary-text-color);
   padding-bottom: 30px;
 }

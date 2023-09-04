@@ -10,7 +10,7 @@
   margin: auto;
   background-color: var(--primary-background-color);
   max-width: 768px;
-  z-index: 5;
+  z-index: 6;
 }
 
 .containerTransparent {
@@ -53,13 +53,13 @@
 .irdMenu {
   display: flex;
   width: min(50vw, 250px);
-  height: 43px;
   margin: auto;
+  min-height: 43px;
   border: 1px solid var(--primary-border-color);
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  padding: 0 0.5rem;
+  padding: 2px 0.5rem;
 }
 
 .irdMenuTitle {
@@ -75,6 +75,7 @@
   word-break: break-word;
   white-space: normal;
   overflow-wrap: break-word;
+  margin: 2px 0;
 }
 
 .closeButton {

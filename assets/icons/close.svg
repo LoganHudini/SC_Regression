@@ -1,3 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="18.128" height="18.134" viewBox="0 0 18.128 18.134">
-  <path id="close" d="M4.185,20.816a.607.607,0,0,0,.859,0l7.461-7.461,7.464,7.461a.607.607,0,1,0,.859-.859L13.364,12.5l7.461-7.464a.607.607,0,0,0-.859-.859l-7.461,7.464L5.041,4.175a.607.607,0,0,0-.856.856L11.646,12.5,4.185,19.96a.607.607,0,0,0,0,.856Z" transform="translate(-3.443 -3.427)" fill="#fff" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="40" viewBox="0 0 40 40">
+  <defs>
+    <filter id="Path_67034" x="0" y="0" width="40" height="40" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#Path_67034)">
+    <path id="Path_67034-2" data-name="Path 67034" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm4.242,13.829a1,1,0,1,1-1.414,1.414L12,13.414,9.172,16.243a1,1,0,1,1-1.414-1.414L10.586,12,7.758,9.171A1,1,0,1,1,9.172,7.757L12,10.586l2.828-2.829a1,1,0,1,1,1.414,1.414L13.414,12Z" transform="translate(8 5)" fill="#997300"/>
+  </g>
 </svg>

@@ -13,11 +13,6 @@
 .image {
   display: flex;
   object-fit: contain;
-  // position: fixed;
-  // width: 341px;
-  // height: 192px;
-  // margin: auto;
-  // margin-top: -8rem;
 }
 
 .wrapper {
@@ -26,17 +21,12 @@
 
 .title {
   font: $header var(--secondary-font-regular);
-  margin: 1rem 0;
+  margin: 2rem 0 1rem;
   text-align: center;
-  // color: var(--secondary-text-color);
-  // position: fixed;
-  // max-width: 768px;
-  // left: 0;
-  // right: 0;
-  // margin: auto;
-  // text-align: center;
-  // margin-top: -11rem;
-  // z-index: 10;
+}
+
+.titleWithImage {
+  margin: 1.5rem 0 1rem;
 }
 
 .tagsWrapper {
@@ -155,20 +145,20 @@
   height: 1.5rem;
   line-height: 1.5rem;
   text-align: center;
-  border-radius: 1.25rem;
+  border-radius: var(--primary-card-border-radius);
   margin-inline-start: 0.5rem;
 }
 
 .optionalTextWarning {
-  font: $xsmall var(--primary-font-regular);
+  font: $xsmall var(--primary-font-medium);
   color: var(--primary-error-text-color);
   background-color: #f0f0f0;
   width: auto;
   height: 1.5rem;
   line-height: 1.5rem;
   text-align: center;
-  border-radius: 1.25rem;
   margin-inline-start: 0.5rem;
+  border-radius: var(--primary-card-border-radius);
   padding: 0 8px;
 }
 

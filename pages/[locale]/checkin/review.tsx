@@ -223,7 +223,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       });
 
       toast('Please proceed to Hotel Lobby', { type: 'success' });
-      navigate(availablePaths?.INDEX);
+      navigate(availablePaths?.HOME);
     } catch (checkinError) {
       const error = checkinError as ApolloError;
       const networkError = error?.networkError as { result?: { errors?: string } };

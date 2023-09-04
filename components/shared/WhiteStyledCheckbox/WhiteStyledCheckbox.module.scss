@@ -1,20 +1,19 @@
 .styledRadio {
   color: var(--primary-theme-color);
-  padding: 0;
-  background: none !important;
-  width: 20px;
-  height: 20px;
+  // padding: 0;
+  // margin: 0;
+  margin-inline-end: -16px;
+  background: none;
+  justify-content: space-between;
 
   :global(.MuiCheckbox-root) {
-    background-color: transparent !important;
+    background-color: transparent;
   }
 
   :global(.MuiFormControlLabel-label) {
-    font-size: 0.9375rem;
-    margin-right: auto;
-    white-space: nowrap;
+    font-size: $small;
     color: var(--primary-text-color);
-    margin-left: 15px;
+    font-family: var(--primary-font-news);
   }
 
   :global(.MuiTouchRipple-root) {

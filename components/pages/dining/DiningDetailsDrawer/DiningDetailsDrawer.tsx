@@ -281,6 +281,7 @@ const DiningDetailsDrawer = () => {
   const closeDrawer = () => {
     toggleDiningDetailsDrawer(false);
     setCustomisation(null);
+    setAddons([]);
     setCount(1);
   };
 
@@ -305,8 +306,8 @@ const DiningDetailsDrawer = () => {
           style: {
             opacity: diningDetailsDrawerStatus ? 'var(--primary-drawer-background-opacity)' : '0', // Slide animation
             transition: 'opacity 0.5s ease-in-out', // Customize the animation here
-            // opacity: 'var(--primary-drawer-background-opacity)',
             backdropFilter: 'blur(2px)',
+            backgroundColor: '#000000',
           },
         },
       }}
@@ -331,9 +332,16 @@ const DiningDetailsDrawer = () => {
               src={`${ASSETS_URL}/${selectedItem?.images[0]?.ratio16to9}`}
             />
           )}
-          <CloseIcon />
           <div className={styles.wrapper}>
-            {selectedItem?.name && <h3 className={styles.title}>{selectedItem?.name}</h3>}
+            {selectedItem?.name && (
+              <h3
+                className={cx(styles.title, {
+                  [styles.titleWithImage]: selectedItem?.images[0],
+                })}
+              >
+                {selectedItem?.name}
+              </h3>
+            )}
             {selectedItem?.allergens && (
               <div className={styles.tagsWrapper}>
                 {selectedItem?.allergens

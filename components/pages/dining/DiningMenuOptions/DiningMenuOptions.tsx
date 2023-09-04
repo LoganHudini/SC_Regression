@@ -1,15 +1,15 @@
-import styles from './DiningCategory.module.scss';
+import styles from './DiningMenuOptions.module.scss';
 import React, { useCallback, useState } from 'react';
-import { IDinningCategoryProps } from './DinningCategory.types';
+import { IDiningMenuOptionsProps } from './DiningMenuOptions.types';
 import { diningInformationStorage } from 'storage/dining.storage';
 import cx from 'classnames';
 import { ALL_DAY } from 'utils/constants';
 import { useReactiveVar } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 
-export const DinningCategory: React.FC<IDinningCategoryProps> = ({
+export const DiningMenuOptions: React.FC<IDiningMenuOptionsProps> = ({
   name,
-  selectCategory,
+  selectMenu,
   categoryId,
   hours,
 }) => {
@@ -19,13 +19,13 @@ export const DinningCategory: React.FC<IDinningCategoryProps> = ({
   const handleSelect = useCallback(
     (event: any) => {
       setSelected(event?.target?.id);
-      selectCategory(categoryId ?? '', name ?? '', hours ?? '');
+      selectMenu(categoryId ?? '', name ?? '', hours ?? '');
       diningInformationStorage({
         selectedMenu: categoryId,
         menuName: name,
       });
     },
-    [selectCategory, categoryId, name, hours],
+    [selectMenu, categoryId, name, hours],
   );
 
   return (

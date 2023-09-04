@@ -102,53 +102,51 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
   }, [id]);
 
   return (
-    <div className={styles.wrapper}>
-      <div className={cx(styles.card, { [styles.disable]: !menuAvailability })}>
-        <div className={styles.topWrapper} onClick={handleDiningDetails}>
-          <h4 className={cx(styles.title, { [styles.titleWithImage]: image })}>{title}</h4>
-          {description && (
-            <p className={cx(styles.description, { [styles.descriptionWithImage]: image })}>
-              {description}
-            </p>
-          )}
-          <p className={styles.currency}>
-            {CURRENCY} <span className={styles.price}>{price?.toFixed(2)}</span>
+    <div className={cx(styles.card, { [styles.disable]: !menuAvailability })}>
+      <div className={styles.contentWrapper} onClick={handleDiningDetails}>
+        <h4 className={cx(styles.title, { [styles.titleWithImage]: image })}>{title}</h4>
+        {description && (
+          <p className={cx(styles.description, { [styles.descriptionWithImage]: image })}>
+            {description}
           </p>
-        </div>
-        <div className={styles.imageWrapper}>
-          <div className={styles.pointer} onClick={handleDiningDetails}>
-            {image && <StableImage className={styles.image} src={`${ASSETS_URL}/${image}`} />}
-          </div>
-          {totalQuantity == 0 ? (
-            <StyledButton
-              onClick={handleDiningDetails}
-              className={cx(styles.addCta, { [styles.menuUnavailable]: !menuAvailability })}
-              variant='contained'
-            >
-              {t('Add')}
-            </StyledButton>
-          ) : (
-            <div className={styles.counterStyle}>
-              <PlusMinusInput
-                value={totalQuantity || 0}
-                onClickPlus={onClickPlus}
-                onClickMinus={onClickMinus}
-                irdSummary
-              />
-            </div>
-          )}
-          {customisation && (
-            <p className={styles.customisableText} onClick={handleDiningDetails}>
-              {t('customizable')}
-            </p>
-          )}
-        </div>
-        <DiningCustomisationDrawer
-          customisationDrawer={customisationDrawer}
-          closeCustomisationDrawer={closeCustomisationDrawer}
-        />
-        <DiningDetailsDrawer />
+        )}
+        <p className={styles.currency}>
+          {CURRENCY} <span className={styles.price}>{price?.toFixed(2)}</span>
+        </p>
       </div>
+      <div className={styles.imageWrapper}>
+        <div className={styles.pointer} onClick={handleDiningDetails}>
+          {image && <StableImage className={styles.image} src={`${ASSETS_URL}/${image}`} />}
+        </div>
+        {totalQuantity == 0 ? (
+          <StyledButton
+            onClick={handleDiningDetails}
+            className={cx(styles.addCta, { [styles.menuUnavailable]: !menuAvailability })}
+            variant='contained'
+          >
+            {t('Add')}
+          </StyledButton>
+        ) : (
+          <div className={styles.counterStyle}>
+            <PlusMinusInput
+              value={totalQuantity || 0}
+              onClickPlus={onClickPlus}
+              onClickMinus={onClickMinus}
+              irdSummary
+            />
+          </div>
+        )}
+        {customisation && (
+          <p className={styles.customisableText} onClick={handleDiningDetails}>
+            {t('customizable')}
+          </p>
+        )}
+      </div>
+      <DiningCustomisationDrawer
+        customisationDrawer={customisationDrawer}
+        closeCustomisationDrawer={closeCustomisationDrawer}
+      />
+      <DiningDetailsDrawer />
     </div>
   );
 };

@@ -9,41 +9,12 @@ import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { useTranslation } from 'react-i18next';
-import { restaurantId, irdActiveMenuList } from 'utils/functions';
-import { getConfig } from 'utils/getConfiguration';
 import { getStaticPaths } from 'utils/getStatic';
-import { useLocale } from 'utils/hooks/useLocalizedRouter';
 
 export { getStaticPaths };
 
 const Home: NextPage = () => {
   const { t } = useTranslation('common');
-  const locale = useLocale();
-  const homePageCarousel = {
-    slides: [
-      {
-        titleH1: 'Sofitel manila',
-        titleH3: 'manila',
-        imgURL: '',
-      },
-      {
-        titleH1: 'Sofitel manila',
-        titleH3: 'manila',
-        imgURL: '',
-      },
-    ],
-  };
-
-  const config = getConfig();
-
-  const { data, loading: irdMenuLoading } = useQuery<IRDMenuApiResponse>(IRD_MENU, {
-    context: { clientName: 'host_v2' },
-    variables: {
-      restaurantId: restaurantId,
-      lang: locale === 'en' ? '' : locale,
-    },
-    fetchPolicy: 'no-cache',
-  });
 
   return (
     <>
@@ -51,7 +22,7 @@ const Home: NextPage = () => {
         <title>{t('Home')}</title>
       </Head>
       <PageWrapper displayBottomMenu>
-        <HomeCarousel carouselDetails={homePageCarousel} />
+        <HomeCarousel />
         <DiningCarousel />
       </PageWrapper>
     </>

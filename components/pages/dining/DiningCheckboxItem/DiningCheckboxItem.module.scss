@@ -1,21 +1,33 @@
 .irdCheckboxItem {
   display: flex;
-  padding: 0.5rem 0;
+  padding: 4px 0;
 }
 
-.currencyWrapper {
+.price {
+  max-width: 768px;
   display: flex;
-  justify-content: space-between;
-  width: 290px;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
+  color: var(--primary-tertiary-color);
+  font-size: $medium;
+  font-family: var(--primary-font-news);
+  padding-top: 2px;
 }
 
 .currency {
   font-size: $xsmall;
+  margin-inline-end: 4px;
 }
 
-.price {
-  font-size: $large;
+.name {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  word-break: break-word;
+  white-space: normal;
+  line-height: 1;
+  overflow-wrap: break-word;
+  font: $small var(--primary-font-news);
+  padding-top: 2px;
 }
-
-

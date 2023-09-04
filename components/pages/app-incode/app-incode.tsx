@@ -144,7 +144,7 @@ function ProcessId({ session, onSuccess }: { session: any; onSuccess: any; onErr
           });
           // updateGuestDetails('docNo', ocrData.documentNumber);
           // dispatch(updateOCRData(ocrData));
-          // navigate(availablePaths.INDEX);
+          // navigate(availablePaths.HOME);
         });
       });
     }

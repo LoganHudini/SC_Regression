@@ -40,10 +40,9 @@
 .itemDescription {
   font-size: $small;
   line-height: 1.25;
-  padding: 0 0.5rem;
-  padding-left: 0.5rem;
-  color: #7b7b7b;
+  padding: 0 0.1rem;
   font-family: var(--primary-font-regular);
+  color: var(--tertiary-text-color);
 }
 
 .items + .items::before {
@@ -107,16 +106,10 @@
   cursor: pointer;
   overflow-x: scroll;
   display: flex;
-  flex-direction: column;
-  width: 100%;
 }
 
 .youMayAlsoLikeText {
   font: $medium var(--primary-font-news);
-}
-
-.carouselItemWidth {
-  min-width: 350px;
 }
 
 .noOfGuests {

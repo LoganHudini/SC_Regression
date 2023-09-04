@@ -201,12 +201,6 @@
   margin: auto;
 }
 
-.searchDivSecondary {
-  width: 100%;
-  margin-top: 20px;
-  padding: 0 10px;
-}
-
 .searchDivScroll {
   max-width: 736px;
   margin: auto;
@@ -223,8 +217,9 @@
 .menuUnavailableContainer {
   height: auto;
   background: var(--primary-theme-color);
-  color: var(--secpndary-text-color);
+  color: var(--secondary-text-color);
   width: 100%;
+  margin-bottom: 1rem;
   max-width: 768px;
 }
 
@@ -233,6 +228,7 @@
   font-size: $small;
   width: 90%;
   margin: auto;
+  padding: 8px 0;
 }
 
 .menuUnavailableTitle {

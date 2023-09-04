@@ -6,6 +6,10 @@ export const TABLE_RESERVATION_FLOW_VERSION =
 export const HOUSEKEEPING_FLOW_VERSION = process.env.NEXT_PUBLIC_HOUSEKEEPING_FLOW_VERSION;
 export const ROOM_CONTROLS_FLOW_VERSION = process.env.NEXT_PUBLIC_ROOM_CONTROLS_FLOW_VERSION;
 
+// hotel constants
+
+export const MANILA = 'manila';
+
 // key constants
 export const HOME = 'Home';
 export const OFFERS = 'offers';
@@ -17,6 +21,14 @@ export const HEADERS = ['Restaurants & Bars', 'Offers', 'In-Room Dining', 'Hotel
 export const ALL_DAY = 'all day';
 export const RESTAURANT_BOOKIN_FLOW = 'Restaurant Booking Flow';
 export const PRE_CHECKIN_ERROR_MSG = 'Booking is already checked in with type:PreCheckIn';
+export const checkIn = 'checkin';
+export const review = 'review';
+export const CANCELED = 'CANCELED';
+export const CHECKEDOUT = 'CHECKEDOUT';
+export const CHKOUT = 'CHKOUT';
+export const personalisation = 'personalisation';
+export const PERSONALISATION = 'PERSONALISATION';
+export const BANNER_CAROUSEL = 'bannerCarousel';
 
 // flow constants
 export const DINING_OPTIONS = [
@@ -112,21 +124,17 @@ export const STATUS = [
   { key: 'ACCEPTED', value: 'Accepted' },
 ];
 
-// path constants
-export const HOUSEKEEPING = 'HOUSEKEEPING';
-export const DINING = 'DINING';
-export const RESTAURANTS_BARS = 'RESTAURANTS_BARS';
 export const Gender = [
   { name: 'Male', value: 'MALE' },
   { name: 'Female', value: 'FEMALE' },
 ];
-export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-export const phoneRegex =
+
+// path constants
+export const HOUSEKEEPING = 'HOUSEKEEPING';
+export const DINING = 'DINING';
+export const RESTAURANTS_BARS = 'RESTAURANTS_BARS';
+
+// regex constants
+export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const PHONE_REGEX =
   /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/;
-export const checkIn = 'checkin';
-export const review = 'review';
-export const CANCELED = 'CANCELED';
-export const CHECKEDOUT = 'CHECKEDOUT';
-export const CHKOUT = 'CHKOUT';
-export const personalisation = 'personalisation';
-export const PERSONALISATION = 'PERSONALISATION';

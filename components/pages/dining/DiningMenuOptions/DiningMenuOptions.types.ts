@@ -1,5 +1,5 @@
-export interface IDinningCategoryProps {
-  selectCategory: (category: string, name?: any, hours?: any) => void;
+export interface IDiningMenuOptionsProps {
+  selectMenu: (category: string, name?: any, hours?: any) => void;
   image: string | null;
   name: string;
   categoryId: string;

@@ -1,75 +1,94 @@
 .myOrdersWrapper {
   padding: 0 2rem;
   padding-top: 2rem;
-  max-height: 70vh;
+}
+
+.drawerNotch {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 8px;
+  margin: 0 auto;
+  width: 50px;
+  height: 6px;
+  background: var(--primary-drawer-notch-color) 0% 0% no-repeat padding-box;
+  border-radius: 3px;
 }
 
 .heading {
-  font-size: $xlarge;
+  font: $xlarge var(--secondary-font-regular);
   text-align: center;
-  font-family: var(--primary-font-regular);
 }
 
-.titleRow {
+.container {
   margin-top: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 59px;
-  padding: 0 20px;
-  background: var(primary-card-background-color);
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  padding: 8px;
+  background: var(--primary-card-background-color);
+  border-radius: var(--primary-card-border-radius);
 }
 
 .title {
   font-size: $medium;
-  font-family: var(--primary-font-medium);
-  color: var(--secondary-text-color);
+  font-family: var(--primary-font-news);
+  color: var(--primary-text-color);
   width: 210px;
   height: 20px;
+  margin: 1rem 0.5rem;
   align-self: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+.scroll {
+  overflow: scroll;
+  max-height: 260px;
+  padding-right: 2px;
+}
+
+.orderCard {
+  padding: 5px 10px;
+  margin-top: 8px;
+  background-color: var(--primary-background-color);
+  border-radius: var(--primary-card-border-radius);
+  &:first-child {
+    margin-top: 0px;
+  }
+}
+
+.orderWrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+}
+
+.currency {
+  font-size: $xsmall;
+}
+
+.orderHeading {
+  color: var(--tertiary-text-color);
+  font-family: var(--primary-font-regular);
+  font-size: $xsmall;
+}
+
 .status {
-  font-size: 10px;
-  font-family: var(--primary-font-bold);
+  font: $xsmall var(--primary-font-medium);
   color: var(--primary-theme-color);
   padding: 0 5px;
   width: auto;
   text-align: center;
-  border: 1px solid var(--primary-box-shadow-color);
-}
-
-.container {
-  padding: 8px;
-  padding-left: 10px;
-  background: #f6f6f6;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
-}
-
-.date {
-  font-size: $xsmall;
-  font-family: var(--primary-font-regular);
-  color: var(--primary-box-shadow-color) Secondary;
 }
 
 .dateTime {
-  font-size: $small;
-  font-family: var(--primary-font-regular);
-  color: var(--secondary-text-color);
+  font-size: $xsmall;
+  font-family: var(--primary-font-news);
 }
 
 .itemsContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 10px 0;
-  padding: 10px 0;
   border-bottom: 1px solid var(--primary-border-color);
 }
 
@@ -81,8 +100,8 @@
 }
 
 .itemsPrice {
-  font-size: $large;
-  font-family: var(--primary-font-medium);
+  font-size: $medium;
+  font-family: var(--primary-font-news);
 }
 
 .totalContainer {
@@ -105,19 +124,16 @@
 
 .total {
   font-size: $medium;
-  font-family: var(--primary-font-medium);
+  font-family: var(--primary-font-news);
 }
 
 .totalPrice {
-  font-size: $large;
-  font-family: var(--primary-font-medium);
+  font-size: $medium;
+  font-family: var(--primary-font-news);
 }
 
 .button {
-  font-size: $small;
-  font-family: var(--primary-font-medium);
   margin: 1.5rem 0;
-  padding-top: 16px;
 }
 
 .billDetailsContainer {
@@ -261,40 +277,9 @@
   margin: 5px;
 }
 
-.orderWrapper {
-  display: flex;
-  justify-content: space-between;
-}
-
-.scroll {
-  overflow: scroll;
-  max-height: 260px;
-  padding-right: 2px;
-}
-
-.currency {
-  font-size: $small;
-}
-
-.orderHeading {
-  color: var(--tertiary-text-color);
-  font-family: var(--primary-font-regular);
-  font-size: $xsmall;
-}
-
-.orderCard {
-  padding: 5px 10px;
-  margin-top: 8px;
-  background-color: white;
-  box-shadow: 0 2px 3px var(--primary-box-shadow-color);
-  &:first-child {
-    margin-top: 0px;
-  }
-}
-
 .expandCard {
-  background-color: white;
-  box-shadow: 0 2px 3px var(--primary-box-shadow-color);
+  background-color: var(--primary-background-color);
+  border-radius: var(--primary-card-border-radius);
   margin-top: 5px;
   padding: 0px 10px 4px 10px;
 }
@@ -315,15 +300,13 @@
 }
 
 .totalTitle {
-  color: var(--secondary-text-color);
   font-family: var(--primary-font-medium);
   font-size: $medium;
 }
 
 .totalTitlePrice {
-  color: var(--secondary-text-color);
   font-family: var(--primary-font-medium);
-  font-size: $large;
+  font-size: $medium;
 }
 
 .buttonPayment {
@@ -357,10 +340,16 @@
 }
 
 .itemDescription {
-  font-size: $small;
-  line-height: 1.25;
-  color: #7b7b7b;
+  font-size: $xsmall;
+  color: var(--tertiary-text-color);
   font-family: var(--primary-font-regular);
+  padding: 2px 0;
+}
+
+.items {
+  font-size: $xsmall;
+  width: 60%;
+  line-height: 1.25;
 }
 
 .items + .items::before {
@@ -373,9 +362,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 0.5rem 0 0;
   border-bottom: none;
-  margin-top: -10px;
 
   &:first-child {
     margin-top: 0px;

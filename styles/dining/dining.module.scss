@@ -19,15 +19,6 @@
   width: 100%;
 }
 
-.diningElement {
-  &:not(:first-child) {
-    margin-top: 83px;
-  }
-
-  display: flex;
-  align-items: center;
-}
-
 .diningImage {
   width: 110px;
   height: 110px;
@@ -52,9 +43,20 @@
   margin-right: 24px;
 }
 
-.overlay {
+.backdrop {
+  background-color: var(--primary-overlay-color);
+  height: 100%;
+  width: 100%;
+  min-height: 844px;
+  position: absolute;
+  max-width: 768px;
+  z-index: 1;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.menuDropdown {
   position: fixed;
-  top: 60px;
   left: 0;
   right: 0;
   display: flex;
@@ -62,38 +64,20 @@
   background: var(--secondary-text-color);
   z-index: 5;
   max-width: 768px;
-  min-height: 80px;
-  max-height: 250px;
   margin: auto;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  justify-content: center;
   align-items: center;
-  display: grid;
+  overflow: auto;
 }
 
-.scroll {
-  overflow: auto;
-  width: 768px;
-  max-height: 220px;
-  margin-bottom: 1rem;
+.menuList {
+  max-width: 768px;
+  margin: 0 auto;
+  max-height: 250px;
 }
 
 // temporary change
 .close {
-  display: none;
-}
-
-.backdrop {
-  background-color: #0b0a0a3c;
-  height: 100%;
-  width: 100%;
-  min-height: 844px;
-  position: absolute;
-  max-width: 768px;
-  margin-top: 77px;
-  z-index: 1;
-  overflow-y: hidden;
-  overflow-x: hidden;
 }
 
 .disable {

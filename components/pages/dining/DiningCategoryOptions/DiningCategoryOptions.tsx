@@ -7,7 +7,6 @@ import { useReactiveVar } from '@apollo/client';
 import cx from 'classnames';
 import produce from 'immer';
 import { setScrollPosition } from 'utils/functions';
-import { useTranslation } from 'react-i18next';
 
 export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
   categories,
@@ -17,7 +16,6 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
   setScrollHide,
 }) => {
   const stickyHeader: any = useRef();
-  const { t } = useTranslation('common');
 
   const diningInformation = useReactiveVar(diningInformationStorage);
 
@@ -95,7 +93,7 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
           },
         )}
       >
-        <div className={styles.diningMenuFilterButtonWrapper}>
+        {/* <div className={styles.diningMenuFilterButtonWrapper}>
           {categories?.length > 0 && (
             <StyledButton
               className={
@@ -108,7 +106,7 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
               {t('all')}
             </StyledButton>
           )}
-        </div>
+        </div> */}
         {categories?.map((el: any, index: number) => (
           <div id={el?.id} className={styles.diningMenuFilterButtonWrapper} key={`${el}-${index}`}>
             <StyledButton

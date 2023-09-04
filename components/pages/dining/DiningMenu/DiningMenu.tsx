@@ -198,14 +198,15 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     diningInformationStorage({
       selectedMenu: selectedFilter?.selectedMenu || selectedMenu?.id,
       menuName: selectedFilter?.menuName || selectedMenu?.name,
-      selectedCategory: selectedFilter?.selectedCategory,
-      categoryName: selectedFilter?.categoryName,
+      selectedCategory: selectedFilter?.selectedCategory || selectedMenu?.categories[0]?.id,
+      categoryName: selectedFilter?.categoryName || selectedMenu?.categories[0]?.name,
     });
   }, [
     selectedFilter?.categoryName,
     selectedFilter?.menuName,
     selectedFilter?.selectedCategory,
     selectedFilter?.selectedMenu,
+    selectedMenu?.categories,
     selectedMenu?.id,
     selectedMenu?.name,
   ]);

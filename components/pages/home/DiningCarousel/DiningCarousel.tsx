@@ -16,6 +16,9 @@ import { locale } from 'dayjs';
 import { irdActiveMenuList } from 'utils/functions';
 import { DINING_OPTIONS } from 'utils/constants';
 import cx from 'classnames';
+import { diningMenuStorage } from 'storage/dining-menu.storage';
+import { diningInformationStorage } from 'storage/dining.storage';
+import { availablePaths } from 'utils/availablePaths';
 
 interface ICarouselSlideProps {
   slide: any;
@@ -45,15 +48,30 @@ const carousalResponsive = {
 };
 
 const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide }) => {
-  const router = useRouter();
+  const { t } = useTranslation(['common']);
+  const navigate = useLocalizedRouter();
+  const handleMenu = () => {
+    diningInformationStorage({
+      selectedMenu: slide?.id,
+      menuName: slide?.name,
+      selectedCategory: slide?.categories[0]?.id,
+      categoryName: slide?.categories[0]?.name,
+    });
+    navigate(availablePaths?.DINING);
+  };
 
   return (
-    <div className={styles.carouselSlideWrapper}>
-      <StableImage className={styles.carouselSlideImage} src={`${ASSETS_URL}/${slide.images[0]}`} />
+    <div className={styles.carouselSlideWrapper} onClick={handleMenu}>
+      <StableImage
+        className={styles.carouselSlideImage}
+        src={`${ASSETS_URL}/${slide.images[0]?.master && slide.images[0]?.master}`}
+      />
       <div className={styles.carouselSlideDetailsWrapper}>
-        <h3 className={styles.carouselSlideTitle}>{slide.name}</h3>
-        <p className={styles.carouselSlideTimings}>{slide.hours[0]?.day}</p>
-        <p className={styles.carouselSlideViewMore}>view more</p>
+        {slide.name && <h3 className={styles.carouselSlideTitle}>{slide.name}</h3>}
+        {slide.hours[0]?.day && (
+          <p className={styles.carouselSlideTimings}>{slide.hours[0]?.day}</p>
+        )}
+        <p className={styles.carouselSlideViewMore}>{t('view more')}</p>
       </div>
     </div>
   );

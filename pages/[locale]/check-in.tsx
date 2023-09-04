@@ -93,7 +93,7 @@ const GetReservation: React.FC = () => {
         //     preCheckedIn: true,
         //     bookingId: data.getReservation.data.reservationId,
         //   });
-        //   navigate(availablePaths?.INDEX);
+        //   navigate(availablePaths?.HOME);
         // } else {
         navigate(availablePaths?.GUEST_INFORMATION_INPUT);
         // }
@@ -115,7 +115,7 @@ const GetReservation: React.FC = () => {
 
   const closeInputDrawer = useCallback(() => {
     setInputDrawer((state) => !state);
-    navigate(availablePaths.INDEX);
+    navigate(availablePaths.HOME);
   }, [navigate]);
 
   return (

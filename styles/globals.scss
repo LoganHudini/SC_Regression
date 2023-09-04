@@ -67,7 +67,8 @@
   --primary-drawer-top-left-border-radius: 0px;
   --primary-drawer-top-right-border-radius: 0px;
   --primary-drawer-height: 70vh;
-  --primary-drawer-background-opacity: 0.6;
+  --primary-drawer-background-opacity: 0.35;
+  --primary-drawer-background-color: #000000;
 
   // hamburger menu colors
   --hamburgermenu-background-color: #121212;
@@ -145,7 +146,10 @@ p {
   color: var(--primary-text-color);
   font-family: var(--primary-font-regular);
   overflow: hidden;
-  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3; /* start showing ellipsis when 3rd line is reached */
+  white-space: pre-wrap; /* let the text wrap preserving spaces */
 }
 
 h1,
