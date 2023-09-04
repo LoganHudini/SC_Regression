@@ -52,8 +52,8 @@ import { toast } from 'react-toastify';
 import {
   PRE_CHECKIN_ERROR_MSG,
   cardTypes,
-  checkIn,
-  review,
+  CHECK_IN,
+  REVIEW,
   CHKOUT,
   CHECKEDOUT,
   CANCELED,
@@ -89,9 +89,9 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const config = getConfig();
   const checkinInfo = useCheckedIn();
 
-  const checkinModule: any = config?.modules?.find((module) => module?.name === checkIn);
+  const checkinModule: any = config?.modules?.find((module) => module?.name === CHECK_IN);
   const reviewConfig = checkinModule?.submodules?.find(
-    (submodule: any) => submodule?.name === review && submodule.isActive,
+    (submodule: any) => submodule?.name === REVIEW && submodule.isActive,
   );
 
   const data: any = client.readQuery<IGetReservationApiResponse>({

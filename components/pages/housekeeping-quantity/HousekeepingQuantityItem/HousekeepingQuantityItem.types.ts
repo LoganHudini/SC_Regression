@@ -3,4 +3,5 @@ export interface IHousekeepingQuantityItemProps {
   id: string;
   maxQuantity: number;
   maxQuantityActive: boolean;
+  changeAlignment?: boolean;
 }

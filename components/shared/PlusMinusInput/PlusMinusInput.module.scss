@@ -14,7 +14,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: none;
 
   &:disabled {
     & > svg > path {
@@ -48,6 +47,7 @@
   justify-content: center;
   align-items: center;
   font: $medium var(--primary-font-medium);
+  -webkit-user-select: none;
   user-select: none;
   width: 30px;
   height: 30px;

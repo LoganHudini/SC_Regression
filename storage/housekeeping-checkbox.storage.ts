@@ -5,6 +5,7 @@ export type IHousekeepingCheckboxStorageData = {
     itemId: string;
     quantity: number;
     requested?: boolean;
+    name: string;
   }[];
 };
 

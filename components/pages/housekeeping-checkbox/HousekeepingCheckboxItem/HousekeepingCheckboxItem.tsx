@@ -28,7 +28,7 @@ export const HousekeepingCheckboxItem: React.FC<IHousekeepingCheckboxItemProps> 
             item.requested = false;
           }
         } else {
-          draft?.selectedItems.push({ itemId: id, quantity: 1, requested: true });
+          draft?.selectedItems.push({ itemId: id, quantity: 1, requested: true, name: title });
         }
       }),
     );

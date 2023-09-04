@@ -12,6 +12,14 @@ export const OFFERS = 'offers';
 export const DRIVERS_LICENCE = 'DRL';
 export const PASSPORT = 'PASSPORT';
 export const CUSTOM = 'CUSTOM';
+export const TODAY = 'TODAY';
+export const TOMORROW = 'TOMORROW';
+export const IMMEDIATE = 'IMMEDIATE';
+export const QUANTITY = 'Quantity';
+export const DATE = 'Date ';
+export const DAY = 'day';
+export const DATETIME = 'Date & Time';
+export const TIME = 'Time';
 export const BARCELONA = 'barcelona';
 export const HEADERS = ['Restaurants & Bars', 'Offers', 'In-Room Dining', 'Hotel'];
 export const ALL_DAY = 'all day';
@@ -112,6 +120,8 @@ export const STATUS = [
   { key: 'ACCEPTED', value: 'Accepted' },
 ];
 
+export const TimeFormatArray = ['AM', 'PM'];
+
 // path constants
 export const HOUSEKEEPING = 'HOUSEKEEPING';
 export const DINING = 'DINING';
@@ -123,8 +133,8 @@ export const Gender = [
 export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const phoneRegex =
   /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/;
-export const checkIn = 'checkin';
-export const review = 'review';
+export const CHECK_IN = 'checkin';
+export const REVIEW = 'review';
 export const CANCELED = 'CANCELED';
 export const CHECKEDOUT = 'CHECKEDOUT';
 export const CHKOUT = 'CHKOUT';
