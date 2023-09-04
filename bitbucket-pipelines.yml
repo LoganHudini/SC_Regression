@@ -1,0 +1,106 @@
+# This is a sample build configuration for JavaScript.
+# Check our guides at https://confluence.atlassian.com/x/14UWN for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+
+image: node:18.12.1
+pipelines:
+  default:
+    - step:
+        name: Build and test
+        script:
+          - rm -rf package-lock.json
+          - rm -rf yarn.lock
+          - rm -rf node_modules
+          - yarn
+
+  branches: # Pipelines that run automatically on a push to a develop
+    master:
+      - step:
+          deployment: dev
+          caches:
+            - node
+          name: Automatacilly Deploy to Dev https://sofitel.hudinielevate-dev.io/
+          script:
+            - rm -rf package-lock.json
+            - rm -rf yarn.lock
+            - rm -rf node_modules
+            - yarn
+            - CI='' yarn build
+            - CI='' yarn export
+            - cd out
+            - pipe: atlassian/aws-s3-deploy:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_DEV # Optional if already defined in the context.
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_DEV # Optional if already defined in the context.
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_DEV # Optional if already defined in the context.
+                #ACL: 'public-read'
+                S3_BUCKET: $S3_BUCKET_DEV
+                LOCAL_PATH: $(pwd)
+            - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_DEV
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_DEV
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_DEV
+                DISTRIBUTION_ID: 'EPNGSH4XM126U'
+
+  custom:
+    deployToSofitelStaging:
+      - step:
+          caches:
+            - node
+          name: Deploy Manually to Staging https://sofitel.hudinielevate-stage.io/
+          deployment: staging
+          size: 2x # Double resources available for this step.
+          script:
+            - rm -rf package-lock.json
+            - rm -rf yarn.lock
+            - rm -rf node_modules
+            - yarn
+            - CI='' yarn build:mondrian
+            - CI='' yarn export
+            - cd out
+            - pipe: atlassian/aws-s3-deploy:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING # Optional if already defined in the context.
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING # Optional if already defined in the context.
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING # Optional if already defined in the context.
+                #ACL: 'public-read'
+                S3_BUCKET: $S3_BUCKET_STAGING_MONDRIAN
+                LOCAL_PATH: $(pwd)
+            - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING
+                DISTRIBUTION_ID: 'EJR7LQAS89QFB'
+    deployToSofitelUAT:
+      - step:
+          caches:
+            - node
+          name: Deploy Manually to UAT https://sofitel.hudini.app/
+          deployment: staging
+          size: 2x # Double resources available for this step.
+          script:
+            - rm -rf package-lock.json
+            - rm -rf yarn.lock
+            - rm -rf node_modules
+            - yarn
+            - CI='' yarn build:mondrian
+            - CI='' yarn export
+            - cd out
+            - pipe: atlassian/aws-s3-deploy:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING # Optional if already defined in the context.
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING # Optional if already defined in the context.
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING # Optional if already defined in the context.
+                #ACL: 'public-read'
+                S3_BUCKET: $S3_BUCKET_STAGING_MONDRIAN
+                LOCAL_PATH: $(pwd)
+            - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING
+                DISTRIBUTION_ID: 'E3DU5R0R1H7FSF'
