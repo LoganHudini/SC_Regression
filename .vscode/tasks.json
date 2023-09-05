@@ -5,44 +5,44 @@
       "type": "npm",
       "script": "dev:stage",
       "problemMatcher": [],
-      "label": "Dev: Stage",
-      "detail": "env-cmd -f .env.stage.local yarn next dev"
+      "label": "Dev: STAGE",
+      "detail": "env-cmd -f .env.stage yarn next dev"
     },
     {
       "type": "npm",
       "script": "build:stage",
       "problemMatcher": [],
-      "label": "Build: Stage",
-      "detail": "env-cmd -f .env.stage.local yarn build"
+      "label": "Build: STAGE",
+      "detail": "env-cmd -f .env.stage yarn build"
     },
     {
       "type": "npm",
       "script": "start:stage",
       "problemMatcher": [],
       "label": "Start: STAGE",
-      "detail": "env-cmd -f .env.stage.local next start"
+      "detail": "env-cmd -f .env.stage next start"
+    }
+    {
+      "type": "npm",
+      "script": "dev:uat",
+      "problemMatcher": [],
+      "label": "Dev: UAT",
+      "detail": "env-cmd -f .env.uat yarn next dev"
     },
-    // {
-    //   "type": "npm",
-    //   "script": "dev",
-    //   "problemMatcher": [],
-    //   "label": "Dev: UAT",
-    //   "detail": "env-cmd -f .env.local yarn next dev"
-    // },
-    // {
-    //   "type": "npm",
-    //   "script": "build",
-    //   "group": "build",
-    //   "problemMatcher": [],
-    //   "label": "Build: UAT",
-    //   "detail": "env-cmd -f .env.local yarn build"
-    // },
-    // {
-    //   "type": "npm",
-    //   "script": "start",
-    //   "problemMatcher": [],
-    //   "label": "Start: UAT",
-    //   "detail": "env-cmd -f .env.local next start"
-    // }
+    {
+      "type": "npm",
+      "script": "build:uat",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: UAT",
+      "detail": "env-cmd -f .env.uat yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:uat",
+      "problemMatcher": [],
+      "label": "Start: UAT",
+      "detail": "env-cmd -f .env.uat next start"
+    }
   ]
 }

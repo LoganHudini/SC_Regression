@@ -1,26 +1,15 @@
 import { Header } from 'components/shared/Header/Header';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
-import { client } from 'core/graphql/client';
-import { IGetHotelInfoApiResponse, GET_HOTEL_INFO } from 'core/graphql/queries/GET_HOTEL_INFO';
-import { GetStaticProps, NextPage } from 'next';
-import urlSlug from 'url-slug';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'utils/link';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { getStaticPaths } from 'utils/getStatic';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { availablePaths } from 'utils/availablePaths';
-import { HOME_PAGE } from 'core/graphql/endpoints';
 
 export { getStaticPaths };
-
-interface IHomePageProps {
-  paths: {
-    path: string;
-    name: string;
-  }[];
-}
 
 const CHECK_IN_FLOW = [
   availablePaths.GET_RESERVATION,
@@ -72,7 +61,7 @@ const AVAILABLE_PAGES = [
   availablePaths.NOTIFICATIONS,
 ];
 
-const HomePage: NextPage<IHomePageProps> = ({ paths }) => {
+const HomePage = () => {
   // const navigate = useLocalizedRouter();
 
   // useEffect(() => {
@@ -145,15 +134,6 @@ const HomePage: NextPage<IHomePageProps> = ({ paths }) => {
             </li>
           ))}
         </ul>
-        <hr />
-        <h3>UI builder pages</h3>
-        <ul>
-          {paths.map((path) => (
-            <li key={path.path}>
-              <Link href={`/${path.path}`}>{path.name}</Link>
-            </li>
-          ))}
-        </ul>
       </PageWrapper>
     </>
   );
@@ -162,25 +142,8 @@ const HomePage: NextPage<IHomePageProps> = ({ paths }) => {
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const locale = ctx?.params?.locale;
 
-  const { data } = await client.query<IGetHotelInfoApiResponse>({
-    query: GET_HOTEL_INFO,
-  });
-
-  const paths = data.listUiBuilderPages
-    .filter((page) => page.status === 'Published')
-    .map((el) => {
-      let pageName = urlSlug(el.name);
-
-      if (el.name === HOME_PAGE) {
-        pageName = '';
-      }
-
-      return { path: pageName, name: el.name };
-    });
-
   return {
     props: {
-      paths,
       ...(await serverSideTranslations(locale as string, ['common'], i18nConfig)),
     },
   };
