@@ -58,13 +58,11 @@
 
 .pageWrapper {
   justify-content: space-between;
-  padding-bottom: 116px !important;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   min-height: calc(100vh - 70px);
   position: relative;
-  padding: 0px 29px 100px 29px;
   &:last-child {
     padding-bottom: 116px !important;
   }
@@ -149,7 +147,7 @@
   left: 0;
   right: 0;
   border-radius: 0;
-  box-shadow: #00000029 0 1px 20px;
+  box-shadow: var(--primary-box-shadow-color) 0 1px 20px;
   max-width: 768px;
   margin-top: -20px;
 }

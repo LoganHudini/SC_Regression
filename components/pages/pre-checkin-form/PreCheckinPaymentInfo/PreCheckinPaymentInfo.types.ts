@@ -1,5 +1,7 @@
 export interface IPreCheckinPaymentInfoProps {
-  paymentInfo: PaymentInfo;
+  paymentInfo: any; // PaymentInfo
+  creditCardInfoSection?: any;
+  paymentType?: string;
 }
 
 export interface PaymentInfo {

@@ -48,10 +48,11 @@
 .checkDatesColumn {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 
 .checkDatesText {
-  font-size: $xsmall;
+  font-size: $extraSmall;
   margin-bottom: 1vh;
   line-height: 1;
   margin-top: 2vh;
@@ -59,12 +60,13 @@
 }
 .right {
   text-align: right;
+  align-self: flex-end;
 }
 
 .checkDatesDetails {
-  font-size: $medium;
-  font-family: var(--primary-font-medium);
-  margin-bottom: 3vh;
+  font-size: $small;
+  font-family: var(--primary-font-news);
+  color: var(--tertiary-text-color);
   line-height: 1;
   font-weight: bold;
 }
@@ -144,11 +146,12 @@
 }
 
 .step {
-  font-size: $large;
+  font-size: $small;
   display: flex;
   justify-content: center;
   padding: 30px 15px 10px;
   border-bottom: 1px solid var(--primary-theme-color);
+  font-family: var(--secondary-title-font-family);
   div {
     margin: 0px 0px 0px 8px;
     font-size: $xsmall;
@@ -167,4 +170,27 @@
     background-color: #d2d1d0;
     border: 1px solid #d2d1d0;
   }
+}
+
+.confirmOrderButton {
+  margin: 0 auto;
+  padding: 50px 50px 29px 50px;
+  background: #fff;
+  position: fixed;
+  bottom: 0rem;
+  left: 0;
+  right: 0;
+  border-radius: 0;
+  box-shadow: var(--primary-box-shadow-color) 0 1px 20px;
+  max-width: 768px;
+  margin-top: -20px;
+}
+
+.confirmationWrapperBotton {
+  margin-top: -20px;
+}
+
+.button {
+  padding-top: 10px;
+  padding-left: 22px;
 }

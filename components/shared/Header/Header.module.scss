@@ -230,3 +230,9 @@
   align-items: center;
   margin-left: 45px;
 }
+
+.screenHeader {
+  font-size: $small;
+  font-family: var(--secondary-title-font-family);
+  color: var(--tertiary-text-color);
+}

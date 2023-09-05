@@ -1,3 +1,5 @@
+import { HOTEL_CODE } from "core/graphql/endpoints";
+
 export const CHECK_IN_FLOW_VERSION = process.env.NEXT_PUBLIC_CHECK_IN_FLOW_VERSION;
 export const CHECK_OUT_FLOW_VERSION = process.env.NEXT_PUBLIC_CHECK_OUT_FLOW_VERSION;
 export const DINING_FLOW_VERSION = process.env.NEXT_PUBLIC_DINING_FLOW_VERSION;
@@ -85,6 +87,53 @@ export const cardTypes = [
     name: 'JCB',
   },
 ];
+const restaurantPath = '/restaurants-bars';
+const offersPath = '/offers';
+export const templateItems = [
+  {
+    title: 'RESTAURANT & BARS',
+    path: restaurantPath,
+    image: `/images/${HOTEL_CODE}/restaurant.png`,
+  },
+  {
+    title: 'OFFERS',
+    path: offersPath,
+    image: `/images/${HOTEL_CODE}/offers.png`,
+  },
+  {
+    title: 'RESTAURANT & BARS',
+    path: restaurantPath,
+    image: `/images/${HOTEL_CODE}/restaurant.png`,
+  },
+  {
+    title: 'OFFERS',
+    path: offersPath,
+    image: `/images/${HOTEL_CODE}/offers.png`,
+  },
+];
+export const DRIVERSLICENCE = 'DRL';
+export const DRIVERLICENCE = 'DL';
+export const EMAIL = 'email';
+export const PHONENUMBER = 'phoneNumber';
+export const PHONE = 'phone';
+export const CHECKIN = 'checkin';
+export const CYBERSOURCE = 'cybersource';
+export const SELECTDROPDOWN = 'Select';
+export const GUESTINFORMATION = 'Guest Information';
+export const CREDITCARDINFO = 'Credit Card Info';
+export const IDENTITYVERIFICATION = 'Identity Verification';
+export const INFORMATION = 'information';
+export const CREDITCARD = 'creditCard';
+export const GUESTICON = 'guestIcon';
+export const GUEST = 'guest';
+export const USERGROUP = 'userGroup';
+export const IDCARD = 'idCard';
+export const ACCOMPANYINGGUEST = 'accompanyingGuest';
+export const CHECKBOX = 'CheckBox';
+
+export const PAYMENT = [
+  { id: '2', name: 'CASH', message: '' },
+  { id: '3', name: 'CARD', message: '' },]
 
 export const LANGUAGE_LIST_DUBAI = [
   { title: 'English', value: 'en' },
@@ -98,7 +147,7 @@ export const LANGUAGE_LIST_BARCELONA = [
   { title: 'Français', value: 'fr' },
 ];
 
-export const PAYMENT = [
+export const PAYMENTFANDB = [
   { id: '1', name: 'BILL TO ROOM', message: '' },
   { id: '2', name: 'CASH', message: '' },
   { id: '3', name: 'CARD', message: '' },
@@ -130,8 +179,8 @@ export const Gender = [
   { name: 'Male', value: 'MALE' },
   { name: 'Female', value: 'FEMALE' },
 ];
-export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-export const phoneRegex =
+export const EmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const PhoneRegex =
   /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/;
 export const CHECK_IN = 'checkin';
 export const REVIEW = 'review';

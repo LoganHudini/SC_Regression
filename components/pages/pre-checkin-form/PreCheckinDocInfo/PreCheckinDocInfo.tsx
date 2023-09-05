@@ -19,8 +19,14 @@ import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
 import DateRangeIcon from '@icons/DateRangeIcon.svg';
+import * as yup from 'yup';
+import { EMAIL, PHONE, PhoneRegex, SELECTDROPDOWN } from 'utils/constants';
+import DropDown from '@icons/dropDownIcon.svg';
+import { generateInitialFieldValues, generateValidationSchema } from 'utils/functions';
 
-export const PreCheckinDocInfo: React.FC<IPreCheckinDocInfoProps> = ({ docInfo }) => {
+
+
+export const PreCheckinDocInfo: React.FC<IPreCheckinDocInfoProps> = ({ docInfo, identityVerificationSection }) => {
   const { t } = useTranslation('check-in');
   const navigate = useLocalizedRouter();
   const [cardOpened, setCardOpened] = useState(true);
@@ -30,17 +36,22 @@ export const PreCheckinDocInfo: React.FC<IPreCheckinDocInfoProps> = ({ docInfo }
 
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const updateGuestDetails = (name: string, value: string) => {
+
     const inputField = name;
-    const inputValue = value;
-    // reservationGuestInfoStorageData({ ...guestReservationInfo, [inputField]: inputValue });
+    const inputValue = value; reservationGuestInfoStorageData({ ...guestReservationInfo, [inputField]: inputValue });
+
   };
   const updateDocType = (value: string) => {
     sessionStorage.setItem('docType', value);
   };
+  const initialFieldValues = generateInitialFieldValues(identityVerificationSection, docInfo);
+
+
+  const validationSchema = generateValidationSchema(identityVerificationSection);
 
   const formik = useFormik({
-    initialValues: docInfo as IDocInfo,
-    validationSchema: identityVerificationValidation,
+    initialValues: initialFieldValues,
+    validationSchema: validationSchema,
     onSubmit: handleInputChange,
   });
 
@@ -48,13 +59,13 @@ export const PreCheckinDocInfo: React.FC<IPreCheckinDocInfoProps> = ({ docInfo }
   //   navigate(availablePaths.INCODE);
   // };
 
-  useEffect(() => {
-    reservationGuestInfoStorageData({
-      ...guestReservationInfo,
-      docNo: formik.values?.docNo ?? '',
-      docType: formik.values?.docType ?? '',
-    });
-  }, [formik.values]);
+  // useEffect(() => {
+  //   reservationGuestInfoStorageData({
+  //     ...guestReservationInfo,
+  //     docNo: formik.values?.docNo ?? '',
+  //     docType: formik.values?.docType ?? '',
+  //   });
+  // }, [formik.values]);
 
   const setEmpty = () => {
     formik.values.docNo = '';
@@ -67,61 +78,74 @@ export const PreCheckinDocInfo: React.FC<IPreCheckinDocInfoProps> = ({ docInfo }
 
   return (
     <div className={styles.identityInputs}>
-      <div className={styles.col_100}>
-        <div className={styles.col_100}>
-          <StyledFormControl
-            required
-            className={styles.guestDataInput}
-            variant='standard'
-            sx={{ m: 1, minWidth: '100%' }}
-          >
-            <InputLabel>Document Type</InputLabel>
-            <Select
-              className={styles.guestDataInput}
-              label={t('Document Type')}
-              variant='standard'
-              name={'docType'}
-              id={'docType'}
-              value={formik.values?.docType}
-              onChange={(e) => {
-                formik.handleChange(e);
-                updateDocType(e.target.value);
-                updateGuestDetails(e.target.name, e.target.value);
-                updateGuestDetails('docNo', '');
-                formik.values.docNo = '';
-                formik.values.effectiveDate = '';
-                formik.values.expiryDate = '';
-                formik.values.issueCountry = '';
-              }}
-            >
-              <MenuItem value={'Passport'}>
-                <em>Passport</em>
-              </MenuItem>
-              <MenuItem value={'Driving License'}>
-                <em>Driving License</em>
-              </MenuItem>
-            </Select>
-          </StyledFormControl>
-        </div>
-      </div>
-      <div className={styles.col_100}>
-        <div className={styles.col_100}>
-          <StyledInput
-            required
-            autoComplete='off'
-            className={styles.guestDataInput}
-            label={t('Id Number')}
-            variant='standard'
-            name={'docNo'}
-            id={'docNo'}
-            value={formik.values?.docNo}
-            onChange={(e) => {
-              formik.handleChange(e);
-              updateGuestDetails(e.target.id, e.target.value);
-            }}
-          />
-        </div>
-      </div>
+      {identityVerificationSection.map((field: any) => (
+        field?.isActive && (
+          <div key={field?.name}>
+            {field?.type == SELECTDROPDOWN ?
+              <StyledFormControl
+                required={field?.required}
+                disabled={field?.isDisabled}
+                className={styles.guestDataInput}
+                variant='standard'
+                sx={{ m: 1, minWidth: '100%' }}
+              >
+                <InputLabel>{field?.label}</InputLabel>
+                <Select
+                  className={styles.guestDataInput}
+                  label={field?.label}
+                  variant='standard'
+                  name={field?.name}
+                  id={field?.name}
+                  value={formik.values[field?.name] || ''}
+                  onChange={(e: any) => {
+                    formik.handleChange(e);
+                    updateGuestDetails(e.target.name, e.target.value);
+                  }}
+                  disabled={field?.isDisabled}
+                  IconComponent={DropDown}
+                >
+                  {field?.options.map((item: any) => {
+                    return (
+                      <MenuItem value={item?.value} key={item?.value}>
+                        <em>{item?.name}</em>
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </StyledFormControl> : <div key={field?.name} className={styles.col_100}>
+
+                <StyledInput
+                  required={field?.required}
+                  autoComplete='off'
+                  className={styles.guestDataInput}
+                  label={t(field?.label)}
+                  variant='standard'
+                  name={field?.name}
+                  id={field?.name}
+                  value={formik.values[field?.name]}
+                  disabled={field?.isDisabled}
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    updateGuestDetails(e.target.id, e.target.value);
+                  }}
+                  onFocus={() => formik.setFieldTouched(field?.name, true)}
+                  error={Boolean(formik.touched[field?.name]) && Boolean(formik.errors[field?.name])}
+                  helperText={formik.touched[field?.name] && formik.errors[field?.name] ? `${formik.errors[field?.name]}` : ''}
+                />
+
+              </div>}
+
+          </div>
+        )
+      ))}
+
+
+
+
+
+      {/* commented for future enhancement */}
+
+
       {/* <div className={styles.col_100}>
         <div className={styles.col_100}>
           <DatePicker
@@ -132,7 +156,7 @@ export const PreCheckinDocInfo: React.FC<IPreCheckinDocInfoProps> = ({ docInfo }
               formik.setFieldValue('effectiveDate', effectiveDate, true);
             }}
             value={
-              formik.values?.effectiveDate !== ''
+              formik.values?.effectiveDate
                 ? dayjs(formik.values?.effectiveDate, timeFormats.YEAR_MONTH_DAY)
                 : null
             }

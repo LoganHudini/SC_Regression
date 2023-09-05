@@ -2,12 +2,18 @@ import React, { useState } from 'react';
 import styles from './InfoCard.module.scss';
 import CheckMarkIcon from '@icons/checkMark.svg';
 import EditMarkIcon from '@icons/editMark.svg';
+import CheckMark from '@icons/checkMarkProduct.svg';
 import { IInfoCardProps } from './InfoCard.types';
 import CreditCardIcon from '@icons/credit-cards.svg';
 import IdCard from '@icons/id-card.svg';
+import GuestUSer from '@icons/guestUser.svg';
 import GuestIcon from '@icons/traveling.svg';
+import EditIcon from '@icons/commonEditIcon.svg';
+import DownArrow from '@icons/downArrowCard.svg';
+import GuestGroup from '@icons/guestsGroupCard.svg';
 import { availablePaths } from 'utils/availablePaths';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
+import { CREDITCARD, CYBERSOURCE, GUEST, GUESTICON, USERGROUP } from 'utils/constants';
 
 export const InfoCard: React.FC<IInfoCardProps> = ({
   icon,
@@ -16,17 +22,27 @@ export const InfoCard: React.FC<IInfoCardProps> = ({
   status,
   isCardOpened,
   children,
+  completedCheck,
+  paymentType
 }) => {
   const [cardOpened, setCardOpened] = useState(isCardOpened);
+  const [expanded, setExpanded] = useState(false);
   const navigate = useLocalizedRouter();
 
   const toggleCard = () => {
-    if (icon === 'creditCard' && !status) {
-      navigate(availablePaths.CHECK_IN_PAYMENT);
-    } else {
+    setExpanded((state) => !state);
+    setCardOpened(!cardOpened);
+
+    if (icon === CREDITCARD && !status) {
+      if (paymentType === CYBERSOURCE) {
+        // navigate(availablePaths.CHECK_IN_PAYMENT);
+      }
+    }
+    else {
       setCardOpened(!cardOpened);
     }
   };
+
   return (
     <div className={styles.infoCardStyles}>
       <>
@@ -34,10 +50,14 @@ export const InfoCard: React.FC<IInfoCardProps> = ({
           <div className={styles.homeCardInner}>
             <div className={styles.firstSection}>
               <div className={styles.homeIcon}>
-                {icon === 'creditCard' ? (
+                {icon === CREDITCARD ? (
                   <CreditCardIcon className={styles.okIcon} />
-                ) : icon === 'guestIcon' ? (
+                ) : icon === GUESTICON ? (
                   <GuestIcon className={styles.okIcon} />
+                ) : icon === GUEST ? (
+                  <GuestUSer className={styles.okIcon} />
+                ) : icon === USERGROUP ? (
+                  <GuestGroup className={styles.okIcon} />
                 ) : (
                   <IdCard className={styles.okIcon} />
                 )}
@@ -52,7 +72,13 @@ export const InfoCard: React.FC<IInfoCardProps> = ({
                 )}
               </div>
             </div>
-            <div>{status && <CheckMarkIcon />}</div>
+            <div>
+              {status && (
+                expanded && !completedCheck ? <DownArrow /> :
+                  completedCheck ? <CheckMark /> :
+                    <EditIcon />
+              )}
+            </div>
           </div>
         </div>
         {cardOpened && <div>{children}</div>}

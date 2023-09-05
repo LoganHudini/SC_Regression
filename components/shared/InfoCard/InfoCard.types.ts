@@ -3,6 +3,8 @@ export interface IInfoCardProps {
   title: string;
   details?: string;
   status: boolean;
+  completedCheck?: boolean;
   isCardOpened?: boolean;
   children: React.ReactNode;
+  paymentType?: string;
 }

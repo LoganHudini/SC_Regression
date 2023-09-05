@@ -53,20 +53,22 @@
 }
 
 .errorText {
-  color: #dc4d40;
-  font-size: $medium;
+  color: var(--primary-error-text-color);
+  font-size: $small;
   text-align: initial;
   padding: 8px 0px;
 }
 
 .titleText {
-  font-size: $large;
-  font-family: var(--primary-font-medium);
+  font-size: $medium;
+  font-family: var(--primary-font-news);
+  color: var(--tertiary-text-color);
 }
 
 .detailsText {
   font-size: $medium;
   text-align: initial;
+  padding: 8px 0px;
 }
 
 .firstSection {
@@ -74,10 +76,15 @@
 }
 
 .homeIcon {
-  padding-right: 4vw;
-  margin: auto;
+  width: 60px;
+  display: flex;
 }
 
 .homeCardInfo {
   align-items: flex-start;
+
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
 }
