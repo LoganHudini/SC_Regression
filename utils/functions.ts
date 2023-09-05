@@ -1,5 +1,7 @@
 import dayjs from 'dayjs';
 import { scrollState } from 'storage/dining-menu.storage';
+import { PHONE_REGEX } from './constants';
+import * as yup from 'yup';
 
 export const guestNameFandB = () =>
   (typeof window !== 'undefined' &&
@@ -75,4 +77,51 @@ export const irdActiveMenuList = (data: any) => {
 
 export const setScrollPosition = (x: number, y: number) => {
   scrollState({ scrollX: x, scrollY: y });
+};
+
+export const generateValidationSchema = (sections: any) => {
+  return yup.object().shape(
+    sections.reduce((schema: any, field: any) => {
+      const isActive = field?.isActive;
+      const isRequired = field?.required;
+
+      if (isActive) {
+        schema[field?.name] = yup.string();
+
+        const validationRules: any = {
+          email: {
+            validation: yup.string().email('Invalid email format'),
+            requiredMessage: 'Email is required',
+          },
+          phone: {
+            validation: yup.string().matches(PHONE_REGEX, 'Invalid phone number'),
+            requiredMessage: 'Phone is required',
+          },
+          // Add more validation
+        };
+
+        if (validationRules[field?.name]) {
+          schema[field?.name] = validationRules[field?.name].validation.when([`${isRequired}`], {
+            is: true,
+            then: schema[field?.name].required(validationRules[field?.name].requiredMessage),
+          });
+        }
+
+        if (isRequired) {
+          schema[field?.name] = schema[field?.name].required(`${field?.label} is required`);
+        }
+
+        return schema;
+      }
+
+      return schema;
+    }, {}),
+  );
+};
+
+export const generateInitialFieldValues = (field: any, selectedField: any) => {
+  return field.reduce((values: any, field: any) => {
+    values[field?.name] = selectedField[field?.name] || '';
+    return values;
+  }, {});
 };

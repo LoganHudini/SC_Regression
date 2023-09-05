@@ -1,5 +1,6 @@
 export interface IPreCheckinDocInfoProps {
-  docInfo: DocInfo;
+  docInfo: any; // DocInfo
+  identityVerificationSection?: any;
 }
 
 export interface DocInfo {

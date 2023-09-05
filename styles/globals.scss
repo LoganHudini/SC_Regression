@@ -67,7 +67,7 @@
   --primary-drawer-top-left-border-radius: 0px;
   --primary-drawer-top-right-border-radius: 0px;
   --primary-drawer-height: 70vh;
-  --primary-drawer-background-opacity: 0.35;
+  --primary-drawer-background-opacity: 0.7;
   --primary-drawer-background-color: #000000;
 
   // hamburger menu colors
@@ -98,7 +98,7 @@
   --primary-title-font-family: 'ClanOT Extended Book';
   --secondary-title-font-family: 'ClanOT News';
 
-  //card component configs
+  // card component configs
   --primary-card-title-font-family: 'ClanOT News';
   --primary-card-desc-font-family: 'ClanOT Book';
   --primary-card-cta-font-family: 'ClanOT Extended Medium';
@@ -111,6 +111,7 @@
   --primary-button-background-color: #997300;
   --primary-button-border-radius: 0px;
   --primary-button-font-family: 'ClanOT Extended Book';
+  --primary-button-background-color-disabled: #997300ab;
 
   --secondary-button-color: #997300;
   --secondary-button-background-color: #ffffff;
@@ -183,7 +184,10 @@ h6 {
   height: 48px;
   line-height: 48px;
   text-align: center;
-
+  &:disabled {
+    background: var(--primary-button-background-color-disabled) !important;
+    color: var(--primary-button-color);
+  }
   &:hover:enabled {
     background: var(--primary-theme-color);
   }
@@ -228,6 +232,10 @@ h6 {
 }
 
 .MuiInputLabel-root {
+  color: var(--tertiary-text-color);
+}
+
+.MuiInputLabel-root.Mui-focused {
   color: var(--tertiary-text-color);
 }
 
@@ -307,6 +315,39 @@ h6 {
   min-height: 35px;
 }
 
+.MuiFormLabel-filled {
+  font-size: $small;
+  color: var(--primary-text-color);
+}
+
+.MuiInputLabel-standard {
+  font-size: $small;
+  color: var(--tertiary-text-color);
+}
+
+.MuiInput-root::after,
+.MuiInput-root:hover::before {
+  border-bottom: 2px solid var(--primary-theme-color);
+}
+
+.MuiFormHelperText-root {
+  color: var(--primary-error-text-color);
+}
+
+.MuiInputLabel-asterisk {
+  color: var(--tertiary-text-color);
+}
+
+.Mui-error {
+  color: var(--primary-error-text-color);
+}
+
+.Mui-error {
+  &::after {
+    border-bottom: 2px solid var(--primary-error-text-color);
+  }
+}
+
 // webkit css
 *::-webkit-scrollbar-track {
   border-radius: 10px;
@@ -322,4 +363,13 @@ h6 {
 *::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-color: var(--primary-theme-color);
+}
+
+.MuiDialog-paper {
+  position: absolute !important;
+  bottom: 2rem !important;
+  border-radius: 10px;
+  width: 80%;
+  margin: 0 auto;
+  height: 100px;
 }

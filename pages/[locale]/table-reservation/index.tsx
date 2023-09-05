@@ -242,7 +242,7 @@ const TableReservation = () => {
               </div>
             </div>
 
-            <DateTimeSelect
+            {/* <DateTimeSelect
               setSelectedDate={setSelectedDate}
               selectedDate={selectedDate}
               setSelectedTime={setSelectedTime}
@@ -250,7 +250,7 @@ const TableReservation = () => {
               minutesArray={minutesArray}
               disable={disable}
               setDisable={setDisable}
-            />
+            /> */}
 
             {/* <>
               {capacity?.length !== 0 && (

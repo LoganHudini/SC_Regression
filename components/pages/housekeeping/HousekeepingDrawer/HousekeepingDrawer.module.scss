@@ -1,0 +1,44 @@
+.wrapper {
+  padding: 25px 26px 32px 26px;
+}
+
+.title {
+  text-align: center;
+  font-size: $header;
+  line-height: 1;
+  margin: 0 auto 35px auto;
+  font-family: var(--secondary-font-regular);
+}
+
+.calendarDateWrapper {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.calendarDateLabel {
+  font-size: $medium;
+  color: var(--tertiary-text-color);
+  margin: 35px 0px 10px 0px;
+  display: flex;
+  justify-content: center;
+  font-family: var(--primary-font-news);
+}
+
+.calendarDateText {
+  font-size: $small;
+  color: var(--primary-theme-color);
+  font-family: var(--primary-font-news);
+}
+
+.itemsWrapper {
+  display: flex;
+  justify-content: space-between;
+  font-size: $medium;
+  font-family: var(--primary-font-news);
+  margin-bottom: 30px;
+  margin-right: 20px;
+}
+
+.icon {
+  margin-right: 10px;
+}

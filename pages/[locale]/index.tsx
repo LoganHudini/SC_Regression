@@ -1,9 +1,7 @@
-import { useQuery } from '@apollo/client';
 import { DiningCarousel } from 'components/pages/home/DiningCarousel/DiningCarousel';
 import { HomeCarousel } from 'components/pages/home/HomeCarousel/HomeCarousel';
+import { ServiceRequestCarousel } from 'components/pages/home/ServiceRequestCarousel/ServiceRequestCarousel';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
-import { configuration } from 'core/graphql/queries/GET_CONFIGURATION';
-import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
 import { GetStaticProps, NextPage } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -23,6 +21,7 @@ const Home: NextPage = () => {
       </Head>
       <PageWrapper displayBottomMenu>
         <HomeCarousel />
+        <ServiceRequestCarousel />
         <DiningCarousel />
       </PageWrapper>
     </>

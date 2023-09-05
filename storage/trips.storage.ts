@@ -21,7 +21,7 @@ export const saveTrip = (payload: ISavedTrip) => {
   );
 
   if (payload.checkedIn) {
-    existingTrips.forEach((el) => {
+    existingTrips?.forEach((el) => {
       el.checkedIn = false;
     });
 

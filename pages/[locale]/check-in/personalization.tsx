@@ -29,7 +29,7 @@ import { RoomPersonalizationEntitySkeletonV2 } from 'components/pages/personaliz
 import { RoomPersonalizationEntityV2 } from 'components/pages/personalize-your-room-v2/RoomPersonalizationEntity/RoomPersonalizationEntityV2';
 import { UPDATE_BOOKING_DETAILS } from 'core/graphql/queries/UPDATE_BOOKING_DETAILS';
 import { getConfig } from 'utils/getConfiguration';
-import { checkIn, personalisation } from 'utils/constants';
+import { CHECK_IN, personalisation } from 'utils/constants';
 
 export { getStaticPaths };
 
@@ -47,7 +47,7 @@ const PersonalizeYourRoom: React.FC = () => {
 
   const config = getConfig();
 
-  const checkinModule: any = config?.modules?.find((module) => module?.name === checkIn);
+  const checkinModule: any = config?.modules?.find((module) => module?.name === CHECK_IN);
   const personalisationConfig = checkinModule?.submodules?.find(
     (submodule: any) => submodule?.name === personalisation && submodule.isActive,
   );

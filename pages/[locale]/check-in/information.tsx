@@ -35,7 +35,24 @@ import {
 } from 'core/graphql/queries/UPDATE_GUEST_DETAILS';
 import { processError } from 'utils/processError';
 import { CURRENCY } from 'core/graphql/endpoints';
-import { DRIVERS_LICENCE, PASSPORT } from 'utils/constants';
+
+import { getConfig } from 'utils/getConfiguration';
+import {
+  CHECKIN,
+  CREDITCARD,
+  CREDITCARDINFO,
+  DRIVERS_LICENCE,
+  EMAIL,
+  EMAIL_REGEX,
+  GUESTINFORMATION,
+  GUESTICON,
+  IDCARD,
+  IDENTITYVERIFICATION,
+  INFORMATION,
+  PASSPORT,
+  PHONE,
+  PHONE_REGEX,
+} from 'utils/constants';
 
 export { getStaticPaths };
 
@@ -43,6 +60,7 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
   const navigate = useLocalizedRouter();
   const [buttonStatus, setButtonStatus] = useState(false);
   const [loading, setLoading] = useState(false);
+  const config = getConfig();
 
   const { t } = useTranslation('about-your-stay');
 
@@ -51,64 +69,78 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
   });
+  const checkinModule: any = config?.modules?.find((module) => module?.name === CHECKIN);
+  const accompanyingGuestSubmodule = checkinModule?.submodules?.find(
+    (submodule: any) => submodule?.name === INFORMATION && submodule.isActive,
+  );
+  const activeSections = accompanyingGuestSubmodule.details.filter(
+    (section: any) => section.isActive,
+  );
+
+  const guestInformationSection = activeSections.find(
+    (section: any) => section.name === GUESTINFORMATION,
+  );
+  const creditCardInfoSection = activeSections.find(
+    (section: any) => section.name === CREDITCARDINFO,
+  );
+  const identityVerificationSection = activeSections.find(
+    (section: any) => section.name === IDENTITYVERIFICATION,
+  );
+  const paymentType = creditCardInfoSection.type;
 
   const reservationInfo = reservationData?.getReservation?.data;
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
 
   useEffect(() => {
-    setButtonStatus(
-      guestReservationInfo?.firstName &&
-        guestReservationInfo?.lastName &&
-        guestReservationInfo?.email &&
-        guestReservationInfo?.phone &&
-        guestReservationInfo?.cardHolderName &&
-        guestReservationInfo?.cardNumber &&
-        guestReservationInfo?.cardType &&
-        guestReservationInfo?.cardExpiryDate &&
-        guestReservationInfo?.docNo &&
-        guestReservationInfo?.docType &&
-        guestReservationInfo?.effectiveDate !== 'Invalid Date' &&
-        guestReservationInfo?.effectiveDate !== '' &&
-        guestReservationInfo?.issueCountry
-        ? true
-        : false,
-    );
-  }, [guestReservationInfo]);
+    const initialGuestReservationInfo = activeSections.reduce((values: any, section: any) => {
+      section?.details?.forEach((field: any) => {
+        const { name } = field;
+        values[name] = extractDataForField(name);
+      });
+      return values;
+    }, {});
 
-  useEffect(() => {
     reservationGuestInfoStorageData({
-      ...guestReservationInfo,
-      firstName: reservationInfo?.guests[0]?.firstName,
-      lastName: reservationInfo?.guests[0]?.lastName,
-      email: guestReservationInfo?.email
-        ? guestReservationInfo?.email
-        : reservationInfo?.guests[0]?.emails && reservationInfo?.guests[0]?.emails.length > 0
-        ? reservationInfo?.guests[0]?.emails[0]
-        : '',
-      phone: guestReservationInfo?.phone
-        ? guestReservationInfo?.phone
-        : reservationInfo?.guests[0]?.phone
-        ? reservationInfo?.guests[0]?.phone[0]
-        : '',
-      docNo: guestReservationInfo?.docNo ?? reservationInfo?.guests[0]?.docNo,
-      docType:
-        guestReservationInfo?.docType ??
-        reservationInfo?.guests[0]?.docType ??
-        sessionStorage.getItem('docType') ??
-        'Passport',
-      effectiveDate: guestReservationInfo?.effectiveDate ?? '',
-      expiryDate: guestReservationInfo?.expiryDate ?? '',
-      countryOfIssue: guestReservationInfo?.issueCountry ?? '',
-      cardNumber:
-        guestReservationInfo?.cardNumber ?? reservationInfo?.reservePayments[0]?.cardNumber,
-      cardHolderName:
-        guestReservationInfo?.cardHolderName ?? reservationInfo?.reservePayments[0]?.cardHolderName,
-      cardType: guestReservationInfo?.cardType ?? reservationInfo?.reservePayments[0]?.cardType,
-      cardExpiryDate:
-        guestReservationInfo?.cardExpiryDate ?? reservationInfo?.reservePayments[0]?.cardExpiryDate,
+      ...initialGuestReservationInfo,
       isComplete: buttonStatus,
     });
-  }, [reservationInfo, buttonStatus]);
+  }, [reservationInfo]);
+
+  function extractDataForField(fieldName: any) {
+    const sources = {
+      reservationInfo,
+      guestReservationInfo,
+    };
+
+    let extractedValue = '';
+
+    for (const source of Object.values(sources)) {
+      if (source) {
+        const fieldValue = getFieldFromSource(source, fieldName);
+        if (fieldValue) {
+          extractedValue = fieldValue;
+          break;
+        }
+      }
+    }
+
+    return extractedValue;
+  }
+
+  function getFieldFromSource(source: any, fieldName: any) {
+    const fieldPath = fieldName.split('.');
+    let fieldValue = source;
+
+    for (const field of fieldPath) {
+      if (fieldValue && fieldValue[field]) {
+        fieldValue = fieldValue[field];
+      } else {
+        fieldValue = undefined;
+        break;
+      }
+    }
+    return fieldValue;
+  }
 
   const currentRoomType = roomDetails.getHotelAccommodationDetails.roomTypes.find(
     (room) => room.code === (upgradeRoomCode || reservationInfo?.roomTypes[0]?.code),
@@ -179,6 +211,7 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
     }
     setLoading(false);
     navigate(availablePaths.ACCOMPANY_GUEST);
+    // navigate(availablePaths?.PERSONALIZE_YOUR_ROOM);
   }, [navigate]);
 
   const goToTheRoomDetails = useCallback(() => {
@@ -188,17 +221,42 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
   const goToTheGetReservation = useCallback(() => {
     navigate(availablePaths.GET_RESERVATION);
   }, [navigate]);
+
+  const validateGuestReservation = (field: any) => {
+    if (!guestReservationInfo) {
+      return true;
+    }
+
+    return field?.every((fieldItem: any) => {
+      if (!fieldItem.required) {
+        return true;
+      }
+
+      const infoValue = guestReservationInfo[fieldItem?.name];
+
+      if (fieldItem.name === PHONE) {
+        return PHONE_REGEX.test(infoValue);
+      }
+
+      if (fieldItem.name === EMAIL) {
+        return EMAIL_REGEX.test(infoValue);
+      }
+
+      return !!infoValue;
+    });
+  };
+
+  const validButton =
+    validateGuestReservation(guestInformationSection?.details) &&
+    validateGuestReservation(creditCardInfoSection?.details) &&
+    validateGuestReservation(identityVerificationSection?.details);
+
   return (
     <>
       <Head>
         <title>{t('Check-In')}</title>
       </Head>
-      <Header
-        displayBackButton
-        backRoute={availablePaths?.GUEST_INFORMATION_INPUT}
-        screenTitle={t('Check-In') as string}
-        displayHome
-      />
+      <Header screenTitle={t(`${accompanyingGuestSubmodule?.label}`) as string} displayHome />
       <PageWrapper className={styles.pageWrapper}>
         <p className={styles.step}>{t('Please Complete Your Check-In Process')}</p>
         <div className={styles.checkDates}>
@@ -224,56 +282,66 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
         </div>
 
         <div className={styles.roomDetailsCardWrapper}>
-          <InfoCard
-            title={t('Guest Information')}
-            icon='guestIcon'
-            details={guestReservationInfo?.firstName + ' ' + guestReservationInfo?.lastName}
-            status={
-              guestReservationInfo?.firstName &&
-              guestReservationInfo?.lastName &&
-              guestReservationInfo?.email &&
-              guestReservationInfo?.phone
-                ? true
-                : false
-            }
-            isCardOpened={false}
-          >
-            <PreCheckinGuestInfo selectedGuest={guestReservationInfo}></PreCheckinGuestInfo>
-          </InfoCard>
-          <InfoCard
-            title={t('Credit Card Info')}
-            icon='creditCard'
-            details={guestReservationInfo?.cardNumber as string}
-            status={
-              guestReservationInfo?.cardHolderName &&
-              guestReservationInfo?.cardNumber &&
-              guestReservationInfo?.cardType &&
-              guestReservationInfo?.cardExpiryDate
-                ? true
-                : false
-            }
-          >
-            <PreCheckinPaymentInfo paymentInfo={guestReservationInfo}></PreCheckinPaymentInfo>
-          </InfoCard>
-          <InfoCard
-            title={t('Identity Verification')}
-            icon='idCard'
-            details={guestReservationInfo?.docType as string}
-            status={guestReservationInfo?.docNo && guestReservationInfo?.docType}
-          >
-            <PreCheckinDocInfo docInfo={guestReservationInfo}></PreCheckinDocInfo>
-          </InfoCard>
+          {guestInformationSection && (
+            <InfoCard
+              title={t(`${guestInformationSection?.name}`) as string}
+              icon={GUESTICON}
+              details={guestReservationInfo?.firstName + ' ' + guestReservationInfo?.lastName}
+              status={validateGuestReservation(guestInformationSection?.details)}
+              isCardOpened={false}
+              completedCheck
+            >
+              <PreCheckinGuestInfo
+                selectedGuest={guestReservationInfo}
+                guestInformationSection={guestInformationSection?.details}
+              ></PreCheckinGuestInfo>
+            </InfoCard>
+          )}
+          {creditCardInfoSection && (
+            <InfoCard
+              title={t(`${creditCardInfoSection?.name}`) as string}
+              icon={CREDITCARD}
+              details={guestReservationInfo?.cardNumber as string}
+              status={validateGuestReservation(creditCardInfoSection?.details)}
+              completedCheck
+              paymentType={paymentType}
+            >
+              <PreCheckinPaymentInfo
+                paymentInfo={guestReservationInfo}
+                creditCardInfoSection={creditCardInfoSection?.details}
+                paymentType={paymentType}
+              ></PreCheckinPaymentInfo>
+            </InfoCard>
+          )}
+          {identityVerificationSection && (
+            <InfoCard
+              title={t(`${identityVerificationSection?.name}`) as string}
+              icon={IDCARD}
+              details={guestReservationInfo?.docType as string}
+              status={validateGuestReservation(identityVerificationSection?.details)}
+              completedCheck
+            >
+              <PreCheckinDocInfo
+                docInfo={guestReservationInfo}
+                identityVerificationSection={identityVerificationSection?.details}
+              ></PreCheckinDocInfo>
+            </InfoCard>
+          )}
         </div>
-
-        <StyledButton
-          className={styles.nextButton}
-          loading={loading}
-          // disabled={!buttonStatus}
-          onClick={goToTheNextStep}
-          variant='contained'
-        >
-          {t('Continue')}
-        </StyledButton>
+        <div className={styles.confirmOrderButton}>
+          <div className={styles.confirmationWrapperBotton}>
+            <StyledButton
+              disabled={!validButton}
+              loading={loading}
+              className={styles.button}
+              onClick={goToTheNextStep}
+              variant='contained'
+              arrow
+            >
+              {t('continue')}
+            </StyledButton>
+          </div>
+        </div>
       </PageWrapper>
     </>
   );

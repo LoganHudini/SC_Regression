@@ -121,7 +121,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
 
   let irdItemsList: any = [];
   irdMenu?.forEach((irdItem: any) =>
-    irdItem?.categories?.forEach?.((categoryItem: any) => {
+    irdItem?.categories?.forEach((categoryItem: any) => {
       categoryItem?.items?.length > 0 && (irdItemsList = [...irdItemsList, ...categoryItem.items]);
       categoryItem?.subCategories?.forEach((subCategoryItem: any) => {
         subCategoryItem?.items?.length > 0 &&

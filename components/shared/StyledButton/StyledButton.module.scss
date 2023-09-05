@@ -14,3 +14,13 @@
   font-size: $small;
   font-family: var(--primary-font-medium);
 }
+
+.arrow {
+  position: unset;
+  margin-left: 40px;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  align-items: center;
+  color: var(--primary-theme-color);
+}

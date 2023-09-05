@@ -1,3 +1,5 @@
+import { HOTEL_CODE } from 'core/graphql/endpoints';
+
 export const CHECK_IN_FLOW_VERSION = process.env.NEXT_PUBLIC_CHECK_IN_FLOW_VERSION;
 export const CHECK_OUT_FLOW_VERSION = process.env.NEXT_PUBLIC_CHECK_OUT_FLOW_VERSION;
 export const DINING_FLOW_VERSION = process.env.NEXT_PUBLIC_DINING_FLOW_VERSION;
@@ -7,22 +9,30 @@ export const HOUSEKEEPING_FLOW_VERSION = process.env.NEXT_PUBLIC_HOUSEKEEPING_FL
 export const ROOM_CONTROLS_FLOW_VERSION = process.env.NEXT_PUBLIC_ROOM_CONTROLS_FLOW_VERSION;
 
 // hotel constants
-
 export const MANILA = 'manila';
 
 // key constants
+export const HouseKeeping = 'HouseKeeping';
 export const HOME = 'Home';
 export const OFFERS = 'offers';
 export const DRIVERS_LICENCE = 'DRL';
 export const PASSPORT = 'PASSPORT';
 export const CUSTOM = 'CUSTOM';
+export const TODAY = 'TODAY';
+export const TOMORROW = 'TOMORROW';
+export const IMMEDIATE = 'IMMEDIATE';
+export const QUANTITY = 'Quantity';
+export const DATE = 'Date ';
+export const DAY = 'day';
+export const DATETIME = 'Date & Time';
+export const TIME = 'Time';
 export const BARCELONA = 'barcelona';
 export const HEADERS = ['Restaurants & Bars', 'Offers', 'In-Room Dining', 'Hotel'];
 export const ALL_DAY = 'all day';
 export const RESTAURANT_BOOKIN_FLOW = 'Restaurant Booking Flow';
 export const PRE_CHECKIN_ERROR_MSG = 'Booking is already checked in with type:PreCheckIn';
-export const checkIn = 'checkin';
-export const review = 'review';
+export const CHECK_IN = 'checkin';
+export const REVIEW = 'review';
 export const CANCELED = 'CANCELED';
 export const CHECKEDOUT = 'CHECKEDOUT';
 export const CHKOUT = 'CHKOUT';
@@ -48,18 +58,22 @@ export const DINING_OPTIONS = [
     path: '/restaurants-bars',
   },
 ];
+
 export const SERVICE_REQUEST_OPTIONS = [
   {
     id: 'services',
-    title: 'Services',
+    title: 'Housekeeping',
+    carouselLabel: 'HouseKeeping',
     label: 'houseKeeping',
   },
   {
     id: 'concierge',
     title: 'Concierge',
+    carouselLabel: 'Concierge',
     label: 'concierge',
   },
 ];
+
 export const Schedules = ['TODAY', 'TOMORROW'];
 
 export const cardTypes = [
@@ -90,6 +104,55 @@ export const cardTypes = [
   },
 ];
 
+const restaurantPath = '/restaurants-bars';
+const offersPath = '/offers';
+export const templateItems = [
+  {
+    title: 'RESTAURANT & BARS',
+    path: restaurantPath,
+    image: `/images/${HOTEL_CODE}/restaurant.png`,
+  },
+  {
+    title: 'OFFERS',
+    path: offersPath,
+    image: `/images/${HOTEL_CODE}/offers.png`,
+  },
+  {
+    title: 'RESTAURANT & BARS',
+    path: restaurantPath,
+    image: `/images/${HOTEL_CODE}/restaurant.png`,
+  },
+  {
+    title: 'OFFERS',
+    path: offersPath,
+    image: `/images/${HOTEL_CODE}/offers.png`,
+  },
+];
+export const DRIVERSLICENCE = 'DRL';
+export const DRIVERLICENCE = 'DL';
+export const EMAIL = 'email';
+export const PHONENUMBER = 'phoneNumber';
+export const PHONE = 'phone';
+export const CHECKIN = 'checkin';
+export const CYBERSOURCE = 'cybersource';
+export const SELECTDROPDOWN = 'Select';
+export const GUESTINFORMATION = 'Guest Information';
+export const CREDITCARDINFO = 'Credit Card Info';
+export const IDENTITYVERIFICATION = 'Identity Verification';
+export const INFORMATION = 'information';
+export const CREDITCARD = 'creditCard';
+export const GUESTICON = 'guestIcon';
+export const GUEST = 'guest';
+export const USERGROUP = 'userGroup';
+export const IDCARD = 'idCard';
+export const ACCOMPANYINGGUEST = 'accompanyingGuest';
+export const CHECKBOX = 'CheckBox';
+
+export const PAYMENT = [
+  { id: '2', name: 'CASH', message: '' },
+  { id: '3', name: 'CARD', message: '' },
+];
+
 export const LANGUAGE_LIST_DUBAI = [
   { title: 'English', value: 'en' },
   { title: 'عربي', value: 'ar' },
@@ -102,7 +165,7 @@ export const LANGUAGE_LIST_BARCELONA = [
   { title: 'Français', value: 'fr' },
 ];
 
-export const PAYMENT = [
+export const PAYMENTFANDB = [
   { id: '1', name: 'BILL TO ROOM', message: '' },
   { id: '2', name: 'CASH', message: '' },
   { id: '3', name: 'CARD', message: '' },
@@ -123,6 +186,8 @@ export const STATUS = [
   { key: 'DELIVERED', value: 'Delivered' },
   { key: 'ACCEPTED', value: 'Accepted' },
 ];
+
+export const TimeFormatArray = ['AM', 'PM'];
 
 export const Gender = [
   { name: 'Male', value: 'MALE' },

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="27.999" height="4" viewBox="0 0 27.999 4">
+  <g id="Group_104698" data-name="Group 104698" transform="translate(-280.001 -693)">
+    <line id="Line_263" data-name="Line 263" x2="25.999" transform="translate(280.001 695)" fill="none" stroke="#fff" stroke-width="0.5"/>
+    <g id="Polygon_2" data-name="Polygon 2" transform="translate(308 693) rotate(90)" fill="#fff">
+      <path d="M 3.190984964370728 3.5 L 0.8090148568153381 3.5 L 1.99999988079071 1.118029952049255 L 3.190984964370728 3.5 Z" stroke="none"/>
+      <path d="M 1.99999988079071 2.236070156097412 L 1.618034839630127 3 L 2.381964921951294 3 L 1.99999988079071 2.236070156097412 M 1.99999988079071 0 L 4 4 L -2.384185791015625e-07 4 L 1.99999988079071 0 Z" stroke="none" fill="#fff"/>
+    </g>
+  </g>
+</svg>

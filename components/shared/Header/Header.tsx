@@ -2,9 +2,9 @@ import { useLanguage, useLocale, useLocalizedRouter } from 'utils/hooks/useLocal
 import cx from 'classnames';
 import React, { useCallback, useState } from 'react';
 import HomeHeader from '@icons/HomeHeader.svg';
-import RadissonLogo from '@icons/RadissonLogo.svg';
 import MyOrders from '@icons/foodDelivery.svg';
-import DropDownIrdCategory from '@icons/DropDownIrdCategory.svg';
+import MenuDropDown from '@icons/menuDropDown.svg';
+import MenuDropDownSecondary from '@icons/menuDropDownSecondary.svg';
 import LangActive from '@icons/language-active.svg';
 import LangInactive from '@icons/language-inactive.svg';
 import SearchIrd from '@icons/serachIrd.svg';
@@ -137,10 +137,14 @@ export const Header: React.FC<IHeaderProps> = ({
                   </p>
                 )}
               </div>
-              {irdMenu && <DropDownIrdCategory className={styles.categoryDropdown} />}
+              {irdMenu && !openCategory ? (
+                <MenuDropDown className={styles.categoryDropdown} />
+              ) : (
+                <MenuDropDownSecondary className={styles.categoryDropdown} />
+              )}
             </div>
           ) : (
-            <RadissonLogo />
+            <p className={styles.screenHeader}>{t(`${screenTitle}`)}</p>
           )}
 
           {displaySearchButton && search && (

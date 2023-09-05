@@ -307,7 +307,6 @@ const DiningDetailsDrawer = () => {
             opacity: diningDetailsDrawerStatus ? 'var(--primary-drawer-background-opacity)' : '0', // Slide animation
             transition: 'opacity 0.5s ease-in-out', // Customize the animation here
             backdropFilter: 'blur(2px)',
-            backgroundColor: '#000000',
           },
         },
       }}

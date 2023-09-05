@@ -156,7 +156,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
               {SERVICE_REQUEST_OPTIONS?.map((request) => (
                 <div key={request?.id} className={cx(styles.optionsListItem)}>
                   <p
-                    className={cx(styles.inActiveText, {
+                    className={cx(styles.inActiveDiningText, {
                       [styles.activeText]: houseKeepingOptionSelected?.id === request?.id,
                     })}
                     onClick={() => {

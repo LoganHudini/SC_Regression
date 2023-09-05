@@ -1,24 +1,57 @@
 .housekeepingQuantityItemWrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  margin-top: 30px;
-  height: 30px;
+  text-align: center;
+}
 
-  &:first-of-type {
-    margin-top: 37px;
-  }
+.housekeepingQuantityItemWrapperInner {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.disabled {
+  display: none;
+}
+
+.CountInner {
+  font-family: var(--primary-font-regular);
+  font-size: $xsmall;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  color: var(--tertiary-text-color);
 }
 
 .housekeepingQuantityItemTitle {
-  font-size: 1rem;
-  margin-right: auto;
+  font-size: $medium;
+  font-family: var(--primary-font-news);
+}
+
+.housekeepingQuantityItemTitleInner {
+  font-size: $medium;
+  text-align: start;
+  font-family: var(--primary-font-news);
+}
+
+.maxCount {
+  font-family: var(--primary-font-regular);
+  font-size: $xsmall;
+  margin-bottom: 25px;
+  color: var(--tertiary-text-color);
 }
 
 .plusMinusWrapper {
   margin-top: 2px;
   margin-right: 8px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.plusMinusWrapperTitleInner {
+  margin-top: -10px;
+  margin-right: 8px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
 }
 
 .button {

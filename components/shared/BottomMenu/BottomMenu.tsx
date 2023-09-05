@@ -19,6 +19,7 @@ import { availablePaths } from 'utils/availablePaths';
 import { useRouter } from 'next/router';
 import { HEADERS } from 'utils/constants';
 import { housekeepingOptions } from 'storage/housekeeping.storage';
+import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 
 export const BottomMenu = () => {
   const router = useRouter();
@@ -30,6 +31,7 @@ export const BottomMenu = () => {
   const irdActive = router.pathname.includes(availablePaths?.DINING);
   const restaurantActive = router.pathname.includes(HEADERS[0]);
   const housekeepingActive = router.pathname.includes(availablePaths.HOUSEKEEPING);
+  const navigate = useLocalizedRouter();
 
   const { data } = useQuery<IGetHamburgerMenuDetailsApiResponse>(GET_HAMBURGER_MENU, {
     context: { clientName: 'host_v4' },
@@ -61,7 +63,7 @@ export const BottomMenu = () => {
           <StyledButton variant='contained' onClick={openModuleOptionsDrawer}>
             {homeActive && t('Room 401')}
             {irdActive && t('In-Room Dining')}
-            {housekeepingActive && t(`${houseKeepingOptionSelected?.id}`)}
+            {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
             {arrowActive && <DownArrowIcon className={styles.downArrow} />}
           </StyledButton>
         </motion.div>

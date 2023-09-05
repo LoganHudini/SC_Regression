@@ -298,7 +298,7 @@ export const CustomDrawer: React.FC<ICustomDrawerProps> = ({ opened, toggleOpene
                 <div className={styles.error}>{t('No. of people exceeds Table Capacity')}</div>
               )}
 
-              <DateTimeSelect
+              {/* <DateTimeSelect
                 setSelectedDate={setSelectedDate}
                 selectedDate={selectedDate}
                 setSelectedSchedule={setSelectedSchedule}
@@ -307,7 +307,7 @@ export const CustomDrawer: React.FC<ICustomDrawerProps> = ({ opened, toggleOpene
                 minutesArray={minutesArray}
                 disable={disable}
                 setDisable={setDisable}
-              />
+              /> */}
 
               <p className={styles.chooseRequestTitle}>{t('Special Requests')}</p>
               <div className={styles.sptext}>

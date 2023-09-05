@@ -269,7 +269,7 @@ const DiningOrderSummary = () => {
                         : item.quantity * totalPrice
                       )?.toFixed(2)}
                     </p>
-                    <p className={styles.edit}>{`${t('edit')}`}</p>
+                    {/* <p className={styles.edit}>{`${t('edit')}`}</p> */}
                   </div>
                 </div>
               )
