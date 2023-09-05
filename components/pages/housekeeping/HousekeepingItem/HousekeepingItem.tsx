@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import React, { useCallback, useState } from 'react';
@@ -11,7 +12,6 @@ import { housekeepingStorage } from 'storage/housekeeping.storage';
 import { produce } from 'immer';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-import Image from 'next/image';
 import { serviceRequestIcons } from 'utils/serviceRequestIcons';
 
 export const HousekeepingItem: React.FC<IHousekeepingItemProps> = ({
@@ -164,7 +164,7 @@ export const HousekeepingItem: React.FC<IHousekeepingItemProps> = ({
     <>
       <div className={styles.housekeepingItemWrapper} onClick={() => handleClick(housekeepingItem)}>
         <div className={styles.iconWrapper}>
-          {selectedIcon && <Image src={selectedIcon?.icon} alt='Icon' width={45} height={45} />}
+          {selectedIcon && <img src={selectedIcon?.icon} alt='Icon' width={45} height={45} />}
         </div>
         <h2 className={styles.housekeepingItemTitle}>{housekeepingItem?.name}</h2>
       </div>
