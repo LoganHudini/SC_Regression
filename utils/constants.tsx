@@ -48,11 +48,13 @@ export const SERVICE_REQUEST_OPTIONS = [
   {
     id: 'services',
     title: 'Services',
+    carouselLabel: 'HouseKeeping',
     label: 'houseKeeping',
   },
   {
     id: 'concierge',
     title: 'Concierge',
+    carouselLabel: 'Concierge',
     label: 'concierge',
   },
 ];
