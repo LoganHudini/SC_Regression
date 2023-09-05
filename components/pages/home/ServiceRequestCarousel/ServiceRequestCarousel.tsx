@@ -11,7 +11,7 @@ import {
   IGetHousekeepingApiResponse,
 } from 'core/graphql/queries/GET_HOUSEKEEPING';
 import { housekeepingOptions } from 'storage/housekeeping.storage';
-import { SERVICE_REQUEST_OPTIONS } from 'utils/constants';
+import { HouseKeeping, SERVICE_REQUEST_OPTIONS } from 'utils/constants';
 import { availablePaths } from 'utils/availablePaths';
 
 interface ICarouselSlideProps {
@@ -59,7 +59,9 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide }) => {
         src={`${ASSETS_URL}/${slide?.images[0]?.master}`}
       />
       <div className={styles.carouselSlideDetailsWrapper}>
-        <h3 className={styles.carouselSlideTitle}>{slide?.__typename}</h3>
+        <h3 className={styles.carouselSlideTitle}>
+          {slide?.__typename === HouseKeeping ? t('Housekeeping') : slide?.__typename}
+        </h3>
         <p className={styles.carouselSlideViewMore}>{t('view more')}</p>
       </div>
     </div>
@@ -84,15 +86,19 @@ export const ServiceRequestCarousel = () => {
       const selectedServiceRequests: any = data?.getServiceRequestDetails;
       const houseKeeping = selectedServiceRequests?.houseKeeping?.filter((el: any) => el?.isActive);
       const concierge = selectedServiceRequests?.concierge?.filter((el: any) => el?.isActive);
-      const combinedServiceRequestArray: any = [houseKeeping[0], concierge[0]];
-      setShowServiceRequest(combinedServiceRequestArray);
+      const combinedServiceRequestArray: any = [
+        houseKeeping?.length > 0 && houseKeeping[0],
+        concierge?.length > 0 && concierge[0],
+      ];
+      setShowServiceRequest(combinedServiceRequestArray?.filter((data: any) => data));
     }
   }, [data]);
 
   return (
     <div className={styles.ServiceRequestCarouselWrapper}>
       <WithScrollbar responsive={carousalResponsive} className={styles.carouselWrapper}>
-        {showServiceRequest?.length > 0 &&
+        {showServiceRequest &&
+          showServiceRequest?.length > 0 &&
           showServiceRequest?.map((slide: any) => (
             <CarouselSlide key={slide?.name} slide={slide} />
           ))}
