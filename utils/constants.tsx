@@ -9,6 +9,7 @@ export const HOUSEKEEPING_FLOW_VERSION = process.env.NEXT_PUBLIC_HOUSEKEEPING_FL
 export const ROOM_CONTROLS_FLOW_VERSION = process.env.NEXT_PUBLIC_ROOM_CONTROLS_FLOW_VERSION;
 
 // key constants
+export const HouseKeeping = 'HouseKeeping';
 export const HOME = 'Home';
 export const OFFERS = 'offers';
 export const DRIVERS_LICENCE = 'DRL';
@@ -50,11 +51,13 @@ export const SERVICE_REQUEST_OPTIONS = [
   {
     id: 'services',
     title: 'Services',
+    carouselLabel: 'HouseKeeping',
     label: 'houseKeeping',
   },
   {
     id: 'concierge',
     title: 'Concierge',
+    carouselLabel: 'Concierge',
     label: 'concierge',
   },
 ];
