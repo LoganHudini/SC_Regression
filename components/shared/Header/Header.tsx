@@ -143,6 +143,8 @@ export const Header: React.FC<IHeaderProps> = ({
                 <MenuDropDownSecondary className={styles.categoryDropdown} />
               )}
             </div>
+          ) : screenTitle ? (
+            <p className={styles.screenHeader}>{t(`${screenTitle}`)}</p>
           ) : (
             <p className={styles.screenHeader}>{t(`${screenTitle}`)}</p>
           )}

@@ -35,7 +35,6 @@ export const configuration = [
           },
         ],
       },
-
       {
         name: 'checkin',
         submodules: [

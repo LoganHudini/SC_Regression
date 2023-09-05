@@ -47,7 +47,7 @@ import {
   PHONE_REGEX,
   EMAIL,
   PHONE,
-  CHECKIN,
+  CHECK_IN,
   ACCOMPANYINGGUEST,
   PASSPORT,
   SELECTDROPDOWN,
@@ -66,7 +66,7 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
   });
   const reservationInfo: any = reservationData?.getReservation.data;
   const config = getConfig();
-  const checkinModule: any = config?.modules?.find((module) => module?.name === CHECKIN);
+  const checkinModule: any = config?.modules?.find((module) => module?.name === CHECK_IN);
   const accompanyingGuestSubmodule = checkinModule?.submodules?.find(
     (submodule: any) => submodule?.name === ACCOMPANYINGGUEST && submodule.isActive,
   );

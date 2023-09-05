@@ -50,7 +50,8 @@
 
 .carouselWrapper {
   user-select: none;
-  overflow: scroll;
+  overflow-x: scroll;
+  overflow-y: hidden;
   margin-left: 12px;
 }
 

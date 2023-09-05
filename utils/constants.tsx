@@ -39,6 +39,24 @@ export const CHKOUT = 'CHKOUT';
 export const personalisation = 'personalisation';
 export const PERSONALISATION = 'PERSONALISATION';
 export const BANNER_CAROUSEL = 'bannerCarousel';
+export const DRIVERSLICENCE = 'DRL';
+export const DRIVERLICENCE = 'DL';
+export const EMAIL = 'email';
+export const PHONENUMBER = 'phoneNumber';
+export const PHONE = 'phone';
+export const CYBERSOURCE = 'cybersource';
+export const SELECTDROPDOWN = 'Select';
+export const GUESTINFORMATION = 'Guest Information';
+export const CREDITCARDINFO = 'Credit Card Info';
+export const IDENTITYVERIFICATION = 'Identity Verification';
+export const INFORMATION = 'information';
+export const CREDITCARD = 'creditCard';
+export const GUESTICON = 'guestIcon';
+export const GUEST = 'guest';
+export const USERGROUP = 'userGroup';
+export const IDCARD = 'idCard';
+export const ACCOMPANYINGGUEST = 'accompanyingGuest';
+export const CHECKBOX = 'CheckBox';
 
 // flow constants
 export const DINING_OPTIONS = [
@@ -128,25 +146,6 @@ export const templateItems = [
     image: `/images/${HOTEL_CODE}/offers.png`,
   },
 ];
-export const DRIVERSLICENCE = 'DRL';
-export const DRIVERLICENCE = 'DL';
-export const EMAIL = 'email';
-export const PHONENUMBER = 'phoneNumber';
-export const PHONE = 'phone';
-export const CHECKIN = 'checkin';
-export const CYBERSOURCE = 'cybersource';
-export const SELECTDROPDOWN = 'Select';
-export const GUESTINFORMATION = 'Guest Information';
-export const CREDITCARDINFO = 'Credit Card Info';
-export const IDENTITYVERIFICATION = 'Identity Verification';
-export const INFORMATION = 'information';
-export const CREDITCARD = 'creditCard';
-export const GUESTICON = 'guestIcon';
-export const GUEST = 'guest';
-export const USERGROUP = 'userGroup';
-export const IDCARD = 'idCard';
-export const ACCOMPANYINGGUEST = 'accompanyingGuest';
-export const CHECKBOX = 'CheckBox';
 
 export const PAYMENT = [
   { id: '2', name: 'CASH', message: '' },

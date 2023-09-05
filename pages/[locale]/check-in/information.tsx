@@ -6,7 +6,6 @@ import { PageWrapper } from '../../../components/shared/PageWrapper/PageWrapper'
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { InfoCard } from '../../../components/shared/InfoCard/InfoCard';
 import { StyledButton } from '../../../components/shared/StyledButton/StyledButton';
-
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
 import { client } from 'core/graphql/client';
 import dayjs from 'dayjs';
@@ -29,16 +28,11 @@ import { PreCheckinGuestInfo } from 'components/pages/pre-checkin-form/PreChecki
 import { PreCheckinPaymentInfo } from 'components/pages/pre-checkin-form/PreCheckinPaymentInfo/PreCheckinPaymentInfo';
 import { PreCheckinDocInfo } from 'components/pages/pre-checkin-form/PreCheckinDocInfo/PreCheckinDocInfo';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
-import {
-  IUpdateGuestDetailsApiRequest,
-  UPDATE_GUEST_DETAILS,
-} from 'core/graphql/queries/UPDATE_GUEST_DETAILS';
+import { IUpdateGuestDetailsApiRequest } from 'core/graphql/queries/UPDATE_GUEST_DETAILS';
 import { processError } from 'utils/processError';
-import { CURRENCY } from 'core/graphql/endpoints';
-
 import { getConfig } from 'utils/getConfiguration';
 import {
-  CHECKIN,
+  CHECK_IN,
   CREDITCARD,
   CREDITCARDINFO,
   DRIVERS_LICENCE,
@@ -69,7 +63,7 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
   });
-  const checkinModule: any = config?.modules?.find((module) => module?.name === CHECKIN);
+  const checkinModule: any = config?.modules?.find((module) => module?.name === CHECK_IN);
   const accompanyingGuestSubmodule = checkinModule?.submodules?.find(
     (submodule: any) => submodule?.name === INFORMATION && submodule.isActive,
   );
