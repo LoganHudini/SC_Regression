@@ -166,6 +166,7 @@ export const HousekeepingDrawer = (props: any) => {
         onTouchEnd={(e) => handleTouchEnd(e, startY, setStartY, handleClose)}
       >
         <div className={styles.wrapper}>
+          <div className={styles.drawerNotch}></div>
           <div className={styles.confirmationWrapper}>
             <h2 className={styles.title}>{showSchedules?.name}</h2>
             <div className={styles.totalRequestsWrapper}>
