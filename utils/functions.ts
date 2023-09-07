@@ -125,3 +125,9 @@ export const generateInitialFieldValues = (field: any, selectedField: any) => {
     return values;
   }, {});
 };
+
+export const filterRestaurantList = (queryResultsData: any, diningOptionSelected: any) => {
+  return queryResultsData?.filter((restaurant: any) => {
+    return restaurant.isActive && restaurant?.type === diningOptionSelected?.id;
+  });
+};

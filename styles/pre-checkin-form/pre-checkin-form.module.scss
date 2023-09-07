@@ -1,10 +1,17 @@
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 64px 20px 110px 20px;
+  padding-bottom: 110px !important;
+}
+
 .centeredText {
   text-align: center;
   font-size: $medium;
   font-family: var(--primary-font-medium);
   padding: 10px 0px 10px 0;
   background: #f4f4f4;
-  // border-bottom: 1px solid #0000001A;
 }
 
 .tripDetails {

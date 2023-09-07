@@ -1,0 +1,240 @@
+.listComponent {
+  margin: 20px 0;
+  margin-top: 0;
+  padding: 0px 20px 0px 20px !important;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+}
+
+.listComponentTitle {
+  font-size: $header;
+  margin: 2rem 0 1rem;
+  font: $header var(--secondary-font-regular);
+  line-height: 1.2;
+}
+
+.bannerImage {
+  height: 100%;
+  width: 100%;
+  max-width: 768px;
+  object-fit: contain;
+}
+
+.listComponentData {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.listComponentDataText {
+  line-height: 1.25;
+  white-space: pre-wrap;
+  text-align: center;
+  font-family: var(--primary-font-regular) !important;
+  font-size: $small !important;
+  color: var(--tertiary-text-color) !important;
+  display: flex;
+}
+
+.firstRow,
+.callRow,
+.emailRow,
+.cuisineRow,
+.locationRow,
+.timeRow,
+.thirdRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+
+  span {
+    margin-left: 10px;
+    font-size: 1rem;
+    line-height: 1.25;
+    color: var(--primary-text-color);
+    text-align: start;
+    width: fit-content;
+  }
+}
+
+.timeRow {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center !important;
+}
+
+.timeRow {
+  align-items: flex-start;
+}
+
+.thirdRowBtn {
+  width: 133px;
+  height: 36px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.bookTableBtn {
+  margin: 40px 0;
+}
+
+.viewMenuOrder {
+  display: none;
+}
+
+.timeShowMoreButton {
+  margin-left: 20px;
+  display: flex;
+}
+
+.timeShowMoreIcon {
+  transition: all 0.2s;
+  path {
+    fill: var(--primary-theme-color);
+  }
+}
+
+.timeShowMoreIconOpened {
+  transform: rotate(-180deg);
+}
+
+.timeColumn {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+
+  p {
+    text-transform: capitalize;
+  }
+}
+
+.callRowOffers,
+.emailRowOffers {
+  text-decoration: none;
+  color: var(--primary-theme-color);
+}
+
+.viewMenuOrder {
+  display: flex;
+  margin: 40px 0 0 0;
+  text-align: center;
+  height: 46px;
+  line-height: 46px;
+  padding-top: 14px;
+}
+
+.container {
+  overflow: scroll;
+  max-height: 300px;
+}
+
+.imageWrapper {
+  position: relative;
+}
+
+.button {
+  width: 300px;
+  position: absolute;
+  transform: translate(0%, 40%);
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
+  box-shadow: 0px -2px 10px var(--primary-box-shadow-color);
+  height: 23%;
+}
+
+.timeRowWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+}
+
+.timeRowShow {
+  flex-direction: column;
+  display: flex;
+  margin-top: 12px;
+}
+
+.buttonView {
+  height: 10% !important;
+  line-height: 30px !important;
+  font-size: $small !important;
+  margin-top: 20px;
+}
+
+.timeRowShowed {
+  display: flex;
+}
+
+.timeRowOpen {
+  display: flex;
+  flex-direction: column;
+}
+
+.additionalTimeEntity {
+  font-family: var(--primary-font-regular) !important;
+  font-size: $small !important;
+  color: var(--tertiary-text-color) !important;
+}
+
+.additionalTimeEntityTable {
+  font-family: var(--primary-font-regular) !important;
+  font-size: $small !important;
+  color: var(--tertiary-text-color) !important;
+  width: 100px;
+}
+
+.thirdRow {
+  width: 52%;
+}
+
+.cuisineRow {
+  flex-direction: column !important;
+  gap: 8px;
+}
+
+.gapList {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonNone {
+  display: none;
+}
+
+.counterWrapper {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 0px 18px 0px;
+  border-bottom: 0.5px solid var(--tertiary-text-color);
+  gap: 10px;
+}
+
+.counterTitle {
+  font-family: var(--primary-font-news);
+  font-size: $medium;
+  color: var(--tertiary-text-color);
+}
+
+.plusMinusInput {
+  width: 60% !important;
+  justify-content: space-evenly !important;
+}
+
+.value {
+  font-size: $xlarge !important;
+}

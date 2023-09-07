@@ -53,6 +53,7 @@
   overflow-x: scroll;
   overflow-y: hidden;
   margin-left: 12px;
+  padding-bottom: 15px;
 }
 
 .carouselWrapper::-webkit-scrollbar {
@@ -72,6 +73,9 @@
   height: 182px;
   width: 273px;
   object-fit: cover;
+  pointer-events: none;
+  z-index: 100;
+  position: absolute;
 }
 
 .carouselSlideDetailsWrapper {
@@ -81,6 +85,23 @@
   background: var(--primary-background-color);
   box-shadow: 0px 3px 6px var(--primary-box-shadow-color);
   text-align: center;
+  z-index: 200;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+
+.carouselSlideDetailsWrapperRestaurantsAndBars {
+  width: 251px;
+  height: 168px;
+  margin: -3rem auto 0;
+  background: var(--primary-background-color);
+  box-shadow: 0px 3px 6px var(--primary-box-shadow-color);
+  text-align: center;
+  z-index: 200;
+  position: absolute;
+  bottom: -8px;
+  left: 10px;
 }
 
 .carouselSlideTitle {
@@ -104,6 +125,7 @@
   font: 9px var(--primary-font-extd-regular);
   color: var(--primary-theme-color);
   text-transform: uppercase;
+  margin-top: 8px;
 }
 
 .viewAll {
@@ -123,4 +145,29 @@
   color: var(--primary-text-color);
   text-transform: none;
   padding: 5px 10px;
+}
+
+.cuisineRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-decoration: none;
+  margin-top: 8px;
+  font-family: var(--primary-font-regular);
+  font-size: $xsmall;
+  text-transform: capitalize;
+  padding-left: 20px;
+
+  span {
+    margin-left: 8px;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    text-transform: capitalize;
+    color: var(--primary-text-color);
+    margin-top: 2px;
+  }
+}
+
+.cuisineIcon {
+  height: auto;
 }

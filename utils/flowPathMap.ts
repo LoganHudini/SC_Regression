@@ -3,7 +3,7 @@ import { availablePaths } from './availablePaths';
 export const flowPathMap = {
   WELLNESS_BOOKING: null,
   HOUSEKEEPING_BOOKING: availablePaths.HOUSEKEEPING,
-  RESTAURANT_BOOKING: availablePaths.TABLE_RESERVATION,
+  RESTAURANT_BOOKING: availablePaths.RESTAURANTS_BARS,
   LOGOUT_FLOW: null,
   LOGIN_FLOW: null,
   VIEW_BILL_CHECKOUT_FLOW: availablePaths.BILL,

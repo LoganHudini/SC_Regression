@@ -339,10 +339,6 @@ h6 {
 }
 
 .Mui-error {
-  color: var(--primary-error-text-color);
-}
-
-.Mui-error {
   &::after {
     border-bottom: 2px solid var(--primary-error-text-color);
   }

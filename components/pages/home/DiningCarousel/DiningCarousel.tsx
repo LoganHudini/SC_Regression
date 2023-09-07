@@ -10,18 +10,27 @@ import { StyledButton } from '../../../shared/StyledButton/StyledButton';
 import styles from './DiningCarousel.module.scss';
 import { useRouter } from 'next/router';
 import { IDiningCarouselProps } from './DiningCarousel.types';
-import { useQuery } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
 import { locale } from 'dayjs';
-import { irdActiveMenuList } from 'utils/functions';
-import { DINING_OPTIONS } from 'utils/constants';
+import { filterRestaurantList, irdActiveMenuList } from 'utils/functions';
+import { BARS, DINING_OPTIONS, INROOMDINING, RESTAURANTS } from 'utils/constants';
 import cx from 'classnames';
 import { diningMenuStorage } from 'storage/dining-menu.storage';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { availablePaths } from 'utils/availablePaths';
+import {
+  GET_RESTAURANT_DETAILS,
+  IGetRestaurantDetailsResponse,
+} from 'core/graphql/queries/GET_RESTAURTANT_DETAILS';
+import ClockIcon from '@icons/clockIcon.svg';
+import DishIcon from '@icons/dishIcon.svg';
+import { diningOptions } from 'storage/home.storage';
 
 interface ICarouselSlideProps {
   slide: any;
+  imageSlide?: any;
+  diningOptionsCarousal?: any;
 }
 
 const carousalResponsive = {
@@ -77,11 +86,55 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide }) => {
   );
 };
 
+const CarouselSlideRestaurantAndBars: React.FC<ICarouselSlideProps> = ({
+  slide,
+  imageSlide,
+  diningOptionsCarousal,
+}) => {
+  const router = useRouter();
+
+  const navigate = useLocalizedRouter();
+  const redirect = () => {
+    diningOptions(diningOptionsCarousal);
+    navigate(`${diningOptionsCarousal.path}`);
+  };
+  const time = `${slide.hours[0]?.day.slice(0, 3).toLowerCase()}-${slide.hours[0]?.open}-${slide.hours[0]?.close
+    }...`;
+  const { t } = useTranslation(['common']);
+  return (
+    <div className={styles.carouselSlideWrapper} onClick={redirect}>
+      <StableImage
+        className={styles.carouselSlideImage}
+        src={`${ASSETS_URL}/${slide?.images[0]?.master}`}
+      />
+      <div className={styles.carouselSlideDetailsWrapperRestaurantsAndBars}>
+        <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>
+        {slide?.primaryCuisine && (
+          <div className={styles.cuisineRow}>
+            <DishIcon className={styles.cuisineIcon} />
+            <span>{slide?.primaryCuisine?.toLowerCase()}</span>
+          </div>
+        )}{' '}
+        {slide?.hours && (
+          <div className={styles.cuisineRow}>
+            <ClockIcon className={styles.cuisineIcon} />
+            <span>{time}</span>
+          </div>
+        )}
+        <p className={styles.carouselSlideViewMore}>{t('read more')}</p>
+      </div>
+    </div>
+  );
+};
+
 export const DiningCarousel = () => {
+
+  const diningOptionSelected = useReactiveVar(diningOptions);
+
   const locale = useLocale();
   const { t } = useTranslation(['common']);
 
-  const [diningOptions, setDiningOption] = useState(DINING_OPTIONS[0]);
+  const [diningOptionsState, setDiningOption] = useState(diningOptionSelected);
 
   const { data } = useQuery<IRDMenuApiResponse>(IRD_MENU, {
     context: { clientName: 'host_v2' },
@@ -92,7 +145,15 @@ export const DiningCarousel = () => {
     fetchPolicy: 'no-cache',
   });
 
+  const { data: restaurantList } = useQuery<IGetRestaurantDetailsResponse>(GET_RESTAURANT_DETAILS, {
+    context: { clientName: 'host_v0' },
+    fetchPolicy: 'no-cache',
+  });
+  const queryResultsData: any = restaurantList?.getRestaurantDetails?.restaurant;
+
   const irdActiveMenu = irdActiveMenuList(data);
+
+  const filteredList = filterRestaurantList(queryResultsData, diningOptionsState);
 
   return (
     <div className={styles.diningCarouselWrapper}>
@@ -102,7 +163,7 @@ export const DiningCarousel = () => {
           <p
             key={dining?.id}
             className={cx(styles.diningOptionsItem, {
-              [styles.diningOptionsItemActive]: diningOptions?.id === dining?.id,
+              [styles.diningOptionsItemActive]: diningOptionsState?.id === dining?.id,
             })}
             onClick={() => setDiningOption(dining)}
           >
@@ -111,8 +172,19 @@ export const DiningCarousel = () => {
         ))}
       </div>
       <WithScrollbar responsive={carousalResponsive} className={styles.carouselWrapper}>
-        {irdActiveMenu?.length > 0 &&
-          irdActiveMenu?.map((slide: any) => <CarouselSlide key={slide?.name} slide={slide} />)}
+        {diningOptionsState.title === INROOMDINING
+          ? irdActiveMenu?.length > 0 &&
+          irdActiveMenu?.map((slide: any) => (
+            <CarouselSlide key={slide?.name} slide={slide} diningOptionsCarousal={diningOptionsState} />
+          ))
+          : queryResultsData?.length > 0 &&
+          filteredList?.map((slide: any) => (
+            <CarouselSlideRestaurantAndBars
+              key={slide?.name}
+              slide={slide}
+              diningOptionsCarousal={diningOptionsState}
+            />
+          ))}
       </WithScrollbar>
     </div>
   );

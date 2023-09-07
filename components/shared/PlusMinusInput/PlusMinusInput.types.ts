@@ -6,4 +6,5 @@ export interface IPlusMinusInputProps {
   minQuantity?: number;
   irdSummary?: any;
   maxQuantity?: number;
+  valueClassName?: string;
 }

@@ -9,7 +9,7 @@ import { MenuItem, ModuleOptionsDrawer } from 'components/shared/BottomMenu/Menu
 import { useTranslation } from 'react-i18next';
 import { StyledButton } from '../StyledButton/StyledButton';
 import { useQuery, useReactiveVar } from '@apollo/client';
-import { toggleHamburgerMenuDrawer, toggleModuleOptionsDrawer } from 'storage/home.storage';
+import { diningOptions, toggleHamburgerMenuDrawer, toggleModuleOptionsDrawer } from 'storage/home.storage';
 import {
   GET_HAMBURGER_MENU,
   IGetHamburgerMenuDetailsApiResponse,
@@ -25,10 +25,11 @@ export const BottomMenu = () => {
   const router = useRouter();
   const hamburgerMenuStatus = useReactiveVar(toggleHamburgerMenuDrawer);
   const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
+  const diningOptionSelected = useReactiveVar(diningOptions);
 
   const arrowActive = true;
   const homeActive = router.pathname === '/[locale]';
-  const irdActive = router.pathname.includes(availablePaths?.DINING);
+  const irdActive = router.pathname.includes(availablePaths?.DINING) || router.pathname.includes(availablePaths?.RESTAURANTS_BARS);
   const restaurantActive = router.pathname.includes(HEADERS[0]);
   const housekeepingActive = router.pathname.includes(availablePaths.HOUSEKEEPING);
   const navigate = useLocalizedRouter();
@@ -62,7 +63,7 @@ export const BottomMenu = () => {
         <motion.div whileTap={{ scale: 0.8 }} className={styles.bottomMenuButton}>
           <StyledButton variant='contained' onClick={openModuleOptionsDrawer}>
             {homeActive && t('Room 401')}
-            {irdActive && t('In-Room Dining')}
+            {irdActive && (diningOptionSelected?.title)}
             {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
             {arrowActive && <DownArrowIcon className={styles.downArrow} />}
           </StyledButton>

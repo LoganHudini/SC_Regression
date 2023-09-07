@@ -57,6 +57,16 @@ export const USERGROUP = 'userGroup';
 export const IDCARD = 'idCard';
 export const ACCOMPANYINGGUEST = 'accompanyingGuest';
 export const CHECKBOX = 'CheckBox';
+export const INROOMDINING = 'In-Room Dining';
+export const RESTAURANTS = 'restaurants';
+export const BARS = 'Bars';
+export const EXTERNALURL = 'External URL';
+export const S3 = 'S3';
+export const WEBURL = 'WEB_URL}';
+export const IRD = 'ird';
+export const ACTIVE = 'Active';
+export const OK = 'OK';
+export const ENQUIRE = 'ENQUIRE';
 
 // flow constants
 export const DINING_OPTIONS = [
@@ -66,12 +76,12 @@ export const DINING_OPTIONS = [
     path: '/dining',
   },
   {
-    id: 'restaurants',
+    id: 'restaurant',
     title: 'Restaurants',
     path: '/restaurants-bars',
   },
   {
-    id: 'bars',
+    id: 'bar',
     title: 'Bars',
     path: '/restaurants-bars',
   },

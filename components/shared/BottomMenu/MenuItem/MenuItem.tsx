@@ -137,7 +137,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                     onClick={() => {
                       diningOptions(dining);
                       closeDrawer();
-                      // navigate(dining?.path);
+                      navigate(dining?.path);
                     }}
                   >
                     {dining?.title}{' '}
