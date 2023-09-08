@@ -1,6 +1,6 @@
 import InRoomDiningIcon from '@icons/inRoomDining.svg';
 import ServicesIcon from '@icons/services.svg';
-import SpaIcon from '@icons/spa.svg';
+import SpaIcon from '@icons/Spa.svg';
 import RestaurantsIcon from '@icons/restaurants.svg';
 import OffersIcon from '@icons/offers.svg';
 import EventsIcon from '@icons/events.svg';

@@ -1,0 +1,11 @@
+.drawerNotch {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 8px;
+  margin: 0 auto;
+  width: 50px;
+  height: 6px;
+  background: var(--primary-drawer-notch-color) 0% 0% no-repeat padding-box;
+  border-radius: 3px;
+}

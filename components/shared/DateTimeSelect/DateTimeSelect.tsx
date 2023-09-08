@@ -6,6 +6,7 @@ import Picker from 'rmc-picker/lib/Picker';
 import MultiPicker from 'rmc-picker/lib/MultiPicker';
 import { StyledButton } from '../StyledButton/StyledButton';
 import { timeFormats } from 'utils/timeFormats';
+import 'rmc-picker/assets/index.css';
 import { CUSTOM, DATE, DAY, IMMEDIATE, TODAY, TOMORROW, TimeFormatArray } from 'utils/constants';
 import { useTranslation } from 'react-i18next';
 
@@ -25,6 +26,7 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
   selectedTime,
   handleSave,
   showSchedules,
+  buttonTitle
 }) => {
   const { t } = useTranslation(['common']);
   const [disable, setDisable] = useState(false);
@@ -143,7 +145,7 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
         </div>
 
         <StyledButton disabled={!disable} onClick={() => handleSave()}>
-          {t('Save')}
+          {buttonTitle || t('Save')}
         </StyledButton>
       </>
     </div>
