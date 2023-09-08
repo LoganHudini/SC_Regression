@@ -131,8 +131,9 @@ export const Header: React.FC<IHeaderProps> = ({
                   <p className={styles.irdMenuTiming}>
                     {irdMenuTimings[0]?.open === ALL_DAY
                       ? t(`${irdMenuTimings[0]?.open}`)
-                      : `${irdMenuTimings[0]?.open} - ${irdMenuTimings[0]?.close === '00:00' ? '24:00' : irdMenuTimings[0]?.close
-                      }`}
+                      : `${irdMenuTimings[0]?.open} - ${
+                          irdMenuTimings[0]?.close === '00:00' ? '24:00' : irdMenuTimings[0]?.close
+                        }`}
                   </p>
                 )}
               </div>

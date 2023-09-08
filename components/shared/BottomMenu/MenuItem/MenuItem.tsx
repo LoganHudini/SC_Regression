@@ -9,6 +9,7 @@ import { useReactiveVar } from '@apollo/client';
 import {
   diningOptions,
   toggleHamburgerMenuDrawer,
+  toggleHotelInfoDrawer,
   toggleModuleOptionsDrawer,
 } from 'storage/home.storage';
 import cx from 'classnames';
@@ -18,6 +19,7 @@ import { close } from 'inspector';
 import CheckIcon from '@icons/checkIcon.svg';
 import { housekeepingOptions } from 'storage/housekeeping.storage';
 import { handleTouchEnd, handleTouchStart } from 'utils/hooks/useDrawerSwipe';
+import HotelInfoDrawer from 'components/pages/home/HotelInformation/HotelInfoDrawer';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
   title,
@@ -175,6 +177,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
           </div>
         )}
       </Drawer>
+      <HotelInfoDrawer />
     </>
   );
 };

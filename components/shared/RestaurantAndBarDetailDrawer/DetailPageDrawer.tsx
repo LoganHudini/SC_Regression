@@ -23,7 +23,18 @@ import {
 } from 'storage/table-reservation.storage';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { availablePaths } from 'utils/availablePaths';
-import { RESTAURANT_BOOKIN_FLOW, OFFERS, S3, WEBURL, EXTERNALURL, ACTIVE, OK, ENQUIRE, EMAIL, PHONE } from 'utils/constants';
+import {
+  RESTAURANT_BOOKIN_FLOW,
+  OFFERS,
+  S3,
+  WEBURL,
+  EXTERNALURL,
+  ACTIVE,
+  OK,
+  ENQUIRE,
+  EMAIL,
+  PHONE,
+} from 'utils/constants';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { TableNumberDrawer } from 'components/pages/dining/TableNumberDrawer/TableNumberDrawer';
 import { Drawer } from '@mui/material';
@@ -100,8 +111,7 @@ export const DetailPage: React.FC<IDetailPageProps> = ({ data }) => {
         restaurantName: queryResultEntity?.name,
         id: queryResultEntity?.id,
         venueId:
-          (queryResultEntity?.customAttributes &&
-            queryResultEntity?.customAttributes[0]?.value) ??
+          (queryResultEntity?.customAttributes && queryResultEntity?.customAttributes[0]?.value) ??
           '',
       });
       localStorage.setItem('restaurantId', JSON.stringify(queryResultEntity?.id) ?? '');
@@ -182,24 +192,30 @@ export const DetailPage: React.FC<IDetailPageProps> = ({ data }) => {
       onTouchEnd={(e) => handleTouchEnd(e, startY, setStartY, closeDrawer)}
     >
       <div className={styles.listComponent}>
-        {!availableSlots && <div className={styles.imageWrapper}>
-          <StableImage
-            className={styles.bannerImage}
-            src={
-              queryResultEntity?.images && queryResultEntity?.images[0]
-                ? `${ASSETS_URL}/${queryResultEntity?.images[0]?.master}`
-                : undefined
-            }
-          />
+        {!availableSlots && (
+          <div className={styles.imageWrapper}>
+            <StableImage
+              className={styles.bannerImage}
+              src={
+                queryResultEntity?.images && queryResultEntity?.images[0]
+                  ? `${ASSETS_URL}/${queryResultEntity?.images[0]?.master}`
+                  : undefined
+              }
+            />
 
-          {queryResultEntity?.cta?.status === ACTIVE && (
-            <StyledButton variant='contained' onClick={onCtaClick} className={cx(styles.button, {
-              [styles.buttonNone]: tableDrawerState,
-            })}>
-              {queryResultEntity?.cta?.ctaTitle || t('BOOK A TABLE')}
-            </StyledButton>
-          )}
-        </div>}
+            {queryResultEntity?.cta?.status === ACTIVE && (
+              <StyledButton
+                variant='contained'
+                onClick={onCtaClick}
+                className={cx(styles.button, {
+                  [styles.buttonNone]: tableDrawerState,
+                })}
+              >
+                {queryResultEntity?.cta?.ctaTitle || t('BOOK A TABLE')}
+              </StyledButton>
+            )}
+          </div>
+        )}
 
         {detailContent && (
           <>
@@ -274,11 +290,14 @@ export const DetailPage: React.FC<IDetailPageProps> = ({ data }) => {
                   </div>
 
                   {queryResultEntity?.menuStatus === ACTIVE && (
-                    <StyledButton variant='outlined' onClick={onSeeMenuClick} className={styles.buttonView}>
+                    <StyledButton
+                      variant='outlined'
+                      onClick={onSeeMenuClick}
+                      className={styles.buttonView}
+                    >
                       {queryResultEntity?.ctaTitle || t('VIEW MENU')}
                     </StyledButton>
                   )}
-
                 </div>
               )}
 
@@ -319,36 +338,33 @@ export const DetailPage: React.FC<IDetailPageProps> = ({ data }) => {
                     </a>
                   )}
                 </>
-
-
               </div>
             </div>
           </>
         )}
 
-        {timeSelectDrawer && <>
-          <div className={styles.counterWrapper}>
-            <p className={styles.counterTitle}>{t('No. of people')}</p>
-            <PlusMinusInput
-              value={guestCount}
-              className={styles.plusMinusInput}
-              onClickMinus={() => setGuestCount((count) => count - 1)}
-              onClickPlus={() => setGuestCount((count) => count + 1)}
-              minQuantity={1}
-              valueClassName={styles.value}
+        {timeSelectDrawer && (
+          <>
+            <div className={styles.counterWrapper}>
+              <p className={styles.counterTitle}>{t('No. of people')}</p>
+              <PlusMinusInput
+                value={guestCount}
+                className={styles.plusMinusInput}
+                onClickMinus={() => setGuestCount((count) => count - 1)}
+                onClickPlus={() => setGuestCount((count) => count + 1)}
+                minQuantity={1}
+                valueClassName={styles.value}
+              />
+            </div>
+            <DateTimeSelect
+              setSelectedTime={setSelectedTime}
+              selectedTime={selectedTime}
+              handleSave={handleSave}
+              showSchedules={undefined}
             />
-          </div>
-          <DateTimeSelect
-            setSelectedTime={setSelectedTime}
-            selectedTime={selectedTime}
-            handleSave={handleSave}
-            showSchedules={undefined} />
-        </>
-        }
-        {availableSlots && <>
-
-        </>
-        }
+          </>
+        )}
+        {availableSlots && <></>}
 
         {queryResultEntity?.CTA?.type && (
           <StyledButton className={styles.bookTableBtn} variant='contained'>

@@ -98,8 +98,9 @@ const CarouselSlideRestaurantAndBars: React.FC<ICarouselSlideProps> = ({
     diningOptions(diningOptionsCarousal);
     navigate(`${diningOptionsCarousal.path}`);
   };
-  const time = `${slide.hours[0]?.day.slice(0, 3).toLowerCase()}-${slide.hours[0]?.open}-${slide.hours[0]?.close
-    }...`;
+  const time = `${slide.hours[0]?.day.slice(0, 3).toLowerCase()}-${slide.hours[0]?.open}-${
+    slide.hours[0]?.close
+  }...`;
   const { t } = useTranslation(['common']);
   return (
     <div className={styles.carouselSlideWrapper} onClick={redirect}>
@@ -128,7 +129,6 @@ const CarouselSlideRestaurantAndBars: React.FC<ICarouselSlideProps> = ({
 };
 
 export const DiningCarousel = () => {
-
   const diningOptionSelected = useReactiveVar(diningOptions);
 
   const locale = useLocale();
@@ -174,17 +174,21 @@ export const DiningCarousel = () => {
       <WithScrollbar responsive={carousalResponsive} className={styles.carouselWrapper}>
         {diningOptionsState.title === INROOMDINING
           ? irdActiveMenu?.length > 0 &&
-          irdActiveMenu?.map((slide: any) => (
-            <CarouselSlide key={slide?.name} slide={slide} diningOptionsCarousal={diningOptionsState} />
-          ))
+            irdActiveMenu?.map((slide: any) => (
+              <CarouselSlide
+                key={slide?.name}
+                slide={slide}
+                diningOptionsCarousal={diningOptionsState}
+              />
+            ))
           : queryResultsData?.length > 0 &&
-          filteredList?.map((slide: any) => (
-            <CarouselSlideRestaurantAndBars
-              key={slide?.name}
-              slide={slide}
-              diningOptionsCarousal={diningOptionsState}
-            />
-          ))}
+            filteredList?.map((slide: any) => (
+              <CarouselSlideRestaurantAndBars
+                key={slide?.name}
+                slide={slide}
+                diningOptionsCarousal={diningOptionsState}
+              />
+            ))}
       </WithScrollbar>
     </div>
   );

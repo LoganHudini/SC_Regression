@@ -67,6 +67,9 @@ export const IRD = 'ird';
 export const ACTIVE = 'Active';
 export const OK = 'OK';
 export const ENQUIRE = 'ENQUIRE';
+export const PHONECAPS = 'PHONE';
+export const EMAILCAPS = 'EMAIL';
+export const URL = 'URL';
 
 // flow constants
 export const DINING_OPTIONS = [

@@ -63,8 +63,9 @@ const ListComponentEntity: React.FC<any> = ({
     selectedRestaurant(queryResultEntity.id);
   }, [navigate, redirectUrl]);
 
-  const time = `${queryResultEntity.hours[0]?.day.slice(0, 3).toLowerCase()}-${queryResultEntity.hours[0]?.open
-    }-${queryResultEntity.hours[0]?.close}...`;
+  const time = `${queryResultEntity.hours[0]?.day.slice(0, 3).toLowerCase()}-${
+    queryResultEntity.hours[0]?.open
+  }-${queryResultEntity.hours[0]?.close}...`;
 
   return (
     <div className={styles.listComponent}>

@@ -12,7 +12,7 @@ export const PlusMinusInput: React.FC<IPlusMinusInputProps> = ({
   minQuantity,
   maxQuantity,
   className,
-  valueClassName
+  valueClassName,
 }) => {
   return (
     <div className={cx(styles.plusMinusInputWrapper, className)}>
