@@ -1,7 +1,7 @@
 export const configuration = [
   {
-    code: 'manila',
-    name: 'sofitel-manila',
+    code: 'sofitel-manila',
+    name: 'Sofitel Manila',
     hotelId: '259034ee-3f5c-43b0-9332-dffd85ccba65',
     modules: [
       {
@@ -17,19 +17,16 @@ export const configuration = [
                 title: 'MAGNIFIQUE STAYCATION',
                 description:
                   'The best way to celebrate the season is to spoil yourself with a dreamy staycation in one of our apartments.',
-                imgURL: '/images/sofitel/bannerImage1.png',
               },
               {
                 title: 'SUNDAY FAMILY BRUNCH',
                 description:
                   'Enjoy quality family time at Family Fiesta Brunch every Sunday afternoon at The World Eatery.',
-                imgURL: '/images/sofitel/bannerImage2.png',
               },
               {
                 title: 'ROMANTIC BEACHSIDE DINNER',
                 description:
                   'Discover all the ingredients for an evening of romance at Sofitel Dubai The Palm on the East Crescent of Palm Jumeirah.',
-                imgURL: '/images/sofitel/bannerImage3.png',
               },
             ],
           },

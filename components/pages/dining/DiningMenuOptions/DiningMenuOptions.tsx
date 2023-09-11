@@ -41,7 +41,11 @@ export const DiningMenuOptions: React.FC<IDiningMenuOptionsProps> = ({
             {name}
           </h3>
           {hours?.length > 0 && (
-            <p className={styles.diningTitleTime}>
+            <p
+              className={cx(styles.diningTitleTime, {
+                [styles.selected]: diningInformation?.menuName === name,
+              })}
+            >
               {hours[0]?.open === ALL_DAY
                 ? t(`${hours[0]?.open}`)
                 : `${hours[0]?.open} - ${hours[0]?.close === '00:00' ? '24:00' : hours[0]?.close}`}

@@ -20,7 +20,6 @@ import { iconsMap } from 'utils/hamburger/hamburgerIconsMap';
 import { irdActiveMenuList } from 'utils/functions';
 import { addToCartEvent } from 'utils/gtag';
 import { handleTouchEnd, handleTouchStart } from 'utils/hooks/useDrawerSwipe';
-import CloseIcon from '@icons/close.svg';
 import cx from 'classnames';
 
 const DiningDetailsDrawer = () => {
@@ -304,9 +303,7 @@ const DiningDetailsDrawer = () => {
       slotProps={{
         backdrop: {
           style: {
-            opacity: diningDetailsDrawerStatus ? 'var(--primary-drawer-background-opacity)' : '0', // Slide animation
-            transition: 'opacity 0.5s ease-in-out', // Customize the animation here
-            backdropFilter: 'blur(2px)',
+            backgroundColor: 'var(--primary-overlay-color)',
           },
         },
       }}

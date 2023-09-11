@@ -17,7 +17,7 @@ import { useRouter } from 'next/router';
 import { IDiningMenuStorageData, diningMenuStorage } from 'storage/dining-menu.storage';
 import cx from 'classnames';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { filterMenuWrtTimings, irdActiveMenuList } from 'utils/functions';
+import { filterLiveMenu, irdActiveMenuList } from 'utils/functions';
 import { availablePaths } from 'utils/availablePaths';
 import DiningMenu from 'components/pages/dining/DiningMenu/DiningMenu';
 
@@ -47,7 +47,7 @@ const Dining = () => {
   });
 
   const filteredList = data?.getIRDMenuOutputDetails?.filter(
-    (item: any) => item?.isActive && filterMenuWrtTimings(item?.hours),
+    (item: any) => item?.isActive && filterLiveMenu(item?.hours),
   );
 
   const irdActiveMenu = irdActiveMenuList(data);
@@ -89,7 +89,6 @@ const Dining = () => {
   const openSearch = useCallback(() => {
     setsearch(!search);
     setOpencategory(false);
-    diningInformationStorage({ selectedMenu: '' });
   }, [search]);
 
   const selectMenu = useCallback(

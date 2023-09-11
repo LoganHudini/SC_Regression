@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
 import { useLanguage, useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import cx from 'classnames';
 import React, { useCallback, useState } from 'react';
@@ -23,6 +25,7 @@ import languageDetector from 'utils/languageDetector';
 import { setScrollPosition } from 'utils/functions';
 import produce from 'immer';
 import { useTranslation } from 'react-i18next';
+import { HOTEL_CODE } from 'core/graphql/endpoints';
 
 export const Header: React.FC<IHeaderProps> = ({
   screenTitle,
@@ -143,10 +146,9 @@ export const Header: React.FC<IHeaderProps> = ({
                 <MenuDropDownSecondary className={styles.categoryDropdown} />
               )}
             </div>
-          ) : screenTitle ? (
-            <p className={styles.screenHeader}>{t(`${screenTitle}`)}</p>
           ) : (
-            <p className={styles.screenHeader}>{t(`${screenTitle}`)}</p>
+            // screenTitle ? <p className={styles.screenHeader}>{t(`${screenTitle}`)}</p>
+            <img src={`/icons/${HOTEL_CODE}/Logo.svg`} />
           )}
 
           {displaySearchButton && search && (

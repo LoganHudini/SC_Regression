@@ -128,7 +128,6 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
           toggleOpened={toggleConfirmOpened}
           showSchedules={showSchedules}
         />
-
       </div>
     </>
   );

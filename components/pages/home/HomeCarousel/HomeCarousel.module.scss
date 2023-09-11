@@ -63,15 +63,22 @@ activeIndicatorIcon.carousel {
 .indicatorIcon {
   width: 6px;
   height: 6px;
-  background: var(--secondary-text-color);
-
+  background: var(--primary-indicator-color);
+  opacity: 0.5;
   &:not(:last-child) {
     margin-right: 6px;
   }
 }
 
 .activeIndicatorIcon {
-  opacity: 1;
+  width: 6px;
+  height: 6px;
   transform: scale(1.3);
-  margin: 0 1px;
+  &:not(:last-child) {
+    margin-right: 6px;
+  }
+  border-radius: 0;
+  background: var(--primary-indicator-color);
 }
+
+

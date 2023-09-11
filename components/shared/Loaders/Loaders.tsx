@@ -1,0 +1,59 @@
+import { RotatingLines } from 'react-loader-spinner';
+import React from 'react';
+import styles from './Loaders.module.scss';
+import { Player } from '@lottiefiles/react-lottie-player';
+import ItemNotFoundAnimation from '@jsons/itemsNotFound.json';
+import { HOTEL_CODE } from 'core/graphql/endpoints';
+
+export const LogoLoader = () => {
+  return (
+    <div className={styles.loaderOverlay}>
+      <Player
+        autoplay
+        loop
+        src={`/jsons/${HOTEL_CODE}/logoLoader.json`}
+        className={styles.logoLoader}
+      />
+    </div>
+  );
+};
+
+export const MultiPurposeLoader = () => {
+  return (
+    <div className={styles.loaderOverlay}>
+      <Player
+        autoplay
+        loop
+        src={`/jsons/${HOTEL_CODE}/multiPurpose.json`}
+        className={styles.multipurposeLoader}
+      />
+    </div>
+  );
+};
+
+export const SquareLoader = () => {
+  return (
+    <div className={styles.loaderOverlay}>
+      <div className={styles.squareLoader}></div>
+    </div>
+  );
+};
+
+export const LineLoader = () => {
+  return (
+    <div className={styles.loaderOverlay}>
+      <RotatingLines
+        strokeColor='var(--primary-theme-color'
+        strokeWidth='5'
+        width='100'
+        visible={true}
+      />
+    </div>
+  );
+};
+
+export const ItemNotFoundAnimationLoader = () => {
+  return (
+    <Player autoplay loop src={ItemNotFoundAnimation} className={styles.itemNotFoundAnimation} />
+  );
+};

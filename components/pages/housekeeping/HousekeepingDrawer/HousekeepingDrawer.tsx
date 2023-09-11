@@ -112,10 +112,10 @@ export const HousekeepingDrawer = (props: any) => {
                   ? showSchedules?.customSchedule === DATE
                     ? dayjs(selectedTime).format(timeFormats.DAY_MONTH)
                     : showSchedules?.customSchedule === TIME
-                      ? dayjs(selectedTime).format(timeFormats.HOURS_MINUTES_AM)
-                      : showSchedules?.customSchedule === DATETIME
-                        ? dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
-                        : dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
+                    ? dayjs(selectedTime).format(timeFormats.HOURS_MINUTES_AM)
+                    : showSchedules?.customSchedule === DATETIME
+                    ? dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
+                    : dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
                   : dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
                 : '',
             })),

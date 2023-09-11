@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { scrollState } from 'storage/dining-menu.storage';
 import { PHONE_REGEX } from './constants';
 import * as yup from 'yup';
+import { toggleLoader } from 'storage/home.storage';
 
 export const guestNameFandB = () =>
   (typeof window !== 'undefined' &&
@@ -33,7 +34,17 @@ export const FandBOrders = () =>
     JSON.parse(localStorage.getItem('FandBOrders') ?? '')) ??
   '';
 
-export const filterMenuWrtTimings = (hours: any) => {
+export const convertTo12HourFormat = (time24: string) => {
+  const [hours, minutes] = time24.split(':');
+
+  let hoursNum = parseInt(hours, 10);
+  const meridiem = hoursNum >= 12 ? 'PM' : 'AM';
+  hoursNum = hoursNum % 12 || 12;
+
+  return `${hoursNum}:${minutes} ${meridiem}`;
+};
+
+export const filterLiveMenu = (hours: any) => {
   if (!hours || hours?.length === 0) {
     return false;
   }
@@ -54,19 +65,9 @@ export const filterMenuWrtTimings = (hours: any) => {
   return false;
 };
 
-export const convertTo12HourFormat = (time24: string) => {
-  const [hours, minutes] = time24.split(':');
-
-  let hoursNum = parseInt(hours, 10);
-  const meridiem = hoursNum >= 12 ? 'PM' : 'AM';
-  hoursNum = hoursNum % 12 || 12;
-
-  return `${hoursNum}:${minutes} ${meridiem}`;
-};
-
 export const irdActiveMenuList = (data: any) => {
   let filteredMenuList = data?.getIRDMenuOutputDetails?.filter(
-    (item: any) => item?.isActive && filterMenuWrtTimings(item?.hours),
+    (item: any) => item?.isActive && filterLiveMenu(item?.hours),
   );
 
   filteredMenuList?.length === 0
@@ -130,4 +131,11 @@ export const filterRestaurantList = (queryResultsData: any, diningOptionSelected
   return queryResultsData?.filter((restaurant: any) => {
     return restaurant.isActive && restaurant?.type === diningOptionSelected?.id;
   });
+};
+
+export const platformLoader = (duration: number) => {
+  toggleLoader(true);
+  setTimeout(() => {
+    toggleLoader(false);
+  }, duration);
 };

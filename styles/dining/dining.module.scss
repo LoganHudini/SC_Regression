@@ -50,7 +50,7 @@
   min-height: 844px;
   position: absolute;
   max-width: 768px;
-  z-index: 1;
+  z-index: 2;
   overflow-y: hidden;
   overflow-x: hidden;
 }
@@ -74,10 +74,6 @@
   max-width: 768px;
   margin: 0 auto;
   max-height: 250px;
-}
-
-// temporary change
-.close {
 }
 
 .disable {

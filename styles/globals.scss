@@ -54,7 +54,7 @@
   --primary-border-color: #e0e0e0;
   --primary-box-shadow-color: #00000029;
   --primary-error-text-color: #d32f2f;
-  --primary-overlay-color: #00000039;
+  --primary-overlay-color: #00000023;
 
   // text colors
   --primary-text-color: #000000;
@@ -94,9 +94,10 @@
   --secondary-font-semibold: '';
   --secondary-font-bold: '';
 
-  // banner font-family
+  // banner configs
   --primary-title-font-family: 'ClanOT Extended Book';
   --secondary-title-font-family: 'ClanOT News';
+  --primary-indicator-color: #ffffff;
 
   // card component configs
   --primary-card-title-font-family: 'ClanOT News';
@@ -149,8 +150,8 @@ p {
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3; /* start showing ellipsis when 3rd line is reached */
-  white-space: pre-wrap; /* let the text wrap preserving spaces */
+  -webkit-line-clamp: 3;
+  white-space: pre-wrap;
 }
 
 h1,
@@ -162,14 +163,6 @@ h6 {
   margin: 0;
   color: var(--primary-text-color);
   font-family: var(--secondary-font-regular);
-}
-
-.loaderWrapper {
-  display: flex;
-  flex-direction: row;
-  width: 100vw;
-  height: 100vh;
-  justify-content: center;
 }
 
 // Material UI overwrites
@@ -246,65 +239,6 @@ h6 {
   font-family: var(--primary-font-regular);
 }
 
-.Toastify__toast--error {
-  background: #f7dfde;
-  border-radius: 8px;
-  box-sizing: border-box;
-  max-width: 293px;
-  margin: 15px auto;
-  color: #b65754;
-  font-size: 0.875rem;
-  text-align: start;
-  min-height: auto;
-  padding: 0;
-}
-
-.Toastify__toast--success {
-  background: #e7f7ed;
-  border-radius: 8px;
-  box-sizing: border-box;
-  max-width: 293px;
-  margin: 15px auto;
-
-  color: #2daa5c;
-  font-size: 0.875rem;
-  text-align: start;
-  min-height: auto;
-  padding: 0;
-
-  .Toastify__toast__close svg path {
-    fill: #2daa5c;
-  }
-}
-
-.Toastify__toast-body {
-  margin: 0;
-  padding: 15px 0px 15px 37px;
-  max-width: 70%;
-}
-
-.Toastify__toast__close {
-  width: 17px;
-  height: 17px;
-  position: absolute;
-  top: 58%;
-  right: 20px;
-
-  transform: translateY(-50%);
-
-  svg {
-    width: 17px;
-    height: 17px;
-  }
-}
-
-.Toastify__toast-icon {
-  svg {
-    width: 15px;
-    height: 15px;
-  }
-}
-
 .MuiMenu-paper {
   max-height: 172px;
 }
@@ -344,6 +278,15 @@ h6 {
   }
 }
 
+.MuiDialog-paper {
+  position: absolute !important;
+  bottom: 2rem !important;
+  border-radius: 10px;
+  width: 80%;
+  margin: 0 auto;
+  height: 100px;
+}
+
 // webkit css
 *::-webkit-scrollbar-track {
   border-radius: 10px;
@@ -359,13 +302,4 @@ h6 {
 *::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-color: var(--primary-theme-color);
-}
-
-.MuiDialog-paper {
-  position: absolute !important;
-  bottom: 2rem !important;
-  border-radius: 10px;
-  width: 80%;
-  margin: 0 auto;
-  height: 100px;
 }

@@ -9,6 +9,7 @@ import { getRedirectLink } from '../../../../utils/getRedirectLink';
 import { StyledButton } from '../../../shared/StyledButton/StyledButton';
 import styles from './CAROUSEL_LANDSCAPE_W_BODY_CTA.module.scss';
 import { useRouter } from 'next/router';
+import { CAROUSEL_RESPONSIVE } from 'utils/constants';
 
 interface ICarouselProps {
   config: Partial<IConfig>;
@@ -25,29 +26,6 @@ interface ICarouselSlideProps {
     id: string;
   }[];
 }
-
-const carousalResponsive = {
-  desktop: {
-    breakpoint: { max: 100000, min: 701 },
-    items: 2.5,
-  },
-  tablet: {
-    breakpoint: { max: 700, min: 551 },
-    items: 2,
-  },
-  mobileLarge: {
-    breakpoint: { max: 550, min: 491 },
-    items: 1.7,
-  },
-  mobile: {
-    breakpoint: { max: 490, min: 361 },
-    items: 1.3,
-  },
-  mobileSmall: {
-    breakpoint: { max: 360, min: 0 },
-    items: 1,
-  },
-};
 
 const CarouselSlide: React.FC<ICarouselSlideProps> = ({ config, paths }) => {
   const router = useRouter();
@@ -98,7 +76,7 @@ export const CAROUSEL_LANDSCAPE_W_BODY_CTA: React.FC<ICarouselProps> = ({ config
   }, [navigate, viewAllUrl]);
 
   return (
-    <WithScrollbar responsive={carousalResponsive} className={styles.carouselWrapper}>
+    <WithScrollbar responsive={CAROUSEL_RESPONSIVE} className={styles.carouselWrapper}>
       {config.slides?.map((slide) => (
         <CarouselSlide key={`${slide.imgURL}${slide.titleH3}`} config={slide} paths={paths} />
       ))}

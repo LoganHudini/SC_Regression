@@ -7,6 +7,11 @@ import styles from './HomeCarousel.module.scss';
 import { useTranslation } from 'react-i18next';
 import { getConfig } from 'utils/getConfiguration';
 import { BANNER_CAROUSEL, HOME } from 'utils/constants';
+
+interface IHomeCarouselProps {
+  details: any;
+}
+
 interface IHomeCarouselItemProps {
   carouselItem: { title: string; description: string; imgURL: string };
 }
@@ -16,9 +21,8 @@ const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
 
   return (
     <>
-      {/* <StableImage className={styles.bannerImage} src={`${ASSETS_URL}/${carouselItem?.imgURL}`} /> */}
       <div className={styles.imgGradient}>
-        <img src={carouselItem?.imgURL} className={styles.bannerImage} alt='image' />
+        <StableImage className={styles.bannerImage} src={`${ASSETS_URL}/${carouselItem?.imgURL}`} />
       </div>
 
       <div className={styles.pageTitle}>
@@ -31,9 +35,10 @@ const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
   );
 };
 
-export const HomeCarousel = () => {
+export const HomeCarousel: React.FC<IHomeCarouselProps> = ({ details }) => {
   const config = getConfig();
 
+  const hotelImages = details?.getPropertyDetailsByHotelId?.hotel?.images;
   const homeModule: any = config?.modules?.find((module) => module?.code === HOME);
   const carouselDetails = homeModule?.submodules?.find(
     (submodule: any) => submodule?.code === BANNER_CAROUSEL && submodule.isActive,
@@ -45,17 +50,23 @@ export const HomeCarousel = () => {
       indicatorContainerProps={{
         className: styles.indicatorIconContainer,
       }}
-      indicatorIconButtonProps={{ style: { opacity: 0.5 } }}
+      IndicatorIcon={<div className={styles.indicatorIcon} />}
       activeIndicatorIconButtonProps={{
         className: styles.activeIndicatorIcon,
       }}
-      IndicatorIcon={<div className={styles.indicatorIcon} />}
       indicators={(carouselDetails?.details?.length || 0) > 1}
       className={styles.carousel}
     >
-      {carouselDetails?.details?.map((carouselItem: any, i: number) => (
-        <HeroBannerItem key={i} carouselItem={carouselItem} />
-      ))}
+      {carouselDetails?.details &&
+        hotelImages &&
+        carouselDetails?.details
+          ?.map((item: any, index: number) => ({
+            ...item,
+            imgURL: hotelImages[index]?.master,
+          }))
+          ?.map((carouselItem: any, i: number) => (
+            <HeroBannerItem key={i} carouselItem={carouselItem} />
+          ))}
     </Carousel>
   );
 };

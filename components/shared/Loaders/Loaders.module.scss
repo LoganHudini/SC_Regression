@@ -1,0 +1,49 @@
+.loaderOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--primary-overlay-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.logoLoader {
+  width: 200px;
+  height: 200px;
+}
+
+.multipurposeLoader {
+  width: 150px;
+  height: 150px;
+}
+
+.squareLoader {
+  width: 50px;
+  padding: 5px;
+  margin: 2rem auto 1rem;
+  aspect-ratio: 1;
+  background: var(--primary-theme-color);
+  --_m: conic-gradient(#0000, #000), linear-gradient(#000 0 0) content-box;
+  -webkit-mask: var(--_m);
+  mask: var(--_m);
+  -webkit-mask-composite: source-out;
+  mask-composite: subtract;
+  animation: load 1s linear infinite;
+}
+
+.itemNotFoundAnimation {
+  width: 50%;
+  height: 50%;
+}
+
+@keyframes load {
+  to {
+    transform: rotate(1turn);
+  }
+}

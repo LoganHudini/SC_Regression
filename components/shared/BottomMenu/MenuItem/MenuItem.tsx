@@ -13,9 +13,14 @@ import {
   toggleModuleOptionsDrawer,
 } from 'storage/home.storage';
 import cx from 'classnames';
-import { availablePaths } from 'utils/availablePaths';
-import { DINING_OPTIONS, SERVICE_REQUEST_OPTIONS } from 'utils/constants';
-import { close } from 'inspector';
+import {
+  ABOUT_US,
+  DINING_OPTIONS,
+  EXTERNAL,
+  FLOW,
+  IN_APP,
+  SERVICE_REQUEST_OPTIONS,
+} from 'utils/constants';
 import CheckIcon from '@icons/checkIcon.svg';
 import { housekeepingOptions } from 'storage/housekeeping.storage';
 import { handleTouchEnd, handleTouchStart } from 'utils/hooks/useDrawerSwipe';
@@ -34,25 +39,25 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
 }) => {
   const navigate = useLocalizedRouter();
   const onClick = useCallback(() => {
-    if (redirectOptions === 'EXTERNAL') {
+    if (redirectOptions === EXTERNAL) {
       window.open(externalLink, '_blank');
       toggleOption();
     }
-    if (redirectOptions === 'IN_APP' && paths) {
+    if (redirectOptions === IN_APP && paths) {
       const redirectUrl = getRedirectLink(paths, pages[0]);
       if (redirectUrl) {
         navigate(`/${redirectUrl}`);
         toggleOption();
       }
     }
-    if (redirectOptions === 'FLOW') {
+    if (redirectOptions === FLOW) {
       const redirectUrl = flowPathMap[flow as keyof typeof flowPathMap];
       if (redirectUrl) {
-        navigate(redirectUrl);
         toggleOption();
+        title === ABOUT_US ? toggleHotelInfoDrawer(true) : navigate(redirectUrl);
       }
     }
-  }, [externalLink, flow, navigate, pages, paths, redirectOptions, toggleOption]);
+  }, [externalLink, flow, navigate, pages, paths, redirectOptions, title, toggleOption]);
 
   return (
     <>

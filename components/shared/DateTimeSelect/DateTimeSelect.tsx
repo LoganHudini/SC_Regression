@@ -26,7 +26,7 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
   selectedTime,
   handleSave,
   showSchedules,
-  buttonTitle
+  buttonTitle,
 }) => {
   const { t } = useTranslation(['common']);
   const [disable, setDisable] = useState(false);

@@ -153,8 +153,7 @@ const RestaurantAndBars: React.FC = () => {
         restaurantName: queryResultEntity?.name,
         id: queryResultEntity?.id,
         venueId:
-          (queryResultEntity?.customAttributes &&
-            queryResultEntity?.customAttributes[0]?.value) ??
+          (queryResultEntity?.customAttributes && queryResultEntity?.customAttributes[0]?.value) ??
           '',
       });
       localStorage.setItem('restaurantId', JSON.stringify(queryResultEntity?.id) ?? '');

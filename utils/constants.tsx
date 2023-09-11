@@ -1,5 +1,3 @@
-import { HOTEL_CODE } from 'core/graphql/endpoints';
-
 export const CHECK_IN_FLOW_VERSION = process.env.NEXT_PUBLIC_CHECK_IN_FLOW_VERSION;
 export const CHECK_OUT_FLOW_VERSION = process.env.NEXT_PUBLIC_CHECK_OUT_FLOW_VERSION;
 export const DINING_FLOW_VERSION = process.env.NEXT_PUBLIC_DINING_FLOW_VERSION;
@@ -9,11 +7,14 @@ export const HOUSEKEEPING_FLOW_VERSION = process.env.NEXT_PUBLIC_HOUSEKEEPING_FL
 export const ROOM_CONTROLS_FLOW_VERSION = process.env.NEXT_PUBLIC_ROOM_CONTROLS_FLOW_VERSION;
 
 // hotel constants
-export const MANILA = 'manila';
+export const SOFITEL_MANILA = 'sofitel-manila';
+
+// module constants
+export const HOME = 'Home';
+export const LOADER = 'loader';
 
 // key constants
 export const HouseKeeping = 'HouseKeeping';
-export const HOME = 'Home';
 export const OFFERS = 'offers';
 export const DRIVERS_LICENCE = 'DRL';
 export const PASSPORT = 'PASSPORT';
@@ -57,7 +58,7 @@ export const USERGROUP = 'userGroup';
 export const IDCARD = 'idCard';
 export const ACCOMPANYINGGUEST = 'accompanyingGuest';
 export const CHECKBOX = 'CheckBox';
-export const INROOMDINING = 'In-Room Dining';
+export const IN_ROOM_DINING = 'In-Room Dining';
 export const RESTAURANTS = 'restaurants';
 export const BARS = 'Bars';
 export const EXTERNALURL = 'External URL';
@@ -70,6 +71,10 @@ export const ENQUIRE = 'ENQUIRE';
 export const PHONECAPS = 'PHONE';
 export const EMAILCAPS = 'EMAIL';
 export const URL = 'URL';
+export const ABOUT_US = 'About Us';
+export const EXTERNAL = 'EXTERNAL';
+export const IN_APP = 'IN_APP';
+export const FLOW = 'FLOW';
 
 // flow constants
 export const DINING_OPTIONS = [
@@ -135,32 +140,8 @@ export const cardTypes = [
   },
 ];
 
-const restaurantPath = '/restaurants-bars';
-const offersPath = '/offers';
-export const templateItems = [
-  {
-    title: 'RESTAURANT & BARS',
-    path: restaurantPath,
-    image: `/images/${HOTEL_CODE}/restaurant.png`,
-  },
-  {
-    title: 'OFFERS',
-    path: offersPath,
-    image: `/images/${HOTEL_CODE}/offers.png`,
-  },
-  {
-    title: 'RESTAURANT & BARS',
-    path: restaurantPath,
-    image: `/images/${HOTEL_CODE}/restaurant.png`,
-  },
-  {
-    title: 'OFFERS',
-    path: offersPath,
-    image: `/images/${HOTEL_CODE}/offers.png`,
-  },
-];
-
 export const PAYMENT = [
+  { id: '1', name: 'BILL TO ROOM', message: '' },
   { id: '2', name: 'CASH', message: '' },
   { id: '3', name: 'CARD', message: '' },
 ];
@@ -175,12 +156,6 @@ export const LANGUAGE_LIST_BARCELONA = [
   { title: 'Español', value: 'es' },
   { title: 'Català', value: 'ct' },
   { title: 'Français', value: 'fr' },
-];
-
-export const PAYMENTFANDB = [
-  { id: '1', name: 'BILL TO ROOM', message: '' },
-  { id: '2', name: 'CASH', message: '' },
-  { id: '3', name: 'CARD', message: '' },
 ];
 
 export const TIPS = [
@@ -206,6 +181,28 @@ export const Gender = [
   { name: 'Female', value: 'FEMALE' },
 ];
 
+export const CAROUSEL_RESPONSIVE = {
+  desktop: {
+    breakpoint: { max: 100000, min: 701 },
+    items: 2.5,
+  },
+  tablet: {
+    breakpoint: { max: 700, min: 551 },
+    items: 2,
+  },
+  mobileLarge: {
+    breakpoint: { max: 550, min: 491 },
+    items: 1.7,
+  },
+  mobile: {
+    breakpoint: { max: 490, min: 361 },
+    items: 1.3,
+  },
+  mobileSmall: {
+    breakpoint: { max: 360, min: 0 },
+    items: 1,
+  },
+};
 // path constants
 export const HOUSEKEEPING = 'HOUSEKEEPING';
 export const DINING = 'DINING';

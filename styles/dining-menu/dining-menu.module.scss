@@ -81,8 +81,12 @@
 .noItems {
   display: flex;
   flex-direction: column;
-  margin: 4rem auto;
-  color: var(--primary-theme-color);
+  margin: auto;
+  color: var(--tertiary-text-color);
+}
+
+.noItemsText {
+  margin: 0.5rem 0;
 }
 
 .subCategoryName {
