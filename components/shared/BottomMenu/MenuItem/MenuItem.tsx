@@ -24,7 +24,7 @@ import {
 import CheckIcon from '@icons/checkIcon.svg';
 import { housekeepingOptions } from 'storage/housekeeping.storage';
 import { handleTouchEnd, handleTouchStart } from 'utils/hooks/useDrawerSwipe';
-import HotelInfoDrawer from 'components/pages/home/HotelInformation/HotelInfoDrawer';
+import HotelInfoDrawer from 'components/pages/home/HotelInformation/HotelInfoDrawer/HotelInfoDrawer';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
   title,

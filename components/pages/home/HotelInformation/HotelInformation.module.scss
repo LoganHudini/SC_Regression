@@ -1,0 +1,38 @@
+.bannerImage {
+  height: 225px;
+  width: 338px;
+  object-fit: cover;
+  margin: auto;
+  display: flex;
+}
+
+.welcome {
+  margin-top: 20px;
+  font-size: $xlarge;
+  text-align: center;
+  font-family: var(--secondary-font-regular);
+}
+
+.name {
+  margin-bottom: 15px;
+  font-size: $header;
+  text-align: center;
+  font-family: var(--secondary-font-regular);
+}
+
+.description {
+  font-size: $small;
+  width: 338px;
+  margin: auto;
+  text-align: center;
+  line-height: 1.5;
+  font-family: var(--primary-font-regular);
+  color: var(--tertiary-text-color);
+}
+
+.read {
+  color: var(--primary-theme-color);
+  text-align: center;
+  margin-top: 10px;
+  font-size: $extraSmall;
+}

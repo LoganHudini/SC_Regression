@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { DiningCarousel } from 'components/pages/home/DiningCarousel/DiningCarousel';
 import { HomeCarousel } from 'components/pages/home/HomeCarousel/HomeCarousel';
+import HotelInformation from 'components/pages/home/HotelInformation/HotelInformation';
 import { ServiceRequestCarousel } from 'components/pages/home/ServiceRequestCarousel/ServiceRequestCarousel';
 import { SquareLoader } from 'components/shared/Loaders/Loaders';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
@@ -58,7 +59,6 @@ const Home: NextPage = () => {
       context: { clientName: 'host_v0' },
       fetchPolicy: 'no-cache',
     });
-
   return (
     <>
       <Head>
@@ -69,6 +69,7 @@ const Home: NextPage = () => {
           <SquareLoader />
         )}
         <HomeCarousel details={homeCarouselDetails} />
+        <HotelInformation details={homeCarouselDetails} />
         <ServiceRequestCarousel details={serviceCarouselDetails} />
         <DiningCarousel ird={irdMenu} restaurants={restaurantList} />
       </PageWrapper>

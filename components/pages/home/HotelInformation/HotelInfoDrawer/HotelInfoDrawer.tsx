@@ -37,11 +37,8 @@ const HotelInfoDrawer = () => {
   const webData = hotelInfo?.information?.find((x: any) => x?.type === URL);
 
   const handleClose = () => {
-    if (!showMap) {
-      setShowMap(true);
-    } else {
-      toggleHotelInfoDrawer(false);
-    }
+    toggleHotelInfoDrawer(false);
+    setShowMap(true);
   };
 
   const handleClick = () => {
