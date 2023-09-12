@@ -6,15 +6,19 @@ import { useTranslation } from 'react-i18next';
 import { ASSETS_URL } from '../../../../core/graphql/endpoints';
 import styles from './DiningCarousel.module.scss';
 import { useReactiveVar } from '@apollo/client';
-import { filterRestaurantList, irdActiveMenuList, platformLoader } from 'utils/functions';
+import { filterRestaurantList, irdActiveMenuList } from 'utils/functions';
 import { CAROUSEL_RESPONSIVE, DINING_OPTIONS, IN_ROOM_DINING } from 'utils/constants';
 import cx from 'classnames';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { availablePaths } from 'utils/availablePaths';
 import ClockIcon from '@icons/clockIcon.svg';
 import DishIcon from '@icons/dishIcon.svg';
-import { diningOptions, toggleLoader } from 'storage/home.storage';
-import { SquareLoader } from 'components/shared/Loaders/Loaders';
+import { diningOptions } from 'storage/home.storage';
+
+interface ICarouselProps {
+  ird: any;
+  restaurants: any;
+}
 
 interface ICarouselProps {
   ird: any;
@@ -25,7 +29,7 @@ interface ICarouselSlideProps {
   slide: any;
   imageSlide?: any;
   diningOptionsCarousal?: any;
-  module?: boolean
+  module?: boolean;
 }
 
 const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOptionsCarousal }) => {
@@ -44,44 +48,49 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
     diningOptions(diningOptionsCarousal);
     navigate(`${diningOptionsCarousal.path}`);
   };
-  const time = `${slide.hours[0]?.day.slice(0, 3).toLowerCase()}-${slide.hours[0]?.open}-${slide.hours[0]?.close
-    }...`;
+  const time = `${slide.hours[0]?.day.slice(0, 3).toLowerCase()}-${slide.hours[0]?.open}-${
+    slide.hours[0]?.close
+  }...`;
   return (
     <>
-      {module ? <div className={styles.carouselSlideWrapper} onClick={handleMenu}>
-        <StableImage
-          className={styles.carouselSlideImage}
-          src={`${ASSETS_URL}/${slide.images[0]?.master && slide.images[0]?.master}`}
-        />
-        <div className={styles.carouselSlideDetailsWrapper}>
-          {slide.name && <h3 className={styles.carouselSlideTitle}>{slide.name}</h3>}
-          {slide.hours[0]?.day && (
-            <p className={styles.carouselSlideTimings}>{slide.hours[0]?.day}</p>
-          )}
-          <p className={styles.carouselSlideViewMore}>{t('view more')}</p>
+      {module ? (
+        <div className={styles.carouselSlideWrapper} onClick={handleMenu}>
+          <StableImage
+            className={styles.carouselSlideImage}
+            src={`${ASSETS_URL}/${slide.images[0]?.master && slide.images[0]?.master}`}
+          />
+          <div className={styles.carouselSlideDetailsWrapper}>
+            {slide.name && <h3 className={styles.carouselSlideTitle}>{slide.name}</h3>}
+            {slide.hours[0]?.day && (
+              <p className={styles.carouselSlideTimings}>{slide.hours[0]?.day}</p>
+            )}
+            <p className={styles.carouselSlideViewMore}>{t('view more')}</p>
+          </div>
         </div>
-      </div> : <div className={styles.carouselSlideWrapper} onClick={redirect}>
-        <StableImage
-          className={styles.carouselSlideImage}
-          src={`${ASSETS_URL}/${slide?.images[0]?.master}`}
-        />
-        <div className={styles.carouselSlideDetailsWrapperRestaurantsAndBars}>
-          <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>
-          {slide?.primaryCuisine && (
-            <div className={styles.cuisineRow}>
-              <DishIcon className={styles.cuisineIcon} />
-              <span>{slide?.primaryCuisine?.toLowerCase()}</span>
-            </div>
-          )}{' '}
-          {slide?.hours && (
-            <div className={styles.cuisineRow}>
-              <ClockIcon className={styles.cuisineIcon} />
-              <span>{time}</span>
-            </div>
-          )}
-          <p className={styles.carouselSlideViewMore}>{t('read more')}</p>
+      ) : (
+        <div className={styles.carouselSlideWrapper} onClick={redirect}>
+          <StableImage
+            className={styles.carouselSlideImage}
+            src={`${ASSETS_URL}/${slide?.images[0]?.master}`}
+          />
+          <div className={styles.carouselSlideDetailsWrapperRestaurantsAndBars}>
+            <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>
+            {slide?.primaryCuisine && (
+              <div className={styles.cuisineRow}>
+                <DishIcon className={styles.cuisineIcon} />
+                <span>{slide?.primaryCuisine?.toLowerCase()}</span>
+              </div>
+            )}{' '}
+            {slide?.hours && (
+              <div className={styles.cuisineRow}>
+                <ClockIcon className={styles.cuisineIcon} />
+                <span>{time}</span>
+              </div>
+            )}
+            <p className={styles.carouselSlideViewMore}>{t('read more')}</p>
+          </div>
         </div>
-      </div>}
+      )}
     </>
   );
 };
@@ -89,7 +98,6 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
 export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) => {
   const { t } = useTranslation(['common']);
 
-  const loading = useReactiveVar(toggleLoader);
   const diningOptionSelected = useReactiveVar(diningOptions);
 
   const [diningOptionsState, setDiningOption] = useState(diningOptionSelected);
@@ -113,7 +121,6 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
 
   return (
     <div className={styles.diningCarouselWrapper}>
-      {loading && <SquareLoader />}
       <p className={styles.diningCarouselTitle}>{t('Dining')}</p>
       <div className={styles.diningOptions}>
         {DINING_OPTIONS?.map((dining) => (
@@ -122,10 +129,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
             className={cx(styles.diningOptionsItem, {
               [styles.diningOptionsItemActive]: diningOptionsState?.id === dining?.id,
             })}
-            onClick={() => {
-              setDiningOption(dining);
-              platformLoader(300);
-            }}
+            onClick={() => setDiningOption(dining)}
             data-tip={dining?.title}
           >
             {dining?.title}

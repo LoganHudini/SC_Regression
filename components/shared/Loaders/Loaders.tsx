@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { RotatingLines } from 'react-loader-spinner';
 import React from 'react';
 import styles from './Loaders.module.scss';
@@ -8,12 +9,13 @@ import { HOTEL_CODE } from 'core/graphql/endpoints';
 export const LogoLoader = () => {
   return (
     <div className={styles.loaderOverlay}>
-      <Player
+      {/* <Player
         autoplay
         loop
         src={`/jsons/${HOTEL_CODE}/logoLoader.json`}
         className={styles.logoLoader}
-      />
+      /> */}
+      <img src={`/images/${HOTEL_CODE}/logo.png`} alt='loader' className={styles.logoLoader} />
     </div>
   );
 };
@@ -31,10 +33,10 @@ export const MultiPurposeLoader = () => {
   );
 };
 
-export const SquareLoader = () => {
+export const Loader = () => {
   return (
     <div className={styles.loaderOverlay}>
-      <div className={styles.squareLoader}></div>
+      <div className={styles.loader}></div>
     </div>
   );
 };

@@ -47,7 +47,6 @@ export const BottomMenu = () => {
   const homeActive = router.pathname === '/[locale]';
   const [loading, setLoading] = useState(false);
 
-
   const arrowActive = homeActive && !isCheckedIn ? false : true;
   const irdActive =
     router.pathname.includes(availablePaths?.DINING) ||
@@ -68,8 +67,7 @@ export const BottomMenu = () => {
     if (isCheckedIn) {
       toggleModuleOptionsDrawer(true);
       toggleHamburgerMenuDrawer(false);
-    }
-    else {
+    } else {
       toggleCheckInDrawer(true);
     }
   };
@@ -93,7 +91,6 @@ export const BottomMenu = () => {
     },
     [navigate, t],
   );
-
 
   const getReservation = async (confirmationNumber: any, lastName: any) => {
     try {
@@ -146,7 +143,6 @@ export const BottomMenu = () => {
     }
   };
 
-
   const formik = useFormik({
     initialValues: {
       confirmationNumber: '',
@@ -158,7 +154,9 @@ export const BottomMenu = () => {
 
   const checkInDrawerContent = () => (
     <PageWrapper className={styles.pageWrapper}>
-      <p className={styles.pageTitle}>{t('Please enter the details to start your check-in process')}</p>
+      <p className={styles.pageTitle}>
+        {t('Please enter the details to start your check-in process')}
+      </p>
       <div className={styles.reservationInputs}>
         <StyledInput
           autoComplete='off'
@@ -197,7 +195,7 @@ export const BottomMenu = () => {
         {t('NEXT')}
       </StyledButton>
     </PageWrapper>
-  )
+  );
 
   return (
     <>

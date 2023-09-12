@@ -3,7 +3,7 @@ import { DiningCarousel } from 'components/pages/home/DiningCarousel/DiningCarou
 import { HomeCarousel } from 'components/pages/home/HomeCarousel/HomeCarousel';
 import HotelInformation from 'components/pages/home/HotelInformation/HotelInformation';
 import { ServiceRequestCarousel } from 'components/pages/home/ServiceRequestCarousel/ServiceRequestCarousel';
-import { SquareLoader } from 'components/shared/Loaders/Loaders';
+import { LogoLoader } from 'components/shared/Loaders/Loaders';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { GET_HOTEL_INFORMATION } from 'core/graphql/queries/GET_HOTEL_INFORMATION';
 import {
@@ -66,10 +66,9 @@ const Home: NextPage = () => {
       </Head>
       <PageWrapper displayBottomMenu>
         {(homeCarouselLoading || serviceCarouselLoading || irdloading || restaurantloading) && (
-          <SquareLoader />
+          <LogoLoader />
         )}
         <HomeCarousel details={homeCarouselDetails} />
-        <HotelInformation details={homeCarouselDetails} />
         <ServiceRequestCarousel details={serviceCarouselDetails} />
         <DiningCarousel ird={irdMenu} restaurants={restaurantList} />
       </PageWrapper>

@@ -14,8 +14,19 @@
 }
 
 .logoLoader {
-  width: 200px;
-  height: 200px;
+  width: 20vw;
+  animation: fadeIn 1s infinite;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 1;
+    scale: 1;
+  }
+  100% {
+    opacity: 0;
+    scale: 5;
+  }
 }
 
 .multipurposeLoader {
@@ -23,11 +34,12 @@
   height: 150px;
 }
 
-.squareLoader {
+.loader {
   width: 50px;
   padding: 5px;
   margin: 2rem auto 1rem;
   aspect-ratio: 1;
+  border-radius: 50%;
   background: var(--primary-theme-color);
   --_m: conic-gradient(#0000, #000), linear-gradient(#000 0 0) content-box;
   -webkit-mask: var(--_m);

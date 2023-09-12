@@ -33,7 +33,7 @@ import {
 } from 'utils/functions';
 import { DiningCategoryOptions } from 'components/pages/dining/DiningCategoryOptions/DiningCategoryOptions';
 import produce from 'immer';
-import { ItemNotFoundAnimationLoader, SquareLoader } from 'components/shared/Loaders/Loaders';
+import { ItemNotFoundAnimationLoader, Loader } from 'components/shared/Loaders/Loaders';
 
 export { getStaticPaths };
 interface DiningMenuProps {
@@ -318,7 +318,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     <>
       {loading ? (
         <>
-          <SquareLoader />
+          <Loader />
           <DiningMenuFilterSkeleton />
           <div className={cx(styles.subCategoryNameSkeleton, styles.animation)} />
           <DiningMenuElementSkeleton />
