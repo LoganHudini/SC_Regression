@@ -75,6 +75,9 @@ export const ABOUT_US = 'About Us';
 export const EXTERNAL = 'EXTERNAL';
 export const IN_APP = 'IN_APP';
 export const FLOW = 'FLOW';
+export const YESNO = 'Yes / No';
+export const PREFERENCES = 'Preferences';
+export const HEADERSCONFIG = 'Headers';
 
 // flow constants
 export const DINING_OPTIONS = [

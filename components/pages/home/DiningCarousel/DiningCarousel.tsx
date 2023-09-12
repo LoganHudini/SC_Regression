@@ -25,9 +25,10 @@ interface ICarouselSlideProps {
   slide: any;
   imageSlide?: any;
   diningOptionsCarousal?: any;
+  module?: boolean
 }
 
-const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide }) => {
+const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOptionsCarousal }) => {
   const { t } = useTranslation(['common']);
   const navigate = useLocalizedRouter();
   const handleMenu = () => {
@@ -39,60 +40,49 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide }) => {
     });
     navigate(availablePaths?.DINING);
   };
-
-  return (
-    <div className={styles.carouselSlideWrapper} onClick={handleMenu}>
-      <StableImage
-        className={styles.carouselSlideImage}
-        src={`${ASSETS_URL}/${slide.images[0]?.master && slide.images[0]?.master}`}
-      />
-      <div className={styles.carouselSlideDetailsWrapper}>
-        {slide.name && <h3 className={styles.carouselSlideTitle}>{slide.name}</h3>}
-        {slide.hours[0]?.day && (
-          <p className={styles.carouselSlideTimings}>{slide.hours[0]?.day}</p>
-        )}
-        <p className={styles.carouselSlideViewMore}>{t('view more')}</p>
-      </div>
-    </div>
-  );
-};
-
-const CarouselSlideRestaurantAndBars: React.FC<ICarouselSlideProps> = ({
-  slide,
-  diningOptionsCarousal,
-}) => {
-  const navigate = useLocalizedRouter();
   const redirect = () => {
     diningOptions(diningOptionsCarousal);
     navigate(`${diningOptionsCarousal.path}`);
   };
-  const time = `${slide.hours[0]?.day.slice(0, 3).toLowerCase()}-${slide.hours[0]?.open}-${
-    slide.hours[0]?.close
-  }...`;
-  const { t } = useTranslation(['common']);
+  const time = `${slide.hours[0]?.day.slice(0, 3).toLowerCase()}-${slide.hours[0]?.open}-${slide.hours[0]?.close
+    }...`;
   return (
-    <div className={styles.carouselSlideWrapper} onClick={redirect}>
-      <StableImage
-        className={styles.carouselSlideImage}
-        src={`${ASSETS_URL}/${slide?.images[0]?.master}`}
-      />
-      <div className={styles.carouselSlideDetailsWrapperRestaurantsAndBars}>
-        <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>
-        {slide?.primaryCuisine && (
-          <div className={styles.cuisineRow}>
-            <DishIcon className={styles.cuisineIcon} />
-            <span>{slide?.primaryCuisine?.toLowerCase()}</span>
-          </div>
-        )}{' '}
-        {slide?.hours && (
-          <div className={styles.cuisineRow}>
-            <ClockIcon className={styles.cuisineIcon} />
-            <span>{time}</span>
-          </div>
-        )}
-        <p className={styles.carouselSlideViewMore}>{t('read more')}</p>
-      </div>
-    </div>
+    <>
+      {module ? <div className={styles.carouselSlideWrapper} onClick={handleMenu}>
+        <StableImage
+          className={styles.carouselSlideImage}
+          src={`${ASSETS_URL}/${slide.images[0]?.master && slide.images[0]?.master}`}
+        />
+        <div className={styles.carouselSlideDetailsWrapper}>
+          {slide.name && <h3 className={styles.carouselSlideTitle}>{slide.name}</h3>}
+          {slide.hours[0]?.day && (
+            <p className={styles.carouselSlideTimings}>{slide.hours[0]?.day}</p>
+          )}
+          <p className={styles.carouselSlideViewMore}>{t('view more')}</p>
+        </div>
+      </div> : <div className={styles.carouselSlideWrapper} onClick={redirect}>
+        <StableImage
+          className={styles.carouselSlideImage}
+          src={`${ASSETS_URL}/${slide?.images[0]?.master}`}
+        />
+        <div className={styles.carouselSlideDetailsWrapperRestaurantsAndBars}>
+          <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>
+          {slide?.primaryCuisine && (
+            <div className={styles.cuisineRow}>
+              <DishIcon className={styles.cuisineIcon} />
+              <span>{slide?.primaryCuisine?.toLowerCase()}</span>
+            </div>
+          )}{' '}
+          {slide?.hours && (
+            <div className={styles.cuisineRow}>
+              <ClockIcon className={styles.cuisineIcon} />
+              <span>{time}</span>
+            </div>
+          )}
+          <p className={styles.carouselSlideViewMore}>{t('read more')}</p>
+        </div>
+      </div>}
+    </>
   );
 };
 
@@ -107,6 +97,19 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
   const irdActiveMenu = irdActiveMenuList(ird);
   const queryResultsData: any = restaurants?.getRestaurantDetails?.restaurant;
   const filteredList = filterRestaurantList(queryResultsData, diningOptionsState);
+
+  const slides = diningOptionsState.title === IN_ROOM_DINING ? irdActiveMenu : filteredList;
+
+  const renderSlides = (slides: any, module: boolean) =>
+    slides?.length > 0 &&
+    slides?.map((slide: any) => (
+      <CarouselSlide
+        key={slide?.name}
+        slide={slide}
+        diningOptionsCarousal={diningOptionsState}
+        module={module}
+      />
+    ));
 
   return (
     <div className={styles.diningCarouselWrapper}>
@@ -130,23 +133,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
         ))}
       </div>
       <WithScrollbar responsive={CAROUSEL_RESPONSIVE} className={styles.carouselWrapper}>
-        {diningOptionsState.title === IN_ROOM_DINING
-          ? irdActiveMenu?.length > 0 &&
-            irdActiveMenu?.map((slide: any) => (
-              <CarouselSlide
-                key={slide?.name}
-                slide={slide}
-                diningOptionsCarousal={diningOptionsState}
-              />
-            ))
-          : queryResultsData?.length > 0 &&
-            filteredList?.map((slide: any) => (
-              <CarouselSlideRestaurantAndBars
-                key={slide?.name}
-                slide={slide}
-                diningOptionsCarousal={diningOptionsState}
-              />
-            ))}
+        {renderSlides(slides, diningOptionsState.title === IN_ROOM_DINING)}
       </WithScrollbar>
     </div>
   );

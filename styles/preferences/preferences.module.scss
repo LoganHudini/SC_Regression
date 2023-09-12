@@ -1,0 +1,104 @@
+.pageWrapper {
+  padding: 64px 0px 110px 0px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-family: var(--primary-title-font-family);
+  padding-top: 30px;
+  text-align: center;
+  width: 100%;
+  font-size: $xsmall;
+  line-height: 30px;
+}
+
+.preferenceTitle {
+  font-family: var(--primary-font-new);
+  font-size: $small;
+  text-align: center;
+  color: var(--primary-text-color);
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.button {
+  width: 42%;
+  height: 30px;
+  margin: 7px;
+  line-height: 16px;
+  font-size: $xsmall;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 10px;
+  font-family: var(--primary-font-news);
+  background-color: var(--primary-background-color);
+  color: var(--primary-button-background-color);
+  border: 0.7px solid var(--primary-border-color);
+}
+
+.buttonSelected {
+  font-family: var(--primary-font-medium);
+  background-color: var(--primary-button-background-color);
+  color: var(--primary-background-color);
+  border: 1px solid var(--primary-button-background-color);
+}
+
+.buttonWrapper {
+  width: 100%;
+  padding: 30px 0px 30px 0px;
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+  margin-bottom: 5px;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--primary-border-color);
+  }
+}
+
+.preferenceWrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.confirmOrderButton {
+  margin: 0 auto;
+  padding: 50px 50px 29px 50px;
+  background: #fff;
+  position: fixed;
+  bottom: 0rem;
+  left: 0;
+  right: 0;
+  border-radius: 0;
+  box-shadow: var(--primary-box-shadow-color) 0 1px 20px;
+  max-width: 768px;
+  margin-top: -20px;
+}
+
+.confirmationWrapperBotton {
+  margin-top: -20px;
+}
+
+.submitButton {
+  padding-top: 10px;
+  padding-left: 22px;
+}
+
+.image {
+  height: 127px;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.wrapper {
+  padding: 0px 20px 0px 20px;
+}

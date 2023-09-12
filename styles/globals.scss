@@ -287,7 +287,61 @@ h6 {
   height: 100px;
 }
 
+//toast configs
+
+.Toastify__toast--error {
+  background: #f7dfde;
+  border-radius: 8px;
+  box-sizing: border-box;
+  max-width: 293px;
+  margin: 15px auto;
+  color: #b65754;
+  font-size: 0.875rem;
+  text-align: start;
+  min-height: auto;
+  padding: 0;
+}
+.Toastify__toast--success {
+  background: #e7f7ed;
+  border-radius: 8px;
+  box-sizing: border-box;
+  max-width: 293px;
+  margin: 15px auto;
+  color: #2daa5c;
+  font-size: 0.875rem;
+  text-align: start;
+  min-height: auto;
+  padding: 0;
+  .Toastify__toast__close svg path {
+    fill: #2daa5c;
+  }
+}
+.Toastify__toast-body {
+  margin: 0;
+  padding: 15px 0px 15px 37px;
+  max-width: 70%;
+}
+.Toastify__toast__close {
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  top: 58%;
+  right: 20px;
+  transform: translateY(-50%);
+  svg {
+    width: 17px;
+    height: 17px;
+  }
+}
+.Toastify__toast-icon {
+  svg {
+    width: 15px;
+    height: 15px;
+  }
+}
+
 // webkit css
+
 *::-webkit-scrollbar-track {
   border-radius: 10px;
   background-color: transparent;

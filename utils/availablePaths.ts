@@ -54,4 +54,7 @@ export const availablePaths = {
   // notifications
   NOTIFICATIONS: '/notifications',
   OFFERS: '/offers',
+
+  //preferences
+  PREFERENCES: '/preferences',
 };
