@@ -1,9 +1,6 @@
 export const availablePaths = {
   HOME: '/',
 
-  // Incode Check-in
-  INCODE: '/incode',
-
   // Check-in flow
   GET_RESERVATION: '/check-in',
   CHECK_IN_PAYMENT: '/check-in/payment',
@@ -19,6 +16,9 @@ export const availablePaths = {
   ROOM_DETAILS: '/check-in/room-details',
   UPGRADES: '/check-in/upgrades',
 
+  // Preferences
+  PREFERENCES: '/preferences',
+
   // Checkout flow
   BILL: '/checkout',
   CHECKOUT_CONFIRMATION: '/checkout/checkout-confirmation',
@@ -28,6 +28,9 @@ export const availablePaths = {
   DINING: '/dining',
   DINING_ORDER_SUMMARY: '/dining-order-summary',
   RESTAURANTS_BARS: '/restaurants-bars',
+
+  // Spa flow
+  SPA: '/spa',
 
   // Housekeeping flow
   HOUSEKEEPING: '/housekeeping',
@@ -41,20 +44,23 @@ export const availablePaths = {
   ROOM_CONTROLS: '/room-controls',
   ROOM_CONTROLS_TV: '/room-controls?selectedEntity=TV',
 
-  TRIPS: '/trips',
-  LANGUAGE: '/language',
-  CHAT: '/chat',
-
   // Table reservations
   TABLE_RESERVATION: '/table-reservation',
   TABLE_RESERVATION_TIME: '/table-reservation/table-reservation-time',
   TABLE_RESERVATION_DETAILS: '/table-reservation/table-reservation-details',
   TABLE_RESERVATION_CONFIRMATION: '/table-reservation/table-reservation-confirmation',
 
-  // notifications
+  // Notifications
   NOTIFICATIONS: '/notifications',
+
+  // Offers
   OFFERS: '/offers',
 
-  //preferences
-  PREFERENCES: '/preferences',
+  // Incode Check-in
+  INCODE: '/incode',
+
+  // Others
+  TRIPS: '/trips',
+  LANGUAGE: '/language',
+  CHAT: '/chat',
 };

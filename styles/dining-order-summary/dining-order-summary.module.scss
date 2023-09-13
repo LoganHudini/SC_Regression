@@ -37,6 +37,10 @@
   padding: 1rem 0.5rem;
 }
 
+.selectionsWrapper {
+  margin: 0 6px;
+}
+
 .itemDescription {
   font-size: $small;
   line-height: 1.25;
@@ -75,7 +79,9 @@
 }
 
 .textInput {
+  width: 96%;
   margin: 1rem 0px;
+  padding: 0 8px;
   border-radius: var(--primary-card-border-radius);
   box-shadow: 0px 3px 6px var(--primary-card-shadow-color);
   height: 40px;

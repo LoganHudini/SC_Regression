@@ -88,7 +88,9 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
         {selectedItem?.customisation?.ingredient && selectedItem?.customisation?.name && (
           <p className={styles.itemDescription}>
             {' '}
-            <span className={styles.grayText}>{selectedItem?.customisation?.ingredient}:</span>{' '}
+            <span className={styles.grayText}>
+              {selectedItem?.customisation?.ingredient}:{' '}
+            </span>{' '}
             {selectedItem?.customisation?.name}
           </p>
         )}

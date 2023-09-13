@@ -405,7 +405,7 @@ const DiningDetailsDrawer = () => {
                     <p className={styles.optionalTextWarning}>{t('Limit exceeded')}</p>
                   ) : (
                     <p className={styles.optionalText}>
-                      {t('Select up to options', { value: selectedItem?.addOnValue })}
+                      {t('Select up to option(s)', { value: selectedItem?.addOnValue })}
                     </p>
                   )}
                 </div>

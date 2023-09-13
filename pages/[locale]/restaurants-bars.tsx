@@ -9,11 +9,7 @@ import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React, { useCallback, useEffect, useState } from 'react';
-import {
-  RestaurantDetailDrawerStatus,
-  restaurantListStorage,
-  tableReservationStorage,
-} from 'storage/table-reservation.storage';
+import { restaurantListStorage, tableReservationStorage } from 'storage/table-reservation.storage';
 import { getStaticPaths } from 'utils/getStatic';
 import styles from '../../styles/restaurants-bars/restaurants-bars.module.scss';
 import { useRouter } from 'next/router';
@@ -33,7 +29,7 @@ import ForkKnifeIcon from '@icons/forkKnife.svg';
 import DishIcon from '@icons/dishIcon.svg';
 import ArrowButton from '@icons/restaurantArrow.svg';
 import { Header } from 'components/shared/Header/Header';
-import { diningOptions, toggleNotification } from 'storage/home.storage';
+import { diningOptions, toggleDetailsDrawer, toggleNotification } from 'storage/home.storage';
 import {
   ACTIVE,
   DINING_OPTIONS,
@@ -64,6 +60,7 @@ import PhoneIcon from '@icons/phone.svg';
 import EmailIcon from '@icons/email.svg';
 import cx from 'classnames';
 import ArrowBottomIcon from '@icons/arrowBottom.svg';
+import Head from 'next/head';
 
 export { getStaticPaths };
 
@@ -84,7 +81,7 @@ const RestaurantAndBars: React.FC = () => {
   const [additionalTimeOpened, setAdditionalTimeOpened] = useState(false);
   const [tableNumberDrawer, setTableNumberDrawer] = useState(false);
   const [tableDrawerState, setTableDrawerState] = useState(false);
-  const restaurantDetailsDrawerStatus = useReactiveVar(RestaurantDetailDrawerStatus);
+  const restaurantDetailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
 
   const [selectedRestaurantData, setSelectedRestaurantData] = useState<any>();
   const { data } = useQuery<IGetRestaurantDetailsResponse>(GET_RESTAURANT_DETAILS, {
@@ -101,9 +98,9 @@ const RestaurantAndBars: React.FC = () => {
     window.scrollTo(0, 0);
   };
 
-  const selectedRestaurant = (id: any) => {
-    setSelectedRestaurantData(queryResultsData?.filter((item: any) => item.id === id));
-    RestaurantDetailDrawerStatus(true);
+  const selectedListItem = (item: any) => {
+    setSelectedRestaurantData(item);
+    toggleDetailsDrawer(true);
   };
 
   useEffect(() => {
@@ -112,15 +109,11 @@ const RestaurantAndBars: React.FC = () => {
 
   const filteredList = filterRestaurantList(queryResultsData, diningOptionSelected);
 
-  const toggleAdditionalInfoOpened = useCallback(() => {
-    setAdditionalInfoOpened((oldState) => !oldState);
-  }, []);
-
   const toggleAdditionalTimeOpened = useCallback(() => {
     setAdditionalTimeOpened((oldState) => !oldState);
   }, []);
 
-  const queryResultEntity = selectedRestaurantData ? selectedRestaurantData[0] : '';
+  const queryResultEntity = selectedRestaurantData;
   const restaurantId = queryResultEntity?.id;
 
   function optimizeRestaurantHours(hoursData: any) {
@@ -161,8 +154,6 @@ const RestaurantAndBars: React.FC = () => {
       setTimeSelectDrawer(true);
     }
   }, [
-    checkinData?.checkedIn,
-    navigate,
     queryResultEntity?.cta?.redirectOption,
     queryResultEntity?.cta?.redirectUrl,
     queryResultEntity?.customAttributes,
@@ -189,7 +180,7 @@ const RestaurantAndBars: React.FC = () => {
   }, []);
 
   const closeDrawer = () => {
-    RestaurantDetailDrawerStatus(false);
+    toggleDetailsDrawer(false);
     setTableDrawerState(false);
     setAdditionalTimeOpened(false);
     setAvailableSlots(false);
@@ -468,23 +459,27 @@ const RestaurantAndBars: React.FC = () => {
 
   return (
     <>
-      <Header
-        screenTitle={diningOptionSelected?.title ?? (t('Restaurants & Bars') as string)}
-        displayHome
-      />
+      <Head>
+        <title>{t('Restaurants & Bars') as string}</title>
+      </Head>
+      <Header screenTitle={t('Restaurants & Bars') as string} displayHome />
       <PageWrapper className={styles.pageWrapper} displayBottomMenu>
         <div>
           {filteredList?.map((queryResultEntity: any) => (
             <ListComponentEntity
               key={queryResultEntity.id}
               queryResultEntity={queryResultEntity}
-              selectedRestaurant={selectedRestaurant}
+              selectedListItem={selectedListItem}
             />
           ))}
         </div>
       </PageWrapper>
 
-      <DetailDrawer onClose={closeDrawer} content={restaurantDetail()} />
+      <DetailDrawer
+        open={restaurantDetailsDrawerStatus}
+        onClose={closeDrawer}
+        content={restaurantDetail()}
+      />
     </>
   );
 };

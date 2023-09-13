@@ -112,7 +112,7 @@
   --primary-button-background-color: #997300;
   --primary-button-border-radius: 0px;
   --primary-button-font-family: 'ClanOT Extended Book';
-  --primary-button-background-color-disabled: #997300ab;
+  --primary-button-background-color-disabled: #919090;
 
   --secondary-button-color: #997300;
   --secondary-button-background-color: #ffffff;
@@ -150,7 +150,7 @@ p {
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: none;
   white-space: pre-wrap;
 }
 
@@ -287,6 +287,9 @@ h6 {
   height: 100px;
 }
 
+.MuiInputAdornment-root {
+  margin-inline-start: 0px;
+}
 //toast configs
 
 .Toastify__toast--error {

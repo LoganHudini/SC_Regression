@@ -4,6 +4,7 @@ import { PHONE_REGEX } from './constants';
 import * as yup from 'yup';
 import { toggleLoader } from 'storage/home.storage';
 
+// Extract data from local storage
 export const guestNameFandB = () =>
   (typeof window !== 'undefined' &&
     localStorage.getItem('FandB_guestDetails') &&
@@ -34,6 +35,7 @@ export const FandBOrders = () =>
     JSON.parse(localStorage.getItem('FandBOrders') ?? '')) ??
   '';
 
+// Convert time format from 24H to 12H
 export const convertTo12HourFormat = (time24: string) => {
   const [hours, minutes] = time24.split(':');
 
@@ -44,6 +46,7 @@ export const convertTo12HourFormat = (time24: string) => {
   return `${hoursNum}:${minutes} ${meridiem}`;
 };
 
+// Filter items based on the time of the day
 export const filterLiveMenu = (hours: any) => {
   if (!hours || hours?.length === 0) {
     return false;
@@ -65,6 +68,7 @@ export const filterLiveMenu = (hours: any) => {
   return false;
 };
 
+// Return menu based on the time of the day
 export const irdActiveMenuList = (data: any) => {
   let filteredMenuList = data?.getIRDMenuOutputDetails?.filter(
     (item: any) => item?.isActive && filterLiveMenu(item?.hours),
@@ -76,10 +80,12 @@ export const irdActiveMenuList = (data: any) => {
   return filteredMenuList && filteredMenuList;
 };
 
+// Set global scroll position
 export const setScrollPosition = (x: number, y: number) => {
   scrollState({ scrollX: x, scrollY: y });
 };
 
+// Generate dynamic formik schema validation
 export const generateValidationSchema = (sections: any) => {
   return yup.object().shape(
     sections.reduce((schema: any, field: any) => {
@@ -120,6 +126,7 @@ export const generateValidationSchema = (sections: any) => {
   );
 };
 
+// Generate dynamic formik field values
 export const generateInitialFieldValues = (field: any, selectedField: any) => {
   return field.reduce((values: any, field: any) => {
     values[field?.name] = selectedField[field?.name] || '';
@@ -127,15 +134,20 @@ export const generateInitialFieldValues = (field: any, selectedField: any) => {
   }, {});
 };
 
+// Filter restaurants list based on type
 export const filterRestaurantList = (queryResultsData: any, diningOptionSelected: any) => {
   return queryResultsData?.filter((restaurant: any) => {
     return restaurant.isActive && restaurant?.type === diningOptionSelected?.id;
   });
 };
 
+// Loader function
 export const platformLoader = (duration: number) => {
   toggleLoader(true);
   setTimeout(() => {
     toggleLoader(false);
   }, duration);
 };
+
+// Return active items
+export const activeItems = (list: any) => list && list?.filter((item: any) => item?.isActive);

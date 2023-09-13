@@ -1,8 +1,8 @@
 import { useQuery } from '@apollo/client';
 import { DiningCarousel } from 'components/pages/home/DiningCarousel/DiningCarousel';
 import { HomeCarousel } from 'components/pages/home/HomeCarousel/HomeCarousel';
-import HotelInformation from 'components/pages/home/HotelInformation/HotelInformation';
 import { ServiceRequestCarousel } from 'components/pages/home/ServiceRequestCarousel/ServiceRequestCarousel';
+import { SpaCarousel } from 'components/pages/home/SpaCarousel/SpaCarousel';
 import { LogoLoader } from 'components/shared/Loaders/Loaders';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { GET_HOTEL_INFORMATION } from 'core/graphql/queries/GET_HOTEL_INFORMATION';
@@ -14,6 +14,7 @@ import {
   GET_RESTAURANT_DETAILS,
   IGetRestaurantDetailsResponse,
 } from 'core/graphql/queries/GET_RESTAURTANT_DETAILS';
+import { GET_SPA_DETAILS } from 'core/graphql/queries/GET_SPA_DETAILS';
 import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
 import { GetStaticProps, NextPage } from 'next';
 import i18nConfig from 'next-i18next.config';
@@ -59,18 +60,27 @@ const Home: NextPage = () => {
       context: { clientName: 'host_v0' },
       fetchPolicy: 'no-cache',
     });
+
+  const { data: spaList, loading: spaloading } = useQuery(GET_SPA_DETAILS, {
+    context: { clientName: 'host_v0' },
+    fetchPolicy: 'no-cache',
+  });
+
   return (
     <>
       <Head>
         <title>{t('Home')}</title>
       </Head>
       <PageWrapper displayBottomMenu>
-        {(homeCarouselLoading || serviceCarouselLoading || irdloading || restaurantloading) && (
-          <LogoLoader />
-        )}
+        {(homeCarouselLoading ||
+          serviceCarouselLoading ||
+          irdloading ||
+          restaurantloading ||
+          spaloading) && <LogoLoader />}
         <HomeCarousel details={homeCarouselDetails} />
         <ServiceRequestCarousel details={serviceCarouselDetails} />
         <DiningCarousel ird={irdMenu} restaurants={restaurantList} />
+        <SpaCarousel details={spaList} />
       </PageWrapper>
     </>
   );

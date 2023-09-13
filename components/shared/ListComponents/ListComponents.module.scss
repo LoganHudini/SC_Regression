@@ -12,9 +12,13 @@
 
 .bannerImage {
   cursor: pointer;
+  display: flex;
+  min-height: 219px;
   height: 100%;
   width: 100%;
+  margin: auto;
   object-fit: contain;
+  z-index: 0;
 }
 
 .indicatorIcon {
@@ -29,23 +33,36 @@
 
 .listComponent {
   position: relative;
-  margin-top: 115px;
+  margin: 2rem 0;
+  cursor: pointer;
 
   &:first-child {
-    margin-top: 36px;
-  }
-
-  &:last-child {
-    margin-bottom: 80px !important;
+    margin: 1rem 0;
   }
 }
 
 .listComponentTitle {
-  cursor: pointer;
-  font-size: $xlarge;
+  font-size: $header;
   font-family: var(--secondary-font-regular);
   text-align: center;
-  color: var(--primary-text-color);
+  margin: 8px 0;
+}
+
+.currency {
+  font-size: $xsmall;
+}
+
+.listDurationPrice {
+  font: $medium var(--primary-font-news);
+  margin: 8px 0;
+}
+
+.listDescription {
+  font-size: $small;
+  color: var(--tertiary-text-color);
+  margin: 8px 0;
+  line-height: 1.5;
+  -webkit-line-clamp: 2;
 }
 
 .listComponentData {
@@ -113,7 +130,7 @@
   text-transform: capitalize;
 
   span {
-    margin-left: 8px;
+    margin-inline-start: 8px;
     font-size: 0.75rem;
     line-height: 1.5;
     text-transform: capitalize;
@@ -155,22 +172,20 @@
 }
 
 .contentWrapper {
-  width: 300px;
-  position: absolute;
-  transform: translate(0%, 40%);
-  bottom: 0;
-  right: 0;
-  left: 0;
+  width: 94%;
+  position: relative;
   margin: auto;
+  margin-top: -4rem;
   box-shadow: 0px -2px 10px var(--primary-box-shadow-color);
   background-color: var(--primary-background-color);
 }
 
 .imageContent {
-  padding: 10px 20px 10px 20px;
+  padding: 10px 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  text-align: center;
 }
 
 .readMoreButton {
@@ -181,6 +196,6 @@
   gap: 10px;
   align-items: center;
   justify-content: center;
-  margin-top: 15px;
+  margin: 8px 0;
   text-transform: uppercase;
 }

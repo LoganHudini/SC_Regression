@@ -1,64 +1,50 @@
-import { useRouter } from 'next/router';
 import { StableImage } from '../StableImage/StableImage';
-import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { useCheckedIn } from 'storage/check-in.storage';
 import { useTranslation } from 'react-i18next';
-import { useCallback, useState } from 'react';
-import { getRedirectLink } from 'utils/getRedirectLink';
+import { useCallback } from 'react';
 import ClockIcon from '@icons/clockIcon.svg';
 import DishIcon from '@icons/dishIcon.svg';
 import styles from './ListComponents.module.scss';
-import { ASSETS_URL } from 'core/graphql/endpoints';
+import { ASSETS_URL, CURRENCY } from 'core/graphql/endpoints';
 
-export const ListComponentEntity: React.FC<any> = ({
-  queryResultEntity,
-  listItems,
-  paths,
-  selectedRestaurant,
-}) => {
-  const router = useRouter();
-  const navigate = useLocalizedRouter();
-  const checkinData = useCheckedIn();
-  const { t } = useTranslation(['ui-builder']);
-  const [tableNumberDrawer, setTableNumberDrawer] = useState(false);
-
-  const toggleConfirmDrawerOpened = useCallback(() => {
-    setTableNumberDrawer((oldState) => !oldState);
-  }, [tableNumberDrawer]);
-
-  const linkId = listItems?.find((el: any) => el.hotelModuleId === queryResultEntity.id)?.linkId;
-  const redirectUrl = getRedirectLink(paths, linkId);
+export const ListComponentEntity: React.FC<any> = ({ queryResultEntity, selectedListItem }) => {
+  const { t } = useTranslation(['common']);
 
   const onCtaClick = useCallback(() => {
-    selectedRestaurant(queryResultEntity.id);
-  }, [navigate, redirectUrl]);
+    selectedListItem(queryResultEntity);
+  }, [queryResultEntity, selectedListItem]);
 
-  const time = `${queryResultEntity.hours[0]?.day.slice(0, 3).toLowerCase()}-${
-    queryResultEntity.hours[0]?.open
-  }-${queryResultEntity.hours[0]?.close}...`;
+  const time =
+    queryResultEntity?.hours &&
+    `${queryResultEntity?.hours[0]?.day.slice(0, 3).toLowerCase()}-${
+      queryResultEntity?.hours[0]?.open
+    }-${queryResultEntity?.hours[0]?.close}...`;
 
   return (
-    <div className={styles.listComponent}>
+    <div className={styles.listComponent} onClick={onCtaClick}>
       <StableImage
         className={styles.bannerImage}
-        src={
-          queryResultEntity?.images[0]
-            ? `${ASSETS_URL}/${queryResultEntity?.images[0].ratio16to9}`
-            : undefined
-        }
-        onClick={onCtaClick}
+        src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.master}`}
       />
       <div className={styles.contentWrapper}>
-        <div className={styles.imageContent} onClick={onCtaClick}>
+        <div className={styles.imageContent}>
           {queryResultEntity?.name && (
-            <h2 className={styles.listComponentTitle} onClick={onCtaClick}>
-              {t(`${queryResultEntity?.name}`)}
-            </h2>
+            <h2 className={styles.listComponentTitle}>{t(`${queryResultEntity?.name}`)}</h2>
+          )}
+          {queryResultEntity?.duration && queryResultEntity?.duration[0]?.price && (
+            <p className={styles.listDurationPrice}>
+              <span className={styles.currency}>{CURRENCY}</span>{' '}
+              {queryResultEntity?.duration[0]?.price}
+              {'   '}|{'   '}
+              {queryResultEntity?.duration[0]?.duration} Min
+            </p>
+          )}
+          {queryResultEntity?.description && (
+            <p className={styles.listDescription}>{queryResultEntity?.description}</p>
           )}
           {queryResultEntity?.primaryCuisine && (
             <div className={styles.cuisineRow}>
               <DishIcon className={styles.cuisineIcon} />
-              <span>{queryResultEntity.primaryCuisine.toLowerCase()}</span>
+              <span>{queryResultEntity?.primaryCuisine.toLowerCase()}</span>
             </div>
           )}{' '}
           {queryResultEntity?.hours && (

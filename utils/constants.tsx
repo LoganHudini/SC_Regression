@@ -195,11 +195,11 @@ export const CAROUSEL_RESPONSIVE = {
   },
   mobileLarge: {
     breakpoint: { max: 550, min: 491 },
-    items: 1.7,
+    items: 1,
   },
   mobile: {
     breakpoint: { max: 490, min: 361 },
-    items: 1.3,
+    items: 1,
   },
   mobileSmall: {
     breakpoint: { max: 360, min: 0 },

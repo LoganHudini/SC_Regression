@@ -32,6 +32,7 @@
   color: var(--tertiary-text-color);
   width: 140%;
   min-height: 3.25rem;
+  -webkit-line-clamp: 3;
 }
 
 .descriptionWithImage {
@@ -66,8 +67,8 @@
   height: 30px;
   width: 90px;
   line-height: 30px;
-  top: -15px;
   position: relative;
+  margin-top: -15px;
   text-align: center;
   background-color: var(--primary-theme-color);
   font: $extraSmall var(--primary-card-cta-font-family);

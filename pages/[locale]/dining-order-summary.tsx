@@ -236,7 +236,7 @@ const DiningOrderSummary = () => {
                       irdSummary
                     />
                   </div>
-                  <div>
+                  <div className={styles.selectionsWrapper}>
                     {item?.customisation?.name && (
                       <p className={styles.itemDescription}>
                         {' '}

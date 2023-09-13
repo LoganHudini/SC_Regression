@@ -25,6 +25,7 @@ import CheckIcon from '@icons/checkIcon.svg';
 import { housekeepingOptions } from 'storage/housekeeping.storage';
 import { handleTouchEnd, handleTouchStart } from 'utils/hooks/useDrawerSwipe';
 import HotelInfoDrawer from 'components/pages/home/HotelInformation/HotelInfoDrawer/HotelInfoDrawer';
+import { spaInformationStorage } from 'storage/spa.storage';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
   title,
@@ -77,11 +78,13 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   homeActive,
   irdActive,
   housekeepingActive,
+  spaActive,
 }) => {
   const navigate = useLocalizedRouter();
   const diningOptionSelected = useReactiveVar(diningOptions);
   const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
   const drawerStatus = useReactiveVar(toggleModuleOptionsDrawer);
+  const spaInformation = useReactiveVar(spaInformationStorage);
   const [startY, setStartY] = useState(0);
 
   const closeDrawer = () => {
@@ -131,6 +134,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
             </div>
           </div>
         )}
+
         {irdActive && (
           <div>
             <p className={styles.title}>Choose your category</p>
@@ -178,6 +182,27 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                   )}
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {spaActive && (
+          <div>
+            <p className={styles.title}>Choose your category</p>
+            <div className={styles.optionsList}>
+              <div className={cx(styles.optionsListItem)}>
+                <p
+                  className={cx(styles.inActiveDiningText, {
+                    [styles.activeText]: true,
+                  })}
+                  onClick={() => {
+                    closeDrawer();
+                  }}
+                >
+                  {spaInformation?.selectedSpaCategoryName}{' '}
+                </p>
+                {true && <CheckIcon className={styles.icon} />}
+              </div>
             </div>
           </div>
         )}

@@ -1,25 +1,23 @@
 import React, { useState } from 'react';
 import styles from './DetailDrawer.module.scss';
-import { RestaurantDetailDrawerStatus } from 'storage/table-reservation.storage';
-import { ApolloError, useReactiveVar } from '@apollo/client';
 import { Drawer } from '@mui/material';
 import { handleTouchEnd, handleTouchStart } from 'utils/hooks/useDrawerSwipe';
 
 interface IDetailPageProps {
+  open: boolean;
   data?: any;
   content?: any;
   onClose?: any;
 }
 
-export const DetailDrawer: React.FC<IDetailPageProps> = ({ onClose, content }) => {
-  const restaurantDetailsDrawerStatus = useReactiveVar(RestaurantDetailDrawerStatus);
+export const DetailDrawer: React.FC<IDetailPageProps> = ({ open, onClose, content }) => {
   const [startY, setStartY] = useState(0);
 
   return (
     <Drawer
       variant='temporary'
       anchor='bottom'
-      open={restaurantDetailsDrawerStatus}
+      open={open}
       onClose={onClose}
       PaperProps={{
         elevation: 0,
@@ -34,9 +32,7 @@ export const DetailDrawer: React.FC<IDetailPageProps> = ({ onClose, content }) =
       slotProps={{
         backdrop: {
           style: {
-            opacity: restaurantDetailsDrawerStatus
-              ? 'var(--primary-drawer-background-opacity)'
-              : '0',
+            opacity: open ? 'var(--primary-drawer-background-opacity)' : '0',
             transition: 'opacity 0.5s ease-in-out',
             backdropFilter: 'blur(2px)',
           },

@@ -15,7 +15,7 @@
   width: 304px;
   padding: 0 8px;
   justify-content: center;
-  margin: 1rem auto;
+  margin: 1rem auto 1.5rem;
 }
 
 .diningOptionsItem {
@@ -51,10 +51,8 @@
 
 .carouselWrapper {
   user-select: none;
-  overflow-x: scroll;
-  overflow-y: hidden;
+  overflow: scroll;
   margin-left: 12px;
-  padding-bottom: 15px;
 }
 
 .carouselWrapper::-webkit-scrollbar {
@@ -70,7 +68,6 @@
 .carouselSlideImage {
   position: relative;
   z-index: -1;
-  margin-top: 10px;
   height: 182px;
   width: 273px;
   object-fit: cover;
@@ -82,13 +79,12 @@
 .carouselSlideDetailsWrapper {
   width: 251px;
   height: 148px;
-  margin: -3rem auto 0;
   background: var(--primary-background-color);
   box-shadow: 0px 3px 6px var(--primary-box-shadow-color);
   text-align: center;
   z-index: 200;
   position: absolute;
-  bottom: 10px;
+  bottom: 5px;
   left: 10px;
 }
 
@@ -118,7 +114,7 @@
   height: 15px;
   font: $xsmall var(--primary-font-regular);
   color: var(--tertiary-text-color);
-  padding-bottom: 30px;
+  padding: 6px 0 20px;
 }
 
 .carouselSlideViewMore {
