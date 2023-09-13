@@ -1,54 +1,70 @@
 import Head from 'next/head';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { HousekeepingItem } from 'components/pages/housekeeping/HousekeepingItem/HousekeepingItem';
 import { Header } from 'components/shared/Header/Header';
-import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import styles from '../../styles/housekeeping/housekeeping.module.scss';
-import urlSlug from 'url-slug';
 import { getStaticPaths } from 'utils/getStatic';
 import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { HousekeepingConfirm } from 'components/pages/housekeeping/HousekeepingConfirm/HousekeepingConfirm';
 import {
   GET_HOUSEKEEPING,
   IGetHousekeepingApiResponse,
 } from 'core/graphql/queries/GET_HOUSEKEEPING';
-import { IHamburgerProps, getHamburgerProps } from 'utils/hamburger/getHamburgerProps';
-import { useQuery, useReactiveVar } from '@apollo/client';
-import { housekeepingOptions, housekeepingStorage } from 'storage/housekeeping.storage';
+import { IHamburgerProps } from 'utils/hamburger/getHamburgerProps';
+import { ApolloError, useMutation, useQuery, useReactiveVar } from '@apollo/client';
+import { housekeepingOptions } from 'storage/housekeeping.storage';
 import { HousekeepingItemSkeleton } from 'components/pages/housekeeping/HousekeepingItemSkeleton/HousekeepingItemSkeleton';
-import { HousekeepingRequestModal } from 'components/pages/housekeeping/HousekeepingRequestModal/HousekeepingRequestModal';
-import { client } from 'core/graphql/client';
-import {
-  IGetHotelInfoApiResponse,
-  GET_HOTEL_INFO,
-  IHotelPage,
-  IParsedHotelPage,
-} from 'core/graphql/queries/GET_HOTEL_INFO';
-import { IHousekeepingProps } from 'types/housekeeping.types';
 import { useTranslation } from 'react-i18next';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
-import { HousekeepingDrawer } from 'components/pages/housekeeping/HousekeepingDrawer/HousekeepingDrawer';
+import { IHousekeepingProps } from 'types/housekeeping.types';
+import { DetailDrawer } from 'components/shared/DetailDrawer/DetailDrawer';
+import dayjs from 'dayjs';
+import { timeFormats } from 'utils/timeFormats';
+import { housekeepingQuantityStorage } from 'storage/housekeeping-quantity.storage';
+import { housekeepingCheckboxStorage } from 'storage/housekeeping-checkbox.storage';
+import { HousekeepingQuantityItem } from 'components/pages/housekeeping-quantity/HousekeepingQuantityItem/HousekeepingQuantityItem';
+import { HousekeepingCheckboxItem } from 'components/pages/housekeeping-checkbox/HousekeepingCheckboxItem/HousekeepingCheckboxItem';
+import TimeIcon from '@icons/time-left.svg';
+import {
+  CUSTOM,
+  DATE,
+  DATETIME,
+  HOUSEKEEPING,
+  IMMEDIATE,
+  TIME,
+  TODAY,
+  TOMORROW,
+} from 'utils/constants';
+import DateTimeSelect from 'components/shared/DateTimeSelect/DateTimeSelect';
+import { StyledButton } from 'components/shared/StyledButton/StyledButton';
+import { HOUSEKEEPING_ORDER } from 'core/graphql/queries/HOUSEKEEPING_ORDER';
+import { HOTEL_ID } from 'core/graphql/endpoints';
+import { toggleDetailsDrawer, toggleNotification } from 'storage/home.storage';
+import { processError } from 'utils/processError';
+import { Notification } from 'components/shared/Notification/Notification';
 
 export { getStaticPaths };
 
 const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
   const { t } = useTranslation('housekeeping');
   const locale = useLocale();
-  const [confirmOpened, setConfirmOpened] = useState(false);
   const [showServiceRequest, setShowServiceRequest] = useState([]);
-  const [showSchedules, setShowSchedules] = useState([]);
-
-  const housekeepingInfo = useReactiveVar(housekeepingStorage);
+  const [showSchedules, setShowSchedules] = useState<any>([]);
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+  const [selectedTime, setSelectedTime] = useState(
+    dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM),
+  );
   const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
+  const housekeepingInfo: any = useReactiveVar(housekeepingQuantityStorage);
+  const housekeepingInfo1 = useReactiveVar(housekeepingCheckboxStorage);
+  const serviceRequesttDetailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
 
-  const itemsCount = housekeepingInfo?.selectedItems?.filter((item) => item?.quantity > 0)?.length;
-
-  const toggleConfirmOpened = useCallback(() => {
-    setConfirmOpened((oldState) => !oldState);
-  }, []);
+  const [sendHousekeepingOrder] = useMutation(HOUSEKEEPING_ORDER, {
+    context: { clientName: 'host_v4' },
+  });
 
   const { data, loading } = useQuery<IGetHousekeepingApiResponse>(GET_HOUSEKEEPING, {
     context: { clientName: 'host_v1' },
@@ -56,6 +72,25 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
       lang: locale === 'en' ? '' : locale,
     },
   });
+
+  const combinedServiceRequestArray = useMemo(
+    () => [...housekeepingInfo.selectedItems, ...housekeepingInfo1.selectedItems],
+    [housekeepingInfo.selectedItems, housekeepingInfo1.selectedItems],
+  );
+
+  useEffect(() => {
+    if (combinedServiceRequestArray?.length > 0) {
+      setDisabled(true);
+      const value = combinedServiceRequestArray?.find((x: any) => x?.quantity > 0);
+      if (showSchedules?.maxQuantityActive && value !== undefined) {
+        setDisabled(true);
+      } else if (value !== undefined) {
+        setDisabled(true);
+      } else {
+        setDisabled(false);
+      }
+    }
+  }, [combinedServiceRequestArray, showSchedules?.maxQuantityActive]);
 
   useEffect(() => {
     if (data) {
@@ -69,9 +104,202 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
   }, [data, houseKeepingOptionSelected?.label]);
 
   const handleClick = (selectedRequest: any) => {
-    setConfirmOpened(true);
+    toggleDetailsDrawer(true);
     setShowSchedules(selectedRequest);
   };
+
+  const handleClose = () => {
+    toggleDetailsDrawer(false);
+    setShowCalendar(false);
+    setDisabled(false);
+    setSelectedTime(dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM));
+    housekeepingQuantityStorage({ selectedItems: [] });
+    housekeepingCheckboxStorage({ selectedItems: [] });
+  };
+
+  const showQuantityLabel = showSchedules?.items?.filter(
+    (schedule: any) => schedule?.maxQuantityActive,
+  );
+
+  const handleShowSchedules = () => {
+    if (showSchedules?.schedule?.includes(TODAY) && showSchedules?.schedule?.includes(TOMORROW)) {
+      setShowCalendar(true);
+    } else {
+      setShowCalendar(true);
+    }
+  };
+
+  const handleSave = () => {
+    setShowCalendar(false);
+  };
+
+  const handleOrder = async () => {
+    try {
+      const response = await sendHousekeepingOrder({
+        variables: {
+          bookingTime: dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2),
+          guestName: 'test test',
+          serviceName: showSchedules?.name,
+          requestType: showSchedules?.__typename,
+          hotelId: HOTEL_ID,
+          roomNo: '002',
+          items: combinedServiceRequestArray
+            ?.filter((item: any) => item?.quantity > 0)
+            ?.map((el: any) => ({
+              id: el?.itemId,
+              name: el?.name + ' X ' + el?.quantity,
+              instructions: '',
+              scheduledFor: showSchedules?.scheduleActive
+                ? showSchedules?.schedule?.includes(CUSTOM)
+                  ? showSchedules?.customSchedule === DATE
+                    ? dayjs(selectedTime).format(timeFormats.DAY_MONTH)
+                    : showSchedules?.customSchedule === TIME
+                    ? dayjs(selectedTime).format(timeFormats.HOURS_MINUTES_AM)
+                    : showSchedules?.customSchedule === DATETIME
+                    ? dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
+                    : dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
+                  : dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
+                : '',
+            })),
+        },
+      });
+      toggleNotification(true);
+      setTimeout(() => {
+        setDisabled(false);
+        housekeepingQuantityStorage({ selectedItems: [] });
+        housekeepingCheckboxStorage({ selectedItems: [] });
+        setShowCalendar(false);
+        setSelectedTime(dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM));
+        toggleDetailsDrawer(false);
+      }, 4000);
+    } catch (e) {
+      processError(t, e as ApolloError);
+    }
+  };
+
+  const drawerDateils = () => (
+    <>
+      <div className={styles.wrapper}>
+        <div className={styles.drawerNotch}></div>
+        <div className={styles.confirmationWrapper}>
+          <h2 className={styles.title}>{showSchedules?.name}</h2>
+          <div className={styles.totalRequestsWrapper}>
+            <div>
+              {showSchedules && showSchedules?.maxQuantityActive ? (
+                <HousekeepingQuantityItem
+                  id={showSchedules?.id}
+                  title={showSchedules?.name}
+                  maxQuantity={showSchedules?.maxQuantity}
+                  maxQuantityActive={showSchedules?.maxQuantityActive}
+                  changeAlignment={false}
+                />
+              ) : (
+                <>
+                  {showSchedules?.items?.length > 0 && (
+                    <>
+                      <div className={styles.itemsWrapper}>
+                        <div>Items Required</div>
+                        {showQuantityLabel?.length > 0 && <div>{t('Quantity')}</div>}
+                      </div>
+
+                      {showSchedules?.items
+                        ?.filter((schedule: any) => schedule?.maxQuantityActive)
+                        ?.map((schedule: any) => (
+                          <React.Fragment key={schedule?.id}>
+                            <HousekeepingQuantityItem
+                              id={schedule?.id}
+                              title={schedule?.name}
+                              maxQuantity={schedule?.maxQuantity}
+                              maxQuantityActive={schedule?.maxQuantityActive}
+                              changeAlignment={true}
+                            />
+                          </React.Fragment>
+                        ))}
+
+                      {showSchedules?.items
+                        ?.filter((schedule: any) => !schedule?.maxQuantityActive)
+                        ?.map((schedule: any) => (
+                          <React.Fragment key={schedule?.id}>
+                            <HousekeepingCheckboxItem id={schedule?.id} title={schedule?.name} />
+                          </React.Fragment>
+                        ))}
+                    </>
+                  )}
+                </>
+              )}
+
+              {showSchedules?.scheduleActive && showSchedules?.schedule?.includes(IMMEDIATE) && (
+                <>
+                  <div className={styles.calendarDateWrapper}>
+                    <div className={styles.calendarDateLabel}>
+                      <span className={styles.icon}>
+                        <TimeIcon />
+                      </span>
+                      Scheduled Time
+                    </div>
+
+                    <div className={styles.calendarDateText}>
+                      {dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)}
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {showSchedules?.scheduleActive && !showSchedules?.schedule?.includes(IMMEDIATE) && (
+                <>
+                  {!showCalendar && (
+                    <div className={styles.calendarDateWrapper}>
+                      <div
+                        className={styles.calendarDateLabel}
+                        onClick={() => handleShowSchedules()}
+                      >
+                        <span className={styles.icon}>
+                          <TimeIcon />
+                        </span>
+                        Schedule Time
+                      </div>
+                      {!showCalendar &&
+                        !dayjs().isAfter(
+                          dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM),
+                        ) && (
+                          <div className={styles.calendarDateText}>
+                            {dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)}
+                          </div>
+                        )}
+                    </div>
+                  )}
+
+                  {showCalendar && (
+                    <>
+                      <DateTimeSelect
+                        setSelectedTime={setSelectedTime}
+                        selectedTime={selectedTime}
+                        handleSave={handleSave}
+                        showSchedules={showSchedules}
+                        buttonTitle={t('Save')}
+                      />
+                    </>
+                  )}
+                </>
+              )}
+
+              {!showCalendar && (
+                <StyledButton disabled={!disabled} onClick={() => handleOrder()}>
+                  {t('PLACE ORDER')}
+                </StyledButton>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+      <Notification
+        title={t('Thank You!') as string}
+        description={t('Your request has been confirmed') as string}
+        redirect={HOUSEKEEPING}
+        type='success'
+      />
+    </>
+  );
 
   return (
     <>
@@ -110,23 +338,11 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
             </PageWrapper>
           </>
         )}
-        {itemsCount > 0 && (
-          <div className={styles.orderButtonWrapper}>
-            <StyledButton
-              disabled={itemsCount === 0}
-              onClick={toggleConfirmOpened}
-              className={styles.orderButton}
-            >
-              <p className={styles.orderContents}>{String(itemsCount).padStart(0)}</p>
-              <span className={styles.orderText}>{t('CONFIRM REQUEST')}</span>
-            </StyledButton>
-          </div>
-        )}
 
-        <HousekeepingDrawer
-          opened={confirmOpened}
-          toggleOpened={toggleConfirmOpened}
-          showSchedules={showSchedules}
+        <DetailDrawer
+          open={serviceRequesttDetailsDrawerStatus}
+          onClose={() => handleClose()}
+          content={drawerDateils()}
         />
       </div>
     </>

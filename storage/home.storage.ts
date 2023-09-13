@@ -13,6 +13,8 @@ export const toggleModuleOptionsDrawer = makeVar(false);
 export const toggleHamburgerMenuDrawer = makeVar(false);
 
 export const toggleHotelInfoDrawer = makeVar(false);
+export const getHotelCompendium = makeVar([]);
+export const selectedCompendiumItems = makeVar([]);
 
 export const toggleCheckInDrawer = makeVar(false);
 

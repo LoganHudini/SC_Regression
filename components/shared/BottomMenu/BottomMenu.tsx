@@ -9,6 +9,7 @@ import { StyledButton } from '../StyledButton/StyledButton';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import {
   diningOptions,
+  selectedCompendiumItems,
   toggleDetailsDrawer,
   toggleHamburgerMenuDrawer,
   toggleModuleOptionsDrawer,
@@ -25,22 +26,30 @@ import { useCheckedIn } from 'storage/check-in.storage';
 import { spaInformationStorage } from 'storage/spa.storage';
 import { Fade as Hamburger } from 'hamburger-react';
 import CheckInDrawer from 'components/pages/check-in/CheckInDrawer';
+import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
+import { HEADERS } from 'utils/constants';
 
 export const BottomMenu: React.FC<any> = () => {
   const router = useRouter();
   const hamburgerMenuStatus = useReactiveVar(toggleHamburgerMenuDrawer);
   const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
   const diningOptionSelected = useReactiveVar(diningOptions);
+  const hotelCompendiumSelected: any = useReactiveVar(selectedCompendiumItems);
+
   const spaInformation = useReactiveVar(spaInformationStorage);
   const isCheckedIn = useCheckedIn();
   const homeActive = router?.pathname === '/[locale]';
 
   const arrowActive = homeActive && !isCheckedIn ? false : true;
   const irdActive =
-    router?.pathname?.includes(availablePaths?.DINING) ||
-    router?.pathname?.includes(availablePaths?.RESTAURANTS_BARS);
-  const housekeepingActive = router?.pathname?.includes(availablePaths.HOUSEKEEPING);
+    router.pathname.includes(availablePaths?.DINING) ||
+    router.pathname.includes(availablePaths?.RESTAURANTS_BARS);
+  const restaurantActive = router.pathname.includes(HEADERS[0]);
+  const housekeepingActive = router.pathname.includes(availablePaths.HOUSEKEEPING);
+  const hotelCompendiumActive = router?.pathname?.includes(availablePaths.HOTEL_COMPENDIUM);
   const spaActive = router?.pathname?.includes(availablePaths?.SPA);
+
+  const navigate = useLocalizedRouter();
 
   const { data } = useQuery<IGetHamburgerMenuDetailsApiResponse>(GET_HAMBURGER_MENU, {
     context: { clientName: 'host_v4' },
@@ -70,8 +79,9 @@ export const BottomMenu: React.FC<any> = () => {
         <motion.div whileTap={{ scale: 0.8 }} className={styles.bottomMenuButton}>
           <StyledButton variant='contained' onClick={openModuleOptionsDrawer}>
             {homeActive && (isCheckedIn ? t('Room 401') : t('CHECK-IN'))}
-            {irdActive && diningOptionSelected?.title}
+            {irdActive && t(`${diningOptionSelected?.title}`)}
             {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
+            {hotelCompendiumActive && t(`${hotelCompendiumSelected?.name}`)}
             {spaActive && spaInformation?.selectedSpaCategoryName}
             {arrowActive && <DownArrowIcon className={styles.downArrow} />}
           </StyledButton>
@@ -93,7 +103,9 @@ export const BottomMenu: React.FC<any> = () => {
         )}
       </div>
 
-      <ModuleOptionsDrawer {...{ homeActive, irdActive, housekeepingActive, spaActive }} />
+      <ModuleOptionsDrawer
+        {...{ homeActive, irdActive, housekeepingActive, hotelCompendiumActive, spaActive }}
+      />
 
       {hamburgerMenuStatus && hamburger && (
         <div className={styles.hamburgerMenuContainer}>

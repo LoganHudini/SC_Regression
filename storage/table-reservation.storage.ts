@@ -28,4 +28,4 @@ export type ITableReservationInfoStorage = {
 };
 export const TablereservationInfoStorage = makeVar<ITableReservationInfoStorage | any>(null);
 
-export const RestaurantDetailDrawerStatus = makeVar(false);
+export const drawerStatus = makeVar(false);

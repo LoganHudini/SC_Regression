@@ -8,6 +8,8 @@ import Drawer from '@mui/material/Drawer';
 import { useReactiveVar } from '@apollo/client';
 import {
   diningOptions,
+  getHotelCompendium,
+  selectedCompendiumItems,
   toggleHamburgerMenuDrawer,
   toggleHotelInfoDrawer,
   toggleModuleOptionsDrawer,
@@ -78,18 +80,32 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   homeActive,
   irdActive,
   housekeepingActive,
+  hotelCompendiumActive,
   spaActive,
 }) => {
   const navigate = useLocalizedRouter();
   const diningOptionSelected = useReactiveVar(diningOptions);
   const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
   const drawerStatus = useReactiveVar(toggleModuleOptionsDrawer);
+  const compendiumInfo: any = useReactiveVar(getHotelCompendium);
+  const selectedCompendiumInfo: any = useReactiveVar(selectedCompendiumItems);
   const spaInformation = useReactiveVar(spaInformationStorage);
   const [startY, setStartY] = useState(0);
+
+  const filteredDetails = compendiumInfo?.categories?.filter((category: any) => {
+    return compendiumInfo?.amenities?.find(
+      (amenity: any) => category?.id === amenity?.categoryIds[0] && amenity?.isActive,
+    );
+  });
 
   const closeDrawer = () => {
     toggleModuleOptionsDrawer(false);
     toggleHamburgerMenuDrawer(false);
+  };
+
+  const handleSelect = (data: any) => {
+    selectedCompendiumItems(data);
+    closeDrawer();
   };
 
   return (
@@ -178,6 +194,29 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                     {request?.title}{' '}
                   </p>
                   {houseKeepingOptionSelected?.id === request?.id && (
+                    <CheckIcon className={styles.icon} />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {hotelCompendiumActive && (
+          <div>
+            <p className={styles.title}>Choose your category</p>
+            <div className={styles.optionsList}>
+              {filteredDetails?.map((category: any) => (
+                <div key={category?.id} className={cx(styles.optionsListItem)}>
+                  <p
+                    className={cx(styles.inActiveDiningText, {
+                      [styles.activeText]: selectedCompendiumInfo?.id === category?.id,
+                    })}
+                    onClick={() => handleSelect(category)}
+                  >
+                    {category?.name}{' '}
+                  </p>
+                  {selectedCompendiumInfo?.id === category?.id && (
                     <CheckIcon className={styles.icon} />
                   )}
                 </div>

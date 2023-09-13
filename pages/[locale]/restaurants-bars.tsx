@@ -9,7 +9,11 @@ import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React, { useCallback, useEffect, useState } from 'react';
-import { restaurantListStorage, tableReservationStorage } from 'storage/table-reservation.storage';
+import {
+  drawerStatus,
+  restaurantListStorage,
+  tableReservationStorage,
+} from 'storage/table-reservation.storage';
 import { getStaticPaths } from 'utils/getStatic';
 import styles from '../../styles/restaurants-bars/restaurants-bars.module.scss';
 import { useRouter } from 'next/router';
@@ -316,7 +320,7 @@ const RestaurantAndBars: React.FC = () => {
                     </div>
 
                     {queryResultEntity?.hours.length > 1 && (
-                      <button
+                      <div
                         onClick={toggleAdditionalTimeOpened}
                         className={styles.timeShowMoreButton}
                       >
@@ -325,7 +329,7 @@ const RestaurantAndBars: React.FC = () => {
                             [styles.timeShowMoreIconOpened]: additionalTimeOpened,
                           })}
                         />
-                      </button>
+                      </div>
                     )}
                   </div>
                 </div>
