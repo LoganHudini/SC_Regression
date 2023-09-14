@@ -9,7 +9,7 @@ import { StyledButton } from '../StyledButton/StyledButton';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import {
   diningOptions,
-  selectedCompendiumItems,
+  selectedCompendiumCategory,
   toggleDetailsDrawer,
   toggleHamburgerMenuDrawer,
   toggleModuleOptionsDrawer,
@@ -34,7 +34,7 @@ export const BottomMenu: React.FC<any> = () => {
   const hamburgerMenuStatus = useReactiveVar(toggleHamburgerMenuDrawer);
   const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
   const diningOptionSelected = useReactiveVar(diningOptions);
-  const hotelCompendiumSelected: any = useReactiveVar(selectedCompendiumItems);
+  const hotelCompendiumSelected: any = useReactiveVar(selectedCompendiumCategory);
 
   const spaInformation = useReactiveVar(spaInformationStorage);
   const isCheckedIn = useCheckedIn();

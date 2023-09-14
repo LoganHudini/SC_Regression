@@ -90,13 +90,20 @@
   text-decoration: none;
 }
 
+.verticalline {
+  width: 1px;
+  height: 50%;
+  background-color: #ccc;
+}
+
 .phoneEmailCtaWrapper {
   position: absolute;
   top: 224px;
-  left: 17px;
+  left: 0;
+  right: 0;
   z-index: 200;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   height: 60px;
   background: var(--primary-theme-color);
@@ -141,18 +148,16 @@
 }
 
 .border {
-  padding-top: 3px;
-  padding-right: 25px;
+  padding: 1% 8% 0% 8%;
   text-align: center;
-  border-right: 1px solid var(--primary-border-color);
 }
 
 .mailWrapper {
-  padding: 3px 14px 0px 0px;
+  padding: 1% 8% 0% 8%;
 }
 
 .align {
-  padding: 3px 22px 0px 14px;
+  padding: 1% 8% 0% 8%;
 }
 
 .contentWrapper {
@@ -181,6 +186,10 @@
   z-index: 200;
   top: 245px;
   left: 30px;
+}
+
+.url {
+  text-decoration: none;
 }
 
 .botton {

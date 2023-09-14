@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import styles from './HotelCompendium.module.scss';
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { ASSETS_URL } from 'core/graphql/endpoints';
-import { getHotelCompendium, selectedCompendiumItems } from 'storage/home.storage';
+import { getHotelCompendium, selectedCompendiumCategory } from 'storage/home.storage';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
 import { useTranslation } from 'react-i18next';
@@ -22,49 +22,45 @@ const HotelCompendium = (props: any) => {
   const categories = data?.getHotelAmenityDetails?.categories;
 
   const handleClick = (id: any) => {
-    selectedCompendiumItems(categories?.find((category: any) => category?.id === id));
+    selectedCompendiumCategory(categories?.find((category: any) => category?.id === id));
     navigate(availablePaths.HOTEL_COMPENDIUM);
   };
 
+  const hotelCompendiumAmenities = categories?.map((category: any) =>
+    amenities?.find(
+      (amenity: any) =>
+        category.id === amenity?.categoryIds[0] && amenity?.images?.length > 0 && amenity?.isActive,
+    ),
+  );
+
   return (
-    <div>
+    <>
       {amenities?.length > 0 && categories?.length > 0 && (
         <div className={styles.title}>{t('Hotel Compendium')}</div>
       )}
       <div className={styles.container}>
-        {amenities?.length > 0 &&
-          categories?.length > 0 &&
-          amenities
-            ?.filter((amenity: any) => {
-              return categories?.find(
-                (category: any) =>
-                  category?.id === amenity?.categoryIds[0] &&
-                  amenity?.images?.length > 0 &&
-                  amenity?.isActive,
-              );
-            })
-            ?.map((amenity: any) => {
-              const showCategoryTitle = categories?.find(
-                (category: any) => category?.id === amenity?.categoryIds[0],
-              );
-              return (
-                <div
-                  key={amenity?.id}
-                  className={styles.wrapper}
-                  onClick={() => handleClick(showCategoryTitle?.id)}
-                >
-                  <div className={styles.imgWrapper}>
-                    <div className={styles.name}>{showCategoryTitle?.name}</div>
-                  </div>
-                  <StableImage
-                    className={styles.image}
-                    src={`${ASSETS_URL}/${amenity?.images[0]?.master}`}
-                  />
-                </div>
-              );
-            })}
+        {hotelCompendiumAmenities?.map((amenity: any) => {
+          const showCategoryTitle = categories?.find(
+            (category: any) => category.id === amenity?.categoryIds[0],
+          );
+          return (
+            <div
+              key={amenity.id}
+              className={styles.wrapper}
+              onClick={() => handleClick(showCategoryTitle?.id)}
+            >
+              <div className={styles.imgWrapper}>
+                <div className={styles.name}>{showCategoryTitle?.name}</div>
+              </div>
+              <StableImage
+                className={styles.image}
+                src={`${ASSETS_URL}/${amenity?.images[0]?.master}`}
+              />
+            </div>
+          );
+        })}
       </div>
-    </div>
+    </>
   );
 };
 

@@ -71,7 +71,7 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
   useEffect(() => {
     let newSelectedTime = selectedTime;
     if (scheduledTomorrow && !scheduledToday && !scheduledCustom && !scheduledImmediate) {
-      const originalDate = dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM);
+      const originalDate = dayjs();
       const newDate = originalDate?.add(1, DAY);
       newSelectedTime = newDate?.format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM);
       setSelectedTime(newSelectedTime);

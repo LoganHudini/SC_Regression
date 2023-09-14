@@ -7,7 +7,7 @@ import { useQuery, useReactiveVar } from '@apollo/client';
 import styles from '../../styles/hotel-compendium/hotel-compendium.module.scss';
 import {
   getHotelCompendium,
-  selectedCompendiumItems,
+  selectedCompendiumCategory,
   toggleDetailsDrawer,
 } from 'storage/home.storage';
 import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
@@ -19,7 +19,7 @@ import { GET_HOTEL_COMPENDIUM } from 'core/graphql/queries/GET_HOTEL_COMPENDIUM_
 const HotelCompendium = () => {
   const { t } = useTranslation('common');
   const [showSelectedAmenity, setShowSelectedAmenity] = useState<any>();
-  const hotelCompendiumSelectedDetails: any = useReactiveVar(selectedCompendiumItems);
+  const hotelCompendiumSelectedDetails: any = useReactiveVar(selectedCompendiumCategory);
   const detailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
 
   const { data } = useQuery(GET_HOTEL_COMPENDIUM, {
@@ -34,7 +34,7 @@ const HotelCompendium = () => {
           (amenity: any) => category?.id === amenity?.categoryIds[0] && amenity?.isActive,
         );
       });
-      selectedCompendiumItems(filteredDetails[0]);
+      selectedCompendiumCategory(filteredDetails[0]);
       getHotelCompendium(data?.getHotelAmenityDetails);
     }
   }, [data, hotelCompendiumSelectedDetails]);
@@ -46,7 +46,7 @@ const HotelCompendium = () => {
       amenity?.isActive,
   );
 
-  const selctedListItem = (data: any) => {
+  const selectedListItem = (data: any) => {
     setShowSelectedAmenity(data);
     toggleDetailsDrawer(true);
   };
@@ -80,7 +80,7 @@ const HotelCompendium = () => {
               <div key={amenity?.name}>
                 <ListComponentEntity
                   queryResultEntity={amenity}
-                  selctedListItem={selctedListItem}
+                  selectedListItem={selectedListItem}
                 />
               </div>
             ))

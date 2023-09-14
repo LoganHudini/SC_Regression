@@ -9,10 +9,10 @@ import { useReactiveVar } from '@apollo/client';
 import {
   diningOptions,
   getHotelCompendium,
-  selectedCompendiumItems,
+  selectedCompendiumCategory,
   toggleHamburgerMenuDrawer,
-  toggleHotelInfoDrawer,
   toggleModuleOptionsDrawer,
+  toggleHotelInfoDrawer,
 } from 'storage/home.storage';
 import cx from 'classnames';
 import {
@@ -26,8 +26,8 @@ import {
 import CheckIcon from '@icons/checkIcon.svg';
 import { housekeepingOptions } from 'storage/housekeeping.storage';
 import { handleTouchEnd, handleTouchStart } from 'utils/hooks/useDrawerSwipe';
-import HotelInfoDrawer from 'components/pages/home/HotelInformation/HotelInfoDrawer/HotelInfoDrawer';
 import { spaInformationStorage } from 'storage/spa.storage';
+import HotelInfoDrawer from 'components/pages/home/HotelInformation/HotelInfoDrawer/HotelInfoDrawer';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
   title,
@@ -57,7 +57,10 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
       const redirectUrl = flowPathMap[flow as keyof typeof flowPathMap];
       if (redirectUrl) {
         toggleOption();
-        title === ABOUT_US ? toggleHotelInfoDrawer(true) : navigate(redirectUrl);
+        navigate(redirectUrl);
+      } else if (title === ABOUT_US) {
+        toggleOption();
+        toggleHotelInfoDrawer(true);
       }
     }
   }, [externalLink, flow, navigate, pages, paths, redirectOptions, title, toggleOption]);
@@ -88,7 +91,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
   const drawerStatus = useReactiveVar(toggleModuleOptionsDrawer);
   const compendiumInfo: any = useReactiveVar(getHotelCompendium);
-  const selectedCompendiumInfo: any = useReactiveVar(selectedCompendiumItems);
+  const selectedCompendiumInfo: any = useReactiveVar(selectedCompendiumCategory);
   const spaInformation = useReactiveVar(spaInformationStorage);
   const [startY, setStartY] = useState(0);
 
@@ -104,7 +107,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   };
 
   const handleSelect = (data: any) => {
-    selectedCompendiumItems(data);
+    selectedCompendiumCategory(data);
     closeDrawer();
   };
 

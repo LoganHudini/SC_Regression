@@ -54,12 +54,13 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
   const [showSchedules, setShowSchedules] = useState<any>([]);
   const [showCalendar, setShowCalendar] = useState(false);
   const [disabled, setDisabled] = useState(false);
+  const [showText, setShowText] = useState(false);
   const [selectedTime, setSelectedTime] = useState(
     dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM),
   );
   const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
-  const housekeepingInfo: any = useReactiveVar(housekeepingQuantityStorage);
-  const housekeepingInfo1 = useReactiveVar(housekeepingCheckboxStorage);
+  const housekeepingInfoQuantity: any = useReactiveVar(housekeepingQuantityStorage);
+  const housekeepingInfoCheckbox = useReactiveVar(housekeepingCheckboxStorage);
   const serviceRequesttDetailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
 
   const [sendHousekeepingOrder] = useMutation(HOUSEKEEPING_ORDER, {
@@ -74,14 +75,16 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
   });
 
   const combinedServiceRequestArray = useMemo(
-    () => [...housekeepingInfo.selectedItems, ...housekeepingInfo1.selectedItems],
-    [housekeepingInfo.selectedItems, housekeepingInfo1.selectedItems],
+    () => [...housekeepingInfoQuantity.selectedItems, ...housekeepingInfoCheckbox.selectedItems],
+    [housekeepingInfoQuantity.selectedItems, housekeepingInfoCheckbox.selectedItems],
   );
 
   useEffect(() => {
-    if (combinedServiceRequestArray?.length > 0) {
+    if (!showSchedules?.isItemActive && !showSchedules?.maxQuantityActive) {
       setDisabled(true);
-      const value = combinedServiceRequestArray?.find((x: any) => x?.quantity > 0);
+    } else if (combinedServiceRequestArray?.length > 0) {
+      setDisabled(true);
+      const value = combinedServiceRequestArray?.find((val: any) => val?.quantity > 0);
       if (showSchedules?.maxQuantityActive && value !== undefined) {
         setDisabled(true);
       } else if (value !== undefined) {
@@ -89,6 +92,8 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
       } else {
         setDisabled(false);
       }
+    } else {
+      setDisabled(false);
     }
   }, [combinedServiceRequestArray, showSchedules?.maxQuantityActive]);
 
@@ -112,6 +117,7 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
     toggleDetailsDrawer(false);
     setShowCalendar(false);
     setDisabled(false);
+    setShowText(false);
     setSelectedTime(dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM));
     housekeepingQuantityStorage({ selectedItems: [] });
     housekeepingCheckboxStorage({ selectedItems: [] });
@@ -130,6 +136,7 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
   };
 
   const handleSave = () => {
+    setShowText(true);
     setShowCalendar(false);
   };
 
@@ -169,6 +176,7 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
         housekeepingQuantityStorage({ selectedItems: [] });
         housekeepingCheckboxStorage({ selectedItems: [] });
         setShowCalendar(false);
+        setShowText(false);
         setSelectedTime(dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM));
         toggleDetailsDrawer(false);
       }, 4000);
@@ -180,7 +188,6 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
   const drawerDateils = () => (
     <>
       <div className={styles.wrapper}>
-        <div className={styles.drawerNotch}></div>
         <div className={styles.confirmationWrapper}>
           <h2 className={styles.title}>{showSchedules?.name}</h2>
           <div className={styles.totalRequestsWrapper}>
@@ -198,7 +205,7 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
                   {showSchedules?.items?.length > 0 && (
                     <>
                       <div className={styles.itemsWrapper}>
-                        <div>Items Required</div>
+                        <div>{t('Items Required')}</div>
                         {showQuantityLabel?.length > 0 && <div>{t('Quantity')}</div>}
                       </div>
 
@@ -235,7 +242,7 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
                       <span className={styles.icon}>
                         <TimeIcon />
                       </span>
-                      Scheduled Time
+                      {t('Scheduled Time')}
                     </div>
 
                     <div className={styles.calendarDateText}>
@@ -256,16 +263,15 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
                         <span className={styles.icon}>
                           <TimeIcon />
                         </span>
-                        Schedule Time
+                        {showText ? t('Scheduled Time') : t('Schedule Time')}
                       </div>
-                      {!showCalendar &&
-                        !dayjs().isAfter(
-                          dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM),
-                        ) && (
-                          <div className={styles.calendarDateText}>
-                            {dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)}
-                          </div>
-                        )}
+                      {showText && !showCalendar && (
+                        <div className={styles.calendarDateText}>
+                          {dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2).format(
+                            timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2,
+                          )}
+                        </div>
+                      )}
                     </div>
                   )}
 

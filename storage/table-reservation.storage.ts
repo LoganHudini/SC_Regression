@@ -27,5 +27,3 @@ export type ITableReservationInfoStorage = {
   countryCode?: string;
 };
 export const TablereservationInfoStorage = makeVar<ITableReservationInfoStorage | any>(null);
-
-export const drawerStatus = makeVar(false);

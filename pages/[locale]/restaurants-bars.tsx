@@ -9,11 +9,7 @@ import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React, { useCallback, useEffect, useState } from 'react';
-import {
-  drawerStatus,
-  restaurantListStorage,
-  tableReservationStorage,
-} from 'storage/table-reservation.storage';
+import { restaurantListStorage, tableReservationStorage } from 'storage/table-reservation.storage';
 import { getStaticPaths } from 'utils/getStatic';
 import styles from '../../styles/restaurants-bars/restaurants-bars.module.scss';
 import { useRouter } from 'next/router';
