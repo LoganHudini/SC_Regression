@@ -45,6 +45,7 @@ import { toggleDetailsDrawer, toggleNotification } from 'storage/home.storage';
 import { processError } from 'utils/processError';
 import { Notification } from 'components/shared/Notification/Notification';
 import { Loader } from 'components/shared/Loaders/Loaders';
+import { availablePaths } from 'utils/availablePaths';
 
 export { getStaticPaths };
 
@@ -162,10 +163,10 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
                   ? showSchedules?.customSchedule === DATE
                     ? dayjs(selectedTime).format(timeFormats.DAY_MONTH)
                     : showSchedules?.customSchedule === TIME
-                    ? dayjs(selectedTime).format(timeFormats.HOURS_MINUTES_AM)
-                    : showSchedules?.customSchedule === DATETIME
-                    ? dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
-                    : dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
+                      ? dayjs(selectedTime).format(timeFormats.HOURS_MINUTES_AM)
+                      : showSchedules?.customSchedule === DATETIME
+                        ? dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
+                        : dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
                   : dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
                 : '',
             })),
@@ -186,7 +187,7 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
     }
   };
 
-  const drawerDateils = () => (
+  const drawerDetails = () => (
     <>
       <div className={styles.wrapper}>
         <div className={styles.confirmationWrapper}>
@@ -302,7 +303,7 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
       <Notification
         title={t('Thank You!') as string}
         description={t('Your request has been confirmed') as string}
-        redirect={HOUSEKEEPING}
+        redirect={availablePaths.HOUSEKEEPING}
         type='success'
       />
     </>
@@ -350,7 +351,7 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
         <DetailDrawer
           open={serviceRequesttDetailsDrawerStatus}
           onClose={() => handleClose()}
-          content={drawerDateils()}
+          content={drawerDetails()}
         />
       </div>
     </>

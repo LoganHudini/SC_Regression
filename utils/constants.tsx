@@ -78,7 +78,17 @@ export const FLOW = 'FLOW';
 export const YESNO = 'Yes / No';
 export const PREFERENCES = 'Preferences';
 export const HEADERSCONFIG = 'Headers';
-
+export const OFFERSDURATION = 'OffersDuration';
+export const EVERYDAY = 'EVERYDAY';
+export const DAYS = [
+  { id: 1, ischecked: false, name: "Monday", from: null, to: null },
+  { id: 2, ischecked: false, name: "Tuesday", from: null, to: null },
+  { id: 3, ischecked: false, name: "Wednesday", from: null, to: null },
+  { id: 4, ischecked: false, name: "Thursday", from: null, to: null },
+  { id: 5, ischecked: false, name: "Friday", from: null, to: null },
+  { id: 6, ischecked: false, name: "Saturday", from: null, to: null },
+  { id: 7, ischecked: false, name: "Sunday", from: null, to: null },
+];
 // flow constants
 export const DINING_OPTIONS = [
   {

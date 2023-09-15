@@ -14,6 +14,7 @@ import { availablePaths } from 'utils/availablePaths';
 import ClockIcon from '@icons/clockIcon.svg';
 import DishIcon from '@icons/dishIcon.svg';
 import { diningOptions } from 'storage/home.storage';
+import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
 
 interface ICarouselProps {
   ird: any;
@@ -46,11 +47,11 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
   };
   const redirect = () => {
     diningOptions(diningOptionsCarousal);
+    selectedRestaurantStorage(slide);
     navigate(`${diningOptionsCarousal.path}`);
   };
-  const time = `${slide.hours[0]?.day.slice(0, 3).toLowerCase()}-${slide.hours[0]?.open}-${
-    slide.hours[0]?.close
-  }...`;
+  const time = `${slide.hours[0]?.day.slice(0, 3).toLowerCase()}-${slide.hours[0]?.open}-${slide.hours[0]?.close
+    }...`;
   return (
     <>
       {module ? (
@@ -82,7 +83,7 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
               </div>
             )}{' '}
             {slide?.hours && (
-              <div className={styles.cuisineRow}>
+              <div className={styles.cuisineRowTime}>
                 <ClockIcon className={styles.cuisineIcon} />
                 <span>{time}</span>
               </div>

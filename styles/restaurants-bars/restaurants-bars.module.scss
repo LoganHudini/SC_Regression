@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  padding: 64px 20px 110px 20px;
+  padding: 64px 20px 90px 20px;
 }
 
 .wrapper {
@@ -23,7 +23,7 @@
   background: var(--secondary-text-color);
 
   &:not(:last-child) {
-    margin-right: 6px;
+    margin-inline-end: 6px;
   }
 }
 
@@ -36,7 +36,7 @@
   }
 
   &:last-child {
-    margin-bottom: 80px !important;
+    margin-bottom: 30px !important;
   }
 }
 
@@ -75,7 +75,7 @@
   width: auto;
   height: 36px;
   padding: 5px 15px;
-  margin-left: auto;
+  margin-inline-start: auto;
   font-weight: bold;
   color: var(--primary-theme-color);
 }
@@ -113,7 +113,7 @@
   text-transform: capitalize;
 
   span {
-    margin-left: 8px;
+    margin-inline-start: 8px;
     font-size: 0.75rem;
     line-height: 1.5;
     text-transform: capitalize;
@@ -124,7 +124,7 @@
 
 .restaurantRow {
   span {
-    margin-left: 3px;
+    margin-inline-start: 3px;
   }
 }
 
@@ -198,7 +198,7 @@
 
 .listComponentTitle {
   font-size: $header;
-  margin: 2rem 0 1rem;
+  margin: 3rem 0 1rem;
   font: $header var(--secondary-font-regular);
   line-height: 1.2;
 }
@@ -217,7 +217,7 @@
 }
 
 .listComponentDataText {
-  line-height: 1.25;
+  line-height: 1.5;
   white-space: pre-wrap;
   text-align: center;
   font-family: var(--primary-font-regular) !important;
@@ -240,9 +240,8 @@
   text-decoration: none;
 
   span {
-    margin-left: 10px;
+    margin-inline-start: 10px;
     font-size: 1rem;
-    line-height: 1.25;
     color: var(--primary-text-color);
     text-align: start;
     width: fit-content;
@@ -276,7 +275,7 @@
 }
 
 .timeShowMoreButton {
-  margin-left: 20px;
+  margin-inline-start: 20px;
   display: flex;
 }
 
@@ -292,9 +291,10 @@
 }
 
 .timeColumn {
-  margin-left: 10px;
+  margin-inline-start: 10px;
   display: flex;
   flex-direction: column;
+  margin-top: 12px;
 
   p {
     text-transform: capitalize;
@@ -338,7 +338,7 @@
 }
 
 .button {
-  width: 300px;
+  width: 93%;
   position: absolute;
   transform: translate(0%, 40%);
   bottom: 0;
@@ -360,23 +360,29 @@
 .timeRowShow {
   flex-direction: column;
   display: flex;
-  margin-top: 12px;
 }
 
 .buttonView {
   height: 10% !important;
   line-height: 30px !important;
   font-size: $small !important;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .timeRowShowed {
   display: flex;
 }
 
-.timeRowOpen {
+.timeWrapperContent {
+  width: 93%;
   display: flex;
   flex-direction: column;
+}
+
+.timeRowOpen {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .additionalTimeEntity {
@@ -393,12 +399,25 @@
 }
 
 .thirdRow {
-  width: 52%;
+  width: 46%;
 }
 
 .cuisineRow {
   flex-direction: column !important;
   gap: 8px;
+}
+
+.cuisineRowPrimaryCuisine {
+  flex-direction: column !important;
+  gap: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  span {
+    font-size: $small;
+    color: var(--primary-text-color);
+    width: fit-content;
+  }
 }
 
 .gapList {
@@ -419,8 +438,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 24px 0px 18px 0px;
-  border-bottom: 0.5px solid var(--tertiary-text-color);
+  padding: 15px 0px 18px 0px;
+  border-bottom: 1px solid var(--primary-border-color);
   gap: 10px;
 }
 
@@ -441,4 +460,38 @@
 
 .timeWrapper {
   width: 100%;
+}
+
+.additionalTimeWrapper {
+  display: none;
+}
+
+.additionalTimeWrapperOpened {
+  display: block;
+}
+
+.icon_contact {
+  color: var(--primary-theme-color) !important;
+  font-size: $small !important;
+  padding-top: 1px;
+}
+
+.icon {
+  align-self: center;
+}
+
+.timesWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  align-items: center;
+}
+
+.preferredTitle {
+  font-family: var(--primary-font-news);
+  font-size: $medium;
+  color: var(--tertiary-text-color);
+  text-align: center;
+  margin-top: 15px;
 }

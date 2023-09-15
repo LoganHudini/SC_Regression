@@ -8,7 +8,11 @@ import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React, { useCallback, useEffect, useState } from 'react';
-import { restaurantListStorage, tableReservationStorage } from 'storage/table-reservation.storage';
+import {
+  restaurantListStorage,
+  selectedRestaurantStorage,
+  tableReservationStorage,
+} from 'storage/table-reservation.storage';
 import { getStaticPaths } from 'utils/getStatic';
 import styles from '../../styles/restaurants-bars/restaurants-bars.module.scss';
 import { useRouter } from 'next/router';
@@ -50,9 +54,10 @@ import TimeIcon from '@icons/clockIcon.svg';
 import PhoneIcon from '@icons/phone.svg';
 import EmailIcon from '@icons/email.svg';
 import cx from 'classnames';
-import ArrowBottomIcon from '@icons/arrowBottom.svg';
 import Head from 'next/head';
 import { Loader } from 'components/shared/Loaders/Loaders';
+import { RestaurantHours } from 'components/shared/RestaurantHours/RestaurantHours';
+import { isEmpty } from 'lodash';
 
 export { getStaticPaths };
 
@@ -63,7 +68,7 @@ const RestaurantAndBars: React.FC = () => {
   const [timeSelectDrawer, setTimeSelectDrawer] = useState(false);
   const [detailContent, setDetailContent] = useState(true);
   const [selectedTime, setSelectedTime] = useState(
-    dayjs().format(timeFormats.DAY_MONTH_YEAR_HOUR_MINUTE_AM),
+    dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM),
   );
   const router = useRouter();
   const navigate = useLocalizedRouter();
@@ -72,7 +77,7 @@ const RestaurantAndBars: React.FC = () => {
   const [tableNumberDrawer, setTableNumberDrawer] = useState(false);
   const [tableDrawerState, setTableDrawerState] = useState(false);
   const restaurantDetailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
-
+  const initialSelected = useReactiveVar(selectedRestaurantStorage);
   const [selectedRestaurantData, setSelectedRestaurantData] = useState<any>();
   const { data, loading } = useQuery<IGetRestaurantDetailsResponse>(GET_RESTAURANT_DETAILS, {
     context: { clientName: 'host_v0' },
@@ -95,6 +100,10 @@ const RestaurantAndBars: React.FC = () => {
 
   useEffect(() => {
     diningOptionSelected.id === IRD && diningOptions(DINING_OPTIONS[1]);
+    if (!isEmpty(initialSelected)) {
+      setSelectedRestaurantData(initialSelected);
+      toggleDetailsDrawer(true);
+    }
   }, []);
 
   const filteredList = filterRestaurantList(queryResultsData, diningOptionSelected);
@@ -174,12 +183,13 @@ const RestaurantAndBars: React.FC = () => {
     setTableDrawerState(false);
     setAdditionalTimeOpened(false);
     setAvailableSlots(false);
+    setSelectedTime(dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM));
     setTimeSelectDrawer(false);
     setDetailContent(true);
     setGuestCount(1);
   };
 
-  const optimizedHours = queryResultEntity && optimizeRestaurantHours(queryResultEntity.hours);
+  const optimizedHours = queryResultEntity && optimizeRestaurantHours(queryResultEntity?.hours);
 
   const handleSave = () => {
     // create table reservation
@@ -187,37 +197,41 @@ const RestaurantAndBars: React.FC = () => {
   };
 
   const gotoThankyoupage = useCallback(async () => {
-    const DetailsReservationPayload = {
-      date: dayjs(selectedTime).format('YYYY-MM-DD'),
-      exposure: 'No preference',
-      hotelId: HOTEL_ID,
-      isReservedForGuest: false,
-      restaurantId: restaurantId ?? '',
-      reserveFrom: dayjs(selectedTime, 'HH:mm').add(1, 'hour').format('HH:mm') ?? '',
-      reserveUntil: dayjs(selectedTime, 'HH:mm').add(2, 'hour').format('HH:mm'),
-      description: '',
-      firstName: 'dev testing',
-      guestType: 'resident',
-      lastName: '',
-      noOfGuests: guestCount,
-      roomNo: '2',
-      tableNumbers: [],
-    };
+    closeDrawer();
 
-    try {
-      await client.mutate({
-        mutation: CREATE_RESTAURANT_RESERVATION,
-        context: { clientName: 'host_v3' },
-        fetchPolicy: 'network-only',
-        variables: DetailsReservationPayload,
-      });
-      toggleNotification(true);
-      setTimeout(() => {
-        closeDrawer();
-      }, 4000);
-    } catch (err) {
-      processError(t, err as ApolloError);
-    }
+    // uncomment when API is Ready
+
+    // const DetailsReservationPayload = {
+    //   date: dayjs(selectedTime).format('YYYY-MM-DD'),
+    //   exposure: 'No preference',
+    //   hotelId: HOTEL_ID,
+    //   isReservedForGuest: false,
+    //   restaurantId: restaurantId ?? '',
+    //   reserveFrom: dayjs(selectedTime, 'HH:mm').add(1, 'hour').format('HH:mm') ?? '',
+    //   reserveUntil: dayjs(selectedTime, 'HH:mm').add(2, 'hour').format('HH:mm'),
+    //   description: '',
+    //   firstName: 'dev testing',
+    //   guestType: 'resident',
+    //   lastName: '',
+    //   noOfGuests: guestCount,
+    //   roomNo: '2',
+    //   tableNumbers: [],
+    // };
+
+    // try {
+    //   await client.mutate({
+    //     mutation: CREATE_RESTAURANT_RESERVATION,
+    //     context: { clientName: 'host_v3' },
+    //     fetchPolicy: 'network-only',
+    //     variables: DetailsReservationPayload,
+    //   });
+    //   toggleNotification(true);
+    //   setTimeout(() => {
+    //     closeDrawer();
+    //   }, 4000);
+    // } catch (err) {
+    //   processError(t, err as ApolloError);
+    // }
     // setLoading(false);
   }, [selectedTime, guestCount, t]);
 
@@ -257,78 +271,38 @@ const RestaurantAndBars: React.FC = () => {
             )}
           </div>
           <div className={styles.gapList}>
-            <div className={styles.firstRow}>
-              {queryResultEntity?.primaryCuisine && (
-                <div className={styles.cuisineRow}>
-                  <DishIcon className={styles.cuisineIcon} />
-                  <span className={styles.icon_text}>{queryResultEntity?.primaryCuisine}</span>
-                </div>
-              )}
-              {/* {queryResultEntity?.location && (
-            <a
-              href={`https://maps.google.com/?q=${queryResultEntity?.location.latitude},${queryResultEntity?.location.longitude}`}
-              target='_blank'
-              className={styles.locationRow}
-              rel='noreferrer'
-            >
-              <LocationIcon className={styles.locationIcon} />
-              <span className={styles.icon_text}>
-                {t(`${queryResultEntity?.location.addressLine1}`)}
-              </span>
-            </a>
-          )} */}
-            </div>
+            {queryResultEntity?.primaryCuisine && (
+              <div className={styles.cuisineRowPrimaryCuisine}>
+                <DishIcon className={styles.cuisineIcon} />
+                <span className={styles.icon_text}>{queryResultEntity?.primaryCuisine}</span>
+              </div>
+            )}
 
-            {queryResultEntity?.hours && queryResultEntity?.hours.length > 0 && (
-              <div className={styles.timeRow}>
+            {/* {queryResultEntity?.hours && (
+              <RestaurantHours restaurantHours={queryResultEntity.hours} />
+            )} */}
+
+            {queryResultEntity?.additionalInformation && (
+              <><div className={styles.timesWrapper} >
                 <TimeIcon className={styles.timeIcon} />
-                <div className={styles.timeColumn}>
-                  <div className={styles.timeRowWrapper}>
-                    <div className={styles.timeRowShow}>
-                      {Object.keys(optimizedHours)?.map((day) => {
-                        const hoursToRender = additionalTimeOpened
-                          ? optimizedHours[day]
-                          : optimizedHours[day]?.slice(0, 1);
+                <p
+                  className={cx(styles.additionalInformation, styles.listComponentDataText)}
+                >
+                  {queryResultEntity?.additionalInformation}
+                </p>
+              </div>
+              </>
+            )}
 
-                        return (
-                          <div className={styles.timeRowShowed} key={day}>
-                            <p className={styles.additionalTimeEntityTable}>{day}:</p>
-                            <div className={styles.timeRowOpen}>
-                              {hoursToRender?.map((slot: any, index: number) => (
-                                <span key={index} className={styles.additionalTimeEntity}>
-                                  {slot?.open} - {slot?.close}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    {queryResultEntity?.hours.length > 1 && (
-                      <div
-                        onClick={toggleAdditionalTimeOpened}
-                        className={styles.timeShowMoreButton}
-                      >
-                        <ArrowBottomIcon
-                          className={cx(styles.timeShowMoreIcon, {
-                            [styles.timeShowMoreIconOpened]: additionalTimeOpened,
-                          })}
-                        />
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {queryResultEntity?.menuStatus === ACTIVE && (
-                  <StyledButton
-                    variant='outlined'
-                    onClick={onSeeMenuClick}
-                    className={styles.buttonView}
-                  >
-                    {queryResultEntity?.ctaTitle || t('VIEW MENU')}
-                  </StyledButton>
-                )}
+            {queryResultEntity?.menuStatus === ACTIVE && (
+              <div className={styles.timeRow}>
+                <StyledButton
+                  variant='outlined'
+                  onClick={onSeeMenuClick}
+                  className={styles.buttonView}
+                >
+                  {queryResultEntity?.ctaTitle || t('VIEW MENU')}
+                </StyledButton>
               </div>
             )}
 
@@ -338,34 +312,20 @@ const RestaurantAndBars: React.FC = () => {
               </p>
             )}
 
-            {/* {queryResultEntity?.additionalInformation && (
-          <>
-            <p
-              className={cx(styles.additionalInformation, {
-                [styles.additionalInformationOpened]: additionalInfoOpened,
-              })}
-            >
-              {queryResultEntity?.additionalInformation}
-            </p>
 
-            <button onClick={toggleAdditionalInfoOpened} className={styles.readMore}>
-              {additionalInfoOpened ? t('Read less') : t('Read more')}
-            </button>
-          </>
-          )} */}
 
             <div className={styles.thirdRow}>
               <>
                 {queryResultEntity?.contactNumber && (
                   <a href={`tel:${queryResultEntity?.contactNumber}`} className={styles.callRow}>
                     <PhoneIcon className={styles.callIcon} />
-                    <span className={styles.icon_text}>{t('Call')}</span>
+                    <span className={styles.icon_contact}>{t('Call')}</span>
                   </a>
                 )}
                 {queryResultEntity?.email && (
                   <a href={`mailto:${queryResultEntity?.email}`} className={styles.emailRow}>
                     <EmailIcon className={styles.emailIcon} />{' '}
-                    <span className={styles.icon_text}>{t('Email')}</span>
+                    <span className={styles.icon_contact}>{t('Email')}</span>
                   </a>
                 )}
               </>
@@ -388,6 +348,7 @@ const RestaurantAndBars: React.FC = () => {
             />
           </div>
           <div className={styles.timeWrapper}>
+            <p className={styles.preferredTitle}>{t('Preferred Date & Time')}</p>
             <DateTimeSelect
               setSelectedTime={setSelectedTime}
               selectedTime={selectedTime}
@@ -448,23 +409,20 @@ const RestaurantAndBars: React.FC = () => {
       {loading ? (
         <Loader />
       ) : (
-        <PageWrapper className={styles.pageWrapper} displayBottomMenu>
+        <><PageWrapper className={styles.pageWrapper} displayBottomMenu>
           <div>
             {filteredList?.map((queryResultEntity: any) => (
               <ListComponentEntity
                 key={queryResultEntity.id}
                 queryResultEntity={queryResultEntity}
-                selectedListItem={selectedListItem}
-              />
+                selectedListItem={selectedListItem} />
             ))}
           </div>
-        </PageWrapper>
+        </PageWrapper><DetailDrawer
+            open={restaurantDetailsDrawerStatus}
+            onClose={closeDrawer}
+            content={restaurantDetail()} /></>
       )}
-      <DetailDrawer
-        open={restaurantDetailsDrawerStatus}
-        onClose={closeDrawer}
-        content={restaurantDetail()}
-      />
     </>
   );
 };

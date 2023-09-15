@@ -57,6 +57,11 @@
   margin: 8px 0;
 }
 
+.listDurationOffer {
+  font: $small var(--primary-font-news);
+  margin: 8px 0;
+}
+
 .listDescription {
   font-size: $small;
   color: var(--tertiary-text-color);
@@ -198,4 +203,25 @@
   justify-content: center;
   margin: 8px 0;
   text-transform: uppercase;
+}
+
+.cuisineRowTime {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-decoration: none;
+  margin-top: 11px;
+  font-family: var(--primary-font-regular);
+  font-size: $xsmall;
+  text-transform: capitalize;
+  padding-left: 2px;
+
+  span {
+    margin-inline-start: 10px;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    text-transform: capitalize;
+    color: var(--primary-text-color);
+    margin-top: 2px;
+  }
 }

@@ -12,6 +12,11 @@ export const flowPathMap = {
   ROOM_BOOKING: null,
   FEEDBACK_FLOW: null,
   DIGITAL_KEY_FLOW: null,
+
+  //offer
+  SPA: availablePaths?.SPA,
+  IRD: availablePaths?.DINING,
+  RESTAURANT: availablePaths?.RESTAURANTS_BARS,
   LOGOUT_FLOW: null,
   LOGIN_FLOW: null,
 };

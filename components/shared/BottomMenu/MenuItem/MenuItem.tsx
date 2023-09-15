@@ -27,6 +27,8 @@ import CheckIcon from '@icons/checkIcon.svg';
 import { housekeepingOptions } from 'storage/housekeeping.storage';
 import { handleTouchEnd, handleTouchStart } from 'utils/hooks/useDrawerSwipe';
 import { spaInformationStorage } from 'storage/spa.storage';
+import { offerList, selectedOfferOption } from 'storage/offers.storage';
+import { useTranslation } from 'react-i18next';
 import HotelInfoDrawer from 'components/pages/home/HotelInformation/HotelInfoDrawer/HotelInfoDrawer';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
@@ -85,6 +87,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   housekeepingActive,
   hotelCompendiumActive,
   spaActive,
+  offersActive
 }) => {
   const navigate = useLocalizedRouter();
   const diningOptionSelected = useReactiveVar(diningOptions);
@@ -93,7 +96,10 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   const compendiumInfo: any = useReactiveVar(getHotelCompendium);
   const selectedCompendiumInfo: any = useReactiveVar(selectedCompendiumCategory);
   const spaInformation = useReactiveVar(spaInformationStorage);
+  const offersOptionSelected: any = useReactiveVar(selectedOfferOption);
+  const offersList = useReactiveVar(offerList);
   const [startY, setStartY] = useState(0);
+  const { t } = useTranslation(['common']);
 
   const filteredDetails = compendiumInfo?.categories?.filter((category: any) => {
     return compendiumInfo?.amenities?.find(
@@ -141,14 +147,14 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                   [styles.activeText]: true,
                 })}
               >
-                View Bill
+                {t('View Bill')}
               </p>
               <p
                 className={cx(styles.inActiveText, {
                   [styles.activeText]: false,
                 })}
               >
-                Checkout
+                {t('Checkout')}
               </p>
             </div>
           </div>
@@ -156,7 +162,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
 
         {irdActive && (
           <div>
-            <p className={styles.title}>Choose your category</p>
+            <p className={styles.title}>{t('Choose your category')}</p>
             <div className={styles.optionsList}>
               {DINING_OPTIONS?.map((dining) => (
                 <div key={dining?.id} className={cx(styles.optionsListItem)}>
@@ -181,7 +187,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
 
         {housekeepingActive && (
           <div>
-            <p className={styles.title}>Choose your category</p>
+            <p className={styles.title}>{t('Choose your category')} </p>
             <div className={styles.optionsList}>
               {SERVICE_REQUEST_OPTIONS?.map((request) => (
                 <div key={request?.id} className={cx(styles.optionsListItem)}>
@@ -207,7 +213,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
 
         {hotelCompendiumActive && (
           <div>
-            <p className={styles.title}>Choose your category</p>
+            <p className={styles.title}>{t('Choose your category')}</p>
             <div className={styles.optionsList}>
               {filteredDetails?.map((category: any) => (
                 <div key={category?.id} className={cx(styles.optionsListItem)}>
@@ -230,7 +236,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
 
         {spaActive && (
           <div>
-            <p className={styles.title}>Choose your category</p>
+            <p className={styles.title}>{t('Choose your category')}</p>
             <div className={styles.optionsList}>
               <div className={cx(styles.optionsListItem)}>
                 <p
@@ -245,6 +251,31 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                 </p>
                 {true && <CheckIcon className={styles.icon} />}
               </div>
+            </div>
+          </div>
+        )}
+        {offersActive && (
+          <div>
+            <p className={styles.title}>{t('Choose your category')}</p>
+            <div className={styles.optionsList}>
+              {Array.from(new Set(offersList?.map((item: any) => item?.type))).map((type) => {
+                return (
+                  <div key={type} className={cx(styles.optionsListItem)}>
+                    <p
+                      className={cx(styles.inActiveDiningText, {
+                        [styles.activeText]: offersOptionSelected?.type === type,
+                      })}
+                      onClick={() => {
+                        selectedOfferOption({ type });
+                        closeDrawer();
+                      }}
+                    >
+                      {type}{' '}
+                    </p>
+                    {offersOptionSelected?.type === type && <CheckIcon className={styles.icon} />}
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}

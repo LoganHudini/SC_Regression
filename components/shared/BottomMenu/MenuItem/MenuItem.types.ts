@@ -22,6 +22,7 @@ export interface IModuleOptionsDrawerProps {
   housekeepingActive: boolean;
   hotelCompendiumActive: boolean;
   spaActive: boolean;
+  offersActive: boolean;
 }
 
 export interface IHamburgerMenuDrawerProps {

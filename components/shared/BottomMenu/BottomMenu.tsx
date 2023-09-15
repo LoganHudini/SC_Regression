@@ -32,6 +32,7 @@ import { DetailDrawer } from '../DetailDrawer/DetailDrawer';
 import useOutsideAlerter from 'utils/hooks/useOutsideAlerter';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { HEADERS } from 'utils/constants';
+import { selectedOfferOption } from 'storage/offers.storage';
 
 export const BottomMenu: React.FC<unknown> = () => {
   const wrapperRef = useRef(null);
@@ -40,6 +41,8 @@ export const BottomMenu: React.FC<unknown> = () => {
   const hamburgerMenuStatus = useReactiveVar(toggleHamburgerMenuDrawer);
   const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
   const diningOptionSelected = useReactiveVar(diningOptions);
+  const offersOptionSelected: any = useReactiveVar(selectedOfferOption);
+  const { t } = useTranslation(['common']);
   const spaInformation = useReactiveVar(spaInformationStorage);
   const isCheckedIn = useCheckedIn();
   const homeActive = router?.pathname === '/[locale]';
@@ -48,6 +51,7 @@ export const BottomMenu: React.FC<unknown> = () => {
     router?.pathname?.includes(availablePaths?.RESTAURANTS_BARS);
   const housekeepingActive = router?.pathname?.includes(availablePaths.HOUSEKEEPING);
   const spaActive = router?.pathname?.includes(availablePaths?.SPA);
+  const offersActive = router.pathname.includes(availablePaths.OFFERS);
   const hotelCompendiumActive = router?.pathname?.includes(availablePaths.HOTEL_COMPENDIUM);
   const hotelCompendiumSelected: any = useReactiveVar(selectedCompendiumCategory);
   const arrowActive = homeActive && !isCheckedIn ? false : true;
@@ -61,8 +65,6 @@ export const BottomMenu: React.FC<unknown> = () => {
   });
 
   const hamburger = data?.getUiBuilderHamburgerMenuDetails;
-
-  const { t } = useTranslation(['common']);
 
   const openModuleOptionsDrawer = () => {
     if (isCheckedIn) {
@@ -97,6 +99,7 @@ export const BottomMenu: React.FC<unknown> = () => {
               {irdActive && t(`${diningOptionSelected?.title}`)}
               {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
               {spaActive && t(`${spaInformation?.selectedSpaCategoryName}`)}
+              {offersActive && t(`${offersOptionSelected?.type}`)}
               {hotelCompendiumActive && t(`${hotelCompendiumSelected?.name}`)}
             </span>
             <DownArrowIcon className={styles.downArrow} />
@@ -118,7 +121,7 @@ export const BottomMenu: React.FC<unknown> = () => {
       </div>
 
       <ModuleOptionsDrawer
-        {...{ homeActive, irdActive, housekeepingActive, spaActive, hotelCompendiumActive }}
+        {...{ homeActive, irdActive, housekeepingActive, hotelCompendiumActive, spaActive, offersActive }}
       />
 
       {hamburgerMenuStatus && hamburger && (

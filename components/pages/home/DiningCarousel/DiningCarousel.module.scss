@@ -52,7 +52,7 @@
 .carouselWrapper {
   user-select: none;
   overflow: scroll;
-  margin-left: 12px;
+  margin-inline-start: 12px;
 }
 
 .carouselWrapper::-webkit-scrollbar {
@@ -166,4 +166,25 @@
 
 .cuisineIcon {
   height: auto;
+}
+
+.cuisineRowTime {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-decoration: none;
+  margin-top: 8px;
+  font-family: var(--primary-font-regular);
+  font-size: $xsmall;
+  text-transform: capitalize;
+  padding-left: 22px;
+
+  span {
+    margin-inline-start: 10px;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    text-transform: capitalize;
+    color: var(--primary-text-color);
+    margin-top: 2px;
+  }
 }

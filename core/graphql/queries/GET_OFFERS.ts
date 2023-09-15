@@ -1,0 +1,61 @@
+import { gql } from '@apollo/client';
+import { HOTEL_ID } from '../endpoints';
+
+export const GET_OFFERS = gql`
+query MyQuery($lang: String) {
+    getOffersDetails(input: { hotelId: "${HOTEL_ID}", lang: $lang }) {
+      createdAt
+      createdBy
+      description
+      isActive
+      name
+      hotelId
+      id
+      highLights
+      customAttributes {
+        key
+        value
+      }
+      CTA {
+        URL
+        cardPlacement
+        contact
+        emailId
+        phoneCode
+        phoneNumber
+        redirectTo
+        type
+      }
+      duration {
+        alwaysActive
+        endDate
+        endTime
+        startDate
+        startTime
+      }
+      notification {
+        createdAt
+        description
+        devices
+        name
+      }
+      images {
+        fileName
+        index
+        master
+        ratio16to9
+        ratio1to1
+        ratio21to9
+      }
+      contact {
+        email
+        phoneNumber
+      }
+      pk
+      sk
+      type
+      updatedAt
+      updatedBy
+      version
+    }
+  }`;

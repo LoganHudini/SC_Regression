@@ -5,8 +5,16 @@ import ClockIcon from '@icons/clockIcon.svg';
 import DishIcon from '@icons/dishIcon.svg';
 import styles from './ListComponents.module.scss';
 import { ASSETS_URL, CURRENCY } from 'core/graphql/endpoints';
+import { EVERYDAY, OFFERSDURATION } from 'utils/constants';
+import dayjs from 'dayjs';
 
-export const ListComponentEntity: React.FC<any> = ({ queryResultEntity, selectedListItem }) => {
+interface ListComponentEntityProps {
+  queryResultEntity: any;
+  selectedListItem: any;
+  module?: any
+}
+
+export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({ queryResultEntity, selectedListItem }) => {
   const { t } = useTranslation(['common']);
 
   const onCtaClick = useCallback(() => {
@@ -15,9 +23,10 @@ export const ListComponentEntity: React.FC<any> = ({ queryResultEntity, selected
 
   const time =
     queryResultEntity?.hours &&
-    `${queryResultEntity?.hours[0]?.day.slice(0, 3).toLowerCase()}-${
-      queryResultEntity?.hours[0]?.open
-    }-${queryResultEntity?.hours[0]?.close}...`;
+    `${queryResultEntity?.hours[0]?.day === EVERYDAY
+      ? queryResultEntity?.hours[0]?.day.toLowerCase()
+      : queryResultEntity?.hours[0]?.day.slice(0, 3).toLowerCase()
+    }-${queryResultEntity?.hours[0]?.open}-${queryResultEntity?.hours[0]?.close}...`;
 
   return (
     <div className={styles.listComponent} onClick={onCtaClick}>
@@ -38,21 +47,42 @@ export const ListComponentEntity: React.FC<any> = ({ queryResultEntity, selected
               {queryResultEntity?.duration[0]?.duration} Min
             </p>
           )}
+          {queryResultEntity?.duration &&
+            queryResultEntity?.duration.__typename === OFFERSDURATION && (
+              <p className={styles.listDurationOffer}>
+                {queryResultEntity?.duration?.alwaysActive
+                  ? t('Everyday')
+                  : (() => {
+                    const startDate = dayjs(queryResultEntity?.duration?.startDate, 'DD-MM-YYYY');
+                    const endDate = dayjs(queryResultEntity?.duration?.endDate, 'DD-MM-YYYY');
+                    const displayStartDate = startDate?.format('MMM D, YYYY');
+                    const displayEndDate =
+                      startDate?.year() === endDate?.year()
+                        ? endDate.format('MMM D')
+                        : endDate.format('MMM D, YYYY');
+
+                    return `${displayStartDate} until ${displayEndDate}`;
+                  })()}
+              </p>
+            )}
           {queryResultEntity?.description && (
             <p className={styles.listDescription}>{queryResultEntity?.description}</p>
           )}
+
           {queryResultEntity?.primaryCuisine && (
             <div className={styles.cuisineRow}>
               <DishIcon className={styles.cuisineIcon} />
               <span>{queryResultEntity?.primaryCuisine.toLowerCase()}</span>
             </div>
           )}{' '}
+
           {queryResultEntity?.hours && (
-            <div className={styles.cuisineRow}>
+            <div className={styles.cuisineRowTime}>
               <ClockIcon className={styles.cuisineIcon} />
               <span>{time}</span>
             </div>
           )}
+
           <span className={styles.readMoreButton}>
             {t('Read more')}
             {/* <ArrowButton /> */}

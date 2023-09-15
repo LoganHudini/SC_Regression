@@ -3,8 +3,7 @@ import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import Head from 'next/head';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from '../../styles/preferences/preferences.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
@@ -34,6 +33,7 @@ const Preferences = () => {
   const imageDetails = homeModule?.submodules?.find(
     (submodule: any) => submodule?.code === HEADERSCONFIG && submodule.isActive,
   )?.details[0];
+
   const { data } = useQuery(GET_FEEDBACK, {
     context: { clientName: 'host_v4' },
     fetchPolicy: 'no-cache',
