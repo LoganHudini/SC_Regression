@@ -85,7 +85,7 @@
 }
 
 .menuUnavailable {
-  background-color: var(--tertiary-text-color) !important;
+  background-color: var(--primary-disabled-color);
   color: var(--secondary-text-color);
   pointer-events: none;
 }

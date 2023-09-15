@@ -44,6 +44,7 @@ import { HOTEL_ID } from 'core/graphql/endpoints';
 import { toggleDetailsDrawer, toggleNotification } from 'storage/home.storage';
 import { processError } from 'utils/processError';
 import { Notification } from 'components/shared/Notification/Notification';
+import { Loader } from 'components/shared/Loaders/Loaders';
 
 export { getStaticPaths };
 
@@ -95,7 +96,7 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
     } else {
       setDisabled(false);
     }
-  }, [combinedServiceRequestArray, showSchedules?.maxQuantityActive]);
+  }, [combinedServiceRequestArray, showSchedules?.isItemActive, showSchedules?.maxQuantityActive]);
 
   useEffect(() => {
     if (data) {
@@ -317,6 +318,7 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
         {loading ? (
           <>
             <div className={styles.container}>
+              <Loader />
               <HousekeepingItemSkeleton />
               <HousekeepingItemSkeleton />
               <HousekeepingItemSkeleton />

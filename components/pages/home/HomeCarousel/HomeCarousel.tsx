@@ -56,6 +56,9 @@ export const HomeCarousel: React.FC<IHomeCarouselProps> = ({ details }) => {
       }}
       indicators={(carouselDetails?.details?.length || 0) > 1}
       className={styles.carousel}
+      animation={'slide'}
+      duration={1000}
+      interval={5000}
     >
       {carouselDetails?.details &&
         hotelImages &&

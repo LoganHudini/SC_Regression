@@ -1,5 +1,4 @@
 import { ApolloError, useQuery, useReactiveVar } from '@apollo/client';
-import { TableNumberDrawer } from 'components/pages/dining/TableNumberDrawer/TableNumberDrawer';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import {
   GET_RESTAURANT_DETAILS,
@@ -16,18 +15,11 @@ import { useRouter } from 'next/router';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { useTranslation } from 'react-i18next';
-import { getRedirectLink } from 'utils/getRedirectLink';
-import { flowPathMap } from 'utils/flowPathMap';
 import { availablePaths } from 'utils/availablePaths';
-import { diningInformationStorage } from 'storage/dining.storage';
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { ASSETS_URL, HOTEL_ID } from 'core/graphql/endpoints';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
-import CuisineIcon from '@icons/cuisine.svg';
-import LocationIcon from '@icons/location.svg';
-import ForkKnifeIcon from '@icons/forkKnife.svg';
 import DishIcon from '@icons/dishIcon.svg';
-import ArrowButton from '@icons/restaurantArrow.svg';
 import { Header } from 'components/shared/Header/Header';
 import { diningOptions, toggleDetailsDrawer, toggleNotification } from 'storage/home.storage';
 import {
@@ -39,7 +31,6 @@ import {
   IRD,
   OK,
   PHONE,
-  RESTAURANTS_BARS,
   S3,
   WEBURL,
 } from 'utils/constants';
@@ -61,13 +52,12 @@ import EmailIcon from '@icons/email.svg';
 import cx from 'classnames';
 import ArrowBottomIcon from '@icons/arrowBottom.svg';
 import Head from 'next/head';
+import { Loader } from 'components/shared/Loaders/Loaders';
 
 export { getStaticPaths };
 
 const RestaurantAndBars: React.FC = () => {
   const { t } = useTranslation(['ui-builder']);
-  const checkinData = useCheckedIn();
-  const [startY, setStartY] = useState(0);
   const [guestCount, setGuestCount] = useState(1);
   const [availableSlots, setAvailableSlots] = useState(false);
   const [timeSelectDrawer, setTimeSelectDrawer] = useState(false);
@@ -84,7 +74,7 @@ const RestaurantAndBars: React.FC = () => {
   const restaurantDetailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
 
   const [selectedRestaurantData, setSelectedRestaurantData] = useState<any>();
-  const { data } = useQuery<IGetRestaurantDetailsResponse>(GET_RESTAURANT_DETAILS, {
+  const { data, loading } = useQuery<IGetRestaurantDetailsResponse>(GET_RESTAURANT_DETAILS, {
     context: { clientName: 'host_v0' },
     fetchPolicy: 'no-cache',
   });
@@ -252,7 +242,7 @@ const RestaurantAndBars: React.FC = () => {
                 [styles.buttonNone]: timeSelectDrawer,
               })}
             >
-              {queryResultEntity?.cta?.ctaTitle || t('BOOK A TABLE')}
+              {queryResultEntity?.cta?.ctaTitle || t('BOOK NOW')}
             </StyledButton>
           )}
         </div>
@@ -436,24 +426,16 @@ const RestaurantAndBars: React.FC = () => {
           </>
         </StyledButton>
       )}
-      <>
-        <TableNumberDrawer
-          toggleConfirmDrawerOpened={toggleConfirmDrawerOpened}
-          tableNumberDrawer={tableNumberDrawer}
-          restId={queryResultEntity?.id}
-        />
-
-        <Notification
-          title={t('Thank You!') as string}
-          description={
-            t(
-              'Your booking has been received. Our reservation team will get in touch with you soon',
-            ) as string
-          }
-          redirect={RESTAURANTS_BARS}
-          type='success'
-        />
-      </>
+      <Notification
+        title={t('Thank You!') as string}
+        description={
+          t(
+            'Your booking has been received. Our reservation team will get in touch with you soon',
+          ) as string
+        }
+        redirect={availablePaths?.RESTAURANTS_BARS}
+        type='success'
+      />
     </div>
   );
 
@@ -463,18 +445,21 @@ const RestaurantAndBars: React.FC = () => {
         <title>{t('Restaurants & Bars') as string}</title>
       </Head>
       <Header screenTitle={t('Restaurants & Bars') as string} displayHome />
-      <PageWrapper className={styles.pageWrapper} displayBottomMenu>
-        <div>
-          {filteredList?.map((queryResultEntity: any) => (
-            <ListComponentEntity
-              key={queryResultEntity.id}
-              queryResultEntity={queryResultEntity}
-              selectedListItem={selectedListItem}
-            />
-          ))}
-        </div>
-      </PageWrapper>
-
+      {loading ? (
+        <Loader />
+      ) : (
+        <PageWrapper className={styles.pageWrapper} displayBottomMenu>
+          <div>
+            {filteredList?.map((queryResultEntity: any) => (
+              <ListComponentEntity
+                key={queryResultEntity.id}
+                queryResultEntity={queryResultEntity}
+                selectedListItem={selectedListItem}
+              />
+            ))}
+          </div>
+        </PageWrapper>
+      )}
       <DetailDrawer
         open={restaurantDetailsDrawerStatus}
         onClose={closeDrawer}

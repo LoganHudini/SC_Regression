@@ -15,6 +15,7 @@ import { DetailDrawer } from 'components/shared/DetailDrawer/DetailDrawer';
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { ASSETS_URL } from 'core/graphql/endpoints';
 import { GET_HOTEL_COMPENDIUM } from 'core/graphql/queries/GET_HOTEL_COMPENDIUM_DETIALS';
+import { Loader } from 'components/shared/Loaders/Loaders';
 
 const HotelCompendium = () => {
   const { t } = useTranslation('common');
@@ -22,7 +23,7 @@ const HotelCompendium = () => {
   const hotelCompendiumSelectedDetails: any = useReactiveVar(selectedCompendiumCategory);
   const detailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
 
-  const { data } = useQuery(GET_HOTEL_COMPENDIUM, {
+  const { data, loading } = useQuery(GET_HOTEL_COMPENDIUM, {
     context: { clientName: 'host_v0' },
     fetchPolicy: 'no-cache',
   });
@@ -70,30 +71,34 @@ const HotelCompendium = () => {
   return (
     <>
       <Head>
-        <title>{t('Hotel Compendium')}</title>
+        <title>{t('Things To Do')}</title>
       </Head>
-      <Header displayHome screenTitle={t('Hotel Compendium') as string} />
-      <PageWrapper displayBottomMenu className={styles.pageWrapper}>
-        <>
-          {selectedAmenities?.length > 0 ? (
-            selectedAmenities?.map((amenity: any) => (
-              <div key={amenity?.name}>
-                <ListComponentEntity
-                  queryResultEntity={amenity}
-                  selectedListItem={selectedListItem}
-                />
-              </div>
-            ))
-          ) : (
-            <div className={styles.info}>{t('No information found')}</div>
-          )}
-          <DetailDrawer
-            open={detailsDrawerStatus}
-            onClose={closeDrawer}
-            content={hotelCompendiumDrawerDetails()}
-          />
-        </>
-      </PageWrapper>
+      <Header displayHome screenTitle={t('Things To Do') as string} />
+      {loading ? (
+        <Loader />
+      ) : (
+        <PageWrapper displayBottomMenu className={styles.pageWrapper}>
+          <>
+            {selectedAmenities?.length > 0 ? (
+              selectedAmenities?.map((amenity: any) => (
+                <div key={amenity?.name}>
+                  <ListComponentEntity
+                    queryResultEntity={amenity}
+                    selectedListItem={selectedListItem}
+                  />
+                </div>
+              ))
+            ) : (
+              <div className={styles.info}>{t('No information found')}</div>
+            )}
+            <DetailDrawer
+              open={detailsDrawerStatus}
+              onClose={closeDrawer}
+              content={hotelCompendiumDrawerDetails()}
+            />
+          </>
+        </PageWrapper>
+      )}
     </>
   );
 };

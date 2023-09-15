@@ -16,6 +16,9 @@ export const availablePaths = {
   ROOM_DETAILS: '/check-in/room-details',
   UPGRADES: '/check-in/upgrades',
 
+  // Preferences
+  PREFERENCES: '/preferences',
+
   // Checkout flow
   BILL: '/checkout',
   CHECKOUT_CONFIRMATION: '/checkout/checkout-confirmation',
@@ -55,9 +58,6 @@ export const availablePaths = {
 
   // Hotel-compendium
   HOTEL_COMPENDIUM: '/hotel-compendium',
-
-  // preferences
-  PREFERENCES: '/preferences',
 
   // Incode Check-in
   INCODE: '/incode',

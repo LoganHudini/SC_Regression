@@ -309,7 +309,7 @@ const TableReservation = () => {
             disabled={disable}
             onClick={formik.submitForm}
           >
-            {t('BOOK A TABLE')}
+            {t('BOOK NOW')}
           </StyledButton>
         </div>
 

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useRef, useState } from 'react';
 import PlaceholderIcon from '@icons/imagePlaceholder.svg';
 import styles from './StableImage.module.scss';
@@ -53,6 +54,7 @@ export const StableImage: React.FC<
         {...props}
         className={cx(props.className, { [styles.hidden]: loading || error })}
         ref={imageRef}
+        alt='image'
       />
     </>
   );

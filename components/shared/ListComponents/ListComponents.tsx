@@ -23,7 +23,7 @@ export const ListComponentEntity: React.FC<any> = ({ queryResultEntity, selected
     <div className={styles.listComponent} onClick={onCtaClick}>
       <StableImage
         className={styles.bannerImage}
-        src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.master}`}
+        src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.ratio16to9}`}
       />
       <div className={styles.contentWrapper}>
         <div className={styles.imageContent}>
@@ -32,7 +32,7 @@ export const ListComponentEntity: React.FC<any> = ({ queryResultEntity, selected
           )}
           {queryResultEntity?.duration && queryResultEntity?.duration[0]?.price && (
             <p className={styles.listDurationPrice}>
-              <span className={styles.currency}>{CURRENCY}</span>{' '}
+              <span className={styles.currency}>{CURRENCY} </span>
               {queryResultEntity?.duration[0]?.price}
               {'   '}|{'   '}
               {queryResultEntity?.duration[0]?.duration} Min

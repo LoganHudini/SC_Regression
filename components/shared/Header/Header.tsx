@@ -15,7 +15,7 @@ import { IHeaderProps } from './Header.types';
 import { useRouter } from 'next/router';
 import ArrowBackIosIcon from '@icons/ArrowBack.svg';
 import { availablePaths } from 'utils/availablePaths';
-import { ALL_DAY, HEADERS, LANGUAGE_LIST_BARCELONA, HOME } from 'utils/constants';
+import { ALL_DAY, LANGUAGE_LIST_BARCELONA, HOME } from 'utils/constants';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import CrossDropdown from '@icons/close.svg';

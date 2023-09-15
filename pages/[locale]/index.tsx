@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { DiningCarousel } from 'components/pages/home/DiningCarousel/DiningCarousel';
 import { HomeCarousel } from 'components/pages/home/HomeCarousel/HomeCarousel';
-import HotelCompendium from 'components/pages/home/HotelCompendium/HotelCompendium';
+import { HotelCompendiumContainer } from 'components/pages/home/HotelCompendium/HotelCompendium';
 import { ServiceRequestCarousel } from 'components/pages/home/ServiceRequestCarousel/ServiceRequestCarousel';
 import { SpaCarousel } from 'components/pages/home/SpaCarousel/SpaCarousel';
 import { LogoLoader } from 'components/shared/Loaders/Loaders';
@@ -87,8 +87,8 @@ const Home: NextPage = () => {
         <HomeCarousel details={homeCarouselDetails} />
         <ServiceRequestCarousel details={serviceCarouselDetails} />
         <DiningCarousel ird={irdMenu} restaurants={restaurantList} />
-        <HotelCompendium data={hotelCompendiumList} />
         <SpaCarousel details={spaList} />
+        <HotelCompendiumContainer data={hotelCompendiumList} />
       </PageWrapper>
     </>
   );

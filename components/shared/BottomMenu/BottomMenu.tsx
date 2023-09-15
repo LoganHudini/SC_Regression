@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styles from './BottomMenu.module.scss';
 import { motion } from 'framer-motion';
 import HamburgerIcon from '@icons/hamburger.svg';
@@ -26,28 +26,32 @@ import { useCheckedIn } from 'storage/check-in.storage';
 import { spaInformationStorage } from 'storage/spa.storage';
 import { Fade as Hamburger } from 'hamburger-react';
 import CheckInDrawer from 'components/pages/check-in/CheckInDrawer';
+import cx from 'classnames';
+import { useHideOnScroll } from 'utils/hooks/useHideOnScroll';
+import { DetailDrawer } from '../DetailDrawer/DetailDrawer';
+import useOutsideAlerter from 'utils/hooks/useOutsideAlerter';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { HEADERS } from 'utils/constants';
 
-export const BottomMenu: React.FC<any> = () => {
+export const BottomMenu: React.FC<unknown> = () => {
+  const wrapperRef = useRef(null);
   const router = useRouter();
+  const hideOnScroll = useHideOnScroll();
   const hamburgerMenuStatus = useReactiveVar(toggleHamburgerMenuDrawer);
   const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
   const diningOptionSelected = useReactiveVar(diningOptions);
-  const hotelCompendiumSelected: any = useReactiveVar(selectedCompendiumCategory);
-
   const spaInformation = useReactiveVar(spaInformationStorage);
   const isCheckedIn = useCheckedIn();
   const homeActive = router?.pathname === '/[locale]';
-
-  const arrowActive = homeActive && !isCheckedIn ? false : true;
   const irdActive =
-    router.pathname.includes(availablePaths?.DINING) ||
-    router.pathname.includes(availablePaths?.RESTAURANTS_BARS);
-  const restaurantActive = router.pathname.includes(HEADERS[0]);
-  const housekeepingActive = router.pathname.includes(availablePaths.HOUSEKEEPING);
-  const hotelCompendiumActive = router?.pathname?.includes(availablePaths.HOTEL_COMPENDIUM);
+    router?.pathname?.includes(availablePaths?.DINING) ||
+    router?.pathname?.includes(availablePaths?.RESTAURANTS_BARS);
+  const housekeepingActive = router?.pathname?.includes(availablePaths.HOUSEKEEPING);
   const spaActive = router?.pathname?.includes(availablePaths?.SPA);
+  const hotelCompendiumActive = router?.pathname?.includes(availablePaths.HOTEL_COMPENDIUM);
+  const hotelCompendiumSelected: any = useReactiveVar(selectedCompendiumCategory);
+  const arrowActive = homeActive && !isCheckedIn ? false : true;
+  const restaurantActive = router.pathname.includes(HEADERS[0]);
 
   const navigate = useLocalizedRouter();
 
@@ -73,42 +77,52 @@ export const BottomMenu: React.FC<any> = () => {
     toggleHamburgerMenuDrawer(false);
   };
 
+  useEffect(() => {
+    hideOnScroll && toggleHamburgerMenuDrawer(false);
+  }, [hideOnScroll]);
+
+  useOutsideAlerter(wrapperRef);
+
   return (
     <>
-      <div className={styles.bottomMenuWrapper}>
-        <motion.div whileTap={{ scale: 0.8 }} className={styles.bottomMenuButton}>
-          <StyledButton variant='contained' onClick={openModuleOptionsDrawer}>
-            {homeActive && (isCheckedIn ? t('Room 401') : t('CHECK-IN'))}
-            {irdActive && t(`${diningOptionSelected?.title}`)}
-            {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
-            {hotelCompendiumActive && t(`${hotelCompendiumSelected?.name}`)}
-            {spaActive && spaInformation?.selectedSpaCategoryName}
-            {arrowActive && <DownArrowIcon className={styles.downArrow} />}
+      <div className={cx(styles.bottomMenuWrapper, { [styles.hideOnScroll]: hideOnScroll })}>
+        <motion.div
+          whileTap={{ scale: 0.8 }}
+          className={styles.bottomMenuButton}
+          onClick={openModuleOptionsDrawer}
+        >
+          <StyledButton variant='contained'>
+            <span className={styles.btnText}>
+              {homeActive && (isCheckedIn ? t('Room 401') : t('CHECK-IN'))}
+              {irdActive && t(`${diningOptionSelected?.title}`)}
+              {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
+              {spaActive && t(`${spaInformation?.selectedSpaCategoryName}`)}
+              {hotelCompendiumActive && t(`${hotelCompendiumSelected?.name}`)}
+            </span>
+            <DownArrowIcon className={styles.downArrow} />
           </StyledButton>
         </motion.div>
 
-        {hamburger && hamburger['post']?.length > 0 && (
-          <div className={styles.hamburgerIcon}>
-            <Hamburger
-              toggled={hamburgerMenuStatus}
-              toggle={(toggled) => {
-                if (toggled) {
-                  toggleHamburgerMenuDrawer(true);
-                } else {
-                  toggleHamburgerMenuDrawer(false);
-                }
-              }}
-            />
-          </div>
-        )}
+        <div className={styles.hamburgerIcon}>
+          <Hamburger
+            toggled={hamburgerMenuStatus}
+            toggle={(toggled) => {
+              if (toggled) {
+                toggleHamburgerMenuDrawer(true);
+              } else {
+                toggleHamburgerMenuDrawer(false);
+              }
+            }}
+          />
+        </div>
       </div>
 
       <ModuleOptionsDrawer
-        {...{ homeActive, irdActive, housekeepingActive, hotelCompendiumActive, spaActive }}
+        {...{ homeActive, irdActive, housekeepingActive, spaActive, hotelCompendiumActive }}
       />
 
       {hamburgerMenuStatus && hamburger && (
-        <div className={styles.hamburgerMenuContainer}>
+        <div ref={wrapperRef} className={cx(styles.hamburgerMenuContainer)}>
           {hamburger['post'].map((hamburgerMenuElement) => (
             <MenuItem
               Icon={

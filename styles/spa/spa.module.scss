@@ -1,7 +1,48 @@
 .pageWrapper {
   display: flex;
   flex-direction: column;
-  margin: 4.5rem auto 0;
+  margin: 4.75rem auto 0;
   width: 85%;
 }
 
+.image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  object-fit: contain;
+}
+
+.wrapper {
+  padding: 0.5rem 1.5rem;
+}
+
+.button {
+  width: 80%;
+  height: 60px;
+  font-size: $xsmall;
+  margin: auto;
+  margin-top: -2rem;
+}
+
+.detailComponentTitle {
+  font: $header var(--secondary-font-regular);
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.detailComponentDuration {
+  font: $medium var(--primary-font-news);
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.currency {
+  font-size: $xsmall;
+}
+
+.detailComponentDescription {
+  font: $small var(--primary-font-regular);
+  color: var(--tertiary-text-color);
+  text-align: center;
+  margin: 1rem 0;
+}

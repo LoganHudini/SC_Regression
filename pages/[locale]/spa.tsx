@@ -17,6 +17,12 @@ import Head from 'next/head';
 import { spaInformationStorage } from 'storage/spa.storage';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import produce from 'immer';
+import { Notification } from 'components/shared/Notification/Notification';
+import { availablePaths } from 'utils/availablePaths';
+import { ASSETS_URL, CURRENCY } from 'core/graphql/endpoints';
+import { StableImage } from 'components/shared/StableImage/StableImage';
+import { StyledButton } from 'components/shared/StyledButton/StyledButton';
+import { ACTIVE } from 'utils/constants';
 
 export { getStaticPaths };
 
@@ -30,19 +36,6 @@ const Spa: React.FC = () => {
     fetchPolicy: 'no-cache',
   });
 
-  const selectedSpa = (treatment: any) => {
-    spaInformationStorage(
-      produce(spaInformationStorage(), (draft) => {
-        if (draft) {
-          draft.selectedSpaTreatmentId = treatment?.name;
-          draft.selectedSpaTreatmentId = treatment?.id;
-        }
-      }),
-    );
-    // toggleDetailsDrawer(true);
-    toggleHamburgerMenuDrawer(false);
-  };
-
   const spaTreatmentsList = activeItems(data?.getSpaDetails?.treatments)?.filter(
     (treatment: any) => treatment?.spaId === spaInfo?.selectedSpaInfoId,
   );
@@ -51,21 +44,95 @@ const Spa: React.FC = () => {
     (category: any) => category?.id === spaTreatmentsList[0]?.spaCategoryId,
   );
 
+  const selectedSpaItem = spaTreatmentsList?.find(
+    (item: any) => item?.id === spaInfo?.selectedSpaTreatmentId,
+  );
+
   useEffect(() => {
     data?.getSpaDetails?.spa &&
       spaInformationStorage({
-        selectedSpaInfoName: activeItems(data?.getSpaDetails?.spa)[0]?.name,
-        selectedSpaInfoId: activeItems(data?.getSpaDetails?.spa)[0]?.id,
+        selectedSpaInfoName:
+          spaInfo?.selectedSpaInfoName ?? activeItems(data?.getSpaDetails?.spa)[0]?.name,
+        selectedSpaInfoId:
+          spaInfo?.selectedSpaInfoId ?? activeItems(data?.getSpaDetails?.spa)[0]?.id,
         selectedSpaCategoryName: spaCategory?.name,
         selectedSpaCategoryId: spaCategory?.id,
       });
-  }, [data?.getSpaDetails?.spa, spaCategory?.id, spaCategory?.name]);
+  }, [
+    data?.getSpaDetails?.spa,
+    spaCategory?.id,
+    spaCategory?.name,
+    spaInfo?.selectedSpaInfoId,
+    spaInfo?.selectedSpaInfoName,
+  ]);
+
+  const selectedSpa = (treatment: any) => {
+    spaInformationStorage(
+      produce(spaInformationStorage(), (draft) => {
+        if (draft) {
+          draft.selectedSpaTreatmentName = treatment?.name;
+          draft.selectedSpaTreatmentId = treatment?.id;
+        }
+      }),
+    );
+    toggleDetailsDrawer(true);
+    toggleHamburgerMenuDrawer(false);
+  };
 
   const closeDrawer = () => {
     toggleDetailsDrawer(false);
   };
 
-  const spaDetails = () => <div>Hello</div>;
+  const spaDetails = () => (
+    <>
+      <StableImage
+        className={styles.image}
+        src={
+          selectedSpaItem?.images && selectedSpaItem?.images[0]
+            ? `${ASSETS_URL}/${selectedSpaItem?.images[0]?.ratio16to9}`
+            : undefined
+        }
+      />
+
+      {/* {selectedSpaItem?.cta?.status === ACTIVE && (
+        <StyledButton variant='contained' onClick={onCtaClick} className={styles.button}>
+          {selectedSpaItem?.cta?.ctaTitle || t('BOOK NOW')}
+        </StyledButton>
+      )} */}
+
+      <div className={styles.wrapper}>
+        {selectedSpaItem?.name && (
+          <h2 className={styles.detailComponentTitle}>{t(`${selectedSpaItem?.name}`)}</h2>
+        )}
+
+        {selectedSpaItem?.duration && selectedSpaItem?.duration[0]?.price && (
+          <p className={styles.detailComponentDuration}>
+            <span className={styles.currency}>{CURRENCY} </span>
+            {selectedSpaItem?.duration[0]?.price}
+            {'   '}|{'   '}
+            {selectedSpaItem?.duration[0]?.duration} Min
+          </p>
+        )}
+
+        {selectedSpaItem?.description && (
+          <p className={styles.detailComponentDescription}>
+            {t(`${selectedSpaItem?.description}`)}
+          </p>
+        )}
+      </div>
+
+      <Notification
+        title={t('Thank You!') as string}
+        description={
+          t(
+            'Your booking has been received. Our reservation team will get in touch with you soon',
+          ) as string
+        }
+        redirect={availablePaths?.SPA}
+        type={'success'}
+      />
+    </>
+  );
 
   return (
     <>
@@ -76,12 +143,15 @@ const Spa: React.FC = () => {
       {loading ? (
         <Loader />
       ) : (
-        <PageWrapper className={styles.pageWrapper} displayBottomMenu>
+        <PageWrapper
+          className={styles.pageWrapper}
+          displayBottomMenu={spaCategory && spaTreatmentsList}
+        >
           <div>
-            {spaTreatmentsList?.map((queryResultEntity: any) => (
+            {spaTreatmentsList?.map((selectedSpaItem: any) => (
               <ListComponentEntity
-                key={queryResultEntity.id}
-                queryResultEntity={queryResultEntity}
+                key={selectedSpaItem.id}
+                queryResultEntity={selectedSpaItem}
                 selectedListItem={selectedSpa}
               />
             ))}

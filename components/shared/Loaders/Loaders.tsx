@@ -4,6 +4,7 @@ import React from 'react';
 import styles from './Loaders.module.scss';
 import { Player } from '@lottiefiles/react-lottie-player';
 import ItemNotFoundAnimation from '@jsons/itemsNotFound.json';
+import successAnimation from '@jsons/success.json';
 import { HOTEL_CODE } from 'core/graphql/endpoints';
 
 export const LogoLoader = () => {
@@ -45,7 +46,7 @@ export const LineLoader = () => {
   return (
     <div className={styles.loaderOverlay}>
       <RotatingLines
-        strokeColor='var(--primary-theme-color'
+        strokeColor='var(--primary-theme-color)'
         strokeWidth='5'
         width='100'
         visible={true}
@@ -54,8 +55,8 @@ export const LineLoader = () => {
   );
 };
 
-export const ItemNotFoundAnimationLoader = () => {
-  return (
-    <Player autoplay loop src={ItemNotFoundAnimation} className={styles.itemNotFoundAnimation} />
-  );
-};
+export const ItemNotFoundAnimationLoader = () => (
+  <Player autoplay loop src={ItemNotFoundAnimation} className={styles.itemNotFoundAnimation} />
+);
+
+export const SuccessAnimation = () => <Player autoplay loop src={successAnimation} />;

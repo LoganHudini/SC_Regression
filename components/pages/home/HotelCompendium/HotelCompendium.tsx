@@ -7,7 +7,7 @@ import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
 import { useTranslation } from 'react-i18next';
 
-const HotelCompendium = (props: any) => {
+export const HotelCompendiumContainer = (props: any) => {
   const { data } = props;
   const { t } = useTranslation('common');
   const navigate = useLocalizedRouter();
@@ -36,7 +36,7 @@ const HotelCompendium = (props: any) => {
   return (
     <>
       {amenities?.length > 0 && categories?.length > 0 && (
-        <div className={styles.title}>{t('Hotel Compendium')}</div>
+        <div className={styles.title}>{t('Things To Do')}</div>
       )}
       <div className={styles.container}>
         {hotelCompendiumAmenities?.map((amenity: any) => {
@@ -50,7 +50,7 @@ const HotelCompendium = (props: any) => {
               onClick={() => handleClick(showCategoryTitle?.id)}
             >
               <div className={styles.imgWrapper}>
-                <div className={styles.name}>{showCategoryTitle?.name}</div>
+                <p className={styles.name}>{showCategoryTitle?.name}</p>
               </div>
               <StableImage
                 className={styles.image}
@@ -63,5 +63,3 @@ const HotelCompendium = (props: any) => {
     </>
   );
 };
-
-export default HotelCompendium;

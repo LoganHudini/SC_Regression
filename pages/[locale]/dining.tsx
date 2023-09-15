@@ -32,15 +32,11 @@ const Dining = () => {
   const filter = useReactiveVar(diningInformationStorage);
   const [openCategory, setOpencategory] = useState(false);
   const [categoryId1, setcategoryId] = useState('');
-  const restaurantId =
-    (typeof window !== 'undefined' &&
-      localStorage.getItem('restaurantId') &&
-      JSON.parse(localStorage.getItem('restaurantId') ?? '')) ??
-    '';
+
   const { data, loading: irdMenuLoading } = useQuery<IRDMenuApiResponse>(IRD_MENU, {
     context: { clientName: 'host_v2' },
     variables: {
-      restaurantId: restaurantId,
+      restaurantId: '',
       lang: locale === 'en' ? '' : locale,
     },
     fetchPolicy: 'no-cache',

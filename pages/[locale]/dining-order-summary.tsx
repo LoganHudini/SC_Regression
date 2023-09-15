@@ -395,7 +395,7 @@ const DiningOrderSummary = () => {
         <Notification
           title={t('Thank You!') as string}
           description={t('Your order has been confirmed.') as string}
-          redirect={DINING}
+          redirect={availablePaths?.DINING}
           type='success'
         />
         <DiningDetailsDrawer />
