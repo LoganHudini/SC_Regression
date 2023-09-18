@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useRef, useState } from 'react';
 import PlaceholderIcon from '@icons/imagePlaceholder.svg';
@@ -52,9 +53,12 @@ export const StableImage: React.FC<
       {loading && !error && <div className={cx(props.className, styles.animation)} />}
       <img
         {...props}
-        className={cx(props.className, { [styles.hidden]: loading || error })}
+        className={cx(
+          props.className,
+          { [styles.fade]: !error },
+          { [styles.hidden]: loading || error },
+        )}
         ref={imageRef}
-        alt='image'
       />
     </>
   );

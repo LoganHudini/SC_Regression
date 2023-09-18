@@ -13,7 +13,7 @@ export const flowPathMap = {
   FEEDBACK_FLOW: null,
   DIGITAL_KEY_FLOW: null,
 
-  //offer
+  // offer
   SPA: availablePaths?.SPA,
   IRD: availablePaths?.DINING,
   RESTAURANT: availablePaths?.RESTAURANTS_BARS,

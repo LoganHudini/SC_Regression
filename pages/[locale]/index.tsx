@@ -63,15 +63,18 @@ const Home: NextPage = () => {
       fetchPolicy: 'no-cache',
     });
 
-  const { data: hotelCompendiumList } = useQuery(GET_HOTEL_COMPENDIUM, {
-    context: { clientName: 'host_v0' },
-    fetchPolicy: 'no-cache',
-  });
-
   const { data: spaList, loading: spaloading } = useQuery(GET_SPA_DETAILS, {
     context: { clientName: 'host_v0' },
     fetchPolicy: 'no-cache',
   });
+
+  const { data: hotelCompendiumList, loading: hotelCompendiumloading } = useQuery(
+    GET_HOTEL_COMPENDIUM,
+    {
+      context: { clientName: 'host_v0' },
+      fetchPolicy: 'no-cache',
+    },
+  );
 
   return (
     <>
@@ -84,11 +87,15 @@ const Home: NextPage = () => {
           irdloading ||
           restaurantloading ||
           spaloading) && <LogoLoader />}
-        <HomeCarousel details={homeCarouselDetails} />
-        <ServiceRequestCarousel details={serviceCarouselDetails} />
-        <DiningCarousel ird={irdMenu} restaurants={restaurantList} />
-        <SpaCarousel details={spaList} />
-        <HotelCompendiumContainer data={hotelCompendiumList} />
+        <HomeCarousel data={homeCarouselDetails} />
+        <ServiceRequestCarousel data={serviceCarouselDetails} loading={serviceCarouselLoading} />
+        <DiningCarousel
+          ird={irdMenu}
+          restaurants={restaurantList}
+          loading={irdloading || restaurantloading}
+        />
+        <SpaCarousel data={spaList} loading={spaloading} />
+        <HotelCompendiumContainer data={hotelCompendiumList} loading={hotelCompendiumloading} />
       </PageWrapper>
     </>
   );

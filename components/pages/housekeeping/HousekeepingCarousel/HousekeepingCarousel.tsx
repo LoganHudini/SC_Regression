@@ -46,7 +46,6 @@ const HeroBannerItem: React.FC<IHeroBannerItemProps> = ({ config, paths }) => {
       className={cx(styles.bannerWrapper, { [styles.bannerWrapperLink]: Boolean(redirectUrl) })}
     >
       <StableImage className={styles.bannerImage} src={`${ASSETS_URL}/${config.imgURL}`} />
-
       <div className={styles.pageTitle}>{config.titleH2 && <h2>{config.titleH2}</h2>}</div>
     </div>
   );
@@ -66,7 +65,7 @@ export const HousekeepingCarousel: React.FC<IHeroBannerProps> = ({ config, paths
         indicators={(config.slides?.length || 0) > 1}
         height={'312px'}
       >
-        {config.slides?.map((item, i) => (
+        {config?.slides?.map((item, i) => (
           <HeroBannerItem key={i} config={item} paths={paths} />
         ))}
       </Carousel>

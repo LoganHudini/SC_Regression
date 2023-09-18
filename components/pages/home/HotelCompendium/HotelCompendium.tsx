@@ -6,9 +6,10 @@ import { getHotelCompendium, selectedCompendiumCategory } from 'storage/home.sto
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
 import { useTranslation } from 'react-i18next';
+import { CarouselLoader } from 'components/shared/Loaders/Loaders';
 
 export const HotelCompendiumContainer = (props: any) => {
-  const { data } = props;
+  const { data, loading } = props;
   const { t } = useTranslation('common');
   const navigate = useLocalizedRouter();
 
@@ -29,37 +30,41 @@ export const HotelCompendiumContainer = (props: any) => {
   const hotelCompendiumAmenities = categories?.map((category: any) =>
     amenities?.find(
       (amenity: any) =>
-        category.id === amenity?.categoryIds[0] && amenity?.images?.length > 0 && amenity?.isActive,
+        category?.id === amenity?.categoryIds[0] &&
+        amenity?.images?.length > 0 &&
+        amenity?.isActive,
     ),
   );
 
   return (
     <>
-      {amenities?.length > 0 && categories?.length > 0 && (
-        <div className={styles.title}>{t('Things To Do')}</div>
-      )}
-      <div className={styles.container}>
-        {hotelCompendiumAmenities?.map((amenity: any) => {
-          const showCategoryTitle = categories?.find(
-            (category: any) => category.id === amenity?.categoryIds[0],
-          );
-          return (
-            <div
-              key={amenity.id}
-              className={styles.wrapper}
-              onClick={() => handleClick(showCategoryTitle?.id)}
-            >
-              <div className={styles.imgWrapper}>
-                <p className={styles.name}>{showCategoryTitle?.name}</p>
+      <div className={styles.title}>{t('Things To Do')}</div>
+      {loading ? (
+        <CarouselLoader />
+      ) : (
+        <div className={styles.container}>
+          {hotelCompendiumAmenities?.map((amenity: any) => {
+            const showCategoryTitle = categories?.find(
+              (category: any) => category.id === amenity?.categoryIds[0],
+            );
+            return (
+              <div
+                key={amenity?.id}
+                className={styles.wrapper}
+                onClick={() => handleClick(showCategoryTitle?.id)}
+              >
+                <div className={styles.imgWrapper}>
+                  <p className={styles.name}>{showCategoryTitle?.name}</p>
+                </div>
+                <StableImage
+                  className={styles.image}
+                  src={`${ASSETS_URL}/${amenity?.images[0]?.master}`}
+                />
               </div>
-              <StableImage
-                className={styles.image}
-                src={`${ASSETS_URL}/${amenity?.images[0]?.master}`}
-              />
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      )}
     </>
   );
 };

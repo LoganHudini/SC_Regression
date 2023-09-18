@@ -33,7 +33,7 @@ import {
 } from 'utils/functions';
 import { DiningCategoryOptions } from 'components/pages/dining/DiningCategoryOptions/DiningCategoryOptions';
 import produce from 'immer';
-import { ItemNotFoundAnimationLoader, Loader } from 'components/shared/Loaders/Loaders';
+import { ItemNotFoundLoader, Loader } from 'components/shared/Loaders/Loaders';
 
 export { getStaticPaths };
 interface DiningMenuProps {
@@ -319,11 +319,6 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
       {loading ? (
         <>
           <Loader />
-          <DiningMenuFilterSkeleton />
-          <div className={cx(styles.subCategoryNameSkeleton, styles.animation)} />
-          <DiningMenuElementSkeleton />
-          <DiningMenuElementSkeleton />
-          <DiningMenuElementSkeleton />
         </>
       ) : (
         <>
@@ -443,7 +438,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
               data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length !==
                 0 && (
                 <div className={styles.noItems}>
-                  <ItemNotFoundAnimationLoader />
+                  <ItemNotFoundLoader />
                   <div className={styles.noItemsText}>{t('Oops, Item Not Found')}</div>
                   <div>{t('Try rewording your search or entering a new keyword.')}</div>
                 </div>

@@ -14,7 +14,7 @@ import cx from 'classnames';
 import Location from 'components/shared/Location/Location';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { EMAILCAPS, PHONECAPS, URL } from 'utils/constants';
-import { DetailDrawer } from 'components/shared/DetailDrawer/DetailDrawer';
+import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { toggleHotelInfoDrawer } from 'storage/home.storage';
 
 const HotelInfoDrawer = () => {
@@ -163,7 +163,7 @@ const HotelInfoDrawer = () => {
   );
 
   return (
-    <DetailDrawer
+    <CustomDrawer
       open={hotelInfoDetailsDrawerStatus}
       onClose={handleClose}
       content={hotelInfoDetails()}

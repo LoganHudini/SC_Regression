@@ -54,8 +54,11 @@
   --primary-border-color: #e0e0e0;
   --primary-box-shadow-color: #00000029;
   --primary-error-text-color: #d32f2f;
-  --primary-overlay-color: #120e0e65;
   --primary-disabled-color: #919090;
+
+  // overlays
+  --primary-overlay-color: #120e0e57;
+  --secondary-overlay-color: #120e0eb1;
 
   // text colors
   --primary-text-color: #000000;
@@ -68,11 +71,11 @@
   --primary-drawer-top-left-border-radius: 0px;
   --primary-drawer-top-right-border-radius: 0px;
   --primary-drawer-height: 70vh;
-  --primary-drawer-background-opacity: 0.7;
+  --primary-drawer-background-opacity: 0.5;
   --primary-drawer-background-color: #000000;
 
   // hamburger menu colors
-  --hamburgermenu-background-color: #121212;
+  --hamburgermenu-background-color: #120e0ef4;
   --hamburgermenu-text-color: #ffffff;
   --hamburgermenu-icon-color: #ffffff;
 
@@ -126,9 +129,11 @@ body {
   color: var(--primary-text-color);
   background-color: var(--primary-background-color);
   font-family: var(--primary-font-regular);
+  font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
   // direction: rtl;
 }
 
@@ -170,17 +175,17 @@ img {
 // Material UI overwrites
 
 .MuiButton-containedPrimary {
+  font: $small var(--primary-button-font-family);
   color: var(--primary-button-color);
   background: var(--primary-button-background-color);
   border: none;
   border-radius: var(--primary-button-border-radius);
   width: 100%;
-  font: $small var(--primary-button-font-family);
   height: 48px;
   line-height: 48px;
   text-align: center;
   &:disabled {
-    background: var(--primary-disabled-color) !important;
+    background: var(--primary-disabled-color);
     color: var(--primary-button-color);
   }
   &:hover:enabled {
@@ -189,12 +194,12 @@ img {
 }
 
 .MuiButton-outlinedPrimary {
+  font: $medium var(--secondary-button-font-family);
   color: var(--secondary-button-color);
   background: var(--secondary-button-background-color);
   border: 1px solid var(--secondary-button-color);
   border-radius: var(--primary-button-border-radius);
   width: 100%;
-  font: $medium var(--secondary-button-font-family);
   height: 48px;
   line-height: 48px;
   text-align: center;

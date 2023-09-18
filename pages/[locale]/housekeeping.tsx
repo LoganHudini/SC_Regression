@@ -19,7 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { IHousekeepingProps } from 'types/housekeeping.types';
-import { DetailDrawer } from 'components/shared/DetailDrawer/DetailDrawer';
+import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
 import { housekeepingQuantityStorage } from 'storage/housekeeping-quantity.storage';
@@ -163,10 +163,10 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
                   ? showSchedules?.customSchedule === DATE
                     ? dayjs(selectedTime).format(timeFormats.DAY_MONTH)
                     : showSchedules?.customSchedule === TIME
-                      ? dayjs(selectedTime).format(timeFormats.HOURS_MINUTES_AM)
-                      : showSchedules?.customSchedule === DATETIME
-                        ? dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
-                        : dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
+                    ? dayjs(selectedTime).format(timeFormats.HOURS_MINUTES_AM)
+                    : showSchedules?.customSchedule === DATETIME
+                    ? dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
+                    : dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
                   : dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
                 : '',
             })),
@@ -303,7 +303,7 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
       <Notification
         title={t('Thank You!') as string}
         description={t('Your request has been confirmed') as string}
-        redirect={availablePaths.HOUSEKEEPING}
+        redirect={availablePaths?.HOUSEKEEPING}
         type='success'
       />
     </>
@@ -348,7 +348,7 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
           </>
         )}
 
-        <DetailDrawer
+        <CustomDrawer
           open={serviceRequesttDetailsDrawerStatus}
           onClose={() => handleClose()}
           content={drawerDetails()}

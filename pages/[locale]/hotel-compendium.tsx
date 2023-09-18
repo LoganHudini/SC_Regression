@@ -11,7 +11,7 @@ import {
   toggleDetailsDrawer,
 } from 'storage/home.storage';
 import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
-import { DetailDrawer } from 'components/shared/DetailDrawer/DetailDrawer';
+import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { ASSETS_URL } from 'core/graphql/endpoints';
 import { GET_HOTEL_COMPENDIUM } from 'core/graphql/queries/GET_HOTEL_COMPENDIUM_DETIALS';
@@ -57,15 +57,23 @@ const HotelCompendium = () => {
   };
 
   const hotelCompendiumDrawerDetails = () => (
-    <div className={styles.wrapper}>
+    <>
       <StableImage
         className={styles.image}
-        src={`${ASSETS_URL}/${showSelectedAmenity?.images[0]?.master}`}
+        src={`${ASSETS_URL}/${showSelectedAmenity?.images[0]?.ratio16to9}`}
       />
-      <div className={styles.title}>{showSelectedAmenity?.name}</div>
-      <div className={styles.description}>{showSelectedAmenity?.description}</div>
-      <div className={styles.highlights}>{showSelectedAmenity?.highlights[0]}</div>
-    </div>
+      <div className={styles.wrapper}>
+        {showSelectedAmenity?.name && (
+          <div className={styles.title}>{showSelectedAmenity?.name}</div>
+        )}
+        {showSelectedAmenity?.description && (
+          <div className={styles.description}>{showSelectedAmenity?.description}</div>
+        )}
+        {showSelectedAmenity?.highlights[0] && (
+          <div className={styles.highlights}>{showSelectedAmenity?.highlights[0]}</div>
+        )}
+      </div>
+    </>
   );
 
   return (
@@ -91,7 +99,7 @@ const HotelCompendium = () => {
             ) : (
               <div className={styles.info}>{t('No information found')}</div>
             )}
-            <DetailDrawer
+            <CustomDrawer
               open={detailsDrawerStatus}
               onClose={closeDrawer}
               content={hotelCompendiumDrawerDetails()}

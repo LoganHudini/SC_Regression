@@ -13,7 +13,7 @@
 .bannerImage {
   cursor: pointer;
   display: flex;
-  min-height: 150px;
+  min-height: 190px;
   height: 100%;
   width: 100%;
   margin: auto;
@@ -32,7 +32,6 @@
 }
 
 .listComponent {
-  position: relative;
   margin: 2rem 0;
   cursor: pointer;
 
@@ -129,13 +128,13 @@
   flex-direction: row;
   align-items: center;
   text-decoration: none;
-  margin-top: 8px;
+  margin: 4px 0;
   font-family: var(--primary-font-regular);
   font-size: $xsmall;
   text-transform: capitalize;
 
   span {
-    margin-inline-start: 8px;
+    margin-inline-start: 10px;
     font-size: 0.75rem;
     line-height: 1.5;
     text-transform: capitalize;
@@ -210,14 +209,14 @@
   flex-direction: row;
   align-items: center;
   text-decoration: none;
-  margin-top: 11px;
+  margin: 4px 0;
   font-family: var(--primary-font-regular);
   font-size: $xsmall;
   text-transform: capitalize;
   padding-left: 2px;
 
   span {
-    margin-inline-start: 10px;
+    margin-inline-start: 12px;
     font-size: 0.75rem;
     line-height: 1.5;
     text-transform: capitalize;

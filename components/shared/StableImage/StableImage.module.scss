@@ -2,12 +2,24 @@
   display: none !important;
 }
 
+.fade {
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .animation {
   position: relative;
   overflow: hidden;
-  background-color: #dee3ea;
-
-  opacity: 0.45;
+  background-color: #d5dce4;
+  opacity: 0.25;
   &::before {
     content: '';
     display: block;
@@ -16,8 +28,8 @@
     top: 0;
     height: 100%;
     width: 150px;
-    background: linear-gradient(to right, transparent 0%, #fff 50%, transparent 100%);
-    animation: load 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    background: linear-gradient(to right, transparent 0%, #ffffffd7 50%, transparent 100%);
+    animation: load 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
 }
 

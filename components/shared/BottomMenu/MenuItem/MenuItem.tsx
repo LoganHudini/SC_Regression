@@ -30,6 +30,7 @@ import { spaInformationStorage } from 'storage/spa.storage';
 import { offerList, selectedOfferOption } from 'storage/offers.storage';
 import { useTranslation } from 'react-i18next';
 import HotelInfoDrawer from 'components/pages/home/HotelInformation/HotelInfoDrawer/HotelInfoDrawer';
+import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
   title,
@@ -87,7 +88,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   housekeepingActive,
   hotelCompendiumActive,
   spaActive,
-  offersActive
+  offersActive,
 }) => {
   const navigate = useLocalizedRouter();
   const diningOptionSelected = useReactiveVar(diningOptions);
@@ -117,27 +118,10 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
     closeDrawer();
   };
 
-  return (
-    <>
-      {' '}
-      <Drawer
-        variant='temporary'
-        anchor='bottom'
-        open={drawerStatus}
-        onClose={closeDrawer}
-        PaperProps={{
-          elevation: 0,
-          style: {
-            padding: '2rem 0',
-            maxWidth: '768px',
-            margin: 'auto',
-            maxHeight: '40vh',
-          },
-        }}
-        onTouchStart={(e) => handleTouchStart(e, setStartY)}
-        onTouchEnd={(e) => handleTouchEnd(e, startY, setStartY, closeDrawer)}
-      >
-        <div className={styles.drawerNotch}></div>
+  const modulesOptionsRender = () => {
+    return (
+      <div className={styles.wrapper}>
+        {' '}
         {homeActive && (
           <div>
             <p className={styles.title}>Room 411</p>
@@ -159,7 +143,6 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
             </div>
           </div>
         )}
-
         {irdActive && (
           <div>
             <p className={styles.title}>{t('Choose your category')}</p>
@@ -184,7 +167,6 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
             </div>
           </div>
         )}
-
         {housekeepingActive && (
           <div>
             <p className={styles.title}>{t('Choose your category')} </p>
@@ -210,7 +192,6 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
             </div>
           </div>
         )}
-
         {hotelCompendiumActive && (
           <div>
             <p className={styles.title}>{t('Choose your category')}</p>
@@ -233,7 +214,6 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
             </div>
           </div>
         )}
-
         {spaActive && (
           <div>
             <p className={styles.title}>{t('Choose your category')}</p>
@@ -279,7 +259,13 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
             </div>
           </div>
         )}
-      </Drawer>
+      </div>
+    );
+  };
+
+  return (
+    <>
+      <CustomDrawer open={drawerStatus} onClose={closeDrawer} content={modulesOptionsRender()} />
       <HotelInfoDrawer />
     </>
   );

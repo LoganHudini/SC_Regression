@@ -8,6 +8,7 @@
 
 .wrapper {
   min-height: 163px;
+  min-width: 169px;
   max-width: 45%;
   margin: 10px 0;
   text-align: center;
@@ -18,14 +19,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--primary-overlay-color);
   z-index: 1;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: var(--secondary-overlay-color);
 }
 
 .image {

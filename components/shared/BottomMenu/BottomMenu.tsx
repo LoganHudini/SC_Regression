@@ -28,11 +28,9 @@ import { Fade as Hamburger } from 'hamburger-react';
 import CheckInDrawer from 'components/pages/check-in/CheckInDrawer';
 import cx from 'classnames';
 import { useHideOnScroll } from 'utils/hooks/useHideOnScroll';
-import { DetailDrawer } from '../DetailDrawer/DetailDrawer';
 import useOutsideAlerter from 'utils/hooks/useOutsideAlerter';
-import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { HEADERS } from 'utils/constants';
 import { selectedOfferOption } from 'storage/offers.storage';
+import { CustomDrawer } from '../CustomDrawer/CustomDrawer';
 
 export const BottomMenu: React.FC<unknown> = () => {
   const wrapperRef = useRef(null);
@@ -54,10 +52,6 @@ export const BottomMenu: React.FC<unknown> = () => {
   const offersActive = router.pathname.includes(availablePaths.OFFERS);
   const hotelCompendiumActive = router?.pathname?.includes(availablePaths.HOTEL_COMPENDIUM);
   const hotelCompendiumSelected: any = useReactiveVar(selectedCompendiumCategory);
-  const arrowActive = homeActive && !isCheckedIn ? false : true;
-  const restaurantActive = router.pathname.includes(HEADERS[0]);
-
-  const navigate = useLocalizedRouter();
 
   const { data } = useQuery<IGetHamburgerMenuDetailsApiResponse>(GET_HAMBURGER_MENU, {
     context: { clientName: 'host_v4' },
@@ -85,29 +79,53 @@ export const BottomMenu: React.FC<unknown> = () => {
 
   useOutsideAlerter(wrapperRef);
 
+  const hamburgerMenuRender = () => {
+    return (
+      <div ref={wrapperRef} className={cx(styles.hamburgerMenuContainer)}>
+        {hamburger &&
+          hamburger['post'].map((hamburgerMenuElement) => (
+            <MenuItem
+              Icon={
+                hamburgerIconsMap[hamburgerMenuElement.name as keyof typeof hamburgerIconsMap] ||
+                HamburgerIcon
+              }
+              title={hamburgerMenuElement.name}
+              key={hamburgerMenuElement.id}
+              externalLink={hamburgerMenuElement.externalLink}
+              flow={hamburgerMenuElement.flow}
+              pages={hamburgerMenuElement.pages}
+              redirectOptions={hamburgerMenuElement.redirectOptions}
+              status={hamburgerMenuElement.isActive}
+              toggleOption={closeHamburgerMenuDrawer}
+            />
+          ))}
+      </div>
+    );
+  };
+
   return (
     <>
       <div className={cx(styles.bottomMenuWrapper, { [styles.hideOnScroll]: hideOnScroll })}>
-        <motion.div
-          whileTap={{ scale: 0.8 }}
+        <StyledButton
+          variant='contained'
           className={styles.bottomMenuButton}
           onClick={openModuleOptionsDrawer}
         >
-          <StyledButton variant='contained'>
-            <span className={styles.btnText}>
-              {homeActive && (isCheckedIn ? t('Room 401') : t('CHECK-IN'))}
-              {irdActive && t(`${diningOptionSelected?.title}`)}
-              {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
-              {spaActive && t(`${spaInformation?.selectedSpaCategoryName}`)}
-              {offersActive && t(`${offersOptionSelected?.type}`)}
-              {hotelCompendiumActive && t(`${hotelCompendiumSelected?.name}`)}
-            </span>
-            <DownArrowIcon className={styles.downArrow} />
-          </StyledButton>
-        </motion.div>
+          <span className={styles.btnText}>
+            {homeActive && (isCheckedIn ? t('Room 401') : t('CHECK-IN'))}
+            {irdActive && t(`${diningOptionSelected?.title}`)}
+            {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
+            {spaActive && t(`${spaInformation?.selectedSpaCategoryName}`)}
+            {offersActive && t(`${offersOptionSelected?.type}`)}
+            {hotelCompendiumActive && t(`${hotelCompendiumSelected?.name}`)}
+          </span>
+          <DownArrowIcon className={styles.downArrow} />
+        </StyledButton>
 
         <div className={styles.hamburgerIcon}>
           <Hamburger
+            distance={'sm'}
+            color={'var(--primary-theme-color)'}
             toggled={hamburgerMenuStatus}
             toggle={(toggled) => {
               if (toggled) {
@@ -121,10 +139,17 @@ export const BottomMenu: React.FC<unknown> = () => {
       </div>
 
       <ModuleOptionsDrawer
-        {...{ homeActive, irdActive, housekeepingActive, hotelCompendiumActive, spaActive, offersActive }}
+        {...{
+          homeActive,
+          irdActive,
+          housekeepingActive,
+          hotelCompendiumActive,
+          spaActive,
+          offersActive,
+        }}
       />
 
-      {hamburgerMenuStatus && hamburger && (
+      {/* {hamburgerMenuStatus && hamburger && (
         <div ref={wrapperRef} className={cx(styles.hamburgerMenuContainer)}>
           {hamburger['post'].map((hamburgerMenuElement) => (
             <MenuItem
@@ -143,7 +168,13 @@ export const BottomMenu: React.FC<unknown> = () => {
             />
           ))}
         </div>
-      )}
+      )} */}
+
+      <CustomDrawer
+        open={hamburgerMenuStatus}
+        onClose={closeHamburgerMenuDrawer}
+        content={hamburgerMenuRender()}
+      />
 
       <CheckInDrawer />
     </>

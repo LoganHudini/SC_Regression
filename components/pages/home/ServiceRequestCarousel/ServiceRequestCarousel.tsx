@@ -8,9 +8,12 @@ import styles from './ServiceRequestCarousel.module.scss';
 import { housekeepingOptions } from 'storage/housekeeping.storage';
 import { CAROUSEL_RESPONSIVE, HouseKeeping, SERVICE_REQUEST_OPTIONS } from 'utils/constants';
 import { availablePaths } from 'utils/availablePaths';
+import { CarouselLoader } from 'components/shared/Loaders/Loaders';
 
 interface ICarouselProps {
-  details: any;
+  data: any;
+  loading?: any;
+  error?: any;
 }
 interface ICarouselSlideProps {
   slide: any;
@@ -43,14 +46,14 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide }) => {
   );
 };
 
-export const ServiceRequestCarousel: React.FC<ICarouselProps> = ({ details }) => {
+export const ServiceRequestCarousel: React.FC<ICarouselProps> = ({ data, loading }) => {
   const { t } = useTranslation(['common']);
 
   const [showServiceRequest, setShowServiceRequest] = useState([]);
 
   useEffect(() => {
-    if (details) {
-      const selectedServiceRequests: any = details?.getServiceRequestDetails;
+    if (data) {
+      const selectedServiceRequests: any = data?.getServiceRequestDetails;
       const houseKeeping = selectedServiceRequests?.houseKeeping?.filter((el: any) => el?.isActive);
       const concierge = selectedServiceRequests?.concierge?.filter((el: any) => el?.isActive);
       const combinedServiceRequestArray: any = [
@@ -59,18 +62,20 @@ export const ServiceRequestCarousel: React.FC<ICarouselProps> = ({ details }) =>
       ];
       setShowServiceRequest(combinedServiceRequestArray?.filter((data: any) => data));
     }
-  }, [details]);
+  }, [data]);
 
   return (
     <div className={styles.ServiceRequestCarouselWrapper}>
       <p className={styles.servicesCarouselTitle}>{t('Services')}</p>
-      <WithScrollbar responsive={CAROUSEL_RESPONSIVE} className={styles.carouselWrapper}>
-        {showServiceRequest &&
-          showServiceRequest?.length > 0 &&
-          showServiceRequest?.map((slide: any) => (
+      {loading ? (
+        <CarouselLoader />
+      ) : (
+        <WithScrollbar responsive={CAROUSEL_RESPONSIVE} className={styles.carouselWrapper}>
+          {showServiceRequest?.map((slide: any) => (
             <CarouselSlide key={slide?.name} slide={slide} />
           ))}
-      </WithScrollbar>
+        </WithScrollbar>
+      )}
     </div>
   );
 };

@@ -12,16 +12,15 @@ import { ASSETS_URL, CURRENCY } from 'core/graphql/endpoints';
 import produce from 'immer';
 import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
 import { DiningCheckboxItem } from 'components/pages/dining/DiningCheckboxItem/DiningCheckboxItem';
-import { Drawer, InputAdornment } from '@mui/material';
+import { InputAdornment } from '@mui/material';
 import { DiningMenuElementSkeleton } from 'components/pages/dining/DiningMenuElementSkeleton/DiningMenuElementSkeleton';
 import { sortBy } from 'lodash';
 import TextField from '@mui/material/TextField';
 import { iconsMap } from 'utils/hamburger/hamburgerIconsMap';
 import { irdActiveMenuList } from 'utils/functions';
 import { addToCartEvent } from 'utils/gtag';
-import { handleTouchEnd, handleTouchStart } from 'utils/hooks/useDrawerSwipe';
 import cx from 'classnames';
-import { DetailDrawer } from 'components/shared/DetailDrawer/DetailDrawer';
+import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 
 const DiningDetailsDrawer = () => {
   const { t } = useTranslation(['dining', 'common']);
@@ -36,7 +35,6 @@ const DiningDetailsDrawer = () => {
   const [totalAddons, settotalAddons] = useState<number>(0);
   const [customisation, setCustomisation] = useState<any>();
   const [addonsWarning, setAddonsWarning] = useState(false);
-  const [startY, setStartY] = useState(0);
   const [addons, setAddons] = useState<
     {
       code: string;
@@ -88,10 +86,11 @@ const DiningDetailsDrawer = () => {
   }, [addons, updateAddons, totalAddons, selectedItem?.addOnLimit, selectedItem?.addOnValue]);
 
   useEffect(() => {
-    if (!selectedItemId) {
+    if (!selectedItemId || count === 0) {
       toggleDiningDetailsDrawer(false);
+      setCount(1);
     }
-  }, [navigate, selectedItemId]);
+  }, [count, navigate, selectedItemId]);
 
   const incrementCount = useCallback(() => {
     setCount((state) => state + 1);
@@ -299,8 +298,6 @@ const DiningDetailsDrawer = () => {
           </>
         ) : (
           <>
-            {' '}
-            <div className={styles.drawerNotch}></div>
             {selectedItem?.images[0] && (
               <StableImage
                 className={styles.image}
@@ -448,29 +445,28 @@ const DiningDetailsDrawer = () => {
                   </p>
                 </>
               )}
+            </div>
+            <div className={styles.counterContainer}>
+              <PlusMinusInput
+                value={count}
+                className={styles.plusMinusInput}
+                onClickMinus={decrementCount}
+                onClickPlus={incrementCount}
+              />
 
-              <div className={styles.counterContainer}>
-                <PlusMinusInput
-                  value={count}
-                  className={styles.plusMinusInput}
-                  onClickMinus={decrementCount}
-                  onClickPlus={incrementCount}
-                />
-
-                <div>
-                  <StyledButton
-                    onClick={handleAdd}
-                    className={styles.addToCart}
-                    variant='contained'
-                    disabled={
-                      count === 0 ||
-                      (selectedItem?.customisation && !customisation?.name) ||
-                      addonsWarning
-                    }
-                  >
-                    {t('Add to cart')}
-                  </StyledButton>
-                </div>
+              <div>
+                <StyledButton
+                  onClick={handleAdd}
+                  className={styles.addToCart}
+                  variant='contained'
+                  disabled={
+                    count === 0 ||
+                    (selectedItem?.customisation && !customisation?.name) ||
+                    addonsWarning
+                  }
+                >
+                  {t('Add to cart')}
+                </StyledButton>
               </div>
             </div>
           </>
@@ -480,7 +476,7 @@ const DiningDetailsDrawer = () => {
   };
 
   return (
-    <DetailDrawer
+    <CustomDrawer
       open={diningDetailsDrawerStatus}
       onClose={closeDrawer}
       content={diningDetails()}

@@ -11,7 +11,7 @@ import { Header } from 'components/shared/Header/Header';
 import { toggleDetailsDrawer, toggleHamburgerMenuDrawer } from 'storage/home.storage';
 import { activeItems } from 'utils/functions';
 import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
-import { DetailDrawer } from 'components/shared/DetailDrawer/DetailDrawer';
+import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { GET_SPA_DETAILS } from 'core/graphql/queries/GET_SPA_DETAILS';
 import Head from 'next/head';
 import { spaInformationStorage } from 'storage/spa.storage';
@@ -87,11 +87,7 @@ const Spa: React.FC = () => {
     <>
       <StableImage
         className={styles.image}
-        src={
-          selectedSpaItem?.images && selectedSpaItem?.images[0]
-            ? `${ASSETS_URL}/${selectedSpaItem?.images[0]?.ratio16to9}`
-            : undefined
-        }
+        src={`${ASSETS_URL}/${selectedSpaItem?.images[0]?.ratio16to9}`}
       />
 
       {/* {selectedSpaItem?.cta?.status === ACTIVE && (
@@ -159,7 +155,7 @@ const Spa: React.FC = () => {
         </PageWrapper>
       )}
 
-      <DetailDrawer open={spaDetailsDrawerStatus} onClose={closeDrawer} content={spaDetails()} />
+      <CustomDrawer open={spaDetailsDrawerStatus} onClose={closeDrawer} content={spaDetails()} />
     </>
   );
 };

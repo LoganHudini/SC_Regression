@@ -15,15 +15,12 @@ import ClockIcon from '@icons/clockIcon.svg';
 import DishIcon from '@icons/dishIcon.svg';
 import { diningOptions } from 'storage/home.storage';
 import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
+import { CarouselLoader } from 'components/shared/Loaders/Loaders';
 
 interface ICarouselProps {
   ird: any;
   restaurants: any;
-}
-
-interface ICarouselProps {
-  ird: any;
-  restaurants: any;
+  loading?: boolean;
 }
 
 interface ICarouselSlideProps {
@@ -50,8 +47,10 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
     selectedRestaurantStorage(slide);
     navigate(`${diningOptionsCarousal.path}`);
   };
-  const time = `${slide.hours[0]?.day.slice(0, 3).toLowerCase()}-${slide.hours[0]?.open}-${slide.hours[0]?.close
-    }...`;
+  const time = `${slide.hours[0]?.day.toLowerCase()}: ${slide.hours[0]?.open} - ${
+    slide.hours[0]?.close
+  } ...`;
+
   return (
     <>
       {module ? (
@@ -96,7 +95,7 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
   );
 };
 
-export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) => {
+export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, loading }) => {
   const { t } = useTranslation(['common']);
 
   const diningOptionSelected = useReactiveVar(diningOptions);
@@ -137,9 +136,13 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
           </p>
         ))}
       </div>
-      <WithScrollbar responsive={CAROUSEL_RESPONSIVE} className={styles.carouselWrapper}>
-        {renderSlides(slides, diningOptionsState.title === IN_ROOM_DINING)}
-      </WithScrollbar>
+      {loading ? (
+        <CarouselLoader />
+      ) : (
+        <WithScrollbar responsive={CAROUSEL_RESPONSIVE} className={styles.carouselWrapper}>
+          {renderSlides(slides, diningOptionsState.title === IN_ROOM_DINING)}
+        </WithScrollbar>
+      )}
     </div>
   );
 };

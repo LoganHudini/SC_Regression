@@ -9,7 +9,7 @@ import { getConfig } from 'utils/getConfiguration';
 import { BANNER_CAROUSEL, HOME } from 'utils/constants';
 
 interface IHomeCarouselProps {
-  details: any;
+  data: any;
 }
 
 interface IHomeCarouselItemProps {
@@ -35,10 +35,10 @@ const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
   );
 };
 
-export const HomeCarousel: React.FC<IHomeCarouselProps> = ({ details }) => {
+export const HomeCarousel: React.FC<IHomeCarouselProps> = ({ data }) => {
   const config = getConfig();
 
-  const hotelImages = details?.getPropertyDetailsByHotelId?.hotel?.images;
+  const hotelImages = data?.getPropertyDetailsByHotelId?.hotel?.images;
   const homeModule: any = config?.modules?.find((module) => module?.code === HOME);
   const carouselDetails = homeModule?.submodules?.find(
     (submodule: any) => submodule?.code === BANNER_CAROUSEL && submodule.isActive,
@@ -56,6 +56,7 @@ export const HomeCarousel: React.FC<IHomeCarouselProps> = ({ details }) => {
       }}
       indicators={(carouselDetails?.details?.length || 0) > 1}
       className={styles.carousel}
+      autoPlay={false}
       animation={'slide'}
       duration={1000}
       interval={5000}

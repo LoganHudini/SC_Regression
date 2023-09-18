@@ -9,9 +9,11 @@ import { activeItems } from 'utils/functions';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { spaInformationStorage } from 'storage/spa.storage';
 import { availablePaths } from 'utils/availablePaths';
+import { CarouselLoader } from 'components/shared/Loaders/Loaders';
 
 interface ICarouselProps {
-  details: any;
+  data: any;
+  loading?: boolean;
 }
 interface ICarouselSlideProps {
   slide: any;
@@ -45,23 +47,25 @@ export const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide }) => {
   );
 };
 
-export const SpaCarousel: React.FC<ICarouselProps> = ({ details }) => {
+export const SpaCarousel: React.FC<ICarouselProps> = ({ data, loading }) => {
   const { t } = useTranslation(['common']);
 
-  const spaInfoList = activeItems(details?.getSpaDetails?.spa);
+  const spaInfoList = activeItems(data?.getSpaDetails?.spa);
 
   return (
     <>
-      {spaInfoList?.length > 0 && (
-        <div className={styles.spaCarouselWrapper}>
-          <p className={styles.spaTitle}>{t('Spa')}</p>
+      <div className={styles.spaCarouselWrapper}>
+        <p className={styles.spaTitle}>{t('Spa')}</p>
+        {loading ? (
+          <CarouselLoader />
+        ) : (
           <WithScrollbar className={styles.carouselWrapper} itemClass={styles.carouselItem}>
             {spaInfoList?.map((slide: any) => (
               <CarouselSlide key={slide?.name} slide={slide} />
             ))}
           </WithScrollbar>
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 };

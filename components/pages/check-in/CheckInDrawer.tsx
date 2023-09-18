@@ -17,7 +17,7 @@ import { availablePaths } from 'utils/availablePaths';
 import { toast } from 'react-toastify';
 import { checkinStorage } from 'storage/check-in.storage';
 import { toggleCheckInDrawer, toggleDetailsDrawer } from 'storage/home.storage';
-import { DetailDrawer } from 'components/shared/DetailDrawer/DetailDrawer';
+import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 
 const CheckInDrawer = () => {
   const navigate = useLocalizedRouter();
@@ -145,7 +145,7 @@ const CheckInDrawer = () => {
 
   return (
     <>
-      <DetailDrawer
+      <CustomDrawer
         open={checkInDrawerStatus}
         onClose={closeInputDrawer}
         content={checkInDetails()}

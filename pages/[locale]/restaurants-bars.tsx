@@ -40,7 +40,7 @@ import {
 } from 'utils/constants';
 import { filterRestaurantList } from 'utils/functions';
 import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
-import { DetailDrawer } from 'components/shared/DetailDrawer/DetailDrawer';
+import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { CREATE_RESTAURANT_RESERVATION } from 'core/graphql/queries/GET_RESTAURANT_RESERVATION_DETAILS';
 import { client } from 'core/graphql/client';
 import { processError } from 'utils/processError';
@@ -102,9 +102,11 @@ const RestaurantAndBars: React.FC = () => {
     diningOptionSelected.id === IRD && diningOptions(DINING_OPTIONS[1]);
     if (!isEmpty(initialSelected)) {
       setSelectedRestaurantData(initialSelected);
-      toggleDetailsDrawer(true);
+      setTimeout(() => {
+        toggleDetailsDrawer(true);
+      }, 1000);
     }
-  }, []);
+  }, [diningOptionSelected.id, initialSelected]);
 
   const filteredList = filterRestaurantList(queryResultsData, diningOptionSelected);
 
@@ -241,11 +243,7 @@ const RestaurantAndBars: React.FC = () => {
         <div className={styles.imageWrapper}>
           <StableImage
             className={styles.bannerImage}
-            src={
-              queryResultEntity?.images && queryResultEntity?.images[0]
-                ? `${ASSETS_URL}/${queryResultEntity?.images[0]?.master}`
-                : undefined
-            }
+            src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.ratio16to9}`}
           />
 
           {queryResultEntity?.cta?.status === ACTIVE && (
@@ -283,14 +281,13 @@ const RestaurantAndBars: React.FC = () => {
             )} */}
 
             {queryResultEntity?.additionalInformation && (
-              <><div className={styles.timesWrapper} >
-                <TimeIcon className={styles.timeIcon} />
-                <p
-                  className={cx(styles.additionalInformation, styles.listComponentDataText)}
-                >
-                  {queryResultEntity?.additionalInformation}
-                </p>
-              </div>
+              <>
+                <div className={styles.timesWrapper}>
+                  <TimeIcon className={styles.timeIcon} />
+                  <p className={cx(styles.additionalInformation, styles.listComponentDataText)}>
+                    {queryResultEntity?.additionalInformation}
+                  </p>
+                </div>
               </>
             )}
 
@@ -311,8 +308,6 @@ const RestaurantAndBars: React.FC = () => {
                 {t(`${queryResultEntity?.description}`)}
               </p>
             )}
-
-
 
             <div className={styles.thirdRow}>
               <>
@@ -409,19 +404,24 @@ const RestaurantAndBars: React.FC = () => {
       {loading ? (
         <Loader />
       ) : (
-        <><PageWrapper className={styles.pageWrapper} displayBottomMenu>
-          <div>
-            {filteredList?.map((queryResultEntity: any) => (
-              <ListComponentEntity
-                key={queryResultEntity.id}
-                queryResultEntity={queryResultEntity}
-                selectedListItem={selectedListItem} />
-            ))}
-          </div>
-        </PageWrapper><DetailDrawer
+        <>
+          <PageWrapper className={styles.pageWrapper} displayBottomMenu>
+            <div>
+              {filteredList?.map((queryResultEntity: any) => (
+                <ListComponentEntity
+                  key={queryResultEntity.id}
+                  queryResultEntity={queryResultEntity}
+                  selectedListItem={selectedListItem}
+                />
+              ))}
+            </div>
+          </PageWrapper>
+          <CustomDrawer
             open={restaurantDetailsDrawerStatus}
             onClose={closeDrawer}
-            content={restaurantDetail()} /></>
+            content={restaurantDetail()}
+          />
+        </>
       )}
     </>
   );

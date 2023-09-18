@@ -1,27 +1,28 @@
 .pageWrapper {
-  padding: 60px 20px 120px;
+  padding: 70px 20px 40px;
 }
 
 .wrapper {
-  padding: 40px 20px 30px 20px;
+  padding: 0.5rem 1.5rem 1rem;
 }
 
 .image {
   width: 100%;
-  height: 255px;
+  height: 100%;
+  min-height: 210px;
 }
 
 .title {
   text-align: center;
   font-size: $header;
-  margin-top: 20px;
+  margin: 10px 0;
   font-family: var(--secondary-font-regular);
 }
 
 .description {
   text-align: center;
   font-size: $small;
-  margin-top: 20px;
+  margin: 20px 0 30px;
   font-family: var(--primary-font-regular);
   color: var(--tertiary-text-color);
 }
@@ -29,9 +30,8 @@
 .highlights {
   text-align: center;
   font-size: $medium;
-  margin-top: 5px;
+  margin: 5px 0;
   color: var(--tertiary-text-color);
-  margin-bottom: 70px;
 }
 
 .info {
