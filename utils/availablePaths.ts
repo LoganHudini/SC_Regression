@@ -32,7 +32,7 @@ export const availablePaths = {
   // Spa flow
   SPA: '/spa',
 
-  //feedback
+  // feedback
   FEEDBACK: '/feedback',
 
   // Housekeeping flow

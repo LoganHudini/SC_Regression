@@ -3,6 +3,7 @@ import { scrollState } from 'storage/dining-menu.storage';
 import { PHONE_REGEX } from './constants';
 import * as yup from 'yup';
 import { toggleLoader } from 'storage/home.storage';
+import { getConfig } from './getConfiguration';
 
 // Extract data from local storage
 export const guestNameFandB = () =>
@@ -151,3 +152,6 @@ export const platformLoader = (duration: number) => {
 
 // Return active items
 export const activeItems = (list: any) => list && list?.filter((item: any) => item?.isActive);
+
+// Button arrow status
+export const buttonArrow = getConfig()?.ButtonArrow;

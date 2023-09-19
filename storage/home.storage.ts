@@ -14,13 +14,13 @@ export const toggleHamburgerMenuDrawer = makeVar(false);
 
 export const toggleHotelInfoDrawer = makeVar(false);
 
-export const toggleCheckInDrawer = makeVar(false);
-
 export const toggleNotification = makeVar(false);
 
 export const toggleLoader = makeVar(false);
 
 export const toggleDetailsDrawer = makeVar(false);
+
+export const toggleCheckInDetailsDrawer = makeVar(false);
 
 export const getHotelCompendium = makeVar([]);
 export const selectedCompendiumCategory = makeVar([]);

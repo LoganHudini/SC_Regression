@@ -3,6 +3,7 @@ export const configuration = [
     code: 'sofitel-manila',
     name: 'Sofitel Manila',
     hotelId: '259034ee-3f5c-43b0-9332-dffd85ccba65',
+    ButtonArrow: true,
     modules: [
       {
         code: 'Home',

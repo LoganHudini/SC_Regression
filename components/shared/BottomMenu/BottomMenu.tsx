@@ -10,6 +10,7 @@ import { useQuery, useReactiveVar } from '@apollo/client';
 import {
   diningOptions,
   selectedCompendiumCategory,
+  toggleCheckInDetailsDrawer,
   toggleDetailsDrawer,
   toggleHamburgerMenuDrawer,
   toggleModuleOptionsDrawer,
@@ -61,11 +62,11 @@ export const BottomMenu: React.FC<unknown> = () => {
   const hamburger = data?.getUiBuilderHamburgerMenuDetails;
 
   const openModuleOptionsDrawer = () => {
-    if (isCheckedIn) {
+    if (!homeActive) {
       toggleModuleOptionsDrawer(true);
       toggleHamburgerMenuDrawer(false);
     } else {
-      toggleDetailsDrawer(true);
+      toggleCheckInDetailsDrawer(true);
     }
   };
 
@@ -112,7 +113,7 @@ export const BottomMenu: React.FC<unknown> = () => {
           onClick={openModuleOptionsDrawer}
         >
           <span className={styles.btnText}>
-            {homeActive && (isCheckedIn ? t('Room 401') : t('CHECK-IN'))}
+            {homeActive && (isCheckedIn?.checkedIn ? t('Room 401') : t('CHECK-IN'))}
             {irdActive && t(`${diningOptionSelected?.title}`)}
             {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
             {spaActive && t(`${spaInformation?.selectedSpaCategoryName}`)}

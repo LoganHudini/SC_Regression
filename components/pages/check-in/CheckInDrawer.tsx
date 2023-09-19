@@ -16,12 +16,12 @@ import { useTranslation } from 'react-i18next';
 import { availablePaths } from 'utils/availablePaths';
 import { toast } from 'react-toastify';
 import { checkinStorage } from 'storage/check-in.storage';
-import { toggleCheckInDrawer, toggleDetailsDrawer } from 'storage/home.storage';
+import { toggleCheckInDetailsDrawer } from 'storage/home.storage';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 
 const CheckInDrawer = () => {
   const navigate = useLocalizedRouter();
-  const checkInDrawerStatus = useReactiveVar(toggleCheckInDrawer);
+  const checkInDrawerStatus = useReactiveVar(toggleCheckInDetailsDrawer);
   const { t } = useTranslation(['get-reservation', 'common']);
 
   const [loading, setLoading] = useState(false);
@@ -46,31 +46,31 @@ const CheckInDrawer = () => {
             data,
           });
 
-          // if (
-          //   data.getReservation.data.reservationStatus === 'CANCELED' ||
-          //   data.getReservation.data.reservationStatus === 'CHKOUT' ||
-          //   data.getReservation.data.reservationStatus === 'CHECKEDOUT'
-          // ) {
-          //   toast(t('No Reservation Found'), { type: 'error' });
-          //   checkinStorage({
-          //     reservationId: data.getReservation.data.confirmationId as string,
-          //     checkedIn: false,
-          //     preCheckedIn: false,
-          //   });
-          //   setLoading(false);
-          // } else if (data.getReservation.data.reservationStatus === 'INHOUSE') {
-          //   toast(t('Checked In Successfully'), { type: 'success' });
-          //   checkinStorage({
-          //     reservationId: data.getReservation.data.confirmationId as string,
-          //     checkedIn: true,
-          //     preCheckedIn: true,
-          //     bookingId: data.getReservation.data.reservationId,
-          //   });
-          //   navigate(availablePaths?.HOME);
-          // } else {
-          toggleCheckInDrawer(false);
-          navigate(availablePaths?.GUEST_INFORMATION_INPUT);
-          // }
+          if (
+            data.getReservation.data.reservationStatus === 'CANCELED' ||
+            data.getReservation.data.reservationStatus === 'CHKOUT' ||
+            data.getReservation.data.reservationStatus === 'CHECKEDOUT'
+          ) {
+            toast(t('No Reservation Found'), { type: 'error' });
+            checkinStorage({
+              reservationId: data.getReservation.data.confirmationId as string,
+              checkedIn: false,
+              preCheckedIn: false,
+            });
+            setLoading(false);
+          } else if (data.getReservation.data.reservationStatus === 'INHOUSE') {
+            toast(t('Checked In Successfully'), { type: 'success' });
+            checkinStorage({
+              reservationId: data.getReservation.data.confirmationId as string,
+              checkedIn: true,
+              preCheckedIn: true,
+              bookingId: data.getReservation.data.reservationId,
+            });
+            navigate(availablePaths?.HOME);
+          } else {
+            toggleCheckInDetailsDrawer(false);
+            navigate(availablePaths?.GUEST_INFORMATION_INPUT);
+          }
         }
       } catch (error) {
         processError(t, error as ApolloError);
@@ -90,7 +90,7 @@ const CheckInDrawer = () => {
   });
 
   const closeInputDrawer = useCallback(() => {
-    toggleCheckInDrawer(false);
+    toggleCheckInDetailsDrawer(false);
     navigate(availablePaths.HOME);
   }, [navigate]);
 
@@ -106,20 +106,7 @@ const CheckInDrawer = () => {
               autoComplete='off'
               required
               className={styles.reservationInput}
-              label={t('Last Name')}
-              variant='standard'
-              name='lastName'
-              id='lastName'
-              value={formik.values.lastName}
-              onChange={formik.handleChange}
-              error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-              helperText={formik.touched?.lastName && formik.errors.lastName}
-            />
-            <StyledInput
-              autoComplete='off'
-              required
-              className={styles.reservationInput}
-              label={t('Reservation ID')}
+              label={t('Booking ID')}
               variant='standard'
               name='confirmationNumber'
               id='confirmationNumber'
@@ -128,6 +115,19 @@ const CheckInDrawer = () => {
               onChange={formik.handleChange}
               error={formik.touched.confirmationNumber && Boolean(formik.errors.confirmationNumber)}
               helperText={formik.touched?.confirmationNumber && formik.errors.confirmationNumber}
+            />
+            <StyledInput
+              autoComplete='off'
+              required
+              className={styles.reservationInput}
+              label={t('Last Name')}
+              variant='standard'
+              name='lastName'
+              id='lastName'
+              value={formik.values.lastName}
+              onChange={formik.handleChange}
+              error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+              helperText={formik.touched?.lastName && formik.errors.lastName}
             />
           </div>
           <StyledButton

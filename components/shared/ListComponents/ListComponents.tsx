@@ -3,10 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { useCallback } from 'react';
 import ClockIcon from '@icons/clockIcon.svg';
 import DishIcon from '@icons/dishIcon.svg';
+import ArrowButton from '@icons/readMoreArrow.svg';
 import styles from './ListComponents.module.scss';
 import { ASSETS_URL, CURRENCY } from 'core/graphql/endpoints';
 import { EVERYDAY, OFFERSDURATION } from 'utils/constants';
 import dayjs from 'dayjs';
+import { buttonArrow } from 'utils/functions';
 
 interface ListComponentEntityProps {
   queryResultEntity: any;
@@ -19,6 +21,7 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
   selectedListItem,
 }) => {
   const { t } = useTranslation(['common']);
+  const buttonArrowState = buttonArrow;
 
   const onCtaClick = useCallback(() => {
     selectedListItem(queryResultEntity);
@@ -84,7 +87,10 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
               <span>{time}</span>
             </div>
           )}
-          <span className={styles.readMoreButton}>{t('Read more')}</span>
+          <span className={styles.readMoreButton}>
+            {t('Read more')}
+            {buttonArrowState && <ArrowButton />}
+          </span>
         </div>
       </div>
     </div>

@@ -138,7 +138,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     }
   }, [guestReservationInfo?.isComplete, navigate]);
 
-  const sigCanvas = useRef<SignatureCanvas>(null);
+  const sigCanvas = useRef<any>(null);
 
   const clearCanvas = useCallback(() => {
     if (sigCanvas.current) {
@@ -415,15 +415,15 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             </Link>
           </p>
         </div>
-        <div className={styles.guestSignatureWrapper}>
+        {/* <div className={styles.guestSignatureWrapper}>
           <p className={styles.guestSignature}>{t('Guest Signature')}</p>
           <StyledButton className={styles.clearBtn} onClick={clearCanvas} variant='text'>
             {t('Clear')}
           </StyledButton>
-        </div>
+        </div> */}
 
         <div className={styles.agrementSignatureWrapper}>
-          <Card>
+          {/* <Card>
             <SignatureCanvas
               ref={sigCanvas}
               maxWidth={1.5}
@@ -432,7 +432,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               clearOnResize={false}
               onEnd={() => handleSignatureChange()}
             />
-          </Card>
+          </Card> */}
         </div>
         <div className={styles.btnWrapper}>
           <StyledButton

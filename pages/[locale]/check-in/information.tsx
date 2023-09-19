@@ -330,7 +330,6 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
               className={styles.button}
               onClick={goToTheNextStep}
               variant='contained'
-              arrow
             >
               {t('continue')}
             </StyledButton>

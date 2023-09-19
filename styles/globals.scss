@@ -266,6 +266,12 @@ img {
   color: var(--tertiary-text-color);
 }
 
+.MuiLoadingButton-loadingIndicator {
+  right: 4%;
+  left: auto;
+  color: var(--primary-theme-color);
+}
+
 .MuiInput-root::after,
 .MuiInput-root:hover::before {
   border-bottom: 2px solid var(--primary-theme-color);

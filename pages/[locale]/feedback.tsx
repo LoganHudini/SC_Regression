@@ -32,6 +32,7 @@ const Feedback = () => {
   const { t } = useTranslation('dining');
   const [feedbackText, setFeedbackText] = useState<any>();
   const [selectedFeedback, setSelectedFeedback] = useState<any>({});
+  const [loading, setLoading] = useState(false);
 
   const locale = useLocale();
   const navigate = useLocalizedRouter();
@@ -67,6 +68,7 @@ const Feedback = () => {
 
   const submit = async () => {
     try {
+      setLoading(true);
       const uploadSignatureResponse = await client.mutate({
         mutation: PostFeedback,
         context: { clientName: 'rest_v3' },
@@ -75,8 +77,10 @@ const Feedback = () => {
         },
       });
       navigate(availablePaths.HOME);
+      setLoading(false);
     } catch (uploadSignatureError) {
       processError(t, uploadSignatureError as ApolloError);
+      setLoading(false);
     }
   };
   return (
@@ -167,7 +171,12 @@ const Feedback = () => {
           ))}
           <div className={styles.confirmOrderButton}>
             <div className={styles.confirmationWrapperButton}>
-              <StyledButton className={styles.submitButton} onClick={submit} variant='contained'>
+              <StyledButton
+                className={styles.submitButton}
+                onClick={submit}
+                variant='contained'
+                loading={loading}
+              >
                 {t('submit')}
               </StyledButton>
             </div>
