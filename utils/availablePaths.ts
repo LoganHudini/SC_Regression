@@ -32,6 +32,9 @@ export const availablePaths = {
   // Spa flow
   SPA: '/spa',
 
+  //feedback
+  FEEDBACK: '/feedback',
+
   // Housekeeping flow
   HOUSEKEEPING: '/housekeeping',
   HOUSEKEEPING_CHECKBOX: '/housekeeping/housekeeping-checkbox',

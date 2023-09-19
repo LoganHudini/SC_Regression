@@ -79,6 +79,7 @@ export const YESNO = 'Yes / No';
 export const PREFERENCES = 'Preferences';
 export const HEADERSCONFIG = 'Headers';
 export const OFFERSDURATION = 'OffersDuration';
+export const RATING5STARS = 'Rating (5 Stars)';
 export const EVERYDAY = 'EVERYDAY';
 export const DAYS = [
   { id: 1, ischecked: false, name: 'Monday', from: null, to: null },

@@ -48,3 +48,6 @@ export const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
 
 export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 export const VENUE_ID = '';
+
+export const X_API_TOKEN = process.env.NEXT_PUBLIC_X_API_TOKEN;
+export const X_API_GROUP = process.env.NEXT_PUBLIC_X_API_GROUP;

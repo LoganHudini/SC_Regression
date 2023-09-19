@@ -25,6 +25,8 @@ import {
   API_KEY_V5,
   API_KEY_V6,
   HOST_V6,
+  X_API_TOKEN,
+  X_API_GROUP,
 } from './endpoints';
 import { checkinStorage } from 'storage/check-in.storage';
 
@@ -97,6 +99,7 @@ const housekeepingLink = new HttpLink({
     ['Content-Type']: 'application/json',
   },
 });
+
 const restLink = new RestLink({
   uri: REST_API_URL,
   headers: {
@@ -107,6 +110,15 @@ const restLink = new RestLink({
 const restv4Link = new RestLink({
   uri: REST_V4_API_URL,
   headers: {
+    ['Content-Type']: 'application/json',
+  },
+});
+
+const restv3Link = new RestLink({
+  uri: REST_API_URL,
+  headers: {
+    ['x-api-token']: X_API_TOKEN as string,
+    ['x-api-group']: X_API_GROUP as string,
     ['Content-Type']: 'application/json',
   },
 });
@@ -168,9 +180,13 @@ export const client = new ApolloClient({
                           (operation) => operation.getContext().clientName === 'host_v6',
                           hostV6Link,
                           ApolloLink.split(
-                            (operation) => operation.getContext().clientName === 'housekeeping',
-                            housekeepingLink,
-                            hostV2Link,
+                            (operation) => operation.getContext().clientName === 'rest_v3',
+                            restv3Link,
+                            ApolloLink.split(
+                              (operation) => operation.getContext().clientName === 'housekeeping',
+                              housekeepingLink,
+                              hostV2Link,
+                            ),
                           ),
                         ),
                       ),
