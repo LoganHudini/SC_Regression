@@ -9,8 +9,6 @@ import { diningInformationStorage } from 'storage/dining.storage';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
 import cx from 'classnames';
-import { DiningMenuElementSkeleton } from 'components/pages/dining/DiningMenuElementSkeleton/DiningMenuElementSkeleton';
-import { DiningMenuFilterSkeleton } from 'components/pages/dining/DiningMenuFilterSkeleton/DiningMenuFilterSkeleton';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import {
   diningMenuStorage,

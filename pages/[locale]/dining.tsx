@@ -17,7 +17,7 @@ import { useRouter } from 'next/router';
 import { IDiningMenuStorageData, diningMenuStorage } from 'storage/dining-menu.storage';
 import cx from 'classnames';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { filterLiveMenu, irdActiveMenuList } from 'utils/functions';
+import { filterLiveMenu, irdActiveMenuList, setScrollPosition } from 'utils/functions';
 import { availablePaths } from 'utils/availablePaths';
 import DiningMenu from 'components/pages/dining/DiningMenu/DiningMenu';
 
@@ -95,6 +95,7 @@ const Dining = () => {
       diningInformationStorage({
         menuName: name,
       });
+      window.scrollTo(0, 0);
     },
     [filter, openCategory],
   );

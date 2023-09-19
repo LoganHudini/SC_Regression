@@ -3,16 +3,11 @@ import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import dynamic from 'next/dynamic';
 import { getStaticPaths } from 'utils/getStatic';
-import { RotatingLines } from 'react-loader-spinner';
 
 export { getStaticPaths };
 
 const DynamicCheckOut = dynamic(() => import('./checkout'), {
-  loading: () => (
-    <div className={'loaderWrapper'}>
-      <RotatingLines strokeColor='grey' strokeWidth='5' width='100' visible={true} />
-    </div>
-  ),
+  loading: () => <div className={'loaderWrapper'}></div>,
 });
 
 const CheckOut: NextPage = (props: any) => {

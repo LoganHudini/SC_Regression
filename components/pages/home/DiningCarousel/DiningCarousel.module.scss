@@ -41,12 +41,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--primary-theme-color);
-  transition: left 0.9s ease;
+  opacity: 0.25;
+  background-color: var(--primary-theme-color);
+  // transition: left 0.9s ease;
+  transition: opacity 0.5s;
 }
 
 .diningOptionsItemActive:before {
   left: 0;
+  opacity: 1;
 }
 
 .diningOptionsItemActive {

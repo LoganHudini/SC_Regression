@@ -265,7 +265,13 @@ const RestaurantAndBars: React.FC = () => {
           {' '}
           <div className={styles.listComponentData}>
             {queryResultEntity?.name && (
-              <h2 className={styles.listComponentTitle}>{t(`${queryResultEntity?.name}`)}</h2>
+              <h2
+                className={cx(styles.listComponentTitle, {
+                  [styles.titleWithoutCTA]: !(queryResultEntity?.cta?.status === ACTIVE),
+                })}
+              >
+                {t(`${queryResultEntity?.name}`)}
+              </h2>
             )}
           </div>
           <div className={styles.gapList}>
@@ -275,10 +281,6 @@ const RestaurantAndBars: React.FC = () => {
                 <span className={styles.icon_text}>{queryResultEntity?.primaryCuisine}</span>
               </div>
             )}
-
-            {/* {queryResultEntity?.hours && (
-              <RestaurantHours restaurantHours={queryResultEntity.hours} />
-            )} */}
 
             {queryResultEntity?.additionalInformation && (
               <>

@@ -23,7 +23,6 @@ export const CustomDrawer: React.FC<IDetailPageProps> = ({ open, onClose, conten
       anchor='bottom'
       open={open}
       onClose={onClose}
-      // className={styles.slide}
       PaperProps={{
         elevation: 0,
         style: {

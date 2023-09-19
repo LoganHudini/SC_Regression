@@ -95,16 +95,19 @@ export const DINING_OPTIONS = [
     id: 'ird',
     title: 'In-Room Dining',
     path: '/dining',
+    width: '116.89px',
   },
   {
     id: 'restaurant',
     title: 'Restaurants',
     path: '/restaurants-bars',
+    width: '101.36px',
   },
   {
     id: 'bar',
     title: 'Bars',
     path: '/restaurants-bars',
+    width: '47.77px',
   },
 ];
 
