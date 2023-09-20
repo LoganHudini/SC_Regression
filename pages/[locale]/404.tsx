@@ -6,8 +6,14 @@ import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import Head from 'next/head';
 import { Header } from 'components/shared/Header/Header';
 import { useTranslation } from 'react-i18next';
+import { GetStaticProps } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import i18nConfig from 'next-i18next.config';
+import { getStaticPaths } from 'utils/getStatic';
 
-export default function NotFound() {
+export { getStaticPaths };
+
+const NotFound = () => {
   const { t } = useTranslation('common');
   const navigate = useLocalizedRouter();
   return (
@@ -28,4 +34,15 @@ export default function NotFound() {
       </div>
     </>
   );
-}
+};
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const locale = ctx?.params?.locale;
+  return {
+    props: {
+      ...(await serverSideTranslations(locale as string, ['404', 'common'], i18nConfig)),
+    },
+  };
+};
+
+export default NotFound;

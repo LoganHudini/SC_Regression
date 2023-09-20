@@ -16,6 +16,12 @@ import { StableImage } from 'components/shared/StableImage/StableImage';
 import { ASSETS_URL } from 'core/graphql/endpoints';
 import { GET_HOTEL_COMPENDIUM } from 'core/graphql/queries/GET_HOTEL_COMPENDIUM_DETIALS';
 import { Loader } from 'components/shared/Loaders/Loaders';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { GetStaticProps } from 'next';
+import i18nConfig from 'next-i18next.config';
+import { getStaticPaths } from 'utils/getStatic';
+
+export { getStaticPaths };
 
 const HotelCompendium = () => {
   const { t } = useTranslation('common');
@@ -109,6 +115,19 @@ const HotelCompendium = () => {
       )}
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const locale = ctx?.params?.locale;
+  return {
+    props: {
+      ...(await serverSideTranslations(
+        locale as string,
+        ['hotel-compendium', 'common'],
+        i18nConfig,
+      )),
+    },
+  };
 };
 
 export default HotelCompendium;
