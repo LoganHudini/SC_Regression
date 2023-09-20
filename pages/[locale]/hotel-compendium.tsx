@@ -64,10 +64,12 @@ const HotelCompendium = () => {
 
   const hotelCompendiumDrawerDetails = () => (
     <>
-      <StableImage
-        className={styles.image}
-        src={`${ASSETS_URL}/${showSelectedAmenity?.images[0]?.ratio16to9}`}
-      />
+      {showSelectedAmenity?.images[0]?.ratio16to9 && (
+        <StableImage
+          className={styles.image}
+          src={`${ASSETS_URL}/${showSelectedAmenity?.images[0]?.ratio16to9}`}
+        />
+      )}
       <div className={styles.wrapper}>
         {showSelectedAmenity?.name && (
           <div className={styles.title}>{showSelectedAmenity?.name}</div>

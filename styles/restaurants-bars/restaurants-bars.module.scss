@@ -15,8 +15,7 @@
   height: 100%;
   width: 100%;
   min-height: 210px;
-
-  object-fit: contain;
+  object-fit: cover;
   max-width: 768px;
 }
 
@@ -354,7 +353,7 @@
   height: 10% !important;
   line-height: 30px !important;
   font-size: $small !important;
-  margin-top: 10px;
+  margin: 10px 0;
 }
 
 .timeRowShowed {

@@ -241,11 +241,12 @@ const RestaurantAndBars: React.FC = () => {
     <div className={styles.listComponent}>
       {!availableSlots && (
         <div className={styles.imageWrapper}>
-          <StableImage
-            className={styles.bannerImage}
-            src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.ratio16to9}`}
-          />
-
+          {queryResultEntity?.images[0]?.ratio16to9 && (
+            <StableImage
+              className={styles.bannerImage}
+              src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.ratio16to9}`}
+            />
+          )}
           {queryResultEntity?.cta?.status === ACTIVE && (
             <StyledButton
               variant='contained'

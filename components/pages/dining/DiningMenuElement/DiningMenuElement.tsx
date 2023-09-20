@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import styles from './DiningMenuElement.module.scss';
 import { IDiningMenuElementProps } from './DiningMenuElement.types';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { availablePaths } from 'utils/availablePaths';
 import { diningMenuStorage, toggleDiningDetailsDrawer } from 'storage/dining-menu.storage';
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { ASSETS_URL, CURRENCY } from 'core/graphql/endpoints';
@@ -15,7 +14,6 @@ import { DiningCustomisationDrawer } from 'components/pages/dining/DiningCustomi
 import { toast } from 'react-toastify';
 import cx from 'classnames';
 import { addToCartEvent, viewItemEvent } from 'utils/gtag';
-import DiningDetailsDrawer from '../DiningDetailsDrawer/DiningDetailsDrawer';
 
 export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
   title,
@@ -146,7 +144,6 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
         customisationDrawer={customisationDrawer}
         closeCustomisationDrawer={closeCustomisationDrawer}
       />
-      <DiningDetailsDrawer />
     </div>
   );
 };

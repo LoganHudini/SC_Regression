@@ -298,7 +298,7 @@ const DiningDetailsDrawer = () => {
           </>
         ) : (
           <>
-            {selectedItem?.images[0] && (
+            {selectedItem?.images[0]?.ratio16to9 && (
               <StableImage
                 className={styles.image}
                 src={`${ASSETS_URL}/${selectedItem?.images[0]?.ratio16to9}`}

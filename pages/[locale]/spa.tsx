@@ -85,10 +85,12 @@ const Spa: React.FC = () => {
 
   const spaDetails = () => (
     <>
-      <StableImage
-        className={styles.image}
-        src={`${ASSETS_URL}/${selectedSpaItem?.images[0]?.ratio16to9}`}
-      />
+      {selectedSpaItem?.images[0]?.ratio16to9 && (
+        <StableImage
+          className={styles.image}
+          src={`${ASSETS_URL}/${selectedSpaItem?.images[0]?.ratio16to9}`}
+        />
+      )}
 
       {/* {selectedSpaItem?.cta?.status === ACTIVE && (
         <StyledButton variant='contained' onClick={onCtaClick} className={styles.button}>
