@@ -88,7 +88,7 @@ const Offers: React.FC = () => {
     if (isEmpty(offersOptionSelected)) {
       selectedOfferOption(filteredOffers && filteredOffers[0]);
     }
-  }, [selectedOfferOption, filteredOffers]);
+  }, [filteredOffers, offersOptionSelected]);
 
   const filteredOffersWthCategory = filteredOffers?.filter((restaurant: any) => {
     return restaurant.isActive && restaurant?.type === offersOptionSelected?.type;
@@ -153,12 +153,12 @@ const Offers: React.FC = () => {
   const offerDetails = () => (
     <div className={styles.listComponent}>
       <div className={styles.imageWrapper}>
-        <StableImage
-          className={styles.bannerImage}
-          src={`${ASSETS_URL}/${
-            queryResultEntity?.images && queryResultEntity?.images[0]?.ratio16to9
-          }`}
-        />
+        {queryResultEntity?.images && (
+          <StableImage
+            className={styles.bannerImage}
+            src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.ratio16to9}`}
+          />
+        )}
         {queryResultEntity?.CTA &&
           (queryResultEntity?.CTA?.redirectTo || queryResultEntity?.CTA?.URL) && (
             <StyledButton variant='contained' onClick={onCtaClick} className={styles.button}>

@@ -8,38 +8,15 @@
   right: 0;
   z-index: 200;
   visibility: hidden;
-  transition: all 0.2s;
+  overflow: hidden;
   max-width: 768px;
   opacity: 0;
   background-color: var(--primary-drawer-background-color);
-  backdrop-filter: blur(4px);
 }
 
 .backgroundOpened {
-  opacity: 1;
+  opacity: var(--primary-drawer-background-opacity);
   visibility: visible;
-}
-
-.wrapper {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  max-width: 768px;
-  max-height: var(--primary-drawer-height);
-  background-color: var(--primary-drawer-color);
-  border-top-left-radius: var(--primary-drawer-top-left-border-radius);
-  border-top-right-radius: var(--primary-drawer-top-right-border-radius);
-  transition: all 0.2s;
-  transform: translateY(100%);
-  z-index: 300;
-  overflow-y: auto;
-  overflow-x: hidden;
-  margin: 0 auto;
-}
-
-.wrapperOpened {
-  transform: translateY(0);
 }
 
 .drawerNotch {

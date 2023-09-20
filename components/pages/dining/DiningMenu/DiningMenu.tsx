@@ -32,6 +32,7 @@ import {
 import { DiningCategoryOptions } from 'components/pages/dining/DiningCategoryOptions/DiningCategoryOptions';
 import produce from 'immer';
 import { ItemNotFoundLoader, Loader } from 'components/shared/Loaders/Loaders';
+import DiningDetailsDrawer from '../DiningDetailsDrawer/DiningDetailsDrawer';
 
 export { getStaticPaths };
 interface DiningMenuProps {
@@ -250,7 +251,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                 key={el?.id}
                 id={el?.id}
                 title={el?.name}
-                image={el?.images[0]?.master || null}
+                image={el?.images[0]?.ratio1to1 || null}
                 description={el?.description}
                 price={el?.price}
                 customisation={el?.customisation}
@@ -461,6 +462,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
           </StyledButton>
         </div>
       )}
+      <DiningDetailsDrawer />
     </>
   );
 };
