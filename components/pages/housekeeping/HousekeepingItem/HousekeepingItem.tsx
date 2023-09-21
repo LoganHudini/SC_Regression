@@ -8,16 +8,12 @@ export const HousekeepingItem: React.FC<IHousekeepingItemProps> = ({
   housekeepingItem,
   handleClick,
 }) => {
-  const selectedIcon: any = serviceRequestIcons?.find(
-    (icon) => housekeepingItem?.icon === icon?.name,
-  );
+  const Icon = serviceRequestIcons[housekeepingItem?.icon as keyof typeof serviceRequestIcons];
 
   return (
     <>
       <div className={styles.housekeepingItemWrapper} onClick={() => handleClick(housekeepingItem)}>
-        <div className={styles.iconWrapper}>
-          {selectedIcon && <img src={selectedIcon?.icon} alt='Icon' width={45} height={45} />}
-        </div>
+        <div className={styles.iconWrapper}>{Icon && <Icon />}</div>
         <h2 className={styles.housekeepingItemTitle}>{housekeepingItem?.name}</h2>
       </div>
     </>

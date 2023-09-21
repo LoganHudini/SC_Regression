@@ -4,26 +4,30 @@ import styles from './HotelInformation.module.scss';
 import { ASSETS_URL } from 'core/graphql/endpoints';
 import { useTranslation } from 'react-i18next';
 import Carousel from 'react-material-ui-carousel';
-import { toggleDetailsDrawer } from 'storage/home.storage';
+import { toggleHotelInfoDrawer } from 'storage/home.storage';
+import { buttonArrow } from 'utils/functions';
+import ArrowButton from '@icons/readMoreArrow.svg';
 
 const HotelInformation = (props: any) => {
   const { details } = props;
   const { t } = useTranslation(['common']);
+  const buttonArrowState = buttonArrow;
   const hotelInfo = details && details?.getPropertyDetailsByHotelId?.hotel;
 
   return (
     <div className={styles.carouselSlideWrapper}>
-      <div className={styles.welcome}>{t('Welcome to')}</div>
-      <div className={styles.name}>{hotelInfo?.name}</div>
-      <div onClick={() => toggleDetailsDrawer(true)}>
+      <p className={styles.welcome}>{t('Welcome to')}</p>
+      <p className={styles.name}>{hotelInfo?.name}</p>
+      <div onClick={() => toggleHotelInfoDrawer(true)}>
         <Carousel
           navButtonsAlwaysInvisible
-          indicatorContainerProps={{ className: styles.indicatorIconContainer }}
-          indicatorIconButtonProps={{ style: { opacity: 0.5 } }}
+          indicatorContainerProps={{
+            className: styles.indicatorIconContainer,
+          }}
+          IndicatorIcon={<div className={styles.indicatorIcon} />}
           activeIndicatorIconButtonProps={{
             className: styles.activeIndicatorIcon,
           }}
-          IndicatorIcon={<div className={styles.indicatorIcon} />}
           indicators={(hotelInfo?.images?.length || 0) > 1}
         >
           {hotelInfo?.images?.map((image: any, i: any) => (
@@ -34,8 +38,10 @@ const HotelInformation = (props: any) => {
             />
           ))}
         </Carousel>
-        <div className={styles.description}>{hotelInfo?.description}</div>
-        <div className={styles.read}>{t('READ MORE')}</div>
+        <p className={styles.description}>{hotelInfo?.description}</p>
+        <p className={styles.read}>
+          {t('READ MORE')} {buttonArrowState && <ArrowButton />}
+        </p>
       </div>
     </div>
   );

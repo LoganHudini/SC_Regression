@@ -16,11 +16,13 @@ import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { EMAILCAPS, PHONECAPS, URL } from 'utils/constants';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { toggleHotelInfoDrawer } from 'storage/home.storage';
+import { buttonArrow } from 'utils/functions';
 
 const HotelInfoDrawer = () => {
   const { t } = useTranslation('common');
   const [showMap, setShowMap] = useState(true);
   const hotelInfoDetailsDrawerStatus = useReactiveVar(toggleHotelInfoDrawer);
+  const buttonArrowState = buttonArrow;
 
   const { data } = useQuery(GET_HOTEL_INFORMATION, {
     context: { clientName: 'host_v0' },
@@ -48,84 +50,83 @@ const HotelInfoDrawer = () => {
   const hotelInfoDetails = () => (
     <>
       {showMap && (
-        <div className={styles.wrapper}>
-          <div className={styles.drawerNotch}></div>
-          <div className={styles.serviceDetailWrapper}>
-            <div className={styles.carouselWrapper}>
-              <div className={styles.contentWrapper}>
-                <Carousel
-                  navButtonsAlwaysInvisible
-                  indicatorContainerProps={{ className: styles.indicatorIconContainer }}
-                  indicatorIconButtonProps={{ style: { opacity: 0.5 } }}
-                  activeIndicatorIconButtonProps={{
-                    className: styles.activeIndicatorIcon,
-                  }}
-                  IndicatorIcon={<div className={styles.indicatorIcon} />}
-                  indicators={(hotelInfo?.images?.length || 0) > 1}
-                  height={'250px'}
-                >
-                  {hotelInfo?.images?.map((image: any, i: any) => (
-                    <StableImage
-                      className={styles.bannerImage}
-                      key={i}
-                      src={`${ASSETS_URL}/${image?.master}`}
-                    />
-                  ))}
-                </Carousel>
-              </div>
-
-              <div className={styles.phoneEmailCtaWrapper}>
-                {phoneData && (
-                  <div className={cx(styles.border, styles.align)}>
-                    <a
-                      aria-label={`${t('Phone')}`}
-                      href={`tel:${phoneData?.value}`}
-                      target='_blank'
-                      rel='noreferrer'
-                      className={styles.phoneText}
-                    >
-                      <Phone className={styles.phoneIcon} />
-                    </a>
-                  </div>
-                )}
-
-                <div className={styles.verticalline}></div>
-
-                {webData && (
-                  <div className={styles.border}>
-                    <a
-                      aria-label={`${t('Link')}`}
-                      href={webData?.value}
-                      className={styles.urlText}
-                      target='_blank'
-                      rel='noreferrer'
-                    >
-                      <Link className={styles.linkIcon} />
-                    </a>
-                  </div>
-                )}
-
-                <div className={styles.verticalline}></div>
-
-                <div className={styles.border}>
-                  <Map onClick={() => handleClick()} />
-                </div>
-
-                <div className={styles.verticalline}></div>
-
-                {mailData && (
-                  <div className={styles.mailWrapper}>
-                    <a
-                      href={`mailto:${mailData?.value}`}
-                      aria-label={`${t('Email')}`}
-                      className={styles.emailText}
-                    >
-                      <Mail className={styles.emailIcon} />
-                    </a>
-                  </div>
-                )}
-              </div>
+        <div className={styles.serviceDetailWrapper}>
+          <div className={styles.carouselWrapper}>
+            <div className={styles.contentWrapper}>
+              <Carousel
+                navButtonsAlwaysInvisible
+                indicatorContainerProps={{ className: styles.indicatorIconContainer }}
+                indicatorIconButtonProps={{ style: { opacity: 0.5 } }}
+                activeIndicatorIconButtonProps={{
+                  className: styles.activeIndicatorIcon,
+                }}
+                IndicatorIcon={<div className={styles.indicatorIcon} />}
+                indicators={(hotelInfo?.images?.length || 0) > 1}
+                height={'250px'}
+              >
+                {hotelInfo?.images?.map((image: any, i: any) => (
+                  <StableImage
+                    className={styles.bannerImage}
+                    key={i}
+                    src={`${ASSETS_URL}/${image?.master}`}
+                  />
+                ))}
+              </Carousel>
             </div>
+
+            <div className={styles.phoneEmailCtaWrapper}>
+              {phoneData && (
+                <div className={cx(styles.border, styles.align)}>
+                  <a
+                    aria-label={`${t('Phone')}`}
+                    href={`tel:${phoneData?.value}`}
+                    target='_blank'
+                    rel='noreferrer'
+                    className={styles.phoneText}
+                  >
+                    <Phone className={styles.phoneIcon} />
+                  </a>
+                </div>
+              )}
+
+              <div className={styles.verticalline}></div>
+
+              {webData && (
+                <div className={styles.border}>
+                  <a
+                    aria-label={`${t('Link')}`}
+                    href={webData?.value}
+                    className={styles.urlText}
+                    target='_blank'
+                    rel='noreferrer'
+                  >
+                    <Link className={styles.linkIcon} />
+                  </a>
+                </div>
+              )}
+
+              <div className={styles.verticalline}></div>
+
+              <div className={styles.border}>
+                <Map onClick={() => handleClick()} />
+              </div>
+
+              <div className={styles.verticalline}></div>
+
+              {mailData && (
+                <div className={styles.mailWrapper}>
+                  <a
+                    href={`mailto:${mailData?.value}`}
+                    aria-label={`${t('Email')}`}
+                    className={styles.emailText}
+                  >
+                    <Mail className={styles.emailIcon} />
+                  </a>
+                </div>
+              )}
+            </div>
+          </div>
+          <div className={styles.wrapper}>
             <h2 className={styles.title}>{t(`${hotelInfo?.name}`)}</h2>
             <div className={styles.body}>{t(`${hotelInfo?.description}`)}</div>
           </div>
@@ -133,14 +134,12 @@ const HotelInfoDrawer = () => {
       )}
 
       {!showMap && (
-        <div className={styles.wrapper}>
-          <div className={styles.drawerNotch}></div>
-
-          <div className={styles.locationWrapper}>
-            <Location
-              lat={hotelInfo && hotelInfo?.location?.latitude}
-              lng={hotelInfo && hotelInfo?.location?.longitude}
-            />
+        <div className={styles.locationWrapper}>
+          <Location
+            lat={hotelInfo && hotelInfo?.location?.latitude}
+            lng={hotelInfo && hotelInfo?.location?.longitude}
+          />
+          <div className={styles.wrapper}>
             <div className={styles.buttonWrapper}>
               <a
                 target='_blank'
@@ -148,7 +147,9 @@ const HotelInfoDrawer = () => {
                 className={styles.url}
                 href={`https://maps.google.com/?q=${hotelInfo?.location?.latitude},${hotelInfo?.location?.longitude}`}
               >
-                <StyledButton className={styles.botton}>{t('GET HERE')}</StyledButton>
+                <StyledButton className={styles.botton} arrow={buttonArrowState ? true : false}>
+                  {t('GET HERE')}
+                </StyledButton>
               </a>
             </div>
           </div>

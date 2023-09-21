@@ -71,14 +71,12 @@ const HotelCompendium = () => {
         />
       )}
       <div className={styles.wrapper}>
-        {showSelectedAmenity?.name && (
-          <div className={styles.title}>{showSelectedAmenity?.name}</div>
-        )}
+        {showSelectedAmenity?.name && <p className={styles.title}>{showSelectedAmenity?.name}</p>}
         {showSelectedAmenity?.description && (
-          <div className={styles.description}>{showSelectedAmenity?.description}</div>
+          <p className={styles.description}>{showSelectedAmenity?.description}</p>
         )}
         {showSelectedAmenity?.highlights[0] && (
-          <div className={styles.highlights}>{showSelectedAmenity?.highlights[0]}</div>
+          <p className={styles.highlights}>{showSelectedAmenity?.highlights[0]}</p>
         )}
       </div>
     </>

@@ -52,7 +52,7 @@ const LocationMap = (props: any) => {
       zoom={initialViewPoint}
       onLoad={onLoad}
       onUnmount={onUnmount}
-      options={{ streetViewControl: false }}
+      options={{ streetViewControl: false, disableDefaultUI: true }}
       clickableIcons
     >
       <Data options={dataOptions} />
