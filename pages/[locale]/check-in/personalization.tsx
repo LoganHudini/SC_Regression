@@ -30,6 +30,7 @@ import { RoomPersonalizationEntityV2 } from 'components/pages/personalize-your-r
 import { UPDATE_BOOKING_DETAILS } from 'core/graphql/queries/UPDATE_BOOKING_DETAILS';
 import { getConfig } from 'utils/getConfiguration';
 import { CHECK_IN, personalisation } from 'utils/constants';
+import { buttonArrow } from 'utils/functions';
 
 export { getStaticPaths };
 
@@ -41,7 +42,9 @@ const PersonalizeYourRoom: React.FC = () => {
   const personalizationEntities = useReactiveVar(personalizeYourRoomStorage);
   const specialRequests = useReactiveVar(specialRequestsStorage);
 
-  const [currentPersonalizationEntities, setCurrentPersonalizationEntities] = useState(
+  const [loadingButton, setLoading] = useState(false);
+
+  const [currentPersonalizationEntities, setCurrentPersonalizationEntities] = useState<any>(
     personalizationEntities || [],
   );
 
@@ -58,7 +61,7 @@ const PersonalizeYourRoom: React.FC = () => {
 
   useEffect(() => {
     if (!reservationData) {
-      // navigate(availablePaths.GET_RESERVATION);
+      navigate(availablePaths.HOME);
     }
   }, [reservationData, navigate]);
 
@@ -95,7 +98,9 @@ const PersonalizeYourRoom: React.FC = () => {
   );
 
   const goToNextStep = useCallback(async () => {
-    personalizeYourRoomStorage(currentPersonalizationEntities.filter((x) => x.quantity !== '0'));
+    personalizeYourRoomStorage(
+      currentPersonalizationEntities?.filter((x: any) => x?.quantity !== 0),
+    );
     const updateBookingDetailsPayload = {
       bookingId: reservationInfo?.details.id,
       reservationId: reservationInfo?.reservationId,
@@ -109,11 +114,12 @@ const PersonalizeYourRoom: React.FC = () => {
       roomCharge: reservationInfo?.roomTypes[0].totalCharge,
       personalisation: [],
       comments: currentPersonalizationEntities
-        .filter((x) => x.quantity !== '0')
-        .map((a) => a.code + ' X ' + a.quantity),
+        .filter((x: any) => x?.quantity !== 0)
+        .map((a: any) => a?.code + ' X ' + a?.quantity),
     };
 
     try {
+      setLoading(true);
       await client.query({
         query: UPDATE_BOOKING_DETAILS,
         context: { clientName: 'rest' },
@@ -122,10 +128,13 @@ const PersonalizeYourRoom: React.FC = () => {
           body: updateBookingDetailsPayload,
         },
       });
+      navigate(availablePaths.CHECK_IN);
+      setLoading(false);
     } catch (e) {
       toast('Error while updating the booking', { type: 'error' });
+      setLoading(false);
     }
-    navigate(availablePaths.CHECK_IN);
+    setLoading(false);
   }, [currentPersonalizationEntities, navigate]);
 
   return (
@@ -156,7 +165,7 @@ const PersonalizeYourRoom: React.FC = () => {
                 currency={el.currency}
                 setCurrentPersonalizationEntities={setCurrentPersonalizationEntities}
                 count={
-                  currentPersonalizationEntities.find((entity) => el.code === entity.code)
+                  currentPersonalizationEntities.find((entity: any) => el?.code === entity?.code)
                     ?.quantity || '0'
                 }
               />
@@ -165,7 +174,13 @@ const PersonalizeYourRoom: React.FC = () => {
         </div>
 
         <div className={styles.confirmButtonWrapper}>
-          <StyledButton className={styles.confirmButton} variant='contained' onClick={goToNextStep}>
+          <StyledButton
+            className={styles.confirmButton}
+            variant='contained'
+            onClick={goToNextStep}
+            arrow={buttonArrow}
+            loading={loadingButton}
+          >
             {t('Continue')}
           </StyledButton>
         </div>

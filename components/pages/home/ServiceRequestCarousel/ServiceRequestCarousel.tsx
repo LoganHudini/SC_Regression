@@ -9,6 +9,8 @@ import { housekeepingOptions } from 'storage/housekeeping.storage';
 import { CAROUSEL_RESPONSIVE, HouseKeeping, SERVICE_REQUEST_OPTIONS } from 'utils/constants';
 import { availablePaths } from 'utils/availablePaths';
 import { CarouselLoader } from 'components/shared/Loaders/Loaders';
+import { buttonArrow } from 'utils/functions';
+import ArrowButton from '@icons/readMoreArrow.svg';
 
 interface ICarouselProps {
   data: any;
@@ -22,6 +24,7 @@ interface ICarouselSlideProps {
 const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide }) => {
   const { t } = useTranslation(['common']);
   const navigate = useLocalizedRouter();
+  const buttonArrowState = buttonArrow;
 
   const handleClick = () => {
     const selectedData = SERVICE_REQUEST_OPTIONS.find(
@@ -40,7 +43,10 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide }) => {
         <h3 className={styles.carouselSlideTitle}>
           {slide?.__typename === HouseKeeping ? t('Housekeeping') : slide?.__typename}
         </h3>
-        <p className={styles.carouselSlideViewMore}>{t('view more')}</p>
+        <p className={styles.carouselSlideViewMore}>
+          {t('view more')}
+          {buttonArrowState && <ArrowButton />}
+        </p>
       </div>
     </div>
   );

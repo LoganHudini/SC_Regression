@@ -1,3 +1,5 @@
+import { Countries } from 'utils/countryList';
+
 export const configuration = [
   {
     code: 'sofitel-manila',
@@ -91,7 +93,7 @@ export const configuration = [
                     label: 'First Name',
                     type: 'Text',
                     required: true,
-                    isDisabled: false,
+                    isDisabled: true,
                     isActive: true,
                   },
                   {
@@ -99,11 +101,11 @@ export const configuration = [
                     label: 'Last Name',
                     type: 'Text',
                     required: true,
-                    isDisabled: false,
+                    isDisabled: true,
                     isActive: true,
                   },
                   {
-                    name: 'email',
+                    name: 'emails',
                     label: 'Email',
                     type: 'Text',
                     required: false,
@@ -117,6 +119,15 @@ export const configuration = [
                     required: true,
                     isDisabled: false,
                     isActive: true,
+                  },
+                  {
+                    name: 'CountryCode',
+                    label: 'Country',
+                    type: 'Select',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    options: Countries,
                   },
                 ],
               },
@@ -150,7 +161,7 @@ export const configuration = [
                     isActive: true,
                   },
                   {
-                    name: 'expirydDate',
+                    name: 'expiry',
                     label: 'Expiry Date',
                     type: 'Text',
                     required: true,
@@ -173,20 +184,20 @@ export const configuration = [
                 isActive: true,
                 details: [
                   {
-                    name: 'documentType',
+                    name: 'docType',
                     label: 'Doc Type',
                     type: 'Select',
                     required: true,
                     isDisabled: false,
                     isActive: true,
                     options: [
-                      { name: 'Passport', value: 'PASS' },
+                      { name: 'Passport', value: 'PASSPORT' },
                       { name: 'ID Card', value: 'UNKNOWN' },
                     ],
                   },
 
                   {
-                    name: 'documentNumber',
+                    name: 'docNo',
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
@@ -273,6 +284,8 @@ export const configuration = [
             label: 'Review & Sign',
             title: 'Check-In',
             buttonLabelCheckIn: 'CHECK-IN',
+            termsAndCondition:
+              "I have read, understood and agree to the <a href='https://www.sofitelmanila.com/privacy-policy/' target='_blank' rel='noopener noreferrer'>Terms & Conditions</a> and <a href='https://www.sofitelmanila.com/privacy-policy/'>Privacy Laws</a>.",
             subTitle:
               'Please review and confirm the below information to complete the Check In process',
             type: 'cms',

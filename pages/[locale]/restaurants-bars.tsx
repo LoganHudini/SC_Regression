@@ -36,9 +36,10 @@ import {
   OK,
   PHONE,
   S3,
+  TIMINGS,
   WEBURL,
 } from 'utils/constants';
-import { filterRestaurantList } from 'utils/functions';
+import { filterRestaurantList, restaurantTimings } from 'utils/functions';
 import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { CREATE_RESTAURANT_RESERVATION } from 'core/graphql/queries/GET_RESTAURANT_RESERVATION_DETAILS';
@@ -66,6 +67,7 @@ const RestaurantAndBars: React.FC = () => {
   const [guestCount, setGuestCount] = useState(1);
   const [availableSlots, setAvailableSlots] = useState(false);
   const [timeSelectDrawer, setTimeSelectDrawer] = useState(false);
+  const [loadingButton, setLoading] = useState(false);
   const [detailContent, setDetailContent] = useState(true);
   const [selectedTime, setSelectedTime] = useState(
     dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM),
@@ -78,11 +80,13 @@ const RestaurantAndBars: React.FC = () => {
   const [tableDrawerState, setTableDrawerState] = useState(false);
   const restaurantDetailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
   const initialSelected = useReactiveVar(selectedRestaurantStorage);
+  const currentYear = new Date().getFullYear();
   const [selectedRestaurantData, setSelectedRestaurantData] = useState<any>();
   const { data, loading } = useQuery<IGetRestaurantDetailsResponse>(GET_RESTAURANT_DETAILS, {
     context: { clientName: 'host_v0' },
     fetchPolicy: 'no-cache',
   });
+  const isCheckedIn = useCheckedIn();
 
   const diningOptionSelected = useReactiveVar(diningOptions);
 
@@ -199,43 +203,41 @@ const RestaurantAndBars: React.FC = () => {
   };
 
   const gotoThankyoupage = useCallback(async () => {
-    closeDrawer();
+    const DetailsReservationPayload = {
+      date: dayjs(selectedTime).year(currentYear).format('YYYY-MM-DD'),
+      exposure: 'No preference',
+      hotelId: HOTEL_ID,
+      isReservedForGuest: false,
+      restaurantId: restaurantId ?? '',
+      reserveFrom: dayjs(selectedTime, 'HH:mm').add(1, 'hour').format('HH:mm') ?? '',
+      reserveUntil: dayjs(selectedTime, 'HH:mm').add(2, 'hour').format('HH:mm'),
+      description: '',
+      firstName: isCheckedIn?.name ?? '',
+      guestType: 'resident',
+      lastName: '',
+      noOfGuests: guestCount,
+      roomNo: '2',
+      tableNumbers: [],
+    };
 
-    // uncomment when API is Ready
-
-    // const DetailsReservationPayload = {
-    //   date: dayjs(selectedTime).format('YYYY-MM-DD'),
-    //   exposure: 'No preference',
-    //   hotelId: HOTEL_ID,
-    //   isReservedForGuest: false,
-    //   restaurantId: restaurantId ?? '',
-    //   reserveFrom: dayjs(selectedTime, 'HH:mm').add(1, 'hour').format('HH:mm') ?? '',
-    //   reserveUntil: dayjs(selectedTime, 'HH:mm').add(2, 'hour').format('HH:mm'),
-    //   description: '',
-    //   firstName: 'dev testing',
-    //   guestType: 'resident',
-    //   lastName: '',
-    //   noOfGuests: guestCount,
-    //   roomNo: '2',
-    //   tableNumbers: [],
-    // };
-
-    // try {
-    //   await client.mutate({
-    //     mutation: CREATE_RESTAURANT_RESERVATION,
-    //     context: { clientName: 'host_v3' },
-    //     fetchPolicy: 'network-only',
-    //     variables: DetailsReservationPayload,
-    //   });
-    //   toggleNotification(true);
-    //   setTimeout(() => {
-    //     closeDrawer();
-    //   }, 4000);
-    // } catch (err) {
-    //   processError(t, err as ApolloError);
-    // }
-    // setLoading(false);
+    try {
+      await client.mutate({
+        mutation: CREATE_RESTAURANT_RESERVATION,
+        context: { clientName: 'host_v3' },
+        fetchPolicy: 'network-only',
+        variables: DetailsReservationPayload,
+      });
+      toggleNotification(true);
+      setTimeout(() => {
+        closeDrawer();
+      }, 4000);
+    } catch (err) {
+      processError(t, err as ApolloError);
+    }
+    setLoading(false);
   }, [selectedTime, guestCount, t]);
+
+  const restaurantTiming = restaurantTimings(queryResultEntity?.customAttributes);
 
   const restaurantDetail = () => (
     <div className={styles.listComponent}>
@@ -283,7 +285,18 @@ const RestaurantAndBars: React.FC = () => {
               </div>
             )}
 
-            {queryResultEntity?.additionalInformation && (
+            {restaurantTiming && (
+              <>
+                <div className={styles.timesWrapper}>
+                  <TimeIcon className={styles.timeIcon} />
+                  <p className={cx(styles.additionalInformation, styles.listComponentDataText)}>
+                    {restaurantTiming?.value}
+                  </p>
+                </div>
+              </>
+            )}
+
+            {/* {queryResultEntity?.additionalInformation && (
               <>
                 <div className={styles.timesWrapper}>
                   <TimeIcon className={styles.timeIcon} />
@@ -292,7 +305,7 @@ const RestaurantAndBars: React.FC = () => {
                   </p>
                 </div>
               </>
-            )}
+            )} */}
 
             {queryResultEntity?.menuStatus === ACTIVE && (
               <div className={styles.timeRow}>

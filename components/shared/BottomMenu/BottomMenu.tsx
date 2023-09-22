@@ -62,11 +62,11 @@ export const BottomMenu: React.FC<unknown> = () => {
   const hamburger = data?.getUiBuilderHamburgerMenuDetails;
 
   const openModuleOptionsDrawer = () => {
-    if (!homeActive) {
+    if (homeActive && !isCheckedIn?.checkedIn) {
+      toggleCheckInDetailsDrawer(true);
+    } else {
       toggleModuleOptionsDrawer(true);
       toggleHamburgerMenuDrawer(false);
-    } else {
-      toggleCheckInDetailsDrawer(true);
     }
   };
 

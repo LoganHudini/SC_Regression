@@ -7,8 +7,6 @@ export interface IRoomPersonalizationEntityProps {
   price: string;
   currency: string;
   id: string;
-  count: string;
-  setCurrentPersonalizationEntities: React.Dispatch<
-    React.SetStateAction<IPersonalizeYourRoomStorageData>
-  >;
+  count: any;
+  setCurrentPersonalizationEntities: any;
 }

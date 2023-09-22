@@ -6,8 +6,13 @@ import { useTranslation } from 'react-i18next';
 import { ASSETS_URL } from '../../../../core/graphql/endpoints';
 import styles from './DiningCarousel.module.scss';
 import { useReactiveVar } from '@apollo/client';
-import { filterRestaurantList, irdActiveMenuList } from 'utils/functions';
-import { CAROUSEL_RESPONSIVE, DINING_OPTIONS, IN_ROOM_DINING } from 'utils/constants';
+import {
+  buttonArrow,
+  filterRestaurantList,
+  irdActiveMenuList,
+  restaurantTimings,
+} from 'utils/functions';
+import { CAROUSEL_RESPONSIVE, DINING_OPTIONS, IN_ROOM_DINING, TIMINGS } from 'utils/constants';
 import cx from 'classnames';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { availablePaths } from 'utils/availablePaths';
@@ -16,6 +21,7 @@ import DishIcon from '@icons/dishIcon.svg';
 import { diningOptions } from 'storage/home.storage';
 import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
 import { CarouselLoader } from 'components/shared/Loaders/Loaders';
+import ArrowButton from '@icons/readMoreArrow.svg';
 
 interface ICarouselProps {
   ird: any;
@@ -31,6 +37,8 @@ interface ICarouselSlideProps {
 }
 
 const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOptionsCarousal }) => {
+  const buttonArrowState = buttonArrow;
+
   const { t } = useTranslation(['common']);
   const navigate = useLocalizedRouter();
   const handleMenu = () => {
@@ -47,9 +55,8 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
     selectedRestaurantStorage(slide);
     navigate(`${diningOptionsCarousal.path}`);
   };
-  const time = `${slide.hours[0]?.day.toLowerCase()}: ${slide.hours[0]?.open} - ${
-    slide.hours[0]?.close
-  } ...`;
+
+  const time = restaurantTimings(slide?.customAttributes);
 
   return (
     <>
@@ -64,7 +71,10 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
             {slide.hours[0]?.day && (
               <p className={styles.carouselSlideTimings}>{slide.hours[0]?.day}</p>
             )}
-            <p className={styles.carouselSlideViewMore}>{t('view more')}</p>
+            <p className={styles.carouselSlideViewMore}>
+              {t('view more')}
+              {buttonArrowState && <ArrowButton />}
+            </p>
           </div>
         </div>
       ) : (
@@ -75,19 +85,24 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
           />
           <div className={styles.carouselSlideDetailsWrapperRestaurantsAndBars}>
             <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>
-            {slide?.primaryCuisine && (
-              <div className={styles.cuisineRow}>
-                <DishIcon className={styles.cuisineIcon} />
-                <span>{slide?.primaryCuisine?.toLowerCase()}</span>
-              </div>
-            )}{' '}
-            {slide?.hours && (
-              <div className={styles.cuisineRowTime}>
-                <ClockIcon className={styles.cuisineIcon} />
-                <span>{time}</span>
-              </div>
-            )}
-            <p className={styles.carouselSlideViewMore}>{t('read more')}</p>
+            <div className={styles.content}>
+              {slide?.primaryCuisine && (
+                <div className={styles.cuisineRow}>
+                  <DishIcon className={styles.cuisineIcon} />
+                  <span>{slide?.primaryCuisine?.toLowerCase()}</span>
+                </div>
+              )}{' '}
+              {time && (
+                <div className={styles.cuisineRowTime}>
+                  <ClockIcon className={styles.cuisineIcon} />
+                  <p>{time?.value}</p>
+                </div>
+              )}
+            </div>
+            <p className={styles.carouselSlideViewMore}>
+              {t('read more')}
+              {buttonArrowState && <ArrowButton />}
+            </p>
           </div>
         </div>
       )}

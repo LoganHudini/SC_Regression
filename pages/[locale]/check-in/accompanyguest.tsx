@@ -55,7 +55,9 @@ import {
   CHECKBOX,
 } from 'utils/constants';
 import { getConfig } from 'utils/getConfiguration';
+import cx from 'classnames';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { buttonArrow } from 'utils/functions';
 
 export { getStaticPaths };
 
@@ -443,19 +445,17 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
           })}
         </div>
 
-        <div className={styles.confirmOrderButton}>
-          <div className={styles.confirmationWrapperBotton}>
-            <StyledButton
-              disabled={buttonValidation}
-              loading={loading}
-              className={styles.button}
-              onClick={submit}
-              variant='contained'
-              arrow
-            >
-              {t('continue')}
-            </StyledButton>
-          </div>
+        <div className={cx(styles.bottomMenuWrapper)}>
+          <StyledButton
+            disabled={buttonValidation}
+            loading={loading}
+            onClick={submit}
+            variant='contained'
+            className={styles.bottomMenuButton}
+            arrow={buttonArrow}
+          >
+            {t('continue')}
+          </StyledButton>
         </div>
       </PageWrapper>
     </>

@@ -43,6 +43,7 @@ export const BANNER_CAROUSEL = 'bannerCarousel';
 export const DRIVERSLICENCE = 'DRL';
 export const DRIVERLICENCE = 'DL';
 export const EMAIL = 'email';
+export const EMAILS = 'emails';
 export const PHONENUMBER = 'phoneNumber';
 export const PHONE = 'phone';
 export const CYBERSOURCE = 'cybersource';
@@ -81,6 +82,9 @@ export const HEADERSCONFIG = 'Headers';
 export const OFFERSDURATION = 'OffersDuration';
 export const RATING5STARS = 'Rating (5 Stars)';
 export const EVERYDAY = 'EVERYDAY';
+export const CHECKOUT = 'Check-out';
+export const CHECKIN = 'Check-in';
+export const TIMINGS = 'timings';
 export const DAYS = [
   { id: 1, ischecked: false, name: 'Monday', from: null, to: null },
   { id: 2, ischecked: false, name: 'Tuesday', from: null, to: null },

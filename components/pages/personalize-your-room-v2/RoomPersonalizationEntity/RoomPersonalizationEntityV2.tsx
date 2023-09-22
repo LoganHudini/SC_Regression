@@ -23,14 +23,14 @@ export const RoomPersonalizationEntityV2: React.FC<IRoomPersonalizationEntityPro
   const handleAdd = useCallback(() => {
     const newEntity = {
       code: id as string,
-      quantity: String(+quantity + 1),
+      quantity: +quantity + 1,
       price: `${price}`,
       title,
       currency: `${currency}`,
     };
     setQuantity(+quantity + 1);
-    setCurrentPersonalizationEntities((oldEntities) => {
-      const newEntities = [...oldEntities.filter((el) => el.code !== id), newEntity];
+    setCurrentPersonalizationEntities((oldEntities: any) => {
+      const newEntities = [...oldEntities.filter((el: any) => el.code !== id), newEntity];
       return newEntities;
     });
   }, [quantity, currency, id, price, setCurrentPersonalizationEntities, title]);
@@ -38,14 +38,14 @@ export const RoomPersonalizationEntityV2: React.FC<IRoomPersonalizationEntityPro
   const handleRemove = useCallback(() => {
     const newEntity = {
       code: id as string,
-      quantity: String(+quantity - 1),
+      quantity: +quantity - 1,
       price: `${price}`,
       title,
       currency: `${currency}`,
     };
     setQuantity(+quantity - 1);
-    setCurrentPersonalizationEntities((oldEntities) => {
-      const newEntities = [...oldEntities.filter((el) => el.code !== id), newEntity];
+    setCurrentPersonalizationEntities((oldEntities: any) => {
+      const newEntities = [...oldEntities.filter((el: any) => el.code !== id), newEntity];
       return newEntities;
     });
   }, [quantity, currency, id, price, setCurrentPersonalizationEntities, title]);

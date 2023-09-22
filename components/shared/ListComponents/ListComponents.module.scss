@@ -214,13 +214,15 @@
   font-size: $xsmall;
   text-transform: capitalize;
   padding-left: 2px;
+  text-align: start;
 
-  span {
+  p {
     margin-inline-start: 12px;
     font-size: 0.75rem;
     line-height: 1.5;
     text-transform: capitalize;
     color: var(--primary-text-color);
     margin-top: 2px;
+    -webkit-line-clamp: 2;
   }
 }

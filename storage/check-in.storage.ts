@@ -6,6 +6,7 @@ interface ICheckinStorageData {
   reservationId?: any;
   checkedIn: boolean;
   token?: string;
+  name?: string;
   preCheckedIn?: boolean;
   bookingId?: string;
 }
@@ -24,7 +25,11 @@ export const useCheckedIn = () => {
     const checkedInReservation = reservations.find((el) => el.checkedIn);
 
     if (checkedInReservation) {
-      checkinStorage({ reservationId: checkedInReservation.reservationId, checkedIn: true });
+      checkinStorage({
+        reservationId: checkedInReservation.reservationId,
+        checkedIn: true,
+        name: checkedInReservation.name,
+      });
     }
   }, []);
 

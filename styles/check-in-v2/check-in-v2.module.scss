@@ -61,7 +61,7 @@
   color: var(--tertiary-text-color);
   font-family: var(--primary-font-book);
   a {
-    color: var(--tertiary-text-color);
+    color: var(--primary-theme-color);
     text-decoration: none;
     white-space: nowrap;
   }
@@ -138,11 +138,19 @@
 
 .description {
   float: left;
-  font-family: var(--primary-font-news);
   font-size: $small;
   margin-bottom: 20px;
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--primary-font-news);
+  font-size: $small;
+  color: var(--tertiary-text-color);
   div {
     text-align: start;
+    font-family: var(--primary-font-news);
+    font-size: $small;
+    color: var(--tertiary-text-color);
   }
 }
 
@@ -206,18 +214,25 @@
 }
 
 .checkInButton {
-  font-weight: 900;
+  width: 100%;
+  margin: auto 10px;
+  height: 44px;
 }
 
 .btnWrapper {
-  padding: 20px 26px 20px 26px;
   position: fixed;
-  box-sizing: border-box;
-  margin: 0 auto;
   bottom: 0;
-  right: 0;
-  background: var(--primary-background-color);
   left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row;
   max-width: 768px;
-  box-shadow: 5px 0px 20px var(--primary-box-shadow-color);
+  height: 64px;
+  margin: auto;
+  border-top-left-radius: var(--primary-card-border-radius);
+  border-top-right-radius: var(--primary-card-border-radius);
+  box-shadow: 0px -2px 8px var(--primary-box-shadow-color);
+  background: var(--primary-background-color);
+  z-index: 1;
+  animation: fadeIn 0.5s;
 }

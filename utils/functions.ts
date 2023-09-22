@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { scrollState } from 'storage/dining-menu.storage';
-import { PHONE_REGEX } from './constants';
+import { PHONE_REGEX, TIMINGS } from './constants';
 import * as yup from 'yup';
 import { toggleLoader } from 'storage/home.storage';
 import { getConfig } from './getConfiguration';
@@ -97,7 +97,7 @@ export const generateValidationSchema = (sections: any) => {
         schema[field?.name] = yup.string();
 
         const validationRules: any = {
-          email: {
+          emails: {
             validation: yup.string().email('Invalid email format'),
             requiredMessage: 'Email is required',
           },
@@ -155,3 +155,7 @@ export const activeItems = (list: any) => list && list?.filter((item: any) => it
 
 // Button arrow status
 export const buttonArrow = getConfig()?.ButtonArrow;
+
+//restaurant timings
+export const restaurantTimings = (data: any) =>
+  data && data?.find((item: any) => item?.key === TIMINGS);

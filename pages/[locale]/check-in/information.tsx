@@ -28,7 +28,10 @@ import { PreCheckinGuestInfo } from 'components/pages/pre-checkin-form/PreChecki
 import { PreCheckinPaymentInfo } from 'components/pages/pre-checkin-form/PreCheckinPaymentInfo/PreCheckinPaymentInfo';
 import { PreCheckinDocInfo } from 'components/pages/pre-checkin-form/PreCheckinDocInfo/PreCheckinDocInfo';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
-import { IUpdateGuestDetailsApiRequest } from 'core/graphql/queries/UPDATE_GUEST_DETAILS';
+import {
+  IUpdateGuestDetailsApiRequest,
+  UPDATE_GUEST_DETAILS,
+} from 'core/graphql/queries/UPDATE_GUEST_DETAILS';
 import { processError } from 'utils/processError';
 import { getConfig } from 'utils/getConfiguration';
 import {
@@ -46,7 +49,9 @@ import {
   PASSPORT,
   PHONE,
   PHONE_REGEX,
+  EMAILS,
 } from 'utils/constants';
+import { buttonArrow } from 'utils/functions';
 
 export { getStaticPaths };
 
@@ -84,73 +89,70 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
 
   const reservationInfo = reservationData?.getReservation?.data;
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
+  const guestLength = reservationInfo?.guests?.length;
 
   useEffect(() => {
-    const initialGuestReservationInfo = activeSections.reduce((values: any, section: any) => {
-      section?.details?.forEach((field: any) => {
-        const { name } = field;
-        values[name] = extractDataForField(name);
-      });
-      return values;
-    }, {});
+    if (!reservationData) {
+      navigate(availablePaths.HOME);
+    }
+  }, [reservationData, navigate]);
 
-    reservationGuestInfoStorageData({
-      ...initialGuestReservationInfo,
-      isComplete: buttonStatus,
-    });
-  }, [reservationInfo]);
+  useEffect(() => {
+    if (reservationInfo && reservationInfo?.guests[0]) {
+      const initialGuestReservationInfo = activeSections?.reduce((values: any, section: any) => {
+        section?.details?.forEach((field: any) => {
+          const { name } = field;
+          values[name] = extractDataForField(name) || values[name];
+        });
+        return values;
+      }, {});
 
-  function extractDataForField(fieldName: any) {
-    const sources = {
-      reservationInfo,
-      guestReservationInfo,
-    };
-
-    let extractedValue = '';
-
-    for (const source of Object.values(sources)) {
-      if (source) {
-        const fieldValue = getFieldFromSource(source, fieldName);
-        if (fieldValue) {
-          extractedValue = fieldValue;
-          break;
+      for (const key in initialGuestReservationInfo) {
+        if (Object.prototype.hasOwnProperty.call(initialGuestReservationInfo, key)) {
+          if (!initialGuestReservationInfo[key]) {
+            initialGuestReservationInfo[key] = '';
+          }
         }
       }
+
+      reservationGuestInfoStorageData({
+        ...guestReservationInfo,
+        ...initialGuestReservationInfo,
+        isComplete: buttonStatus,
+      });
     }
+  }, [reservationInfo, reservationInfo?.guests[0]]);
 
-    return extractedValue;
-  }
-
-  function getFieldFromSource(source: any, fieldName: any) {
+  function extractDataForField(fieldName: string) {
     const fieldPath = fieldName.split('.');
-    let fieldValue = source;
+
+    let source: any = reservationInfo?.guests[0];
 
     for (const field of fieldPath) {
-      if (fieldValue && fieldValue[field]) {
-        fieldValue = fieldValue[field];
+      if (source && source[field]) {
+        source = source[field];
       } else {
-        fieldValue = undefined;
+        source = '';
         break;
       }
     }
-    return fieldValue;
+
+    if (Array.isArray(source)) {
+      source = source.join(', ');
+    }
+
+    return source;
   }
 
   const currentRoomType = roomDetails.getHotelAccommodationDetails.roomTypes.find(
     (room) => room.code === (upgradeRoomCode || reservationInfo?.roomTypes[0]?.code),
   );
 
-  useEffect(() => {
-    if (!reservationData) {
-      // navigate(availablePaths.GET_RESERVATION);
-    }
-  }, [reservationData, navigate]);
-
   const goToTheNextStep = useCallback(async () => {
     try {
       setLoading(true);
       const updateGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
-        docType: guestReservationInfo.docType == 'Passport' ? PASSPORT : DRIVERS_LICENCE,
+        docType: guestReservationInfo.docType,
         docNumber: guestReservationInfo?.docNo,
         reservationId: reservationInfo?.confirmationId as string,
         firstName: guestReservationInfo?.firstName,
@@ -172,7 +174,7 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
             addressLine1: guestReservationInfo?.addressLine1,
             addressLine2: guestReservationInfo?.addressLine2,
             addressType: 'HOME',
-            countryCode: guestReservationInfo?.countryCode,
+            countryCode: guestReservationInfo?.countryCode ?? '',
           },
           phone: {
             id: reservationInfo?.guests[0]?.phoneOperaId
@@ -186,26 +188,29 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
             id: reservationInfo?.guests[0]?.emailOperaId
               ? reservationInfo?.guests[0]?.emailOperaId[0]
               : '',
-            email: guestReservationInfo?.email,
+            email: guestReservationInfo?.emails,
           },
         },
       };
 
-      // await client.query({
-      //   query: UPDATE_GUEST_DETAILS,
-      //   context: { clientName: 'rest' },
-      //   variables: {
-      //     confirmationNumber: reservationInfo?.confirmationId as string,
-      //     body: updateGuestDetailsPayload,
-      //   },
-      // });
+      await client.query({
+        query: UPDATE_GUEST_DETAILS,
+        context: { clientName: 'rest' },
+        variables: {
+          confirmationNumber: reservationInfo?.confirmationId as string,
+          body: updateGuestDetailsPayload,
+        },
+      });
+      if (guestLength === 1) {
+        navigate(availablePaths?.PERSONALIZE_YOUR_ROOM);
+      } else {
+        navigate(availablePaths.ACCOMPANY_GUEST);
+      }
     } catch (error) {
       processError(t, error as ApolloError);
       setLoading(false);
     }
     setLoading(false);
-    navigate(availablePaths.ACCOMPANY_GUEST);
-    // navigate(availablePaths?.PERSONALIZE_YOUR_ROOM);
   }, [navigate]);
 
   const goToTheRoomDetails = useCallback(() => {
@@ -232,7 +237,7 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
         return PHONE_REGEX.test(infoValue);
       }
 
-      if (fieldItem.name === EMAIL) {
+      if (fieldItem.name === EMAILS) {
         return EMAIL_REGEX.test(infoValue);
       }
 
@@ -322,18 +327,17 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
             </InfoCard>
           )}
         </div>
-        <div className={styles.confirmOrderButton}>
-          <div className={styles.confirmationWrapperBotton}>
-            <StyledButton
-              disabled={!validButton}
-              loading={loading}
-              className={styles.button}
-              onClick={goToTheNextStep}
-              variant='contained'
-            >
-              {t('continue')}
-            </StyledButton>
-          </div>
+        <div className={cx(styles.bottomMenuWrapper)}>
+          <StyledButton
+            variant='contained'
+            loading={loading}
+            disabled={!validButton}
+            onClick={goToTheNextStep}
+            className={styles.bottomMenuButton}
+            arrow={buttonArrow}
+          >
+            {t('continue')}
+          </StyledButton>
         </div>
       </PageWrapper>
     </>

@@ -9,6 +9,7 @@ export interface ISavedTrip {
 
   checkedIn?: boolean;
   specialRequests?: string;
+  name?: string;
   personalizationEntities?: IPersonalizeYourRoomStorageData;
   guests?: IGuestStorageData | null;
 }

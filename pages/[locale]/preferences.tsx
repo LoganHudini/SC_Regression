@@ -3,21 +3,27 @@ import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from '../../styles/preferences/preferences.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
 import { useRouter } from 'next/router';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { useQuery } from '@apollo/client';
+import { ApolloError, useQuery } from '@apollo/client';
 import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import cx from 'classnames';
-import { HEADERSCONFIG, PREFERENCES, YESNO } from 'utils/constants';
+import { CHECKIN, HEADERSCONFIG, PREFERENCES, YESNO } from 'utils/constants';
 import { getConfig } from 'utils/getConfiguration';
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { GET_HOTEL_INFORMATION } from 'core/graphql/queries/GET_HOTEL_INFORMATION';
 import { ASSETS_URL } from 'core/graphql/endpoints';
+import { client } from 'core/graphql/client';
+import { PostRequest } from 'core/graphql/queries/POST_REQUEST';
+import { availablePaths } from 'utils/availablePaths';
+import { processError } from 'utils/processError';
+import { buttonArrow } from 'utils/functions';
+import { useCheckedIn } from 'storage/check-in.storage';
 
 export { getStaticPaths };
 
@@ -25,10 +31,12 @@ const Preferences = () => {
   const { t } = useTranslation('dining');
   const router = useRouter();
   const config = getConfig();
+  const isCheckedIn = useCheckedIn();
 
   const locale = useLocale();
   const navigate = useLocalizedRouter();
   const [selectedOptions, setSelectedOptions] = useState<any>({});
+  const [loading, setLoading] = useState<any>(false);
   const homeModule: any = config?.modules?.find((module) => module?.code === PREFERENCES);
   const imageDetails = homeModule?.submodules?.find(
     (submodule: any) => submodule?.code === HEADERSCONFIG && submodule.isActive,
@@ -49,7 +57,12 @@ const Preferences = () => {
 
   const hotelImages = homeCarouselDetails?.getPropertyDetailsByHotelId?.hotel?.images[0];
 
-  const preferencesData = data?.listFeedback;
+  const preferencesData = data?.listFeedback?.filter((item: any) => item?.destination === CHECKIN);
+
+  useEffect(() => {
+    preferencesData?.length === 0 && navigate(availablePaths.HOME);
+  }, [preferencesData]);
+
   const handleOptionSelect = (categoryTitle: any, option: any) => {
     setSelectedOptions((prevSelectedOptions: any) => {
       const isSelected = prevSelectedOptions[categoryTitle]?.includes(option);
@@ -75,6 +88,35 @@ const Preferences = () => {
     });
   };
 
+  const submit = async () => {
+    const commentStrings = [];
+    for (const categoryTitle in selectedOptions) {
+      const comment = `${categoryTitle}:${selectedOptions[categoryTitle].join(',')}`;
+      commentStrings.push(comment);
+    }
+    const comments = commentStrings.join('|');
+    const preferencesPayload = {
+      bookingId: isCheckedIn?.bookingId,
+      commentId: '',
+      comments: comments ?? '',
+    };
+
+    try {
+      setLoading(true);
+      const uploadSignatureResponse = await client.mutate({
+        mutation: PostRequest,
+        context: { clientName: 'rest' },
+        variables: {
+          body: preferencesPayload,
+        },
+      });
+      navigate(availablePaths.HOME);
+      setLoading(false);
+    } catch (uploadSignatureError) {
+      processError(t, uploadSignatureError as ApolloError);
+      setLoading(false);
+    }
+  };
   return (
     <>
       <Header screenTitle={t('Preferences') as string} displayHome />
@@ -112,16 +154,17 @@ const Preferences = () => {
               </div>
             ))}
           </div>
-          <div className={styles.confirmOrderButton}>
-            <div className={styles.confirmationWrapperBotton}>
-              <StyledButton
-                className={styles.submitButton}
-                //   onClick={submit}
-                variant='contained'
-              >
-                {t('submit')}
-              </StyledButton>
-            </div>
+
+          <div className={cx(styles.bottomMenuWrapper)}>
+            <StyledButton
+              variant='contained'
+              className={styles.bottomMenuButton}
+              onClick={submit}
+              loading={loading}
+              arrow={buttonArrow}
+            >
+              {t('submit')}
+            </StyledButton>
           </div>
         </div>
       </PageWrapper>

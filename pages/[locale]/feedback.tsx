@@ -3,7 +3,7 @@ import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from '../../styles/feedback/feedback.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
@@ -25,6 +25,9 @@ import { timeFormats } from 'utils/timeFormats';
 import { availablePaths } from 'utils/availablePaths';
 import Head from 'next/head';
 import { HOTEL_CODE } from 'core/graphql/endpoints';
+import { CHECKOUT } from 'core/graphql/queries/CHECKOUT';
+import { useCheckedIn } from 'storage/check-in.storage';
+import { buttonArrow } from 'utils/functions';
 
 export { getStaticPaths };
 
@@ -33,6 +36,7 @@ const Feedback = () => {
   const [feedbackText, setFeedbackText] = useState<any>();
   const [selectedFeedback, setSelectedFeedback] = useState<any>({});
   const [loading, setLoading] = useState(false);
+  const isCheckedIn = useCheckedIn();
 
   const locale = useLocale();
   const navigate = useLocalizedRouter();
@@ -42,7 +46,11 @@ const Feedback = () => {
     fetchPolicy: 'no-cache',
   });
 
-  const preferencesData = data?.listFeedback;
+  const feedbackData = data?.listFeedback?.filter((item: any) => item?.destination === CHECKOUT);
+
+  useEffect(() => {
+    feedbackData?.length === 0 && navigate(availablePaths.HOME);
+  }, [feedbackData]);
 
   const handleButtonClick = (categoryTitle: any, rating: any) => {
     setSelectedFeedback((prevSelectedRatings: any) => ({
@@ -57,7 +65,7 @@ const Feedback = () => {
     orgEmail: 'rameez.kalathil@hudini.io',
     email: '',
     space: hotelName,
-    guestName: 'Jay P',
+    guestName: isCheckedIn?.name,
     feedbackDate: dayjs().format(timeFormats.YEAR_MONTH_DAY),
     comments: feedbackText ?? '',
     feedbackCategories: Object.entries(selectedFeedback).map(([description, rating]) => ({
@@ -92,8 +100,8 @@ const Feedback = () => {
 
       <PageWrapper className={styles.pageWrapper}>
         <div className={styles.wrapper}>
-          <div className={styles.title}>{preferencesData && preferencesData[0]?.subtext}</div>
-          {preferencesData?.map((preference: any, index: number) => (
+          <div className={styles.title}>{feedbackData && feedbackData[0]?.subtext}</div>
+          {feedbackData?.map((preference: any, index: number) => (
             <>
               <p className={styles.preferenceTitle}>{t('Kindly rate our services')}</p>
               <div key={index} className={styles.buttonWrapper}>
@@ -169,7 +177,20 @@ const Feedback = () => {
               </div>
             </>
           ))}
-          <div className={styles.confirmOrderButton}>
+
+          <div className={cx(styles.bottomMenuWrapper)}>
+            <StyledButton
+              variant='contained'
+              className={styles.bottomMenuButton}
+              onClick={submit}
+              loading={loading}
+              arrow={buttonArrow}
+            >
+              {t('submit')}
+            </StyledButton>
+          </div>
+
+          {/* <div className={styles.confirmOrderButton}>
             <div className={styles.confirmationWrapperButton}>
               <StyledButton
                 className={styles.submitButton}
@@ -180,7 +201,7 @@ const Feedback = () => {
                 {t('submit')}
               </StyledButton>
             </div>
-          </div>
+          </div> */}
         </div>
       </PageWrapper>
     </>

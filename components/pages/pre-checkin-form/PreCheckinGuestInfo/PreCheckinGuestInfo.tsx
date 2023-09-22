@@ -3,17 +3,14 @@ import { IPreCheckinGuestInfoProps } from './PreCheckinGuestInfo.types';
 import styles from './PreCheckinGuestInfo.module.scss';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import { IGuestInfo } from 'types/guest-information.types';
-import { identityVerificationValidation } from 'validation/guest-information-input.validation';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useReactiveVar } from '@apollo/client';
-import {
-  IReservationGuestInfoStorageData,
-  reservationGuestInfoStorageData,
-} from 'storage/reservation-guest-info.storage';
-import * as yup from 'yup';
-import { EMAIL, EMAIL_REGEX, PHONE, PHONE_REGEX } from 'utils/constants';
+import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
+import { SELECTDROPDOWN } from 'utils/constants';
 import { generateInitialFieldValues, generateValidationSchema } from 'utils/functions';
+import { InputLabel, Select, MenuItem } from '@mui/material';
+import { StyledFormControl } from 'components/shared/StyledFormControl/StyledFormControl';
+import DropDown from '@icons/dropDownIcon.svg';
 
 export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
   selectedGuest,
@@ -50,29 +47,67 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
       {guestInformationSection.map(
         (field: any) =>
           field?.isActive && (
-            <div key={field?.name} className={styles.col_100}>
-              <StyledInput
-                required={field?.required}
-                autoComplete='off'
-                className={styles.guestDataInput}
-                label={t(field?.label)}
-                variant='standard'
-                name={field?.name}
-                id={field?.name}
-                value={formik.values[field?.name]}
-                disabled={field?.isDisabled}
-                onChange={(e) => {
-                  formik.handleChange(e);
-                  updateGuestDetails(e.target.id, e.target.value);
-                }}
-                onFocus={() => formik.setFieldTouched(field?.name, true)}
-                error={Boolean(formik.touched[field?.name]) && Boolean(formik.errors[field?.name])}
-                helperText={
-                  formik.touched[field?.name] &&
-                  formik.errors[field?.name] &&
-                  `${formik.errors[field?.name]}`
-                }
-              />
+            <div key={field?.name}>
+              {field?.type == SELECTDROPDOWN ? (
+                <StyledFormControl
+                  required={field?.required}
+                  disabled={field?.isDisabled}
+                  className={styles.guestDataInput}
+                  variant='standard'
+                  sx={{ m: 1, minWidth: '100%' }}
+                >
+                  <InputLabel>{field?.label}</InputLabel>
+                  <Select
+                    className={styles.guestDataInput}
+                    label={field?.label}
+                    variant='standard'
+                    name={field?.name}
+                    id={field?.name}
+                    value={formik.values[field?.name] || ''}
+                    onChange={(e: any) => {
+                      formik.handleChange(e);
+                      updateGuestDetails(e.target.name, e.target.value);
+                    }}
+                    disabled={field?.isDisabled}
+                    IconComponent={DropDown}
+                  >
+                    {field?.options.map((item: any) => {
+                      return (
+                        <MenuItem value={item?.value} key={item?.value}>
+                          <em>{item?.name}</em>
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </StyledFormControl>
+              ) : (
+                <div key={field?.name} className={styles.col_100}>
+                  <StyledInput
+                    required={field?.required}
+                    autoComplete='off'
+                    className={styles.guestDataInput}
+                    label={t(field?.label)}
+                    variant='standard'
+                    name={field?.name}
+                    id={field?.name}
+                    value={formik.values[field?.name]}
+                    disabled={field?.isDisabled}
+                    onChange={(e) => {
+                      formik.handleChange(e);
+                      updateGuestDetails(e.target.id, e.target.value);
+                    }}
+                    onFocus={() => formik.setFieldTouched(field?.name, true)}
+                    error={
+                      Boolean(formik.touched[field?.name]) && Boolean(formik.errors[field?.name])
+                    }
+                    helperText={
+                      formik.touched[field?.name] && formik.errors[field?.name]
+                        ? `${formik.errors[field?.name]}`
+                        : ''
+                    }
+                  />
+                </div>
+              )}
             </div>
           ),
       )}

@@ -58,9 +58,12 @@ import {
   CHECKEDOUT,
   CANCELED,
   PERSONALISATION,
+  CHECKOUT,
 } from 'utils/constants';
 import { GET_E_REG_DETAILS } from 'core/graphql/queries/GET_E_REG_DETAILS';
 import { getConfig } from 'utils/getConfiguration';
+import { buttonArrow } from 'utils/functions';
+import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
 
 export { getStaticPaths };
 
@@ -98,6 +101,15 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     query: GET_RESERVATION,
   });
 
+  const { data: feedBackList } = useQuery(GET_FEEDBACK, {
+    context: { clientName: 'host_v4' },
+    fetchPolicy: 'no-cache',
+  });
+
+  const feedbackData = feedBackList?.listFeedback?.filter(
+    (item: any) => item?.destination === CHECKOUT,
+  );
+
   const getEregDetails = useQuery(GET_E_REG_DETAILS, {
     context: { clientName: 'host_v6' },
     fetchPolicy: 'no-cache',
@@ -122,7 +134,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       data?.getReservation?.data?.reservationStatus === CHECKEDOUT ||
       data.getReservation.data.reservationStatus === CHKOUT
     ) {
-      // navigate(availablePaths.GET_RESERVATION);
+      navigate(availablePaths.HOME);
     }
   }, [data, navigate]);
 
@@ -207,7 +219,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
     try {
       await client.query({
-        query: PRECHECKIN,
+        query: CHECKIN,
         context: { clientName: 'rest' },
         variables: {
           confirmationNumber: reservationInfo?.confirmationId as string,
@@ -215,15 +227,22 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         },
       });
 
-      saveTrip({ reservationId: reservationInfo?.confirmationId as string, checkedIn: false });
+      saveTrip({
+        reservationId: reservationInfo?.confirmationId as string,
+        checkedIn: true,
+        name: guestReservationInfo?.firstName,
+      });
       checkinStorage({
         reservationId: reservationInfo?.confirmationId as string,
+        name: guestReservationInfo?.firstName,
         preCheckedIn: true,
         checkedIn: false,
       });
 
       toast('Please proceed to Hotel Lobby', { type: 'success' });
-      navigate(availablePaths?.HOME);
+      feedbackData?.length === 0
+        ? navigate(availablePaths.HOME)
+        : navigate(availablePaths.FEEDBACK);
     } catch (checkinError) {
       const error = checkinError as ApolloError;
       const networkError = error?.networkError as { result?: { errors?: string } };
@@ -296,26 +315,32 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                 <p className={styles.checkDatesText}>{t('Card Number')}</p>
                 <p className={cx(styles.checkDatesDetails, styles.left)}>
                   {guestReservationInfo?.cardNumber ??
-                    data?.getReservation.data.reservePayments[0].cardNumber ??
+                    data?.getReservation?.data?.reservePayments[0]?.cardNumber ??
                     ''}
                 </p>
                 <p className={styles.checkDatesText}>{t('Card Holder Name')}</p>
                 <p className={cx(styles.checkDatesDetails, styles.left)}>
                   {guestReservationInfo?.cardHolderName ??
-                    data?.getReservation.data.reservePayments[0].cardHolderName ??
+                    data?.getReservation?.data?.reservePayments[0]?.cardHolderName ??
                     ''}
                 </p>
                 <p className={styles.checkDatesText}>{t('Card Type')}</p>
                 <p className={cx(styles.checkDatesDetails, styles.left)}>
                   {cardType?.name ??
                     guestReservationInfo?.cardType ??
-                    data?.getReservation.data.reservePayments[0].cardType ??
+                    data?.getReservation?.data?.reservePayments[0]?.cardType ??
                     ''}
                 </p>
                 <p className={styles.checkDatesText}>{t('Expiry Date')}</p>
                 <p className={cx(styles.checkDatesDetails, styles.left)}>
-                  {guestReservationInfo?.cardExpiryDate ??
-                    data?.getReservation.data.reservePayments[0].cardExpiryDate ??
+                  {guestReservationInfo?.expiry ??
+                    data?.getReservation?.data?.reservePayments[0]?.cardExpiryDate ??
+                    ''}
+                </p>
+                <p className={styles.checkDatesText}>{t('CVV')}</p>
+                <p className={cx(styles.checkDatesDetails, styles.left)}>
+                  {guestReservationInfo?.cvv ??
+                    data?.getReservation?.data?.reservePayments[0]?.cvv ??
                     ''}
                 </p>
               </div>
@@ -404,16 +429,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             <StyledCheckBox onClick={toggleConditionsAccepted} value={conditionsAccepted} />
           </div>
 
-          <p className={styles.agrementText}>
-            {t('I have read, understood and agree to the ')}
-            <Link href={`${TERMS_AND_CONDITIONS}`} target='_blank' rel='noopener'>
-              {t('Terms & Conditions')}
-            </Link>{' '}
-            {t('and')}{' '}
-            <Link href={`${PRIVACY_LAWS}`} target='_blank' rel='noopener'>
-              {t('Privacy Laws.')}
-            </Link>
-          </p>
+          <p
+            className={styles.agrementText}
+            dangerouslySetInnerHTML={{ __html: reviewConfig?.termsAndCondition }}
+          ></p>
         </div>
         {/* <div className={styles.guestSignatureWrapper}>
           <p className={styles.guestSignature}>{t('Guest Signature')}</p>
@@ -441,6 +460,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             onClick={goToCheckIn}
             loading={loading}
             variant='contained'
+            arrow={buttonArrow}
           >
             {t(`${reviewConfig.buttonLabelCheckIn}`)}
           </StyledButton>

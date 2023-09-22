@@ -6,9 +6,9 @@ import DishIcon from '@icons/dishIcon.svg';
 import ArrowButton from '@icons/readMoreArrow.svg';
 import styles from './ListComponents.module.scss';
 import { ASSETS_URL, CURRENCY } from 'core/graphql/endpoints';
-import { EVERYDAY, OFFERSDURATION } from 'utils/constants';
+import { OFFERSDURATION } from 'utils/constants';
 import dayjs from 'dayjs';
-import { buttonArrow } from 'utils/functions';
+import { buttonArrow, restaurantTimings } from 'utils/functions';
 
 interface ListComponentEntityProps {
   queryResultEntity: any;
@@ -27,13 +27,7 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
     selectedListItem(queryResultEntity);
   }, [queryResultEntity, selectedListItem]);
 
-  const time =
-    queryResultEntity?.hours &&
-    `${
-      queryResultEntity?.hours[0]?.day === EVERYDAY
-        ? queryResultEntity?.hours[0]?.day.toLowerCase()
-        : queryResultEntity?.hours[0]?.day.toLowerCase()
-    }: ${queryResultEntity?.hours[0]?.open} - ${queryResultEntity?.hours[0]?.close} ...`;
+  const time = restaurantTimings(queryResultEntity?.customAttributes);
 
   return (
     <div className={styles.listComponent} onClick={onCtaClick}>
@@ -81,10 +75,10 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
               <span>{queryResultEntity?.primaryCuisine.toLowerCase()}</span>
             </div>
           )}{' '}
-          {queryResultEntity?.hours && (
+          {time && (
             <div className={styles.cuisineRowTime}>
               <ClockIcon className={styles.cuisineIcon} />
-              <span>{time}</span>
+              <p>{time?.value}</p>
             </div>
           )}
           <span className={styles.readMoreButton}>
