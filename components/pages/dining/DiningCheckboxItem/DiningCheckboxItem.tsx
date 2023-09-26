@@ -10,6 +10,7 @@ export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
   setAddons,
   setupdateAddons,
   updateAddons,
+  checked,
 }) => {
   const toggleRequested = useCallback(() => {
     setupdateAddons(!updateAddons);
@@ -43,6 +44,7 @@ export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
         value={element.id}
         label={showCurrency()}
         labelPlacement='start'
+        checked={checked}
       />
     </div>
   );

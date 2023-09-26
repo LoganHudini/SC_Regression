@@ -82,7 +82,7 @@ const DiningOrderSummary = () => {
           const item = draft?.items?.find((el, i) => el.itemId === itemId && i === index);
 
           if (item) {
-            item?.customisation?.ingredient || (item?.addons ?? []).length > 0
+            (item?.customisation ?? []).length > 0 || (item?.addons ?? []).length > 0
               ? setCustomisationDrawer((state) => !state)
               : (item.quantity++,
                 addToCartEvent({
@@ -164,9 +164,10 @@ const DiningOrderSummary = () => {
           name: item?.name,
           price: item?.price,
         })),
-        customisations: el?.customisation?.ingredient
-          ? [{ name: el?.customisation?.name, code: el?.customisation?.code }]
-          : [],
+        customisations: el?.customisation?.map((item: any) => ({
+          code: item?.code,
+          name: item?.name,
+        })),
         cookingInstructions: el?.cookingInstruction,
       })),
     };
@@ -237,12 +238,6 @@ const DiningOrderSummary = () => {
                     />
                   </div>
                   <div className={styles.selectionsWrapper}>
-                    {item?.customisation?.name && (
-                      <p className={styles.itemDescription}>
-                        {' '}
-                        {item?.customisation?.ingredient}: {item?.customisation?.name}
-                      </p>
-                    )}
                     {(item?.addons ?? [])?.length > 0 && (
                       <p className={styles.itemDescription}>
                         {' '}
@@ -250,6 +245,15 @@ const DiningOrderSummary = () => {
                         {item?.addons?.map((item, index) => (
                           <span key={index} className={styles.items}>
                             {item?.name} ({CURRENCY} {item?.price})
+                          </span>
+                        ))}
+                      </p>
+                    )}
+                    {(item?.customisation ?? [])?.length > 0 && (
+                      <p className={styles.itemDescription}>
+                        {item?.customisation?.map((item: any, index: any) => (
+                          <span key={index} className={styles.items}>
+                            {`${item?.ingredient} : ${item?.name}`}
                           </span>
                         ))}
                       </p>

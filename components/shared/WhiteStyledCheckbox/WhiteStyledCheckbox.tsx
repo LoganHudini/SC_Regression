@@ -13,6 +13,7 @@ export const WhiteStyledCheckbox: React.FC<Partial<FormControlLabelProps> & { la
       className={cx(props.className, styles.styledRadio)}
       control={
         <Checkbox
+          checked={props.checked}
           sx={{
             color: 'var(--primary-theme-color)',
             '&.Mui-checked': {

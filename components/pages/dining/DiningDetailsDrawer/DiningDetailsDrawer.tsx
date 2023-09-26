@@ -33,7 +33,7 @@ const DiningDetailsDrawer = () => {
   const [instruction, setinstruction] = useState('');
   const [updateAddons, setupdateAddons] = useState(false);
   const [totalAddons, settotalAddons] = useState<number>(0);
-  const [customisation, setCustomisation] = useState<any>();
+  const [customisation, setCustomisation] = useState<any>([]);
   const [addonsWarning, setAddonsWarning] = useState(false);
   const [addons, setAddons] = useState<
     {
@@ -100,63 +100,62 @@ const DiningDetailsDrawer = () => {
     setCount((state) => state - 1);
   }, []);
 
-  const handleSelectedCustomisation = useCallback(
-    (event: any) => {
-      const selectedName = event.target.value;
-      const itemCode = selectedItem?.customisation[0]?.customisations?.find(
-        (el: any) => el?.name === selectedName && el?.code,
-      );
-      if (customisation?.name === selectedName) {
-        setCustomisation(null);
-        setcustomize(false);
-      } else {
-        setCustomisation({
-          ingredient: selectedItem?.customisation[0]?.ingredient ?? '',
-          name: selectedName,
-          code: itemCode?.code ?? '',
-        });
-        setcustomize(true);
-      }
-      setcustomize(!customize);
-    },
-    [selectedItem?.customisation, customisation?.name, customize],
-  );
+  const handleSelectedCustomisation = (e: any, customisationItem: any, subData: any) => {
+    const selectedCustomization = {
+      ingredient: customisationItem.ingredient,
+      name: e.target.value,
+      code: subData.code,
+      id: subData.id,
+    };
+
+    const updatedCustomizations = customisation?.filter(
+      (customization: any) => customization?.ingredient !== customisationItem?.ingredient,
+    );
+
+    updatedCustomizations?.push(selectedCustomization);
+
+    setCustomisation(updatedCustomizations);
+  };
 
   const cookingInstructions = useCallback((event: any) => {
     setinstruction(event?.target.value);
   }, []);
 
   const handleAdd = useCallback(() => {
+    const customisationData = sortBy(customisation, (item) => item?.name);
     const addOnsData = sortBy(addons, (item) => item?.name);
+
     diningMenuStorage(
       produce(diningMenuStorage(), (draft) => {
         const item = draft?.items?.find(
           (el) =>
             el?.itemId === selectedItemId &&
-            !el?.customisation?.ingredient &&
+            (el?.customisation ?? [])?.length === 0 &&
             (el?.addons ?? [])?.length === 0 &&
-            !customisation?.ingredient &&
+            customisation?.length === 0 &&
             addOnsData?.length === 0,
         );
 
         const itemBoth = draft?.items.find(
           (el) =>
             el.itemId === selectedItemId &&
-            addOnsData?.length > 0 &&
+            addOnsData?.length === 0 &&
             (el?.addons ?? [])?.length > 0 &&
             JSON.stringify(addOnsData) ===
               JSON.stringify(sortBy(el?.addons, (item) => item?.name)) &&
-            customisation?.ingredient &&
-            el?.customisation?.ingredient &&
-            el?.customisation?.ingredient === customisation?.ingredient &&
-            el?.customisation?.code === customisation?.code,
+            JSON.stringify(customisationData) ===
+              JSON.stringify(sortBy(el?.customisation, (item) => item?.name)),
+          // customisation?.ingredient &&
+          // el?.customisation?.ingredient &&
+          // el?.customisation?.ingredient === customisation?.ingredient &&
+          // el?.customisation?.code === customisation?.code,
         );
 
         const itemCustomisation = draft?.items.find(
           (el) =>
             el.itemId === selectedItemId &&
             customisation?.ingredient &&
-            el?.customisation?.ingredient &&
+            (el?.customisation ?? [])?.length > 0 &&
             el?.customisation?.ingredient === customisation?.ingredient &&
             el?.customisation?.code === customisation?.code &&
             addOnsData?.length === 0,
@@ -182,8 +181,8 @@ const DiningDetailsDrawer = () => {
           // console.log('Addons matches');
         } else {
           // console.log('No match');
-          if (customisation?.ingredient || addOnsData.length > 0) {
-            if (addOnsData && customisation?.ingredient) {
+          if (customisation?.length > 0 || addOnsData?.length > 0) {
+            if (addOnsData?.length > 0 && customisation?.length > 0) {
               draft.items.push({
                 itemId: selectedItem?.id,
                 quantity: count,
@@ -191,16 +190,12 @@ const DiningDetailsDrawer = () => {
                 price: selectedItem?.price ?? 0,
                 title: selectedItem?.name ?? '',
                 cookingInstruction: instruction ?? '',
-                customisation: {
-                  ingredient: customisation?.ingredient ?? '',
-                  name: customisation?.name ?? '',
-                  code: customisation?.code ?? '',
-                },
+                customisation: customisationData,
                 addons: addOnsData,
                 upsell: selectedItem?.upsell ?? [],
               });
               // console.log('Customisation & Addons only');
-            } else if (customisation?.ingredient) {
+            } else if (customisation?.length > 0) {
               draft.items.push({
                 itemId: selectedItem?.id,
                 quantity: count,
@@ -208,11 +203,7 @@ const DiningDetailsDrawer = () => {
                 price: selectedItem?.price ?? 0,
                 title: selectedItem?.name ?? '',
                 cookingInstruction: instruction ?? '',
-                customisation: {
-                  ingredient: customisation?.ingredient ?? '',
-                  name: customisation?.name ?? '',
-                  code: customisation?.code ?? '',
-                },
+                customisation: customisation,
                 upsell: selectedItem?.upsell ?? [],
               });
               // console.log('Customisation only');
@@ -265,9 +256,7 @@ const DiningDetailsDrawer = () => {
   }, [
     addons,
     count,
-    customisation?.code,
-    customisation?.ingredient,
-    customisation?.name,
+    customisation,
     instruction,
     selectedItem?.code,
     selectedItem?.id,
@@ -279,12 +268,17 @@ const DiningDetailsDrawer = () => {
 
   const closeDrawer = () => {
     toggleDiningDetailsDrawer(false);
-    setCustomisation(null);
+    setCustomisation([]);
     setAddons([]);
     setCount(1);
   };
 
   const diningDetails = () => {
+    const filteredCustomisation = selectedItem?.customisation?.map(
+      (customisationItem: any, index: number) =>
+        customisationItem?.customisations?.filter((item: any) => item?.status),
+    );
+
     return (
       <>
         {' '}
@@ -341,37 +335,39 @@ const DiningDetailsDrawer = () => {
                 </>
               )}
 
-              {selectedItem?.customisation && (
-                <>
+              {selectedItem?.customisation?.map((customisationItem: any, index: number) => (
+                <div key={index}>
                   <div className={styles.customisationWrapper}>
-                    <p className={styles.customisationsText}>
-                      {selectedItem?.customisation[0]?.ingredient}
-                    </p>
+                    <p className={styles.customisationsText}>{customisationItem?.ingredient}</p>
 
-                    {selectedItem?.customisation && !customisation?.name && (
-                      <p className={styles.optionalTextWarning}>{t('Required')}</p>
-                    )}
+                    {!customisation?.some(
+                      (selected: any) => selected.ingredient === customisationItem.ingredient,
+                    ) && <p className={styles.optionalTextWarning}>{t('Required')}</p>}
                   </div>
                   <div className={styles.customisations}>
-                    {selectedItem?.customisation[0]?.customisations
+                    {customisationItem?.customisations
                       ?.filter((item: any) => item?.status)
                       ?.map((el: any, index: any) => (
                         <div key={index} className={styles.radioItemWrapper}>
                           <StyledButton
-                            onClick={(e) => handleSelectedCustomisation(e)}
+                            onClick={(e) => handleSelectedCustomisation(e, customisationItem, el)}
                             className={cx(styles.customizationInactive, {
-                              [styles.customizationActive]: customisation?.name === el?.name,
+                              [styles.customizationActive]: customisation?.some(
+                                (customization: any) =>
+                                  customization?.ingredient === customisationItem?.ingredient &&
+                                  customization?.name === el?.name,
+                              ),
                             })}
                             variant='contained'
                             value={el.name}
                           >
-                            {el?.name}
+                            {el.name}
                           </StyledButton>
                         </div>
                       ))}
                   </div>
-                </>
-              )}
+                </div>
+              ))}
 
               {selectedItem?.addons && (
                 <>
@@ -397,6 +393,7 @@ const DiningDetailsDrawer = () => {
                             selectedItemId={selectedItemId}
                             addons={addons ?? []}
                             setAddons={setAddons}
+                            checked={addons?.some((item) => item?.id === el?.id) ? true : false}
                           />
                         </div>
                       ))}
@@ -461,7 +458,7 @@ const DiningDetailsDrawer = () => {
                   variant='contained'
                   disabled={
                     count === 0 ||
-                    (selectedItem?.customisation && !customisation?.name) ||
+                    filteredCustomisation?.length !== customisation?.length ||
                     addonsWarning
                   }
                 >
