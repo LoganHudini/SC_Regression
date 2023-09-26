@@ -4,7 +4,6 @@ import { IMenuItemProps, IModuleOptionsDrawerProps } from './MenuItem.types';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { getRedirectLink } from 'utils/getRedirectLink';
 import { flowPathMap } from 'utils/flowPathMap';
-import Drawer from '@mui/material/Drawer';
 import { useReactiveVar } from '@apollo/client';
 import {
   diningOptions,
@@ -25,12 +24,13 @@ import {
 } from 'utils/constants';
 import CheckIcon from '@icons/checkIcon.svg';
 import { housekeepingOptions } from 'storage/housekeeping.storage';
-import { handleTouchEnd, handleTouchStart } from 'utils/hooks/useDrawerSwipe';
 import { spaInformationStorage } from 'storage/spa.storage';
 import { offerList, selectedOfferOption } from 'storage/offers.storage';
 import { useTranslation } from 'react-i18next';
 import HotelInfoDrawer from 'components/pages/home/HotelInformation/HotelInfoDrawer/HotelInfoDrawer';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
+import { availablePaths } from 'utils/availablePaths';
+import { toggleOpenCheckOutDrawer } from 'storage/checkout.storage';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
   title,
@@ -91,6 +91,8 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   offersActive,
 }) => {
   const navigate = useLocalizedRouter();
+  const [highLightViewBill, setHighLightViewBill] = useState(false);
+  const [highLightCheckOut, setHighLightCheckOut] = useState(false);
   const diningOptionSelected = useReactiveVar(diningOptions);
   const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
   const drawerStatus = useReactiveVar(toggleModuleOptionsDrawer);
@@ -99,7 +101,6 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   const spaInformation = useReactiveVar(spaInformationStorage);
   const offersOptionSelected: any = useReactiveVar(selectedOfferOption);
   const offersList = useReactiveVar(offerList);
-  const [startY, setStartY] = useState(0);
   const { t } = useTranslation(['common']);
 
   const filteredDetails = compendiumInfo?.categories?.filter((category: any) => {
@@ -128,15 +129,27 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
             <div className={styles.optionsList}>
               <p
                 className={cx(styles.inActiveText, {
-                  [styles.activeText]: true,
+                  [styles.activeText]: highLightViewBill,
                 })}
+                onClick={() => {
+                  setHighLightViewBill(true);
+                  toggleOpenCheckOutDrawer(false);
+                  navigate(availablePaths.BILL);
+                  closeDrawer();
+                }}
               >
                 {t('View Bill')}
               </p>
               <p
                 className={cx(styles.inActiveText, {
-                  [styles.activeText]: false,
+                  [styles.activeText]: highLightCheckOut,
                 })}
+                onClick={() => {
+                  setHighLightCheckOut(true);
+                  toggleOpenCheckOutDrawer(true);
+                  closeDrawer();
+                  navigate(availablePaths.BILL);
+                }}
               >
                 {t('Checkout')}
               </p>

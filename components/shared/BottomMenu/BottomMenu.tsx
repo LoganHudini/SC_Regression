@@ -32,7 +32,6 @@ import { useHideOnScroll } from 'utils/hooks/useHideOnScroll';
 import useOutsideAlerter from 'utils/hooks/useOutsideAlerter';
 import { selectedOfferOption } from 'storage/offers.storage';
 import { CustomDrawer } from '../CustomDrawer/CustomDrawer';
-
 export const BottomMenu: React.FC<unknown> = () => {
   const wrapperRef = useRef(null);
   const router = useRouter();
@@ -52,6 +51,7 @@ export const BottomMenu: React.FC<unknown> = () => {
   const spaActive = router?.pathname?.includes(availablePaths?.SPA);
   const offersActive = router.pathname.includes(availablePaths.OFFERS);
   const hotelCompendiumActive = router?.pathname?.includes(availablePaths.HOTEL_COMPENDIUM);
+  const checkOutActive = router?.pathname?.includes(availablePaths.BILL);
   const hotelCompendiumSelected: any = useReactiveVar(selectedCompendiumCategory);
 
   const { data } = useQuery<IGetHamburgerMenuDetailsApiResponse>(GET_HAMBURGER_MENU, {
@@ -65,8 +65,12 @@ export const BottomMenu: React.FC<unknown> = () => {
     if (homeActive && !isCheckedIn?.checkedIn) {
       toggleCheckInDetailsDrawer(true);
     } else {
-      toggleModuleOptionsDrawer(true);
-      toggleHamburgerMenuDrawer(false);
+      if (checkOutActive && isCheckedIn?.checkedIn) {
+        toggleDetailsDrawer(true);
+      } else {
+        toggleModuleOptionsDrawer(true);
+        toggleHamburgerMenuDrawer(false);
+      }
     }
   };
 
@@ -119,6 +123,7 @@ export const BottomMenu: React.FC<unknown> = () => {
             {spaActive && t(`${spaInformation?.selectedSpaCategoryName}`)}
             {offersActive && t(`${offersOptionSelected?.type}`)}
             {hotelCompendiumActive && t(`${hotelCompendiumSelected?.name}`)}
+            {checkOutActive && t('PAY & CHECKOUT')}
           </span>
           <DownArrowIcon className={styles.downArrow} />
         </StyledButton>

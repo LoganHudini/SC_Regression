@@ -156,6 +156,6 @@ export const activeItems = (list: any) => list && list?.filter((item: any) => it
 // Button arrow status
 export const buttonArrow = getConfig()?.ButtonArrow;
 
-//restaurant timings
+// restaurant timings
 export const restaurantTimings = (data: any) =>
   data && data?.find((item: any) => item?.key === TIMINGS);

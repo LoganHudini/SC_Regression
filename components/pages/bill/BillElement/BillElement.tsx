@@ -16,7 +16,10 @@ export const BillElement: React.FC<IBIllElementProps> = ({ date, title, chequeNo
       </div>
       <div className={styles.infoColumn}>
         <div className={styles.chequeNo}>{`CHEQUE NO: ${chequeNo}`}</div>
-        <div className={styles.price}>{price}</div>
+        <div className={styles.price}>
+          <span className={styles.billAmountCurrency}>{CURRENCY} </span>
+          {price}
+        </div>
       </div>
     </div>
   );
