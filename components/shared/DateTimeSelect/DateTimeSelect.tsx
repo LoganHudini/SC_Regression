@@ -88,7 +88,12 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
   return (
     <div>
       <>
-        <div className={styles.timePickerWrapper}>
+        <div
+          className={styles.timePickerWrapper}
+          onTouchStart={(e) => e.stopPropagation()}
+          onTouchMove={(e) => e.stopPropagation()}
+          onTouchEnd={(e) => e.stopPropagation()}
+        >
           <MultiPicker onValueChange={onChange} selectedValue={selectedTime?.split(':')}>
             <Picker
               indicatorClassName='my-picker-indicator'
