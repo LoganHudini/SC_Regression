@@ -53,7 +53,7 @@ export const PreCheckinPaymentInfo: React.FC<IPreCheckinPaymentInfoProps> = ({
 
   return (
     <div className={styles.identityInputs}>
-      {creditCardInfoSection.map(
+      {creditCardInfoSection?.map(
         (field: any) =>
           field?.isActive && (
             <div key={field?.name} className={styles.col_100}>
@@ -82,80 +82,11 @@ export const PreCheckinPaymentInfo: React.FC<IPreCheckinPaymentInfoProps> = ({
             </div>
           ),
       )}
-      {/* for styling its commented */}
-      {/* <div>
-        <div className={styles.col_100}>
-          <StyledInput
-            className={styles.guestDataInput}
-            label={t('Card Number')}
-            variant='standard'
-            name={'cardNumber'}
-            id={'cardNumber'}
-            value={formik.values?.cardNumber}
-            disabled={true}
-            onChange={(e) => {
-              formik.handleChange(e);
-              updateGuestDetails(e.target.id, e.target.value);
-            }}
-          />
-        </div>
-      </div>
-      <div>
-        <div className={styles.col_100}>
-          <StyledInput
-            className={styles.guestDataInput}
-            label={t('Name on the Card')}
-            variant='standard'
-            name={'cardHolderName'}
-            id={'cardHolderName'}
-            value={formik.values?.cardHolderName}
-            disabled={true}
-            onChange={(e) => {
-              formik.handleChange(e);
-              updateGuestDetails(e.target.id, e.target.value);
-            }}
-          />
-        </div>
-      </div>
-      <div>
-        <div className={styles.col_100}>
-          <StyledInput
-            className={styles.guestDataInput}
-            label={t('Card Type')}
-            variant='standard'
-            name={'cardType'}
-            id={'cardType'}
-            disabled={true}
-            value={formik.values?.cardType}
-            onChange={(e) => {
-              formik.handleChange(e);
-              updateGuestDetails(e.target.id, e.target.value);
-            }}
-          />
-        </div>
-      </div>
-      <div>
-        <div className={styles.col_100}>
-          <StyledInput
-            className={styles.guestDataInput}
-            label={t('Expiry')}
-            variant='standard'
-            name={'expiryDate'}
-            id={'cardExpiryDate'}
-            disabled={true}
-            value={formik.values?.cardExpiryDate}
-            onChange={(e) => {
-              formik.handleChange(e);
-              updateGuestDetails(e.target.id, e.target.value);
-            }}
-          />
-        </div>
-      </div> */}
-      <div className={styles.editBtn}>
+      {/* <div className={styles.editBtn}>
         <button className='' onClick={edit}>
           <span className={styles.btnText}>Edit</span>
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

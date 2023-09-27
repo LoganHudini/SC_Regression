@@ -12,10 +12,6 @@ export const StyledButton: React.FC<LoadingButtonProps & { count?: any; arrow?: 
   <LoadingButton {...props} variant={variant}>
     {count && <div className={styles.count}>{count}</div>}
     {props.children}
-    {arrow && (
-      <div className={styles.arrow}>
-        <ButtonArrow />
-      </div>
-    )}
+    {arrow && <ButtonArrow />}
   </LoadingButton>
 );

@@ -110,12 +110,12 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
                               </p>
                             </div>
                             <div className={styles.itemRow}>
-                              {item?.customisations[0]?.name && (
-                                <p className={styles.itemDescription}>
+                              {item?.customisations?.map((item: any, index: number) => (
+                                <p key={index} className={styles.itemDescription}>
                                   {' '}
-                                  {t('Customisation')}: {item?.customisations[0]?.name}
+                                  {t('Customisation')}: {item?.name}
                                 </p>
-                              )}
+                              ))}
                               {(item?.addOns ?? [])?.length > 0 && (
                                 <p className={styles.itemDescription}>
                                   {' '}

@@ -115,7 +115,6 @@ const Offers: React.FC = () => {
           (queryResultEntity?.customAttributes && queryResultEntity?.customAttributes[0]?.value) ??
           '',
       });
-      localStorage.setItem('restaurantId', JSON.stringify(queryResultEntity?.id) ?? '');
     }
     if (queryResultEntity?.CTA?.redirectTo !== EXTERNALURL) {
       const redirectUrl =

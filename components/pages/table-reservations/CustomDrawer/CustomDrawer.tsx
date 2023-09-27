@@ -72,7 +72,7 @@ export const CustomDrawer: React.FC<ICustomDrawerProps> = ({ opened, toggleOpene
             setData(value);
           });
       } catch (err) {
-        console.log(err);
+        // console.log(err);
       }
     }
   }, [tableReservationInfo]);

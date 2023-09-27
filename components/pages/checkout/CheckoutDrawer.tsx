@@ -1,6 +1,6 @@
-import { useQuery, useReactiveVar } from '@apollo/client';
+import { ApolloError, useQuery, useReactiveVar } from '@apollo/client';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
-import React from 'react';
+import React, { useState } from 'react';
 import { toggleDetailsDrawer, toggleNotification } from 'storage/home.storage';
 import styles from './CheckoutDrawer.module.scss';
 import { useTranslation } from 'react-i18next';
@@ -12,10 +12,18 @@ import {
   IGetReservationApiResponse,
 } from 'core/graphql/queries/GET_RESERVATION';
 import { useCheckedIn } from 'storage/check-in.storage';
+import { availablePaths } from 'utils/availablePaths';
+import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
+import { processError } from 'utils/processError';
+import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
+import { ckeckoutTrip } from 'storage/trips.storage';
 
 const CheckoutDrawer = (props: any) => {
   const { setOpenNotification } = props;
   const { t } = useTranslation(['common']);
+  const navigate = useLocalizedRouter();
+  const [checkoutLoader, setCheckoutLoader] = useState(false);
+  const navigation = useLocalizedRouter();
   const detailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
   const checkedInData = useCheckedIn();
 
@@ -29,6 +37,15 @@ const CheckoutDrawer = (props: any) => {
     },
   );
 
+  const { data: feedBackList } = useQuery(GET_FEEDBACK, {
+    context: { clientName: 'host_v4' },
+    fetchPolicy: 'no-cache',
+  });
+
+  const feedbackData = feedBackList?.listFeedback?.filter(
+    (item: any) => item?.destination === CHECKOUT,
+  );
+
   const reservationInfo = reservationData?.getReservation?.data;
   const reservationType = (reservationInfo?.confirmationType as string) ?? '';
   const reservationId = (reservationInfo?.reservationId as string) ?? '';
@@ -39,6 +56,7 @@ const CheckoutDrawer = (props: any) => {
   };
 
   const handleCheckout = async () => {
+    setCheckoutLoader(true);
     try {
       const checkoutPayload: ICheckoutApiRequest = {
         reservationType,
@@ -57,22 +75,32 @@ const CheckoutDrawer = (props: any) => {
       setOpenNotification(true);
       toggleNotification(true);
       toggleDetailsDrawer(false);
+      ckeckoutTrip(checkoutPayload);
+      feedbackData?.length === 0
+        ? navigate(availablePaths.HOME)
+        : navigate(availablePaths.FEEDBACK);
     } catch (error) {
-      console.log(error);
+      processError(t, error as ApolloError);
+      toggleDetailsDrawer(false);
+      feedbackData?.length === 0
+        ? navigate(availablePaths.HOME)
+        : navigate(availablePaths.FEEDBACK);
     }
+    setCheckoutLoader(false);
   };
 
   const checkoutDrawerDetails = () => (
     <div className={styles.wrapper}>
       <p className={styles.title}>{t('Confirm Checkout')}</p>
       <p className={styles.content}>
-        {t('This action cannot be reversed. Your room access will be disabled after Check-out.')}
+        {t('This action cannot be reversed. Your room access will be disabled after Checkout.')}
       </p>
       <div className={styles.buttonWrapper}>
         <StyledButton className={styles.buttonNo} variant='outlined' onClick={() => closeDrawer()}>
           {t('NO')}
         </StyledButton>
         <StyledButton
+          loading={checkoutLoader}
           className={styles.buttonYes}
           variant='contained'
           onClick={() => handleCheckout()}

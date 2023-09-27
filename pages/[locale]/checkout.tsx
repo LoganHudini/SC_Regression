@@ -35,31 +35,25 @@ const CheckOut = () => {
   const [openNotification, setOpenNotification] = useState(false);
   const openCheckOutDrawer = useReactiveVar(toggleOpenCheckOutDrawer);
   const checkedInData = useCheckedIn();
+  const [emailLoader, setEmailLoader] = useState(false);
+  const { data: reservationData, loading: reservationLoading } =
+    useQuery<IGetReservationApiResponse>(GET_RESERVATION_NO_LAST_NAME, {
+      context: { clientName: 'rest' },
+      variables: {
+        confirmationNumber: checkedInData.reservationId,
+      },
+    });
 
-  const {
-    data: reservationData,
-    loading: reservationLoading,
-    error: reservationError,
-  } = useQuery<IGetReservationApiResponse>(GET_RESERVATION_NO_LAST_NAME, {
-    context: { clientName: 'rest' },
-    variables: {
-      confirmationNumber: checkedInData.reservationId,
-    },
-  });
-
-  const {
-    data: invoiceData,
-    loading: invoiceLoading,
-    error: invoiceError,
-  } = useQuery<IInvoiceApiResponse>(INVOICE, {
+  const { data: invoiceData, loading: invoiceLoading } = useQuery<IInvoiceApiResponse>(INVOICE, {
     context: { clientName: 'rest' },
     fetchPolicy: 'network-only',
     variables: {
-      confirmationNumber: checkedInData.reservationId,
+      confirmationNumber: checkedInData?.invoiceId,
     },
   });
 
   const loading = invoiceLoading || reservationLoading;
+  const guestData = reservationData?.getReservation?.data?.guests[0];
   const invoiceElements = invoiceData?.invoice?.data?.billItems;
   const roomNo = reservationData?.getReservation?.data?.roomTypes[0]?.roomNumber;
   const reservationInfo = reservationData?.getReservation?.data;
@@ -73,23 +67,15 @@ const CheckOut = () => {
   }, [openCheckOutDrawer]);
 
   const handleMail = async () => {
+    setEmailLoader(true);
     const emailInvoicePayload = {
-      registeredGuest: 'Mithun Paul',
-      email: 'difin.dp@hudini.io',
-      checkInDate: '21/09/2023',
-      checkOutDate: '22/09/2023',
-      totalBillAmount: '1000',
-      billItems: [
-        {
-          name: 'Bill 2',
-          amount: '200',
-          // eslint-disable-next-line camelcase
-          cheque_no: 'asdji21',
-          // eslint-disable-next-line camelcase
-          time_stamp: '32-02-1290',
-        },
-      ],
-      totalDueAmount: '200',
+      registeredGuest: `${guestData?.firstName} ${guestData?.lastName}`,
+      email: guestData?.emails[0],
+      checkInDate: reservationInfo?.details?.checkInDate,
+      checkOutDate: reservationInfo?.details?.checkOutDate,
+      totalBillAmount: invoiceData?.invoice?.data?.totalBillAmount,
+      billItems: invoiceElements,
+      totalDueAmount: invoiceData?.invoice?.data?.totalDueAmount,
     };
 
     try {
@@ -98,13 +84,15 @@ const CheckOut = () => {
         context: { clientName: 'rest' },
         fetchPolicy: 'network-only',
         variables: {
-          confirmationNumber: checkedInData.reservationId,
+          confirmationNumber: checkedInData?.reservationId,
           body: emailInvoicePayload,
         },
       });
       toggleNotification(true);
+      setEmailLoader(false);
     } catch (getUpdatedReservationError) {
-      console.log(getUpdatedReservationError);
+      // console.log(getUpdatedReservationError);
+      setEmailLoader(false);
     }
   };
 
@@ -136,7 +124,7 @@ const CheckOut = () => {
                   />
                 ))
               ) : (
-                <div className={styles.empty}>Items not found</div>
+                <div className={styles.empty}></div>
               )}
               {invoiceData?.invoice?.data?.totalDueAmount &&
                 invoiceData?.invoice?.data?.totalBillAmount && (
@@ -146,7 +134,11 @@ const CheckOut = () => {
                   />
                 )}
             </div>
-            <StyledButton className={styles.button} onClick={() => handleMail()}>
+            <StyledButton
+              loading={emailLoader}
+              className={styles.button}
+              onClick={() => handleMail()}
+            >
               {t('EMAIL')}
             </StyledButton>
           </>

@@ -42,22 +42,18 @@
   color: var(--tertiary-text-color);
 }
 
-.cardWrapper {
-  margin-top: 22px;
-}
-
 .agrementWrapper {
   display: flex;
-  margin: 0px 0 13px 0;
+  align-items: center;
 }
 
 .agrementText {
   text-align: start;
   font-size: $small;
-  margin-left: 15px;
+  margin-inline-start: 15px;
   flex: 1;
-  max-width: 280px;
   line-height: 1.4;
+  padding-top: 3px;
   color: var(--tertiary-text-color);
   font-family: var(--primary-font-book);
   a {
@@ -72,7 +68,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-right: -3px;
+  margin: 40px 0 10px 0;
 }
 
 .guestSignature {
@@ -84,8 +80,7 @@
   color: var(--primary-theme-color);
   font-size: $medium;
   text-transform: none;
-  width: auto;
-  margin-right: -6px;
+  width: fit-content;
   font-family: var(--primary-font-medium);
 }
 
@@ -95,7 +90,7 @@
     background: var(--primary-card-background-color);
   }
   margin: 0 auto;
-  margin-bottom: 150px;
+  margin-bottom: 100px;
 }
 
 .settlementWrapper {
@@ -118,7 +113,7 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 2vh;
-  border-bottom: 1px solid #b9b9b9;
+  border-bottom: 1px solid var(--primary-border-color);
 }
 
 .checkDatesText {
@@ -139,7 +134,7 @@
 .description {
   float: left;
   font-size: $small;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   gap: 5px;
   display: flex;
   flex-direction: column;
@@ -157,6 +152,7 @@
 .infoText {
   font-size: $small;
   padding: 25px 10px;
+  line-height: 1.5;
   text-align: center;
   font-family: var(--primary-font-book);
   color: var(--tertiary-text-color);
@@ -202,10 +198,6 @@
 
 .textTransform {
   text-transform: uppercase;
-}
-
-.checkBoxAlign {
-  margin-bottom: 10px;
 }
 
 .bottomButton {

@@ -107,7 +107,7 @@ const CheckInPayment: React.FC = () => {
 
       try {
         const { data } = await client.query<IInitiatePaymentApiResponse>({
-          query: INITIATE_PAYMENT_CYBERSOURCE,
+          query: INITIATE_PAYMENT,
           variables: { body: initiatePaymentPayload },
           context: { clientName: 'rest' },
           fetchPolicy: 'network-only',

@@ -31,13 +31,14 @@
 
 .bottomMenuButton {
   width: 80%;
-  margin: auto 10px;
+  margin: auto 10px !important;
   height: 44px;
-  background-color: var(--primary-button-background-color);
+  background-color: var(--primary-button-background-color) !important;
+  font-family: var(--primary-button-font-family) !important;
 }
 
 .btnText {
-  width: 85%;
+  width: fit-content;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

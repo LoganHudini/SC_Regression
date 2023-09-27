@@ -58,8 +58,6 @@ export const HomeCarousel: React.FC<IHomeCarouselProps> = ({ data }) => {
       className={styles.carousel}
       autoPlay={false}
       animation={'slide'}
-      duration={1000}
-      interval={5000}
     >
       {carouselDetails?.details &&
         hotelImages &&

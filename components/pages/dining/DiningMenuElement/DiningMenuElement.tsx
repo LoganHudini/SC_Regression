@@ -43,19 +43,15 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
     .reduce((acc, el) => acc + el.quantity, 0);
 
   const handleDiningDetails = useCallback(() => {
-    if (tableNumber === '' && restaurantId !== '') {
-      toast(t('Scan QR Code to proceed'), { type: 'error' });
-    } else {
-      diningMenuStorage(
-        produce(diningMenuStorage(), (draft) => {
-          draft.selectedItemId = id;
-        }),
-      );
-      const item = { id: id, name: title, price: price };
-      viewItemEvent(item);
-      toggleDiningDetailsDrawer(true);
-    }
-  }, [id, price, restaurantId, t, tableNumber, title]);
+    diningMenuStorage(
+      produce(diningMenuStorage(), (draft) => {
+        draft.selectedItemId = id;
+      }),
+    );
+    const item = { id: id, name: title, price: price };
+    viewItemEvent(item);
+    toggleDiningDetailsDrawer(true);
+  }, [id, price, title]);
 
   const onClickPlus = useCallback(() => {
     const selectedItem = diningData?.items?.find((item) => item?.itemId === id);

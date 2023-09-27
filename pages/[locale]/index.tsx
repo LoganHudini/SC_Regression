@@ -89,7 +89,7 @@ const Home: NextPage = () => {
           restaurantloading ||
           spaloading) && <LogoLoader />}
         <HomeCarousel data={homeCarouselDetails} />
-        <HotelInformation details={homeCarouselDetails} />
+        <HotelInformation details={homeCarouselDetails} loading={homeCarouselLoading} />
         <ServiceRequestCarousel data={serviceCarouselDetails} loading={serviceCarouselLoading} />
         <DiningCarousel
           ird={irdMenu}

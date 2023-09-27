@@ -148,7 +148,7 @@ export const Header: React.FC<IHeaderProps> = ({
             </div>
           ) : (
             // screenTitle ? <p className={styles.screenHeader}>{t(`${screenTitle}`)}</p>
-            <img src={`/icons/${HOTEL_CODE}/Logo.svg`} />
+            <img src={`/images/${HOTEL_CODE}/Logo.svg`} />
           )}
 
           {displaySearchButton && search && (

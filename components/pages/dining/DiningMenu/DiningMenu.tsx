@@ -33,6 +33,7 @@ import { DiningCategoryOptions } from 'components/pages/dining/DiningCategoryOpt
 import produce from 'immer';
 import { ItemNotFoundLoader, Loader } from 'components/shared/Loaders/Loaders';
 import DiningDetailsDrawer from '../DiningDetailsDrawer/DiningDetailsDrawer';
+import { useCheckedIn } from 'storage/check-in.storage';
 
 export { getStaticPaths };
 interface DiningMenuProps {
@@ -50,6 +51,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
 }) => {
   const { t } = useTranslation('dining');
   const navigate = useLocalizedRouter();
+  const checkinData = useCheckedIn();
   const scrollRef = useRef<HTMLDivElement>(null);
   const stickyHeaderSearch: any = useRef();
   const locale = useLocale();
@@ -87,7 +89,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   const { data: myOrders } = useQuery(GET_ORDERS, {
     context: { clientName: 'host_v3' },
     variables: {
-      bookingId: '',
+      bookingId: checkinData?.reservationId,
       lang: locale === 'en' ? '' : locale,
     },
     fetchPolicy: 'no-cache',

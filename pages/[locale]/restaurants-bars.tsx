@@ -59,6 +59,10 @@ import Head from 'next/head';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { RestaurantHours } from 'components/shared/RestaurantHours/RestaurantHours';
 import { isEmpty } from 'lodash';
+import {
+  GET_RESERVATION_NO_LAST_NAME,
+  IGetReservationApiResponse,
+} from 'core/graphql/queries/GET_RESERVATION';
 
 export { getStaticPaths };
 
@@ -82,11 +86,23 @@ const RestaurantAndBars: React.FC = () => {
   const initialSelected = useReactiveVar(selectedRestaurantStorage);
   const currentYear = new Date().getFullYear();
   const [selectedRestaurantData, setSelectedRestaurantData] = useState<any>();
+
   const { data, loading } = useQuery<IGetRestaurantDetailsResponse>(GET_RESTAURANT_DETAILS, {
     context: { clientName: 'host_v0' },
     fetchPolicy: 'no-cache',
   });
+
   const isCheckedIn = useCheckedIn();
+
+  const { data: reservationData } = useQuery<IGetReservationApiResponse>(
+    GET_RESERVATION_NO_LAST_NAME,
+    {
+      context: { clientName: 'rest' },
+      variables: {
+        confirmationNumber: isCheckedIn?.reservationId,
+      },
+    },
+  );
 
   const diningOptionSelected = useReactiveVar(diningOptions);
 
@@ -154,7 +170,6 @@ const RestaurantAndBars: React.FC = () => {
           (queryResultEntity?.customAttributes && queryResultEntity?.customAttributes[0]?.value) ??
           '',
       });
-      localStorage.setItem('restaurantId', JSON.stringify(queryResultEntity?.id) ?? '');
       setDetailContent(false);
       setTimeSelectDrawer(true);
     }
@@ -208,15 +223,17 @@ const RestaurantAndBars: React.FC = () => {
       exposure: 'No preference',
       hotelId: HOTEL_ID,
       isReservedForGuest: false,
-      restaurantId: restaurantId ?? '',
+      restaurantId: restaurantId,
       reserveFrom: dayjs(selectedTime, 'HH:mm').add(1, 'hour').format('HH:mm') ?? '',
       reserveUntil: dayjs(selectedTime, 'HH:mm').add(2, 'hour').format('HH:mm'),
       description: '',
-      firstName: isCheckedIn?.name ?? '',
-      guestType: 'resident',
+      firstName: isCheckedIn?.name,
+      guestType: reservationData?.getReservation?.data?.roomTypes[0]?.roomNumber
+        ? 'resident'
+        : 'nonresident',
       lastName: '',
       noOfGuests: guestCount,
-      roomNo: '2',
+      roomNo: reservationData?.getReservation?.data?.roomTypes[0]?.roomNumber,
       tableNumbers: [],
     };
 

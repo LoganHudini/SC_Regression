@@ -9,6 +9,8 @@ interface ICheckinStorageData {
   name?: string;
   preCheckedIn?: boolean;
   bookingId?: string;
+  roomNumber?: string;
+  invoiceId?: string;
 }
 
 export const checkinStorage = makeVar<ICheckinStorageData>({
@@ -29,6 +31,8 @@ export const useCheckedIn = () => {
         reservationId: checkedInReservation.reservationId,
         checkedIn: true,
         name: checkedInReservation.name,
+        roomNumber: checkedInReservation?.roomNumber,
+        invoiceId: checkedInReservation?.invoiceId,
       });
     }
   }, []);

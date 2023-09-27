@@ -58,9 +58,9 @@
   font-family: var(--primary-font-news);
   font-size: $medium;
   height: 4vh;
-  text-align: left;
+  text-align: start;
   line-height: 4vh;
-  border-bottom: 1px solid;
+  border-bottom: 1px solid var(--primary-border-color);
   color: var(--primary-text-color);
 }
 
@@ -79,7 +79,7 @@
   align-items: flex-start;
 }
 .detailsCard {
-  margin-bottom: 3vh;
+  margin-bottom: 2vh;
   padding: 20px 20px 0px 20px;
   background: var(--primary-card-background-color);
 }

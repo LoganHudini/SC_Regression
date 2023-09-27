@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styles from './BottomMenu.module.scss';
-import { motion } from 'framer-motion';
 import HamburgerIcon from '@icons/hamburger.svg';
 import DownArrowIcon from '@icons/downArrow.svg';
 import { MenuItem, ModuleOptionsDrawer } from 'components/shared/BottomMenu/MenuItem/MenuItem';
@@ -32,6 +31,8 @@ import { useHideOnScroll } from 'utils/hooks/useHideOnScroll';
 import useOutsideAlerter from 'utils/hooks/useOutsideAlerter';
 import { selectedOfferOption } from 'storage/offers.storage';
 import { CustomDrawer } from '../CustomDrawer/CustomDrawer';
+import { buttonArrow } from 'utils/functions';
+
 export const BottomMenu: React.FC<unknown> = () => {
   const wrapperRef = useRef(null);
   const router = useRouter();
@@ -115,9 +116,11 @@ export const BottomMenu: React.FC<unknown> = () => {
           variant='contained'
           className={styles.bottomMenuButton}
           onClick={openModuleOptionsDrawer}
+          arrow={buttonArrow && !isCheckedIn?.checkedIn && homeActive}
         >
           <span className={styles.btnText}>
-            {homeActive && (isCheckedIn?.checkedIn ? t('Room 401') : t('CHECK-IN'))}
+            {homeActive &&
+              (isCheckedIn?.checkedIn ? `Room ${isCheckedIn?.roomNumber}` : t('CHECK-IN'))}
             {irdActive && t(`${diningOptionSelected?.title}`)}
             {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
             {spaActive && t(`${spaInformation?.selectedSpaCategoryName}`)}
@@ -125,7 +128,12 @@ export const BottomMenu: React.FC<unknown> = () => {
             {hotelCompendiumActive && t(`${hotelCompendiumSelected?.name}`)}
             {checkOutActive && t('PAY & CHECKOUT')}
           </span>
-          <DownArrowIcon className={styles.downArrow} />
+          {homeActive ? (
+            isCheckedIn?.checkedIn &&
+            isCheckedIn?.roomNumber && <DownArrowIcon className={styles.downArrow} />
+          ) : (
+            <DownArrowIcon className={styles.downArrow} />
+          )}
         </StyledButton>
 
         <div className={styles.hamburgerIcon}>
@@ -154,27 +162,6 @@ export const BottomMenu: React.FC<unknown> = () => {
           offersActive,
         }}
       />
-
-      {/* {hamburgerMenuStatus && hamburger && (
-        <div ref={wrapperRef} className={cx(styles.hamburgerMenuContainer)}>
-          {hamburger['post'].map((hamburgerMenuElement) => (
-            <MenuItem
-              Icon={
-                hamburgerIconsMap[hamburgerMenuElement.name as keyof typeof hamburgerIconsMap] ||
-                HamburgerIcon
-              }
-              title={hamburgerMenuElement.name}
-              key={hamburgerMenuElement.id}
-              externalLink={hamburgerMenuElement.externalLink}
-              flow={hamburgerMenuElement.flow}
-              pages={hamburgerMenuElement.pages}
-              redirectOptions={hamburgerMenuElement.redirectOptions}
-              status={hamburgerMenuElement.isActive}
-              toggleOption={closeHamburgerMenuDrawer}
-            />
-          ))}
-        </div>
-      )} */}
 
       <CustomDrawer
         open={hamburgerMenuStatus}

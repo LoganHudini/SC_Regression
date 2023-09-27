@@ -3,7 +3,9 @@
 }
 
 .button {
-  width: 35%;
+  width: 100px;
+  height: 30px;
+  font-size: $extraSmall;
   margin-inline-start: 15px;
   margin-top: 20px;
 }

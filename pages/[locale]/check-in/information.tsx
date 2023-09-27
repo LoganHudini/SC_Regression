@@ -38,15 +38,12 @@ import {
   CHECK_IN,
   CREDITCARD,
   CREDITCARDINFO,
-  DRIVERS_LICENCE,
-  EMAIL,
   EMAIL_REGEX,
   GUESTINFORMATION,
   GUESTICON,
   IDCARD,
   IDENTITYVERIFICATION,
   INFORMATION,
-  PASSPORT,
   PHONE,
   PHONE_REGEX,
   EMAILS,
@@ -143,10 +140,6 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
 
     return source;
   }
-
-  const currentRoomType = roomDetails.getHotelAccommodationDetails.roomTypes.find(
-    (room) => room.code === (upgradeRoomCode || reservationInfo?.roomTypes[0]?.code),
-  );
 
   const goToTheNextStep = useCallback(async () => {
     try {
@@ -260,14 +253,14 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
         <p className={styles.step}>{t('Please Complete Your Check-In Process')}</p>
         <div className={styles.checkDates}>
           <div className={styles.checkDatesColumn}>
-            <p className={styles.checkDatesText}>{t('Check In')}</p>{' '}
+            <p className={styles.checkDatesText}>{t('Check-In')}</p>{' '}
             <p className={styles.checkDatesDetails}>
               {dayjs(reservationInfo?.details?.checkInDate).format(timeFormats.DAY_MONTH_YEAR)}
             </p>
           </div>
 
           <div className={styles.checkDatesColumn}>
-            <p className={cx(styles.checkDatesText, styles.right)}>{t('Check Out')}</p>{' '}
+            <p className={cx(styles.checkDatesText, styles.right)}>{t('Checkout')}</p>{' '}
             <p className={cx(styles.checkDatesDetails, styles.right)}>
               {dayjs(reservationInfo?.details?.checkOutDate).format(timeFormats.DAY_MONTH_YEAR)}
             </p>

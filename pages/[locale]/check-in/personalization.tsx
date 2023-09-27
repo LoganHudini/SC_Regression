@@ -101,6 +101,7 @@ const PersonalizeYourRoom: React.FC = () => {
     personalizeYourRoomStorage(
       currentPersonalizationEntities?.filter((x: any) => x?.quantity !== 0),
     );
+
     const updateBookingDetailsPayload = {
       bookingId: reservationInfo?.details.id,
       reservationId: reservationInfo?.reservationId,
@@ -128,14 +129,27 @@ const PersonalizeYourRoom: React.FC = () => {
           body: updateBookingDetailsPayload,
         },
       });
-      navigate(availablePaths.CHECK_IN);
+      navigate(availablePaths?.CHECK_IN);
       setLoading(false);
     } catch (e) {
       toast('Error while updating the booking', { type: 'error' });
       setLoading(false);
     }
     setLoading(false);
-  }, [currentPersonalizationEntities, navigate]);
+  }, [
+    currentPersonalizationEntities,
+    navigate,
+    reservationInfo?.accountId,
+    reservationInfo?.confirmationId,
+    reservationInfo?.confirmationType,
+    reservationInfo?.details.checkInDate,
+    reservationInfo?.details.checkOutDate,
+    reservationInfo?.details.id,
+    reservationInfo?.details.totalGuestCount,
+    reservationInfo?.reservationId,
+    reservationInfo?.roomTypes,
+    reservationInfo?.uniqueBookingId,
+  ]);
 
   return (
     <>

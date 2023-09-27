@@ -49,8 +49,8 @@ const Feedback = () => {
   const feedbackData = data?.listFeedback?.filter((item: any) => item?.destination === CHECKOUT);
 
   useEffect(() => {
-    feedbackData?.length === 0 && navigate(availablePaths.HOME);
-  }, [feedbackData]);
+    feedbackData?.length === 0 && navigate(availablePaths?.HOME);
+  }, [feedbackData, navigate]);
 
   const handleButtonClick = (categoryTitle: any, rating: any) => {
     setSelectedFeedback((prevSelectedRatings: any) => ({
@@ -67,7 +67,7 @@ const Feedback = () => {
     space: hotelName,
     guestName: isCheckedIn?.name,
     feedbackDate: dayjs().format(timeFormats.YEAR_MONTH_DAY),
-    comments: feedbackText ?? '',
+    comments: feedbackText,
     feedbackCategories: Object.entries(selectedFeedback).map(([description, rating]) => ({
       description,
       rating: rating?.toString() ?? '',

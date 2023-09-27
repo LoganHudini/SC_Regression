@@ -29,7 +29,6 @@ const DiningDetailsDrawer = () => {
   const selectedItemId = useReactiveVar(diningMenuStorage)?.selectedItemId;
   const diningDetailsDrawerStatus = useReactiveVar(toggleDiningDetailsDrawer);
   const [count, setCount] = useState<number>(1);
-  const [customize, setcustomize] = useState(false);
   const [instruction, setinstruction] = useState('');
   const [updateAddons, setupdateAddons] = useState(false);
   const [totalAddons, settotalAddons] = useState<number>(0);
@@ -274,9 +273,8 @@ const DiningDetailsDrawer = () => {
   };
 
   const diningDetails = () => {
-    const filteredCustomisation = selectedItem?.customisation?.map(
-      (customisationItem: any, index: number) =>
-        customisationItem?.customisations?.filter((item: any) => item?.status),
+    const filteredCustomisation = selectedItem?.customisation?.map((customisationItem: any) =>
+      customisationItem?.customisations?.filter((item: any) => item?.status),
     );
 
     return (
@@ -377,7 +375,8 @@ const DiningDetailsDrawer = () => {
                       <p className={styles.optionalTextWarning}>{t('Limit exceeded')}</p>
                     ) : (
                       <p className={styles.optionalText}>
-                        {t('Select up to option(s)', { value: selectedItem?.addOnValue })}
+                        {/* {t('Select up to option(s)', { value: selectedItem?.addOnValue })} */}
+                        Select up to {selectedItem?.addOnValue} option(s)
                       </p>
                     )}
                   </div>
@@ -458,7 +457,8 @@ const DiningDetailsDrawer = () => {
                   variant='contained'
                   disabled={
                     count === 0 ||
-                    filteredCustomisation?.length !== customisation?.length ||
+                    (selectedItem?.customisation?.length > 0 &&
+                      filteredCustomisation?.length !== customisation?.length) ||
                     addonsWarning
                   }
                 >

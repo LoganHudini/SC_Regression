@@ -1,6 +1,6 @@
 .bannerImage {
   height: 225px;
-  width: 338px;
+  width: 90%;
   object-fit: cover;
   margin: auto;
   display: flex;
@@ -23,8 +23,8 @@
 
 .description {
   font-size: $small;
-  width: 338px;
   margin: auto;
+  width: 90%;
   text-align: center;
   line-height: 1.5;
   font-family: var(--primary-font-regular);

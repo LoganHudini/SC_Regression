@@ -17,6 +17,7 @@
   font-size: $extraSmall;
   font-family: var(--primary-font-regular);
   text-align: left;
+  color: var(--tertiary-text-color);
 }
 
 .title {
@@ -30,9 +31,10 @@
 .chequeNo {
   margin-right: 7px;
   line-height: 1;
-  margin-bottom: 13px;
+  margin-bottom: 10px;
   font-size: $extraSmall;
   font-family: var(--primary-font-regular);
+  color: var(--tertiary-text-color);
 }
 
 .price {

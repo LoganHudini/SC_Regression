@@ -20,12 +20,12 @@
 
   :global(.MuiInputBase-root) {
     &::after {
-      border-bottom: 2px solid var(--primary-theme-color);
+      border-bottom: 1px solid var(--primary-theme-color);
     }
 
     &:hover {
       &::before {
-        border-bottom: 2px solid var(--primary-theme-color) !important;
+        border-bottom: 1px solid var(--primary-theme-color) !important;
       }
     }
 
@@ -33,7 +33,6 @@
       text-align: start;
       background: transparent !important;
       padding-bottom: 6px !important;
-      font-family: var(--primary-font-news);
       font-size: $medium;
     }
   }

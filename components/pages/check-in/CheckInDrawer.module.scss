@@ -1,5 +1,5 @@
 .pageWrapper {
-  padding: 0 30px 10px 30px !important;
+  padding: 0 30px 0px 30px !important;
 }
 
 .pageTitle {
@@ -30,8 +30,8 @@
 
 .findMyBookingBtn {
   margin: 40px 0px 20px 0px;
-  width: auto;
-  font-size: 0.9375rem;
+  width: 100%;
+  font-size: $small;
 }
 
 .styledDateInput {

@@ -38,7 +38,7 @@ const HotelCompendium = () => {
     if (data && hotelCompendiumSelectedDetails?.length === 0) {
       const filteredDetails = data?.getHotelAmenityDetails?.categories?.filter((category: any) => {
         return data?.getHotelAmenityDetails?.amenities?.find(
-          (amenity: any) => category?.id === amenity?.categoryIds[0] && amenity?.isActive,
+          (amenity: any) => amenity?.categoryIds.includes(category?.id) && amenity?.isActive,
         );
       });
       selectedCompendiumCategory(filteredDetails[0]);
@@ -49,7 +49,7 @@ const HotelCompendium = () => {
   const selectedAmenities = data?.getHotelAmenityDetails?.amenities?.filter(
     (amenity: any) =>
       amenity?.categoryIds?.length > 0 &&
-      amenity?.categoryIds[0] === hotelCompendiumSelectedDetails?.id &&
+      amenity?.categoryIds.includes(hotelCompendiumSelectedDetails?.id) &&
       amenity?.isActive,
   );
 

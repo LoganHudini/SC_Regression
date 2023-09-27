@@ -1,23 +1,14 @@
-import React, { useEffect, useState } from 'react';
 import styles from './CustomDrawer.module.scss';
-import { SwipeableDrawer, Drawer } from '@mui/material';
-import { handleTouchEnd, handleTouchStart } from 'utils/hooks/useDrawerSwipe';
+import { SwipeableDrawer } from '@mui/material';
 import cx from 'classnames';
-import { useRouter } from 'next/router';
-import { availablePaths } from 'utils/availablePaths';
 
 interface IDetailPageProps {
   open: boolean;
   content?: any;
   onClose?: any;
-  onOpen?: any;
 }
 
-export const CustomDrawer: React.FC<IDetailPageProps> = ({ open, onClose, onOpen, content }) => {
-  const router = useRouter();
-  const [startY, setStartY] = useState(0);
-  const irdActive = router?.pathname?.includes(availablePaths?.DINING);
-
+export const CustomDrawer: React.FC<IDetailPageProps> = ({ open, onClose, content }) => {
   return (
     <>
       <div
@@ -29,7 +20,7 @@ export const CustomDrawer: React.FC<IDetailPageProps> = ({ open, onClose, onOpen
         anchor='bottom'
         open={open}
         onClose={onClose}
-        onOpen={onOpen}
+        onOpen={() => console.log()}
         PaperProps={{
           elevation: 0,
           style: {
@@ -50,8 +41,7 @@ export const CustomDrawer: React.FC<IDetailPageProps> = ({ open, onClose, onOpen
             },
           },
         }}
-        onTouchStart={(e) => handleTouchStart(e, setStartY)}
-        onTouchEnd={(e) => handleTouchEnd(e, startY, setStartY, onClose)}
+        disableSwipeToOpen={true}
       >
         <div className={styles.drawerNotch}></div>
         {content}

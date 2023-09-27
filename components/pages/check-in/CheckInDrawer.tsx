@@ -18,6 +18,7 @@ import { toast } from 'react-toastify';
 import { checkinStorage } from 'storage/check-in.storage';
 import { toggleCheckInDetailsDrawer } from 'storage/home.storage';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
+import { saveTrip } from 'storage/trips.storage';
 
 const CheckInDrawer = () => {
   const navigate = useLocalizedRouter();
@@ -60,16 +61,29 @@ const CheckInDrawer = () => {
             setLoading(false);
           } else if (data.getReservation.data.reservationStatus === 'INHOUSE') {
             toast(t('Checked In Successfully'), { type: 'success' });
+            saveTrip({
+              reservationId: data.getReservation.data.confirmationId as string,
+              checkedIn: true,
+              name: data.getReservation.data?.guests[0]?.firstName,
+              roomNumber: data.getReservation.data?.roomTypes[0]?.roomNumber,
+              invoiceId: data.getReservation.data.reservationId,
+            });
             checkinStorage({
               reservationId: data.getReservation.data.confirmationId as string,
               checkedIn: true,
               preCheckedIn: true,
               bookingId: data.getReservation.data.reservationId,
+              name: data.getReservation.data?.guests[0]?.firstName,
+              roomNumber: data.getReservation.data?.roomTypes[0]?.roomNumber,
+              invoiceId: data.getReservation.data.reservationId,
             });
             navigate(availablePaths?.HOME);
-          } else {
             toggleCheckInDetailsDrawer(false);
+            setLoading(false);
+          } else {
             navigate(availablePaths?.GUEST_INFORMATION_INPUT);
+            toggleCheckInDetailsDrawer(false);
+            setLoading(false);
           }
         }
       } catch (error) {
@@ -110,7 +124,6 @@ const CheckInDrawer = () => {
               variant='standard'
               name='confirmationNumber'
               id='confirmationNumber'
-              type={'number'}
               value={formik.values.confirmationNumber}
               onChange={formik.handleChange}
               error={formik.touched.confirmationNumber && Boolean(formik.errors.confirmationNumber)}
@@ -132,9 +145,9 @@ const CheckInDrawer = () => {
           </div>
           <StyledButton
             loading={loading}
-            disabled={loading}
             className={styles.findMyBookingBtn}
             onClick={formik.submitForm}
+            arrow
           >
             {t('NEXT')}
           </StyledButton>

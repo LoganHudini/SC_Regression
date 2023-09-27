@@ -65,13 +65,6 @@ const Dining = () => {
   }, [data?.getIRDMenuOutputDetails, navigate, t]);
 
   useEffect(() => {
-    if (!!router?.query['tableNo'] || !!router?.query['restId']) {
-      localStorage.setItem('tableNumber', JSON.stringify(router.query['tableNo']) ?? '');
-      localStorage.setItem('restaurantId', JSON.stringify(router.query['restId']) ?? '');
-    }
-  }, [router.query]);
-
-  useEffect(() => {
     if (header[0]?.name == undefined && header[0].hours == undefined) {
       setcategoryIdheader([
         {

@@ -15,6 +15,10 @@
   margin-inline-start: 12px;
 }
 
+.carouselWrapperSingleImage {
+  justify-content: center;
+}
+
 .carouselItem {
   margin-inline-end: 10px;
   max-width: 338px;
@@ -69,6 +73,7 @@
 }
 
 .carouselSlideViewMore {
+  font-size: $xsmall;
   height: 40px;
   margin: 1.2rem auto;
   width: 70%;

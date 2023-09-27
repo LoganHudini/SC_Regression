@@ -53,7 +53,7 @@
   --primary-icon-color: #ffffff;
   --primary-border-color: #e0e0e0;
   --primary-box-shadow-color: #00000029;
-  --primary-error-text-color: #d32f2f;
+  --primary-error-text-color: #ff0000;
   --primary-disabled-color: #919090;
 
   // overlays
@@ -212,7 +212,7 @@ img {
 }
 
 .MuiInput-root.Mui-disabled::before {
-  border-bottom: 1px solid var(--primary-theme-color) !important;
+  border-bottom: 1px solid var(--primary-border-color);
 }
 
 .MuiButton-textPrimary {
@@ -269,14 +269,12 @@ img {
 }
 
 .MuiLoadingButton-loadingIndicator {
-  right: 4%;
-  left: auto;
-  color: var(--primary-theme-color);
+  color: var(--primary-background-color);
 }
 
 .MuiInput-root::after,
 .MuiInput-root:hover::before {
-  border-bottom: 2px solid var(--primary-theme-color);
+  border-bottom: 1px solid var(--primary-theme-color);
 }
 
 .MuiFormHelperText-root {
@@ -289,7 +287,7 @@ img {
 
 .Mui-error {
   &::after {
-    border-bottom: 2px solid var(--primary-error-text-color);
+    border-bottom: 1px solid var(--primary-error-text-color);
   }
 }
 
@@ -319,6 +317,7 @@ img {
   min-height: auto;
   padding: 0;
 }
+
 .Toastify__toast--success {
   background: #e7f7ed;
   border-radius: 8px;

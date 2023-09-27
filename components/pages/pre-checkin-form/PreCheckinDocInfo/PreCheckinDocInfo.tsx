@@ -104,7 +104,7 @@ export const PreCheckinDocInfo: React.FC<IPreCheckinDocInfoProps> = ({
                     disabled={field?.isDisabled}
                     IconComponent={DropDown}
                   >
-                    {field?.options.map((item: any) => {
+                    {field?.options?.map((item: any) => {
                       return (
                         <MenuItem value={item?.value} key={item?.value}>
                           <em>{item?.name}</em>

@@ -192,7 +192,7 @@ export const configuration = [
                     isActive: true,
                     options: [
                       { name: 'Passport', value: 'PASSPORT' },
-                      { name: 'ID Card', value: 'UNKNOWN' },
+                      { name: 'ID Card', value: 'ID Card' },
                     ],
                   },
 
@@ -284,10 +284,10 @@ export const configuration = [
             label: 'Review & Sign',
             title: 'Check-In',
             buttonLabelCheckIn: 'CHECK-IN',
-            termsAndCondition:
-              "I have read, understood and agree to the <a href='https://www.sofitelmanila.com/privacy-policy/' target='_blank' rel='noopener noreferrer'>Terms & Conditions</a> and <a href='https://www.sofitelmanila.com/privacy-policy/'>Privacy Laws</a>.",
+            // eslint-disable-next-line quotes
+            termsAndCondition: `I have read, understood and agree to the <a href='https://www.sofitelmanila.com/privacy-policy/' target='_blank' rel='noopener noreferrer'>Terms & Conditions</a> and <a href='https://www.sofitelmanila.com/privacy-policy/' target='_blank' rel='noopener noreferrer'>Privacy Laws</a>.`,
             subTitle:
-              'Please review and confirm the below information to complete the Check In process',
+              'Please review and confirm the below information to complete the Check-In process',
             type: 'cms',
             isActive: true,
             guestInformationDetails: [
@@ -318,21 +318,21 @@ export const configuration = [
                 cmsName: 'DOCUMENT_NUMBER',
                 label: 'ID Number',
               },
-              {
-                name: 'effectiveDate',
-                cmsName: 'DATE_OF_ISSUE',
-                label: 'Effective date',
-              },
-              {
-                name: 'expiryDate',
-                cmsName: 'DATE_OF_EXPIRY',
-                label: 'Expiry date',
-              },
-              {
-                name: 'issueCountry',
-                cmsName: 'COUNTRY',
-                label: 'Issue country',
-              },
+              // {
+              //   name: 'effectiveDate',
+              //   cmsName: 'DATE_OF_ISSUE',
+              //   label: 'Effective date',
+              // },
+              // {
+              //   name: 'expiryDate',
+              //   cmsName: 'DATE_OF_EXPIRY',
+              //   label: 'Expiry date',
+              // },
+              // {
+              //   name: 'issueCountry',
+              //   cmsName: 'COUNTRY',
+              //   label: 'Issue country',
+              // },
             ],
             personalizationDetails: [
               {

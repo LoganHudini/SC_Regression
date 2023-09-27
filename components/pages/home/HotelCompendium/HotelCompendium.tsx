@@ -27,12 +27,12 @@ export const HotelCompendiumContainer = (props: any) => {
     navigate(availablePaths.HOTEL_COMPENDIUM);
   };
 
-  const hotelCompendiumAmenities = categories?.map((category: any) =>
+  const hotelAmenities = categories?.map((category: any) =>
     amenities?.find(
       (amenity: any) =>
-        category?.id === amenity?.categoryIds[0] &&
         amenity?.images?.length > 0 &&
-        amenity?.isActive,
+        amenity?.isActive &&
+        amenity?.categoryIds.includes(category?.id),
     ),
   );
 
@@ -43,26 +43,17 @@ export const HotelCompendiumContainer = (props: any) => {
         <CarouselLoader />
       ) : (
         <div className={styles.container}>
-          {hotelCompendiumAmenities?.map((amenity: any) => {
-            const showCategoryTitle = categories?.find(
-              (category: any) => category.id === amenity?.categoryIds[0],
-            );
-            return (
-              <div
-                key={amenity?.id}
-                className={styles.wrapper}
-                onClick={() => handleClick(showCategoryTitle?.id)}
-              >
-                <div className={styles.imgWrapper}>
-                  <p className={styles.name}>{showCategoryTitle?.name}</p>
-                </div>
-                <StableImage
-                  className={styles.image}
-                  src={`${ASSETS_URL}/${amenity?.images[0]?.master}`}
-                />
+          {categories?.map((category: any, index: number) => (
+            <div key={index} className={styles.wrapper} onClick={() => handleClick(category?.id)}>
+              <div className={styles.imgWrapper}>
+                <p className={styles.name}>{category?.name}</p>
               </div>
-            );
-          })}
+              <StableImage
+                className={styles.image}
+                src={`${ASSETS_URL}/${hotelAmenities[index]?.images[0]?.master}`}
+              />
+            </div>
+          ))}
         </div>
       )}
     </>

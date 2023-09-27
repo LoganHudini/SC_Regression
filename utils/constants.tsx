@@ -95,6 +95,21 @@ export const DAYS = [
   { id: 7, ischecked: false, name: 'Sunday', from: null, to: null },
 ];
 // flow constants
+export const DINING_OPTIONS_PRE_CHECK_IN = [
+  {
+    id: 'restaurant',
+    title: 'Restaurants',
+    path: '/restaurants-bars',
+    width: '101.36px',
+  },
+  {
+    id: 'bar',
+    title: 'Bars',
+    path: '/restaurants-bars',
+    width: '47.77px',
+  },
+];
+
 export const DINING_OPTIONS = [
   {
     id: 'ird',

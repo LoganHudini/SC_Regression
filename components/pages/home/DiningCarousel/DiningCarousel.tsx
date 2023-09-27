@@ -5,14 +5,18 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ASSETS_URL } from '../../../../core/graphql/endpoints';
 import styles from './DiningCarousel.module.scss';
-import { useReactiveVar } from '@apollo/client';
 import {
   buttonArrow,
   filterRestaurantList,
   irdActiveMenuList,
   restaurantTimings,
 } from 'utils/functions';
-import { CAROUSEL_RESPONSIVE, DINING_OPTIONS, IN_ROOM_DINING, TIMINGS } from 'utils/constants';
+import {
+  CAROUSEL_RESPONSIVE,
+  DINING_OPTIONS,
+  DINING_OPTIONS_PRE_CHECK_IN,
+  IN_ROOM_DINING,
+} from 'utils/constants';
 import cx from 'classnames';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { availablePaths } from 'utils/availablePaths';
@@ -22,6 +26,7 @@ import { diningOptions } from 'storage/home.storage';
 import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
 import { CarouselLoader } from 'components/shared/Loaders/Loaders';
 import ArrowButton from '@icons/readMoreArrow.svg';
+import { useCheckedIn } from 'storage/check-in.storage';
 
 interface ICarouselProps {
   ird: any;
@@ -112,10 +117,11 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
 
 export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, loading }) => {
   const { t } = useTranslation(['common']);
+  const isCheckedIn = useCheckedIn();
 
-  const diningOptionSelected = useReactiveVar(diningOptions);
-
-  const [diningOptionsState, setDiningOption] = useState(diningOptionSelected);
+  const [diningOptionsState, setDiningOption] = useState(
+    isCheckedIn?.checkedIn ? DINING_OPTIONS[0] : DINING_OPTIONS_PRE_CHECK_IN[0],
+  );
 
   const irdActiveMenu = irdActiveMenuList(ird);
   const queryResultsData: any = restaurants?.getRestaurantDetails?.restaurant;
@@ -138,7 +144,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, loa
     <div className={styles.diningCarouselWrapper}>
       <p className={styles.diningCarouselTitle}>{t('Dining')}</p>
       <div className={styles.diningOptions}>
-        {DINING_OPTIONS?.map((dining) => (
+        {(isCheckedIn?.checkedIn ? DINING_OPTIONS : DINING_OPTIONS_PRE_CHECK_IN)?.map((dining) => (
           <p
             key={dining?.id}
             className={cx(styles.diningOptionsItem, {
@@ -154,7 +160,12 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, loa
       {loading ? (
         <CarouselLoader />
       ) : (
-        <WithScrollbar responsive={CAROUSEL_RESPONSIVE} className={styles.carouselWrapper}>
+        <WithScrollbar
+          responsive={CAROUSEL_RESPONSIVE}
+          className={cx(styles.carouselWrapper, {
+            [styles.carouselWrapperSingleImage]: slides?.length === 1,
+          })}
+        >
           {renderSlides(slides, diningOptionsState.title === IN_ROOM_DINING)}
         </WithScrollbar>
       )}

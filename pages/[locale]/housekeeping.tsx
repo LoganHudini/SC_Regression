@@ -14,7 +14,6 @@ import {
 import { IHamburgerProps } from 'utils/hamburger/getHamburgerProps';
 import { ApolloError, useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { housekeepingOptions } from 'storage/housekeeping.storage';
-import { HousekeepingItemSkeleton } from 'components/pages/housekeeping/HousekeepingItemSkeleton/HousekeepingItemSkeleton';
 import { useTranslation } from 'react-i18next';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
@@ -24,19 +23,10 @@ import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
 import { housekeepingQuantityStorage } from 'storage/housekeeping-quantity.storage';
 import { housekeepingCheckboxStorage } from 'storage/housekeeping-checkbox.storage';
-import { HousekeepingQuantityItem } from 'components/pages/housekeeping-quantity/HousekeepingQuantityItem/HousekeepingQuantityItem';
-import { HousekeepingCheckboxItem } from 'components/pages/housekeeping-checkbox/HousekeepingCheckboxItem/HousekeepingCheckboxItem';
+import { HousekeepingQuantityItem } from 'components/pages/housekeeping/HousekeepingQuantityItem/HousekeepingQuantityItem';
+import { HousekeepingCheckboxItem } from 'components/pages/housekeeping/HousekeepingCheckboxItem/HousekeepingCheckboxItem';
 import TimeIcon from '@icons/time-left.svg';
-import {
-  CUSTOM,
-  DATE,
-  DATETIME,
-  HOUSEKEEPING,
-  IMMEDIATE,
-  TIME,
-  TODAY,
-  TOMORROW,
-} from 'utils/constants';
+import { CUSTOM, DATE, DATETIME, IMMEDIATE, TIME, TODAY, TOMORROW } from 'utils/constants';
 import DateTimeSelect from 'components/shared/DateTimeSelect/DateTimeSelect';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { HOUSEKEEPING_ORDER } from 'core/graphql/queries/HOUSEKEEPING_ORDER';
@@ -46,12 +36,19 @@ import { processError } from 'utils/processError';
 import { Notification } from 'components/shared/Notification/Notification';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { availablePaths } from 'utils/availablePaths';
+import {
+  GET_RESERVATION_NO_LAST_NAME,
+  IGetReservationApiResponse,
+} from 'core/graphql/queries/GET_RESERVATION';
+import { useCheckedIn } from 'storage/check-in.storage';
 
 export { getStaticPaths };
 
 const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
   const { t } = useTranslation('housekeeping');
   const locale = useLocale();
+  const checkinData = useCheckedIn();
+  const reservationId = checkinData.reservationId;
   const [showServiceRequest, setShowServiceRequest] = useState([]);
   const [showSchedules, setShowSchedules] = useState<any>([]);
   const [showCalendar, setShowCalendar] = useState(false);
@@ -75,6 +72,18 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
       lang: locale === 'en' ? '' : locale,
     },
   });
+
+  const { data: reservationData } = useQuery<IGetReservationApiResponse>(
+    GET_RESERVATION_NO_LAST_NAME,
+    {
+      context: { clientName: 'rest' },
+      variables: {
+        confirmationNumber: reservationId,
+      },
+    },
+  );
+
+  const guestData = reservationData?.getReservation?.data?.guests[0];
 
   const combinedServiceRequestArray = useMemo(
     () => [...housekeepingInfoQuantity.selectedItems, ...housekeepingInfoCheckbox.selectedItems],
@@ -147,11 +156,11 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
       const response = await sendHousekeepingOrder({
         variables: {
           bookingTime: dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2),
-          guestName: 'test test',
+          guestName: `${guestData?.firstName} ${guestData?.lastName}`,
           serviceName: showSchedules?.name,
           requestType: showSchedules?.__typename,
           hotelId: HOTEL_ID,
-          roomNo: '002',
+          roomNo: reservationData?.getReservation?.data?.roomTypes[0]?.roomNumber,
           items: combinedServiceRequestArray
             ?.filter((item: any) => item?.quantity > 0)
             ?.map((el: any) => ({
@@ -320,14 +329,6 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
           <>
             <div className={styles.container}>
               <Loader />
-              <HousekeepingItemSkeleton />
-              <HousekeepingItemSkeleton />
-              <HousekeepingItemSkeleton />
-              <HousekeepingItemSkeleton />
-              <HousekeepingItemSkeleton />
-              <HousekeepingItemSkeleton />
-              <HousekeepingItemSkeleton />
-              <HousekeepingItemSkeleton />
             </div>
           </>
         ) : (

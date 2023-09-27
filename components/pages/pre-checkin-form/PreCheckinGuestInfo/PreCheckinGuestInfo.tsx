@@ -101,9 +101,9 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                       Boolean(formik.touched[field?.name]) && Boolean(formik.errors[field?.name])
                     }
                     helperText={
-                      formik.touched[field?.name] && formik.errors[field?.name]
-                        ? `${formik.errors[field?.name]}`
-                        : ''
+                      formik.touched[field?.name] &&
+                      formik.errors[field?.name] &&
+                      `${formik.errors[field?.name]}`
                     }
                   />
                 </div>

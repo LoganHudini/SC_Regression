@@ -11,7 +11,7 @@ import { getStaticPaths } from 'utils/getStatic';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { useTranslation } from 'react-i18next';
 import { client } from 'core/graphql/client';
-import { ApolloError, useReactiveVar } from '@apollo/client';
+import { ApolloError, useQuery, useReactiveVar } from '@apollo/client';
 import { IDiningMenuStorageData, diningMenuStorage } from 'storage/dining-menu.storage';
 import { availablePaths } from 'utils/availablePaths';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
@@ -32,20 +32,39 @@ import DiningDetailsDrawer from 'components/pages/dining/DiningDetailsDrawer/Din
 import { toggleNotification } from 'storage/home.storage';
 import { ThankYouDrawer } from 'components/shared/ThankYouDrawer/ThankYouDrawer';
 import { DiningMenuElementUpsell } from 'components/pages/dining/DiningMenuElementUpsell/DiningMenuElementUpsell';
+import {
+  GET_RESERVATION_NO_LAST_NAME,
+  IGetReservationApiResponse,
+} from 'core/graphql/queries/GET_RESERVATION';
+import { useCheckedIn } from 'storage/check-in.storage';
 
 export { getStaticPaths };
 
 const DiningOrderSummary = () => {
   const { t } = useTranslation(['dining-order-summary', 'common']);
   const navigate = useLocalizedRouter();
+  const checkinData = useCheckedIn();
+  const reservationId = checkinData?.reservationId;
   const renderedItemIds: any = [];
   const [customisationDrawer, setCustomisationDrawer] = useState(false);
   const [specialRequests, setSpecialRequests] = useState('');
   const [loading, setLoading] = useState(false);
-  const [paymentType, setpaymentType] = useState<any>(PAYMENT[0]?.name);
+  const [paymentType, setpaymentType] = useState<any>(PAYMENT[0]);
   const [thankYouDrawer, setthankYouDrawer] = useState(false);
   const [guestNumber, setguestNumber] = useState(1);
   const [totalAmount, setTotalAmount] = useState(0);
+
+  const { data: reservationData } = useQuery<IGetReservationApiResponse>(
+    GET_RESERVATION_NO_LAST_NAME,
+    {
+      context: { clientName: 'rest' },
+      variables: {
+        confirmationNumber: reservationId,
+      },
+    },
+  );
+
+  const guestData = reservationData?.getReservation?.data?.guests[0];
 
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
 
@@ -144,14 +163,14 @@ const DiningOrderSummary = () => {
 
     const irdOrderPayload = {
       additionalNote: specialRequests,
-      bookingId: '123',
+      bookingId: checkinData?.reservationId,
       deliveryLocation: '',
-      guestEmail: '',
-      guestName: 'Xz',
+      guestEmail: guestData?.emails[0],
+      guestName: `${guestData?.firstName} ${guestData?.lastName}`,
       noOfItems: diningData.items.length,
       totalAmount,
-      paymentMethod: paymentType?.name ?? '',
-      roomNo: '123',
+      paymentMethod: paymentType?.name,
+      roomNo: reservationData?.getReservation?.data?.roomTypes[0]?.roomNumber,
       startTime: dayjs().format('YYYY-MM-DD HH:mm'),
       noOfGuests: guestNumber,
       items: diningData?.items?.map((el) => ({
@@ -185,7 +204,18 @@ const DiningOrderSummary = () => {
       processError(t, getUpdatedReservationError as ApolloError);
     }
     setLoading(false);
-  }, [diningData.items, guestNumber, paymentType?.name, specialRequests, t, totalAmount]);
+  }, [
+    checkinData?.reservationId,
+    diningData.items,
+    guestData?.firstName,
+    guestData?.lastName,
+    guestNumber,
+    paymentType?.name,
+    reservationData?.getReservation?.data?.roomTypes,
+    specialRequests,
+    t,
+    totalAmount,
+  ]);
 
   const renderMenuElements = (items: any[]) => {
     return items
@@ -238,6 +268,15 @@ const DiningOrderSummary = () => {
                     />
                   </div>
                   <div className={styles.selectionsWrapper}>
+                    {(item?.customisation ?? [])?.length > 0 && (
+                      <p className={styles.itemDescription}>
+                        {item?.customisation?.map((item: any, index: any) => (
+                          <span key={index} className={styles.items}>
+                            {`${item?.ingredient}: ${item?.name}`}
+                          </span>
+                        ))}
+                      </p>
+                    )}
                     {(item?.addons ?? [])?.length > 0 && (
                       <p className={styles.itemDescription}>
                         {' '}
@@ -249,18 +288,9 @@ const DiningOrderSummary = () => {
                         ))}
                       </p>
                     )}
-                    {(item?.customisation ?? [])?.length > 0 && (
-                      <p className={styles.itemDescription}>
-                        {item?.customisation?.map((item: any, index: any) => (
-                          <span key={index} className={styles.items}>
-                            {`${item?.ingredient} : ${item?.name}`}
-                          </span>
-                        ))}
-                      </p>
-                    )}
                     {item?.cookingInstruction && (
                       <p className={styles.itemDescription}>
-                        {t('Instructions')} : {item?.cookingInstruction}
+                        {t('Instructions')}: {item?.cookingInstruction}
                       </p>
                     )}
                   </div>
@@ -353,7 +383,7 @@ const DiningOrderSummary = () => {
             {PAYMENT?.map((item) => (
               <StyledButton
                 key={item.id}
-                variant={item.name === paymentType?.name ? 'contained' : 'outlined'}
+                variant={item?.name === paymentType?.name ? 'contained' : 'outlined'}
                 className={styles.buttonPayment}
                 onClick={() => setpaymentType(item)}
               >
@@ -368,7 +398,9 @@ const DiningOrderSummary = () => {
         {items?.length > 0 && (
           <div className={styles.confirmOrderButtonWrapper}>
             <div className={styles.totalCostRow}>
-              <p className={styles.roomNumber}>{t('ROOM NO - ')}123</p>
+              <p className={styles.roomNumber}>
+                {t('ROOM NO - ')} {reservationData?.getReservation?.data?.roomTypes[0]?.roomNumber}
+              </p>
               <p className={styles.totalCost}>
                 {t('TOTAL')} -{'  '}
                 <span className={styles.currency}>{CURRENCY} </span> {totalAmount?.toFixed(2)}

@@ -103,7 +103,7 @@ const TableReservation = () => {
           setData(value);
         });
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   }, [restaurantId]);
 

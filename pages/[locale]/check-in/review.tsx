@@ -182,7 +182,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       groupId: 'e8030f49-afb1-43fc-80f6-c0515b62d5f6',
       type: 'reservation_docs',
       propertyType: 'hotels',
-      confirmationId: '1435333',
+      confirmationId: reservationInfo?.confirmationId ?? '',
       filename: `${guests ? guests[0].firstName : ''}_${
         guests ? guests[0].lastName : ''
       }_signature.png`,
@@ -231,18 +231,23 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         reservationId: reservationInfo?.confirmationId as string,
         checkedIn: true,
         name: guestReservationInfo?.firstName,
+        roomNumber: reservationInfo?.roomTypes[0]?.roomNumber,
+        invoiceId: reservationInfo?.reservationId as string,
       });
+
       checkinStorage({
         reservationId: reservationInfo?.confirmationId as string,
         name: guestReservationInfo?.firstName,
         preCheckedIn: true,
         checkedIn: false,
+        roomNumber: reservationInfo?.roomTypes[0]?.roomNumber,
+        invoiceId: reservationInfo?.reservationId as string,
       });
 
-      toast('Please proceed to Hotel Lobby', { type: 'success' });
-      feedbackData?.length === 0
-        ? navigate(availablePaths.HOME)
-        : navigate(availablePaths.FEEDBACK);
+      toast('You have successfully checked-in, please proceed to the hotel lobby', {
+        type: 'success',
+      });
+      navigate(availablePaths.HOME);
     } catch (checkinError) {
       const error = checkinError as ApolloError;
       const networkError = error?.networkError as { result?: { errors?: string } };
@@ -261,6 +266,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     reservationInfo?.confirmationId,
     reservationInfo?.roomTypes,
     t,
+    guestReservationInfo?.firstName,
     navigate,
   ]);
 
@@ -356,8 +362,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                 {eRegDocumentInformationDetails?.map((showData: any, index: number) => (
                   <div key={index} className={styles.checkDatesColumn}>
                     {reviewConfig?.identityVerificationDetails
-                      .filter((cmsData: any) => cmsData.cmsName === showData?.name)
-                      .map((configData: any) => (
+                      ?.filter((cmsData: any) => cmsData.cmsName === showData?.name)
+                      ?.map((configData: any) => (
                         <div key={index}>
                           <p className={styles.checkDatesText}>{configData.label}</p>
                           <p className={cx(styles.checkDatesDetails, styles.left)}>
@@ -428,21 +434,20 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           <div className={styles.checkBoxAlign}>
             <StyledCheckBox onClick={toggleConditionsAccepted} value={conditionsAccepted} />
           </div>
-
           <p
             className={styles.agrementText}
             dangerouslySetInnerHTML={{ __html: reviewConfig?.termsAndCondition }}
           ></p>
         </div>
-        {/* <div className={styles.guestSignatureWrapper}>
+        <div className={styles.guestSignatureWrapper}>
           <p className={styles.guestSignature}>{t('Guest Signature')}</p>
-          <StyledButton className={styles.clearBtn} onClick={clearCanvas} variant='text'>
+          <p className={styles.clearBtn} onClick={clearCanvas}>
             {t('Clear')}
-          </StyledButton>
-        </div> */}
+          </p>
+        </div>
 
         <div className={styles.agrementSignatureWrapper}>
-          {/* <Card>
+          <Card>
             <SignatureCanvas
               ref={sigCanvas}
               maxWidth={1.5}
@@ -451,11 +456,11 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               clearOnResize={false}
               onEnd={() => handleSignatureChange()}
             />
-          </Card> */}
+          </Card>
         </div>
         <div className={styles.btnWrapper}>
           <StyledButton
-            // disabled={!btnStatus}
+            disabled={!btnStatus}
             className={styles.checkInButton}
             onClick={goToCheckIn}
             loading={loading}

@@ -6,12 +6,13 @@ const TRIPS_KEY = 'hudini_pwa:TRIPS';
 
 export interface ISavedTrip {
   reservationId: string;
-
+  roomNumber?: string;
   checkedIn?: boolean;
   specialRequests?: string;
   name?: string;
   personalizationEntities?: IPersonalizeYourRoomStorageData;
   guests?: IGuestStorageData | null;
+  invoiceId?: string;
 }
 
 export const saveTrip = (payload: ISavedTrip) => {

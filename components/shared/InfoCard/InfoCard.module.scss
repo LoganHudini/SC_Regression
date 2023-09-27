@@ -62,13 +62,13 @@
 .titleText {
   font-size: $medium;
   font-family: var(--primary-font-news);
-  color: var(--tertiary-text-color);
 }
 
 .detailsText {
   font-size: $medium;
   text-align: initial;
   padding: 8px 0px;
+  color: var(--tertiary-text-color);
 }
 
 .firstSection {

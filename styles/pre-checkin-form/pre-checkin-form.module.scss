@@ -15,7 +15,7 @@
 }
 
 .tripDetails {
-  border-bottom: 2px solid var(--primary-text-color);
+  border-bottom: 1px solid var(--primary-text-color);
   display: flex;
   justify-content: space-between;
   padding-bottom: 8px;
@@ -28,6 +28,7 @@
   font-size: var(--primary-text-color);
   margin: 0;
 }
+
 .tripDetailsIcon {
   height: 15px;
   & > path {
@@ -60,11 +61,13 @@
 
 .checkDatesText {
   font-size: $extraSmall;
+  color: var(--tertiary-text-color);
   margin-bottom: 1vh;
   line-height: 1;
   margin-top: 2vh;
   text-transform: uppercase;
 }
+
 .right {
   text-align: right;
   align-self: flex-end;
@@ -114,7 +117,7 @@
 }
 
 .yourRoom {
-  border-bottom: 2px solid var(--primary-text-color);
+  border-bottom: 1px solid var(--primary-text-color);
   padding-bottom: 2px;
   font-size: 1rem;
   font-weight: 400;
@@ -157,6 +160,7 @@
   display: flex;
   justify-content: center;
   padding: 30px 15px 10px;
+  color: var(--tertiary-text-color);
   border-bottom: 1px solid var(--primary-theme-color);
   font-family: var(--secondary-title-font-family);
   div {

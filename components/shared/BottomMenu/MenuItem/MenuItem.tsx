@@ -17,6 +17,7 @@ import cx from 'classnames';
 import {
   ABOUT_US,
   DINING_OPTIONS,
+  DINING_OPTIONS_PRE_CHECK_IN,
   EXTERNAL,
   FLOW,
   IN_APP,
@@ -31,6 +32,7 @@ import HotelInfoDrawer from 'components/pages/home/HotelInformation/HotelInfoDra
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { availablePaths } from 'utils/availablePaths';
 import { toggleOpenCheckOutDrawer } from 'storage/checkout.storage';
+import { useCheckedIn } from 'storage/check-in.storage';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
   title,
@@ -91,6 +93,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   offersActive,
 }) => {
   const navigate = useLocalizedRouter();
+  const isCheckedIn = useCheckedIn();
   const [highLightViewBill, setHighLightViewBill] = useState(false);
   const [highLightCheckOut, setHighLightCheckOut] = useState(false);
   const diningOptionSelected = useReactiveVar(diningOptions);
@@ -105,7 +108,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
 
   const filteredDetails = compendiumInfo?.categories?.filter((category: any) => {
     return compendiumInfo?.amenities?.find(
-      (amenity: any) => category?.id === amenity?.categoryIds[0] && amenity?.isActive,
+      (amenity: any) => amenity?.categoryIds.includes(category?.id) && amenity?.isActive,
     );
   });
 
@@ -125,7 +128,9 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
         {' '}
         {homeActive && (
           <div>
-            <p className={styles.title}>Room 411</p>
+            {isCheckedIn?.roomNumber && (
+              <p className={styles.title}>Room {isCheckedIn?.roomNumber}</p>
+            )}
             <div className={styles.optionsList}>
               <p
                 className={cx(styles.inActiveText, {
@@ -160,23 +165,27 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
           <div>
             <p className={styles.title}>{t('Choose your category')}</p>
             <div className={styles.optionsList}>
-              {DINING_OPTIONS?.map((dining) => (
-                <div key={dining?.id} className={cx(styles.optionsListItem)}>
-                  <p
-                    className={cx(styles.inActiveDiningText, {
-                      [styles.activeText]: diningOptionSelected?.id === dining?.id,
-                    })}
-                    onClick={() => {
-                      diningOptions(dining);
-                      closeDrawer();
-                      navigate(dining?.path);
-                    }}
-                  >
-                    {dining?.title}{' '}
-                  </p>
-                  {diningOptionSelected?.id === dining?.id && <CheckIcon className={styles.icon} />}
-                </div>
-              ))}
+              {(isCheckedIn?.checkedIn ? DINING_OPTIONS : DINING_OPTIONS_PRE_CHECK_IN)?.map(
+                (dining) => (
+                  <div key={dining?.id} className={cx(styles.optionsListItem)}>
+                    <p
+                      className={cx(styles.inActiveDiningText, {
+                        [styles.activeText]: diningOptionSelected?.id === dining?.id,
+                      })}
+                      onClick={() => {
+                        diningOptions(dining);
+                        closeDrawer();
+                        navigate(dining?.path);
+                      }}
+                    >
+                      {dining?.title}{' '}
+                    </p>
+                    {diningOptionSelected?.id === dining?.id && (
+                      <CheckIcon className={styles.icon} />
+                    )}
+                  </div>
+                ),
+              )}
             </div>
           </div>
         )}
