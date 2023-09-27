@@ -1,33 +1,23 @@
 .menuOptionsWrapper {
   display: flex;
-  max-width: 768px;
-  width: 91%;
   overflow: scroll;
   padding: 1.6rem 1rem 1.4rem;
   background-color: var(--primary-background-color);
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
-
-.menuOptionsWrapperSecondary {
-  display: flex;
-  margin-top: 0px;
-}
-
-.fixedTop {
-  width: 94%;
-  max-width: 758px;
+  width: 92%;
+  max-width: 768px;
   margin: auto;
-  position: fixed;
-  top: 30px;
+  position: sticky;
+  top: 63px;
   left: 0;
   right: 0;
   background-color: var(--primary-background-color);
   z-index: 3;
-  margin-top: 2rem;
-  transition: margin 0.5s ease;
+
+  @media (pointer: coarse) {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 }
 
 .diningMenuFilterButtonWrapper {
@@ -62,6 +52,7 @@
   width: fit-content;
   white-space: nowrap;
   color: var(--primary-theme-color);
+  border: 1px solid var(--primary-border-color);
 
   &:hover:enabled {
     color: var(--primary-theme-color);

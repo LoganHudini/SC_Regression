@@ -55,7 +55,7 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
     const categoryElement = document.getElementById(`Category${el?.id}`);
     if (categoryElement) {
       setScrollHide(false);
-      const headerOffset = 180;
+      const headerOffset = 150;
       const elementPosition = categoryElement.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.scrollY - headerOffset;
       window.scrollTo({
@@ -81,32 +81,7 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
 
   return (
     <>
-      <div
-        ref={stickyHeader}
-        className={cx(
-          styles.menuOptionsWrapper,
-          {
-            [styles.menuOptionsWrapperSecondary]: (ordersData ?? [])?.length > 0 ? true : false,
-          },
-          {
-            [styles.fixedTop]: scroll,
-          },
-        )}
-      >
-        {/* <div className={styles.diningMenuFilterButtonWrapper}>
-          {categories?.length > 0 && (
-            <StyledButton
-              className={
-                !diningInformation?.selectedCategory
-                  ? styles.DiningCategoryOptionActive
-                  : styles.DiningCategoryOptionInActive
-              }
-              onClick={(e) => handleCategoryChange(e, categories[0])}
-            >
-              {t('all')}
-            </StyledButton>
-          )}
-        </div> */}
+      <div ref={stickyHeader} className={cx(styles.menuOptionsWrapper)}>
         {categories?.map((el: any, index: number) => (
           <div id={el?.id} className={styles.diningMenuFilterButtonWrapper} key={`${el}-${index}`}>
             <StyledButton

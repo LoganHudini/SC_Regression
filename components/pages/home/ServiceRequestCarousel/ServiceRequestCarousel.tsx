@@ -11,6 +11,7 @@ import { availablePaths } from 'utils/availablePaths';
 import { CarouselLoader } from 'components/shared/Loaders/Loaders';
 import { buttonArrow } from 'utils/functions';
 import ArrowButton from '@icons/readMoreArrow.svg';
+import cx from 'classnames';
 
 interface ICarouselProps {
   data: any;
@@ -76,7 +77,12 @@ export const ServiceRequestCarousel: React.FC<ICarouselProps> = ({ data, loading
       {loading ? (
         <CarouselLoader />
       ) : (
-        <WithScrollbar responsive={CAROUSEL_RESPONSIVE} className={styles.carouselWrapper}>
+        <WithScrollbar
+          responsive={CAROUSEL_RESPONSIVE}
+          className={cx(styles.carouselWrapper, {
+            [styles.carouselWrapperSingleImage]: showServiceRequest?.length === 1,
+          })}
+        >
           {showServiceRequest?.map((slide: any) => (
             <CarouselSlide key={slide?.name} slide={slide} />
           ))}

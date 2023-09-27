@@ -183,8 +183,8 @@ img {
   width: 100%;
   display: flex;
   gap: 17px;
-  height: 48px;
-  line-height: 48px;
+  height: 44px;
+  line-height: 44px;
   text-align: center;
   &:disabled {
     background: var(--primary-disabled-color);
@@ -202,8 +202,8 @@ img {
   border: 1px solid var(--secondary-button-color);
   border-radius: var(--primary-button-border-radius);
   width: 100%;
-  height: 48px;
-  line-height: 48px;
+  height: 44px;
+  line-height: 44px;
   text-align: center;
 
   &:hover:enabled {

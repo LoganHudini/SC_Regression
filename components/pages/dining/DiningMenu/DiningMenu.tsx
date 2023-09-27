@@ -34,6 +34,7 @@ import produce from 'immer';
 import { ItemNotFoundLoader, Loader } from 'components/shared/Loaders/Loaders';
 import DiningDetailsDrawer from '../DiningDetailsDrawer/DiningDetailsDrawer';
 import { useCheckedIn } from 'storage/check-in.storage';
+import { useHideOnScroll } from 'utils/hooks/useHideOnScroll';
 
 export { getStaticPaths };
 interface DiningMenuProps {
@@ -52,6 +53,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   const { t } = useTranslation('dining');
   const navigate = useLocalizedRouter();
   const checkinData = useCheckedIn();
+  const hideOnScroll = useHideOnScroll();
   const scrollRef = useRef<HTMLDivElement>(null);
   const stickyHeaderSearch: any = useRef();
   const locale = useLocale();
@@ -336,18 +338,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             )}
           </>
           {search ? (
-            <div
-              ref={stickyHeaderSearch}
-              className={cx(
-                styles.searchDiv,
-                {
-                  [styles.searchDivSecondary]: (ordersData ?? [])?.length > 0 ? true : false,
-                },
-                {
-                  [styles.searchDivScroll]: scrollSearch,
-                },
-              )}
-            >
+            <div ref={stickyHeaderSearch} className={cx(styles.searchDiv)}>
               <div className={styles.searchWrapper}>
                 <div>
                   <p className={styles.searchText}>{t('Search')}</p>
@@ -399,18 +390,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             />
           )}
 
-          <div
-            ref={scrollRef}
-            className={cx(
-              styles.listContainer,
-              {
-                [styles.listContainerSearchScroll]: search && scrollSearch,
-              },
-              {
-                [styles.listContainerScroll]: !search && scroll,
-              },
-            )}
-          >
+          <div ref={scrollRef} className={cx(styles.listContainer)}>
             {!menuAvailability &&
               data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length !==
                 0 && (
@@ -452,7 +432,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
       )}
 
       {diningData?.items?.length > 0 && totalAmount !== 0 && !search && (
-        <div className={styles.totalWrapper}>
+        <div className={cx(styles.totalWrapper, { [styles.hideOnScroll]: hideOnScroll })}>
           {/* <div className={styles.totalRow}>
               <p className={styles.totalText}>{t('Total')}</p>
               <p className={styles.totalPrice}>
