@@ -81,10 +81,7 @@
 }
 
 .homeCardInfo {
-  align-items: flex-start;
-
   display: flex;
-  align-items: flex-start;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
 }

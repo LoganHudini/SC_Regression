@@ -88,6 +88,7 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                     className={styles.guestDataInput}
                     label={t(field?.label)}
                     variant='standard'
+                    type={field?.type}
                     name={field?.name}
                     id={field?.name}
                     value={formik.values[field?.name]}

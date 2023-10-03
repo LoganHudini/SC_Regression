@@ -32,6 +32,7 @@ import useOutsideAlerter from 'utils/hooks/useOutsideAlerter';
 import { selectedOfferOption } from 'storage/offers.storage';
 import { CustomDrawer } from '../CustomDrawer/CustomDrawer';
 import { buttonArrow } from 'utils/functions';
+import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
 
 export const BottomMenu: React.FC<unknown> = () => {
   const wrapperRef = useRef(null);
@@ -143,6 +144,7 @@ export const BottomMenu: React.FC<unknown> = () => {
             toggled={hamburgerMenuStatus}
             toggle={(toggled) => {
               if (toggled) {
+                selectedRestaurantStorage([]);
                 toggleHamburgerMenuDrawer(true);
               } else {
                 toggleHamburgerMenuDrawer(false);

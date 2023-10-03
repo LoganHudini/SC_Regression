@@ -94,7 +94,7 @@ export const configuration = [
                   {
                     name: 'phone',
                     label: 'Phone',
-                    type: 'Text',
+                    type: 'Tel',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -196,6 +196,14 @@ export const configuration = [
                 isActive: true,
               },
               {
+                name: 'lastName',
+                label: 'Last Name',
+                type: 'Text',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
                 name: 'email',
                 label: 'Email',
                 type: 'email',
@@ -206,7 +214,7 @@ export const configuration = [
               {
                 name: 'phone',
                 label: 'Phone',
-                type: 'number',
+                type: 'Tel',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -219,14 +227,13 @@ export const configuration = [
                 isDisabled: false,
                 isActive: true,
                 options: [
-                  { name: 'driversLicence', value: 'DRL' },
-                  { name: 'driverLicence', value: 'DL' },
-                  { name: 'passport', value: 'PASSPORT' },
+                  { name: 'Passport', value: 'PASSPORT' },
+                  { name: 'ID', value: 'ID' },
                 ],
               },
               {
-                name: 'idNumber',
-                label: 'id number',
+                name: 'docNo',
+                label: 'ID Number',
                 type: 'Text',
                 required: false,
                 isDisabled: false,

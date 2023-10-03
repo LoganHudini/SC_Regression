@@ -26,7 +26,7 @@ import {
   IUpdateGuestDetailsApiRequest,
   UPDATE_GUEST_DETAILS,
 } from 'core/graphql/queries/UPDATE_GUEST_DETAILS';
-import { AddaccompanyDetails } from 'core/graphql/queries/ADD_GUEST';
+import { ADD_ACCOMPANY_GUEST } from 'core/graphql/queries/ADD_GUEST';
 import { accompanyGuestDetails } from 'storage/accompany-guest-details';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
 import {
@@ -36,9 +36,7 @@ import {
   PHONE,
   CHECK_IN,
   ACCOMPANYINGGUEST,
-  PASSPORT,
   SELECTDROPDOWN,
-  USERGROUP,
   CHECKBOX,
 } from 'utils/constants';
 import { getConfig } from 'utils/getConfiguration';
@@ -108,11 +106,11 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
       });
     };
 
-    if (accompanyGuestData && accompanyGuestData.length > 0) {
+    if (accompanyGuestData && accompanyGuestData?.length > 0) {
       const updatedInfoCards = generateInfoCards(accompanyGuestData);
       setInfoCards(updatedInfoCards);
     } else if (reservationInfo?.guests?.length > 1) {
-      const initialInfoCards = generateInfoCards(reservationInfo.guests.slice(1), true);
+      const initialInfoCards = generateInfoCards(reservationInfo.guests.slice(1), false);
       setInfoCards(initialInfoCards);
     } else {
       setInfoCards([{ formData: { alreadyUpdated: false } }]);
@@ -160,6 +158,8 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
 
   const submit = async () => {
     setLoading(true);
+    let successFlag = true;
+    let errorState: any = '';
     try {
       const updatedData = infoCards?.filter((card: any) => card?.formData?.alreadyUpdated);
       const newData = infoCards?.filter((card: any) => !card?.formData?.alreadyUpdated);
@@ -168,31 +168,31 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
         for (let i = 0; i < updatedData.length; i++) {
           const data = updatedData[i];
           const updateGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
-            docType: PASSPORT,
-            docNumber: data.formData.id,
+            docType: data?.formData?.docType,
+            docNumber: data?.formData?.docNo,
             reservationId: reservationInfo?.reservationId as string,
-            firstName: data.formData.firstName,
-            lastName: data.formData.lastName,
+            firstName: data?.formData?.firstName,
+            lastName: data?.formData?.lastName,
             profileId: reservationInfo?.guests[0]?.id as string,
             isPrimary: 'N',
             effectiveDate: '',
             expiryDate: '',
             countryOfIssue: '',
-            gender: data.formData.gender,
+            gender: data?.formData?.gender,
             updateGuestDetails: {
               name: {
-                firstName: data.formData.firstName,
-                lastName: data.formData.lastName,
+                firstName: data?.formData?.firstName,
+                lastName: data?.formData?.lastName,
                 nationality: '',
                 dob: '',
               },
               phone: {
                 phoneType: 'HOME',
-                phoneNumber: data.formData.phoneNo,
+                phoneNumber: data?.formData?.phone,
                 phoneRole: 'PHONE',
               },
               email: {
-                email: data.formData.email,
+                email: data?.formData?.email,
               },
             },
           };
@@ -207,23 +207,24 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
               },
             });
           } catch (error) {
-            break;
+            successFlag = false;
+            errorState = error;
           }
         }
       }
 
-      if (newData.length > 0) {
+      if (newData?.length > 0) {
         const newAccompanyDetailsPayload = {
           guests: newData.map((data: any) => ({
-            firstName: data.formData.firstName,
-            lastName: data.formData.lastName,
-            email: data.formData.email,
-            phone: data.formData.phoneNo,
-            gender: data.formData.gender,
+            firstName: data?.formData?.firstName,
+            lastName: data?.formData?.lastName,
+            email: data?.formData?.email,
+            phone: data?.formData?.phone,
+            gender: data?.formData?.gender,
             address: {},
             guestSignature: '',
-            docType: '',
-            docNumber: data.formData.id,
+            docType: data?.formData?.docType,
+            docNumber: data?.formData?.docNo,
             effectiveDate: '',
             expiryDate: '',
             placeOfIssue: '',
@@ -231,18 +232,27 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
           })),
         };
 
-        await client.query({
-          query: AddaccompanyDetails,
-          context: { clientName: 'rest' },
-          variables: {
-            confirmationNumber: reservationInfo?.confirmationId as string,
-            body: newAccompanyDetailsPayload,
-          },
-        });
+        try {
+          await client.query({
+            query: ADD_ACCOMPANY_GUEST,
+            context: { clientName: 'rest' },
+            variables: {
+              confirmationNumber: reservationInfo?.confirmationId as string,
+              body: newAccompanyDetailsPayload,
+            },
+          });
+        } catch (err) {
+          successFlag = false;
+          errorState = err;
+          console.log(err);
+        }
       }
-
-      accompanyGuestDetails(infoCards);
-      navigate(availablePaths?.PERSONALIZE_YOUR_ROOM);
+      if (successFlag) {
+        accompanyGuestDetails(infoCards);
+        navigate(availablePaths?.PERSONALIZE_YOUR_ROOM);
+      } else {
+        processError(t, errorState as ApolloError);
+      }
     } catch (error) {
       processError(t, error as ApolloError);
     }
@@ -297,7 +307,7 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
               <InfoCard
                 key={index}
                 title={status ? `${card.formData.firstName}` : t('Accompanying Guest')}
-                icon={status ? accompanyingGuestSubmodule?.cardIcon : USERGROUP}
+                icon={accompanyingGuestSubmodule?.cardIcon}
                 status={status}
                 isCardOpened={cardOPen}
               >

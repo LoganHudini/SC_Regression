@@ -48,7 +48,7 @@ export interface IUpdateGuestDetailsApiResponse {
   updateGuestDetails: { status: string; data: Record<string, never> };
 }
 
-export const AddaccompanyDetails = gql`
+export const ADD_ACCOMPANY_GUEST = gql`
 query AddAccompanyDetails($confirmationNumber: String, $body: AddAccompanyDetailsPayload) {
   addAccompanyDetails(confirmationNumber: $confirmationNumber, body: $body)
     @rest(
