@@ -1,17 +1,14 @@
 import { checkinStorage } from './check-in.storage';
-import { IGuestStorageData } from './guest-information.storage';
-import { IPersonalizeYourRoomStorageData } from './personalize-your-room.storage';
 
 const TRIPS_KEY = 'hudini_pwa:TRIPS';
 
 export interface ISavedTrip {
   reservationId: string;
-  roomNumber?: string;
+  preCheckedIn?: boolean;
   checkedIn?: boolean;
-  specialRequests?: string;
   name?: string;
-  personalizationEntities?: IPersonalizeYourRoomStorageData;
-  guests?: IGuestStorageData | null;
+  email?: string;
+  roomNumber?: string;
   invoiceId?: string;
 }
 
@@ -28,10 +25,6 @@ export const saveTrip = (payload: ISavedTrip) => {
     });
 
     if (savedTrip) {
-      delete savedTrip.guests;
-      delete savedTrip.personalizationEntities;
-      delete savedTrip.specialRequests;
-
       savedTrip.checkedIn = payload.checkedIn;
     }
   }

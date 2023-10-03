@@ -25,6 +25,8 @@ import {
   API_KEY_V5,
   API_KEY_V6,
   HOST_V6,
+  X_API_TOKEN_V3,
+  X_API_GROUP_V3,
   X_API_TOKEN,
   X_API_GROUP,
 } from './endpoints';
@@ -103,6 +105,8 @@ const housekeepingLink = new HttpLink({
 const restLink = new RestLink({
   uri: REST_API_URL,
   headers: {
+    ['x-api-token']: X_API_TOKEN as string,
+    ['x-api-group']: X_API_GROUP as string,
     ['Content-Type']: 'application/json',
   },
 });
@@ -117,8 +121,8 @@ const restv4Link = new RestLink({
 const restv3Link = new RestLink({
   uri: REST_API_URL,
   headers: {
-    ['x-api-token']: X_API_TOKEN as string,
-    ['x-api-group']: X_API_GROUP as string,
+    ['x-api-token']: X_API_TOKEN_V3 as string,
+    ['x-api-group']: X_API_GROUP_V3 as string,
     ['Content-Type']: 'application/json',
   },
 });

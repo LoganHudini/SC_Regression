@@ -2,19 +2,11 @@ export const availablePaths = {
   HOME: '/',
 
   // Check-in flow
-  GET_RESERVATION: '/check-in',
-  CHECK_IN_PAYMENT: '/check-in/payment',
-  CHECK_IN: '/check-in/review',
   GUEST_INFORMATION_INPUT: '/check-in/information',
-  GUEST_INFORMATION: '/check-in/guest-information',
-  PERSONALIZE_YOUR_ROOM: '/check-in/personalization',
   ACCOMPANY_GUEST: '/check-in/accompanyguest',
-  PRE_CHECK_IN_CONFIRMATION: '/check-in/precheck-in-confirmation',
-  CHECK_IN_CONFIRMATION: '/check-in/check-in-confirmation',
-  RESERVAION_CONFIRMATION: '/check-in/confirmation',
-  ROOM_ASSIGNED: '/check-in/room-assigned',
-  ROOM_DETAILS: '/check-in/room-details',
-  UPGRADES: '/check-in/upgrades',
+  CHECK_IN_PAYMENT: '/check-in/payment',
+  PERSONALIZE_YOUR_ROOM: '/check-in/personalization',
+  CHECK_IN: '/check-in/review',
 
   // Preferences
   PREFERENCES: '/preferences',

@@ -15,14 +15,14 @@ export const RoomPersonalizationEntityV2: React.FC<IRoomPersonalizationEntityPro
   currency,
   id,
   setCurrentPersonalizationEntities,
-  count = 0,
+  count,
 }) => {
   const [quantity, setQuantity] = useState(count);
   const { t } = useTranslation('personalize-your-room');
 
   const handleAdd = useCallback(() => {
     const newEntity = {
-      code: id as string,
+      id: id as string,
       quantity: +quantity + 1,
       price: `${price}`,
       title,
@@ -30,14 +30,14 @@ export const RoomPersonalizationEntityV2: React.FC<IRoomPersonalizationEntityPro
     };
     setQuantity(+quantity + 1);
     setCurrentPersonalizationEntities((oldEntities: any) => {
-      const newEntities = [...oldEntities.filter((el: any) => el.code !== id), newEntity];
+      const newEntities = [...oldEntities.filter((el: any) => el.id !== id), newEntity];
       return newEntities;
     });
   }, [quantity, currency, id, price, setCurrentPersonalizationEntities, title]);
 
   const handleRemove = useCallback(() => {
     const newEntity = {
-      code: id as string,
+      id: id as string,
       quantity: +quantity - 1,
       price: `${price}`,
       title,
@@ -45,7 +45,7 @@ export const RoomPersonalizationEntityV2: React.FC<IRoomPersonalizationEntityPro
     };
     setQuantity(+quantity - 1);
     setCurrentPersonalizationEntities((oldEntities: any) => {
-      const newEntities = [...oldEntities.filter((el: any) => el.code !== id), newEntity];
+      const newEntities = [...oldEntities.filter((el: any) => el.id !== id), newEntity];
       return newEntities;
     });
   }, [quantity, currency, id, price, setCurrentPersonalizationEntities, title]);
@@ -57,12 +57,6 @@ export const RoomPersonalizationEntityV2: React.FC<IRoomPersonalizationEntityPro
       <div className={styles.roomPersonalizationFirstColumn}>
         <h2 className={styles.roomPersonalizationTitle}>{title}</h2>
         <p className={styles.roomPersonalizationText}>{description}</p>
-        {/* </div>
-      <div
-        className={cx(styles.roomPersonalizationControls, {
-          [styles.roomPersonalizationControlsActive]: isActive,
-        })}
-      > */}
         <div className={styles.bottomSec}>
           <div className={cx(styles.price, { [styles.priceActive]: isActive })}>
             {currency} <span className={styles.priceNo}>{price}</span>

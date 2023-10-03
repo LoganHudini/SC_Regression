@@ -17,7 +17,6 @@ import {
 import { GetStaticProps } from 'next';
 import { AboutYourStayProps } from 'types/about-your-stay.types';
 import { ApolloError, useReactiveVar } from '@apollo/client';
-import { upgradesStorage } from 'storage/upgrades.storage';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'react-i18next';
 import { getStaticPaths } from 'utils/getStatic';
@@ -52,20 +51,18 @@ import { buttonArrow } from 'utils/functions';
 
 export { getStaticPaths };
 
-const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
+const AboutYourStay: React.FC<AboutYourStayProps> = () => {
   const navigate = useLocalizedRouter();
-  const [buttonStatus, setButtonStatus] = useState(false);
   const [loading, setLoading] = useState(false);
   const config = getConfig();
 
   const { t } = useTranslation('about-your-stay');
 
-  const upgradeRoomCode = useReactiveVar(upgradesStorage).upgradeId;
-
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
   });
-  const checkinModule: any = config?.modules?.find((module) => module?.name === CHECK_IN);
+
+  const checkinModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
   const accompanyingGuestSubmodule = checkinModule?.submodules?.find(
     (submodule: any) => submodule?.name === INFORMATION && submodule.isActive,
   );
@@ -88,19 +85,46 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const guestLength = reservationInfo?.guests?.length;
 
+  // console.log(reservationInfo);
+
   useEffect(() => {
     if (!reservationData) {
       navigate(availablePaths.HOME);
     }
   }, [reservationData, navigate]);
 
+  const extractDataForField = useCallback(
+    (fieldName: string) => {
+      const fieldPath = fieldName.split('.');
+
+      let source: any = reservationInfo?.guests[0];
+      const remainingAttributes: any = reservationInfo?.reservePayments[0];
+
+      for (const field of fieldPath) {
+        if (source && source[field]) {
+          source = source[field];
+        } else {
+          source = remainingAttributes[field];
+          break;
+        }
+      }
+
+      if (Array.isArray(source)) {
+        source = source.join(', ');
+      }
+      return source;
+    },
+    [reservationInfo?.guests, reservationInfo?.reservePayments],
+  );
+
   useEffect(() => {
-    if (reservationInfo && reservationInfo?.guests[0]) {
+    if (reservationInfo?.guests) {
       const initialGuestReservationInfo = activeSections?.reduce((values: any, section: any) => {
         section?.details?.forEach((field: any) => {
           const { name } = field;
-          values[name] = extractDataForField(name) || values[name];
+          values[name] = extractDataForField(name);
         });
+
         return values;
       }, {});
 
@@ -113,39 +137,22 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
       }
 
       reservationGuestInfoStorageData({
-        ...guestReservationInfo,
         ...initialGuestReservationInfo,
-        isComplete: buttonStatus,
+        ...guestReservationInfo,
+        isComplete:
+          validateGuestReservation(guestInformationSection?.details) &&
+          validateGuestReservation(creditCardInfoSection?.details) &&
+          validateGuestReservation(identityVerificationSection?.details),
       });
     }
-  }, [reservationInfo, reservationInfo?.guests[0]]);
-
-  function extractDataForField(fieldName: string) {
-    const fieldPath = fieldName.split('.');
-
-    let source: any = reservationInfo?.guests[0];
-
-    for (const field of fieldPath) {
-      if (source && source[field]) {
-        source = source[field];
-      } else {
-        source = '';
-        break;
-      }
-    }
-
-    if (Array.isArray(source)) {
-      source = source.join(', ');
-    }
-
-    return source;
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [extractDataForField, reservationInfo?.guests]);
 
   const goToTheNextStep = useCallback(async () => {
     try {
       setLoading(true);
       const updateGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
-        docType: guestReservationInfo.docType,
+        docType: guestReservationInfo?.docType,
         docNumber: guestReservationInfo?.docNo,
         reservationId: reservationInfo?.confirmationId as string,
         firstName: guestReservationInfo?.firstName,
@@ -197,22 +204,34 @@ const AboutYourStay: React.FC<AboutYourStayProps> = ({ roomDetails }) => {
       if (guestLength === 1) {
         navigate(availablePaths?.PERSONALIZE_YOUR_ROOM);
       } else {
-        navigate(availablePaths.ACCOMPANY_GUEST);
+        navigate(availablePaths?.ACCOMPANY_GUEST);
       }
     } catch (error) {
       processError(t, error as ApolloError);
       setLoading(false);
     }
     setLoading(false);
-  }, [navigate]);
-
-  const goToTheRoomDetails = useCallback(() => {
-    navigate(availablePaths.ROOM_DETAILS);
-  }, [navigate]);
-
-  const goToTheGetReservation = useCallback(() => {
-    navigate(availablePaths.GET_RESERVATION);
-  }, [navigate]);
+  }, [
+    guestLength,
+    guestReservationInfo?.addressLine1,
+    guestReservationInfo?.addressLine2,
+    guestReservationInfo?.countryCode,
+    guestReservationInfo?.dob,
+    guestReservationInfo?.docNo,
+    guestReservationInfo?.docType,
+    guestReservationInfo?.effectiveDate,
+    guestReservationInfo?.emails,
+    guestReservationInfo?.expiryDate,
+    guestReservationInfo?.firstName,
+    guestReservationInfo?.issueCountry,
+    guestReservationInfo?.lastName,
+    guestReservationInfo?.nationality,
+    guestReservationInfo?.phone,
+    reservationInfo?.confirmationId,
+    reservationInfo?.guests,
+    navigate,
+    t,
+  ]);
 
   const validateGuestReservation = (field: any) => {
     if (!guestReservationInfo) {

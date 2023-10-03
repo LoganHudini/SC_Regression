@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import Link from 'utils/link';
 import SignatureCanvas from 'react-signature-canvas';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -30,7 +29,7 @@ import {
   IGetCountryCodesApiResponse,
 } from 'core/graphql/queries/GET_COUNTRY_CODES';
 import { saveTrip } from 'storage/trips.storage';
-import { checkinStorage, useCheckedIn } from 'storage/check-in.storage';
+import { checkinStorage } from 'storage/check-in.storage';
 import {
   IPreSignDocUploadApiRequest,
   IPreSignDocUploadApiResponse,
@@ -46,7 +45,7 @@ import { timeFormats } from 'utils/timeFormats';
 import dayjs from 'dayjs';
 import cx from 'classnames';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
-import { CURRENCY, PRIVACY_LAWS, TERMS_AND_CONDITIONS } from 'core/graphql/endpoints';
+import { CURRENCY } from 'core/graphql/endpoints';
 import { PRECHECKIN } from 'core/graphql/queries/PRECHECKIN';
 import { toast } from 'react-toastify';
 import {
@@ -58,28 +57,18 @@ import {
   CHECKEDOUT,
   CANCELED,
   PERSONALISATION,
-  CHECKOUT,
 } from 'utils/constants';
 import { GET_E_REG_DETAILS } from 'core/graphql/queries/GET_E_REG_DETAILS';
 import { getConfig } from 'utils/getConfiguration';
 import { buttonArrow } from 'utils/functions';
-import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
 
 export { getStaticPaths };
 
 const CheckIn: React.FC<ICheckinProps> = () => {
   const navigate = useLocalizedRouter();
-
+  const config = getConfig();
   const { t } = useTranslation(['check-in', 'common']);
-
-  const reservationData = client.readQuery<IGetReservationApiResponse>({
-    query: GET_RESERVATION,
-  });
-
-  const reservationInfo = reservationData?.getReservation.data;
-
   const guests = useReactiveVar(guestInformationStorage);
-
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const personalizationEntities = useReactiveVar(personalizeYourRoomStorage);
   const specialRequests = useReactiveVar(specialRequestsStorage);
@@ -89,31 +78,25 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const [signature, setSignature] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
-  const config = getConfig();
-  const checkinInfo = useCheckedIn();
+  const reservationData = client.readQuery<IGetReservationApiResponse>({
+    query: GET_RESERVATION,
+  });
 
-  const checkinModule: any = config?.modules?.find((module) => module?.name === CHECK_IN);
-  const reviewConfig = checkinModule?.submodules?.find(
-    (submodule: any) => submodule?.name === REVIEW && submodule.isActive,
-  );
+  const reservationInfo = reservationData?.getReservation.data;
 
   const data: any = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
   });
 
-  const { data: feedBackList } = useQuery(GET_FEEDBACK, {
-    context: { clientName: 'host_v4' },
-    fetchPolicy: 'no-cache',
-  });
-
-  const feedbackData = feedBackList?.listFeedback?.filter(
-    (item: any) => item?.destination === CHECKOUT,
-  );
-
   const getEregDetails = useQuery(GET_E_REG_DETAILS, {
     context: { clientName: 'host_v6' },
     fetchPolicy: 'no-cache',
   });
+
+  const checkinModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
+  const reviewConfig = checkinModule?.submodules?.find(
+    (submodule: any) => submodule?.name === REVIEW && submodule.isActive,
+  );
 
   const eRegistration =
     getEregDetails?.data?.getHotelSystemsDigitalCheckinConfig?.eRegistrationForm;
@@ -134,21 +117,17 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       data?.getReservation?.data?.reservationStatus === CHECKEDOUT ||
       data.getReservation.data.reservationStatus === CHKOUT
     ) {
-      navigate(availablePaths.HOME);
+      navigate(availablePaths?.HOME);
     }
-  }, [data, navigate]);
+  }, [data, navigate, reservationData]);
 
   useEffect(() => {
-    if (checkinInfo?.preCheckedIn && !checkinInfo.checkedIn) {
-      // navigate(availablePaths.GET_RESERVATION);
+    if (conditionsAccepted && sigCanvas?.current && signature !== null) {
+      setBtnStatus(true);
+    } else {
+      setBtnStatus(false);
     }
-  }, []);
-
-  useEffect(() => {
-    if (!guestReservationInfo?.isComplete) {
-      // navigate(availablePaths?.GUEST_INFORMATION_INPUT);
-    }
-  }, [guestReservationInfo?.isComplete, navigate]);
+  }, [conditionsAccepted, signature]);
 
   const sigCanvas = useRef<any>(null);
 
@@ -160,14 +139,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (conditionsAccepted && sigCanvas?.current && signature !== null) {
-      setBtnStatus(true);
-    } else {
-      setBtnStatus(false);
-    }
-  }, [conditionsAccepted, signature]);
-
   const toggleConditionsAccepted = useCallback(() => {
     setConditionsAccepted((oldState) => !oldState);
   }, []);
@@ -176,8 +147,42 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     setSignature(sigCanvas?.current);
   };
 
+  const adult = reservationInfo?.details.adultGuestCount.toString();
+  const children = reservationInfo?.details.childGuestCount.toString();
+  const roomNo = reservationInfo?.roomTypes[0]?.roomNumber;
+  // console.log(reservationInfo, guestReservationInfo);
+
   const goToCheckIn = useCallback(async () => {
     setLoading(true);
+    const checkInPayload: ICheckInApiRequest = {
+      reservationType: reservationInfo?.confirmationType as string,
+      reservationId: reservationInfo?.reservationId as string,
+      bookingId: reservationInfo?.confirmationId as string,
+      checkinDate: reservationInfo?.details?.checkInDate as string,
+      checkoutDate: reservationInfo?.details?.checkOutDate as string,
+      roomNo: roomNo as string,
+      roomType: reservationInfo?.roomTypes[0]?.shortName as string,
+      primaryGuestEmail: guestReservationInfo?.emails as string,
+      primaryGuestFirstName: guestReservationInfo?.firstName as string,
+      primaryGuestLastName: guestReservationInfo?.lastName as string,
+      primaryGuestMobileNumber: guestReservationInfo?.phone as string,
+      guestCount: {
+        adult: adult,
+        children: children,
+      },
+      paymentType: guestReservationInfo?.cardType,
+      expirationDate: guestReservationInfo?.cardExpiryDate as string,
+      creditCardType: guestReservationInfo?.cardType,
+      lastFourDigits: guestReservationInfo?.cardNumber?.substr(
+        guestReservationInfo?.cardNumber?.length - 4,
+      ),
+      vaultedCardID: guestReservationInfo?.token,
+      settlement: 'Web',
+      documentType: guestReservationInfo?.docType as string,
+      documentNumber: guestReservationInfo?.docNo as string,
+      guestSignature: '',
+    };
+
     const uploadSignaturePayload: IPreSignDocUploadApiRequest = {
       groupId: 'e8030f49-afb1-43fc-80f6-c0515b62d5f6',
       type: 'reservation_docs',
@@ -193,15 +198,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       isDocUpload: true,
     };
 
-    const checkInPayload: ICheckInApiRequest = {
-      reservationType: reservationInfo?.confirmationType as string,
-      reservationId: reservationInfo?.reservationId as string,
-      bookingId: reservationInfo?.confirmationId as string,
-      roomNo: reservationInfo?.roomTypes[0]?.roomNumber as string,
-      paymentType: 'VISA',
-      guestSignature: '',
-    };
-
     try {
       const uploadSignatureResponse = await client.query<IPreSignDocUploadApiResponse>({
         query: PRE_SIGN_DOC_UPLOAD,
@@ -211,7 +207,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           body: uploadSignaturePayload,
         },
       });
-
       checkInPayload.guestSignature = uploadSignatureResponse.data.preSignDocUpload.data.key;
     } catch (uploadSignatureError) {
       processError(t, uploadSignatureError as ApolloError);
@@ -219,7 +214,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
     try {
       await client.query({
-        query: CHECKIN,
+        query: roomNo ? CHECKIN : PRECHECKIN,
         context: { clientName: 'rest' },
         variables: {
           confirmationNumber: reservationInfo?.confirmationId as string,
@@ -229,18 +224,21 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
       saveTrip({
         reservationId: reservationInfo?.confirmationId as string,
-        checkedIn: true,
-        name: guestReservationInfo?.firstName,
-        roomNumber: reservationInfo?.roomTypes[0]?.roomNumber,
+        preCheckedIn: !roomNo ? true : false,
+        checkedIn: roomNo ? true : false,
+        name: guestReservationInfo?.lastName,
+        email: guestReservationInfo?.emails,
+        roomNumber: roomNo,
         invoiceId: reservationInfo?.reservationId as string,
       });
 
       checkinStorage({
         reservationId: reservationInfo?.confirmationId as string,
-        name: guestReservationInfo?.firstName,
-        preCheckedIn: true,
-        checkedIn: false,
-        roomNumber: reservationInfo?.roomTypes[0]?.roomNumber,
+        preCheckedIn: !roomNo ? true : false,
+        checkedIn: roomNo ? true : false,
+        name: guestReservationInfo?.lastName,
+        email: guestReservationInfo?.emails,
+        roomNumber: roomNo,
         invoiceId: reservationInfo?.reservationId as string,
       });
 
@@ -260,17 +258,29 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     }
     setLoading(false);
   }, [
-    guests,
     reservationInfo?.confirmationType,
     reservationInfo?.reservationId,
     reservationInfo?.confirmationId,
+    reservationInfo?.details?.checkInDate,
+    reservationInfo?.details?.checkOutDate,
     reservationInfo?.roomTypes,
-    t,
+    roomNo,
+    guestReservationInfo?.emails,
     guestReservationInfo?.firstName,
+    guestReservationInfo?.lastName,
+    guestReservationInfo?.phone,
+    guestReservationInfo?.cardType,
+    guestReservationInfo?.cardExpiryDate,
+    guestReservationInfo?.cardNumber,
+    guestReservationInfo?.token,
+    guestReservationInfo?.docType,
+    guestReservationInfo?.docNo,
+    adult,
+    children,
+    guests,
+    t,
     navigate,
   ]);
-
-  const cardType = cardTypes?.find((item) => item?.code === guestReservationInfo?.cardType);
 
   return (
     <>
@@ -313,44 +323,20 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           </div>
         </DetailsCard>
 
-        <DetailsCard title={t(`${reviewConfig.creditCardDetails[0].title}`)}>
+        <DetailsCard title={t(`${reviewConfig?.creditCardDetails?.title}`)}>
           <div>
-            <div className={styles.border}></div>
-            <div>
-              <div className={styles.checkDatesColumn}>
-                <p className={styles.checkDatesText}>{t('Card Number')}</p>
+            {reviewConfig?.creditCardDetails?.details?.map((detail: any, index: number) => (
+              <div key={index} className={styles.checkDatesColumn}>
+                <p className={styles.checkDatesText}>{detail?.label}</p>
                 <p className={cx(styles.checkDatesDetails, styles.left)}>
-                  {guestReservationInfo?.cardNumber ??
-                    data?.getReservation?.data?.reservePayments[0]?.cardNumber ??
-                    ''}
-                </p>
-                <p className={styles.checkDatesText}>{t('Card Holder Name')}</p>
-                <p className={cx(styles.checkDatesDetails, styles.left)}>
-                  {guestReservationInfo?.cardHolderName ??
-                    data?.getReservation?.data?.reservePayments[0]?.cardHolderName ??
-                    ''}
-                </p>
-                <p className={styles.checkDatesText}>{t('Card Type')}</p>
-                <p className={cx(styles.checkDatesDetails, styles.left)}>
-                  {cardType?.name ??
-                    guestReservationInfo?.cardType ??
-                    data?.getReservation?.data?.reservePayments[0]?.cardType ??
-                    ''}
-                </p>
-                <p className={styles.checkDatesText}>{t('Expiry Date')}</p>
-                <p className={cx(styles.checkDatesDetails, styles.left)}>
-                  {guestReservationInfo?.expiry ??
-                    data?.getReservation?.data?.reservePayments[0]?.cardExpiryDate ??
-                    ''}
-                </p>
-                <p className={styles.checkDatesText}>{t('CVV')}</p>
-                <p className={cx(styles.checkDatesDetails, styles.left)}>
-                  {guestReservationInfo?.cvv ??
-                    data?.getReservation?.data?.reservePayments[0]?.cvv ??
-                    ''}
+                  {detail?.name === 'cardType'
+                    ? cardTypes?.find((item) => item?.code === guestReservationInfo?.cardType)?.name
+                    : guestReservationInfo?.[detail?.name] ??
+                      data?.getReservation?.data?.reservePayments[0]?.[detail?.name] ??
+                      ''}
                 </p>
               </div>
-            </div>
+            ))}
           </div>
         </DetailsCard>
 
@@ -419,11 +405,11 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                 <h2 className={styles.settlementTitle}>{t('Settlement')}</h2>
 
                 <p className={styles.settlementSubtitle}>
-                  {reservationInfo?.settlementTypes.map((el) => (
-                    <>
-                      {el.name}
+                  {reservationInfo?.settlementTypes.map((el, index) => (
+                    <div key={index}>
+                      {el?.name}
                       <br />
-                    </>
+                    </div>
                   ))}
                 </p>
               </div>

@@ -11,10 +11,7 @@ import {
 } from 'core/graphql/queries/GET_AVAILABLE_PERSONALIZATIONS';
 import dayjs from 'dayjs';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import {
-  personalizeYourRoomStorage,
-  specialRequestsStorage,
-} from 'storage/personalize-your-room.storage';
+import { personalizeYourRoomStorage } from 'storage/personalize-your-room.storage';
 import { client } from 'core/graphql/client';
 import { IGetReservationApiResponse, GET_RESERVATION } from 'core/graphql/queries/GET_RESERVATION';
 import { toast } from 'react-toastify';
@@ -25,32 +22,26 @@ import { getStaticPaths } from 'utils/getStatic';
 import i18nConfig from 'next-i18next.config';
 import { availablePaths } from 'utils/availablePaths';
 import { timeFormats } from 'utils/timeFormats';
-import { RoomPersonalizationEntitySkeletonV2 } from 'components/pages/personalize-your-room-v2/RoomPersonalizationEntitySkeletonV2/RoomPersonalizationEntitySkeletonV2';
 import { RoomPersonalizationEntityV2 } from 'components/pages/personalize-your-room-v2/RoomPersonalizationEntity/RoomPersonalizationEntityV2';
 import { UPDATE_BOOKING_DETAILS } from 'core/graphql/queries/UPDATE_BOOKING_DETAILS';
 import { getConfig } from 'utils/getConfiguration';
 import { CHECK_IN, personalisation } from 'utils/constants';
 import { buttonArrow } from 'utils/functions';
+import { Loader } from 'components/shared/Loaders/Loaders';
 
 export { getStaticPaths };
 
 const PersonalizeYourRoom: React.FC = () => {
   const navigate = useLocalizedRouter();
-
+  const config = getConfig();
   const { t } = useTranslation('personalize-your-room');
-
   const personalizationEntities = useReactiveVar(personalizeYourRoomStorage);
-  const specialRequests = useReactiveVar(specialRequestsStorage);
-
-  const [loadingButton, setLoading] = useState(false);
-
+  const [loadingButton, setLoadingButton] = useState(false);
   const [currentPersonalizationEntities, setCurrentPersonalizationEntities] = useState<any>(
     personalizationEntities || [],
   );
 
-  const config = getConfig();
-
-  const checkinModule: any = config?.modules?.find((module) => module?.name === CHECK_IN);
+  const checkinModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
   const personalisationConfig = checkinModule?.submodules?.find(
     (submodule: any) => submodule?.name === personalisation && submodule.isActive,
   );
@@ -98,6 +89,7 @@ const PersonalizeYourRoom: React.FC = () => {
   );
 
   const goToNextStep = useCallback(async () => {
+    setLoadingButton(true);
     personalizeYourRoomStorage(
       currentPersonalizationEntities?.filter((x: any) => x?.quantity !== 0),
     );
@@ -116,11 +108,10 @@ const PersonalizeYourRoom: React.FC = () => {
       personalisation: [],
       comments: currentPersonalizationEntities
         .filter((x: any) => x?.quantity !== 0)
-        .map((a: any) => a?.code + ' X ' + a?.quantity),
+        .map((a: any) => a?.title + ' X ' + a?.quantity),
     };
 
     try {
-      setLoading(true);
       await client.query({
         query: UPDATE_BOOKING_DETAILS,
         context: { clientName: 'rest' },
@@ -130,12 +121,10 @@ const PersonalizeYourRoom: React.FC = () => {
         },
       });
       navigate(availablePaths?.CHECK_IN);
-      setLoading(false);
     } catch (e) {
       toast('Error while updating the booking', { type: 'error' });
-      setLoading(false);
     }
-    setLoading(false);
+    setLoadingButton(false);
   }, [
     currentPersonalizationEntities,
     navigate,
@@ -161,11 +150,7 @@ const PersonalizeYourRoom: React.FC = () => {
         <div className={styles.personalizationEntitiesWrapper}>
           {loading ? (
             <>
-              <RoomPersonalizationEntitySkeletonV2 />
-              <RoomPersonalizationEntitySkeletonV2 />
-              <RoomPersonalizationEntitySkeletonV2 />
-              <RoomPersonalizationEntitySkeletonV2 />
-              <RoomPersonalizationEntitySkeletonV2 />
+              <Loader />
             </>
           ) : (
             availablePersonalizations?.map((el) => (
@@ -179,7 +164,7 @@ const PersonalizeYourRoom: React.FC = () => {
                 currency={el.currency}
                 setCurrentPersonalizationEntities={setCurrentPersonalizationEntities}
                 count={
-                  currentPersonalizationEntities.find((entity: any) => el?.code === entity?.code)
+                  currentPersonalizationEntities.find((entity: any) => el?.id === entity?.id)
                     ?.quantity || '0'
                 }
               />

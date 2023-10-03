@@ -1,16 +1,13 @@
 import { StyledInput } from 'components/shared/StyledInput/StyledInput';
+import React, { useState } from 'react';
 import { IPreCheckinPaymentInfoProps } from './PreCheckinPaymentInfo.types';
 import styles from './PreCheckinPaymentInfo.module.scss';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import { IPaymentInfo } from 'types/guest-information.types';
-import { identityVerificationValidation } from 'validation/guest-information-input.validation';
-import { ChangeEvent, useState } from 'react';
 import { useReactiveVar } from '@apollo/client';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
-import { CYBERSOURCE, EMAIL, PHONE, PHONE_REGEX } from 'utils/constants';
 import * as yup from 'yup';
 import { generateInitialFieldValues, generateValidationSchema } from 'utils/functions';
 
@@ -36,9 +33,7 @@ export const PreCheckinPaymentInfo: React.FC<IPreCheckinPaymentInfoProps> = ({
   };
 
   const edit = () => {
-    if (paymentType === CYBERSOURCE) {
-      navigate(availablePaths.CHECK_IN_PAYMENT);
-    }
+    navigate(availablePaths.CHECK_IN_PAYMENT);
   };
 
   const initialFieldValues = generateInitialFieldValues(creditCardInfoSection, paymentInfo);
@@ -82,11 +77,11 @@ export const PreCheckinPaymentInfo: React.FC<IPreCheckinPaymentInfoProps> = ({
             </div>
           ),
       )}
-      {/* <div className={styles.editBtn}>
+      <div className={styles.editBtn}>
         <button className='' onClick={edit}>
           <span className={styles.btnText}>Edit</span>
         </button>
-      </div> */}
+      </div>
     </div>
   );
 };

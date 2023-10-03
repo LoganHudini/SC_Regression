@@ -5,8 +5,23 @@ export interface ICheckInApiRequest {
   reservationType: string;
   reservationId: string;
   bookingId: string;
+  checkinDate: string;
+  checkoutDate: string;
   roomNo: string;
+  roomType: string;
+  primaryGuestEmail: string;
+  primaryGuestFirstName: string;
+  primaryGuestLastName: string;
+  primaryGuestMobileNumber: string;
+  guestCount: any;
   paymentType: string;
+  expirationDate: string;
+  creditCardType?: string;
+  lastFourDigits?: string;
+  vaultedCardID?: string;
+  settlement: string;
+  documentType: string;
+  documentNumber: string;
   guestSignature: string;
 }
 

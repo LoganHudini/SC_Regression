@@ -8,7 +8,7 @@ import Head from 'next/head';
 import { useTranslation } from 'react-i18next';
 import { getStaticPaths } from 'utils/getStatic';
 import styles from '../../styles/checkout/checkout.module.scss';
-import CheckoutDrawer from 'components/pages/checkout/CheckoutDrawer';
+import CheckoutDrawer from 'components/pages/checkout/CheckoutDrawer/CheckoutDrawer';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { toggleOpenCheckOutDrawer } from 'storage/checkout.storage';
 import { toggleDetailsDrawer, toggleNotification } from 'storage/home.storage';
@@ -91,7 +91,6 @@ const CheckOut = () => {
       toggleNotification(true);
       setEmailLoader(false);
     } catch (getUpdatedReservationError) {
-      // console.log(getUpdatedReservationError);
       setEmailLoader(false);
     }
   };

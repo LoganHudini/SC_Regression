@@ -1,18 +1,14 @@
 import Head from 'next/head';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Header } from 'components/shared/Header/Header';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { StyledInput } from 'components/shared/StyledInput/StyledInput';
-import DateRangeIcon from '@icons/DateRangeIcon.svg';
-import { DatePicker } from '@mui/x-date-pickers';
 import styles from 'styles/get-reservation/get-reservation.module.scss';
 import { IGetPrecheckinReservationData } from 'types/get-reservation.types';
 import { getReservationValidation } from 'validation/get-reservation.validation';
 import { useFormik } from 'formik';
 import { GET_RESERVATION } from 'core/graphql/queries/GET_RESERVATION';
-import dayjs from 'dayjs';
 import { client } from 'core/graphql/client';
 import { processError } from 'utils/processError';
 import { ApolloError } from '@apollo/client';
@@ -21,13 +17,10 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'react-i18next';
 import i18nConfig from 'next-i18next.config';
 import { availablePaths } from 'utils/availablePaths';
-import { timeFormats } from 'utils/timeFormats';
 import { getStaticPaths } from 'utils/getStatic';
 import { Drawer } from '@mui/material';
 import { HOTEL_CODE } from 'core/graphql/endpoints';
 import CloseOutlinedIcon from '@icons/CloseOutlined.svg';
-import { toast } from 'react-toastify';
-import { checkinStorage } from 'storage/check-in.storage';
 import { useRouter } from 'next/router';
 
 export { getStaticPaths };
@@ -42,6 +35,7 @@ const GetReservation: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    navigate(availablePaths?.HOME);
     if (router.query['resId'] && router.query['lastName']) {
       getReservation(router.query['resId'], router.query['lastName']);
     }

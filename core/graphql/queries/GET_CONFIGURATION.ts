@@ -52,40 +52,19 @@ export const configuration = [
         ],
       },
       {
-        name: 'checkin',
+        code: 'Check-In',
+        name: 'Check-In',
+        isActive: true,
         submodules: [
           {
             name: 'information',
             label: 'Check-In',
             title: 'Please Complete Your Check-In Process',
             isActive: true,
-            reservationInfoNeeded: {
-              isActive: true,
-              details: [
-                {
-                  title: 'MAGNIFIQUE STAYCATION',
-                  description:
-                    'The best way to celebrate the season is to spoil yourself with a dreamy staycation in one of our apartments.',
-                  imgURL: '/images/sofitel/bannerImage1.png',
-                },
-                {
-                  title: 'SUNDAY FAMILY BRUNCH',
-                  description:
-                    'Enjoy quality family time at Family Fiesta Brunch every Sunday afternoon at The World Eatery.',
-                  imgURL: '/images/sofitel/bannerImage2.png',
-                },
-                {
-                  title: 'ROMANTIC BEACHSIDE DINNER',
-                  description:
-                    'Discover all the ingredients for an evening of romance at Sofitel Dubai The Palm on the East Crescent of Palm Jumeirah.',
-                  imgURL: '/images/sofitel/bannerImage3.png',
-                },
-              ],
-            },
             details: [
               {
-                isActive: true,
                 name: 'Guest Information',
+                isActive: true,
                 type: 'manual-entry',
                 details: [
                   {
@@ -108,7 +87,7 @@ export const configuration = [
                     name: 'emails',
                     label: 'Email',
                     type: 'Text',
-                    required: false,
+                    required: true,
                     isDisabled: false,
                     isActive: true,
                   },
@@ -121,7 +100,7 @@ export const configuration = [
                     isActive: true,
                   },
                   {
-                    name: 'CountryCode',
+                    name: 'countryCode',
                     label: 'Country',
                     type: 'Select',
                     required: true,
@@ -134,46 +113,38 @@ export const configuration = [
               {
                 name: 'Credit Card Info',
                 isActive: true,
-                type: 'cybersource',
+                type: 'SHIFT4',
                 details: [
                   {
                     name: 'cardNumber',
                     label: 'Card Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: false,
+                    isDisabled: true,
                     isActive: true,
                   },
                   {
                     name: 'cardHolderName',
                     label: 'Card Holder Name',
                     type: 'Text',
-                    required: true,
-                    isDisabled: false,
-                    isActive: true,
+                    required: false,
+                    isDisabled: true,
+                    isActive: false,
                   },
                   {
                     name: 'cardType',
                     label: 'Card Type',
                     type: 'Text',
                     required: true,
-                    isDisabled: false,
+                    isDisabled: true,
                     isActive: true,
                   },
                   {
-                    name: 'expiry',
+                    name: 'cardExpiryDate',
                     label: 'Expiry Date',
                     type: 'Text',
                     required: true,
-                    isDisabled: false,
-                    isActive: true,
-                  },
-                  {
-                    name: 'cvv',
-                    label: 'CVV',
-                    type: 'Text',
-                    required: true,
-                    isDisabled: false,
+                    isDisabled: true,
                     isActive: true,
                   },
                 ],
@@ -192,7 +163,7 @@ export const configuration = [
                     isActive: true,
                     options: [
                       { name: 'Passport', value: 'PASSPORT' },
-                      { name: 'ID Card', value: 'ID Card' },
+                      { name: 'ID', value: 'ID' },
                     ],
                   },
 
@@ -299,11 +270,23 @@ export const configuration = [
                 checkOut: 'Checkout',
               },
             ],
-            creditCardDetails: [
-              {
-                title: 'Credit Card Info',
-              },
-            ],
+            creditCardDetails: {
+              title: 'Credit Card Info',
+              details: [
+                {
+                  name: 'cardNumber',
+                  label: 'Card Number',
+                },
+                {
+                  name: 'cardType',
+                  label: 'Card Type',
+                },
+                {
+                  name: 'cardExpiryDate',
+                  label: 'Expiry Date',
+                },
+              ],
+            },
             identityVerificationDetails: [
               {
                 title: 'Identity Verification',
@@ -318,21 +301,6 @@ export const configuration = [
                 cmsName: 'DOCUMENT_NUMBER',
                 label: 'ID Number',
               },
-              // {
-              //   name: 'effectiveDate',
-              //   cmsName: 'DATE_OF_ISSUE',
-              //   label: 'Effective date',
-              // },
-              // {
-              //   name: 'expiryDate',
-              //   cmsName: 'DATE_OF_EXPIRY',
-              //   label: 'Expiry date',
-              // },
-              // {
-              //   name: 'issueCountry',
-              //   cmsName: 'COUNTRY',
-              //   label: 'Issue country',
-              // },
             ],
             personalizationDetails: [
               {

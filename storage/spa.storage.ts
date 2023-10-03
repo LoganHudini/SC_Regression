@@ -10,3 +10,5 @@ export type ISpaStorageData = {
 };
 
 export const spaInformationStorage = makeVar<ISpaStorageData | null>(null);
+
+export const spaCategoryList = makeVar([]);

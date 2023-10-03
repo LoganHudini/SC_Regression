@@ -7,7 +7,7 @@ import { ASSETS_URL } from '../../../../core/graphql/endpoints';
 import styles from './SpaCarousel.module.scss';
 import { activeItems, buttonArrow } from 'utils/functions';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
-import { spaInformationStorage } from 'storage/spa.storage';
+import { spaCategoryList, spaInformationStorage } from 'storage/spa.storage';
 import { availablePaths } from 'utils/availablePaths';
 import { CarouselLoader } from 'components/shared/Loaders/Loaders';
 import cx from 'classnames';

@@ -25,7 +25,7 @@ import {
 } from 'utils/constants';
 import CheckIcon from '@icons/checkIcon.svg';
 import { housekeepingOptions } from 'storage/housekeeping.storage';
-import { spaInformationStorage } from 'storage/spa.storage';
+import { spaCategoryList, spaInformationStorage } from 'storage/spa.storage';
 import { offerList, selectedOfferOption } from 'storage/offers.storage';
 import { useTranslation } from 'react-i18next';
 import HotelInfoDrawer from 'components/pages/home/HotelInformation/HotelInfoDrawer/HotelInfoDrawer';
@@ -102,8 +102,10 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   const compendiumInfo: any = useReactiveVar(getHotelCompendium);
   const selectedCompendiumInfo: any = useReactiveVar(selectedCompendiumCategory);
   const spaInformation = useReactiveVar(spaInformationStorage);
+  const spaCategories = useReactiveVar(spaCategoryList);
   const offersOptionSelected: any = useReactiveVar(selectedOfferOption);
   const offersList = useReactiveVar(offerList);
+
   const { t } = useTranslation(['common']);
 
   const filteredDetails = compendiumInfo?.categories?.filter((category: any) => {
@@ -240,19 +242,28 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
           <div>
             <p className={styles.title}>{t('Choose your category')}</p>
             <div className={styles.optionsList}>
-              <div className={cx(styles.optionsListItem)}>
-                <p
-                  className={cx(styles.inActiveDiningText, {
-                    [styles.activeText]: true,
-                  })}
-                  onClick={() => {
-                    closeDrawer();
-                  }}
-                >
-                  {spaInformation?.selectedSpaCategoryName}{' '}
-                </p>
-                {true && <CheckIcon className={styles.icon} />}
-              </div>
+              {spaCategories?.map((category: any, index: number) => (
+                <div key={index} className={cx(styles.optionsListItem)}>
+                  <p
+                    className={cx(styles.inActiveDiningText, {
+                      [styles.activeText]: category?.id === spaInformation?.selectedSpaCategoryId,
+                    })}
+                    onClick={() => {
+                      closeDrawer();
+                      spaInformationStorage({
+                        ...spaInformation,
+                        selectedSpaCategoryId: category?.id,
+                        selectedSpaCategoryName: category?.name,
+                      });
+                    }}
+                  >
+                    {category?.name}{' '}
+                  </p>
+                  {category?.id === spaInformation?.selectedSpaCategoryId && (
+                    <CheckIcon className={styles.icon} />
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         )}

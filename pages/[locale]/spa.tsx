@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
@@ -14,15 +15,13 @@ import { ListComponentEntity } from 'components/shared/ListComponents/ListCompon
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { GET_SPA_DETAILS } from 'core/graphql/queries/GET_SPA_DETAILS';
 import Head from 'next/head';
-import { spaInformationStorage } from 'storage/spa.storage';
+import { spaCategoryList, spaInformationStorage } from 'storage/spa.storage';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import produce from 'immer';
 import { Notification } from 'components/shared/Notification/Notification';
 import { availablePaths } from 'utils/availablePaths';
 import { ASSETS_URL, CURRENCY } from 'core/graphql/endpoints';
 import { StableImage } from 'components/shared/StableImage/StableImage';
-import { StyledButton } from 'components/shared/StyledButton/StyledButton';
-import { ACTIVE } from 'utils/constants';
 
 export { getStaticPaths };
 
@@ -37,13 +36,25 @@ const Spa: React.FC = () => {
   });
 
   const spaTreatmentsList = activeItems(data?.getSpaDetails?.treatments)?.filter(
-    (treatment: any) => treatment?.spaId === spaInfo?.selectedSpaInfoId,
+    (treatment: any) =>
+      treatment?.spaId === spaInfo?.selectedSpaInfoId &&
+      treatment?.spaCategoryId === spaInfo?.selectedSpaCategoryId,
   );
 
-  const spaCategory = data?.getSpaDetails?.categories?.find(
-    (category: any) => category?.id === spaTreatmentsList[0]?.spaCategoryId,
-  );
+  let spaCategory: any = [];
+  data?.getSpaDetails?.categories?.forEach((category: any) => {
+    activeItems(data?.getSpaDetails?.treatments)?.forEach((treatment: any) => {
+      if (
+        treatment?.spaId === spaInfo?.selectedSpaInfoId &&
+        category?.id === treatment?.spaCategoryId &&
+        !spaCategory?.includes(category)
+      ) {
+        spaCategory = [...spaCategory, category];
+      }
+    });
+  });
 
+  spaCategoryList(spaCategory);
   const selectedSpaItem = spaTreatmentsList?.find(
     (item: any) => item?.id === spaInfo?.selectedSpaTreatmentId,
   );
@@ -55,13 +66,12 @@ const Spa: React.FC = () => {
           spaInfo?.selectedSpaInfoName ?? activeItems(data?.getSpaDetails?.spa)[0]?.name,
         selectedSpaInfoId:
           spaInfo?.selectedSpaInfoId ?? activeItems(data?.getSpaDetails?.spa)[0]?.id,
-        selectedSpaCategoryName: spaCategory?.name,
-        selectedSpaCategoryId: spaCategory?.id,
+        selectedSpaCategoryName: spaCategory[0]?.name,
+        selectedSpaCategoryId: spaCategory[0]?.id,
       });
   }, [
     data?.getSpaDetails?.spa,
-    spaCategory?.id,
-    spaCategory?.name,
+    spaCategory[0],
     spaInfo?.selectedSpaInfoId,
     spaInfo?.selectedSpaInfoName,
   ]);

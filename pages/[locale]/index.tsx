@@ -24,6 +24,7 @@ import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { useTranslation } from 'react-i18next';
+import { useCheckedIn } from 'storage/check-in.storage';
 import { getStaticPaths } from 'utils/getStatic';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 
@@ -32,6 +33,7 @@ export { getStaticPaths };
 const Home: NextPage = () => {
   const { t } = useTranslation('common');
   const locale = useLocale();
+  const checkInData = useCheckedIn();
 
   const { data: homeCarouselDetails, loading: homeCarouselLoading } = useQuery(
     GET_HOTEL_INFORMATION,
@@ -90,7 +92,9 @@ const Home: NextPage = () => {
           spaloading) && <LogoLoader />}
         <HomeCarousel data={homeCarouselDetails} />
         <HotelInformation details={homeCarouselDetails} loading={homeCarouselLoading} />
-        <ServiceRequestCarousel data={serviceCarouselDetails} loading={serviceCarouselLoading} />
+        {checkInData?.checkedIn && (
+          <ServiceRequestCarousel data={serviceCarouselDetails} loading={serviceCarouselLoading} />
+        )}
         <DiningCarousel
           ird={irdMenu}
           restaurants={restaurantList}

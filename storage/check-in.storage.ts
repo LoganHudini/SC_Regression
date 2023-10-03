@@ -4,11 +4,10 @@ import { getTrips } from './trips.storage';
 
 interface ICheckinStorageData {
   reservationId?: any;
-  checkedIn: boolean;
-  token?: string;
-  name?: string;
   preCheckedIn?: boolean;
-  bookingId?: string;
+  checkedIn: boolean;
+  name?: string;
+  email?: string;
   roomNumber?: string;
   invoiceId?: string;
 }
@@ -28,9 +27,11 @@ export const useCheckedIn = () => {
 
     if (checkedInReservation) {
       checkinStorage({
-        reservationId: checkedInReservation.reservationId,
-        checkedIn: true,
-        name: checkedInReservation.name,
+        reservationId: checkedInReservation?.reservationId,
+        preCheckedIn: checkedInReservation?.preCheckedIn,
+        checkedIn: checkedInReservation?.checkedIn ?? false,
+        name: checkedInReservation?.name,
+        email: checkedInReservation?.email,
         roomNumber: checkedInReservation?.roomNumber,
         invoiceId: checkedInReservation?.invoiceId,
       });

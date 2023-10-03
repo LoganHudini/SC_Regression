@@ -25,7 +25,7 @@ import { housekeepingOptions } from 'storage/housekeeping.storage';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { spaInformationStorage } from 'storage/spa.storage';
 import { Fade as Hamburger } from 'hamburger-react';
-import CheckInDrawer from 'components/pages/check-in/CheckInDrawer';
+import CheckInDrawer from 'components/pages/check-in/CheckInDrawer/CheckInDrawer';
 import cx from 'classnames';
 import { useHideOnScroll } from 'utils/hooks/useHideOnScroll';
 import useOutsideAlerter from 'utils/hooks/useOutsideAlerter';
@@ -89,7 +89,7 @@ export const BottomMenu: React.FC<unknown> = () => {
     return (
       <div ref={wrapperRef} className={cx(styles.hamburgerMenuContainer)}>
         {hamburger &&
-          hamburger['post'].map((hamburgerMenuElement) => (
+          hamburger[isCheckedIn?.checkedIn ? 'post' : 'pre'].map((hamburgerMenuElement) => (
             <MenuItem
               Icon={
                 hamburgerIconsMap[hamburgerMenuElement.name as keyof typeof hamburgerIconsMap] ||

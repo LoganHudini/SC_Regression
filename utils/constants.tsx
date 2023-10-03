@@ -9,9 +9,13 @@ export const ROOM_CONTROLS_FLOW_VERSION = process.env.NEXT_PUBLIC_ROOM_CONTROLS_
 // hotel constants
 export const SOFITEL_MANILA = 'sofitel-manila';
 
-// module constants
+// configuration constants
 export const HOME = 'Home';
 export const LOADER = 'loader';
+
+// payment type constants
+export const SHIFT4 = 'SHIFT4';
+export const CYBERSOURCE = 'CYBERSOURCE';
 
 // key constants
 export const HouseKeeping = 'HouseKeeping';
@@ -32,7 +36,7 @@ export const HEADERS = ['Restaurants & Bars', 'Offers', 'In-Room Dining', 'Hotel
 export const ALL_DAY = 'all day';
 export const RESTAURANT_BOOKIN_FLOW = 'Restaurant Booking Flow';
 export const PRE_CHECKIN_ERROR_MSG = 'Booking is already checked in with type:PreCheckIn';
-export const CHECK_IN = 'checkin';
+export const CHECK_IN = 'Check-In';
 export const REVIEW = 'review';
 export const CANCELED = 'CANCELED';
 export const CHECKEDOUT = 'CHECKEDOUT';
@@ -46,7 +50,6 @@ export const EMAIL = 'email';
 export const EMAILS = 'emails';
 export const PHONENUMBER = 'phoneNumber';
 export const PHONE = 'phone';
-export const CYBERSOURCE = 'cybersource';
 export const SELECTDROPDOWN = 'Select';
 export const GUESTINFORMATION = 'Guest Information';
 export const CREDITCARDINFO = 'Credit Card Info';
@@ -85,6 +88,8 @@ export const EVERYDAY = 'EVERYDAY';
 export const CHECKOUT = 'Check-out';
 export const CHECKIN = 'Check-in';
 export const TIMINGS = 'timings';
+
+// flow constants
 export const DAYS = [
   { id: 1, ischecked: false, name: 'Monday', from: null, to: null },
   { id: 2, ischecked: false, name: 'Tuesday', from: null, to: null },
@@ -94,7 +99,7 @@ export const DAYS = [
   { id: 6, ischecked: false, name: 'Saturday', from: null, to: null },
   { id: 7, ischecked: false, name: 'Sunday', from: null, to: null },
 ];
-// flow constants
+
 export const DINING_OPTIONS_PRE_CHECK_IN = [
   {
     id: 'restaurant',
@@ -174,6 +179,16 @@ export const cardTypes = [
     code: 'JC',
     name: 'JCB',
   },
+  {
+    id: '6',
+    code: 'VS',
+    name: 'Visa',
+  },
+  {
+    id: '7',
+    code: 'VA',
+    name: 'Visa',
+  },
 ];
 
 export const PAYMENT = [
@@ -239,6 +254,7 @@ export const CAROUSEL_RESPONSIVE = {
     items: 1,
   },
 };
+
 // path constants
 export const HOUSEKEEPING = 'HOUSEKEEPING';
 export const DINING = 'DINING';

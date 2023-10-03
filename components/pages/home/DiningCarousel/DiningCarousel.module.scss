@@ -5,6 +5,7 @@
 .diningCarouselTitle {
   font: 30px var(--secondary-font-regular);
   text-align: center;
+  margin: 10px;
 }
 
 .diningOptions {
@@ -170,7 +171,8 @@
   font-family: var(--primary-font-regular);
   font-size: $xsmall;
   text-transform: capitalize;
-  justify-content: start;
+  justify-content: flex-start;
+
   span {
     font-size: 0.75rem;
     line-height: 1.5;
@@ -178,10 +180,6 @@
     color: var(--primary-text-color);
     margin-inline-start: 12px;
   }
-}
-
-.cuisineIcon {
-  height: auto;
 }
 
 .cuisineRowTime {
@@ -194,7 +192,7 @@
   font-family: var(--primary-font-regular);
   font-size: $xsmall;
   text-transform: capitalize;
-  justify-content: start;
+  justify-content: flex-start;
   text-align: start;
 
   p {
@@ -214,4 +212,8 @@
 
 .content {
   padding-left: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 55px;
 }
