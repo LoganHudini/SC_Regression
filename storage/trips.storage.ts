@@ -52,7 +52,7 @@ export const ckeckoutTrip = (payload: ISavedTrip) => {
     reservationId: '',
     preCheckedIn: false,
     checkedIn: false,
-    bookingId: '',
+    invoiceId: '',
   });
 };
 

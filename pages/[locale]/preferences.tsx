@@ -96,7 +96,7 @@ const Preferences = () => {
     }
     const comments = commentStrings.join('|');
     const preferencesPayload = {
-      bookingId: isCheckedIn?.bookingId,
+      bookingId: isCheckedIn?.invoiceId,
       commentId: '',
       comments: comments ?? '',
     };

@@ -47,6 +47,8 @@ const CheckInDrawer = () => {
             data,
           });
 
+          const roomNo = data?.getReservation?.data?.roomTypes[0]?.roomNumber;
+
           if (
             data.getReservation.data.reservationStatus === 'CANCELED' ||
             data.getReservation.data.reservationStatus === 'CHKOUT' ||
@@ -62,20 +64,23 @@ const CheckInDrawer = () => {
           } else if (data.getReservation.data.reservationStatus === 'INHOUSE') {
             toast(t('Checked In Successfully'), { type: 'success' });
             saveTrip({
-              reservationId: data.getReservation.data.confirmationId as string,
-              checkedIn: true,
-              name: data.getReservation.data?.guests[0]?.firstName,
-              roomNumber: data.getReservation.data?.roomTypes[0]?.roomNumber,
-              invoiceId: data.getReservation.data.reservationId,
+              reservationId: data?.getReservation?.data?.confirmationId as string,
+              preCheckedIn: !roomNo ? true : false,
+              checkedIn: roomNo ? true : false,
+              name: data?.getReservation?.data?.lastName,
+              email: data?.getReservation?.data?.emails,
+              roomNumber: roomNo,
+              invoiceId: data?.getReservation?.data?.reservationId as string,
             });
+
             checkinStorage({
-              reservationId: data.getReservation.data.confirmationId as string,
-              checkedIn: true,
-              preCheckedIn: true,
-              bookingId: data.getReservation.data.reservationId,
-              name: data.getReservation.data?.guests[0]?.firstName,
-              roomNumber: data.getReservation.data?.roomTypes[0]?.roomNumber,
-              invoiceId: data.getReservation.data.reservationId,
+              reservationId: data?.getReservation?.data?.confirmationId as string,
+              preCheckedIn: !roomNo ? true : false,
+              checkedIn: roomNo ? true : false,
+              name: data?.getReservation?.data?.lastName,
+              email: data?.getReservation?.data?.emails,
+              roomNumber: roomNo,
+              invoiceId: data?.getReservation?.data?.reservationId as string,
             });
             navigate(availablePaths?.HOME);
             toggleCheckInDetailsDrawer(false);

@@ -27,11 +27,13 @@ import { EMAIL_INVOICE } from 'core/graphql/queries/EMAIL_INVOICE';
 import { Notification } from 'components/shared/Notification/Notification';
 import { availablePaths } from 'utils/availablePaths';
 import { Loader } from 'components/shared/Loaders/Loaders';
+import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 
 export { getStaticPaths };
 
 const CheckOut = () => {
   const { t } = useTranslation('common');
+  const navigate = useLocalizedRouter();
   const [openNotification, setOpenNotification] = useState(false);
   const openCheckOutDrawer = useReactiveVar(toggleOpenCheckOutDrawer);
   const checkedInData = useCheckedIn();
@@ -55,8 +57,11 @@ const CheckOut = () => {
   const loading = invoiceLoading || reservationLoading;
   const guestData = reservationData?.getReservation?.data?.guests[0];
   const invoiceElements = invoiceData?.invoice?.data?.billItems;
-  const roomNo = reservationData?.getReservation?.data?.roomTypes[0]?.roomNumber;
   const reservationInfo = reservationData?.getReservation?.data;
+
+  useEffect(() => {
+    ((invoiceElements && invoiceElements?.length) ?? 0) === 0 && navigate(availablePaths?.HOME);
+  }, [invoiceElements, navigate]);
 
   useEffect(() => {
     if (openCheckOutDrawer) {

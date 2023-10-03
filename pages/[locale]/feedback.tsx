@@ -62,7 +62,7 @@ const Feedback = () => {
   const hotelName = HOTEL_CODE ?? '';
 
   const feedbackPayload = {
-    orgEmail: 'rameez.kalathil@hudini.io',
+    orgEmail: 'somanatha.biradar@hudini.io',
     email: '',
     space: hotelName,
     guestName: isCheckedIn?.name,

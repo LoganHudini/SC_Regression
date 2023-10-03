@@ -36,7 +36,7 @@ import { getConfig } from 'utils/getConfiguration';
 import {
   CHECK_IN,
   CREDITCARD,
-  CREDITCARDINFO,
+  CREDIT_CARD_INFO,
   EMAIL_REGEX,
   GUESTINFORMATION,
   GUESTICON,
@@ -74,7 +74,7 @@ const AboutYourStay: React.FC<AboutYourStayProps> = () => {
     (section: any) => section.name === GUESTINFORMATION,
   );
   const creditCardInfoSection = activeSections.find(
-    (section: any) => section.name === CREDITCARDINFO,
+    (section: any) => section.name === CREDIT_CARD_INFO,
   );
   const identityVerificationSection = activeSections.find(
     (section: any) => section.name === IDENTITYVERIFICATION,

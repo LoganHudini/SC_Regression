@@ -83,6 +83,9 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   });
 
   const reservationInfo = reservationData?.getReservation.data;
+  const cardType = cardTypes
+    ?.find((item) => item?.code === guestReservationInfo?.cardType)
+    ?.name?.toUpperCase();
 
   const data: any = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
@@ -170,9 +173,9 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         adult: adult,
         children: children,
       },
-      paymentType: guestReservationInfo?.cardType,
+      paymentType: cardType ?? 'VISA',
       expirationDate: guestReservationInfo?.cardExpiryDate as string,
-      creditCardType: guestReservationInfo?.cardType,
+      creditCardType: cardType,
       lastFourDigits: guestReservationInfo?.cardNumber?.substr(
         guestReservationInfo?.cardNumber?.length - 4,
       ),
@@ -269,7 +272,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     guestReservationInfo?.firstName,
     guestReservationInfo?.lastName,
     guestReservationInfo?.phone,
-    guestReservationInfo?.cardType,
     guestReservationInfo?.cardExpiryDate,
     guestReservationInfo?.cardNumber,
     guestReservationInfo?.token,
@@ -277,6 +279,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     guestReservationInfo?.docNo,
     adult,
     children,
+    cardType,
     guests,
     t,
     navigate,
@@ -330,7 +333,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                 <p className={styles.checkDatesText}>{detail?.label}</p>
                 <p className={cx(styles.checkDatesDetails, styles.left)}>
                   {detail?.name === 'cardType'
-                    ? cardTypes?.find((item) => item?.code === guestReservationInfo?.cardType)?.name
+                    ? cardType
                     : guestReservationInfo?.[detail?.name] ??
                       data?.getReservation?.data?.reservePayments[0]?.[detail?.name] ??
                       ''}
