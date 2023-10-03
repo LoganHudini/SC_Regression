@@ -68,14 +68,41 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   align-items: center;
   overflow: auto;
+  max-height: 250px;
+  margin-bottom: 3rem;
 }
 
 .menuList {
   max-width: 768px;
   margin: 0 auto;
-  max-height: 250px;
 }
 
 .disable {
   pointer-events: none;
+}
+
+.bottomScrollIcon {
+  padding: 8px 0;
+  position: fixed;
+  left: 0;
+  right: 0;
+  max-width: 768px;
+  top: 280px;
+  text-align: center;
+  z-index: 10;
+  background: white;
+  height: 20px;
+  margin: auto;
+}
+
+.scrollContainer {
+  &:not(:last-child) {
+    color: #00000029;
+    background: linear-gradient(to right, currentColor 0%, currentColor 60%, transparent 10%)
+      repeat-x left bottom;
+    background-size: 20px 1px;
+  }
+  &:last-child {
+    margin-bottom: 2rem;
+  }
 }

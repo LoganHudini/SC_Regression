@@ -343,13 +343,19 @@
   font-size: $xsmall;
   color: var(--tertiary-text-color);
   font-family: var(--primary-font-regular);
-  padding: 2px 0;
+  line-height: 1.25;
+}
+
+.grayText {
+  font-family: var(--primary-font-medium);
 }
 
 .items {
   font-size: $xsmall;
   width: 60%;
-  line-height: 1.25;
+  line-height: 1.5;
+  margin: 4px 0;
+  font-family: var(--primary-font-news);
 }
 
 .items + .items::before {

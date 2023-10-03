@@ -3,7 +3,7 @@ import { useQuery, useReactiveVar } from '@apollo/client';
 import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { getStaticPaths } from 'utils/getStatic';
 import styles from '../../styles/spa/spa.module.scss';
 import { useTranslation } from 'react-i18next';
@@ -22,11 +22,15 @@ import { Notification } from 'components/shared/Notification/Notification';
 import { availablePaths } from 'utils/availablePaths';
 import { ASSETS_URL, CURRENCY } from 'core/graphql/endpoints';
 import { StableImage } from 'components/shared/StableImage/StableImage';
+import { useRouter } from 'next/router';
+import { downloadFile } from 'utils/downloadFile';
+import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 
 export { getStaticPaths };
 
 const Spa: React.FC = () => {
   const { t } = useTranslation(['spa']);
+  const router = useRouter();
   const spaInfo = useReactiveVar(spaInformationStorage);
   const spaDetailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
 
@@ -34,6 +38,10 @@ const Spa: React.FC = () => {
     context: { clientName: 'host_v0' },
     fetchPolicy: 'no-cache',
   });
+
+  const spaInfoURL = activeItems(data?.getSpaDetails?.spa)?.find(
+    (info: any) => info?.id === spaInfo?.selectedSpaInfoId,
+  );
 
   const spaTreatmentsList = activeItems(data?.getSpaDetails?.treatments)?.filter(
     (treatment: any) =>
@@ -93,6 +101,21 @@ const Spa: React.FC = () => {
     toggleDetailsDrawer(false);
   };
 
+  const onCtaClick = () => {
+    const menuType = spaInfoURL?.treatmentsMenu?.split('type=')[1].split('}')[0].split(',')[0];
+
+    if (menuType === 'WEB_URL') {
+      router.push(spaInfoURL?.treatmentsMenu?.split('=')[1].split(',')[0]);
+    }
+
+    if (menuType === 'S3') {
+      downloadFile(
+        `${ASSETS_URL}/${spaInfoURL?.treatmentsMenu?.split('=')[1].split(',')[0]}`,
+        'treatmentsMenu.pdf',
+      );
+    }
+  };
+
   const spaDetails = () => (
     <>
       {selectedSpaItem?.images[0]?.ratio16to9 && (
@@ -101,13 +124,18 @@ const Spa: React.FC = () => {
           src={`${ASSETS_URL}/${selectedSpaItem?.images[0]?.ratio16to9}`}
         />
       )}
-
       {/* {selectedSpaItem?.cta?.status === ACTIVE && (
         <StyledButton variant='contained' onClick={onCtaClick} className={styles.button}>
           {selectedSpaItem?.cta?.ctaTitle || t('BOOK NOW')}
         </StyledButton>
       )} */}
 
+      {/* demo purpose only */}
+      {spaInfoURL && (
+        <StyledButton variant='contained' onClick={onCtaClick} className={styles.button}>
+          {t('BOOK NOW')}
+        </StyledButton>
+      )}
       <div className={styles.wrapper}>
         {selectedSpaItem?.name && (
           <h2 className={styles.detailComponentTitle}>{t(`${selectedSpaItem?.name}`)}</h2>
@@ -128,7 +156,6 @@ const Spa: React.FC = () => {
           </p>
         )}
       </div>
-
       <Notification
         title={t('Thank You!') as string}
         description={

@@ -4,7 +4,7 @@ import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from '../../styles/dining/dining.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
@@ -13,25 +13,26 @@ import { diningInformationStorage } from 'storage/dining.storage';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { DiningCategorySkeleton } from 'components/pages/dining/DiningCategorySkeleton/DiningCategorySkeleton';
 import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
-import { useRouter } from 'next/router';
 import { IDiningMenuStorageData, diningMenuStorage } from 'storage/dining-menu.storage';
 import cx from 'classnames';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { filterLiveMenu, irdActiveMenuList, setScrollPosition } from 'utils/functions';
+import { filterLiveMenu, irdActiveMenuList } from 'utils/functions';
 import { availablePaths } from 'utils/availablePaths';
 import DiningMenu from 'components/pages/dining/DiningMenu/DiningMenu';
+import ScrollDown from '@icons/scrollDown.svg';
 
 export { getStaticPaths };
 
 const Dining = () => {
   const { t } = useTranslation('dining');
-  const router = useRouter();
   const locale = useLocale();
   const navigate = useLocalizedRouter();
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
   const filter = useReactiveVar(diningInformationStorage);
   const [openCategory, setOpencategory] = useState(false);
   const [categoryId1, setcategoryId] = useState('');
+  const dropdownRef: any = useRef();
+  const [scrollTop, setScrollTop] = useState(0);
 
   const { data, loading: irdMenuLoading } = useQuery<IRDMenuApiResponse>(IRD_MENU, {
     context: { clientName: 'host_v2' },
@@ -73,6 +74,7 @@ const Dining = () => {
         },
       ]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [menuHours, menuName]);
 
   const openSearch = useCallback(() => {
@@ -107,6 +109,16 @@ const Dining = () => {
       enableScroll();
     }
   }, [openCategory]);
+
+  const scrollToBottom = () => {
+    dropdownRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  if (typeof window !== 'undefined') {
+    document
+      ?.getElementById('container')
+      ?.addEventListener('scroll', (evt: any) => setScrollTop(evt?.target?.scrollTop));
+  }
 
   return (
     <>
@@ -145,21 +157,23 @@ const Dining = () => {
                   onClick={() => setOpencategory(!openCategory)}
                 ></div>
                 <div className={styles.menuDropdown}>
-                  <div className={styles.menuList}>
+                  <div id='container' className={styles.menuList}>
                     {irdActiveMenu?.map((el: any) => (
-                      <DiningMenuOptions
-                        key={el.id}
-                        name={el?.name}
-                        image={el.images[0] ? el.images[0].master : null}
-                        categoryId={el.id}
-                        selectMenu={selectMenu}
-                        hours={el.hours}
-                      />
+                      <div key={el.id} ref={dropdownRef} className={styles.scrollContainer}>
+                        <DiningMenuOptions
+                          name={el?.name}
+                          image={el.images[0] ? el.images[0].master : null}
+                          categoryId={el.id}
+                          selectMenu={selectMenu}
+                          hours={el.hours}
+                        />
+                      </div>
                     ))}
                   </div>
-                  {/* <div className={styles.close} onClick={() => setOpencategory(!openCategory)}>
-                    <CrossDropdown />
-                  </div> */}
+
+                  <div className={styles.bottomScrollIcon}>
+                    {scrollTop !== 369 && <ScrollDown onClick={scrollToBottom} />}
+                  </div>
                 </div>
               </>
             )

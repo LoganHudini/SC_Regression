@@ -48,12 +48,19 @@
 
 .itemDescription {
   font: $small var(--primary-font-medium);
+  margin: 4px 0;
+  color: var(--tertiary-text-color);
+}
+
+.customisation {
+  line-height: 2;
 }
 
 .item + .item::before {
   display: inline-block;
   white-space: pre;
   content: ', ';
+  line-height: 1.5;
 }
 
 .buttonContainer {

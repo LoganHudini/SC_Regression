@@ -88,9 +88,10 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
         {(selectedItem?.customisation ?? [])?.length > 0 && (
           <p className={styles.itemDescription}>
             {selectedItem?.customisation?.map((item: any, index: any) => (
-              <span key={index} className={styles.item}>
+              <span key={index} className={styles.customisation}>
                 <span className={styles.grayText}>{item?.ingredient}: </span>
                 {item?.name}
+                <br />
               </span>
             ))}
           </p>
@@ -100,7 +101,7 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
             <span className={styles.grayText}>{t('Add-ons :')} </span>
             {selectedItem?.addons?.map((item, index) => (
               <span key={index} className={styles.item}>
-                {item?.name}
+                {item?.name} ({CURRENCY} {item?.price})
               </span>
             ))}
           </p>

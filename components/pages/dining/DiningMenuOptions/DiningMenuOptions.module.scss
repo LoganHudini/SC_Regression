@@ -3,13 +3,6 @@
   align-items: center;
   cursor: pointer;
   justify-content: center;
-  &:not(:last-child) {
-    color: #00000029;
-    background: linear-gradient(to right, currentColor 0%, currentColor 60%, transparent 10%)
-      repeat-x left bottom;
-    background-size: 20px 1px;
-  }
-  cursor: pointer;
 }
 
 .diningImage {

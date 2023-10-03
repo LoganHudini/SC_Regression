@@ -207,6 +207,7 @@ const DiningOrderSummary = () => {
   }, [
     checkinData?.reservationId,
     diningData.items,
+    guestData?.emails,
     guestData?.firstName,
     guestData?.lastName,
     guestNumber,
@@ -271,16 +272,19 @@ const DiningOrderSummary = () => {
                     {(item?.customisation ?? [])?.length > 0 && (
                       <p className={styles.itemDescription}>
                         {item?.customisation?.map((item: any, index: any) => (
-                          <span key={index} className={styles.items}>
-                            {`${item?.ingredient}: ${item?.name}`}
-                          </span>
+                          <>
+                            {item?.ingredient}:{' '}
+                            <span key={index} className={styles.items}>
+                              {item?.name}
+                            </span>
+                            <br />
+                          </>
                         ))}
                       </p>
                     )}
                     {(item?.addons ?? [])?.length > 0 && (
                       <p className={styles.itemDescription}>
-                        {' '}
-                        {t('Add-ons :')}{' '}
+                        {t('Add-ons :')}
                         {item?.addons?.map((item, index) => (
                           <span key={index} className={styles.items}>
                             {item?.name} ({CURRENCY} {item?.price})
@@ -393,7 +397,12 @@ const DiningOrderSummary = () => {
           </div>
         </div>
 
-        <p className={styles.taxText}> {t('* All prices include 10% VAT')}</p>
+        <p className={styles.taxText}>
+          {' '}
+          {t(
+            '* Rates are inclusive of applicable government taxes and subject to 10% service charge.',
+          )}
+        </p>
 
         {items?.length > 0 && (
           <div className={styles.confirmOrderButtonWrapper}>

@@ -3,7 +3,6 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './DiningMenuElement.module.scss';
 import { IDiningMenuElementProps } from './DiningMenuElement.types';
-import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { diningMenuStorage, toggleDiningDetailsDrawer } from 'storage/dining-menu.storage';
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { ASSETS_URL, CURRENCY } from 'core/graphql/endpoints';
@@ -11,7 +10,6 @@ import produce from 'immer';
 import { useReactiveVar } from '@apollo/client';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { DiningCustomisationDrawer } from 'components/pages/dining/DiningCustomisationDrawer/DiningCustomisationDrawer';
-import { toast } from 'react-toastify';
 import cx from 'classnames';
 import { addToCartEvent, viewItemEvent } from 'utils/gtag';
 
@@ -25,18 +23,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
   menuAvailability,
 }) => {
   const { t } = useTranslation('dining');
-  const navigate = useLocalizedRouter();
   const [customisationDrawer, setCustomisationDrawer] = useState(false);
-  const tableNumber =
-    (typeof window !== 'undefined' &&
-      localStorage.getItem('tableNumber') &&
-      JSON.parse(localStorage.getItem('tableNumber') ?? '')) ??
-    '';
-  const restaurantId =
-    (typeof window !== 'undefined' &&
-      localStorage.getItem('restaurantId') &&
-      JSON.parse(localStorage.getItem('restaurantId') ?? '')) ??
-    '';
   const diningData = useReactiveVar(diningMenuStorage);
   const totalQuantity = diningData?.items
     ?.filter((el) => el.itemId === id && el.quantity > 0)

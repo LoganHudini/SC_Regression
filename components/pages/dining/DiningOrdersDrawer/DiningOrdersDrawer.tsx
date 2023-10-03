@@ -104,7 +104,6 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
                                 {item?.count} x {item?.name}{' '}
                               </p>
                               <p className={styles.itemsPrice}>
-                                {' '}
                                 <span className={styles.currency}>{CURRENCY}</span>{' '}
                                 {itemTotal(item)?.toFixed(2)}
                               </p>
@@ -112,16 +111,15 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
                             <div className={styles.itemRow}>
                               {item?.customisations?.map((item: any, index: number) => (
                                 <p key={index} className={styles.itemDescription}>
-                                  {' '}
-                                  {t('Customisation')}: {item?.name}
+                                  {t('Customisations')}:{' '}
+                                  <span className={styles.grayText}>{item?.name}</span>
                                 </p>
                               ))}
                               {(item?.addOns ?? [])?.length > 0 && (
                                 <p className={styles.itemDescription}>
-                                  {' '}
                                   {t('Add-ons :')}{' '}
                                   {item?.addOns?.map((item: any, index: number) => (
-                                    <span key={index} className={styles.items}>
+                                    <span key={index} className={styles.grayText}>
                                       {item?.name} ({CURRENCY} {item?.price})
                                     </span>
                                   ))}

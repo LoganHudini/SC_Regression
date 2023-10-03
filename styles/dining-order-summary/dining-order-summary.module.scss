@@ -34,7 +34,8 @@
 
 .itemTitle {
   font: $medium var(--primary-font-news);
-  padding: 1rem 0.5rem;
+  padding: 0.75rem 0.5rem;
+  width: 70%;
 }
 
 .selectionsWrapper {
@@ -43,10 +44,17 @@
 
 .itemDescription {
   font-size: $small;
-  line-height: 1.25;
+  line-height: 1.5;
   padding: 0 0.1rem;
   font-family: var(--primary-font-regular);
   color: var(--tertiary-text-color);
+  margin: 4px 0;
+  width: 95%;
+}
+
+.items {
+  font-size: $small;
+  font-family: var(--primary-font-medium);
 }
 
 .items + .items::before {

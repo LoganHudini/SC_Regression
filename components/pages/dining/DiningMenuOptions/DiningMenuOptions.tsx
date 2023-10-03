@@ -14,11 +14,9 @@ export const DiningMenuOptions: React.FC<IDiningMenuOptionsProps> = ({
   hours,
 }) => {
   const { t } = useTranslation('dining');
-  const [selected, setSelected] = useState('');
   const diningInformation = useReactiveVar(diningInformationStorage);
   const handleSelect = useCallback(
     (event: any) => {
-      setSelected(event?.target?.id);
       selectMenu(categoryId ?? '', name ?? '', hours ?? '');
       diningInformationStorage({
         selectedMenu: categoryId,

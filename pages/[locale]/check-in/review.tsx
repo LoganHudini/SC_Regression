@@ -245,7 +245,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         invoiceId: reservationInfo?.reservationId as string,
       });
 
-      toast('You have successfully checked-in, please proceed to the hotel lobby', {
+      toast('You have Checked-In successfully', {
         type: 'success',
       });
       navigate(availablePaths.HOME);

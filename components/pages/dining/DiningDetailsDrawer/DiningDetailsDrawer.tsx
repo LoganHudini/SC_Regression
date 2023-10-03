@@ -120,6 +120,18 @@ const DiningDetailsDrawer = () => {
     setinstruction(event?.target.value);
   }, []);
 
+  const closeDrawer = useCallback(() => {
+    toggleDiningDetailsDrawer(false);
+    setCustomisation([]);
+    setAddons([]);
+    setCount(1);
+    diningMenuStorage(
+      produce(diningMenuStorage(), (draft) => {
+        draft.selectedItemId = '';
+      }),
+    );
+  }, []);
+
   const handleAdd = useCallback(() => {
     const customisationData = sortBy(customisation, (item) => item?.name);
     const addOnsData = sortBy(addons, (item) => item?.name);
@@ -254,6 +266,7 @@ const DiningDetailsDrawer = () => {
     closeDrawer();
   }, [
     addons,
+    closeDrawer,
     count,
     customisation,
     instruction,
@@ -264,13 +277,6 @@ const DiningDetailsDrawer = () => {
     selectedItem?.upsell,
     selectedItemId,
   ]);
-
-  const closeDrawer = () => {
-    toggleDiningDetailsDrawer(false);
-    setCustomisation([]);
-    setAddons([]);
-    setCount(1);
-  };
 
   const diningDetails = () => {
     const filteredCustomisation = selectedItem?.customisation?.map((customisationItem: any) =>
@@ -290,14 +296,14 @@ const DiningDetailsDrawer = () => {
           </>
         ) : (
           <>
-            {selectedItem?.images[0]?.ratio16to9 && (
+            {selectedItem && selectedItem?.images[0]?.ratio16to9 && (
               <StableImage
                 className={styles.image}
                 src={`${ASSETS_URL}/${selectedItem?.images[0]?.ratio16to9}`}
               />
             )}
-            <div className={styles.wrapper}>
-              {selectedItem?.name && (
+            {selectedItem?.name && (
+              <div className={styles.titleWrapper}>
                 <h3
                   className={cx(styles.title, {
                     [styles.titleWithImage]: selectedItem?.images[0],
@@ -305,7 +311,9 @@ const DiningDetailsDrawer = () => {
                 >
                   {selectedItem?.name}
                 </h3>
-              )}
+              </div>
+            )}
+            <div className={styles.wrapper}>
               {selectedItem?.allergens && (
                 <div className={styles.tagsWrapper}>
                   {selectedItem?.allergens

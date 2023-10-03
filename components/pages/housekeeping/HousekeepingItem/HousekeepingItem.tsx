@@ -3,6 +3,7 @@ import React from 'react';
 import styles from './HousekeepingItem.module.scss';
 import { IHousekeepingItemProps } from './HousekeepingItem.types';
 import { serviceRequestIcons } from 'utils/serviceRequestIcons';
+import cx from 'classnames';
 
 export const HousekeepingItem: React.FC<IHousekeepingItemProps> = ({
   housekeepingItem,
@@ -13,7 +14,11 @@ export const HousekeepingItem: React.FC<IHousekeepingItemProps> = ({
   return (
     <>
       <div className={styles.housekeepingItemWrapper} onClick={() => handleClick(housekeepingItem)}>
-        <div className={styles.iconWrapper}>{Icon && <Icon />}</div>
+        {Icon && (
+          <div className={styles.iconWrapper}>
+            <Icon />
+          </div>
+        )}
         <h2 className={styles.housekeepingItemTitle}>{housekeepingItem?.name}</h2>
       </div>
     </>
