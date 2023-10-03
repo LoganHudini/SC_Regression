@@ -157,6 +157,7 @@ const HotelInfoDrawer = () => {
           <div className={styles.addressWrapper}>
             <div>{hotelInfo?.location?.addressLine1}</div>
             <div>{hotelInfo?.location?.addressLine2}</div>
+            <div>{`${hotelInfo?.location?.city}, ${hotelInfo?.location?.state} ${hotelInfo?.location?.postalCode}, ${hotelInfo?.location?.country}`}</div>
           </div>
         </div>
       )}

@@ -7,7 +7,16 @@ import MultiPicker from 'rmc-picker/lib/MultiPicker';
 import { StyledButton } from '../StyledButton/StyledButton';
 import { timeFormats } from 'utils/timeFormats';
 import 'rmc-picker/assets/index.css';
-import { CUSTOM, DATE, DAY, IMMEDIATE, TODAY, TOMORROW, TimeFormatArray } from 'utils/constants';
+import {
+  CUSTOM,
+  DATE,
+  DAY,
+  IMMEDIATE,
+  TIME,
+  TODAY,
+  TOMORROW,
+  TimeFormatArray,
+} from 'utils/constants';
 import { useTranslation } from 'react-i18next';
 
 const dayMonthArray: any = [];
@@ -99,7 +108,8 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
               indicatorClassName='my-picker-indicator'
               className={
                 ((!scheduledToday && !scheduledImmediate && scheduledTomorrow) ||
-                  (scheduledToday && !scheduledImmediate && !scheduledTomorrow)) &&
+                  (scheduledToday && !scheduledImmediate && !scheduledTomorrow) ||
+                  (scheduledCustom && showSchedules?.customSchedule === TIME)) &&
                 styles.disabled
               }
             >

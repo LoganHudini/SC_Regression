@@ -214,7 +214,7 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
               ) : (
                 <>
                   {showSchedules?.items?.length > 0 && (
-                    <>
+                    <div className={styles.wholeItemsWrapper}>
                       <div className={styles.itemsWrapper}>
                         <div>{t('Items Required')}</div>
                         {showQuantityLabel?.length > 0 && <div>{t('Quantity')}</div>}
@@ -241,7 +241,7 @@ const HouseKeeping: React.FC<IHamburgerProps & IHousekeepingProps> = () => {
                             <HousekeepingCheckboxItem id={schedule?.id} title={schedule?.name} />
                           </React.Fragment>
                         ))}
-                    </>
+                    </div>
                   )}
                 </>
               )}
