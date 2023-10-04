@@ -145,7 +145,7 @@ export const SERVICE_REQUEST_OPTIONS = [
   },
   {
     id: 'concierge',
-    title: 'Concierge',
+    title: 'Maintenance',
     carouselLabel: 'Concierge',
     label: 'concierge',
   },

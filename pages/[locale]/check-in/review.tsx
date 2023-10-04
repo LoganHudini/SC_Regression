@@ -460,8 +460,12 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           title={t('Welcome Aboard!') as string}
           description={
             roomNo
-              ? (t('You have checked-in successfully') as string)
-              : (t('You have pre checked-in successfully') as string)
+              ? (t(
+                  'You have checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
+                ) as string)
+              : (t(
+                  'You have pre checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
+                ) as string)
           }
           redirect={availablePaths?.HOME}
           type='success'

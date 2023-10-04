@@ -42,7 +42,9 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide }) => {
       />
       <div className={styles.carouselSlideDetailsWrapper}>
         <h3 className={styles.carouselSlideTitle}>
-          {slide?.__typename === HouseKeeping ? t('Housekeeping') : slide?.__typename}
+          {slide?.__typename === HouseKeeping
+            ? t('Housekeeping')
+            : slide?.__typename === 'Concierge' && 'Maintenance'}
         </h3>
         <p className={styles.carouselSlideViewMore}>
           {t('view more')}

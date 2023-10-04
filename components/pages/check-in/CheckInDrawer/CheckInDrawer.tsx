@@ -172,7 +172,11 @@ const CheckInDrawer = () => {
       />
       <Notification
         title={t('Hello Again!') as string}
-        description={t('Reservation validated successfully') as string}
+        description={
+          t(
+            'Reservation validated successfully. You can now explore our in-stay services.',
+          ) as string
+        }
         redirect={availablePaths?.HOME}
         type='success'
       />

@@ -31,7 +31,7 @@ export const Notification: React.FC<INotificationProps> = ({
         navigate(redirect);
         toggleNotification(false);
         diningMenuStorage({ items: [] });
-      }, 4000);
+      }, 5000);
     }
   }, [navigate, notificationStatus, redirect]);
 
