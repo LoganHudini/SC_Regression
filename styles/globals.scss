@@ -278,6 +278,10 @@ img {
 }
 
 .MuiFormHelperText-root {
+  color: var(--primary-error-text-color) !important;
+}
+
+.MuiInputLabel-root.Mui-error {
   color: var(--primary-error-text-color);
 }
 

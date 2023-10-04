@@ -94,7 +94,7 @@ export const configuration = [
                   {
                     name: 'phone',
                     label: 'Phone',
-                    type: 'Tel',
+                    type: 'tel',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -214,7 +214,7 @@ export const configuration = [
               {
                 name: 'phone',
                 label: 'Phone',
-                type: 'Tel',
+                type: 'tel',
                 required: true,
                 isDisabled: false,
                 isActive: true,

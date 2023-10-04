@@ -38,6 +38,7 @@ import {
   ACCOMPANYINGGUEST,
   SELECTDROPDOWN,
   CHECKBOX,
+  USERGROUP,
 } from 'utils/constants';
 import { getConfig } from 'utils/getConfiguration';
 import cx from 'classnames';
@@ -89,7 +90,7 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
   useEffect(() => {
     const generateInfoCards = (guestData: any, initial = false) => {
       return guestData.map((guest: any) => {
-        const formData: any = { alreadyUpdated: !initial };
+        const formData: any = { alreadyUpdated: !initial, id: guest?.id };
 
         accompanyingGuestSubmodule?.details?.forEach((item: any) => {
           const guestItem = guest[item?.name];
@@ -107,15 +108,15 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
     };
 
     if (accompanyGuestData && accompanyGuestData?.length > 0) {
-      const updatedInfoCards = generateInfoCards(accompanyGuestData);
-      setInfoCards(updatedInfoCards);
+      setInfoCards(accompanyGuestData);
+      setCard(true);
     } else if (reservationInfo?.guests?.length > 1) {
       const initialInfoCards = generateInfoCards(reservationInfo.guests.slice(1), false);
       setInfoCards(initialInfoCards);
     } else {
       setInfoCards([{ formData: { alreadyUpdated: false } }]);
     }
-  }, [accompanyGuestData, accompanyingGuestSubmodule?.details, reservationInfo]);
+  }, [accompanyingGuestSubmodule?.details, reservationInfo]);
 
   const buttonValidation = statusClass.some((item: any) => item === false);
 
@@ -173,7 +174,7 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
             reservationId: reservationInfo?.reservationId as string,
             firstName: data?.formData?.firstName,
             lastName: data?.formData?.lastName,
-            profileId: reservationInfo?.guests[0]?.id as string,
+            profileId: data?.formData?.id as string,
             isPrimary: 'N',
             effectiveDate: '',
             expiryDate: '',
@@ -307,7 +308,7 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
               <InfoCard
                 key={index}
                 title={status ? `${card.formData.firstName}` : t('Accompanying Guest')}
-                icon={accompanyingGuestSubmodule?.cardIcon}
+                icon={USERGROUP}
                 status={status}
                 isCardOpened={cardOPen}
               >
@@ -389,6 +390,9 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
                                     ? otherFieldErrors[index]?.errorMessage
                                     : ''
                                 }
+                                inputProps={{
+                                  style: { textTransform: 'lowercase' },
+                                }}
                               />
                             </div>
                           )}
