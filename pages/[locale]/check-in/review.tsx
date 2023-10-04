@@ -61,6 +61,8 @@ import {
 import { GET_E_REG_DETAILS } from 'core/graphql/queries/GET_E_REG_DETAILS';
 import { getConfig } from 'utils/getConfiguration';
 import { buttonArrow } from 'utils/functions';
+import { Notification } from 'components/shared/Notification/Notification';
+import { toggleNotification } from 'storage/home.storage';
 
 export { getStaticPaths };
 
@@ -244,11 +246,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         roomNumber: roomNo,
         invoiceId: reservationInfo?.reservationId as string,
       });
-
-      toast('You have Checked-In successfully', {
-        type: 'success',
-      });
-      navigate(availablePaths.HOME);
+      toggleNotification(true);
     } catch (checkinError) {
       const error = checkinError as ApolloError;
       const networkError = error?.networkError as { result?: { errors?: string } };
@@ -282,7 +280,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     cardType,
     guests,
     t,
-    navigate,
   ]);
 
   return (
@@ -459,6 +456,16 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             {t(`${reviewConfig.buttonLabelCheckIn}`)}
           </StyledButton>
         </div>
+        <Notification
+          title={t('Welcome Aboard!') as string}
+          description={
+            roomNo
+              ? (t('You have checked-in successfully') as string)
+              : (t('You have pre checked-in successfully') as string)
+          }
+          redirect={availablePaths?.HOME}
+          type='success'
+        />
       </PageWrapper>
     </>
   );

@@ -16,9 +16,10 @@ import { useTranslation } from 'react-i18next';
 import { availablePaths } from 'utils/availablePaths';
 import { toast } from 'react-toastify';
 import { checkinStorage } from 'storage/check-in.storage';
-import { toggleCheckInDetailsDrawer } from 'storage/home.storage';
+import { toggleCheckInDetailsDrawer, toggleNotification } from 'storage/home.storage';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { saveTrip } from 'storage/trips.storage';
+import { Notification } from 'components/shared/Notification/Notification';
 
 const CheckInDrawer = () => {
   const navigate = useLocalizedRouter();
@@ -62,7 +63,8 @@ const CheckInDrawer = () => {
             });
             setLoading(false);
           } else if (data.getReservation.data.reservationStatus === 'INHOUSE') {
-            toast(t('Checked In Successfully'), { type: 'success' });
+            // toast(t('Checked-In Successfully'), { type: 'success' });
+            toggleNotification(true);
             saveTrip({
               reservationId: data?.getReservation?.data?.confirmationId as string,
               preCheckedIn: !roomNo ? true : false,
@@ -167,6 +169,12 @@ const CheckInDrawer = () => {
         open={checkInDrawerStatus}
         onClose={closeInputDrawer}
         content={checkInDetails()}
+      />
+      <Notification
+        title={t('Hello Again!') as string}
+        description={t('Reservation validated successfully') as string}
+        redirect={availablePaths?.HOME}
+        type='success'
       />
     </>
   );

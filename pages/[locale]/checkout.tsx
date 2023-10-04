@@ -60,14 +60,10 @@ const CheckOut = () => {
   const reservationInfo = reservationData?.getReservation?.data;
 
   useEffect(() => {
-    ((invoiceElements && invoiceElements?.length) ?? 0) === 0 && navigate(availablePaths?.HOME);
-  }, [invoiceElements, navigate]);
-
-  useEffect(() => {
     if (openCheckOutDrawer) {
       setTimeout(() => {
         toggleDetailsDrawer(true);
-      }, 1000);
+      }, 2000);
     }
   }, [openCheckOutDrawer]);
 
@@ -157,7 +153,7 @@ const CheckOut = () => {
         }
         description={
           !openNotification
-            ? (t('Hope you had a pleasant stay with us.') as string)
+            ? (t('Please check your mailbox.') as string)
             : (t(
                 'Hope you had a pleasant stay with us. We look forward to your next visit.\n Thank You',
               ) as string)

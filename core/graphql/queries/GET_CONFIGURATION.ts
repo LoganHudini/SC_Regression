@@ -242,7 +242,7 @@ export const configuration = [
               {
                 name: 'condition',
                 label:
-                  'I agree to receive an invitation email to validate and sign up for a complimentary ALL PESTANA CR7 Membership.',
+                  'I agree to receive an invitation email to validate and sign up for a complimentary ACCOR Membership.',
                 type: 'CheckBox',
                 required: true,
                 isDisabled: false,

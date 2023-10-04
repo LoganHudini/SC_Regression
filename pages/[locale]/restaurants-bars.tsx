@@ -16,7 +16,6 @@ import {
 import { getStaticPaths } from 'utils/getStatic';
 import styles from '../../styles/restaurants-bars/restaurants-bars.module.scss';
 import { useRouter } from 'next/router';
-import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { useTranslation } from 'react-i18next';
 import { availablePaths } from 'utils/availablePaths';
@@ -36,7 +35,6 @@ import {
   OK,
   PHONE,
   S3,
-  TIMINGS,
   WEBURL,
 } from 'utils/constants';
 import { filterRestaurantList, restaurantTimings } from 'utils/functions';
@@ -57,7 +55,6 @@ import EmailIcon from '@icons/email.svg';
 import cx from 'classnames';
 import Head from 'next/head';
 import { Loader } from 'components/shared/Loaders/Loaders';
-import { RestaurantHours } from 'components/shared/RestaurantHours/RestaurantHours';
 import { isEmpty } from 'lodash';
 import {
   GET_RESERVATION_NO_LAST_NAME,
@@ -71,17 +68,11 @@ const RestaurantAndBars: React.FC = () => {
   const [guestCount, setGuestCount] = useState(1);
   const [availableSlots, setAvailableSlots] = useState(false);
   const [timeSelectDrawer, setTimeSelectDrawer] = useState(false);
-  const [loadingButton, setLoading] = useState(false);
   const [detailContent, setDetailContent] = useState(true);
   const [selectedTime, setSelectedTime] = useState(
     dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM),
   );
   const router = useRouter();
-  const navigate = useLocalizedRouter();
-  const [additionalInfoOpened, setAdditionalInfoOpened] = useState(false);
-  const [additionalTimeOpened, setAdditionalTimeOpened] = useState(false);
-  const [tableNumberDrawer, setTableNumberDrawer] = useState(false);
-  const [tableDrawerState, setTableDrawerState] = useState(false);
   const restaurantDetailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
   const initialSelected = useReactiveVar(selectedRestaurantStorage);
   const currentYear = new Date().getFullYear();
@@ -109,10 +100,6 @@ const RestaurantAndBars: React.FC = () => {
   const queryResultsData = data?.getRestaurantDetails?.restaurant;
   restaurantListStorage(queryResultsData?.map((item) => ({ id: item?.id, name: item?.name })));
 
-  const onBackToTop = () => {
-    window.scrollTo(0, 0);
-  };
-
   const selectedListItem = (item: any) => {
     setSelectedRestaurantData(item);
     toggleDetailsDrawer(true);
@@ -124,39 +111,14 @@ const RestaurantAndBars: React.FC = () => {
       setSelectedRestaurantData(initialSelected);
       setTimeout(() => {
         toggleDetailsDrawer(true);
-      }, 1000);
+      }, 2000);
     }
   }, [diningOptionSelected.id, initialSelected]);
 
   const filteredList = filterRestaurantList(queryResultsData, diningOptionSelected);
 
-  const toggleAdditionalTimeOpened = useCallback(() => {
-    setAdditionalTimeOpened((oldState) => !oldState);
-  }, []);
-
   const queryResultEntity = selectedRestaurantData;
   const restaurantId = queryResultEntity?.id;
-
-  function optimizeRestaurantHours(hoursData: any) {
-    const optimizedHours: any = {};
-
-    hoursData.forEach((hour: any) => {
-      const { day, open, close } = hour;
-
-      if (!optimizedHours[day]) {
-        optimizedHours[day] = [{ open, close }];
-      } else {
-        const lastSlot = optimizedHours[day][optimizedHours[day].length - 1];
-        if (lastSlot.close === open) {
-          lastSlot.close = close;
-        } else {
-          optimizedHours[day].push({ open, close });
-        }
-      }
-    });
-
-    return optimizedHours;
-  }
 
   const onCtaClick = useCallback(() => {
     if (queryResultEntity?.cta?.redirectOption === EXTERNALURL) {
@@ -195,14 +157,8 @@ const RestaurantAndBars: React.FC = () => {
     }
   }, [queryResultEntity?.menu, queryResultEntity?.menuType, router]);
 
-  const toggleConfirmDrawerOpened = useCallback(() => {
-    setTableNumberDrawer((oldState) => !oldState);
-  }, []);
-
   const closeDrawer = () => {
     toggleDetailsDrawer(false);
-    setTableDrawerState(false);
-    setAdditionalTimeOpened(false);
     setAvailableSlots(false);
     setSelectedTime(dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM));
     setTimeSelectDrawer(false);
@@ -210,14 +166,7 @@ const RestaurantAndBars: React.FC = () => {
     setGuestCount(1);
   };
 
-  const optimizedHours = queryResultEntity && optimizeRestaurantHours(queryResultEntity?.hours);
-
-  const handleSave = () => {
-    // create table reservation
-    setTimeSelectDrawer(false);
-  };
-
-  const gotoThankyoupage = useCallback(async () => {
+  const handleFindTable = useCallback(async () => {
     const DetailsReservationPayload = {
       date: dayjs(selectedTime).year(currentYear).format('YYYY-MM-DD'),
       exposure: 'No preference',
@@ -251,8 +200,15 @@ const RestaurantAndBars: React.FC = () => {
     } catch (err) {
       processError(t, err as ApolloError);
     }
-    setLoading(false);
-  }, [selectedTime, guestCount, t]);
+  }, [
+    selectedTime,
+    currentYear,
+    restaurantId,
+    isCheckedIn?.name,
+    reservationData?.getReservation?.data?.roomTypes,
+    guestCount,
+    t,
+  ]);
 
   const restaurantTiming = restaurantTimings(queryResultEntity?.customAttributes);
 
@@ -380,7 +336,7 @@ const RestaurantAndBars: React.FC = () => {
             <DateTimeSelect
               setSelectedTime={setSelectedTime}
               selectedTime={selectedTime}
-              handleSave={gotoThankyoupage}
+              handleSave={handleFindTable}
               showSchedules={undefined}
               buttonTitle={t('FIND A TABLE')}
             />
