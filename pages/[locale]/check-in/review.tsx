@@ -132,7 +132,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     }
   }, [conditionsAccepted, signature]);
 
-  const sigCanvas = useRef<any>(null);
+  const sigCanvas = useRef<SignatureCanvas>(null);
 
   const clearCanvas = useCallback(() => {
     if (sigCanvas.current) {

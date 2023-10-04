@@ -18,7 +18,8 @@
     "paths": {
       "@styles/*": ["styles/*"],
       "@icons/*": ["assets/icons/*"],
-      "@jsons/*": ["assets/jsons/*"]
+      "@jsons/*": ["assets/jsons/*"],
+      "react": ["./node_modules/@types/react"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
