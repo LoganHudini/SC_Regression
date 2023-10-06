@@ -99,3 +99,9 @@
 .icon {
   margin-inline-start: -1.31rem;
 }
+
+.image svg {
+  path {
+    fill: var(--hamburgermenu-icon-color);
+  }
+}

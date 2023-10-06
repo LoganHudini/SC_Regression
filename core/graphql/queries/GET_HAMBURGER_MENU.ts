@@ -9,6 +9,7 @@ export interface IGetHamburgerMenuDetailsApiResponse {
       flow: string;
       pages: string[];
       redirectOptions: string;
+      menuIconUrl?: any;
       hotelId: string;
       id: string;
       isActive: string;
@@ -20,6 +21,7 @@ export interface IGetHamburgerMenuDetailsApiResponse {
       flow: string;
       hotelId: string;
       id: string;
+      menuIconUrl?: any;
       isActive: string;
       name: string;
       pages: string[];
@@ -39,6 +41,7 @@ export const GET_HAMBURGER_MENU = gql`
         flow
         hotelId
         id
+        menuIconUrl
         isActive
         name
         pages
@@ -50,6 +53,7 @@ export const GET_HAMBURGER_MENU = gql`
         flow
         hotelId
         id
+        menuIconUrl
         isActive
         name
         pages

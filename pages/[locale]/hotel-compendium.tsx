@@ -20,6 +20,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { getStaticPaths } from 'utils/getStatic';
+import cx from 'classnames';
 
 export { getStaticPaths };
 
@@ -60,15 +61,18 @@ const HotelCompendium = () => {
 
   const closeDrawer = () => {
     toggleDetailsDrawer(false);
+    setShowSelectedAmenity('');
   };
 
   const hotelCompendiumDrawerDetails = () => (
     <>
-      {showSelectedAmenity?.images[0]?.ratio16to9 && (
+      {showSelectedAmenity?.images[0]?.ratio16to9 ? (
         <StableImage
           className={styles.image}
           src={`${ASSETS_URL}/${showSelectedAmenity?.images[0]?.ratio16to9}`}
         />
+      ) : (
+        <div className='imagePlaceHolderAnimation' />
       )}
       <div className={styles.wrapper}>
         {showSelectedAmenity?.name && <p className={styles.title}>{showSelectedAmenity?.name}</p>}

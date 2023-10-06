@@ -33,6 +33,7 @@ import { selectedOfferOption } from 'storage/offers.storage';
 import { CustomDrawer } from '../CustomDrawer/CustomDrawer';
 import { buttonArrow } from 'utils/functions';
 import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
+import { ASSETS_URL } from 'core/graphql/endpoints';
 
 export const BottomMenu: React.FC<unknown> = () => {
   const wrapperRef = useRef(null);
@@ -93,6 +94,8 @@ export const BottomMenu: React.FC<unknown> = () => {
           hamburger[isCheckedIn?.checkedIn ? 'post' : 'pre'].map((hamburgerMenuElement) => (
             <MenuItem
               Icon={
+                (hamburgerMenuElement?.menuIconUrl &&
+                  `${ASSETS_URL}/${hamburgerMenuElement?.menuIconUrl}`) ||
                 hamburgerIconsMap[hamburgerMenuElement.name as keyof typeof hamburgerIconsMap] ||
                 HamburgerIcon
               }

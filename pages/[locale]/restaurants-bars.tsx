@@ -164,6 +164,7 @@ const RestaurantAndBars: React.FC = () => {
     setTimeSelectDrawer(false);
     setDetailContent(true);
     setGuestCount(1);
+    setSelectedRestaurantData('');
   };
 
   const handleFindTable = useCallback(async () => {
@@ -216,11 +217,13 @@ const RestaurantAndBars: React.FC = () => {
     <div className={styles.listComponent}>
       {!availableSlots && (
         <div className={styles.imageWrapper}>
-          {queryResultEntity?.images[0]?.ratio16to9 && (
+          {queryResultEntity && queryResultEntity?.images[0]?.ratio16to9 ? (
             <StableImage
               className={styles.bannerImage}
               src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.ratio16to9}`}
             />
+          ) : (
+            <div className='imagePlaceHolderAnimation' />
           )}
           {queryResultEntity?.cta?.status === ACTIVE && (
             <StyledButton
@@ -398,7 +401,7 @@ const RestaurantAndBars: React.FC = () => {
             <div>
               {filteredList?.map((queryResultEntity: any) => (
                 <ListComponentEntity
-                  key={queryResultEntity.id}
+                  key={queryResultEntity?.id}
                   queryResultEntity={queryResultEntity}
                   selectedListItem={selectedListItem}
                 />

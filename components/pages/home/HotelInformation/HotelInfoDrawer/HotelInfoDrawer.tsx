@@ -35,12 +35,8 @@ const HotelInfoDrawer = () => {
   const webData = hotelInfo?.information?.find((x: any) => x?.type === URL);
 
   const handleClose = () => {
-    if (showMap) {
-      toggleHotelInfoDrawer(false);
-      setShowMap(true);
-    } else {
-      setShowMap(true);
-    }
+    setShowMap(true);
+    toggleHotelInfoDrawer(false);
   };
 
   const handleClick = () => {
@@ -49,7 +45,7 @@ const HotelInfoDrawer = () => {
 
   const hotelInfoDetails = () => (
     <>
-      {showMap && (
+      {showMap ? (
         <div className={styles.serviceDetailWrapper}>
           <div className={styles.carouselWrapper}>
             <div className={styles.contentWrapper}>
@@ -131,9 +127,7 @@ const HotelInfoDrawer = () => {
             <div className={styles.body}>{t(`${hotelInfo?.description}`)}</div>
           </div>
         </div>
-      )}
-
-      {!showMap && (
+      ) : (
         <div className={styles.locationWrapper}>
           <Location
             lat={hotelInfo && hotelInfo?.location?.latitude}

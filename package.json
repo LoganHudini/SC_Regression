@@ -56,6 +56,7 @@
     "react-material-ui-carousel": "^3.4.2",
     "react-multi-carousel": "^2.8.2",
     "react-signature-canvas": "^1.0.6",
+    "react-svg": "^16.1.27",
     "react-toastify": "^9.1.1",
     "react-web-share": "^2.0.2",
     "react-webcam": "^7.0.1",

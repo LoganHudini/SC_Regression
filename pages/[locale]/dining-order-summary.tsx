@@ -45,6 +45,7 @@ const DiningOrderSummary = () => {
   const navigate = useLocalizedRouter();
   const checkinData = useCheckedIn();
   const reservationId = checkinData?.reservationId;
+  const roomNo = checkinData?.roomNumber;
   const renderedItemIds: any = [];
   const [customisationDrawer, setCustomisationDrawer] = useState(false);
   const [specialRequests, setSpecialRequests] = useState('');
@@ -407,13 +408,18 @@ const DiningOrderSummary = () => {
         {items?.length > 0 && (
           <div className={styles.confirmOrderButtonWrapper}>
             <div className={styles.totalCostRow}>
-              <p className={styles.roomNumber}>
-                {t('ROOM NO - ')} {reservationData?.getReservation?.data?.roomTypes[0]?.roomNumber}
-              </p>
-              <p className={styles.totalCost}>
-                {t('TOTAL')} -{'  '}
-                <span className={styles.currency}>{CURRENCY} </span> {totalAmount?.toFixed(2)}
-              </p>
+              {roomNo && (
+                <p className={styles.roomNumber}>
+                  {`${t('ROOM NO - ')} 
+                  ${roomNo}`}
+                </p>
+              )}
+              {totalAmount && (
+                <p className={styles.totalCost}>
+                  {t('TOTAL')} - <span className={styles.currency}>{CURRENCY} </span>{' '}
+                  {totalAmount?.toFixed(2)}
+                </p>
+              )}
             </div>
             <StyledButton
               disabled={items?.length === 0 || (restaurantId == '' && paymentType.length === 0)}

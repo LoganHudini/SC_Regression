@@ -25,6 +25,7 @@ import { offerDetailDrawerStatus, offerList, selectedOfferOption } from 'storage
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { isEmpty } from 'lodash';
 import { activeItems } from 'utils/functions';
+import cx from 'classnames';
 
 export { getStaticPaths };
 
@@ -152,11 +153,13 @@ const Offers: React.FC = () => {
   const offerDetails = () => (
     <div className={styles.listComponent}>
       <div className={styles.imageWrapper}>
-        {queryResultEntity?.images && (
+        {queryResultEntity?.images ? (
           <StableImage
             className={styles.bannerImage}
             src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.ratio16to9}`}
           />
+        ) : (
+          <div className='imagePlaceHolderAnimation' />
         )}
         {queryResultEntity?.CTA &&
           (queryResultEntity?.CTA?.redirectTo || queryResultEntity?.CTA?.URL) && (
@@ -208,6 +211,7 @@ const Offers: React.FC = () => {
 
   const closeDrawer = () => {
     offerDetailDrawerStatus(false);
+    setSelectedOfferData('');
   };
 
   return (

@@ -2,8 +2,7 @@ import React from 'react';
 
 export interface IMenuItemProps {
   title: string;
-  Icon: React.FC;
-
+  Icon: any;
   externalLink: string;
   flow: string;
   pages: string[];

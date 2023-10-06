@@ -25,6 +25,7 @@ import { StableImage } from 'components/shared/StableImage/StableImage';
 import { useRouter } from 'next/router';
 import { downloadFile } from 'utils/downloadFile';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
+import cx from 'classnames';
 
 export { getStaticPaths };
 
@@ -99,6 +100,11 @@ const Spa: React.FC = () => {
 
   const closeDrawer = () => {
     toggleDetailsDrawer(false);
+    spaInformationStorage(
+      produce(spaInformationStorage(), (draft) => {
+        null;
+      }),
+    );
   };
 
   const onCtaClick = () => {
@@ -118,11 +124,13 @@ const Spa: React.FC = () => {
 
   const spaDetails = () => (
     <>
-      {selectedSpaItem?.images[0]?.ratio16to9 && (
+      {selectedSpaItem?.images[0]?.ratio16to9 ? (
         <StableImage
           className={styles.image}
           src={`${ASSETS_URL}/${selectedSpaItem?.images[0]?.ratio16to9}`}
         />
+      ) : (
+        <div className='imagePlaceHolderAnimation' />
       )}
       {/* {selectedSpaItem?.cta?.status === ACTIVE && (
         <StyledButton variant='contained' onClick={onCtaClick} className={styles.button}>

@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { StyledInput } from 'components/shared/StyledInput/StyledInput';
@@ -20,11 +20,13 @@ import { toggleCheckInDetailsDrawer, toggleNotification } from 'storage/home.sto
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { saveTrip } from 'storage/trips.storage';
 import { Notification } from 'components/shared/Notification/Notification';
+import { useRouter } from 'next/router';
 
 const CheckInDrawer = () => {
   const navigate = useLocalizedRouter();
   const checkInDrawerStatus = useReactiveVar(toggleCheckInDetailsDrawer);
   const { t } = useTranslation(['get-reservation', 'common']);
+  const router = useRouter();
 
   const [loading, setLoading] = useState(false);
 
@@ -100,6 +102,28 @@ const CheckInDrawer = () => {
     },
     [navigate, t],
   );
+
+  const resId = router?.query?.resId ?? '';
+  const lastName = router?.query?.lastName ?? '';
+
+  const openCheckInDrawer = () => {
+    if (resId && lastName) {
+      updateFieldValue();
+      toggleCheckInDetailsDrawer(true);
+    }
+  };
+
+  const updateFieldValue = () => {
+    formik.setValues({
+      ...formik.values,
+      ['lastName' as string]: lastName,
+      ['confirmationNumber' as string]: resId,
+    });
+  };
+
+  useEffect(() => {
+    openCheckInDrawer();
+  }, [resId, lastName]);
 
   const formik = useFormik({
     initialValues: {

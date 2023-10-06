@@ -74,6 +74,9 @@
   --primary-drawer-background-opacity: 0.75;
   --primary-drawer-background-color: #000000;
 
+  //image transition background color
+  --primary-image-transition-background-color: #a0a1a3;
+
   // hamburger menu colors
   --hamburgermenu-background-color: #120e0ef4;
   --hamburgermenu-text-color: #ffffff;
@@ -307,6 +310,43 @@ img {
 .MuiInputAdornment-root {
   margin-inline-start: 0px;
 }
+
+.imagePlaceHolderAnimation {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--primary-image-transition-background-color);
+  opacity: 0.25;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+  min-height: 210px;
+  object-fit: cover;
+  max-width: 768px;
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: -150px;
+    top: 0;
+    height: 100%;
+    width: 150px;
+    background: linear-gradient(to right, transparent 0%, #ffffffd7 50%, transparent 100%);
+    animation: load 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+}
+
+@keyframes load {
+  0% {
+    left: -150px;
+  }
+  50% {
+    left: 100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
 //toast configs
 
 .Toastify__toast--error {

@@ -33,6 +33,8 @@ import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { availablePaths } from 'utils/availablePaths';
 import { toggleOpenCheckOutDrawer } from 'storage/checkout.storage';
 import { useCheckedIn } from 'storage/check-in.storage';
+import { ReactSVG } from 'react-svg';
+import { isFunction } from 'lodash';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
   title,
@@ -75,7 +77,13 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
       {status && (
         <div onClick={onClick} className={styles.menuItemWrapper}>
           <div className={styles.menuItemIconWrapper}>
-            <Icon />
+            <div>
+              {Icon && isFunction(Icon) ? (
+                <Icon />
+              ) : (
+                <ReactSVG src={Icon} className={styles.image} />
+              )}
+            </div>
           </div>
           <p className={styles.menuItemTitle}>{title}</p>
         </div>
