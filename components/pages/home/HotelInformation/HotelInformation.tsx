@@ -4,7 +4,7 @@ import styles from './HotelInformation.module.scss';
 import { ASSETS_URL } from 'core/graphql/endpoints';
 import { useTranslation } from 'react-i18next';
 import Carousel from 'react-material-ui-carousel';
-import { toggleHotelInfoDrawer } from 'storage/home.storage';
+import { toggleHotelInfoDrawer, toggleMapState } from 'storage/home.storage';
 import { buttonArrow } from 'utils/functions';
 import ArrowButton from '@icons/readMoreArrow.svg';
 import { CarouselLoader } from 'components/shared/Loaders/Loaders';
@@ -23,7 +23,12 @@ const HotelInformation = (props: any) => {
         <div className={styles.carouselSlideWrapper}>
           <p className={styles.welcome}>{t('Welcome to')}</p>
           <p className={styles.name}>{hotelInfo?.name}</p>
-          <div onClick={() => toggleHotelInfoDrawer(true)}>
+          <div
+            onClick={() => {
+              toggleHotelInfoDrawer(true);
+              toggleMapState(true);
+            }}
+          >
             <Carousel
               navButtonsAlwaysInvisible
               indicatorContainerProps={{

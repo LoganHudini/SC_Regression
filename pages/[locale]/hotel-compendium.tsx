@@ -64,27 +64,33 @@ const HotelCompendium = () => {
     setShowSelectedAmenity('');
   };
 
-  const hotelCompendiumDrawerDetails = () => (
-    <>
-      {showSelectedAmenity?.images[0]?.ratio16to9 ? (
-        <StableImage
-          className={styles.image}
-          src={`${ASSETS_URL}/${showSelectedAmenity?.images[0]?.ratio16to9}`}
-        />
-      ) : (
-        <div className='imagePlaceHolderAnimation' />
-      )}
-      <div className={styles.wrapper}>
-        {showSelectedAmenity?.name && <p className={styles.title}>{showSelectedAmenity?.name}</p>}
-        {showSelectedAmenity?.description && (
-          <p className={styles.description}>{showSelectedAmenity?.description}</p>
-        )}
-        {showSelectedAmenity?.highlights[0] && (
-          <p className={styles.highlights}>{showSelectedAmenity?.highlights[0]}</p>
-        )}
-      </div>
-    </>
-  );
+  const hotelCompendiumDrawerDetails = () => {
+    if (showSelectedAmenity) {
+      return (
+        <>
+          {showSelectedAmenity?.images[0]?.ratio16to9 ? (
+            <StableImage
+              className={styles.image}
+              src={`${ASSETS_URL}/${showSelectedAmenity?.images[0]?.ratio16to9}`}
+            />
+          ) : (
+            <div className='imagePlaceHolderAnimation' />
+          )}
+          <div className={styles.wrapper}>
+            {showSelectedAmenity?.name && (
+              <p className={styles.title}>{showSelectedAmenity?.name}</p>
+            )}
+            {showSelectedAmenity?.description && (
+              <p className={styles.description}>{showSelectedAmenity?.description}</p>
+            )}
+            {showSelectedAmenity?.highlights[0] && (
+              <p className={styles.highlights}>{showSelectedAmenity?.highlights[0]}</p>
+            )}
+          </div>
+        </>
+      );
+    }
+  };
 
   return (
     <>

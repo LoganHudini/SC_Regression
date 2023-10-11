@@ -12,6 +12,7 @@ import {
   toggleHamburgerMenuDrawer,
   toggleModuleOptionsDrawer,
   toggleHotelInfoDrawer,
+  toggleMapState,
 } from 'storage/home.storage';
 import cx from 'classnames';
 import {
@@ -67,6 +68,7 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
         navigate(redirectUrl);
       } else if (title === ABOUT_US) {
         toggleOption();
+        toggleMapState(true);
         toggleHotelInfoDrawer(true);
       }
     }

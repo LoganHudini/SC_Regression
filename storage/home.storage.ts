@@ -10,9 +10,12 @@ export type IdiningOptionsProps = {
 export const diningOptions = makeVar<IdiningOptionsProps>(DINING_OPTIONS[0]);
 
 export const toggleModuleOptionsDrawer = makeVar(false);
+
 export const toggleHamburgerMenuDrawer = makeVar(false);
 
 export const toggleHotelInfoDrawer = makeVar(false);
+
+export const toggleMapState = makeVar(true);
 
 export const toggleNotification = makeVar(false);
 

@@ -15,13 +15,13 @@ import Location from 'components/shared/Location/Location';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { EMAILCAPS, PHONECAPS, URL } from 'utils/constants';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
-import { toggleHotelInfoDrawer } from 'storage/home.storage';
+import { toggleHotelInfoDrawer, toggleMapState } from 'storage/home.storage';
 import { buttonArrow } from 'utils/functions';
 
 const HotelInfoDrawer = () => {
   const { t } = useTranslation('common');
-  const [showMap, setShowMap] = useState(true);
   const hotelInfoDetailsDrawerStatus = useReactiveVar(toggleHotelInfoDrawer);
+  const showMap = useReactiveVar(toggleMapState);
   const buttonArrowState = buttonArrow;
 
   const { data } = useQuery(GET_HOTEL_INFORMATION, {
@@ -35,12 +35,11 @@ const HotelInfoDrawer = () => {
   const webData = hotelInfo?.information?.find((x: any) => x?.type === URL);
 
   const handleClose = () => {
-    setShowMap(true);
     toggleHotelInfoDrawer(false);
   };
 
   const handleClick = () => {
-    setShowMap(false);
+    toggleMapState(false);
   };
 
   const hotelInfoDetails = () => (
