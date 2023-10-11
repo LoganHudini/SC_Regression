@@ -49,7 +49,7 @@ pipelines:
           caches:
             - node
           name: Deploy Manually to UAT https://sofitel.hudini.app/
-          deployment: staging
+          deployment: uat
           size: 2x # Double resources available for this step.
           script:
             - rm -rf package-lock.json
