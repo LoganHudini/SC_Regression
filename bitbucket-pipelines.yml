@@ -49,7 +49,7 @@ pipelines:
           caches:
             - node
           name: Deploy Manually to UAT https://sofitel.hudini.app/
-          deployment: staging
+          deployment: uat
           size: 2x # Double resources available for this step.
           script:
             - rm -rf package-lock.json
@@ -101,7 +101,7 @@ pipelines:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_UAT
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
-                DISTRIBUTION_ID: 'E3DU5R0R1H7FSF'
+                DISTRIBUTION_ID: 'E2UKK3TQ2VVU2N'
     deployToRafflesUAT:
       - step:
           caches:
@@ -130,4 +130,4 @@ pipelines:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_UAT
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
-                DISTRIBUTION_ID: 'E3DU5R0R1H7FSF'
+                DISTRIBUTION_ID: 'E3PFBGDNMD6JBU'
