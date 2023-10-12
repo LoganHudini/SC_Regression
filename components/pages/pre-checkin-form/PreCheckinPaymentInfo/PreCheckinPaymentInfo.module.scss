@@ -1,17 +1,21 @@
 .col_100 {
   width: 100%;
 }
-.guestDataInput{
+
+.guestDataInput {
   width: 100%;
   margin-top: 15px;
 }
 
-.btnText{
+.btnText {
   text-align: center;
   font-size: 14px;
   padding-right: 8px;
+  color: var(--primary-theme-color);
+  text-transform: uppercase;
 }
-.editBtn{
+
+.editBtn {
   margin: 15px 0px 15px 0px;
   display: flex;
   justify-content: right;

@@ -1,16 +1,15 @@
 import { checkinStorage } from './check-in.storage';
-import { IGuestStorageData } from './guest-information.storage';
-import { IPersonalizeYourRoomStorageData } from './personalize-your-room.storage';
 
 const TRIPS_KEY = 'hudini_pwa:TRIPS';
 
 export interface ISavedTrip {
   reservationId: string;
-
+  preCheckedIn?: boolean;
   checkedIn?: boolean;
-  specialRequests?: string;
-  personalizationEntities?: IPersonalizeYourRoomStorageData;
-  guests?: IGuestStorageData | null;
+  name?: string;
+  email?: string;
+  roomNumber?: string;
+  invoiceId?: string;
 }
 
 export const saveTrip = (payload: ISavedTrip) => {
@@ -21,15 +20,11 @@ export const saveTrip = (payload: ISavedTrip) => {
   );
 
   if (payload.checkedIn) {
-    existingTrips.forEach((el) => {
+    existingTrips?.forEach((el) => {
       el.checkedIn = false;
     });
 
     if (savedTrip) {
-      delete savedTrip.guests;
-      delete savedTrip.personalizationEntities;
-      delete savedTrip.specialRequests;
-
       savedTrip.checkedIn = payload.checkedIn;
     }
   }
@@ -57,7 +52,7 @@ export const ckeckoutTrip = (payload: ISavedTrip) => {
     reservationId: '',
     preCheckedIn: false,
     checkedIn: false,
-    bookingId: '',
+    invoiceId: '',
   });
 };
 

@@ -1,31 +1,48 @@
 .carousel {
-  margin-bottom: 1rem;
   max-width: 768px;
+  height: 488px;
+}
+
+.imgGradient {
+  position: relative;
+}
+
+.imgGradient::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent linear-gradient(180deg, #00000000 0%, #000000 100%) 0% 0% no-repeat
+    padding-box;
 }
 
 .bannerImage {
-  height: 484px;
   width: 100%;
+  height: 488px;
   object-fit: cover;
 }
 
 .pageTitle {
   position: absolute;
-  top: 40%;
+  top: 70%;
   left: 0;
   right: 0;
   text-align: center;
 }
 
-.titleh1 {
+.title {
   font: $medium var(--primary-title-font-family);
   color: var(--secondary-text-color);
   text-transform: uppercase;
 }
 
-.titleh3 {
+.description {
   font: $xsmall var(--secondary-title-font-family);
   color: var(--secondary-text-color);
+  width: 70%;
+  margin: 4px auto;
 }
 
 .heroBannerButton {
@@ -45,15 +62,20 @@
 .indicatorIcon {
   width: 6px;
   height: 6px;
-  background: var(--secondary-text-color);
-
+  background: var(--primary-indicator-color);
+  opacity: 0.5;
   &:not(:last-child) {
     margin-right: 6px;
   }
 }
 
 .activeIndicatorIcon {
-  opacity: 1;
+  width: 6px;
+  height: 6px;
   transform: scale(1.3);
-  margin: 0 1px;
+  &:not(:last-child) {
+    margin-right: 6px;
+  }
+  border-radius: 0;
+  background: var(--primary-indicator-color);
 }

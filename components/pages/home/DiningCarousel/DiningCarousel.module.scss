@@ -3,19 +3,20 @@
 }
 
 .diningCarouselTitle {
-  font: 30px var(--secondary-font-regular);
+  font: 30px var(--heading-font-regular);
   text-align: center;
+  margin: 10px;
 }
 
 .diningOptions {
   display: flex;
   align-items: center;
-  background: var(--primary-background-color);
+  background: var(--primary-card-background-color);
   height: 50px;
-  width: 304px;
+  width: fit-content;
   padding: 0 8px;
   justify-content: center;
-  margin: 1rem auto;
+  margin: 1rem auto 1.5rem;
 }
 
 .diningOptionsItem {
@@ -27,30 +28,43 @@
   width: fit-content;
   padding: 0 8px;
   justify-content: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.diningOptionsItem:before {
+  content: attr(data-tip);
+  position: absolute;
+  color: var(--secondary-text-color);
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.25;
+  background-color: var(--primary-theme-color);
+  // transition: left 0.9s ease;
+  transition: opacity 0.5s;
+}
+
+.diningOptionsItemActive:before {
+  left: 0;
+  opacity: 1;
 }
 
 .diningOptionsItemActive {
-  background: var(--primary-theme-color);
-  font: $xsmall var(--primary-font-news);
   color: var(--secondary-text-color);
-  animation: fade_in_show 0.5s;
-}
-
-@keyframes fade_in_show {
-  0% {
-    opacity: 1;
-    transform: scale(0);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
 }
 
 .carouselWrapper {
   user-select: none;
   overflow: scroll;
-  margin-left: 12px;
+  margin-inline-start: 12px;
+}
+
+.carouselWrapperSingleImage {
+  justify-content: center;
 }
 
 .carouselWrapper::-webkit-scrollbar {
@@ -58,29 +72,48 @@
 }
 
 .carouselSlideWrapper {
-  width: 273px;
+  width: 100%;
   height: 286px;
+  cursor: pointer;
 }
 
 .carouselSlideImage {
-  margin-top: 10px;
+  position: relative;
+  z-index: -1;
   height: 182px;
   width: 273px;
   object-fit: cover;
   pointer-events: none;
+  z-index: 100;
+  position: absolute;
 }
 
 .carouselSlideDetailsWrapper {
   width: 251px;
   height: 148px;
-  margin: -3rem auto 0;
+  background: var(--primary-card-background-color);
+  box-shadow: 0px 3px 6px var(--primary-box-shadow-color);
+  text-align: center;
+  z-index: 200;
+  position: absolute;
+  bottom: 5px;
+  left: 10px;
+}
+
+.carouselSlideDetailsWrapperRestaurantsAndBars {
+  width: 251px;
+  height: 168px;
   background: var(--primary-background-color);
   box-shadow: 0px 3px 6px var(--primary-box-shadow-color);
   text-align: center;
+  z-index: 200;
+  position: absolute;
+  bottom: 5px;
+  left: 10px;
 }
 
 .carouselSlideTitle {
-  font: $header var(--secondary-font-regular);
+  font: $header var(--heading-font-regular);
   padding: 29px 1rem 19px;
   height: 22px;
   text-overflow: ellipsis;
@@ -90,16 +123,24 @@
 
 .carouselSlideTimings {
   height: 15px;
-  font-size: $xsmall var(--primary-font-regular);
+  font: $xsmall var(--primary-font-regular);
   color: var(--tertiary-text-color);
-  padding-bottom: 30px;
+  padding: 6px 0 20px;
 }
 
 .carouselSlideViewMore {
   height: 12px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 15px;
   font: 9px var(--primary-font-extd-regular);
   color: var(--primary-theme-color);
   text-transform: uppercase;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 
 .viewAll {
@@ -119,4 +160,60 @@
   color: var(--primary-text-color);
   text-transform: none;
   padding: 5px 10px;
+}
+
+.cuisineRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  text-decoration: none;
+  font-family: var(--primary-font-regular);
+  font-size: $xsmall;
+  text-transform: capitalize;
+  justify-content: flex-start;
+
+  span {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    text-transform: capitalize;
+    color: var(--primary-text-color);
+    margin-inline-start: 12px;
+  }
+}
+
+.cuisineRowTime {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  text-decoration: none;
+  margin-top: 7px;
+  font-family: var(--primary-font-regular);
+  font-size: $xsmall;
+  text-transform: capitalize;
+  justify-content: flex-start;
+  text-align: start;
+
+  p {
+    margin-inline-start: 16px;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    text-transform: capitalize;
+    color: var(--primary-text-color);
+    -webkit-line-clamp: 2;
+    width: 81%;
+  }
+}
+
+.text {
+  --webkit-line-clamp: 1;
+}
+
+.content {
+  padding-left: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 55px;
 }

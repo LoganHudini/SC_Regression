@@ -11,7 +11,7 @@ import { getStaticPaths } from 'utils/getStatic';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { useTranslation } from 'react-i18next';
 import { client } from 'core/graphql/client';
-import { ApolloError, useReactiveVar } from '@apollo/client';
+import { ApolloError, useQuery, useReactiveVar } from '@apollo/client';
 import { IDiningMenuStorageData, diningMenuStorage } from 'storage/dining-menu.storage';
 import { availablePaths } from 'utils/availablePaths';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
@@ -29,24 +29,43 @@ import { addToCartEvent, irdOrderEvent } from 'utils/gtag';
 import { setScrollPosition } from 'utils/functions';
 import { diningInformationStorage } from 'storage/dining.storage';
 import DiningDetailsDrawer from 'components/pages/dining/DiningDetailsDrawer/DiningDetailsDrawer';
-import { WithScrollbar } from 'components/shared/WithScrollbar/WithScrollbar';
-import { DiningMenuElement } from 'components/pages/dining/DiningMenuElement/DiningMenuElement';
 import { toggleNotification } from 'storage/home.storage';
 import { ThankYouDrawer } from 'components/shared/ThankYouDrawer/ThankYouDrawer';
+import { DiningMenuElementUpsell } from 'components/pages/dining/DiningMenuElementUpsell/DiningMenuElementUpsell';
+import {
+  GET_RESERVATION_NO_LAST_NAME,
+  IGetReservationApiResponse,
+} from 'core/graphql/queries/GET_RESERVATION';
+import { useCheckedIn } from 'storage/check-in.storage';
 
 export { getStaticPaths };
 
 const DiningOrderSummary = () => {
   const { t } = useTranslation(['dining-order-summary', 'common']);
   const navigate = useLocalizedRouter();
+  const checkinData = useCheckedIn();
+  const reservationId = checkinData?.reservationId;
+  const roomNo = checkinData?.roomNumber;
   const renderedItemIds: any = [];
   const [customisationDrawer, setCustomisationDrawer] = useState(false);
   const [specialRequests, setSpecialRequests] = useState('');
   const [loading, setLoading] = useState(false);
-  const [paymentType, setpaymentType] = useState<any>(PAYMENT[0]?.name);
+  const [paymentType, setpaymentType] = useState<any>(PAYMENT[0]);
   const [thankYouDrawer, setthankYouDrawer] = useState(false);
   const [guestNumber, setguestNumber] = useState(1);
   const [totalAmount, setTotalAmount] = useState(0);
+
+  const { data: reservationData } = useQuery<IGetReservationApiResponse>(
+    GET_RESERVATION_NO_LAST_NAME,
+    {
+      context: { clientName: 'rest' },
+      variables: {
+        confirmationNumber: reservationId,
+      },
+    },
+  );
+
+  const guestData = reservationData?.getReservation?.data?.guests[0];
 
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
 
@@ -83,7 +102,7 @@ const DiningOrderSummary = () => {
           const item = draft?.items?.find((el, i) => el.itemId === itemId && i === index);
 
           if (item) {
-            item?.customisation?.ingredient || (item?.addons ?? []).length > 0
+            (item?.customisation ?? []).length > 0 || (item?.addons ?? []).length > 0
               ? setCustomisationDrawer((state) => !state)
               : (item.quantity++,
                 addToCartEvent({
@@ -145,14 +164,14 @@ const DiningOrderSummary = () => {
 
     const irdOrderPayload = {
       additionalNote: specialRequests,
-      bookingId: '123',
+      bookingId: checkinData?.reservationId,
       deliveryLocation: '',
-      guestEmail: '',
-      guestName: 'Xz',
+      guestEmail: guestData?.emails[0],
+      guestName: `${guestData?.firstName} ${guestData?.lastName}`,
       noOfItems: diningData.items.length,
       totalAmount,
-      paymentMethod: paymentType?.name ?? '',
-      roomNo: '123',
+      paymentMethod: paymentType?.name,
+      roomNo: reservationData?.getReservation?.data?.roomTypes[0]?.roomNumber,
       startTime: dayjs().format('YYYY-MM-DD HH:mm'),
       noOfGuests: guestNumber,
       items: diningData?.items?.map((el) => ({
@@ -165,38 +184,51 @@ const DiningOrderSummary = () => {
           name: item?.name,
           price: item?.price,
         })),
-        customisations: el?.customisation?.ingredient
-          ? [{ name: el?.customisation?.name, code: el?.customisation?.code }]
-          : [],
+        customisations: el?.customisation?.map((item: any) => ({
+          code: item?.code,
+          name: item?.name,
+        })),
         cookingInstructions: el?.cookingInstruction,
       })),
     };
     try {
-      // const response = await client.mutate({
-      //   mutation: IRD_ORDER,
-      //   context: { clientName: 'host_v3' },
-      //   fetchPolicy: 'network-only',
-      //   variables: irdOrderPayload,
-      // });
-      // irdOrderEvent(response?.data?.createOrder);
+      const response = await client.mutate({
+        mutation: IRD_ORDER,
+        context: { clientName: 'host_v3' },
+        fetchPolicy: 'network-only',
+        variables: irdOrderPayload,
+      });
+      irdOrderEvent(response?.data?.createOrder);
       // setthankYouDrawer(true);
       toggleNotification(true);
     } catch (getUpdatedReservationError) {
       processError(t, getUpdatedReservationError as ApolloError);
     }
     setLoading(false);
-  }, [diningData.items, guestNumber, paymentType?.name, specialRequests, t, totalAmount]);
+  }, [
+    checkinData?.reservationId,
+    diningData.items,
+    guestData?.emails,
+    guestData?.firstName,
+    guestData?.lastName,
+    guestNumber,
+    paymentType?.name,
+    reservationData?.getReservation?.data?.roomTypes,
+    specialRequests,
+    t,
+    totalAmount,
+  ]);
 
   const renderMenuElements = (items: any[]) => {
     return items
       ?.filter((item) => item?.price >= 0)
       ?.map((el, index) => (
         <React.Fragment key={el?.id}>
-          <DiningMenuElement
+          <DiningMenuElementUpsell
             key={el?.id}
             id={el?.id}
             title={el?.name}
-            image={el?.images[0]?.master || null}
+            image={el?.images[0]?.ratio1to1 || null}
             description={el?.description}
             price={el?.price}
             customisation={el?.customisation}
@@ -237,17 +269,23 @@ const DiningOrderSummary = () => {
                       irdSummary
                     />
                   </div>
-                  <div>
-                    {item?.customisation?.name && (
+                  <div className={styles.selectionsWrapper}>
+                    {(item?.customisation ?? [])?.length > 0 && (
                       <p className={styles.itemDescription}>
-                        {' '}
-                        {item?.customisation?.ingredient}: {item?.customisation?.name}
+                        {item?.customisation?.map((item: any, index: any) => (
+                          <>
+                            {item?.ingredient}:{' '}
+                            <span key={index} className={styles.items}>
+                              {item?.name}
+                            </span>
+                            <br />
+                          </>
+                        ))}
                       </p>
                     )}
                     {(item?.addons ?? [])?.length > 0 && (
                       <p className={styles.itemDescription}>
-                        {' '}
-                        {t('Add-ons :')}{' '}
+                        {t('Add-ons :')}
                         {item?.addons?.map((item, index) => (
                           <span key={index} className={styles.items}>
                             {item?.name} ({CURRENCY} {item?.price})
@@ -257,7 +295,7 @@ const DiningOrderSummary = () => {
                     )}
                     {item?.cookingInstruction && (
                       <p className={styles.itemDescription}>
-                        {t('Instructions')} : {item?.cookingInstruction}
+                        {t('Instructions')}: {item?.cookingInstruction}
                       </p>
                     )}
                   </div>
@@ -270,7 +308,7 @@ const DiningOrderSummary = () => {
                         : item.quantity * totalPrice
                       )?.toFixed(2)}
                     </p>
-                    <p className={styles.edit}>{`${t('edit')}`}</p>
+                    {/* <p className={styles.edit}>{`${t('edit')}`}</p> */}
                   </div>
                 </div>
               )
@@ -287,9 +325,9 @@ const DiningOrderSummary = () => {
                   if (!renderedItemIds.includes(item.itemId)) {
                     renderedItemIds.push(item.itemId);
                     return (
-                      <WithScrollbar key={item.itemId} itemClass={styles.carouselItemWidth}>
+                      <React.Fragment key={item.itemId}>
                         {renderMenuElements(item?.upsell ?? [])}
-                      </WithScrollbar>
+                      </React.Fragment>
                     );
                   }
                 })}
@@ -318,7 +356,7 @@ const DiningOrderSummary = () => {
             inputProps: {
               maxLength: 30,
               style: {
-                font: '14px var(--primary-font-news)',
+                font: '14px var(--primary-font-heading)',
                 color: 'var(--tertiary-text-color)',
                 marginInlineStart: '0.5rem',
               },
@@ -350,7 +388,7 @@ const DiningOrderSummary = () => {
             {PAYMENT?.map((item) => (
               <StyledButton
                 key={item.id}
-                variant={item.name === paymentType?.name ? 'contained' : 'outlined'}
+                variant={item?.name === paymentType?.name ? 'contained' : 'outlined'}
                 className={styles.buttonPayment}
                 onClick={() => setpaymentType(item)}
               >
@@ -360,16 +398,28 @@ const DiningOrderSummary = () => {
           </div>
         </div>
 
-        <p className={styles.taxText}> {t('* All prices include 10% VAT')}</p>
+        <p className={styles.taxText}>
+          {' '}
+          {t(
+            '* Rates are inclusive of applicable government taxes and subject to 10% service charge.',
+          )}
+        </p>
 
         {items?.length > 0 && (
           <div className={styles.confirmOrderButtonWrapper}>
             <div className={styles.totalCostRow}>
-              <p className={styles.roomNumber}>{t('ROOM NO - ')}123</p>
-              <p className={styles.totalCost}>
-                {t('TOTAL')} -{'  '}
-                <span className={styles.currency}>{CURRENCY} </span> {totalAmount?.toFixed(2)}
-              </p>
+              {roomNo && (
+                <p className={styles.roomNumber}>
+                  {`${t('ROOM NO - ')} 
+                  ${roomNo}`}
+                </p>
+              )}
+              {totalAmount && (
+                <p className={styles.totalCost}>
+                  {t('TOTAL')} - <span className={styles.currency}>{CURRENCY} </span>{' '}
+                  {totalAmount?.toFixed(2)}
+                </p>
+              )}
             </div>
             <StyledButton
               disabled={items?.length === 0 || (restaurantId == '' && paymentType.length === 0)}
@@ -396,7 +446,7 @@ const DiningOrderSummary = () => {
         <Notification
           title={t('Thank You!') as string}
           description={t('Your order has been confirmed.') as string}
-          redirect={DINING}
+          redirect={availablePaths?.DINING}
           type='success'
         />
         <DiningDetailsDrawer />

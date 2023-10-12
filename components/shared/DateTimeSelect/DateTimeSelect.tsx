@@ -6,7 +6,17 @@ import Picker from 'rmc-picker/lib/Picker';
 import MultiPicker from 'rmc-picker/lib/MultiPicker';
 import { StyledButton } from '../StyledButton/StyledButton';
 import { timeFormats } from 'utils/timeFormats';
-import { CUSTOM, DATE, DAY, IMMEDIATE, TODAY, TOMORROW, TimeFormatArray } from 'utils/constants';
+import 'rmc-picker/assets/index.css';
+import {
+  CUSTOM,
+  DATE,
+  DAY,
+  IMMEDIATE,
+  TIME,
+  TODAY,
+  TOMORROW,
+  TimeFormatArray,
+} from 'utils/constants';
 import { useTranslation } from 'react-i18next';
 
 const dayMonthArray: any = [];
@@ -25,6 +35,7 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
   selectedTime,
   handleSave,
   showSchedules,
+  buttonTitle,
 }) => {
   const { t } = useTranslation(['common']);
   const [disable, setDisable] = useState(false);
@@ -44,13 +55,21 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
         ) {
           setDisable(false);
         } else if (dayjs().isAfter(dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2))) {
-          setDisable(false);
+          if (dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM) === selectedTime) {
+            setDisable(true);
+          } else {
+            setDisable(false);
+          }
         } else {
           setDisable(true);
         }
       } else {
         if (dayjs().isAfter(dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2))) {
-          setDisable(false);
+          if (dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM) === selectedTime) {
+            setDisable(true);
+          } else {
+            setDisable(false);
+          }
         } else {
           setDisable(true);
         }
@@ -61,7 +80,7 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
   useEffect(() => {
     let newSelectedTime = selectedTime;
     if (scheduledTomorrow && !scheduledToday && !scheduledCustom && !scheduledImmediate) {
-      const originalDate = dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM);
+      const originalDate = dayjs();
       const newDate = originalDate?.add(1, DAY);
       newSelectedTime = newDate?.format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM);
       setSelectedTime(newSelectedTime);
@@ -78,82 +97,61 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
   return (
     <div>
       <>
-        <div className={styles.timePickerWrapper}>
+        <div
+          className={styles.timePickerWrapper}
+          onTouchStart={(e) => e.stopPropagation()}
+          onTouchMove={(e) => e.stopPropagation()}
+          onTouchEnd={(e) => e.stopPropagation()}
+        >
           <MultiPicker onValueChange={onChange} selectedValue={selectedTime?.split(':')}>
             <Picker
               indicatorClassName='my-picker-indicator'
-              disabled={
-                (!scheduledToday && !scheduledImmediate && scheduledTomorrow) ||
-                (scheduledToday && !scheduledImmediate && !scheduledTomorrow)
-                  ? true
-                  : false
+              className={
+                ((!scheduledToday && !scheduledImmediate && scheduledTomorrow) ||
+                  (scheduledToday && !scheduledImmediate && !scheduledTomorrow) ||
+                  (scheduledCustom && showSchedules?.customSchedule === TIME)) &&
+                styles.disabled
               }
             >
               {dayMonthArray?.map((day: any) => (
-                <Picker.Item
-                  className={
-                    (!scheduledToday && !scheduledImmediate && scheduledTomorrow) ||
-                    (scheduledToday && !scheduledImmediate && !scheduledTomorrow)
-                      ? 'my-picker-view-item dayDisabled'
-                      : 'my-picker-view-item day'
-                  }
-                  key={day}
-                  value={day}
-                >
+                <Picker.Item className='my-picker-view-item day' key={day} value={day}>
                   {day === dayjs().format(timeFormats.DAY_MONTH) ? TODAY : day}
                 </Picker.Item>
               ))}
             </Picker>
             <Picker
               indicatorClassName='my-picker-indicator'
-              disabled={scheduledCustom && showSchedules?.customSchedule === DATE ? true : false}
+              className={
+                scheduledCustom && showSchedules?.customSchedule === DATE && styles.disabled
+              }
             >
               {hoursArray.map((hour) => (
-                <Picker.Item
-                  className={
-                    scheduledCustom && showSchedules?.customSchedule === DATE
-                      ? 'my-picker-view-item hourDisabled'
-                      : 'my-picker-view-item hour'
-                  }
-                  key={hour}
-                  value={hour}
-                >
+                <Picker.Item className='my-picker-view-item hour' key={hour} value={hour}>
                   {hour}
                 </Picker.Item>
               ))}
             </Picker>
             <Picker
               indicatorClassName='my-picker-indicator'
-              disabled={scheduledCustom && showSchedules?.customSchedule === DATE ? true : false}
+              className={
+                scheduledCustom && showSchedules?.customSchedule === DATE && styles.disabled
+              }
             >
               {minutesArray?.map((minute) => (
-                <Picker.Item
-                  className={
-                    scheduledCustom && showSchedules?.customSchedule === DATE
-                      ? 'my-picker-view-item minuteDisabled'
-                      : 'my-picker-view-item minute'
-                  }
-                  key={minute}
-                  value={minute}
-                >
+                <Picker.Item className='my-picker-view-item minute' key={minute} value={minute}>
                   {minute}
                 </Picker.Item>
               ))}
             </Picker>
+
             <Picker
               indicatorClassName='my-picker-indicator'
-              disabled={scheduledCustom && showSchedules?.customSchedule === DATE ? true : false}
+              className={
+                scheduledCustom && showSchedules?.customSchedule === DATE && styles.disabled
+              }
             >
               {TimeFormatArray?.map((format) => (
-                <Picker.Item
-                  className={
-                    scheduledCustom && showSchedules?.customSchedule === DATE
-                      ? 'my-picker-view-item formatDisabled'
-                      : 'my-picker-view-item format'
-                  }
-                  key={format}
-                  value={format}
-                >
+                <Picker.Item className='my-picker-view-item format' key={format} value={format}>
                   {format}
                 </Picker.Item>
               ))}
@@ -162,7 +160,7 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
         </div>
 
         <StyledButton disabled={!disable} onClick={() => handleSave()}>
-          {t('Save')}
+          {buttonTitle || t('Save')}
         </StyledButton>
       </>
     </div>

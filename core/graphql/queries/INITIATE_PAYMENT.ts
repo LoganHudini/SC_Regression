@@ -26,12 +26,12 @@ export interface IInitiatePaymentApiResponse {
   };
 }
 
-export const INITIATE_PAYMENT = gql`
+export const INITIATE_PAYMENT_SHIFT4 = gql`
 query InitiatePayment( $body: UpdateGuestDetailsPayload) {
     initiatePayment(body: $body)
     @rest(
       type: "InitiatePaymentPayload"
-      path: "/${ENVIRONMENT}/loadpaymentzone/fiserv/hotel/${HOTEL_ID}"
+      path: "/${ENVIRONMENT}/v3/loadpaymentzone/shift4/hotel/${HOTEL_ID}"
       method: "POST"
       bodyKey: "body"
     ) {

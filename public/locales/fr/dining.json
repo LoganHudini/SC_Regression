@@ -65,7 +65,7 @@
   "Add to cart": "Ajouter au panier",
   "Required": "Requis",
   "Limit exceeded": "Limite dépassée",
-  "Select up to options": "Sélectionnez jusqu'à {{value}} options",
+  "Select up to option(s)": "Sélectionnez jusqu'à {{value}} options",
   "options": "choix",
   "Add instructions": "Ajouter des instructions"
 }

@@ -4,20 +4,38 @@ import { IMenuItemProps, IModuleOptionsDrawerProps } from './MenuItem.types';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { getRedirectLink } from 'utils/getRedirectLink';
 import { flowPathMap } from 'utils/flowPathMap';
-import Drawer from '@mui/material/Drawer';
 import { useReactiveVar } from '@apollo/client';
 import {
   diningOptions,
+  getHotelCompendium,
+  selectedCompendiumCategory,
   toggleHamburgerMenuDrawer,
   toggleModuleOptionsDrawer,
+  toggleHotelInfoDrawer,
+  toggleMapState,
 } from 'storage/home.storage';
 import cx from 'classnames';
-import { availablePaths } from 'utils/availablePaths';
-import { DINING_OPTIONS, SERVICE_REQUEST_OPTIONS } from 'utils/constants';
-import { close } from 'inspector';
+import {
+  ABOUT_US,
+  DINING_OPTIONS,
+  DINING_OPTIONS_PRE_CHECK_IN,
+  EXTERNAL,
+  FLOW,
+  IN_APP,
+  SERVICE_REQUEST_OPTIONS,
+} from 'utils/constants';
 import CheckIcon from '@icons/checkIcon.svg';
 import { housekeepingOptions } from 'storage/housekeeping.storage';
-import { handleTouchEnd, handleTouchStart } from 'utils/hooks/useDrawerSwipe';
+import { spaCategoryList, spaInformationStorage } from 'storage/spa.storage';
+import { offerList, selectedOfferOption } from 'storage/offers.storage';
+import { useTranslation } from 'react-i18next';
+import HotelInfoDrawer from 'components/pages/home/HotelInformation/HotelInfoDrawer/HotelInfoDrawer';
+import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
+import { availablePaths } from 'utils/availablePaths';
+import { toggleOpenCheckOutDrawer } from 'storage/checkout.storage';
+import { useCheckedIn } from 'storage/check-in.storage';
+import { ReactSVG } from 'react-svg';
+import { isFunction } from 'lodash';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
   title,
@@ -32,32 +50,42 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
 }) => {
   const navigate = useLocalizedRouter();
   const onClick = useCallback(() => {
-    if (redirectOptions === 'EXTERNAL') {
+    if (redirectOptions === EXTERNAL) {
       window.open(externalLink, '_blank');
       toggleOption();
     }
-    if (redirectOptions === 'IN_APP' && paths) {
+    if (redirectOptions === IN_APP && paths) {
       const redirectUrl = getRedirectLink(paths, pages[0]);
       if (redirectUrl) {
         navigate(`/${redirectUrl}`);
         toggleOption();
       }
     }
-    if (redirectOptions === 'FLOW') {
+    if (redirectOptions === FLOW) {
       const redirectUrl = flowPathMap[flow as keyof typeof flowPathMap];
       if (redirectUrl) {
-        navigate(redirectUrl);
         toggleOption();
+        navigate(redirectUrl);
+      } else if (title === ABOUT_US) {
+        toggleOption();
+        toggleMapState(true);
+        toggleHotelInfoDrawer(true);
       }
     }
-  }, [externalLink, flow, navigate, pages, paths, redirectOptions, toggleOption]);
+  }, [externalLink, flow, navigate, pages, paths, redirectOptions, title, toggleOption]);
 
   return (
     <>
       {status && (
         <div onClick={onClick} className={styles.menuItemWrapper}>
           <div className={styles.menuItemIconWrapper}>
-            <Icon />
+            <div>
+              {Icon && isFunction(Icon) ? (
+                <Icon />
+              ) : (
+                <ReactSVG src={Icon} className={styles.image} />
+              )}
+            </div>
           </div>
           <p className={styles.menuItemTitle}>{title}</p>
         </div>
@@ -70,93 +98,117 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   homeActive,
   irdActive,
   housekeepingActive,
+  hotelCompendiumActive,
+  spaActive,
+  offersActive,
 }) => {
   const navigate = useLocalizedRouter();
+  const isCheckedIn = useCheckedIn();
+  const [highLightViewBill, setHighLightViewBill] = useState(false);
+  const [highLightCheckOut, setHighLightCheckOut] = useState(false);
   const diningOptionSelected = useReactiveVar(diningOptions);
   const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
   const drawerStatus = useReactiveVar(toggleModuleOptionsDrawer);
-  const [startY, setStartY] = useState(0);
+  const compendiumInfo: any = useReactiveVar(getHotelCompendium);
+  const selectedCompendiumInfo: any = useReactiveVar(selectedCompendiumCategory);
+  const spaInformation = useReactiveVar(spaInformationStorage);
+  const spaCategories = useReactiveVar(spaCategoryList);
+  const offersOptionSelected: any = useReactiveVar(selectedOfferOption);
+  const offersList = useReactiveVar(offerList);
+
+  const { t } = useTranslation(['common']);
+
+  const filteredDetails = compendiumInfo?.categories?.filter((category: any) => {
+    return compendiumInfo?.amenities?.find(
+      (amenity: any) => amenity?.categoryIds.includes(category?.id) && amenity?.isActive,
+    );
+  });
 
   const closeDrawer = () => {
     toggleModuleOptionsDrawer(false);
     toggleHamburgerMenuDrawer(false);
   };
 
-  return (
-    <>
-      {' '}
-      <Drawer
-        variant='temporary'
-        anchor='bottom'
-        open={drawerStatus}
-        onClose={closeDrawer}
-        PaperProps={{
-          elevation: 0,
-          style: {
-            padding: '2rem 0',
-            maxWidth: '768px',
-            margin: 'auto',
-            maxHeight: '40vh',
-          },
-        }}
-        onTouchStart={(e) => handleTouchStart(e, setStartY)}
-        onTouchEnd={(e) => handleTouchEnd(e, startY, setStartY, closeDrawer)}
-      >
-        <div className={styles.drawerNotch}></div>
+  const handleSelect = (data: any) => {
+    selectedCompendiumCategory(data);
+    closeDrawer();
+  };
+
+  const modulesOptionsRender = () => {
+    return (
+      <div className={styles.wrapper}>
+        {' '}
         {homeActive && (
           <div>
-            <p className={styles.title}>Room 411</p>
+            {isCheckedIn?.roomNumber && (
+              <p className={styles.title}>Room {isCheckedIn?.roomNumber}</p>
+            )}
             <div className={styles.optionsList}>
               <p
                 className={cx(styles.inActiveText, {
-                  [styles.activeText]: true,
+                  [styles.activeText]: highLightViewBill,
                 })}
+                onClick={() => {
+                  setHighLightViewBill(true);
+                  toggleOpenCheckOutDrawer(false);
+                  navigate(availablePaths.BILL);
+                  closeDrawer();
+                }}
               >
-                View Bill
+                {t('View Bill')}
               </p>
               <p
                 className={cx(styles.inActiveText, {
-                  [styles.activeText]: false,
+                  [styles.activeText]: highLightCheckOut,
                 })}
+                onClick={() => {
+                  setHighLightCheckOut(true);
+                  toggleOpenCheckOutDrawer(true);
+                  closeDrawer();
+                  navigate(availablePaths.BILL);
+                }}
               >
-                Checkout
+                {t('Checkout')}
               </p>
             </div>
           </div>
         )}
         {irdActive && (
           <div>
-            <p className={styles.title}>Choose your category</p>
+            <p className={styles.title}>{t('Choose your category')}</p>
             <div className={styles.optionsList}>
-              {DINING_OPTIONS?.map((dining) => (
-                <div key={dining?.id} className={cx(styles.optionsListItem)}>
-                  <p
-                    className={cx(styles.inActiveDiningText, {
-                      [styles.activeText]: diningOptionSelected?.id === dining?.id,
-                    })}
-                    onClick={() => {
-                      diningOptions(dining);
-                      closeDrawer();
-                      // navigate(dining?.path);
-                    }}
-                  >
-                    {dining?.title}{' '}
-                  </p>
-                  {diningOptionSelected?.id === dining?.id && <CheckIcon className={styles.icon} />}
-                </div>
-              ))}
+              {(isCheckedIn?.checkedIn ? DINING_OPTIONS : DINING_OPTIONS_PRE_CHECK_IN)?.map(
+                (dining) => (
+                  <div key={dining?.id} className={cx(styles.optionsListItem)}>
+                    <p
+                      className={cx(styles.inActiveDiningText, {
+                        [styles.activeText]: diningOptionSelected?.id === dining?.id,
+                      })}
+                      onClick={() => {
+                        diningOptions(dining);
+                        closeDrawer();
+                        navigate(dining?.path);
+                      }}
+                    >
+                      {dining?.title}{' '}
+                    </p>
+                    {diningOptionSelected?.id === dining?.id && (
+                      <CheckIcon className={styles.icon} />
+                    )}
+                  </div>
+                ),
+              )}
             </div>
           </div>
         )}
-
         {housekeepingActive && (
           <div>
-            <p className={styles.title}>Choose your category</p>
+            <p className={styles.title}>{t('Choose your category')} </p>
             <div className={styles.optionsList}>
               {SERVICE_REQUEST_OPTIONS?.map((request) => (
                 <div key={request?.id} className={cx(styles.optionsListItem)}>
                   <p
-                    className={cx(styles.inActiveText, {
+                    className={cx(styles.inActiveDiningText, {
                       [styles.activeText]: houseKeepingOptionSelected?.id === request?.id,
                     })}
                     onClick={() => {
@@ -174,7 +226,90 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
             </div>
           </div>
         )}
-      </Drawer>
+        {hotelCompendiumActive && (
+          <div>
+            <p className={styles.title}>{t('Choose your category')}</p>
+            <div className={styles.optionsList}>
+              {filteredDetails?.map((category: any) => (
+                <div key={category?.id} className={cx(styles.optionsListItem)}>
+                  <p
+                    className={cx(styles.inActiveDiningText, {
+                      [styles.activeText]: selectedCompendiumInfo?.id === category?.id,
+                    })}
+                    onClick={() => handleSelect(category)}
+                  >
+                    {category?.name}{' '}
+                  </p>
+                  {selectedCompendiumInfo?.id === category?.id && (
+                    <CheckIcon className={styles.icon} />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        {spaActive && (
+          <div>
+            <p className={styles.title}>{t('Choose your category')}</p>
+            <div className={styles.optionsList}>
+              {spaCategories?.map((category: any, index: number) => (
+                <div key={index} className={cx(styles.optionsListItem)}>
+                  <p
+                    className={cx(styles.inActiveDiningText, {
+                      [styles.activeText]: category?.id === spaInformation?.selectedSpaCategoryId,
+                    })}
+                    onClick={() => {
+                      closeDrawer();
+                      spaInformationStorage({
+                        ...spaInformation,
+                        selectedSpaCategoryId: category?.id,
+                        selectedSpaCategoryName: category?.name,
+                      });
+                    }}
+                  >
+                    {category?.name}{' '}
+                  </p>
+                  {category?.id === spaInformation?.selectedSpaCategoryId && (
+                    <CheckIcon className={styles.icon} />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        {offersActive && (
+          <div>
+            <p className={styles.title}>{t('Choose your category')}</p>
+            <div className={styles.optionsList}>
+              {Array.from(new Set(offersList?.map((item: any) => item?.type))).map((type) => {
+                return (
+                  <div key={type} className={cx(styles.optionsListItem)}>
+                    <p
+                      className={cx(styles.inActiveDiningText, {
+                        [styles.activeText]: offersOptionSelected?.type === type,
+                      })}
+                      onClick={() => {
+                        selectedOfferOption({ type });
+                        closeDrawer();
+                      }}
+                    >
+                      {type}{' '}
+                    </p>
+                    {offersOptionSelected?.type === type && <CheckIcon className={styles.icon} />}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  return (
+    <>
+      <CustomDrawer open={drawerStatus} onClose={closeDrawer} content={modulesOptionsRender()} />
+      <HotelInfoDrawer />
     </>
   );
 };

@@ -72,7 +72,7 @@ export const CustomDrawer: React.FC<ICustomDrawerProps> = ({ opened, toggleOpene
             setData(value);
           });
       } catch (err) {
-        console.log(err);
+        // console.log(err);
       }
     }
   }, [tableReservationInfo]);
@@ -329,7 +329,7 @@ export const CustomDrawer: React.FC<ICustomDrawerProps> = ({ opened, toggleOpene
               disabled={disable}
               onClick={formik.submitForm}
             >
-              {t('BOOK A TABLE')}
+              {t('BOOK NOW')}
             </StyledButton>
           </div>
         )}

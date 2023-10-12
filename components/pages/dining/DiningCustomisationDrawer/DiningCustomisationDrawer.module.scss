@@ -15,7 +15,7 @@
 }
 
 .title {
-  font: $header var(--secondary-font-regular);
+  font: $header var(--heading-font-regular);
 }
 
 .priceContainer {
@@ -27,7 +27,7 @@
 .itemTitle {
   margin: 1.25rem 0;
   width: 65%;
-  font: $medium var(--primary-font-news);
+  font: $medium var(--primary-font-heading);
 }
 
 .currency {
@@ -38,7 +38,7 @@
   margin: 1.25rem 0;
   width: 30%;
   text-align: end;
-  font: $medium var(--primary-font-news);
+  font: $medium var(--primary-font-heading);
 }
 
 .grayText {
@@ -48,12 +48,19 @@
 
 .itemDescription {
   font: $small var(--primary-font-medium);
+  margin: 4px 0;
+  color: var(--tertiary-text-color);
+}
+
+.customisation {
+  line-height: 2;
 }
 
 .item + .item::before {
   display: inline-block;
   white-space: pre;
   content: ', ';
+  line-height: 1.5;
 }
 
 .buttonContainer {

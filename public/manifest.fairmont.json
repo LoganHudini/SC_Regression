@@ -1,0 +1,16 @@
+{
+  "theme_color": "#393939",
+  "background_color": "#ffffff",
+  "display": "fullscreen",
+  "scope": "/",
+  "start_url": "/",
+  "name": "Fairmont",
+  "short_name": "Fairmont",
+  "icons": [
+    {
+      "src": "/images/fairmont/Logo.png",
+      "type": "image/png",
+      "sizes": "196x196"
+    }
+  ]
+}

@@ -4,51 +4,47 @@ import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from '../../styles/dining/dining.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
-import { DinningCategory } from 'components/pages/dining/DiningCategory/DiningCategory';
+import { DiningMenuOptions } from 'components/pages/dining/DiningMenuOptions/DiningMenuOptions';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { DiningCategorySkeleton } from 'components/pages/dining/DiningCategorySkeleton/DiningCategorySkeleton';
 import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
-import { useRouter } from 'next/router';
-import CrossDropdown from '@icons/crossDropdown.svg';
 import { IDiningMenuStorageData, diningMenuStorage } from 'storage/dining-menu.storage';
 import cx from 'classnames';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { filterMenuWrtTimings, irdActiveMenuList } from 'utils/functions';
+import { filterLiveMenu, irdActiveMenuList } from 'utils/functions';
 import { availablePaths } from 'utils/availablePaths';
-import DiningMenu from 'components/pages/dining/DiningMenu/dining-menu';
+import DiningMenu from 'components/pages/dining/DiningMenu/DiningMenu';
+import ScrollDown from '@icons/scrollDown.svg';
 
 export { getStaticPaths };
 
 const Dining = () => {
   const { t } = useTranslation('dining');
-  const router = useRouter();
   const locale = useLocale();
   const navigate = useLocalizedRouter();
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
   const filter = useReactiveVar(diningInformationStorage);
   const [openCategory, setOpencategory] = useState(false);
   const [categoryId1, setcategoryId] = useState('');
-  const restaurantId =
-    (typeof window !== 'undefined' &&
-      localStorage.getItem('restaurantId') &&
-      JSON.parse(localStorage.getItem('restaurantId') ?? '')) ??
-    '';
+  const dropdownRef: any = useRef();
+  const [scrollTop, setScrollTop] = useState(0);
+
   const { data, loading: irdMenuLoading } = useQuery<IRDMenuApiResponse>(IRD_MENU, {
     context: { clientName: 'host_v2' },
     variables: {
-      restaurantId: restaurantId,
+      restaurantId: '',
       lang: locale === 'en' ? '' : locale,
     },
     fetchPolicy: 'no-cache',
   });
 
   const filteredList = data?.getIRDMenuOutputDetails?.filter(
-    (item: any) => item?.isActive && filterMenuWrtTimings(item?.hours),
+    (item: any) => item?.isActive && filterLiveMenu(item?.hours),
   );
 
   const irdActiveMenu = irdActiveMenuList(data);
@@ -65,17 +61,9 @@ const Dining = () => {
 
   useEffect(() => {
     if (data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length === 0) {
-      navigate(availablePaths?.RESTAURANTS_BARS);
-      // toast(t('Menu Unavailable'), { type: 'error' });
+      navigate(availablePaths?.HOME);
     }
   }, [data?.getIRDMenuOutputDetails, navigate, t]);
-
-  useEffect(() => {
-    if (!!router?.query['tableNo'] || !!router?.query['restId']) {
-      localStorage.setItem('tableNumber', JSON.stringify(router.query['tableNo']) ?? '');
-      localStorage.setItem('restaurantId', JSON.stringify(router.query['restId']) ?? '');
-    }
-  }, [router.query]);
 
   useEffect(() => {
     if (header[0]?.name == undefined && header[0].hours == undefined) {
@@ -86,15 +74,15 @@ const Dining = () => {
         },
       ]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [menuHours, menuName]);
 
   const openSearch = useCallback(() => {
     setsearch(!search);
     setOpencategory(false);
-    diningInformationStorage({ selectedMenu: '' });
   }, [search]);
 
-  const selectCategory = useCallback(
+  const selectMenu = useCallback(
     (category: string, name: string, hours: any) => {
       setOpencategory(!openCategory);
       setcategoryId(category);
@@ -102,9 +90,11 @@ const Dining = () => {
       diningInformationStorage({
         menuName: name,
       });
+      window.scrollTo(0, 0);
     },
     [filter, openCategory],
   );
+
   function disableScroll() {
     document.body.style.overflow = 'hidden';
   }
@@ -119,6 +109,16 @@ const Dining = () => {
       enableScroll();
     }
   }, [openCategory]);
+
+  const scrollToBottom = () => {
+    dropdownRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  if (typeof window !== 'undefined') {
+    document
+      ?.getElementById('container')
+      ?.addEventListener('scroll', (evt: any) => setScrollTop(evt?.target?.scrollTop));
+  }
 
   return (
     <>
@@ -156,21 +156,23 @@ const Dining = () => {
                   className={styles.backdrop}
                   onClick={() => setOpencategory(!openCategory)}
                 ></div>
-                <div className={styles.overlay}>
-                  <div onClick={() => setOpencategory(!openCategory)}>
-                    <CrossDropdown className={styles.close} />
-                  </div>
-                  <div className={styles.scroll}>
+                <div className={styles.menuDropdown}>
+                  <div id='container' className={styles.menuList}>
                     {irdActiveMenu?.map((el: any) => (
-                      <DinningCategory
-                        key={el.id}
-                        name={el?.name}
-                        image={el.images[0] ? el.images[0].master : null}
-                        categoryId={el.id}
-                        selectCategory={selectCategory}
-                        hours={el.hours}
-                      />
+                      <div key={el.id} ref={dropdownRef} className={styles.scrollContainer}>
+                        <DiningMenuOptions
+                          name={el?.name}
+                          image={el.images[0] ? el.images[0].master : null}
+                          categoryId={el.id}
+                          selectMenu={selectMenu}
+                          hours={el.hours}
+                        />
+                      </div>
                     ))}
+                  </div>
+
+                  <div className={styles.bottomScrollIcon}>
+                    {scrollTop !== 369 && <ScrollDown onClick={scrollToBottom} />}
                   </div>
                 </div>
               </>

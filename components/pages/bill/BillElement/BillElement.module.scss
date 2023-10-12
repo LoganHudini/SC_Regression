@@ -2,7 +2,7 @@
   padding: 23px 0 7px 0;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #7b7b7b;
+  border-bottom: 1px solid var(--primary-border-color);
   margin: 0 15px;
 }
 
@@ -14,14 +14,16 @@
 .time {
   line-height: 1;
   margin-bottom: 10px;
-  font-size: 0.75rem;
+  font-size: $extraSmall;
+  font-family: var(--primary-font-regular);
   text-align: left;
+  color: var(--tertiary-text-color);
 }
 
 .title {
-  font-family: 'Bodoni MT Std';
-  font-size: 1.125rem;
-  color: var(--tertiary-text-color);
+  font-family: var(--primary-font-heading);
+  font-size: $medium;
+  color: var(--primary-text-color);
   line-height: 1;
   text-align: left;
 }
@@ -29,16 +31,23 @@
 .chequeNo {
   margin-right: 7px;
   line-height: 1;
-  margin-bottom: 13px;
-  font-size: 0.75rem;
+  margin-bottom: 10px;
+  font-size: $extraSmall;
+  font-family: var(--primary-font-regular);
+  color: var(--tertiary-text-color);
 }
 
 .price {
   line-height: 1;
   margin-right: 7px;
-  line-height: 1;
   margin-bottom: 13px;
-  font-size: 0.9375rem;
   text-align: end;
   font-weight: 600;
+  font-family: var(--primary-font-heading);
+  font-size: $medium;
+  color: var(--primary-text-color);
+}
+
+.billAmountCurrency {
+  font-size: $xsmall;
 }

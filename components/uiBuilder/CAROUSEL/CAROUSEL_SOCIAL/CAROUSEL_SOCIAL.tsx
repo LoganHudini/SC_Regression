@@ -10,6 +10,7 @@ import styles from './CAROUSEL_SOCIAL.module.scss';
 import { useTranslation } from 'react-i18next';
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { useRouter } from 'next/router';
+import { CAROUSEL_RESPONSIVE } from 'utils/constants';
 
 interface ICarouselProps {
   config: Partial<IConfig>;
@@ -26,25 +27,6 @@ interface ICarouselSlideProps {
     id: string;
   }[];
 }
-
-const carousalResponsive = {
-  tablet: {
-    breakpoint: { max: 100000, min: 731 },
-    items: 4,
-  },
-  mobileLarge: {
-    breakpoint: { max: 730, min: 491 },
-    items: 3,
-  },
-  mobile: {
-    breakpoint: { max: 490, min: 341 },
-    items: 2,
-  },
-  mobileSmall: {
-    breakpoint: { max: 340, min: 0 },
-    items: 1,
-  },
-};
 
 export const CAROUSEL_SOCIAL: React.FC<ICarouselProps> = ({ config, paths }) => {
   const navigate = useLocalizedRouter();
@@ -65,7 +47,7 @@ export const CAROUSEL_SOCIAL: React.FC<ICarouselProps> = ({ config, paths }) => 
         className={styles.carouselWrapper}
         style={{ background: config.backgroundColor as string }}
       >
-        <WithScrollbar responsive={carousalResponsive} className={styles.imagesWrapper}>
+        <WithScrollbar responsive={CAROUSEL_RESPONSIVE} className={styles.imagesWrapper}>
           {config.slides?.map((slide) => (
             <CarouselSlide key={`${slide.imgURL}${slide.titleH3}`} config={slide} paths={paths} />
           ))}

@@ -12,17 +12,10 @@ import { availablePaths } from 'utils/availablePaths';
 export { getStaticPaths };
 
 const CHECK_IN_FLOW = [
-  availablePaths.GET_RESERVATION,
   availablePaths.CHECK_IN_PAYMENT,
   availablePaths.CHECK_IN,
   availablePaths.GUEST_INFORMATION_INPUT,
-  availablePaths.GUEST_INFORMATION,
   availablePaths.PERSONALIZE_YOUR_ROOM,
-  availablePaths.PRE_CHECK_IN_CONFIRMATION,
-  availablePaths.RESERVAION_CONFIRMATION,
-  availablePaths.ROOM_ASSIGNED,
-  availablePaths.ROOM_DETAILS,
-  availablePaths.UPGRADES,
 ];
 
 const CHECK_OUT_FLOW = [

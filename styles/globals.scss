@@ -39,11 +39,35 @@
 }
 
 @font-face {
-  font-family: 'Garamond Regular';
+  font-family: 'Garamond';
   src: url('/fonts/Garamond/Garamond-Regular.otf') format('opentype'),
     url('/fonts/Garamond/Garamond-Regular.ttf') format('ttf'),
     url('/fonts/Garamond/Garamond-Regular.woff') format('woff'),
     url('/fonts/Garamond/Garamond-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Domaine Display';
+  src: url('/fonts/DomaineDisplay/DomaineDisplay-Regular.otf') format('opentype'),
+    url('/fonts/DomaineDisplay/DomaineDisplay-Regular.ttf') format('ttf'),
+    url('/fonts/DomaineDisplay/DomaineDisplay-Regular.woff') format('woff'),
+    url('/fonts/DomaineDisplay/DomaineDisplay-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'ITC Franklin Gothic Std Book';
+  src: url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Book.otf') format('opentype'),
+    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Book.ttf') format('ttf'),
+    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Book.woff') format('woff'),
+    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Book.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'ITC Franklin Gothic Std Medium';
+  src: url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Med.otf') format('opentype'),
+    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Med.ttf') format('ttf'),
+    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Med.woff') format('woff'),
+    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Med.woff2') format('woff2');
 }
 
 :root {
@@ -53,8 +77,12 @@
   --primary-icon-color: #ffffff;
   --primary-border-color: #e0e0e0;
   --primary-box-shadow-color: #00000029;
-  --primary-error-text-color: #d32f2f;
-  --primary-overlay-color: #00000039;
+  --primary-error-text-color: #f41313;
+  --primary-disabled-color: #919090;
+
+  // overlays
+  --primary-overlay-color: #120e0e79;
+  --secondary-overlay-color: #120e0eb1;
 
   // text colors
   --primary-text-color: #000000;
@@ -67,10 +95,14 @@
   --primary-drawer-top-left-border-radius: 0px;
   --primary-drawer-top-right-border-radius: 0px;
   --primary-drawer-height: 70vh;
-  --primary-drawer-background-opacity: 0.6;
+  --primary-drawer-background-opacity: 0.75;
+  --primary-drawer-background-color: #000000;
+
+  //image transition background color
+  --primary-image-transition-background-color: #a0a1a3;
 
   // hamburger menu colors
-  --hamburgermenu-background-color: #121212;
+  --hamburgermenu-background-color: #120e0ef4;
   --hamburgermenu-text-color: #ffffff;
   --hamburgermenu-icon-color: #ffffff;
 
@@ -79,25 +111,19 @@
   --primary-font-medium: 'ClanOT Medium';
   --primary-font-semibold: '';
   --primary-font-bold: '';
-  --primary-font-news: 'ClanOT News';
+  --primary-font-heading: 'ClanOT News';
 
   --primary-font-extd-regular: 'ClanOT Extended Book';
-  --primary-font-extd-medium: 'ClanOT Extended Medium';
-  --primary-font-extd-semibold: '';
-  --primary-font-extd-bold: '';
-  --primary-font-extd-news: '';
 
   // headings
-  --secondary-font-regular: 'Garamond Regular';
-  --secondary-font-medium: '';
-  --secondary-font-semibold: '';
-  --secondary-font-bold: '';
+  --heading-font-regular: 'Garamond';
 
-  // banner font-family
+  // banner configs
   --primary-title-font-family: 'ClanOT Extended Book';
   --secondary-title-font-family: 'ClanOT News';
+  --primary-indicator-color: #ffffff;
 
-  //card component configs
+  // card component configs
   --primary-card-title-font-family: 'ClanOT News';
   --primary-card-desc-font-family: 'ClanOT Book';
   --primary-card-cta-font-family: 'ClanOT Extended Medium';
@@ -145,7 +171,10 @@ p {
   color: var(--primary-text-color);
   font-family: var(--primary-font-regular);
   overflow: hidden;
-  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: none;
+  white-space: pre-wrap;
 }
 
 h1,
@@ -156,44 +185,45 @@ h5,
 h6 {
   margin: 0;
   color: var(--primary-text-color);
-  font-family: var(--secondary-font-regular);
+  font-family: var(--heading-font-regular);
 }
 
-.loaderWrapper {
-  display: flex;
-  flex-direction: row;
-  width: 100vw;
-  height: 100vh;
-  justify-content: center;
+img {
+  object-fit: cover;
 }
 
 // Material UI overwrites
 
 .MuiButton-containedPrimary {
+  font: $small var(--primary-button-font-family);
   color: var(--primary-button-color);
-  background: var(--primary-button-background-color);
+  background-color: var(--primary-button-background-color);
   border: none;
   border-radius: var(--primary-button-border-radius);
   width: 100%;
-  font: $small var(--primary-button-font-family);
-  height: 48px;
-  line-height: 48px;
+  display: flex;
+  gap: 17px;
+  height: 44px;
+  line-height: 44px;
   text-align: center;
-
+  &:disabled {
+    background: var(--primary-disabled-color);
+    color: var(--primary-button-color);
+  }
   &:hover:enabled {
     background: var(--primary-theme-color);
   }
 }
 
 .MuiButton-outlinedPrimary {
+  font: $medium var(--secondary-button-font-family);
   color: var(--secondary-button-color);
-  background: var(--secondary-button-background-color);
+  background-color: var(--secondary-button-background-color);
   border: 1px solid var(--secondary-button-color);
   border-radius: var(--primary-button-border-radius);
   width: 100%;
-  font: $medium var(--secondary-button-font-family);
-  height: 48px;
-  line-height: 48px;
+  height: 44px;
+  line-height: 44px;
   text-align: center;
 
   &:hover:enabled {
@@ -202,7 +232,7 @@ h6 {
 }
 
 .MuiInput-root.Mui-disabled::before {
-  border-bottom: 1px solid var(--primary-theme-color) !important;
+  border-bottom: 1px solid var(--primary-border-color);
 }
 
 .MuiButton-textPrimary {
@@ -227,12 +257,114 @@ h6 {
   color: var(--tertiary-text-color);
 }
 
+.MuiInputLabel-root.Mui-focused {
+  color: var(--tertiary-text-color);
+}
+
 .MuiInputBase-root,
 .MuiInputBase-input,
 .MuiFormLabel-root,
 .MuiMenuItem-root {
   font-family: var(--primary-font-regular);
 }
+
+.MuiMenu-paper {
+  max-height: 172px;
+}
+
+.MuiMenuItem-root {
+  padding-bottom: 0;
+  padding-top: 0;
+  min-height: 35px;
+}
+
+.MuiFormLabel-filled {
+  font-size: $small;
+  color: var(--primary-text-color);
+}
+
+.MuiInputLabel-standard {
+  font-size: $small;
+  color: var(--tertiary-text-color);
+}
+
+.MuiLoadingButton-loadingIndicator {
+  color: var(--primary-background-color);
+}
+
+.MuiInput-root::after,
+.MuiInput-root:hover::before {
+  border-bottom: 1px solid var(--primary-theme-color);
+}
+
+.MuiFormHelperText-root {
+  color: var(--primary-error-text-color) !important;
+}
+
+.MuiInputLabel-root.Mui-error {
+  color: var(--primary-error-text-color);
+}
+
+.MuiInputLabel-asterisk {
+  color: var(--tertiary-text-color);
+}
+
+.Mui-error {
+  &::after {
+    border-bottom: 1px solid var(--primary-error-text-color);
+  }
+}
+
+.MuiDialog-paper {
+  position: absolute !important;
+  bottom: 2rem !important;
+  border-radius: 10px;
+  width: 80%;
+  margin: 0 auto;
+  height: 100px;
+}
+
+.MuiInputAdornment-root {
+  margin-inline-start: 0px;
+}
+
+.imagePlaceHolderAnimation {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--primary-image-transition-background-color);
+  opacity: 0.25;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+  min-height: 210px;
+  object-fit: cover;
+  max-width: 768px;
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: -150px;
+    top: 0;
+    height: 100%;
+    width: 150px;
+    background: linear-gradient(to right, transparent 0%, #ffffffd7 50%, transparent 100%);
+    animation: load 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+}
+
+@keyframes load {
+  0% {
+    left: -150px;
+  }
+  50% {
+    left: 100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+//toast configs
 
 .Toastify__toast--error {
   background: #f7dfde;
@@ -253,39 +385,32 @@ h6 {
   box-sizing: border-box;
   max-width: 293px;
   margin: 15px auto;
-
   color: #2daa5c;
   font-size: 0.875rem;
   text-align: start;
   min-height: auto;
   padding: 0;
-
   .Toastify__toast__close svg path {
     fill: #2daa5c;
   }
 }
-
 .Toastify__toast-body {
   margin: 0;
   padding: 15px 0px 15px 37px;
   max-width: 70%;
 }
-
 .Toastify__toast__close {
   width: 17px;
   height: 17px;
   position: absolute;
   top: 58%;
   right: 20px;
-
   transform: translateY(-50%);
-
   svg {
     width: 17px;
     height: 17px;
   }
 }
-
 .Toastify__toast-icon {
   svg {
     width: 15px;
@@ -293,17 +418,8 @@ h6 {
   }
 }
 
-.MuiMenu-paper {
-  max-height: 172px;
-}
-
-.MuiMenuItem-root {
-  padding-bottom: 0;
-  padding-top: 0;
-  min-height: 35px;
-}
-
 // webkit css
+
 *::-webkit-scrollbar-track {
   border-radius: 10px;
   background-color: transparent;
@@ -318,13 +434,4 @@ h6 {
 *::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-color: var(--primary-theme-color);
-}
-
-.MuiDialog-paper {
-  position: absolute !important;
-  bottom: 2rem !important;
-  border-radius: 10px;
-  width: 80%;
-  margin: 0 auto;
-  height: 100px;
 }

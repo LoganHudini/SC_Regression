@@ -48,7 +48,7 @@ const PersonalizeYourRoom: React.FC = () => {
 
   useEffect(() => {
     if (!reservationData) {
-      navigate(availablePaths.GET_RESERVATION);
+      navigate(availablePaths?.HOME);
     }
   }, [reservationData, navigate]);
 

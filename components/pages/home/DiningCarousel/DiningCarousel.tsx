@@ -1,101 +1,174 @@
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { WithScrollbar } from 'components/shared/WithScrollbar/WithScrollbar';
-import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import React, { useCallback, useState } from 'react';
+import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ASSETS_URL } from '../../../../core/graphql/endpoints';
-import { IConfig } from '../../../../types/UIConfiguration.types';
-import { getRedirectLink } from '../../../../utils/getRedirectLink';
-import { StyledButton } from '../../../shared/StyledButton/StyledButton';
 import styles from './DiningCarousel.module.scss';
-import { useRouter } from 'next/router';
-import { IDiningCarouselProps } from './DiningCarousel.types';
-import { useQuery } from '@apollo/client';
-import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
-import { locale } from 'dayjs';
-import { irdActiveMenuList } from 'utils/functions';
-import { DINING_OPTIONS } from 'utils/constants';
+import {
+  buttonArrow,
+  filterRestaurantList,
+  irdActiveMenuList,
+  restaurantTimings,
+} from 'utils/functions';
+import {
+  CAROUSEL_RESPONSIVE,
+  DINING_OPTIONS,
+  DINING_OPTIONS_PRE_CHECK_IN,
+  IN_ROOM_DINING,
+} from 'utils/constants';
 import cx from 'classnames';
+import { diningInformationStorage } from 'storage/dining.storage';
+import { availablePaths } from 'utils/availablePaths';
+import ClockIcon from '@icons/clockIcon.svg';
+import DishIcon from '@icons/dishIcon.svg';
+import { diningOptions } from 'storage/home.storage';
+import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
+import { CarouselLoader } from 'components/shared/Loaders/Loaders';
+import ArrowButton from '@icons/readMoreArrow.svg';
+import { useCheckedIn } from 'storage/check-in.storage';
+
+interface ICarouselProps {
+  ird: any;
+  restaurants: any;
+  loading?: boolean;
+}
 
 interface ICarouselSlideProps {
   slide: any;
+  imageSlide?: any;
+  diningOptionsCarousal?: any;
+  module?: boolean;
 }
 
-const carousalResponsive = {
-  desktop: {
-    breakpoint: { max: 100000, min: 701 },
-    items: 2.5,
-  },
-  tablet: {
-    breakpoint: { max: 700, min: 551 },
-    items: 2,
-  },
-  mobileLarge: {
-    breakpoint: { max: 550, min: 491 },
-    items: 1.7,
-  },
-  mobile: {
-    breakpoint: { max: 490, min: 361 },
-    items: 1.3,
-  },
-  mobileSmall: {
-    breakpoint: { max: 360, min: 0 },
-    items: 1,
-  },
-};
+const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOptionsCarousal }) => {
+  const buttonArrowState = buttonArrow;
 
-const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide }) => {
-  const router = useRouter();
+  const { t } = useTranslation(['common']);
+  const navigate = useLocalizedRouter();
+  const handleMenu = () => {
+    diningInformationStorage({
+      selectedMenu: slide?.id,
+      menuName: slide?.name,
+      selectedCategory: slide?.categories[0]?.id,
+      categoryName: slide?.categories[0]?.name,
+    });
+    navigate(availablePaths?.DINING);
+  };
+  const redirect = () => {
+    diningOptions(diningOptionsCarousal);
+    selectedRestaurantStorage(slide);
+    navigate(`${diningOptionsCarousal.path}`);
+  };
+
+  const time = restaurantTimings(slide?.customAttributes);
 
   return (
-    <div className={styles.carouselSlideWrapper}>
-      <StableImage className={styles.carouselSlideImage} src={`${ASSETS_URL}/${slide.images[0]}`} />
-      <div className={styles.carouselSlideDetailsWrapper}>
-        <h3 className={styles.carouselSlideTitle}>{slide.name}</h3>
-        <p className={styles.carouselSlideTimings}>{slide.hours[0]?.day}</p>
-        <p className={styles.carouselSlideViewMore}>view more</p>
-      </div>
-    </div>
+    <>
+      {module ? (
+        <div className={styles.carouselSlideWrapper} onClick={handleMenu}>
+          <StableImage
+            className={styles.carouselSlideImage}
+            src={`${ASSETS_URL}/${slide.images[0]?.master && slide.images[0]?.master}`}
+          />
+          <div className={styles.carouselSlideDetailsWrapper}>
+            {slide.name && <h3 className={styles.carouselSlideTitle}>{slide.name}</h3>}
+            {slide.hours[0]?.day && (
+              <p className={styles.carouselSlideTimings}>{slide.hours[0]?.day}</p>
+            )}
+            <p className={styles.carouselSlideViewMore}>
+              {t('view more')}
+              {buttonArrowState && <ArrowButton />}
+            </p>
+          </div>
+        </div>
+      ) : (
+        <div className={styles.carouselSlideWrapper} onClick={redirect}>
+          <StableImage
+            className={styles.carouselSlideImage}
+            src={`${ASSETS_URL}/${slide?.images[0]?.master}`}
+          />
+          <div className={styles.carouselSlideDetailsWrapperRestaurantsAndBars}>
+            <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>
+            <div className={styles.content}>
+              {slide?.primaryCuisine && (
+                <div className={styles.cuisineRow}>
+                  <DishIcon className={styles.cuisineIcon} />
+                  <span>{slide?.primaryCuisine?.toLowerCase()}</span>
+                </div>
+              )}{' '}
+              {time && (
+                <div className={styles.cuisineRowTime}>
+                  <ClockIcon className={styles.cuisineIcon} />
+                  <p>{time?.value}</p>
+                </div>
+              )}
+            </div>
+            <p className={styles.carouselSlideViewMore}>
+              {t('read more')}
+              {buttonArrowState && <ArrowButton />}
+            </p>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
-export const DiningCarousel = () => {
-  const locale = useLocale();
+export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, loading }) => {
   const { t } = useTranslation(['common']);
+  const isCheckedIn = useCheckedIn();
 
-  const [diningOptions, setDiningOption] = useState(DINING_OPTIONS[0]);
+  const [diningOptionsState, setDiningOption] = useState(
+    isCheckedIn?.checkedIn ? DINING_OPTIONS[0] : DINING_OPTIONS_PRE_CHECK_IN[0],
+  );
 
-  const { data } = useQuery<IRDMenuApiResponse>(IRD_MENU, {
-    context: { clientName: 'host_v2' },
-    variables: {
-      restaurantId: '',
-      lang: locale === 'en' ? '' : locale,
-    },
-    fetchPolicy: 'no-cache',
-  });
+  const irdActiveMenu = irdActiveMenuList(ird);
+  const queryResultsData: any = restaurants?.getRestaurantDetails?.restaurant;
+  const filteredList = filterRestaurantList(queryResultsData, diningOptionsState);
 
-  const irdActiveMenu = irdActiveMenuList(data);
+  const slides = diningOptionsState.title === IN_ROOM_DINING ? irdActiveMenu : filteredList;
+
+  const renderSlides = (slides: any, module: boolean) =>
+    slides?.length > 0 &&
+    slides?.map((slide: any) => (
+      <CarouselSlide
+        key={slide?.name}
+        slide={slide}
+        diningOptionsCarousal={diningOptionsState}
+        module={module}
+      />
+    ));
 
   return (
     <div className={styles.diningCarouselWrapper}>
       <p className={styles.diningCarouselTitle}>{t('Dining')}</p>
       <div className={styles.diningOptions}>
-        {DINING_OPTIONS?.map((dining) => (
+        {(isCheckedIn?.checkedIn ? DINING_OPTIONS : DINING_OPTIONS_PRE_CHECK_IN)?.map((dining) => (
           <p
             key={dining?.id}
             className={cx(styles.diningOptionsItem, {
-              [styles.diningOptionsItemActive]: diningOptions?.id === dining?.id,
+              [styles.diningOptionsItemActive]: diningOptionsState?.id === dining?.id,
             })}
             onClick={() => setDiningOption(dining)}
+            data-tip={dining?.title}
           >
             {dining?.title}
           </p>
         ))}
       </div>
-      <WithScrollbar responsive={carousalResponsive} className={styles.carouselWrapper}>
-        {irdActiveMenu?.length > 0 &&
-          irdActiveMenu?.map((slide: any) => <CarouselSlide key={slide?.name} slide={slide} />)}
-      </WithScrollbar>
+      {loading ? (
+        <CarouselLoader />
+      ) : (
+        <WithScrollbar
+          responsive={CAROUSEL_RESPONSIVE}
+          className={cx(styles.carouselWrapper, {
+            [styles.carouselWrapperSingleImage]: slides?.length === 1,
+          })}
+        >
+          {renderSlides(slides, diningOptionsState.title === IN_ROOM_DINING)}
+        </WithScrollbar>
+      )}
     </div>
   );
 };

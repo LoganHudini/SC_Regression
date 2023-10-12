@@ -3,7 +3,7 @@
   margin-right: 0;
 
   :global(.MuiSelect-select) {
-    color: var(--primary-text-color);
+    color: var(--tertiary-text-color);
     padding-bottom: 12px;
     font-size: 0.875rem;
     text-align: start;
@@ -11,7 +11,7 @@
 
   :global(.MuiInputLabel-standard) {
     font-size: 0.875rem;
-    color: var(--primary-text-color);
+    color: var(--tertiary-text-color);
   }
 
   :global(.MuiFormHelperText-root) {
@@ -20,24 +20,26 @@
 
   :global(.MuiInputBase-root) {
     &::after {
-      border-bottom: 2px solid var(--primary-theme-color);
+      border-bottom: 1px solid var(--primary-theme-color);
     }
 
     &:hover {
       &::before {
-        border-bottom: 2px solid var(--primary-theme-color) !important;
+        border-bottom: 1px solid var(--primary-theme-color) !important;
       }
     }
 
     :global(.MuiInputBase-input) {
       text-align: start;
       background: transparent !important;
+      padding-bottom: 6px !important;
+      font-size: $medium;
     }
   }
 
   :global(.MuiInputLabel-asterisk),
   :global(.Mui-error) {
-    color: var(--primary-error-text-color) !important;
+    color: var((--tertiary-text-color)) !important;
   }
 
   :global(.Mui-error) {

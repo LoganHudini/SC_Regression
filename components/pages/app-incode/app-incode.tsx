@@ -144,7 +144,7 @@ function ProcessId({ session, onSuccess }: { session: any; onSuccess: any; onErr
           });
           // updateGuestDetails('docNo', ocrData.documentNumber);
           // dispatch(updateOCRData(ocrData));
-          // navigate(availablePaths.INDEX);
+          // navigate(availablePaths.HOME);
         });
       });
     }
@@ -342,9 +342,9 @@ export default function AppIncode(props: any) {
   }
 
   // if (!session) return <Loading />;
-  if (resetPermissions) {
-    return <ResetPermissions onTryAgain={() => setResetPermissions(false)} />;
-  }
+  // if (resetPermissions) {
+  //   return <ResetPermissions onTryAgain={() => setResetPermissions(false)} />;
+  // }
   if (error) {
     return (
       <div>
@@ -379,81 +379,81 @@ export default function AppIncode(props: any) {
   //   let ocrData = await incode.ocrData({ token: session.token });
   //   console.log('the ocr data is: ', ocrData);
   // };
-  if (type === 'Passport') {
-    return (
-      <Steps currentStep={step}>
-        <FrontId session={session} type={'passport'} onSuccess={goNext} onError={handleError} />
-        {/* {type && type !== "PASSPORT" && <BackId session={session} onSuccess={goNext} onError={handleError} />} */}
-        <ProcessId session={session} onSuccess={goNext} onError={handleError} />
-        {/* <OCRData session={session} onSuccess={goNext} onError={handleError}/> */}
-        <Selfie
-          session={session}
-          onSuccess={(res: any) => {
-            setLiveness(res?.liveness);
-            setUserExists(res?.existingUser);
-            goNext();
-          }}
-          onError={handleError}
-        />
-        <FaceMatch
-          session={session}
-          onSuccess={checkScore}
-          liveness={liveness}
-          userExists={userExists}
-          onError={handleError}
-        />
-        <RetrySteps session={session} numberOfTries={3} onSuccess={goNext} onError={handleError} />
-        <div>
-          <h1
-            style={{
-              textAlign: 'center',
-            }}
-          >
-            You finished the onboarding process
-            {/* <OCRData session={session} /> */}
-            {/* {data} */}
-          </h1>
-          {/* <div>{getOCRData()}</div> */}
-        </div>
-      </Steps>
-    );
-  } else {
-    return (
-      <Steps currentStep={step}>
-        <FrontId session={session} type={'front'} onSuccess={goNext} onError={handleError} />
-        <BackId session={session} onSuccess={goNext} onError={handleError} />
-        <ProcessId session={session} onSuccess={goNext} onError={handleError} />
-        {/* <OCRData session={session} onSuccess={goNext} onError={handleError}/> */}
-        <Selfie
-          session={session}
-          onSuccess={(res: any) => {
-            setLiveness(res?.liveness);
-            setUserExists(res?.existingUser);
-            goNext();
-          }}
-          onError={handleError}
-        />
-        <FaceMatch
-          session={session}
-          onSuccess={checkScore}
-          liveness={liveness}
-          userExists={userExists}
-          onError={handleError}
-        />
-        <RetrySteps session={session} numberOfTries={3} onSuccess={goNext} onError={handleError} />
-        <div>
-          <h1
-            style={{
-              textAlign: 'center',
-            }}
-          >
-            You finished the onboarding process
-            {/* <OCRData session={session} /> */}
-            {/* {data} */}
-          </h1>
-          {/* <div>{getOCRData()}</div> */}
-        </div>
-      </Steps>
-    );
-  }
+  // if (type === 'Passport') {
+  //   return (
+  //     <Steps currentStep={step}>
+  //       <FrontId session={session} type={'passport'} onSuccess={goNext} onError={handleError} />
+  //       {/* {type && type !== "PASSPORT" && <BackId session={session} onSuccess={goNext} onError={handleError} />} */}
+  //       <ProcessId session={session} onSuccess={goNext} onError={handleError} />
+  //       {/* <OCRData session={session} onSuccess={goNext} onError={handleError}/> */}
+  //       <Selfie
+  //         session={session}
+  //         onSuccess={(res: any) => {
+  //           setLiveness(res?.liveness);
+  //           setUserExists(res?.existingUser);
+  //           goNext();
+  //         }}
+  //         onError={handleError}
+  //       />
+  //       <FaceMatch
+  //         session={session}
+  //         onSuccess={checkScore}
+  //         liveness={liveness}
+  //         userExists={userExists}
+  //         onError={handleError}
+  //       />
+  //       <RetrySteps session={session} numberOfTries={3} onSuccess={goNext} onError={handleError} />
+  //       <div>
+  //         <h1
+  //           style={{
+  //             textAlign: 'center',
+  //           }}
+  //         >
+  //           You finished the onboarding process
+  //           {/* <OCRData session={session} /> */}
+  //           {/* {data} */}
+  //         </h1>
+  //         {/* <div>{getOCRData()}</div> */}
+  //       </div>
+  //     </Steps>
+  //   );
+  // } else {
+  //   return (
+  //     <Steps currentStep={step}>
+  //       <FrontId session={session} type={'front'} onSuccess={goNext} onError={handleError} />
+  //       <BackId session={session} onSuccess={goNext} onError={handleError} />
+  //       <ProcessId session={session} onSuccess={goNext} onError={handleError} />
+  //       {/* <OCRData session={session} onSuccess={goNext} onError={handleError}/> */}
+  //       <Selfie
+  //         session={session}
+  //         onSuccess={(res: any) => {
+  //           setLiveness(res?.liveness);
+  //           setUserExists(res?.existingUser);
+  //           goNext();
+  //         }}
+  //         onError={handleError}
+  //       />
+  //       <FaceMatch
+  //         session={session}
+  //         onSuccess={checkScore}
+  //         liveness={liveness}
+  //         userExists={userExists}
+  //         onError={handleError}
+  //       />
+  //       <RetrySteps session={session} numberOfTries={3} onSuccess={goNext} onError={handleError} />
+  //       <div>
+  //         <h1
+  //           style={{
+  //             textAlign: 'center',
+  //           }}
+  //         >
+  //           You finished the onboarding process
+  //           {/* <OCRData session={session} /> */}
+  //           {/* {data} */}
+  //         </h1>
+  //         {/* <div>{getOCRData()}</div> */}
+  //       </div>
+  //     </Steps>
+  //   );
+  // }
 }

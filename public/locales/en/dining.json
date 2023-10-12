@@ -65,6 +65,10 @@
   "Add to cart": "Add to cart",
   "Required": "Required",
   "Limit exceeded": "Limit exceeded",
-  "Select up to options": "Select up to {{value}} options",
-  "Add instructions": "Add instructions"
+  "Select up to option(s)": "Select up to {{value}} option(s)",
+  "Add instructions": "Add instructions",
+  "Kindly rate our services": "Kindly rate our services",
+  "OKAY": "OKAY",
+  "GOOD": "GOOD",
+  "GREAT": "GREAT"
 }

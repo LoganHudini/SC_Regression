@@ -1,23 +1,15 @@
 export const availablePaths = {
-  INDEX: '/',
-
-  // Incode Check-in
-  INCODE: '/incode',
+  HOME: '/',
 
   // Check-in flow
-  GET_RESERVATION: '/check-in',
-  CHECK_IN_PAYMENT: '/check-in/payment',
-  CHECK_IN: '/check-in/review',
   GUEST_INFORMATION_INPUT: '/check-in/information',
-  GUEST_INFORMATION: '/check-in/guest-information',
-  PERSONALIZE_YOUR_ROOM: '/check-in/personalization',
   ACCOMPANY_GUEST: '/check-in/accompanyguest',
-  PRE_CHECK_IN_CONFIRMATION: '/check-in/precheck-in-confirmation',
-  CHECK_IN_CONFIRMATION: '/check-in/check-in-confirmation',
-  RESERVAION_CONFIRMATION: '/check-in/confirmation',
-  ROOM_ASSIGNED: '/check-in/room-assigned',
-  ROOM_DETAILS: '/check-in/room-details',
-  UPGRADES: '/check-in/upgrades',
+  CHECK_IN_PAYMENT: '/check-in/payment',
+  PERSONALIZE_YOUR_ROOM: '/check-in/personalization',
+  CHECK_IN: '/check-in/review',
+
+  // Preferences
+  PREFERENCES: '/preferences',
 
   // Checkout flow
   BILL: '/checkout',
@@ -28,6 +20,12 @@ export const availablePaths = {
   DINING: '/dining',
   DINING_ORDER_SUMMARY: '/dining-order-summary',
   RESTAURANTS_BARS: '/restaurants-bars',
+
+  // Spa flow
+  SPA: '/spa',
+
+  // feedback
+  FEEDBACK: '/feedback',
 
   // Housekeeping flow
   HOUSEKEEPING: '/housekeeping',
@@ -41,17 +39,26 @@ export const availablePaths = {
   ROOM_CONTROLS: '/room-controls',
   ROOM_CONTROLS_TV: '/room-controls?selectedEntity=TV',
 
-  TRIPS: '/trips',
-  LANGUAGE: '/language',
-  CHAT: '/chat',
-
   // Table reservations
   TABLE_RESERVATION: '/table-reservation',
   TABLE_RESERVATION_TIME: '/table-reservation/table-reservation-time',
   TABLE_RESERVATION_DETAILS: '/table-reservation/table-reservation-details',
   TABLE_RESERVATION_CONFIRMATION: '/table-reservation/table-reservation-confirmation',
 
-  // notifications
+  // Notifications
   NOTIFICATIONS: '/notifications',
+
+  // Offers
   OFFERS: '/offers',
+
+  // Hotel-compendium
+  HOTEL_COMPENDIUM: '/hotel-compendium',
+
+  // Incode Check-in
+  INCODE: '/incode',
+
+  // Others
+  TRIPS: '/trips',
+  LANGUAGE: '/language',
+  CHAT: '/chat',
 };

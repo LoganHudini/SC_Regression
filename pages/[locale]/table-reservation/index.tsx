@@ -103,7 +103,7 @@ const TableReservation = () => {
           setData(value);
         });
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   }, [restaurantId]);
 
@@ -309,7 +309,7 @@ const TableReservation = () => {
             disabled={disable}
             onClick={formik.submitForm}
           >
-            {t('BOOK A TABLE')}
+            {t('BOOK NOW')}
           </StyledButton>
         </div>
 

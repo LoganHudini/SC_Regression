@@ -5,15 +5,24 @@ export interface IPreCheckInApiRequest {
   reservationType: string;
   reservationId: string;
   bookingId: string;
-  uniqueBookingId: string;
-  tagEmail: string;
-  hotelName: string;
-  roomTypeCode: string;
-  firstName: string;
-  lastName: string;
-  checkInDate: string;
-  checkOutDate: string;
-  nights: string;
+  checkinDate: string;
+  checkoutDate: string;
+  roomNo: string;
+  roomType: string;
+  primaryGuestEmail: string;
+  primaryGuestFirstName: string;
+  primaryGuestLastName: string;
+  primaryGuestMobileNumber: string;
+  guestCount: any;
+  paymentType: string;
+  expirationDate: string;
+  creditCardType?: string;
+  lastFourDigits?: string;
+  vaultedCardID?: string;
+  settlement: string;
+  documentType: string;
+  documentNumber: string;
+  guestSignature: string;
 }
 
 export const PRECHECKIN = gql`

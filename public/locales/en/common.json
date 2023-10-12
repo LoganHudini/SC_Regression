@@ -37,7 +37,7 @@
   "Phone Number": "Phone Number",
   "Are you a hotel guest?": "Are you a hotel guest?",
   "Special Requests": "Special Requests",
-  "BOOK A TABLE": "BOOK A TABLE",
+  "BOOK NOW": "BOOK NOW",
   "Thank you": "Thank you",
   "Thank You": "Thank You",
   "Your booking has been confirmed.": "Your booking has been confirmed.",
@@ -87,5 +87,9 @@
   "TOMORROW": "TOMORROW",
   "CUSTOM": "CUSTOM",
   "View Bill": "View Bill",
-  "Checkout": "Checkout"
+  "Checkout": "Checkout",
+  "until": "until",
+  "Everyday": "Everyday",
+  "Choose your category": "Choose your category",
+  "Select up to option(s)": "Select up to {{value}} option(s)"
 }

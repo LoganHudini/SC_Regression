@@ -12,16 +12,15 @@ import { ASSETS_URL, CURRENCY } from 'core/graphql/endpoints';
 import produce from 'immer';
 import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
 import { DiningCheckboxItem } from 'components/pages/dining/DiningCheckboxItem/DiningCheckboxItem';
-import { Drawer, InputAdornment } from '@mui/material';
+import { InputAdornment } from '@mui/material';
 import { DiningMenuElementSkeleton } from 'components/pages/dining/DiningMenuElementSkeleton/DiningMenuElementSkeleton';
 import { sortBy } from 'lodash';
 import TextField from '@mui/material/TextField';
 import { iconsMap } from 'utils/hamburger/hamburgerIconsMap';
 import { irdActiveMenuList } from 'utils/functions';
 import { addToCartEvent } from 'utils/gtag';
-import { handleTouchEnd, handleTouchStart } from 'utils/hooks/useDrawerSwipe';
-import CloseIcon from '@icons/close.svg';
 import cx from 'classnames';
+import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 
 const DiningDetailsDrawer = () => {
   const { t } = useTranslation(['dining', 'common']);
@@ -30,13 +29,11 @@ const DiningDetailsDrawer = () => {
   const selectedItemId = useReactiveVar(diningMenuStorage)?.selectedItemId;
   const diningDetailsDrawerStatus = useReactiveVar(toggleDiningDetailsDrawer);
   const [count, setCount] = useState<number>(1);
-  const [customize, setcustomize] = useState(false);
   const [instruction, setinstruction] = useState('');
   const [updateAddons, setupdateAddons] = useState(false);
   const [totalAddons, settotalAddons] = useState<number>(0);
-  const [customisation, setCustomisation] = useState<any>();
+  const [customisation, setCustomisation] = useState<any>([]);
   const [addonsWarning, setAddonsWarning] = useState(false);
-  const [startY, setStartY] = useState(0);
   const [addons, setAddons] = useState<
     {
       code: string;
@@ -88,10 +85,11 @@ const DiningDetailsDrawer = () => {
   }, [addons, updateAddons, totalAddons, selectedItem?.addOnLimit, selectedItem?.addOnValue]);
 
   useEffect(() => {
-    if (!selectedItemId) {
+    if (!selectedItemId || count === 0) {
       toggleDiningDetailsDrawer(false);
+      setCount(1);
     }
-  }, [navigate, selectedItemId]);
+  }, [count, navigate, selectedItemId]);
 
   const incrementCount = useCallback(() => {
     setCount((state) => state + 1);
@@ -101,63 +99,74 @@ const DiningDetailsDrawer = () => {
     setCount((state) => state - 1);
   }, []);
 
-  const handleSelectedCustomisation = useCallback(
-    (event: any) => {
-      const selectedName = event.target.value;
-      const itemCode = selectedItem?.customisation[0]?.customisations?.find(
-        (el: any) => el?.name === selectedName && el?.code,
-      );
-      if (customisation?.name === selectedName) {
-        setCustomisation(null);
-        setcustomize(false);
-      } else {
-        setCustomisation({
-          ingredient: selectedItem?.customisation[0]?.ingredient ?? '',
-          name: selectedName,
-          code: itemCode?.code ?? '',
-        });
-        setcustomize(true);
-      }
-      setcustomize(!customize);
-    },
-    [selectedItem?.customisation, customisation?.name, customize],
-  );
+  const handleSelectedCustomisation = (e: any, customisationItem: any, subData: any) => {
+    const selectedCustomization = {
+      ingredient: customisationItem.ingredient,
+      name: e.target.value,
+      code: subData.code,
+      id: subData.id,
+    };
+
+    const updatedCustomizations = customisation?.filter(
+      (customization: any) => customization?.ingredient !== customisationItem?.ingredient,
+    );
+
+    updatedCustomizations?.push(selectedCustomization);
+
+    setCustomisation(updatedCustomizations);
+  };
 
   const cookingInstructions = useCallback((event: any) => {
     setinstruction(event?.target.value);
   }, []);
 
+  const closeDrawer = useCallback(() => {
+    toggleDiningDetailsDrawer(false);
+    setCustomisation([]);
+    setAddons([]);
+    setCount(1);
+    diningMenuStorage(
+      produce(diningMenuStorage(), (draft) => {
+        draft.selectedItemId = '';
+      }),
+    );
+  }, []);
+
   const handleAdd = useCallback(() => {
+    const customisationData = sortBy(customisation, (item) => item?.name);
     const addOnsData = sortBy(addons, (item) => item?.name);
+
     diningMenuStorage(
       produce(diningMenuStorage(), (draft) => {
         const item = draft?.items?.find(
           (el) =>
             el?.itemId === selectedItemId &&
-            !el?.customisation?.ingredient &&
+            (el?.customisation ?? [])?.length === 0 &&
             (el?.addons ?? [])?.length === 0 &&
-            !customisation?.ingredient &&
+            customisation?.length === 0 &&
             addOnsData?.length === 0,
         );
 
         const itemBoth = draft?.items.find(
           (el) =>
             el.itemId === selectedItemId &&
-            addOnsData?.length > 0 &&
+            addOnsData?.length === 0 &&
             (el?.addons ?? [])?.length > 0 &&
             JSON.stringify(addOnsData) ===
               JSON.stringify(sortBy(el?.addons, (item) => item?.name)) &&
-            customisation?.ingredient &&
-            el?.customisation?.ingredient &&
-            el?.customisation?.ingredient === customisation?.ingredient &&
-            el?.customisation?.code === customisation?.code,
+            JSON.stringify(customisationData) ===
+              JSON.stringify(sortBy(el?.customisation, (item) => item?.name)),
+          // customisation?.ingredient &&
+          // el?.customisation?.ingredient &&
+          // el?.customisation?.ingredient === customisation?.ingredient &&
+          // el?.customisation?.code === customisation?.code,
         );
 
         const itemCustomisation = draft?.items.find(
           (el) =>
             el.itemId === selectedItemId &&
             customisation?.ingredient &&
-            el?.customisation?.ingredient &&
+            (el?.customisation ?? [])?.length > 0 &&
             el?.customisation?.ingredient === customisation?.ingredient &&
             el?.customisation?.code === customisation?.code &&
             addOnsData?.length === 0,
@@ -183,8 +192,8 @@ const DiningDetailsDrawer = () => {
           // console.log('Addons matches');
         } else {
           // console.log('No match');
-          if (customisation?.ingredient || addOnsData.length > 0) {
-            if (addOnsData && customisation?.ingredient) {
+          if (customisation?.length > 0 || addOnsData?.length > 0) {
+            if (addOnsData?.length > 0 && customisation?.length > 0) {
               draft.items.push({
                 itemId: selectedItem?.id,
                 quantity: count,
@@ -192,16 +201,12 @@ const DiningDetailsDrawer = () => {
                 price: selectedItem?.price ?? 0,
                 title: selectedItem?.name ?? '',
                 cookingInstruction: instruction ?? '',
-                customisation: {
-                  ingredient: customisation?.ingredient ?? '',
-                  name: customisation?.name ?? '',
-                  code: customisation?.code ?? '',
-                },
+                customisation: customisationData,
                 addons: addOnsData,
                 upsell: selectedItem?.upsell ?? [],
               });
               // console.log('Customisation & Addons only');
-            } else if (customisation?.ingredient) {
+            } else if (customisation?.length > 0) {
               draft.items.push({
                 itemId: selectedItem?.id,
                 quantity: count,
@@ -209,11 +214,7 @@ const DiningDetailsDrawer = () => {
                 price: selectedItem?.price ?? 0,
                 title: selectedItem?.name ?? '',
                 cookingInstruction: instruction ?? '',
-                customisation: {
-                  ingredient: customisation?.ingredient ?? '',
-                  name: customisation?.name ?? '',
-                  code: customisation?.code ?? '',
-                },
+                customisation: customisation,
                 upsell: selectedItem?.upsell ?? [],
               });
               // console.log('Customisation only');
@@ -265,10 +266,9 @@ const DiningDetailsDrawer = () => {
     closeDrawer();
   }, [
     addons,
+    closeDrawer,
     count,
-    customisation?.code,
-    customisation?.ingredient,
-    customisation?.name,
+    customisation,
     instruction,
     selectedItem?.code,
     selectedItem?.id,
@@ -278,194 +278,180 @@ const DiningDetailsDrawer = () => {
     selectedItemId,
   ]);
 
-  const closeDrawer = () => {
-    toggleDiningDetailsDrawer(false);
-    setCustomisation(null);
-    setCount(1);
-  };
+  const diningDetails = () => {
+    const filteredCustomisation = selectedItem?.customisation?.map((customisationItem: any) =>
+      customisationItem?.customisations?.filter((item: any) => item?.status),
+    );
 
-  return (
-    <Drawer
-      variant='temporary'
-      anchor='bottom'
-      open={diningDetailsDrawerStatus}
-      onClose={closeDrawer}
-      PaperProps={{
-        elevation: 0,
-        style: {
-          maxWidth: '768px',
-          maxHeight: 'var(--primary-drawer-height)',
-          margin: 'auto',
-          borderTopLeftRadius: 'var(--primary-drawer-top-left-border-radius)',
-          borderTopRightRadius: 'var(--primary-drawer-top-right-border-radius)',
-        },
-      }}
-      slotProps={{
-        backdrop: {
-          style: {
-            opacity: diningDetailsDrawerStatus ? 'var(--primary-drawer-background-opacity)' : '0', // Slide animation
-            transition: 'opacity 0.5s ease-in-out', // Customize the animation here
-            // opacity: 'var(--primary-drawer-background-opacity)',
-            backdropFilter: 'blur(2px)',
-          },
-        },
-      }}
-      onTouchStart={(e) => handleTouchStart(e, setStartY)}
-      onTouchEnd={(e) => handleTouchEnd(e, startY, setStartY, closeDrawer)}
-    >
-      {loading ? (
-        <>
-          <DiningMenuElementSkeleton />
-          <DiningMenuElementSkeleton />
-          <DiningMenuElementSkeleton />
-          <DiningMenuElementSkeleton />
-          <DiningMenuElementSkeleton />
-        </>
-      ) : (
-        <>
-          {' '}
-          <div className={styles.drawerNotch}></div>
-          {selectedItem?.images[0] && (
-            <StableImage
-              className={styles.image}
-              src={`${ASSETS_URL}/${selectedItem?.images[0]?.ratio16to9}`}
-            />
-          )}
-          <CloseIcon />
-          <div className={styles.wrapper}>
-            {selectedItem?.name && <h3 className={styles.title}>{selectedItem?.name}</h3>}
-            {selectedItem?.allergens && (
-              <div className={styles.tagsWrapper}>
-                {selectedItem?.allergens
-                  ?.filter?.((allergen: any) => allergen?.status)
-                  ?.map((tags: any, key: any) => {
-                    const IconComponent =
-                      iconsMap[tags.name.toLowerCase() as keyof typeof iconsMap];
-                    return (
-                      <div key={key} className={styles.tags}>
-                        {IconComponent && <IconComponent className={styles.allergens} />}
-                        {tags?.name}
-                      </div>
-                    );
+    return (
+      <>
+        {' '}
+        {loading ? (
+          <>
+            <DiningMenuElementSkeleton />
+            <DiningMenuElementSkeleton />
+            <DiningMenuElementSkeleton />
+            <DiningMenuElementSkeleton />
+            <DiningMenuElementSkeleton />
+          </>
+        ) : (
+          <>
+            {selectedItem && selectedItem?.images[0]?.ratio16to9 ? (
+              <StableImage
+                className={styles.image}
+                src={`${ASSETS_URL}/${selectedItem?.images[0]?.ratio16to9}`}
+              />
+            ) : (
+              <div className='imagePlaceHolderAnimation' />
+            )}
+            {selectedItem?.name && (
+              <div className={styles.titleWrapper}>
+                <h3
+                  className={cx(styles.title, {
+                    [styles.titleWithImage]: selectedItem?.images[0],
                   })}
+                >
+                  {selectedItem?.name}
+                </h3>
               </div>
             )}
-            {selectedItem?.description && (
-              <p className={styles.description}>{selectedItem?.description}</p>
-            )}
-
-            {selectedItem?.ingredients && (
-              <>
-                <h4 className={styles.ingredientsText}>{t('Ingredients')}</h4>
-                <p className={styles.ingredientsDescription}>{selectedItem?.ingredients}</p>
-              </>
-            )}
-
-            {selectedItem?.customisation && (
-              <>
-                <div className={styles.customisationWrapper}>
-                  <p className={styles.customisationsText}>
-                    {selectedItem?.customisation[0]?.ingredient}
-                  </p>
-
-                  {selectedItem?.customisation && !customisation?.name && (
-                    <p className={styles.optionalTextWarning}>{t('Required')}</p>
-                  )}
+            <div className={styles.wrapper}>
+              {selectedItem?.allergens && (
+                <div className={styles.tagsWrapper}>
+                  {selectedItem?.allergens
+                    ?.filter?.((allergen: any) => allergen?.status)
+                    ?.map((tags: any, key: any) => {
+                      const IconComponent =
+                        iconsMap[tags.name.toLowerCase() as keyof typeof iconsMap];
+                      return (
+                        <div key={key} className={styles.tags}>
+                          {IconComponent && <IconComponent className={styles.allergens} />}
+                          {tags?.name}
+                        </div>
+                      );
+                    })}
                 </div>
-                <div className={styles.customisations}>
-                  {selectedItem?.customisation[0]?.customisations
-                    ?.filter((item: any) => item?.status)
-                    ?.map((el: any, index: any) => (
-                      <div key={index} className={styles.radioItemWrapper}>
-                        <StyledButton
-                          onClick={(e) => handleSelectedCustomisation(e)}
-                          className={cx(styles.customizationInactive, {
-                            [styles.customizationActive]: customisation?.name === el?.name,
-                          })}
-                          variant='contained'
-                          value={el.name}
-                        >
-                          {el?.name}
-                        </StyledButton>
-                      </div>
-                    ))}
-                </div>
-              </>
-            )}
+              )}
+              {selectedItem?.description && (
+                <p className={styles.description}>{selectedItem?.description}</p>
+              )}
 
-            {selectedItem?.addons && (
-              <>
-                <div className={styles.addonsRow}>
-                  <p className={styles.addonsText}>{t('Add-Ons')}</p>
-                  {addonsWarning ? (
-                    <p className={styles.optionalTextWarning}>{t('Limit exceeded')}</p>
-                  ) : (
-                    <p className={styles.optionalText}>
-                      {t('Select up to options', { value: selectedItem?.addOnValue })}
-                    </p>
-                  )}
-                </div>
-                <div className={styles.irdCheckboxItemWrapper}>
-                  {selectedItem?.addons
-                    ?.filter((item: any) => item?.status)
-                    ?.map((el: any, index: any) => (
-                      <div key={index}>
-                        <DiningCheckboxItem
-                          setupdateAddons={setupdateAddons}
-                          updateAddons={updateAddons}
-                          element={el}
-                          selectedItemId={selectedItemId}
-                          addons={addons ?? []}
-                          setAddons={setAddons}
-                        />
-                      </div>
-                    ))}
-                </div>
-              </>
-            )}
+              {selectedItem?.ingredients && (
+                <>
+                  <h4 className={styles.ingredientsText}>{t('Ingredients')}</h4>
+                  <p className={styles.ingredientsDescription}>{selectedItem?.ingredients}</p>
+                </>
+              )}
 
-            <TextField
-              autoComplete='off'
-              fullWidth
-              color='success'
-              className={styles.textInput}
-              id='input-with-icon-textfield'
-              placeholder={`${t('Add instructions')}`}
-              onChange={cookingInstructions}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position='start'>
-                    <Cookinginstructions />
-                  </InputAdornment>
-                ),
-                classes: {
-                  underline: styles.customUnderline,
-                },
-                inputProps: {
-                  maxLength: 30,
-                  style: {
-                    font: '14px var(--primary-font-news)',
-                    color: 'var(--tertiary-text-color)',
-                    marginInlineStart: '0.5rem',
+              {selectedItem?.customisation?.map((customisationItem: any, index: number) => (
+                <div key={index}>
+                  <div className={styles.customisationWrapper}>
+                    <p className={styles.customisationsText}>{customisationItem?.ingredient}</p>
+
+                    {!customisation?.some(
+                      (selected: any) => selected.ingredient === customisationItem.ingredient,
+                    ) && <p className={styles.optionalTextWarning}>{t('Required')}</p>}
+                  </div>
+                  <div className={styles.customisations}>
+                    {customisationItem?.customisations
+                      ?.filter((item: any) => item?.status)
+                      ?.map((el: any, index: any) => (
+                        <div key={index} className={styles.radioItemWrapper}>
+                          <StyledButton
+                            onClick={(e) => handleSelectedCustomisation(e, customisationItem, el)}
+                            className={cx(styles.customizationInactive, {
+                              [styles.customizationActive]: customisation?.some(
+                                (customization: any) =>
+                                  customization?.ingredient === customisationItem?.ingredient &&
+                                  customization?.name === el?.name,
+                              ),
+                            })}
+                            variant='contained'
+                            value={el.name}
+                          >
+                            {el.name}
+                          </StyledButton>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              ))}
+
+              {selectedItem?.addons && (
+                <>
+                  <div className={styles.addonsRow}>
+                    <p className={styles.addonsText}>{t('Add-Ons')}</p>
+                    {addonsWarning ? (
+                      <p className={styles.optionalTextWarning}>{t('Limit exceeded')}</p>
+                    ) : (
+                      <p className={styles.optionalText}>
+                        {/* {t('Select up to option(s)', { value: selectedItem?.addOnValue })} */}
+                        Select up to {selectedItem?.addOnValue} option(s)
+                      </p>
+                    )}
+                  </div>
+                  <div className={styles.irdCheckboxItemWrapper}>
+                    {selectedItem?.addons
+                      ?.filter((item: any) => item?.status)
+                      ?.map((el: any, index: any) => (
+                        <div key={index}>
+                          <DiningCheckboxItem
+                            setupdateAddons={setupdateAddons}
+                            updateAddons={updateAddons}
+                            element={el}
+                            selectedItemId={selectedItemId}
+                            addons={addons ?? []}
+                            setAddons={setAddons}
+                            checked={addons?.some((item) => item?.id === el?.id) ? true : false}
+                          />
+                        </div>
+                      ))}
+                  </div>
+                </>
+              )}
+
+              <TextField
+                autoComplete='off'
+                fullWidth
+                color='success'
+                className={styles.textInput}
+                id='input-with-icon-textfield'
+                placeholder={`${t('Add instructions')}`}
+                onChange={cookingInstructions}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position='start'>
+                      <Cookinginstructions />
+                    </InputAdornment>
+                  ),
+                  classes: {
+                    underline: styles.customUnderline,
                   },
-                },
-              }}
-              variant='standard'
-            />
+                  inputProps: {
+                    maxLength: 30,
+                    style: {
+                      font: '14px var(--primary-font-heading)',
+                      color: 'var(--tertiary-text-color)',
+                      marginInlineStart: '0.5rem',
+                    },
+                  },
+                }}
+                variant='standard'
+              />
 
-            {selectedItem?.price && (
-              <>
-                <p className={styles.priceText}>{t('total item price')}</p>
-                <p className={styles.totalItemPrice}>
-                  {CURRENCY}{' '}
-                  <span className={styles.price}>
-                    {' '}
-                    {(selectedItem?.price + totalAddons)?.toFixed(2)}
-                  </span>
-                </p>
-              </>
-            )}
-
+              {selectedItem?.price && (
+                <>
+                  <p className={styles.priceText}>{t('total item price')}</p>
+                  <p className={styles.totalItemPrice}>
+                    {CURRENCY}{' '}
+                    <span className={styles.price}>
+                      {' '}
+                      {(selectedItem?.price + totalAddons)?.toFixed(2)}
+                    </span>
+                  </p>
+                </>
+              )}
+            </div>
             <div className={styles.counterContainer}>
               <PlusMinusInput
                 value={count}
@@ -481,7 +467,8 @@ const DiningDetailsDrawer = () => {
                   variant='contained'
                   disabled={
                     count === 0 ||
-                    (selectedItem?.customisation && !customisation?.name) ||
+                    (selectedItem?.customisation?.length > 0 &&
+                      filteredCustomisation?.length !== customisation?.length) ||
                     addonsWarning
                   }
                 >
@@ -489,10 +476,18 @@ const DiningDetailsDrawer = () => {
                 </StyledButton>
               </div>
             </div>
-          </div>
-        </>
-      )}
-    </Drawer>
+          </>
+        )}
+      </>
+    );
+  };
+
+  return (
+    <CustomDrawer
+      open={diningDetailsDrawerStatus}
+      onClose={closeDrawer}
+      content={diningDetails()}
+    />
   );
 };
 

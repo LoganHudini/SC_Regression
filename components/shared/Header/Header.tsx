@@ -1,10 +1,12 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
 import { useLanguage, useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import cx from 'classnames';
 import React, { useCallback, useState } from 'react';
 import HomeHeader from '@icons/HomeHeader.svg';
-import RadissonLogo from '@icons/RadissonLogo.svg';
 import MyOrders from '@icons/foodDelivery.svg';
-import DropDownIrdCategory from '@icons/DropDownIrdCategory.svg';
+import MenuDropDown from '@icons/menuDropDown.svg';
+import MenuDropDownSecondary from '@icons/menuDropDownSecondary.svg';
 import LangActive from '@icons/language-active.svg';
 import LangInactive from '@icons/language-inactive.svg';
 import SearchIrd from '@icons/serachIrd.svg';
@@ -13,16 +15,17 @@ import { IHeaderProps } from './Header.types';
 import { useRouter } from 'next/router';
 import ArrowBackIosIcon from '@icons/ArrowBack.svg';
 import { availablePaths } from 'utils/availablePaths';
-import { ALL_DAY, HEADERS, LANGUAGE_LIST_BARCELONA, HOME } from 'utils/constants';
+import { ALL_DAY, LANGUAGE_LIST_BARCELONA, HOME } from 'utils/constants';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { useQuery, useReactiveVar } from '@apollo/client';
-import CrossDropdown from '@icons/crossDropdown.svg';
+import CrossDropdown from '@icons/close.svg';
 import { GET_ORDERS } from 'core/graphql/queries/GET_ORDERS_BY_ID';
 import { DiningOrdersDrawer } from 'components/pages/dining/DiningOrdersDrawer/DiningOrdersDrawer';
 import languageDetector from 'utils/languageDetector';
 import { setScrollPosition } from 'utils/functions';
 import produce from 'immer';
 import { useTranslation } from 'react-i18next';
+import { BRAND_CODE } from 'core/graphql/endpoints';
 
 export const Header: React.FC<IHeaderProps> = ({
   screenTitle,
@@ -86,7 +89,7 @@ export const Header: React.FC<IHeaderProps> = ({
 
   const goHome = useCallback(() => {
     setScrollPosition(0, 0);
-    navigate(availablePaths?.INDEX);
+    navigate(availablePaths?.HOME);
     diningInformationStorage(
       produce(diningInformationStorage(), (draft) => {
         if (draft) {
@@ -137,10 +140,15 @@ export const Header: React.FC<IHeaderProps> = ({
                   </p>
                 )}
               </div>
-              {irdMenu && <DropDownIrdCategory className={styles.categoryDropdown} />}
+              {irdMenu && !openCategory ? (
+                <MenuDropDown className={styles.categoryDropdown} />
+              ) : (
+                <MenuDropDownSecondary className={styles.categoryDropdown} />
+              )}
             </div>
           ) : (
-            <RadissonLogo />
+            // screenTitle && <p className={styles.screenHeader}>{t(`${screenTitle}`)}</p>
+            <img src={`/images/${BRAND_CODE}/Logo.svg`} />
           )}
 
           {displaySearchButton && search && (
@@ -221,7 +229,6 @@ export const Header: React.FC<IHeaderProps> = ({
           </>
         )}
       </>
-      {screenTitle === HEADERS[0] && <p className={styles.screenTitle}>{t(`${screenTitle}`)}</p>}
     </>
   );
 };

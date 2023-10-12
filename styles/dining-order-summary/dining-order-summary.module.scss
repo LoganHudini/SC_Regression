@@ -10,7 +10,7 @@
   align-items: center;
   display: flex;
   border-bottom: 1px dashed var(--primary-border-color);
-  font: $medium var(--primary-font-news);
+  font: $medium var(--primary-font-heading);
 }
 
 .cartWrapper {
@@ -33,17 +33,28 @@
 }
 
 .itemTitle {
-  font: $medium var(--primary-font-news);
-  padding: 1rem 0.5rem;
+  font: $medium var(--primary-font-heading);
+  padding: 0.75rem 0.5rem;
+  width: 70%;
+}
+
+.selectionsWrapper {
+  margin: 0 6px;
 }
 
 .itemDescription {
   font-size: $small;
-  line-height: 1.25;
-  padding: 0 0.5rem;
-  padding-left: 0.5rem;
-  color: #7b7b7b;
+  line-height: 1.5;
+  padding: 0 0.1rem;
   font-family: var(--primary-font-regular);
+  color: var(--tertiary-text-color);
+  margin: 4px 0;
+  width: 95%;
+}
+
+.items {
+  font-size: $small;
+  font-family: var(--primary-font-medium);
 }
 
 .items + .items::before {
@@ -53,7 +64,7 @@
 }
 
 .itemPrice {
-  font: $medium var(--primary-font-news);
+  font: $medium var(--primary-font-heading);
   padding: 0.5rem;
 }
 
@@ -76,7 +87,9 @@
 }
 
 .textInput {
+  width: 96%;
   margin: 1rem 0px;
+  padding: 0 8px;
   border-radius: var(--primary-card-border-radius);
   box-shadow: 0px 3px 6px var(--primary-card-shadow-color);
   height: 40px;
@@ -107,16 +120,10 @@
   cursor: pointer;
   overflow-x: scroll;
   display: flex;
-  flex-direction: column;
-  width: 100%;
 }
 
 .youMayAlsoLikeText {
-  font: $medium var(--primary-font-news);
-}
-
-.carouselItemWidth {
-  min-width: 350px;
+  font: $medium var(--primary-font-heading);
 }
 
 .noOfGuests {
@@ -130,7 +137,7 @@
 }
 
 .noOfGuestsTitle {
-  font: $medium var(--primary-font-news);
+  font: $medium var(--primary-font-heading);
   padding: 4px 0;
 }
 
@@ -147,7 +154,7 @@
 }
 
 .paymentTitle {
-  font: $medium var(--primary-font-news);
+  font: $medium var(--primary-font-heading);
   margin: 0.5rem 0;
 }
 

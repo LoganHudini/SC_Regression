@@ -19,15 +19,6 @@
   width: 100%;
 }
 
-.diningElement {
-  &:not(:first-child) {
-    margin-top: 83px;
-  }
-
-  display: flex;
-  align-items: center;
-}
-
 .diningImage {
   width: 110px;
   height: 110px;
@@ -52,9 +43,20 @@
   margin-right: 24px;
 }
 
-.overlay {
+.backdrop {
+  background-color: var(--primary-overlay-color);
+  height: 100%;
+  width: 100%;
+  min-height: 844px;
+  position: absolute;
+  max-width: 768px;
+  z-index: 2;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.menuDropdown {
   position: fixed;
-  top: 60px;
   left: 0;
   right: 0;
   display: flex;
@@ -62,40 +64,45 @@
   background: var(--secondary-text-color);
   z-index: 5;
   max-width: 768px;
-  min-height: 80px;
-  max-height: 250px;
   margin: auto;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  justify-content: center;
   align-items: center;
-  display: grid;
-}
-
-.scroll {
   overflow: auto;
-  width: 768px;
-  max-height: 220px;
-  margin-bottom: 1rem;
+  max-height: 250px;
+  margin-bottom: 3rem;
 }
 
-// temporary change
-.close {
-  display: none;
-}
-
-.backdrop {
-  background-color: #0b0a0a3c;
-  height: 100%;
-  width: 100%;
-  min-height: 844px;
-  position: absolute;
+.menuList {
   max-width: 768px;
-  margin-top: 77px;
-  z-index: 1;
-  overflow-y: hidden;
-  overflow-x: hidden;
+  margin: 0 auto;
 }
 
 .disable {
   pointer-events: none;
+}
+
+.bottomScrollIcon {
+  padding: 8px 0;
+  position: fixed;
+  left: 0;
+  right: 0;
+  max-width: 768px;
+  top: 280px;
+  text-align: center;
+  z-index: 10;
+  background: white;
+  height: 20px;
+  margin: auto;
+}
+
+.scrollContainer {
+  &:not(:last-child) {
+    color: #00000029;
+    background: linear-gradient(to right, currentColor 0%, currentColor 60%, transparent 10%)
+      repeat-x left bottom;
+    background-size: 20px 1px;
+  }
+  &:last-child {
+    margin-bottom: 2rem;
+  }
 }

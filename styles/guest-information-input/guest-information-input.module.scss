@@ -21,7 +21,7 @@
 .identityInputs {
   display: flex;
   flex-direction: column;
-  margin-right: 10px;
+  margin-inline-end: 10px;
   margin-left: 5px;
 
   :global(.MuiFormLabel-filled) {

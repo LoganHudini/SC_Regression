@@ -73,3 +73,61 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E3DU5R0R1H7FSF'
+    deployToFairmontUAT:
+      - step:
+          caches:
+            - node
+          name: Deploy Manually to UAT https://fairmont.hudini.app/
+          deployment: uat
+          size: 2x # Double resources available for this step.
+          script:
+            - rm -rf package-lock.json
+            - rm -rf yarn.lock
+            - rm -rf node_modules
+            - yarn
+            - CI='' yarn build:fairmont
+            - CI='' yarn export
+            - cd out
+            - pipe: atlassian/aws-s3-deploy:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_UAT # Optional if already defined in the context.
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT # Optional if already defined in the context.
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT # Optional if already defined in the context.
+                #ACL: 'public-read'
+                S3_BUCKET: $S3_BUCKET_FAIRMONT_UAT
+                LOCAL_PATH: $(pwd)
+            - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_UAT
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
+                DISTRIBUTION_ID: 'E2UKK3TQ2VVU2N'
+    deployToRafflesUAT:
+      - step:
+          caches:
+            - node
+          name: Deploy Manually to UAT https://raffles.hudini.app/
+          deployment: uat
+          size: 2x # Double resources available for this step.
+          script:
+            - rm -rf package-lock.json
+            - rm -rf yarn.lock
+            - rm -rf node_modules
+            - yarn
+            - CI='' yarn build:raffles
+            - CI='' yarn export
+            - cd out
+            - pipe: atlassian/aws-s3-deploy:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_UAT # Optional if already defined in the context.
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT # Optional if already defined in the context.
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT # Optional if already defined in the context.
+                #ACL: 'public-read'
+                S3_BUCKET: $S3_BUCKET_RAFFLES_UAT
+                LOCAL_PATH: $(pwd)
+            - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_UAT
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
+                DISTRIBUTION_ID: 'E3PFBGDNMD6JBU'

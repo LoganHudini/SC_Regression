@@ -37,7 +37,7 @@ const UpcomingStays: React.FC<ITripsProps> = ({ roomDetails }) => {
   }, []);
 
   const findMyBooking = useCallback(() => {
-    navigate(availablePaths.GET_RESERVATION);
+    navigate(availablePaths?.HOME);
   }, [navigate]);
 
   return (
@@ -75,10 +75,10 @@ const UpcomingStays: React.FC<ITripsProps> = ({ roomDetails }) => {
               key={trip.reservationId}
               selectedFilter={selectedFilter}
               roomDetails={roomDetails}
-              specialRequests={trip.specialRequests}
-              guests={trip.guests}
+              // specialRequests={trip.specialRequests}
+              // guests={trip.guests}
               reservationId={trip.reservationId}
-              personalizationEntities={trip.personalizationEntities}
+              // personalizationEntities={trip.personalizationEntities}
             />
           ))}
         </div>

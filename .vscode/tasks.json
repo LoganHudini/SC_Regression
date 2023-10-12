@@ -21,7 +21,7 @@
       "problemMatcher": [],
       "label": "Start: STAGE",
       "detail": "env-cmd -f .env.stage next start"
-    }
+    },
     {
       "type": "npm",
       "script": "dev:uat",
@@ -43,6 +43,28 @@
       "problemMatcher": [],
       "label": "Start: UAT",
       "detail": "env-cmd -f .env.uat next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:fairmont",
+      "problemMatcher": [],
+      "label": "Dev: FAIRMONT",
+      "detail": "env-cmd -f .env.fairmont yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:fairmont",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: FAIRMONT",
+      "detail": "env-cmd -f .env.fairmont yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:fairmont",
+      "problemMatcher": [],
+      "label": "Start: FAIRMONT",
+      "detail": "env-cmd -f .env.fairmont next start"
     }
   ]
 }

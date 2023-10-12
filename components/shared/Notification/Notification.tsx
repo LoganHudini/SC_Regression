@@ -2,22 +2,20 @@ import React, { useEffect } from 'react';
 import cx from 'classnames';
 import styles from './Notification.module.scss';
 import { useTranslation } from 'react-i18next';
-import CheckMark from '@icons/thinCheckMark.svg';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { availablePaths } from 'utils/availablePaths';
-import { DINING, HOUSEKEEPING, RESTAURANTS_BARS } from 'utils/constants';
 import { useReactiveVar } from '@apollo/client';
 import { toggleNotification } from 'storage/home.storage';
 import { diningMenuStorage } from 'storage/dining-menu.storage';
+import { SuccessAnimation } from '../Loaders/Loaders';
 
-interface IThankYouDrawerProps {
+interface INotificationProps {
   title: string;
   description?: string;
   redirect: string;
   type: string;
 }
 
-export const Notification: React.FC<IThankYouDrawerProps> = ({
+export const Notification: React.FC<INotificationProps> = ({
   title,
   description,
   redirect,
@@ -30,12 +28,10 @@ export const Notification: React.FC<IThankYouDrawerProps> = ({
   useEffect(() => {
     if (notificationStatus) {
       setTimeout(() => {
-        redirect === HOUSEKEEPING && navigate(availablePaths.HOUSEKEEPING);
-        redirect === DINING && navigate(availablePaths.DINING);
-        redirect === RESTAURANTS_BARS && navigate(availablePaths.RESTAURANTS_BARS);
+        navigate(redirect);
         toggleNotification(false);
         diningMenuStorage({ items: [] });
-      }, 4000);
+      }, 5000);
     }
   }, [navigate, notificationStatus, redirect]);
 
@@ -47,7 +43,7 @@ export const Notification: React.FC<IThankYouDrawerProps> = ({
       {notificationStatus && (
         <div className={cx(styles.wrapper, { [styles.wrapperOpened]: notificationStatus })}>
           <div className={styles.iconWrapper}>
-            <CheckMark className={styles.icon} />
+            <SuccessAnimation />
           </div>
           <div className={styles.contentWrapper}>
             <p className={styles.title}>{title}</p>

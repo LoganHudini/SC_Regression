@@ -9,12 +9,6 @@ import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
 import { CURRENCY } from 'core/graphql/endpoints';
 import { useTranslation } from 'react-i18next';
-import { client } from 'core/graphql/client';
-import { ApolloError, useReactiveVar } from '@apollo/client';
-import { REQUEST_F_AND_B_BILL } from 'core/graphql/queries/REQUEST_F_AND_B_BILL';
-import { restaurantListStorage } from 'storage/table-reservation.storage';
-import { useLocale } from 'utils/hooks/useLocalizedRouter';
-import { processError } from 'utils/processError';
 
 export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
   ordersDrawer,
@@ -22,79 +16,9 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
   ordersData,
 }) => {
   const { t } = useTranslation(['common', 'dining']);
-  const locale = useLocale();
   const [myOrders, setMyOrders] = useState(true);
   const [thankYou, setThankYou] = useState(false);
   const [expandedCardId, setExpandedCardId] = useState('');
-
-  const name =
-    (typeof window !== 'undefined' &&
-      localStorage.getItem('FandB_guestDetails') &&
-      JSON.parse(localStorage.getItem('FandB_guestDetails') ?? '').name) ??
-    '';
-  const numberOfGuest =
-    (typeof window !== 'undefined' &&
-      localStorage.getItem('NoOfGuest') &&
-      JSON.parse(localStorage.getItem('NoOfGuest') ?? '')) ??
-    1;
-  const tableNumber =
-    (typeof window !== 'undefined' &&
-      localStorage.getItem('tableNumber') &&
-      JSON.parse(localStorage.getItem('tableNumber') ?? '')) ??
-    '';
-  const restaurantId =
-    (typeof window !== 'undefined' &&
-      localStorage.getItem('restaurantId') &&
-      JSON.parse(localStorage.getItem('restaurantId') ?? '')) ??
-    '';
-  const roomNumber =
-    (typeof window !== 'undefined' &&
-      localStorage.getItem('FandB_guestDetails') &&
-      JSON.parse(localStorage.getItem('FandB_guestDetails') ?? '')?.roomNumber) ??
-    '';
-  const phoneNumber =
-    (typeof window !== 'undefined' &&
-      localStorage.getItem('FandB_guestDetails') &&
-      JSON.parse(localStorage.getItem('FandB_guestDetails') ?? '').phoneNumber) ??
-    '';
-
-  const restaurantsList = useReactiveVar(restaurantListStorage);
-
-  const restaurantName = restaurantsList?.find((item) => item.id === restaurantId);
-
-  const handleRequestBill = () => {
-    if (restaurantId === '') {
-      closeDrawer();
-    } else {
-      handleConfirm();
-    }
-  };
-
-  const handleConfirm = async () => {
-    const requestBill = {
-      guestName: name,
-      guestType: roomNumber ? 'Resident' : 'Non-Resident',
-      noOfGuests: numberOfGuest,
-      phoneNumber: phoneNumber,
-      restaurantId: restaurantId,
-      roomNumber: roomNumber,
-      tableNumber: tableNumber,
-      lang: locale === 'en' ? '' : locale,
-    };
-
-    try {
-      const response = await client.mutate({
-        mutation: REQUEST_F_AND_B_BILL,
-        context: { clientName: 'host_v5' },
-        fetchPolicy: 'network-only',
-        variables: requestBill,
-      });
-      setMyOrders(false);
-      setThankYou(true);
-    } catch (error) {
-      processError(t, error as ApolloError);
-    }
-  };
 
   const handleOk = () => {
     setThankYou(false);
@@ -110,18 +34,12 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
     ?.map((x: any) => x?.totalAmount)
     ?.reduce((sum, amount) => sum + amount);
 
-  const itemTotal = useCallback(
-    (item: any) => {
-      return (
-        item?.amount * item?.count +
-        (!restaurantId ? item?.addOns : item?.addons)?.reduce(
-          (acc: number, addon: any) => acc + addon?.price,
-          0,
-        )
-      );
-    },
-    [restaurantId],
-  );
+  const itemTotal = useCallback((item: any) => {
+    return (
+      item?.amount * item?.count +
+      item?.addOns?.reduce((acc: number, addon: any) => acc + addon?.price, 0)
+    );
+  }, []);
 
   return (
     <Drawer
@@ -132,24 +50,20 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
       PaperProps={{
         elevation: 0,
         style: {
-          borderTopRightRadius: '2rem',
-          borderTopLeftRadius: '2rem',
-          maxWidth: '772px',
+          borderTopLeftRadius: 'var(--primary-drawer-top-left-border-radius)',
+          borderTopRightRadius: 'var(--primary-drawer-top-right-border-radius)',
+          maxWidth: '768px',
           margin: 'auto',
-          maxHeight: '70vh',
+          maxHeight: 'var(--primary-drawer-height)',
         },
       }}
     >
       {myOrders && (
         <div className={styles.myOrdersWrapper}>
+          <div className={styles.drawerNotch}></div>
           <h3 className={styles.heading}>{t('My Orders')}</h3>
-
-          <div className={styles.titleRow}>
-            <p className={styles.title}>
-              {restaurantId ? restaurantName?.name || t('Restaurant Order') : t('In-Room Dining')}
-            </p>{' '}
-          </div>
           <div className={styles.container}>
+            <p className={styles.title}>{t('In-Room Dining')}</p>{' '}
             <div className={styles.scroll}>
               {ordersData?.map((orderCategory: any) => {
                 const isCardExpanded = expandedCardId === orderCategory.id;
@@ -190,30 +104,25 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
                                 {item?.count} x {item?.name}{' '}
                               </p>
                               <p className={styles.itemsPrice}>
-                                {' '}
                                 <span className={styles.currency}>{CURRENCY}</span>{' '}
                                 {itemTotal(item)?.toFixed(2)}
                               </p>
                             </div>
                             <div className={styles.itemRow}>
-                              {item?.customisations[0]?.name && (
-                                <p className={styles.itemDescription}>
-                                  {' '}
-                                  {t('Customisation')}: {item?.customisations[0]?.name}
+                              {item?.customisations?.map((item: any, index: number) => (
+                                <p key={index} className={styles.itemDescription}>
+                                  {t('Customisations')}:{' '}
+                                  <span className={styles.grayText}>{item?.name}</span>
                                 </p>
-                              )}
-                              {((!restaurantId ? item?.addOns : item?.addons) ?? [])?.length >
-                                0 && (
+                              ))}
+                              {(item?.addOns ?? [])?.length > 0 && (
                                 <p className={styles.itemDescription}>
-                                  {' '}
                                   {t('Add-ons :')}{' '}
-                                  {(!restaurantId ? item?.addOns : item?.addons)?.map(
-                                    (item: any, index: number) => (
-                                      <span key={index} className={styles.items}>
-                                        {item?.name} ({CURRENCY} {item?.price})
-                                      </span>
-                                    ),
-                                  )}
+                                  {item?.addOns?.map((item: any, index: number) => (
+                                    <span key={index} className={styles.grayText}>
+                                      {item?.name} ({CURRENCY} {item?.price})
+                                    </span>
+                                  ))}
                                 </p>
                               )}
                               {item?.cookingInstructions && (
@@ -248,15 +157,8 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
             </div>
           </div>
 
-          <StyledButton
-            disabled={
-              restaurantId && !ordersData?.some((item: any) => item?.status === STATUS[2].key)
-            }
-            variant='contained'
-            className={styles.button}
-            onClick={handleRequestBill}
-          >
-            {restaurantId ? t('Request Bill') : t('Close')}
+          <StyledButton variant='contained' className={styles.button} onClick={closeDrawer}>
+            {t('Close')}
           </StyledButton>
         </div>
       )}

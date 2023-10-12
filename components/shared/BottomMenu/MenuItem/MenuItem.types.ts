@@ -2,8 +2,7 @@ import React from 'react';
 
 export interface IMenuItemProps {
   title: string;
-  Icon: React.FC;
-
+  Icon: any;
   externalLink: string;
   flow: string;
   pages: string[];
@@ -20,6 +19,9 @@ export interface IModuleOptionsDrawerProps {
   homeActive: boolean;
   irdActive: boolean;
   housekeepingActive: boolean;
+  hotelCompendiumActive: boolean;
+  spaActive: boolean;
+  offersActive: boolean;
 }
 
 export interface IHamburgerMenuDrawerProps {

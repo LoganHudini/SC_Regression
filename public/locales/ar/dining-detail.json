@@ -11,6 +11,6 @@
   "Add to cart": "أَضِف إلى السلة",
   "Required": "مطلوب",
   "Limit exceeded": "تَمَّ تجاوُز الحد المسموح به",
-  "Select up to options": "اِختَر حتى {{value}} خيار",
+  "Select up to option(s)": "اِختَر حتى {{value}} خيار",
   "Add instructions": "أَضِف تعليمات الطهي"
 }

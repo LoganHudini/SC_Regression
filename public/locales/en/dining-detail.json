@@ -11,6 +11,6 @@
   "Add to cart": "Add to cart",
   "Required": "Required",
   "Limit exceeded": "Limit exceeded",
-  "Select up to options": "Select up to {{value}} options",
+  "Select up to option(s)": "Select up to {{value}} options",
   "Add instructions": "Add instructions"
 }

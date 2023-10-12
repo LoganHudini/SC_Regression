@@ -60,7 +60,7 @@ export const UpcomingStay: React.FC<IUpcomingStayProps> = ({
     specialRequestsStorage(specialRequests);
     guestInformationStorage(guests);
 
-    navigate(availablePaths.ROOM_ASSIGNED);
+    // navigate(availablePaths.ROOM_ASSIGNED);
   }, [guests, personalizationEntities, reservationData, navigate, specialRequests]);
 
   const currentRoomType = roomDetails.getHotelAccommodationDetails.roomTypes.find(

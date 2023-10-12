@@ -1,35 +1,33 @@
 .staySummary {
-  margin-top: 55px;
+  margin-top: 100px;
   padding: 0 20px 21px 15px;
-  border-bottom: 1px solid var(--primary-text-color);
+  border-bottom: 1px solid var(--tertiary-text-color);
   margin-bottom: 10px;
 }
 
 .staySummaryInner {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .staySummaryColumn {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-
-  &:last-of-type {
-    align-items: flex-end;
-    margin-left: auto;
-  }
+  text-align: start;
 }
 
 .staySummaryColumnTitle {
-  font-size: 0.75rem;
+  font-size: $extraSmall;
+  font-family: var(--primary-font-regular);
   color: var(--tertiary-text-color);
   line-height: 1;
+  text-transform: uppercase;
   font-weight: 400;
 }
 
 .staySummaryColumnValue {
-  font-size: 0.8125rem;
-  color: var(--tertiary-text-color);
+  font-size: $xsmall;
+  font-family: var(--primary-font-heading);
+  color: var(--primary-text-color);
   margin-top: 5px;
   font-weight: 600;
   line-height: 1;
@@ -38,5 +36,14 @@
 .arrow {
   width: 15px;
   height: auto;
-  margin: auto 25px auto 14px;
+  margin: 7px 10px 0px 0px;
+}
+
+.arrowWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.align {
+  text-align: end;
 }

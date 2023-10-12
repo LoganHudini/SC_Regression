@@ -1,0 +1,228 @@
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 64px 20px 110px 20px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.bannerImage {
+  cursor: pointer;
+  display: flex;
+  min-height: 190px;
+  height: 100%;
+  width: 100%;
+  margin: auto;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.indicatorIcon {
+  width: 6px;
+  height: 6px;
+  background: var(--secondary-text-color);
+
+  &:not(:last-child) {
+    margin-right: 6px;
+  }
+}
+
+.listComponent {
+  margin: 2rem 0;
+  cursor: pointer;
+
+  &:first-child {
+    margin: 1rem 0;
+  }
+}
+
+.listComponentTitle {
+  font-size: $header;
+  font-family: var(--heading-font-regular);
+  text-align: center;
+  margin: 8px 0;
+}
+
+.currency {
+  font-size: $xsmall;
+}
+
+.listDurationPrice {
+  font: $medium var(--primary-font-heading);
+  margin: 8px 0;
+}
+
+.listDurationOffer {
+  font: $small var(--primary-font-heading);
+  margin: 8px 0;
+}
+
+.listDescription {
+  font-size: $small;
+  color: var(--tertiary-text-color);
+  margin: 8px 0;
+  line-height: 1.5;
+  -webkit-line-clamp: 2;
+}
+
+.listComponentData {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.buttonsWrapper {
+  margin-top: 23px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.listComponentBtn {
+  width: 140px;
+  height: 36px;
+  padding: 5px 15px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  font-weight: bold;
+  color: var(--primary-theme-color);
+}
+
+.listComponentBookingBtn {
+  width: auto;
+  height: 36px;
+  padding: 5px 15px;
+  margin-left: auto;
+  font-weight: bold;
+  color: var(--primary-theme-color);
+}
+
+.showAll {
+  width: auto;
+  margin: 15px auto 0 auto;
+  padding: 10px 25px;
+}
+
+.cuisineIcon {
+  height: auto;
+}
+
+.restaurantIcon {
+  flex: 0 0 18px;
+  height: auto;
+}
+
+.locationIcon {
+  flex: 0 0 13px;
+  height: auto;
+}
+
+.cuisineRow,
+.locationRow,
+.restaurantRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-decoration: none;
+  margin: 4px 0;
+  font-family: var(--primary-font-regular);
+  font-size: $xsmall;
+  text-transform: capitalize;
+
+  span {
+    margin-inline-start: 10px;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    text-transform: capitalize;
+    color: var(--primary-text-color);
+    margin-top: 2px;
+  }
+}
+
+.restaurantRow {
+  span {
+    margin-left: 3px;
+  }
+}
+
+.callRow,
+.emailRow {
+  text-decoration: none;
+  color: var(--primary-theme-color);
+}
+
+.backToTop {
+  width: 140px;
+  height: 36px;
+  margin: 1rem auto 0;
+  font-family: var(--primary-font-bold);
+  width: 155px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  color: var(--primary-theme-color);
+  padding: 1.3rem 0;
+}
+
+.viewMenuBtn {
+  display: none;
+}
+
+.listViewDetails {
+  display: none;
+}
+
+.contentWrapper {
+  width: 94%;
+  position: relative;
+  margin: auto;
+  margin-top: -3rem;
+  box-shadow: 0px -2px 10px var(--primary-box-shadow-color);
+  background-color: var(--primary-background-color);
+}
+
+.imageContent {
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.readMoreButton {
+  font-size: $extraSmall;
+  font-family: var(--secondary-button-font-family);
+  color: var(--primary-theme-color);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin: 8px 0;
+  text-transform: uppercase;
+}
+
+.cuisineRowTime {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-decoration: none;
+  margin: 4px 0;
+  font-family: var(--primary-font-regular);
+  font-size: $xsmall;
+  text-transform: capitalize;
+  margin-inline-start: 2px;
+  text-align: start;
+
+  p {
+    margin-inline-start: 12px;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    text-transform: capitalize;
+    color: var(--primary-text-color);
+    margin-top: 2px;
+    -webkit-line-clamp: 2;
+  }
+}

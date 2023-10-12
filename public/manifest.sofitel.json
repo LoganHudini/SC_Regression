@@ -4,11 +4,11 @@
   "display": "fullscreen",
   "scope": "/",
   "start_url": "/",
-  "name": "Sofitel Manila",
-  "short_name": "Sofitel Manila",
+  "name": "Sofitel",
+  "short_name": "Sofitel",
   "icons": [
     {
-      "src": "/images/sofitel/icons/sofitel.png",
+      "src": "/images/sofitel/Logo.png",
       "type": "image/png",
       "sizes": "196x196"
     }

@@ -1,8 +1,9 @@
 .carouselContainer {
-  padding: 0px 0px;
   overflow: auto;
 }
 
 .carouselItem {
-  width: 285px;
+  margin-inline-end: 10px;
+  max-width: 273px;
+  min-width: 273px;
 }

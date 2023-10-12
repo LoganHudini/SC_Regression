@@ -4,10 +4,12 @@ import { getTrips } from './trips.storage';
 
 interface ICheckinStorageData {
   reservationId?: any;
-  checkedIn: boolean;
-  token?: string;
   preCheckedIn?: boolean;
-  bookingId?: string;
+  checkedIn: boolean;
+  name?: string;
+  email?: string;
+  roomNumber?: string;
+  invoiceId?: string;
 }
 
 export const checkinStorage = makeVar<ICheckinStorageData>({
@@ -24,7 +26,15 @@ export const useCheckedIn = () => {
     const checkedInReservation = reservations.find((el) => el.checkedIn);
 
     if (checkedInReservation) {
-      checkinStorage({ reservationId: checkedInReservation.reservationId, checkedIn: true });
+      checkinStorage({
+        reservationId: checkedInReservation?.reservationId,
+        preCheckedIn: checkedInReservation?.preCheckedIn,
+        checkedIn: checkedInReservation?.checkedIn ?? false,
+        name: checkedInReservation?.name,
+        email: checkedInReservation?.email,
+        roomNumber: checkedInReservation?.roomNumber,
+        invoiceId: checkedInReservation?.invoiceId,
+      });
     }
   }, []);
 

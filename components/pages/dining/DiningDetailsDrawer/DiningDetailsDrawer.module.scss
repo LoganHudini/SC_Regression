@@ -1,42 +1,36 @@
-.drawerNotch {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 8px;
-  margin: 0 auto;
-  width: 50px;
-  height: 6px;
-  background: var(--primary-drawer-notch-color) 0% 0% no-repeat padding-box;
-  border-radius: 3px;
-}
-
 .image {
   display: flex;
-  object-fit: contain;
-  // position: fixed;
-  // width: 341px;
-  // height: 192px;
-  // margin: auto;
-  // margin-top: -8rem;
+  object-fit: cover;
+  min-height: 210px;
+  width: 100%;
+  height: 100%;
 }
 
 .wrapper {
-  padding: 0 1.5rem 6rem;
+  padding: 0 1.5rem 1.5rem;
+}
+
+.titleWrapper {
+  position: sticky;
+  top: 0;
+  width: 98%;
+  margin: auto;
+  max-width: 768px;
+  background-color: var(--primary-background-color);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .title {
-  font: $header var(--secondary-font-regular);
-  margin: 1rem 0;
+  font: $header var(--heading-font-regular);
+  margin: 1.5rem auto 1rem;
   text-align: center;
-  // color: var(--secondary-text-color);
-  // position: fixed;
-  // max-width: 768px;
-  // left: 0;
-  // right: 0;
-  // margin: auto;
-  // text-align: center;
-  // margin-top: -11rem;
-  // z-index: 10;
+}
+
+.titleWithImage {
+  margin: 1rem auto;
 }
 
 .tagsWrapper {
@@ -75,7 +69,7 @@
 
 .ingredientsText {
   margin: 15px 0 5px;
-  font: $medium var(--primary-font-news);
+  font: $medium var(--primary-font-heading);
 }
 
 .ingredientsDescription {
@@ -91,7 +85,7 @@
 }
 
 .customisationsText {
-  font: $medium var(--primary-font-news);
+  font: $medium var(--primary-font-heading);
   color: var(--primary-text-color);
   height: 1.5rem;
   line-height: 1.5rem;
@@ -143,7 +137,7 @@
 }
 
 .addonsText {
-  font: $medium var(--primary-font-news);
+  font: $medium var(--primary-font-heading);
 }
 
 .optionalText {
@@ -155,7 +149,7 @@
   height: 1.5rem;
   line-height: 1.5rem;
   text-align: center;
-  border-radius: 1.25rem;
+  border-radius: var(--primary-card-border-radius);
   margin-inline-start: 0.5rem;
 }
 
@@ -164,16 +158,16 @@
   color: var(--primary-error-text-color);
   background-color: #f0f0f0;
   width: auto;
-  height: 1.5rem;
-  line-height: 1.5rem;
-  text-align: center;
-  border-radius: 1.25rem;
-  margin-inline-start: 0.5rem;
   padding: 0 8px;
+  height: 1.5rem;
+  line-height: 1.5rem !important;
+  text-align: center;
+  border-radius: var(--primary-card-border-radius);
+  margin-inline-start: 0.5rem;
 }
 
 .textInput {
-  margin: 1.5rem 0 0.5rem;
+  margin: 0.5rem 0 0.5rem;
 }
 
 .customUnderline:before,
@@ -191,32 +185,39 @@
 
 .totalItemPrice {
   margin-top: 5px;
-  font: $xsmall var(--primary-font-news);
+  font: $xsmall var(--primary-font-heading);
 }
 
 .price {
-  font: $medium var(--primary-font-news);
+  font: $medium var(--primary-font-heading);
 }
 
 .counterContainer {
   background: var(--primary-background-color);
-  position: fixed;
+  position: sticky;
+  width: 100%;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 16px;
   border-radius: 0;
   box-shadow: 0px -2px 10px var(--primary-box-shadow-color);
-  max-width: 736px;
+  max-width: 768x;
   margin: 0 auto;
   display: flex;
+  flex-direction: row;
+  gap: 10px;
   justify-content: space-between;
   border-top-left-radius: var(--primary-card-border-radius);
   border-top-right-radius: var(--primary-card-border-radius);
+  z-index: 2;
 }
 
+.plusMinusInput {
+  margin: 0.5rem 1rem;
+}
 .addToCart {
   width: 200px;
   height: 44px !important;
   line-height: 44px !important;
+  margin: 0.5rem;
 }

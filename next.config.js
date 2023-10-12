@@ -21,7 +21,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: false,
   webpack(config, options) {
-    const hotelCode = process.env.NEXT_PUBLIC_HOTEL_CODE || 'default';
+    const hotelCode = process.env.NEXT_PUBLIC_BRAND_CODE || 'default';
 
     // SCSS configuration for the 'Component.hotelName.scss'
     const oneOf = config.module.rules.find((rule) => typeof rule.oneOf === 'object');
@@ -108,7 +108,7 @@ const nextConfig = {
     }
 
     // Icons override logic
-    // config.resolve.alias['@icons'] = path.resolve(__dirname, `assets/icons/${hotelCode}`);
+    config.resolve.alias['@icons'] = path.resolve(__dirname, `assets/icons/${hotelCode}`);
 
     // Multibrand PWA logic
     config.plugins.push(

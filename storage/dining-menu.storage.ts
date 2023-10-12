@@ -8,11 +8,14 @@ export type IDiningMenuStorageData = {
     title: string;
     code: string;
     cookingInstruction?: string;
-    customisation?: {
-      ingredient: string;
-      name: string;
-      code: string;
-    };
+    customisation?:
+      | {
+          ingredient: string;
+          name: string;
+          code: string;
+          id: string;
+        }[]
+      | any;
     addons?: {
       code: string;
       id: string;

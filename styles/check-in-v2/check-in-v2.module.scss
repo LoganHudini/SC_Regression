@@ -38,30 +38,26 @@
 
 .personalizationText {
   font-size: $medium;
-  font-family: var(--primary-font-news);
+  font-family: var(--primary-font-heading);
   color: var(--tertiary-text-color);
-}
-
-.cardWrapper {
-  margin-top: 22px;
 }
 
 .agrementWrapper {
   display: flex;
-  margin: 0px 0 13px 0;
+  align-items: center;
 }
 
 .agrementText {
   text-align: start;
   font-size: $small;
-  margin-left: 15px;
+  margin-inline-start: 15px;
   flex: 1;
-  max-width: 280px;
   line-height: 1.4;
+  padding-top: 3px;
   color: var(--tertiary-text-color);
   font-family: var(--primary-font-book);
   a {
-    color: var(--tertiary-text-color);
+    color: var(--primary-theme-color);
     text-decoration: none;
     white-space: nowrap;
   }
@@ -72,20 +68,19 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-right: -3px;
+  margin: 40px 0 10px 0;
 }
 
 .guestSignature {
   font-size: $medium;
-  font-family: var(--primary-font-news);
+  font-family: var(--primary-font-heading);
 }
 
 .clearBtn {
   color: var(--primary-theme-color);
   font-size: $medium;
   text-transform: none;
-  width: auto;
-  margin-right: -6px;
+  width: fit-content;
   font-family: var(--primary-font-medium);
 }
 
@@ -95,7 +90,7 @@
     background: var(--primary-card-background-color);
   }
   margin: 0 auto;
-  margin-bottom: 150px;
+  margin-bottom: 100px;
 }
 
 .settlementWrapper {
@@ -118,7 +113,7 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 2vh;
-  border-bottom: 1px solid #b9b9b9;
+  border-bottom: 1px solid var(--primary-border-color);
 }
 
 .checkDatesText {
@@ -130,7 +125,7 @@
 }
 
 .checkDatesDetails {
-  font-family: var(--primary-font-news);
+  font-family: var(--primary-font-heading);
   font-size: $small;
   margin-bottom: 20px;
   color: var(--tertiary-text-color);
@@ -138,17 +133,26 @@
 
 .description {
   float: left;
-  font-family: var(--primary-font-news);
   font-size: $small;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--primary-font-heading);
+  font-size: $small;
+  color: var(--tertiary-text-color);
   div {
     text-align: start;
+    font-family: var(--primary-font-heading);
+    font-size: $small;
+    color: var(--tertiary-text-color);
   }
 }
 
 .infoText {
   font-size: $small;
   padding: 25px 10px;
+  line-height: 1.5;
   text-align: center;
   font-family: var(--primary-font-book);
   color: var(--tertiary-text-color);
@@ -196,28 +200,31 @@
   text-transform: uppercase;
 }
 
-.checkBoxAlign {
-  margin-bottom: 10px;
-}
-
 .bottomButton {
   width: 90%;
   max-width: 768px;
 }
 
 .checkInButton {
-  font-weight: 900;
+  width: 100%;
+  margin: auto 10px;
+  height: 44px;
 }
 
 .btnWrapper {
-  padding: 20px 26px 20px 26px;
   position: fixed;
-  box-sizing: border-box;
-  margin: 0 auto;
   bottom: 0;
-  right: 0;
-  background: var(--primary-background-color);
   left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row;
   max-width: 768px;
-  box-shadow: 5px 0px 20px var(--primary-box-shadow-color);
+  height: 64px;
+  margin: auto;
+  border-top-left-radius: var(--primary-card-border-radius);
+  border-top-right-radius: var(--primary-card-border-radius);
+  box-shadow: 0px -2px 8px var(--primary-box-shadow-color);
+  background: var(--primary-background-color);
+  z-index: 1;
+  animation: fadeIn 0.5s;
 }
