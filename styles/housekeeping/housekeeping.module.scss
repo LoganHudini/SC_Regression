@@ -63,7 +63,7 @@
   position: absolute;
   top: 75%;
   font-size: $large;
-  font-family: var(--primary-font-extd-medium);
+  font-family: var(--primary-font-medium);
 }
 
 .wrapper {
@@ -87,7 +87,7 @@
   font-size: $header;
   line-height: 1;
   margin: 5px auto 35px auto;
-  font-family: var(--secondary-font-regular);
+  font-family: var(--heading-font-regular);
 }
 
 .calendarDateWrapper {
@@ -101,20 +101,20 @@
   margin: 35px 0px 10px 0px;
   display: flex;
   justify-content: center;
-  font-family: var(--primary-font-news);
+  font-family: var(--primary-font-heading);
 }
 
 .calendarDateText {
   font-size: $small;
   color: var(--primary-theme-color);
-  font-family: var(--primary-font-news);
+  font-family: var(--primary-font-heading);
 }
 
 .itemsWrapper {
   display: flex;
   justify-content: space-between;
   font-size: $medium;
-  font-family: var(--primary-font-news);
+  font-family: var(--primary-font-heading);
   margin-bottom: 30px;
   margin-right: 20px;
 }

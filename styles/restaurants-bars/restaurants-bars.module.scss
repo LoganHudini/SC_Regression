@@ -45,7 +45,7 @@
 .listComponentTitle {
   cursor: pointer;
   font-size: $xlarge;
-  font-family: var(--secondary-font-regular);
+  font-family: var(--heading-font-regular);
   text-align: center;
   color: var(--primary-text-color);
 }
@@ -200,7 +200,7 @@
 .listComponentTitle {
   font-size: $header;
   margin: 3rem 0 1rem;
-  font: $header var(--secondary-font-regular);
+  font: $header var(--heading-font-regular);
   line-height: 1.2;
 }
 
@@ -432,7 +432,7 @@
 }
 
 .counterTitle {
-  font-family: var(--primary-font-news);
+  font-family: var(--primary-font-heading);
   font-size: $medium;
   color: var(--tertiary-text-color);
 }
@@ -477,7 +477,7 @@
 }
 
 .preferredTitle {
-  font-family: var(--primary-font-news);
+  font-family: var(--primary-font-heading);
   font-size: $medium;
   color: var(--tertiary-text-color);
   text-align: center;

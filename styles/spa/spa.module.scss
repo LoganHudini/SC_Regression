@@ -26,13 +26,13 @@
 }
 
 .detailComponentTitle {
-  font: $header var(--secondary-font-regular);
+  font: $header var(--heading-font-regular);
   margin: 1rem 0;
   text-align: center;
 }
 
 .detailComponentDuration {
-  font: $medium var(--primary-font-news);
+  font: $medium var(--primary-font-heading);
   margin: 1rem 0;
   text-align: center;
 }

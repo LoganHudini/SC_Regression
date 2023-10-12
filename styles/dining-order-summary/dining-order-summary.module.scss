@@ -10,7 +10,7 @@
   align-items: center;
   display: flex;
   border-bottom: 1px dashed var(--primary-border-color);
-  font: $medium var(--primary-font-news);
+  font: $medium var(--primary-font-heading);
 }
 
 .cartWrapper {
@@ -33,7 +33,7 @@
 }
 
 .itemTitle {
-  font: $medium var(--primary-font-news);
+  font: $medium var(--primary-font-heading);
   padding: 0.75rem 0.5rem;
   width: 70%;
 }
@@ -64,7 +64,7 @@
 }
 
 .itemPrice {
-  font: $medium var(--primary-font-news);
+  font: $medium var(--primary-font-heading);
   padding: 0.5rem;
 }
 
@@ -123,7 +123,7 @@
 }
 
 .youMayAlsoLikeText {
-  font: $medium var(--primary-font-news);
+  font: $medium var(--primary-font-heading);
 }
 
 .noOfGuests {
@@ -137,7 +137,7 @@
 }
 
 .noOfGuestsTitle {
-  font: $medium var(--primary-font-news);
+  font: $medium var(--primary-font-heading);
   padding: 4px 0;
 }
 
@@ -154,7 +154,7 @@
 }
 
 .paymentTitle {
-  font: $medium var(--primary-font-news);
+  font: $medium var(--primary-font-heading);
   margin: 0.5rem 0;
 }
 

@@ -42,7 +42,7 @@
 
 .listComponentTitle {
   font-size: $header;
-  font-family: var(--secondary-font-regular);
+  font-family: var(--heading-font-regular);
   text-align: center;
   margin: 8px 0;
 }
@@ -52,12 +52,12 @@
 }
 
 .listDurationPrice {
-  font: $medium var(--primary-font-news);
+  font: $medium var(--primary-font-heading);
   margin: 8px 0;
 }
 
 .listDurationOffer {
-  font: $small var(--primary-font-news);
+  font: $small var(--primary-font-heading);
   margin: 8px 0;
 }
 

@@ -3,7 +3,7 @@
 }
 
 .servicesCarouselTitle {
-  font: 30px var(--secondary-font-regular);
+  font: 30px var(--heading-font-regular);
   text-align: center;
   margin: 16px 0 8px;
 }
@@ -53,7 +53,7 @@
 }
 
 .carouselSlideTitle {
-  font: $header var(--secondary-font-regular);
+  font: $header var(--heading-font-regular);
   padding: 29px 1rem 19px;
   height: 22px;
   text-overflow: ellipsis;

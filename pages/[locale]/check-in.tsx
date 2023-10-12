@@ -19,7 +19,7 @@ import i18nConfig from 'next-i18next.config';
 import { availablePaths } from 'utils/availablePaths';
 import { getStaticPaths } from 'utils/getStatic';
 import { Drawer } from '@mui/material';
-import { HOTEL_CODE } from 'core/graphql/endpoints';
+import { BRAND_CODE } from 'core/graphql/endpoints';
 import CloseOutlinedIcon from '@icons/CloseOutlined.svg';
 import { useRouter } from 'next/router';
 
@@ -134,7 +134,7 @@ const GetReservation: React.FC = () => {
         }}
         BackdropProps={{
           style: {
-            backgroundImage: `url('/images/${HOTEL_CODE}/background.png')`,
+            backgroundImage: `url('/images/${BRAND_CODE}/background.png')`,
             maxWidth: '772px',
             margin: 'auto',
             backgroundSize: 'cover',

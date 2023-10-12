@@ -25,7 +25,7 @@ import languageDetector from 'utils/languageDetector';
 import { setScrollPosition } from 'utils/functions';
 import produce from 'immer';
 import { useTranslation } from 'react-i18next';
-import { HOTEL_CODE } from 'core/graphql/endpoints';
+import { BRAND_CODE } from 'core/graphql/endpoints';
 
 export const Header: React.FC<IHeaderProps> = ({
   screenTitle,
@@ -147,8 +147,8 @@ export const Header: React.FC<IHeaderProps> = ({
               )}
             </div>
           ) : (
-            // screenTitle ? <p className={styles.screenHeader}>{t(`${screenTitle}`)}</p>
-            <img src={`/images/${HOTEL_CODE}/Logo.svg`} />
+            // screenTitle && <p className={styles.screenHeader}>{t(`${screenTitle}`)}</p>
+            <img src={`/images/${BRAND_CODE}/Logo.svg`} />
           )}
 
           {displaySearchButton && search && (

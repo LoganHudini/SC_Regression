@@ -100,7 +100,14 @@ export const DAYS = [
   { id: 7, ischecked: false, name: 'Sunday', from: null, to: null },
 ];
 
+// ird to be removed later
 export const DINING_OPTIONS_PRE_CHECK_IN = [
+  {
+    id: 'ird',
+    title: 'In-Room Dining',
+    path: '/dining',
+    width: '116.89px',
+  },
   {
     id: 'restaurant',
     title: 'Restaurants',

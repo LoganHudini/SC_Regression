@@ -16,7 +16,7 @@
   text-align: center;
   font-size: $header;
   margin: 10px 0;
-  font-family: var(--secondary-font-regular);
+  font-family: var(--heading-font-regular);
 }
 
 .description {
@@ -36,7 +36,7 @@
 
 .info {
   text-align: center;
-  font-family: var(--primary-font-news);
+  font-family: var(--primary-font-heading);
   font-size: $header;
   position: absolute;
   margin: 0;

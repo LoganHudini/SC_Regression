@@ -11,7 +11,7 @@
   align-items: center;
   color: var(--primary-tertiary-color);
   font-size: $medium;
-  font-family: var(--primary-font-news);
+  font-family: var(--primary-font-heading);
   padding-top: 2px;
 }
 
@@ -28,6 +28,6 @@
   white-space: normal;
   line-height: 1;
   overflow-wrap: break-word;
-  font: $small var(--primary-font-news);
+  font: $small var(--primary-font-heading);
   padding-top: 2px;
 }

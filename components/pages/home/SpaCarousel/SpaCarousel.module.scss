@@ -3,7 +3,7 @@
 }
 
 .spaTitle {
-  font: 30px var(--secondary-font-regular);
+  font: 30px var(--heading-font-regular);
   text-align: center;
   margin: 8px 0 24px;
 }
@@ -57,7 +57,7 @@
 }
 
 .carouselSlideTitle {
-  font: $header var(--secondary-font-regular);
+  font: $header var(--heading-font-regular);
   padding: 29px 1rem 10px;
   height: 22px;
   text-overflow: ellipsis;
@@ -66,7 +66,7 @@
 }
 
 .carouselSlideDescription {
-  font: $small var(--primary-font-news);
+  font: $small var(--primary-font-regular);
   color: var(--tertiary-text-color);
   padding: 0 6px;
   -webkit-line-clamp: 1;

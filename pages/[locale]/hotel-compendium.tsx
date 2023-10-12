@@ -64,9 +64,9 @@ const HotelCompendium = () => {
     setShowSelectedAmenity('');
   };
 
-  const hotelCompendiumDrawerDetails = () => {
-    if (showSelectedAmenity) {
-      return (
+  const hotelCompendiumDrawerDetails = () => (
+    <>
+      {showSelectedAmenity && (
         <>
           {showSelectedAmenity?.images[0]?.ratio16to9 ? (
             <StableImage
@@ -88,9 +88,9 @@ const HotelCompendium = () => {
             )}
           </div>
         </>
-      );
-    }
-  };
+      )}
+    </>
+  );
 
   return (
     <>

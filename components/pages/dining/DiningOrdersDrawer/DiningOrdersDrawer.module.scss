@@ -16,7 +16,7 @@
 }
 
 .heading {
-  font: $xlarge var(--secondary-font-regular);
+  font: $xlarge var(--heading-font-regular);
   text-align: center;
 }
 
@@ -29,7 +29,7 @@
 
 .title {
   font-size: $medium;
-  font-family: var(--primary-font-news);
+  font-family: var(--primary-font-heading);
   color: var(--primary-text-color);
   width: 210px;
   height: 20px;
@@ -82,7 +82,7 @@
 
 .dateTime {
   font-size: $xsmall;
-  font-family: var(--primary-font-news);
+  font-family: var(--primary-font-heading);
 }
 
 .itemsContainer {
@@ -101,7 +101,7 @@
 
 .itemsPrice {
   font-size: $medium;
-  font-family: var(--primary-font-news);
+  font-family: var(--primary-font-heading);
 }
 
 .totalContainer {
@@ -124,12 +124,12 @@
 
 .total {
   font-size: $medium;
-  font-family: var(--primary-font-news);
+  font-family: var(--primary-font-heading);
 }
 
 .totalPrice {
   font-size: $medium;
-  font-family: var(--primary-font-news);
+  font-family: var(--primary-font-heading);
 }
 
 .button {
@@ -355,7 +355,7 @@
   width: 60%;
   line-height: 1.5;
   margin: 4px 0;
-  font-family: var(--primary-font-news);
+  font-family: var(--primary-font-heading);
 }
 
 .items + .items::before {

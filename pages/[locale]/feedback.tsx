@@ -24,7 +24,7 @@ import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
 import { availablePaths } from 'utils/availablePaths';
 import Head from 'next/head';
-import { HOTEL_CODE } from 'core/graphql/endpoints';
+import { BRAND_CODE } from 'core/graphql/endpoints';
 import { CHECKOUT } from 'core/graphql/queries/CHECKOUT';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { buttonArrow } from 'utils/functions';
@@ -59,7 +59,7 @@ const Feedback = () => {
     }));
   };
 
-  const hotelName = HOTEL_CODE ?? '';
+  const hotelName = BRAND_CODE ?? '';
 
   const feedbackPayload = {
     orgEmail: 'somanatha.biradar@hudini.io',

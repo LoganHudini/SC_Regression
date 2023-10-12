@@ -38,7 +38,7 @@
 
 .personalizationText {
   font-size: $medium;
-  font-family: var(--primary-font-news);
+  font-family: var(--primary-font-heading);
   color: var(--tertiary-text-color);
 }
 
@@ -73,7 +73,7 @@
 
 .guestSignature {
   font-size: $medium;
-  font-family: var(--primary-font-news);
+  font-family: var(--primary-font-heading);
 }
 
 .clearBtn {
@@ -125,7 +125,7 @@
 }
 
 .checkDatesDetails {
-  font-family: var(--primary-font-news);
+  font-family: var(--primary-font-heading);
   font-size: $small;
   margin-bottom: 20px;
   color: var(--tertiary-text-color);
@@ -138,12 +138,12 @@
   gap: 5px;
   display: flex;
   flex-direction: column;
-  font-family: var(--primary-font-news);
+  font-family: var(--primary-font-heading);
   font-size: $small;
   color: var(--tertiary-text-color);
   div {
     text-align: start;
-    font-family: var(--primary-font-news);
+    font-family: var(--primary-font-heading);
     font-size: $small;
     color: var(--tertiary-text-color);
   }

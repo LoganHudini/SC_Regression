@@ -3,7 +3,7 @@
 }
 
 .diningCarouselTitle {
-  font: 30px var(--secondary-font-regular);
+  font: 30px var(--heading-font-regular);
   text-align: center;
   margin: 10px;
 }
@@ -11,9 +11,9 @@
 .diningOptions {
   display: flex;
   align-items: center;
-  background: var(--primary-background-color);
+  background: var(--primary-card-background-color);
   height: 50px;
-  width: 304px;
+  width: fit-content;
   padding: 0 8px;
   justify-content: center;
   margin: 1rem auto 1.5rem;
@@ -91,7 +91,7 @@
 .carouselSlideDetailsWrapper {
   width: 251px;
   height: 148px;
-  background: var(--primary-background-color);
+  background: var(--primary-card-background-color);
   box-shadow: 0px 3px 6px var(--primary-box-shadow-color);
   text-align: center;
   z-index: 200;
@@ -113,7 +113,7 @@
 }
 
 .carouselSlideTitle {
-  font: $header var(--secondary-font-regular);
+  font: $header var(--heading-font-regular);
   padding: 29px 1rem 19px;
   height: 22px;
   text-overflow: ellipsis;

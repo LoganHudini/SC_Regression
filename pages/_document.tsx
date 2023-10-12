@@ -1,6 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import i18nextConfig from '../next-i18next.config';
-import { GA_MEASUREMENT_ID, HOTEL_CODE, THEME_COLOR } from 'core/graphql/endpoints';
+import { BRAND_CODE, GA_MEASUREMENT_ID, THEME_COLOR } from 'core/graphql/endpoints';
 
 class MyDocument extends Document {
   render() {
@@ -31,9 +31,9 @@ class MyDocument extends Document {
               />
             </>
           )}
-          <link rel='manifest' href={`/manifest.${HOTEL_CODE}.json`} />
-          <link rel='icon' type='image/png' href={`${HOTEL_CODE}.ico`} />
-          <link rel='apple-touch-icon' type='image/png' href={`${HOTEL_CODE}.ico`} />
+          <link rel='manifest' href={`/manifest.${BRAND_CODE}.json`} />
+          <link rel='icon' type='image/png' href={`${BRAND_CODE}.ico`} />
+          <link rel='apple-touch-icon' type='image/png' href={`${BRAND_CODE}.ico`} />
           <meta name='theme-color' content={THEME_COLOR} />
         </Head>
         <body>

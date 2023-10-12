@@ -5,12 +5,12 @@ import { Player } from '@lottiefiles/react-lottie-player';
 import ItemNotFound from '@jsons/itemsNotFound.json';
 import Carousel from '@jsons/carousel.json';
 import Image from '@jsons/image.json';
-import { HOTEL_CODE } from 'core/graphql/endpoints';
+import { BRAND_CODE } from 'core/graphql/endpoints';
 
 export const LogoLoader = () => {
   return (
     <div className={styles.loaderOverlay}>
-      <img src={`/images/${HOTEL_CODE}/logo.png`} alt='loader' className={styles.logoLoader} />
+      <img src={`/images/${BRAND_CODE}/Logo.png`} alt='loader' className={styles.logoLoader} />
     </div>
   );
 };
@@ -29,7 +29,7 @@ export const MultiPurposeLoader = () => {
       <Player
         autoplay
         loop
-        src={`/jsons/${HOTEL_CODE}/multiPurpose.json`}
+        src={`/jsons/${BRAND_CODE}/multiPurpose.json`}
         className={styles.multipurposeLoader}
       />
     </div>
@@ -49,5 +49,5 @@ export const ImageLoader: React.FC<unknown> = (props) => {
 };
 
 export const SuccessAnimation = () => (
-  <Player autoplay loop src={`/jsons/${HOTEL_CODE}/success.json`} />
+  <Player autoplay loop src={`/jsons/${BRAND_CODE}/success.json`} />
 );

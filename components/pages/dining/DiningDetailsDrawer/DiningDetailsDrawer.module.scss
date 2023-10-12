@@ -24,7 +24,7 @@
 }
 
 .title {
-  font: $header var(--secondary-font-regular);
+  font: $header var(--heading-font-regular);
   margin: 1.5rem auto 1rem;
   text-align: center;
 }
@@ -69,7 +69,7 @@
 
 .ingredientsText {
   margin: 15px 0 5px;
-  font: $medium var(--primary-font-news);
+  font: $medium var(--primary-font-heading);
 }
 
 .ingredientsDescription {
@@ -85,7 +85,7 @@
 }
 
 .customisationsText {
-  font: $medium var(--primary-font-news);
+  font: $medium var(--primary-font-heading);
   color: var(--primary-text-color);
   height: 1.5rem;
   line-height: 1.5rem;
@@ -137,7 +137,7 @@
 }
 
 .addonsText {
-  font: $medium var(--primary-font-news);
+  font: $medium var(--primary-font-heading);
 }
 
 .optionalText {
@@ -185,11 +185,11 @@
 
 .totalItemPrice {
   margin-top: 5px;
-  font: $xsmall var(--primary-font-news);
+  font: $xsmall var(--primary-font-heading);
 }
 
 .price {
-  font: $medium var(--primary-font-news);
+  font: $medium var(--primary-font-heading);
 }
 
 .counterContainer {

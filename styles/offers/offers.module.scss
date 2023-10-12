@@ -55,7 +55,7 @@
 .listComponentTitle {
   font-size: $header;
   margin: 2rem 0 1rem;
-  font: $header var(--secondary-font-regular);
+  font: $header var(--heading-font-regular);
   line-height: 1.2;
   text-align: center;
 }
@@ -77,6 +77,6 @@
 }
 
 .listComponentDataTitle {
-  font-family: var(--primary-font-news) !important;
+  font-family: var(--primary-font-heading) !important;
   font-size: $medium !important;
 }

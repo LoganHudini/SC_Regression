@@ -8,7 +8,7 @@
 }
 
 .title {
-  font-family: var(--secondary-font-regular);
+  font-family: var(--heading-font-regular);
   padding-top: 30px;
   text-align: center;
   width: 100%;
@@ -37,7 +37,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  font-family: var(--primary-font-news);
+  font-family: var(--primary-font-heading);
   background-color: var(--primary-background-color);
   color: var(--primary-button-background-color);
 }

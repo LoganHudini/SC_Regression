@@ -39,11 +39,35 @@
 }
 
 @font-face {
-  font-family: 'Garamond Regular';
+  font-family: 'Garamond';
   src: url('/fonts/Garamond/Garamond-Regular.otf') format('opentype'),
     url('/fonts/Garamond/Garamond-Regular.ttf') format('ttf'),
     url('/fonts/Garamond/Garamond-Regular.woff') format('woff'),
     url('/fonts/Garamond/Garamond-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Domaine Display';
+  src: url('/fonts/DomaineDisplay/DomaineDisplay-Regular.otf') format('opentype'),
+    url('/fonts/DomaineDisplay/DomaineDisplay-Regular.ttf') format('ttf'),
+    url('/fonts/DomaineDisplay/DomaineDisplay-Regular.woff') format('woff'),
+    url('/fonts/DomaineDisplay/DomaineDisplay-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'ITC Franklin Gothic Std Book';
+  src: url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Book.otf') format('opentype'),
+    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Book.ttf') format('ttf'),
+    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Book.woff') format('woff'),
+    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Book.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'ITC Franklin Gothic Std Medium';
+  src: url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Med.otf') format('opentype'),
+    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Med.ttf') format('ttf'),
+    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Med.woff') format('woff'),
+    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Med.woff2') format('woff2');
 }
 
 :root {
@@ -87,19 +111,12 @@
   --primary-font-medium: 'ClanOT Medium';
   --primary-font-semibold: '';
   --primary-font-bold: '';
-  --primary-font-news: 'ClanOT News';
+  --primary-font-heading: 'ClanOT News';
 
   --primary-font-extd-regular: 'ClanOT Extended Book';
-  --primary-font-extd-medium: 'ClanOT Extended Medium';
-  --primary-font-extd-semibold: '';
-  --primary-font-extd-bold: '';
-  --primary-font-extd-news: '';
 
   // headings
-  --secondary-font-regular: 'Garamond Regular';
-  --secondary-font-medium: '';
-  --secondary-font-semibold: '';
-  --secondary-font-bold: '';
+  --heading-font-regular: 'Garamond';
 
   // banner configs
   --primary-title-font-family: 'ClanOT Extended Book';
@@ -168,7 +185,7 @@ h5,
 h6 {
   margin: 0;
   color: var(--primary-text-color);
-  font-family: var(--secondary-font-regular);
+  font-family: var(--heading-font-regular);
 }
 
 img {

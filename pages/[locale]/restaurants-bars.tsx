@@ -111,7 +111,7 @@ const RestaurantAndBars: React.FC = () => {
       setSelectedRestaurantData(initialSelected);
       setTimeout(() => {
         toggleDetailsDrawer(true);
-      }, 2000);
+      }, 1000);
     }
   }, [diningOptionSelected.id, initialSelected]);
 

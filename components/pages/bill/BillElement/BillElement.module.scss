@@ -21,7 +21,7 @@
 }
 
 .title {
-  font-family: var(--primary-font-news);
+  font-family: var(--primary-font-heading);
   font-size: $medium;
   color: var(--primary-text-color);
   line-height: 1;
@@ -43,7 +43,7 @@
   margin-bottom: 13px;
   text-align: end;
   font-weight: 600;
-  font-family: var(--primary-font-news);
+  font-family: var(--primary-font-heading);
   font-size: $medium;
   color: var(--primary-text-color);
 }

@@ -85,7 +85,7 @@ pipelines:
             - rm -rf yarn.lock
             - rm -rf node_modules
             - yarn
-            - CI='' yarn build:uat
+            - CI='' yarn build:fairmont
             - CI='' yarn export
             - cd out
             - pipe: atlassian/aws-s3-deploy:0.4.1
@@ -114,7 +114,7 @@ pipelines:
             - rm -rf yarn.lock
             - rm -rf node_modules
             - yarn
-            - CI='' yarn build:uat
+            - CI='' yarn build:raffles
             - CI='' yarn export
             - cd out
             - pipe: atlassian/aws-s3-deploy:0.4.1
