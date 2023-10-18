@@ -13,6 +13,7 @@ import {
   GET_HOUSEKEEPING,
   IGetHousekeepingApiResponse,
 } from 'core/graphql/queries/GET_HOUSEKEEPING';
+import { GET_OFFERS } from 'core/graphql/queries/GET_OFFERS';
 import {
   GET_RESTAURANT_DETAILS,
   IGetRestaurantDetailsResponse,
@@ -79,6 +80,14 @@ const Home: NextPage = () => {
     },
   );
 
+  const { data: offersList, loading: offersListLoading } = useQuery(GET_OFFERS, {
+    context: { clientName: 'host_v2' },
+    variables: {
+      lang: 'en',
+    },
+    fetchPolicy: 'no-cache',
+  });
+
   return (
     <>
       <Head>
@@ -89,8 +98,9 @@ const Home: NextPage = () => {
           serviceCarouselLoading ||
           irdloading ||
           restaurantloading ||
-          spaloading) && <LogoLoader />}
-        <HomeCarousel data={homeCarouselDetails} />
+          spaloading ||
+          offersListLoading) && <LogoLoader />}
+        <HomeCarousel data={offersList} />
         <HotelInformation details={homeCarouselDetails} loading={homeCarouselLoading} />
         {checkInData?.checkedIn && (
           <ServiceRequestCarousel data={serviceCarouselDetails} loading={serviceCarouselLoading} />

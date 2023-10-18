@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { scrollState } from 'storage/dining-menu.storage';
-import { PHONE_REGEX, TIMINGS } from './constants';
+import { DOCTYPE, PHONE_REGEX, TIMINGS } from './constants';
 import * as yup from 'yup';
 import { toggleLoader } from 'storage/home.storage';
 import { getConfig } from './getConfiguration';
@@ -159,3 +159,54 @@ export const buttonArrow = getConfig()?.ButtonArrow;
 // restaurant timings
 export const restaurantTimings = (data: any) =>
   data && data?.find((item: any) => item?.key === TIMINGS);
+
+export const updateDocTypeOptions = (data: any, replaceData: any) => {
+  return data?.map((item: any) => {
+    if (item?.name === DOCTYPE) {
+      return { ...item, options: replaceData };
+    }
+    return item;
+  });
+};
+
+export const isOfferActive = (offer: any) => {
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+
+  if (offer?.isActive) {
+    if (offer?.duration?.alwaysActive) {
+      return true;
+    } else {
+      const startDateString = offer.duration.startDate;
+      const startTimeString = offer.duration.startTime;
+      const endDateString = offer.duration.endDate;
+      const endTimeString = offer.duration.endTime;
+
+      const [startDay, startMonth, startYear] = startDateString.split('-');
+      const [startHour, startMinute] = startTimeString.split(':');
+      const [endDay, endMonth, endYear] = endDateString.split('-');
+      const [endHour, endMinute] = endTimeString.split(':');
+
+      const startDateTime = new Date(
+        Number(startYear),
+        Number(startMonth) - 1,
+        Number(startDay),
+        Number(startHour),
+        Number(startMinute),
+      );
+      const startTimeStamp = Math.floor(startDateTime.getTime() / 1000);
+
+      const endDateTime = new Date(
+        Number(endYear),
+        Number(endMonth) - 1,
+        Number(endDay),
+        Number(endHour),
+        Number(endMinute),
+      );
+      const endTimeStamp = Math.floor(endDateTime.getTime() / 1000);
+
+      return startTimeStamp <= currentTimestamp && endTimeStamp >= currentTimestamp;
+    }
+  }
+
+  return false;
+};

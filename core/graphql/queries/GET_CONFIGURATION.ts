@@ -233,7 +233,7 @@ export const configuration = [
               },
               {
                 name: 'docNo',
-                label: 'ID Number',
+                label: 'Document Number',
                 type: 'Text',
                 required: false,
                 isDisabled: false,

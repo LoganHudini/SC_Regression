@@ -42,7 +42,8 @@ import {
 } from 'utils/constants';
 import { getConfig } from 'utils/getConfiguration';
 import cx from 'classnames';
-import { buttonArrow } from 'utils/functions';
+import { buttonArrow, updateDocTypeOptions } from 'utils/functions';
+import { docTypeStorage } from 'storage/guest-information.storage';
 
 export { getStaticPaths };
 
@@ -51,12 +52,17 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
   });
+  const docTypeGlobals = useReactiveVar(docTypeStorage);
+
   const reservationInfo: any = reservationData?.getReservation.data;
   const config = getConfig();
   const checkinModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
   const accompanyingGuestSubmodule = checkinModule?.submodules?.find(
     (submodule: any) => submodule?.name === ACCOMPANYINGGUEST && submodule.isActive,
   );
+
+  const docTypeFunction = updateDocTypeOptions(accompanyingGuestSubmodule?.details, docTypeGlobals);
+
   const [otherFieldErrors, setOtherFieldErrors] = useState<any>([]);
   let isValid: any = true;
   let errorMessage: any = '';
@@ -92,7 +98,7 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
       return guestData.map((guest: any) => {
         const formData: any = { alreadyUpdated: !initial, id: guest?.id };
 
-        accompanyingGuestSubmodule?.details?.forEach((item: any) => {
+        docTypeFunction?.forEach((item: any) => {
           const guestItem = guest[item?.name];
           if (guestItem && guestItem.isActive) {
             formData[item?.name] = guestItem.value;
@@ -265,7 +271,7 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
     const updatedStatus = infoCards?.map((card: any) => {
       let cardStatus = true;
 
-      accompanyingGuestSubmodule?.details?.forEach((item: any) => {
+      docTypeFunction?.forEach((item: any) => {
         if (item?.isActive && item?.required) {
           if (item?.required) {
             if (!card?.formData[item?.name]) {
@@ -313,7 +319,7 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
                 isCardOpened={cardOPen}
               >
                 <div className={styles.identityInputs}>
-                  {accompanyingGuestSubmodule.details.map((item: any) => {
+                  {docTypeFunction?.map((item: any) => {
                     if (item?.isActive) {
                       return (
                         <React.Fragment key={item?.name}>
@@ -338,7 +344,7 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
                                   disabled={item?.isDisabled}
                                   IconComponent={DropDown}
                                 >
-                                  {item?.options.map((item: any) => {
+                                  {item?.options?.map((item: any) => {
                                     return (
                                       <MenuItem value={item?.value} key={item?.value}>
                                         <em>{item?.name}</em>
@@ -390,9 +396,6 @@ const AccompanyForm: React.FC<IAccompanyFormProps> = () => {
                                     ? otherFieldErrors[index]?.errorMessage
                                     : ''
                                 }
-                                inputProps={{
-                                  style: { textTransform: 'lowercase' },
-                                }}
                               />
                             </div>
                           )}

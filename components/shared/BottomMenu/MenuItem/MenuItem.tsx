@@ -36,6 +36,7 @@ import { toggleOpenCheckOutDrawer } from 'storage/checkout.storage';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { ReactSVG } from 'react-svg';
 import { isFunction } from 'lodash';
+import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
   title,
@@ -185,6 +186,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                         [styles.activeText]: diningOptionSelected?.id === dining?.id,
                       })}
                       onClick={() => {
+                        selectedRestaurantStorage({});
                         diningOptions(dining);
                         closeDrawer();
                         navigate(dining?.path);

@@ -24,7 +24,7 @@ import { GET_OFFERS } from 'core/graphql/queries/GET_OFFERS';
 import { offerDetailDrawerStatus, offerList, selectedOfferOption } from 'storage/offers.storage';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { isEmpty } from 'lodash';
-import { activeItems } from 'utils/functions';
+import { activeItems, isOfferActive } from 'utils/functions';
 import cx from 'classnames';
 
 export { getStaticPaths };
@@ -45,40 +45,8 @@ const Offers: React.FC = () => {
   });
 
   const offersData = data?.getOffersDetails;
-  const currentTimestamp = Math.floor(Date.now() / 1000);
-  const filteredOffers = offersData?.filter((item: any) => {
-    if (item?.isActive) {
-      if (item?.duration?.alwaysActive) {
-        return true;
-      } else {
-        const startDateString = item.duration.startDate;
-        const startTimeString = item.duration.startTime;
-        const endDateString = item.duration.endDate;
-        const endTimeString = item.duration.endTime;
-        const [startDay, startMonth, startYear] = startDateString.split('-');
-        const [startHour, startMinute] = startTimeString.split(':');
-        const [endDay, endMonth, endYear] = endDateString.split('-');
-        const [endHour, endMinute] = endTimeString.split(':');
-        const startDateTime = new Date(
-          Number(startYear),
-          Number(startMonth) - 1,
-          Number(startDay),
-          Number(startHour),
-          Number(startMinute),
-        );
-        const startTimeStamp = Math.floor(startDateTime.getTime() / 1000);
-        const endDateTime = new Date(
-          Number(endYear),
-          Number(endMonth) - 1,
-          Number(endDay),
-          Number(endHour),
-          Number(endMinute),
-        );
-        const endTimeStamp = Math.floor(endDateTime.getTime() / 1000);
-        return startTimeStamp <= currentTimestamp && endTimeStamp >= currentTimestamp;
-      }
-    }
-  });
+  const filteredOffers = offersData?.filter((item: any) => isOfferActive(item));
+
   useEffect(() => {
     if (filteredOffers) {
       offerList(filteredOffers);

@@ -16,7 +16,7 @@ import {
 } from 'core/graphql/queries/GET_ROOM_DETAILS';
 import { GetStaticProps } from 'next';
 import { AboutYourStayProps } from 'types/about-your-stay.types';
-import { ApolloError, useReactiveVar } from '@apollo/client';
+import { ApolloError, useReactiveVar, useQuery } from '@apollo/client';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'react-i18next';
 import { getStaticPaths } from 'utils/getStatic';
@@ -47,7 +47,9 @@ import {
   PHONE_REGEX,
   EMAILS,
 } from 'utils/constants';
-import { buttonArrow } from 'utils/functions';
+import { buttonArrow, updateDocTypeOptions } from 'utils/functions';
+import { GET_DOC_TYPES } from 'core/graphql/queries/GET_DOC_TYPES';
+import { docTypeStorage } from 'storage/guest-information.storage';
 
 export { getStaticPaths };
 
@@ -61,6 +63,21 @@ const AboutYourStay: React.FC<AboutYourStayProps> = () => {
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
   });
+
+  const { data: docType, loading: typeLoading } = useQuery(GET_DOC_TYPES, {
+    context: { clientName: 'rest' },
+  });
+
+  const transformedData = docType?.getDocTypes?.data?.map((item: any) => ({
+    value: item?.code,
+    name: item?.name,
+  }));
+
+  useEffect(() => {
+    if (transformedData) {
+      docTypeStorage(transformedData);
+    }
+  }, [docType, docType?.getDocTypes?.data, typeLoading]);
 
   const checkinModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
   const accompanyingGuestSubmodule = checkinModule?.submodules?.find(
@@ -79,6 +96,12 @@ const AboutYourStay: React.FC<AboutYourStayProps> = () => {
   const identityVerificationSection = activeSections.find(
     (section: any) => section.name === IDENTITYVERIFICATION,
   );
+
+  const docTypeFunction = updateDocTypeOptions(
+    identityVerificationSection?.details,
+    transformedData,
+  );
+
   const paymentType = creditCardInfoSection.type;
 
   const reservationInfo = reservationData?.getReservation?.data;
@@ -88,7 +111,7 @@ const AboutYourStay: React.FC<AboutYourStayProps> = () => {
   // console.log(reservationInfo);
 
   useEffect(() => {
-    if (!reservationData) {
+    if (!reservationData || !transformedData) {
       navigate(availablePaths.HOME);
     }
   }, [reservationData, navigate]);
@@ -334,7 +357,9 @@ const AboutYourStay: React.FC<AboutYourStayProps> = () => {
             >
               <PreCheckinDocInfo
                 docInfo={guestReservationInfo}
-                identityVerificationSection={identityVerificationSection?.details}
+                identityVerificationSection={
+                  identityVerificationSection?.details && docTypeFunction
+                }
               ></PreCheckinDocInfo>
             </InfoCard>
           )}
@@ -343,7 +368,7 @@ const AboutYourStay: React.FC<AboutYourStayProps> = () => {
           <StyledButton
             variant='contained'
             loading={loading}
-            disabled={!validButton}
+            disabled={!validButton || !reservationData}
             onClick={goToTheNextStep}
             className={styles.bottomMenuButton}
             arrow={buttonArrow}

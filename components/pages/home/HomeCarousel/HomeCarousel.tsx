@@ -5,15 +5,14 @@ import Carousel from 'react-material-ui-carousel';
 import { ASSETS_URL } from '../../../../core/graphql/endpoints';
 import styles from './HomeCarousel.module.scss';
 import { useTranslation } from 'react-i18next';
-import { getConfig } from 'utils/getConfiguration';
-import { BANNER_CAROUSEL, HOME } from 'utils/constants';
+import { isOfferActive } from 'utils/functions';
 
 interface IHomeCarouselProps {
   data: any;
 }
 
 interface IHomeCarouselItemProps {
-  carouselItem: { title: string; description: string; imgURL: string };
+  carouselItem: { name: string; description: string; images: { master: string }[] };
 }
 
 const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
@@ -22,11 +21,14 @@ const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
   return (
     <>
       <div className={styles.imgGradient}>
-        <StableImage className={styles.bannerImage} src={`${ASSETS_URL}/${carouselItem?.imgURL}`} />
+        <StableImage
+          className={styles.bannerImage}
+          src={`${ASSETS_URL}/${carouselItem?.images[0]?.master}`}
+        />
       </div>
 
       <div className={styles.pageTitle}>
-        {carouselItem?.title && <h1 className={styles.title}>{t(`${carouselItem?.title}`)}</h1>}
+        {carouselItem?.name && <h1 className={styles.title}>{t(`${carouselItem?.name}`)}</h1>}
         {carouselItem?.description && (
           <p className={styles.description}>{t(`${carouselItem?.description}`)}</p>
         )}
@@ -36,13 +38,12 @@ const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
 };
 
 export const HomeCarousel: React.FC<IHomeCarouselProps> = ({ data }) => {
-  const config = getConfig();
+  const offersData = data?.getOffersDetails;
+  const filteredOffers = offersData?.filter((item: any) => isOfferActive(item));
 
-  const hotelImages = data?.getPropertyDetailsByHotelId?.hotel?.images;
-  const homeModule: any = config?.modules?.find((module) => module?.code === HOME);
-  const carouselDetails = homeModule?.submodules?.find(
-    (submodule: any) => submodule?.code === BANNER_CAROUSEL && submodule.isActive,
-  );
+  const filteredOffersWthCategory = filteredOffers?.filter((restaurant: any) => {
+    return restaurant.isActive;
+  });
 
   return (
     <Carousel
@@ -54,21 +55,14 @@ export const HomeCarousel: React.FC<IHomeCarouselProps> = ({ data }) => {
       activeIndicatorIconButtonProps={{
         className: styles.activeIndicatorIcon,
       }}
-      indicators={(carouselDetails?.details?.length || 0) > 1}
+      indicators={(filteredOffersWthCategory?.length || 0) > 1}
       className={styles.carousel}
       autoPlay={false}
       animation={'slide'}
     >
-      {carouselDetails?.details &&
-        hotelImages &&
-        carouselDetails?.details
-          ?.map((item: any, index: number) => ({
-            ...item,
-            imgURL: hotelImages[index]?.master,
-          }))
-          ?.map((carouselItem: any, i: number) => (
-            <HeroBannerItem key={i} carouselItem={carouselItem} />
-          ))}
+      {filteredOffersWthCategory?.map((carouselItem: any, i: number) => (
+        <HeroBannerItem key={i} carouselItem={carouselItem} />
+      ))}
     </Carousel>
   );
 };

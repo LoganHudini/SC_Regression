@@ -88,6 +88,7 @@ export const EVERYDAY = 'EVERYDAY';
 export const CHECKOUT = 'Check-out';
 export const CHECKIN = 'Check-in';
 export const TIMINGS = 'timings';
+export const DOCTYPE = 'docType';
 
 // flow constants
 export const DAYS = [

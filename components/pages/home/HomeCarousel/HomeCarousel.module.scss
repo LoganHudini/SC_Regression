@@ -43,6 +43,7 @@
   color: var(--secondary-text-color);
   width: 70%;
   margin: 4px auto;
+  -webkit-line-clamp: 3;
 }
 
 .heroBannerButton {
