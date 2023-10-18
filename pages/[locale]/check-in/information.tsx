@@ -111,7 +111,7 @@ const AboutYourStay: React.FC<AboutYourStayProps> = () => {
   // console.log(reservationInfo);
 
   useEffect(() => {
-    if (!reservationData || !transformedData) {
+    if (!reservationData) {
       navigate(availablePaths.HOME);
     }
   }, [reservationData, navigate]);
