@@ -17,16 +17,25 @@ import { EMAILCAPS, PHONECAPS, URL } from 'utils/constants';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { toggleHotelInfoDrawer, toggleMapState } from 'storage/home.storage';
 import { buttonArrow } from 'utils/functions';
+import { useConfig } from 'utils/hooks/useConfiguration';
+import { useLocale } from 'utils/hooks/useLocalizedRouter';
 
 const HotelInfoDrawer = () => {
   const { t } = useTranslation('common');
+  const locale = useLocale();
+  const hotelId = useConfig()?.hotelId;
   const hotelInfoDetailsDrawerStatus = useReactiveVar(toggleHotelInfoDrawer);
   const showMap = useReactiveVar(toggleMapState);
   const buttonArrowState = buttonArrow;
 
   const { data } = useQuery(GET_HOTEL_INFORMATION, {
+    skip: !hotelId,
     context: { clientName: 'host_v0' },
     fetchPolicy: 'no-cache',
+    variables: {
+      hotelId: hotelId,
+      lang: locale === 'en' ? '' : locale,
+    },
   });
 
   const hotelInfo = data?.getPropertyDetailsByHotelId?.hotel;

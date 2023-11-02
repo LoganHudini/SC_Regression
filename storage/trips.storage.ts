@@ -45,6 +45,7 @@ export const ckeckoutTrip = (payload: ISavedTrip) => {
 
   if (savedTrip) {
     savedTrip.checkedIn = false;
+    savedTrip.preCheckedIn = false;
   }
 
   localStorage.setItem(TRIPS_KEY, JSON.stringify(existingTrips));
@@ -52,6 +53,9 @@ export const ckeckoutTrip = (payload: ISavedTrip) => {
     reservationId: '',
     preCheckedIn: false,
     checkedIn: false,
+    name: '',
+    email: '',
+    roomNumber: '',
     invoiceId: '',
   });
 };

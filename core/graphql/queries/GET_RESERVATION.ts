@@ -109,11 +109,11 @@ export interface IGetReservationApiResponse {
 }
 
 export const GET_RESERVATION = gql`
-  query GetReservation($confirmationNumber: String, $lastName: String) {
-    getReservation(confirmationNumber: $confirmationNumber, lastName: $lastName)
+  query GetReservation($confirmationNumber: String, $lastName: String, $hotelId: String) {
+    getReservation(confirmationNumber: $confirmationNumber, lastName: $lastName, hotelId: $hotelId)
       @rest(
         type: "GetReservationPayload"
-        path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/details/{args.confirmationNumber}?lastName={args.lastName}&arrivalDateRequired=no"
+        path: "/${ENVIRONMENT}/booking/hotel/{args.hotelId}/details/{args.confirmationNumber}?lastName={args.lastName}&arrivalDateRequired=no"
       ) {
       errors
       data

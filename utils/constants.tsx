@@ -47,6 +47,7 @@ export const BANNER_CAROUSEL = 'bannerCarousel';
 export const DRIVERSLICENCE = 'DRL';
 export const DRIVERLICENCE = 'DL';
 export const EMAIL = 'email';
+export const EMAIL_CAPS = 'Email';
 export const EMAILS = 'emails';
 export const PHONENUMBER = 'phoneNumber';
 export const PHONE = 'phone';
@@ -103,12 +104,6 @@ export const DAYS = [
 
 // ird to be removed later
 export const DINING_OPTIONS_PRE_CHECK_IN = [
-  {
-    id: 'ird',
-    title: 'In-Room Dining',
-    path: '/dining',
-    width: '116.89px',
-  },
   {
     id: 'restaurant',
     title: 'Restaurants',

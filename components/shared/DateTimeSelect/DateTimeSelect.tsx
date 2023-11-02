@@ -28,7 +28,7 @@ for (let month = 0; month < 12; month++) {
   }
 }
 const hoursArray = new Array(13).fill(0).map((_el, index) => String(index).padStart(2, '0'));
-const minutesArray = new Array(60).fill(0).map((_el, index) => String(index).padStart(2, '0'));
+const minutesArray = new Array(4).fill(0).map((_el, index) => String(index * 15).padStart(2, '0'));
 
 const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
   setSelectedTime,

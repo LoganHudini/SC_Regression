@@ -1,9 +1,8 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export const GET_OFFERS = gql`
-query MyQuery($lang: String) {
-    getOffersDetails(input: { hotelId: "${HOTEL_ID}", lang: $lang }) {
+  query MyQuery($hotelId: String!, $lang: String) {
+    getOffersDetails(input: { hotelId: $hotelId, lang: $lang }) {
       createdAt
       createdBy
       description
@@ -58,4 +57,5 @@ query MyQuery($lang: String) {
       updatedBy
       version
     }
-  }`;
+  }
+`;

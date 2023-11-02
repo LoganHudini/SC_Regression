@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import cx from 'classnames';
 import styles from './Notification.module.scss';
 import { useTranslation } from 'react-i18next';

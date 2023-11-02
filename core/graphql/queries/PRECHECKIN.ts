@@ -22,6 +22,8 @@ export interface IPreCheckInApiRequest {
   settlement: string;
   documentType: string;
   documentNumber: string;
+  channel: string;
+  upsell: any;
   guestSignature: string;
 }
 

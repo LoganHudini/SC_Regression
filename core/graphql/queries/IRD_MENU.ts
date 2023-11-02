@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export interface IRDMenuApiResponse {
   getIRDMenuOutputDetails: {
@@ -167,11 +166,10 @@ export interface IRDMenuApiResponse {
 }
 
 export const IRD_MENU = gql`
-  query MyQuery (
-    $restaurantId:String
-    $lang: String
-    ){
-    getIRDMenuOutputDetails(input:{ hotelId: "${HOTEL_ID}", restaurantId: $restaurantId, lang: $lang}) {
+  query MyQuery($hotelId: String!, $restaurantId: String, $lang: String) {
+    getIRDMenuOutputDetails(
+      input: { hotelId: $hotelId, restaurantId: $restaurantId, lang: $lang }
+    ) {
       id
       isActive
       name
@@ -254,21 +252,21 @@ export const IRD_MENU = gql`
             name
           }
           type
-         upsell {
-          code
-          description
-          id
-          name
-          price
-          images {
-            fileName
-            index
-            master
-            ratio16to9
-            ratio1to1
-            ratio21to9
+          upsell {
+            code
+            description
+            id
+            name
+            price
+            images {
+              fileName
+              index
+              master
+              ratio16to9
+              ratio1to1
+              ratio21to9
+            }
           }
-        }
         }
         hours {
           allTime
@@ -390,7 +388,7 @@ export const IRD_MENU = gql`
       }
       hotelId
       description
-      code  
-    } 
+      code
+    }
   }
 `;

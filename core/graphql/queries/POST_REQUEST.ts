@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import { ENVIRONMENT, HOTEL_ID } from '../endpoints';
 
-export const PostRequest = gql`
+export const POST_REQUEST = gql`
 query postRequest( $body: AddAccompanyDetailsPayload) {
   postRequest(body: $body)
     @rest(

@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export interface IGetHousekeepingApiResponse {
   getServiceRequestDetails: {
@@ -86,99 +85,92 @@ export interface IGetHousekeepingApiResponse {
 }
 
 export const GET_HOUSEKEEPING = gql`
-  query MyQuery (
-    $lang: String
-    ){
-    getServiceRequestDetails(
-      input: {
-        hotelId: "${HOTEL_ID}",
-        lang: $lang
-      }
-    ) {
-    houseKeeping {
-      code
-      confirmationMessage
-      customAttributes {
-        key
-        value
-      }
-      customSchedule
-      description
-      hotelId
-      hours {
-        allTime
-        close
-        day
-        everyday
-        open
-      }
-      icon
-      id
-      images {
-        index
-        master
-      }
-      isActive
-      isItemActive
-      items {
+  query MyQuery($hotelId: String!, $lang: String) {
+    getServiceRequestDetails(input: { hotelId: $hotelId, lang: $lang }) {
+      houseKeeping {
+        code
+        confirmationMessage
+        customAttributes {
+          key
+          value
+        }
+        customSchedule
         description
+        hotelId
+        hours {
+          allTime
+          close
+          day
+          everyday
+          open
+        }
+        icon
         id
-        maxQuantityActive
-        maxQuantity
-        name
-      }
-      maxQuantity
-      maxQuantityActive
-      name
-      schedule
-      scheduleActive
-    }
-    concierge {
-      code
-      createdAt
-      confirmationMessage
-      createdBy
-      customSchedule
-      description
-      hotelId
-      hours {
-        allTime
-        close
-        everyday
-        day
-        open
-      }
-      icon
-      id
-      images {
-        fileName
-        index
-        master
-        ratio16to9
-        ratio1to1
-        ratio21to9
-      }
-      isActive
-      isItemActive
-      items {
-        description
-        id
+        images {
+          index
+          master
+        }
+        isActive
+        isItemActive
+        items {
+          description
+          id
+          maxQuantityActive
+          maxQuantity
+          name
+        }
         maxQuantity
         maxQuantityActive
         name
+        schedule
+        scheduleActive
       }
-      maxQuantity
-      maxQuantityActive
-      name
-      pk
-      resident
-      schedule
-      scheduleActive
-      sk
-      updatedAt
-      updatedBy
-      version
-    }
+      concierge {
+        code
+        createdAt
+        confirmationMessage
+        createdBy
+        customSchedule
+        description
+        hotelId
+        hours {
+          allTime
+          close
+          everyday
+          day
+          open
+        }
+        icon
+        id
+        images {
+          fileName
+          index
+          master
+          ratio16to9
+          ratio1to1
+          ratio21to9
+        }
+        isActive
+        isItemActive
+        items {
+          description
+          id
+          maxQuantity
+          maxQuantityActive
+          name
+        }
+        maxQuantity
+        maxQuantityActive
+        name
+        pk
+        resident
+        schedule
+        scheduleActive
+        sk
+        updatedAt
+        updatedBy
+        version
+      }
     }
   }
 `;

@@ -27,6 +27,7 @@ import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
 import { CarouselLoader } from 'components/shared/Loaders/Loaders';
 import ArrowButton from '@icons/readMoreArrow.svg';
 import { useCheckedIn } from 'storage/check-in.storage';
+import { useConfig } from 'utils/hooks/useConfiguration';
 
 interface ICarouselProps {
   ird: any;
@@ -45,6 +46,7 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
   const buttonArrowState = buttonArrow;
 
   const { t } = useTranslation(['common']);
+  const hotel = useConfig()?.code;
   const navigate = useLocalizedRouter();
   const handleMenu = () => {
     diningInformationStorage({
@@ -58,7 +60,7 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
   const redirect = () => {
     diningOptions(diningOptionsCarousal);
     selectedRestaurantStorage(slide);
-    navigate(`${diningOptionsCarousal.path}`);
+    navigate(`/${hotel}/${diningOptionsCarousal.path}`);
   };
 
   const time = restaurantTimings(slide?.customAttributes);

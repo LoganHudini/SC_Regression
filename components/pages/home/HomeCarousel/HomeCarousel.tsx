@@ -5,6 +5,7 @@ import Carousel from 'react-material-ui-carousel';
 import { ASSETS_URL } from '../../../../core/graphql/endpoints';
 import styles from './HomeCarousel.module.scss';
 import { useTranslation } from 'react-i18next';
+import { useConfig } from 'utils/hooks/useConfiguration';
 import { isOfferActive } from 'utils/functions';
 
 interface IHomeCarouselProps {

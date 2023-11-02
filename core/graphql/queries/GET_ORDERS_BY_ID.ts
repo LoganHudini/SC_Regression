@@ -1,12 +1,15 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export const GET_ORDERS = gql`
-  query MyQuery(
-    $bookingId:String!
-    $lang: String,
+  query MyQuery($hotelId: String!, $bookingId: String!, $lang: String) {
+    getOrdersByBookingId(
+      input: {
+        bookingId: $bookingId
+        hotelId: $hotelId
+        lang: $lang
+        orderStatuses: ["NEW_ORDER", "ACCEPTED"]
+      }
     ) {
-    getOrdersByBookingId(input: { bookingId:$bookingId, hotelId: "${HOTEL_ID}", lang: $lang,orderStatuses: ["NEW_ORDER", "ACCEPTED"] }) {
       additionalNote
       completedTime
       createdAt

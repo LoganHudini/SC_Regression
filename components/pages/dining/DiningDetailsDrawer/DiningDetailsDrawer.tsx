@@ -21,6 +21,7 @@ import { irdActiveMenuList } from 'utils/functions';
 import { addToCartEvent } from 'utils/gtag';
 import cx from 'classnames';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
+import { client } from 'core/graphql/client';
 
 const DiningDetailsDrawer = () => {
   const { t } = useTranslation(['dining', 'common']);
@@ -43,18 +44,7 @@ const DiningDetailsDrawer = () => {
     }[]
   >();
 
-  const { data, loading } = useQuery<IRDMenuApiResponse>(IRD_MENU, {
-    context: { clientName: 'host_v2' },
-    variables: {
-      restaurantId:
-        (typeof window !== 'undefined' &&
-          localStorage.getItem('restaurantId') &&
-          JSON.parse(localStorage.getItem('restaurantId') ?? '')) ??
-        '',
-      lang: locale === 'en' ? '' : locale,
-    },
-    fetchPolicy: 'no-cache',
-  });
+  const data = client.readQuery<IRDMenuApiResponse>({ query: IRD_MENU });
 
   const irdMenu = irdActiveMenuList(data);
 
@@ -285,199 +275,188 @@ const DiningDetailsDrawer = () => {
 
     return (
       <>
-        {' '}
-        {loading ? (
-          <>
-            <DiningMenuElementSkeleton />
-            <DiningMenuElementSkeleton />
-            <DiningMenuElementSkeleton />
-            <DiningMenuElementSkeleton />
-            <DiningMenuElementSkeleton />
-          </>
-        ) : (
-          <>
-            {selectedItem && selectedItem?.images[0]?.ratio16to9 ? (
-              <StableImage
-                className={styles.image}
-                src={`${ASSETS_URL}/${selectedItem?.images[0]?.ratio16to9}`}
-              />
-            ) : (
-              <div className='imagePlaceHolderAnimation' />
-            )}
-            {selectedItem?.name && (
-              <div className={styles.titleWrapper}>
-                <h3
-                  className={cx(styles.title, {
-                    [styles.titleWithImage]: selectedItem?.images[0],
+        <>
+          {selectedItem && selectedItem?.images[0]?.ratio16to9 ? (
+            <StableImage
+              className={styles.image}
+              src={`${ASSETS_URL}/${selectedItem?.images[0]?.ratio16to9}`}
+            />
+          ) : (
+            <div className='imagePlaceHolderAnimation' />
+          )}
+          {selectedItem?.name && (
+            <div className={styles.titleWrapper}>
+              <h3
+                className={cx(styles.title, {
+                  [styles.titleWithImage]: selectedItem?.images[0],
+                })}
+              >
+                {selectedItem?.name}
+              </h3>
+            </div>
+          )}
+          <div className={styles.wrapper}>
+            {selectedItem?.allergens && (
+              <div className={styles.tagsWrapper}>
+                {selectedItem?.allergens
+                  ?.filter?.((allergen: any) => allergen?.status)
+                  ?.map((tags: any, key: any) => {
+                    const IconComponent =
+                      iconsMap[tags.name.toLowerCase() as keyof typeof iconsMap];
+                    return (
+                      <div key={key} className={styles.tags}>
+                        {IconComponent && <IconComponent className={styles.allergens} />}
+                        {tags?.name}
+                      </div>
+                    );
                   })}
-                >
-                  {selectedItem?.name}
-                </h3>
               </div>
             )}
-            <div className={styles.wrapper}>
-              {selectedItem?.allergens && (
-                <div className={styles.tagsWrapper}>
-                  {selectedItem?.allergens
-                    ?.filter?.((allergen: any) => allergen?.status)
-                    ?.map((tags: any, key: any) => {
-                      const IconComponent =
-                        iconsMap[tags.name.toLowerCase() as keyof typeof iconsMap];
-                      return (
-                        <div key={key} className={styles.tags}>
-                          {IconComponent && <IconComponent className={styles.allergens} />}
-                          {tags?.name}
-                        </div>
-                      );
-                    })}
+            {selectedItem?.description && (
+              <p className={styles.description}>{selectedItem?.description}</p>
+            )}
+
+            {selectedItem?.ingredients && (
+              <>
+                <h4 className={styles.ingredientsText}>{t('Ingredients')}</h4>
+                <p className={styles.ingredientsDescription}>{selectedItem?.ingredients}</p>
+              </>
+            )}
+
+            {selectedItem?.customisation?.map((customisationItem: any, index: number) => (
+              <div key={index}>
+                <div className={styles.customisationWrapper}>
+                  <p className={styles.customisationsText}>{customisationItem?.ingredient}</p>
+
+                  {!customisation?.some(
+                    (selected: any) => selected.ingredient === customisationItem.ingredient,
+                  ) && <p className={styles.optionalTextWarning}>{t('Required')}</p>}
                 </div>
-              )}
-              {selectedItem?.description && (
-                <p className={styles.description}>{selectedItem?.description}</p>
-              )}
-
-              {selectedItem?.ingredients && (
-                <>
-                  <h4 className={styles.ingredientsText}>{t('Ingredients')}</h4>
-                  <p className={styles.ingredientsDescription}>{selectedItem?.ingredients}</p>
-                </>
-              )}
-
-              {selectedItem?.customisation?.map((customisationItem: any, index: number) => (
-                <div key={index}>
-                  <div className={styles.customisationWrapper}>
-                    <p className={styles.customisationsText}>{customisationItem?.ingredient}</p>
-
-                    {!customisation?.some(
-                      (selected: any) => selected.ingredient === customisationItem.ingredient,
-                    ) && <p className={styles.optionalTextWarning}>{t('Required')}</p>}
-                  </div>
-                  <div className={styles.customisations}>
-                    {customisationItem?.customisations
-                      ?.filter((item: any) => item?.status)
-                      ?.map((el: any, index: any) => (
-                        <div key={index} className={styles.radioItemWrapper}>
-                          <StyledButton
-                            onClick={(e) => handleSelectedCustomisation(e, customisationItem, el)}
-                            className={cx(styles.customizationInactive, {
-                              [styles.customizationActive]: customisation?.some(
-                                (customization: any) =>
-                                  customization?.ingredient === customisationItem?.ingredient &&
-                                  customization?.name === el?.name,
-                              ),
-                            })}
-                            variant='contained'
-                            value={el.name}
-                          >
-                            {el.name}
-                          </StyledButton>
-                        </div>
-                      ))}
-                  </div>
+                <div className={styles.customisations}>
+                  {customisationItem?.customisations
+                    ?.filter((item: any) => item?.status)
+                    ?.map((el: any, index: any) => (
+                      <div key={index} className={styles.radioItemWrapper}>
+                        <StyledButton
+                          onClick={(e) => handleSelectedCustomisation(e, customisationItem, el)}
+                          className={cx(styles.customizationInactive, {
+                            [styles.customizationActive]: customisation?.some(
+                              (customization: any) =>
+                                customization?.ingredient === customisationItem?.ingredient &&
+                                customization?.name === el?.name,
+                            ),
+                          })}
+                          variant='contained'
+                          value={el.name}
+                        >
+                          {el.name}
+                        </StyledButton>
+                      </div>
+                    ))}
                 </div>
-              ))}
-
-              {selectedItem?.addons && (
-                <>
-                  <div className={styles.addonsRow}>
-                    <p className={styles.addonsText}>{t('Add-Ons')}</p>
-                    {addonsWarning ? (
-                      <p className={styles.optionalTextWarning}>{t('Limit exceeded')}</p>
-                    ) : (
-                      <p className={styles.optionalText}>
-                        {/* {t('Select up to option(s)', { value: selectedItem?.addOnValue })} */}
-                        Select up to {selectedItem?.addOnValue} option(s)
-                      </p>
-                    )}
-                  </div>
-                  <div className={styles.irdCheckboxItemWrapper}>
-                    {selectedItem?.addons
-                      ?.filter((item: any) => item?.status)
-                      ?.map((el: any, index: any) => (
-                        <div key={index}>
-                          <DiningCheckboxItem
-                            setupdateAddons={setupdateAddons}
-                            updateAddons={updateAddons}
-                            element={el}
-                            selectedItemId={selectedItemId}
-                            addons={addons ?? []}
-                            setAddons={setAddons}
-                            checked={addons?.some((item) => item?.id === el?.id) ? true : false}
-                          />
-                        </div>
-                      ))}
-                  </div>
-                </>
-              )}
-
-              <TextField
-                autoComplete='off'
-                fullWidth
-                color='success'
-                className={styles.textInput}
-                id='input-with-icon-textfield'
-                placeholder={`${t('Add instructions')}`}
-                onChange={cookingInstructions}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position='start'>
-                      <Cookinginstructions />
-                    </InputAdornment>
-                  ),
-                  classes: {
-                    underline: styles.customUnderline,
-                  },
-                  inputProps: {
-                    maxLength: 30,
-                    style: {
-                      font: '14px var(--primary-font-heading)',
-                      color: 'var(--tertiary-text-color)',
-                      marginInlineStart: '0.5rem',
-                    },
-                  },
-                }}
-                variant='standard'
-              />
-
-              {selectedItem?.price && (
-                <>
-                  <p className={styles.priceText}>{t('total item price')}</p>
-                  <p className={styles.totalItemPrice}>
-                    {CURRENCY}{' '}
-                    <span className={styles.price}>
-                      {' '}
-                      {(selectedItem?.price + totalAddons)?.toFixed(2)}
-                    </span>
-                  </p>
-                </>
-              )}
-            </div>
-            <div className={styles.counterContainer}>
-              <PlusMinusInput
-                value={count}
-                className={styles.plusMinusInput}
-                onClickMinus={decrementCount}
-                onClickPlus={incrementCount}
-              />
-
-              <div>
-                <StyledButton
-                  onClick={handleAdd}
-                  className={styles.addToCart}
-                  variant='contained'
-                  disabled={
-                    count === 0 ||
-                    (selectedItem?.customisation?.length > 0 &&
-                      filteredCustomisation?.length !== customisation?.length) ||
-                    addonsWarning
-                  }
-                >
-                  {t('Add to cart')}
-                </StyledButton>
               </div>
+            ))}
+
+            {selectedItem?.addons && (
+              <>
+                <div className={styles.addonsRow}>
+                  <p className={styles.addonsText}>{t('Add-Ons')}</p>
+                  {addonsWarning ? (
+                    <p className={styles.optionalTextWarning}>{t('Limit exceeded')}</p>
+                  ) : (
+                    <p className={styles.optionalText}>
+                      {/* {t('Select up to option(s)', { value: selectedItem?.addOnValue })} */}
+                      Select up to {selectedItem?.addOnValue} option(s)
+                    </p>
+                  )}
+                </div>
+                <div className={styles.irdCheckboxItemWrapper}>
+                  {selectedItem?.addons
+                    ?.filter((item: any) => item?.status)
+                    ?.map((el: any, index: any) => (
+                      <div key={index}>
+                        <DiningCheckboxItem
+                          setupdateAddons={setupdateAddons}
+                          updateAddons={updateAddons}
+                          element={el}
+                          selectedItemId={selectedItemId}
+                          addons={addons ?? []}
+                          setAddons={setAddons}
+                          checked={addons?.some((item) => item?.id === el?.id) ? true : false}
+                        />
+                      </div>
+                    ))}
+                </div>
+              </>
+            )}
+
+            <TextField
+              autoComplete='off'
+              fullWidth
+              color='success'
+              className={styles.textInput}
+              id='input-with-icon-textfield'
+              placeholder={`${t('Add instructions')}`}
+              onChange={cookingInstructions}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position='start'>
+                    <Cookinginstructions />
+                  </InputAdornment>
+                ),
+                classes: {
+                  underline: styles.customUnderline,
+                },
+                inputProps: {
+                  maxLength: 30,
+                  style: {
+                    font: '14px var(--primary-font-heading)',
+                    color: 'var(--tertiary-text-color)',
+                    marginInlineStart: '0.5rem',
+                  },
+                },
+              }}
+              variant='standard'
+            />
+
+            {selectedItem?.price && (
+              <>
+                <p className={styles.priceText}>{t('total item price')}</p>
+                <p className={styles.totalItemPrice}>
+                  {CURRENCY}{' '}
+                  <span className={styles.price}>
+                    {' '}
+                    {(selectedItem?.price + totalAddons)?.toFixed(2)}
+                  </span>
+                </p>
+              </>
+            )}
+          </div>
+          <div className={styles.counterContainer}>
+            <PlusMinusInput
+              value={count}
+              className={styles.plusMinusInput}
+              onClickMinus={decrementCount}
+              onClickPlus={incrementCount}
+            />
+
+            <div>
+              <StyledButton
+                onClick={handleAdd}
+                className={styles.addToCart}
+                variant='contained'
+                disabled={
+                  count === 0 ||
+                  (selectedItem?.customisation?.length > 0 &&
+                    filteredCustomisation?.length !== customisation?.length) ||
+                  addonsWarning
+                }
+              >
+                {t('Add to cart')}
+              </StyledButton>
             </div>
-          </>
-        )}
+          </div>
+        </>
       </>
     );
   };

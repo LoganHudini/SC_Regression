@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import type { AppProps } from 'next/app';
 import { ApolloProvider } from '@apollo/client';
 import { client } from '../core/graphql/client';
@@ -12,7 +13,7 @@ import { appWithTranslation } from 'next-i18next';
 import { ToastContainer, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'normalize.css';
-import '../styles/globals.scss';
+import '@styles/globals.scss';
 import { ToastIcon } from 'react-toastify/dist/types';
 import { pageView } from 'utils/gtag';
 import { useRouter } from 'next/router';

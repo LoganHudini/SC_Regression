@@ -3,7 +3,7 @@ import { scrollState } from 'storage/dining-menu.storage';
 import { DOCTYPE, PHONE_REGEX, TIMINGS } from './constants';
 import * as yup from 'yup';
 import { toggleLoader } from 'storage/home.storage';
-import { getConfig } from './getConfiguration';
+import { configuration } from 'core/graphql/queries/GET_CONFIGURATION';
 
 // Extract data from local storage
 export const guestNameFandB = () =>
@@ -154,7 +154,7 @@ export const platformLoader = (duration: number) => {
 export const activeItems = (list: any) => list && list?.filter((item: any) => item?.isActive);
 
 // Button arrow status
-export const buttonArrow = getConfig()?.ButtonArrow;
+export const buttonArrow = true;
 
 // restaurant timings
 export const restaurantTimings = (data: any) =>

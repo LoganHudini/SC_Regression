@@ -9,9 +9,7 @@ export const BillElement: React.FC<IBIllElementProps> = ({ date, title, chequeNo
   return (
     <div className={styles.billElement}>
       <div className={styles.infoColumn}>
-        <div className={styles.time}>
-          {dayjs(date).format(timeFormats.DAY_MONTH_YEAR_HOUR_MINUTE_SECOND_AM)}
-        </div>
+        <div className={styles.time}>{dayjs(date).format(timeFormats?.DAY_MONTH_YEAR)}</div>
         <div className={styles.title}>{title}</div>
       </div>
       <div className={styles.infoColumn}>

@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export interface IHours {
   close: string;
@@ -86,8 +85,8 @@ export interface IGetRestaurantDetailsResponse {
 }
 
 export const GET_RESTAURANT_DETAILS = gql`
-  query getRestaurantDetails {
-    getRestaurantDetails(input: { hotelId: "${HOTEL_ID}" }) {
+  query getRestaurantDetails($hotelId: String!, $lang: String) {
+    getRestaurantDetails(input: { hotelId: $hotelId, lang: $lang }) {
       chef {
         id
       }

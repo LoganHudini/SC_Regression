@@ -26,6 +26,8 @@ import { setScrollPosition } from 'utils/functions';
 import produce from 'immer';
 import { useTranslation } from 'react-i18next';
 import { BRAND_CODE } from 'core/graphql/endpoints';
+import { useConfig } from 'utils/hooks/useConfiguration';
+import { useCheckedIn } from 'storage/check-in.storage';
 
 export const Header: React.FC<IHeaderProps> = ({
   screenTitle,
@@ -48,22 +50,22 @@ export const Header: React.FC<IHeaderProps> = ({
   const navigate = useLocalizedRouter();
   const router = useRouter();
   const locale = useLocale();
+  const hotelId = useConfig()?.hotelId;
+  const hotel = useConfig()?.code;
+  const checkinData = useCheckedIn();
   const filter = useReactiveVar(diningInformationStorage);
   const irdMenu = filter?.menuName || (header && header[0]?.name);
   const irdMenuTimings = header && header[0]?.hours;
   const [language, setLanguage] = useState<boolean>(false);
   const [orderDrawer, setOrderDrawer] = useState(false);
   const [languageSelected, setLanguageSelected] = useState(useLanguage());
-  const reservationId =
-    (typeof window !== 'undefined' &&
-      localStorage.getItem('guestDetails') &&
-      JSON.parse(localStorage.getItem('guestDetails') ?? '').roomNumber) ??
-    '';
 
   const { data: myOrders } = useQuery(GET_ORDERS, {
+    skip: !hotelId || !checkinData?.reservationId,
     context: { clientName: 'host_v3' },
     variables: {
-      bookingId: reservationId,
+      hotelId: hotelId,
+      bookingId: checkinData?.reservationId,
       lang: locale === 'en' ? '' : locale,
     },
     fetchPolicy: 'no-cache',
@@ -89,7 +91,7 @@ export const Header: React.FC<IHeaderProps> = ({
 
   const goHome = useCallback(() => {
     setScrollPosition(0, 0);
-    navigate(availablePaths?.HOME);
+    navigate(`/${hotel}/`);
     diningInformationStorage(
       produce(diningInformationStorage(), (draft) => {
         if (draft) {
@@ -98,7 +100,7 @@ export const Header: React.FC<IHeaderProps> = ({
         }
       }),
     );
-  }, [navigate]);
+  }, [hotel, navigate]);
 
   const handleLanguageChange = async (event: any, el: any) => {
     setLanguageSelected({ title: el?.title, value: el.value });

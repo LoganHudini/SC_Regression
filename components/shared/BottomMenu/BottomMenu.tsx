@@ -34,10 +34,15 @@ import { CustomDrawer } from '../CustomDrawer/CustomDrawer';
 import { buttonArrow } from 'utils/functions';
 import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
 import { ASSETS_URL } from 'core/graphql/endpoints';
+import { useConfig } from 'utils/hooks/useConfiguration';
+import { useLocale } from 'utils/hooks/useLocalizedRouter';
 
 export const BottomMenu: React.FC<unknown> = () => {
   const wrapperRef = useRef(null);
   const router = useRouter();
+  const locale = useLocale();
+  const isCheckedIn = useCheckedIn();
+  const hotelId = useConfig()?.hotelId;
   const hideOnScroll = useHideOnScroll();
   const hamburgerMenuStatus = useReactiveVar(toggleHamburgerMenuDrawer);
   const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
@@ -45,21 +50,26 @@ export const BottomMenu: React.FC<unknown> = () => {
   const offersOptionSelected: any = useReactiveVar(selectedOfferOption);
   const { t } = useTranslation(['common']);
   const spaInformation = useReactiveVar(spaInformationStorage);
-  const isCheckedIn = useCheckedIn();
-  const homeActive = router?.pathname === '/[locale]';
-  const irdActive =
-    router?.pathname?.includes(availablePaths?.DINING) ||
-    router?.pathname?.includes(availablePaths?.RESTAURANTS_BARS);
-  const housekeepingActive = router?.pathname?.includes(availablePaths.HOUSEKEEPING);
-  const spaActive = router?.pathname?.includes(availablePaths?.SPA);
-  const offersActive = router.pathname.includes(availablePaths.OFFERS);
-  const hotelCompendiumActive = router?.pathname?.includes(availablePaths.HOTEL_COMPENDIUM);
-  const checkOutActive = router?.pathname?.includes(availablePaths.BILL);
   const hotelCompendiumSelected: any = useReactiveVar(selectedCompendiumCategory);
 
+  const homeActive = router?.pathname === '/[locale]/[hotel]';
+  const irdActive =
+    router?.asPath?.includes(availablePaths?.DINING) ||
+    router?.asPath?.includes(availablePaths?.RESTAURANTS_BARS);
+  const housekeepingActive = router?.asPath?.includes(availablePaths.HOUSEKEEPING);
+  const spaActive = router?.asPath?.includes(availablePaths?.SPA);
+  const offersActive = router?.asPath?.includes(availablePaths?.OFFERS);
+  const hotelCompendiumActive = router?.asPath?.includes(availablePaths?.HOTEL_COMPENDIUM);
+  const checkOutActive = router?.asPath?.includes(availablePaths.BILL);
+
   const { data } = useQuery<IGetHamburgerMenuDetailsApiResponse>(GET_HAMBURGER_MENU, {
+    skip: !hotelId,
     context: { clientName: 'host_v4' },
     fetchPolicy: 'no-cache',
+    variables: {
+      hotelId: hotelId,
+      lang: locale === 'en' ? '' : locale,
+    },
   });
 
   const hamburger = data?.getUiBuilderHamburgerMenuDetails;
@@ -115,47 +125,55 @@ export const BottomMenu: React.FC<unknown> = () => {
 
   return (
     <>
-      <div className={cx(styles.bottomMenuWrapper, { [styles.hideOnScroll]: hideOnScroll })}>
-        <StyledButton
-          variant='contained'
-          className={styles.bottomMenuButton}
-          onClick={openModuleOptionsDrawer}
-          arrow={buttonArrow && !isCheckedIn?.checkedIn && homeActive}
-        >
-          <span className={styles.btnText}>
-            {homeActive &&
-              (isCheckedIn?.checkedIn ? `Room ${isCheckedIn?.roomNumber}` : t('CHECK-IN'))}
-            {irdActive && t(`${diningOptionSelected?.title}`)}
-            {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
-            {spaActive && t(`${spaInformation?.selectedSpaCategoryName}`)}
-            {offersActive && t(`${offersOptionSelected?.type}`)}
-            {hotelCompendiumActive && t(`${hotelCompendiumSelected?.name}`)}
-            {checkOutActive && t('PAY & CHECKOUT')}
-          </span>
-          {homeActive ? (
-            isCheckedIn?.checkedIn &&
-            isCheckedIn?.roomNumber && <DownArrowIcon className={styles.downArrow} />
-          ) : (
-            <DownArrowIcon className={styles.downArrow} />
-          )}
-        </StyledButton>
+      {(homeActive ||
+        (irdActive && diningOptionSelected?.title) ||
+        (housekeepingActive && houseKeepingOptionSelected?.title) ||
+        (spaActive && spaInformation?.selectedSpaCategoryName) ||
+        (offersActive && offersOptionSelected?.type) ||
+        (hotelCompendiumActive && hotelCompendiumSelected?.name) ||
+        checkOutActive) && (
+        <div className={cx(styles.bottomMenuWrapper, { [styles.hideOnScroll]: hideOnScroll })}>
+          <StyledButton
+            variant='contained'
+            className={styles.bottomMenuButton}
+            onClick={openModuleOptionsDrawer}
+            arrow={buttonArrow && !isCheckedIn?.checkedIn && homeActive}
+          >
+            <span className={styles.btnText}>
+              {homeActive &&
+                (isCheckedIn?.checkedIn ? `Room ${isCheckedIn?.roomNumber}` : t('CHECK-IN'))}
+              {irdActive && t(`${diningOptionSelected?.title}`)}
+              {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
+              {spaActive && t(`${spaInformation?.selectedSpaCategoryName}`)}
+              {offersActive && t(`${offersOptionSelected?.type}`)}
+              {hotelCompendiumActive && t(`${hotelCompendiumSelected?.name}`)}
+              {checkOutActive && t('PAY & CHECKOUT')}
+            </span>
+            {homeActive ? (
+              isCheckedIn?.checkedIn &&
+              isCheckedIn?.roomNumber && <DownArrowIcon className={styles.downArrow} />
+            ) : (
+              <DownArrowIcon className={styles.downArrow} />
+            )}
+          </StyledButton>
 
-        <div className={styles.hamburgerIcon}>
-          <Hamburger
-            distance={'sm'}
-            color={'var(--primary-theme-color)'}
-            toggled={hamburgerMenuStatus}
-            toggle={(toggled) => {
-              if (toggled) {
-                selectedRestaurantStorage([]);
-                toggleHamburgerMenuDrawer(true);
-              } else {
-                toggleHamburgerMenuDrawer(false);
-              }
-            }}
-          />
+          <div className={styles.hamburgerIcon}>
+            <Hamburger
+              distance={'sm'}
+              color={'var(--primary-theme-color)'}
+              toggled={hamburgerMenuStatus}
+              toggle={(toggled) => {
+                if (toggled) {
+                  selectedRestaurantStorage([]);
+                  toggleHamburgerMenuDrawer(true);
+                } else {
+                  toggleHamburgerMenuDrawer(false);
+                }
+              }}
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       <ModuleOptionsDrawer
         {...{

@@ -18,5 +18,5 @@ export const useLanguage = () => {
 
 export const useLocale = () => {
   const router = useRouter();
-  return router.query.locale;
+  return router?.query?.locale;
 };

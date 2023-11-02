@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import React, { useCallback, useEffect, useState } from 'react';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
@@ -21,12 +20,16 @@ import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { saveTrip } from 'storage/trips.storage';
 import { Notification } from 'components/shared/Notification/Notification';
 import { useRouter } from 'next/router';
+import { useConfig } from 'utils/hooks/useConfiguration';
 
 const CheckInDrawer = () => {
   const navigate = useLocalizedRouter();
+  const hotelId = useConfig()?.hotelId;
+  const hotel = useConfig()?.code;
   const checkInDrawerStatus = useReactiveVar(toggleCheckInDetailsDrawer);
   const { t } = useTranslation(['get-reservation', 'common']);
   const router = useRouter();
+  const HOME = `/${hotel}/`;
 
   const [loading, setLoading] = useState(false);
 
@@ -40,6 +43,7 @@ const CheckInDrawer = () => {
           variables: {
             confirmationNumber: values?.confirmationNumber,
             lastName: values?.lastName,
+            hotelId: hotelId,
           },
           fetchPolicy: 'no-cache',
         });
@@ -65,7 +69,6 @@ const CheckInDrawer = () => {
             });
             setLoading(false);
           } else if (data.getReservation.data.reservationStatus === 'INHOUSE') {
-            // toast(t('Checked-In Successfully'), { type: 'success' });
             toggleNotification(true);
             saveTrip({
               reservationId: data?.getReservation?.data?.confirmationId as string,
@@ -76,7 +79,6 @@ const CheckInDrawer = () => {
               roomNumber: roomNo,
               invoiceId: data?.getReservation?.data?.reservationId as string,
             });
-
             checkinStorage({
               reservationId: data?.getReservation?.data?.confirmationId as string,
               preCheckedIn: !roomNo ? true : false,
@@ -86,7 +88,8 @@ const CheckInDrawer = () => {
               roomNumber: roomNo,
               invoiceId: data?.getReservation?.data?.reservationId as string,
             });
-            navigate(availablePaths?.HOME);
+
+            navigate(HOME);
             toggleCheckInDetailsDrawer(false);
             setLoading(false);
           } else {
@@ -100,7 +103,7 @@ const CheckInDrawer = () => {
         setLoading(false);
       }
     },
-    [navigate, t],
+    [HOME, hotelId, navigate, t],
   );
 
   const resId = router?.query?.resId ?? '';
@@ -136,8 +139,8 @@ const CheckInDrawer = () => {
 
   const closeInputDrawer = useCallback(() => {
     toggleCheckInDetailsDrawer(false);
-    navigate(availablePaths.HOME);
-  }, [navigate]);
+    navigate(HOME);
+  }, [HOME, navigate]);
 
   const checkInDetails = () => {
     return (
@@ -201,7 +204,7 @@ const CheckInDrawer = () => {
             'Reservation validated successfully. You can now explore our in-stay services.',
           ) as string
         }
-        redirect={availablePaths?.HOME}
+        redirect={HOME}
         type='success'
       />
     </>

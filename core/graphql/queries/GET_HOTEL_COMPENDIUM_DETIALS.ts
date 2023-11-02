@@ -1,9 +1,8 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export const GET_HOTEL_COMPENDIUM = gql`
-  query MyQuery {
-    getHotelAmenityDetails(input: { hotelId: "${HOTEL_ID}", lang: "" }) {
+  query MyQuery($hotelId: String!, $lang: String) {
+    getHotelAmenityDetails(input: { hotelId: $hotelId, lang: $lang }) {
       amenities {
         categoryId
         categoryIds

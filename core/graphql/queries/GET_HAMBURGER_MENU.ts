@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export interface IGetHamburgerMenuDetailsApiResponse {
   getUiBuilderHamburgerMenuDetails: {
@@ -31,10 +30,8 @@ export interface IGetHamburgerMenuDetailsApiResponse {
 }
 
 export const GET_HAMBURGER_MENU = gql`
- query MyQuery {
-    getUiBuilderHamburgerMenuDetails(
-      input: { hotelId:  "${HOTEL_ID}", lang: "" }
-    ) {
+  query MyQuery($hotelId: String!, $lang: String) {
+    getUiBuilderHamburgerMenuDetails(input: { hotelId: $hotelId, lang: $lang }) {
       post {
         category
         externalLink

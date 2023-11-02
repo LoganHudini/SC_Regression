@@ -1,11 +1,14 @@
 /* eslint-disable camelcase */
 import { CURRENCY, GA_MEASUREMENT_ID } from 'core/graphql/endpoints';
+import { getHotelName } from './fetchConfigs';
 
 declare global {
   interface Window {
     gtag: any;
   }
 }
+
+const hotelName = getHotelName();
 
 const gtag = typeof window !== 'undefined' && window.gtag;
 
@@ -14,6 +17,7 @@ export const pageView = (url: string, title: string) => {
     gtag('config', GA_MEASUREMENT_ID, {
       page_location: url,
       page_title: title,
+      client_id: hotelName,
     });
 };
 

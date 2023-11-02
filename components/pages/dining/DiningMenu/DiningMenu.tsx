@@ -1,7 +1,7 @@
 import { DiningMenuElement } from 'components/pages/dining/DiningMenuElement/DiningMenuElement';
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styles from '../../../../styles/dining-menu/dining-menu.module.scss';
+import styles from '@styles/dining-menu/dining-menu.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
 import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
 import { useQuery, useReactiveVar } from '@apollo/client';
@@ -35,6 +35,8 @@ import { ItemNotFoundLoader, Loader } from 'components/shared/Loaders/Loaders';
 import DiningDetailsDrawer from '../DiningDetailsDrawer/DiningDetailsDrawer';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { useHideOnScroll } from 'utils/hooks/useHideOnScroll';
+import { client } from 'core/graphql/client';
+import { useConfig } from 'utils/hooks/useConfiguration';
 
 export { getStaticPaths };
 interface DiningMenuProps {
@@ -54,22 +56,13 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   const navigate = useLocalizedRouter();
   const checkinData = useCheckedIn();
   const hideOnScroll = useHideOnScroll();
+  const hotelId = useConfig()?.hotelId;
   const scrollRef = useRef<HTMLDivElement>(null);
   const stickyHeaderSearch: any = useRef();
   const locale = useLocale();
   const selectedFilter = useReactiveVar(diningInformationStorage);
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
   const scrollData = useReactiveVar(scrollState) as IScrollPosition;
-  const restaurantId =
-    (typeof window !== 'undefined' &&
-      localStorage.getItem('restaurantId') &&
-      JSON.parse(localStorage.getItem('restaurantId') ?? '')) ??
-    '';
-  const tableNumber =
-    (typeof window !== 'undefined' &&
-      localStorage.getItem('tableNumber') &&
-      JSON.parse(localStorage.getItem('tableNumber') ?? '')) ??
-    '';
   const [scroll, setScroll] = useState(false);
   const [scrollSearch, setScrollSearch] = useState(false);
   const [totalAmount, setTotalAmount] = useState(0);
@@ -77,31 +70,15 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   const [orderDrawer, setOrderDrawer] = useState(false);
   const [scrollHide, setScrollHide] = useState(true);
   const [scrollPosition] = useState(scrollData);
-  const FanbOrders = FandBOrders();
 
-  const { data, loading } = useQuery<IRDMenuApiResponse>(IRD_MENU, {
-    context: { clientName: 'host_v2' },
-    variables: {
-      restaurantId: restaurantId,
-      lang: locale === 'en' ? '' : locale,
-    },
-    fetchPolicy: 'no-cache',
-  });
+  const data = client.readQuery<IRDMenuApiResponse>({ query: IRD_MENU });
 
   const { data: myOrders } = useQuery(GET_ORDERS, {
+    skip: !hotelId || !checkinData?.reservationId,
     context: { clientName: 'host_v3' },
     variables: {
+      hotelId: hotelId,
       bookingId: checkinData?.reservationId,
-      lang: locale === 'en' ? '' : locale,
-    },
-    fetchPolicy: 'no-cache',
-  });
-
-  const { data: FAndBOrder } = useQuery(GET_F_AND_B_ORDER, {
-    context: { clientName: 'host_v5' },
-    variables: {
-      restaurantId: restaurantId,
-      tableNumber: tableNumber || '0',
       lang: locale === 'en' ? '' : locale,
     },
     fetchPolicy: 'no-cache',
@@ -140,11 +117,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     ? irdMenu?.find((item: any) => item?.id === selectedFilter?.selectedMenu)
     : initialFilter;
 
-  const ordersData = restaurantId
-    ? FAndBOrder?.getFAndBOrderDetails?.orders?.filter((item: any) =>
-        FanbOrders?.includes(item?.id),
-      )
-    : myOrders?.getOrdersByBookingId;
+  const ordersData = myOrders?.getOrdersByBookingId;
 
   useEffect(() => {
     setTimeout(() => {
@@ -319,7 +292,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
 
   return (
     <>
-      {loading ? (
+      {!data ? (
         <>
           <Loader />
         </>

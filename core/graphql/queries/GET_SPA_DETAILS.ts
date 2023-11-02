@@ -1,9 +1,8 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export const GET_SPA_DETAILS = gql`
-  query GetSpaDetails{
-    getSpaDetails(input: { hotelId: "${HOTEL_ID}" }) {
+  query GetSpaDetails($hotelId: String!, $lang: String) {
+    getSpaDetails(input: { hotelId: $hotelId, lang: $lang }) {
       categories {
         hotelId
         spaId

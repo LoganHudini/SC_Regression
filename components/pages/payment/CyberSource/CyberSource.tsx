@@ -15,7 +15,7 @@ import {
   INITIATE_PAYMENT_FISERV,
 } from 'core/graphql/queries/INITIATE_PAYMENT';
 import Head from 'next/head';
-import styles from '../../../../styles/check-in-payment/check-in-payment.module.scss';
+import styles from '@styles/check-in-payment/check-in-payment.module.scss';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import { IPreCheckInApiRequest, PRECHECKIN } from 'core/graphql/queries/PRECHECKIN';
@@ -43,10 +43,12 @@ import { availablePaths } from 'utils/availablePaths';
 import { timeFormats } from 'utils/timeFormats';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
+import { useConfig } from 'utils/hooks/useConfiguration';
 
 const CyberSource: React.FC = () => {
   let transactionId: string;
   const navigate = useLocalizedRouter();
+  const hotelName = useConfig()?.name;
 
   const [loading, setLoading] = useState(true);
 
@@ -184,7 +186,9 @@ const CyberSource: React.FC = () => {
   return (
     <>
       <Head>
-        <title>{t('Payment')}</title>
+        <title>
+          {hotelName} | {t('Payment')}
+        </title>
       </Head>
       <Header
         backRoute={availablePaths?.GUEST_INFORMATION_INPUT}

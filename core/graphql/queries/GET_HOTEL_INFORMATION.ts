@@ -1,9 +1,8 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export const GET_HOTEL_INFORMATION = gql`
-  query MyQuery {
-    getPropertyDetailsByHotelId(input: { hotelId: "${HOTEL_ID}", lang: "" }) {
+  query MyQuery($hotelId: String!, $lang: String) {
+    getPropertyDetailsByHotelId(input: { hotelId: $hotelId, lang: $lang }) {
       hotel {
         brandId
         cancellationPolicy {
