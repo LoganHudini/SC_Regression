@@ -39,6 +39,10 @@
   &:hover:enabled {
     border: none;
   }
+
+  &:after {
+    display: none;
+  }
 }
 
 .DiningCategoryOptionInActive {
@@ -58,6 +62,10 @@
     color: var(--primary-theme-color);
     background: var(--primary-background-color);
     box-shadow: none;
+  }
+
+  &:after {
+    display: none;
   }
 }
 

@@ -38,23 +38,31 @@ export const HotelCompendiumContainer = (props: any) => {
 
   return (
     <>
-      <div className={styles.title}>{t('Things To Do')}</div>
       {loading ? (
         <CarouselLoader />
       ) : (
-        <div className={styles.container}>
-          {categories?.map((category: any, index: number) => (
-            <div key={index} className={styles.wrapper} onClick={() => handleClick(category?.id)}>
-              <div className={styles.imgWrapper}>
-                <p className={styles.name}>{category?.name}</p>
-              </div>
-              <StableImage
-                className={styles.image}
-                src={`${ASSETS_URL}/${hotelAmenities[index]?.images[0]?.master}`}
-              />
+        categories?.length > 0 && (
+          <>
+            <div className={styles.title}>{t('Things To Do')}</div>
+            <div className={styles.container}>
+              {categories?.map((category: any, index: number) => (
+                <div
+                  key={index}
+                  className={styles.wrapper}
+                  onClick={() => handleClick(category?.id)}
+                >
+                  <div className={styles.imgWrapper}>
+                    <p className={styles.name}>{category?.name}</p>
+                  </div>
+                  <StableImage
+                    className={styles.image}
+                    src={`${ASSETS_URL}/${hotelAmenities[index]?.images[0]?.master}`}
+                  />
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        )
       )}
     </>
   );

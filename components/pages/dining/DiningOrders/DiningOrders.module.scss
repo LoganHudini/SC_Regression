@@ -59,4 +59,7 @@
   padding-top: 14px;
   padding: 0px 10px;
   min-width: fit-content;
+  &:after {
+    display: none;
+  }
 }

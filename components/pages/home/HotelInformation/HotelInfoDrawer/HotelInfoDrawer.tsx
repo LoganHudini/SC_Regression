@@ -15,8 +15,11 @@ import Location from 'components/shared/Location/Location';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { EMAILCAPS, PHONECAPS, URL } from 'utils/constants';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
-import { toggleHotelInfoDrawer, toggleMapState } from 'storage/home.storage';
-import { buttonArrow } from 'utils/functions';
+import {
+  toggleCheckInDetailsDrawer,
+  toggleHotelInfoDrawer,
+  toggleMapState,
+} from 'storage/home.storage';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 
@@ -25,8 +28,8 @@ const HotelInfoDrawer = () => {
   const locale = useLocale();
   const hotelId = useConfig()?.hotelId;
   const hotelInfoDetailsDrawerStatus = useReactiveVar(toggleHotelInfoDrawer);
+  const checkInDetailsDrawerStatus = useReactiveVar(toggleCheckInDetailsDrawer);
   const showMap = useReactiveVar(toggleMapState);
-  const buttonArrowState = buttonArrow;
 
   const { data } = useQuery(GET_HOTEL_INFORMATION, {
     skip: !hotelId,
@@ -80,36 +83,38 @@ const HotelInfoDrawer = () => {
 
             <div className={styles.phoneEmailCtaWrapper}>
               {phoneData && (
-                <div className={cx(styles.border, styles.align)}>
-                  <a
-                    aria-label={`${t('Phone')}`}
-                    href={`tel:${phoneData?.value}`}
-                    target='_blank'
-                    rel='noreferrer'
-                    className={styles.phoneText}
-                  >
-                    <Phone className={styles.phoneIcon} />
-                  </a>
-                </div>
+                <>
+                  <div className={cx(styles.border, styles.align)}>
+                    <a
+                      aria-label={`${t('Phone')}`}
+                      href={`tel:${phoneData?.value}`}
+                      target='_blank'
+                      rel='noreferrer'
+                      className={styles.phoneText}
+                    >
+                      <Phone className={styles.phoneIcon} />
+                    </a>
+                  </div>
+                  <div className={styles.verticalline}></div>
+                </>
               )}
-
-              <div className={styles.verticalline}></div>
 
               {webData && (
-                <div className={styles.border}>
-                  <a
-                    aria-label={`${t('Link')}`}
-                    href={webData?.value}
-                    className={styles.urlText}
-                    target='_blank'
-                    rel='noreferrer'
-                  >
-                    <Link className={styles.linkIcon} />
-                  </a>
-                </div>
+                <>
+                  <div className={styles.border}>
+                    <a
+                      aria-label={`${t('Link')}`}
+                      href={webData?.value}
+                      className={styles.urlText}
+                      target='_blank'
+                      rel='noreferrer'
+                    >
+                      <Link className={styles.linkIcon} />
+                    </a>
+                  </div>
+                  <div className={styles.verticalline}></div>
+                </>
               )}
-
-              <div className={styles.verticalline}></div>
 
               <div className={styles.border}>
                 <Map onClick={() => handleClick()} />
@@ -149,9 +154,7 @@ const HotelInfoDrawer = () => {
                 className={styles.url}
                 href={`https://maps.google.com/?q=${hotelInfo?.location?.latitude},${hotelInfo?.location?.longitude}`}
               >
-                <StyledButton className={styles.botton} arrow={buttonArrowState ? true : false}>
-                  {t('GET HERE')}
-                </StyledButton>
+                <StyledButton className={styles.botton}>{t('GET HERE')}</StyledButton>
               </a>
             </div>
           </div>
@@ -168,7 +171,7 @@ const HotelInfoDrawer = () => {
 
   return (
     <CustomDrawer
-      open={hotelInfoDetailsDrawerStatus}
+      open={hotelInfoDetailsDrawerStatus && !checkInDetailsDrawerStatus}
       onClose={handleClose}
       content={hotelInfoDetails()}
     />

@@ -175,6 +175,9 @@
   line-height: 30px;
   margin: 4px 0;
   margin-inline-end: 10px;
+  &:after {
+    display: none;
+  }
 }
 
 .confirmOrderButtonWrapper {

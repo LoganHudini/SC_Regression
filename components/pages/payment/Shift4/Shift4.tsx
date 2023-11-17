@@ -83,16 +83,16 @@ const Shift4 = () => {
               draft.cardHolderName = response.i4go_cardholdername;
               draft.cardType = response.i4go_cardtype;
               draft.cardExpiryDate =
-                response.i4go_expirationyear + '-' + response.i4go_expirationmonth;
+                response.i4go_expirationmonth + '/' + response.i4go_expirationyear;
             }),
           );
-          navigate(availablePaths?.GUEST_INFORMATION_INPUT);
+          navigate(availablePaths?.CARD_AUTHORISATION);
         },
         onFailure: function () {
-          navigate(availablePaths.GUEST_INFORMATION_INPUT);
+          navigate(availablePaths.CARD_AUTHORISATION);
         },
         onComplete: function () {
-          navigate(availablePaths?.GUEST_INFORMATION_INPUT);
+          navigate(availablePaths?.CARD_AUTHORISATION);
         },
         onPaymentDataChanged: function (
           iobj: any,

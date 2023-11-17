@@ -24,10 +24,14 @@ import { availablePaths } from 'utils/availablePaths';
 import { timeFormats } from 'utils/timeFormats';
 import { RoomPersonalizationEntityV2 } from 'components/pages/personalize-your-room-v2/RoomPersonalizationEntityV2/RoomPersonalizationEntityV2';
 import { UPDATE_BOOKING_DETAILS } from 'core/graphql/queries/UPDATE_BOOKING_DETAILS';
-import { useConfig } from 'utils/hooks/useConfiguration';
-import { CHECK_IN, personalisation } from 'utils/constants';
-import { buttonArrow } from 'utils/functions';
+import { CHECK_IN, FAILURE, STEPPER_PAYMENT, SUCCESS, personalisation } from 'utils/constants';
 import { Loader } from 'components/shared/Loaders/Loaders';
+import { Notification } from 'components/shared/Notification/Notification';
+import { toggleNotification } from 'storage/home.storage';
+import { useConfig } from 'utils/hooks/useConfiguration';
+import { StepperInformationStorage } from 'storage/check-in.storage';
+import { Stepper } from 'components/shared/Stepper/Stepper';
+import produce from 'immer';
 
 export { getStaticPaths };
 
@@ -35,11 +39,9 @@ const PersonalizeYourRoom: React.FC = () => {
   const navigate = useLocalizedRouter();
   const config = useConfig();
   const { t } = useTranslation('personalize-your-room');
-  const personalizationEntities = useReactiveVar(personalizeYourRoomStorage);
   const [loadingButton, setLoadingButton] = useState(false);
-  const [currentPersonalizationEntities, setCurrentPersonalizationEntities] = useState<any>(
-    personalizationEntities || [],
-  );
+  const [notificationState, setNotificationState] = useState<any>(false);
+  const personalizationStorageInfo = useReactiveVar(personalizeYourRoomStorage);
 
   const checkinModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
   const personalisationConfig = checkinModule?.submodules?.find(
@@ -52,7 +54,7 @@ const PersonalizeYourRoom: React.FC = () => {
 
   useEffect(() => {
     if (!reservationData) {
-      navigate(availablePaths.HOME);
+      // navigate(availablePaths.HOME);
     }
   }, [reservationData, navigate]);
 
@@ -61,7 +63,7 @@ const PersonalizeYourRoom: React.FC = () => {
   const startDate = dayjs(reservationInfo?.details.checkInDate).format(timeFormats.YEAR_MONTH_DAY);
   const endDate = dayjs(reservationInfo?.details.checkOutDate).format(timeFormats.YEAR_MONTH_DAY);
 
-  const { loading, data, error } = useQuery<IPersonalizeYourRoomApiResponse>(
+  const { loading, data } = useQuery<IPersonalizeYourRoomApiResponse>(
     GET_AVAILABLE_PERSONALIZATIONS_CMS,
     {
       context: { clientName: 'rest' },
@@ -74,15 +76,9 @@ const PersonalizeYourRoom: React.FC = () => {
 
   useEffect(() => {
     if (data?.getAvailablePersonalizations?.data?.length === 0) {
-      navigate(availablePaths?.CHECK_IN);
+      navigate(availablePaths?.REVIEW);
     }
   }, [data?.getAvailablePersonalizations?.data?.length, navigate]);
-
-  useEffect(() => {
-    if (error) {
-      toast('Please try again', { type: 'error' });
-    }
-  }, [error]);
 
   const availablePersonalizations = data?.getAvailablePersonalizations?.data?.filter(
     (el) => el?.isActive,
@@ -90,44 +86,50 @@ const PersonalizeYourRoom: React.FC = () => {
 
   const goToNextStep = useCallback(async () => {
     setLoadingButton(true);
-    personalizeYourRoomStorage(
-      currentPersonalizationEntities?.filter((x: any) => x?.quantity !== 0),
-    );
+    if (!personalizationStorageInfo?.some((item: any) => item?.quantity > 0)) {
+      navigate(availablePaths?.REVIEW);
+    } else {
+      personalizationStorageInfo?.filter((x: any) => x?.quantity !== 0);
 
-    const updateBookingDetailsPayload = {
-      bookingId: reservationInfo?.details.id,
-      reservationId: reservationInfo?.reservationId,
-      startDate: reservationInfo?.details.checkInDate.split('T')[0],
-      endDate: reservationInfo?.details.checkOutDate.split('T')[0],
-      uniqueBookingId: reservationInfo?.uniqueBookingId,
-      reservationType: reservationInfo?.confirmationType,
-      accountId: reservationInfo?.accountId,
-      noOfGuest: reservationInfo?.details.totalGuestCount,
-      roomCategory: reservationInfo?.roomTypes[0].name,
-      roomCharge: reservationInfo?.roomTypes[0].totalCharge,
-      personalisation: [],
-      comments: currentPersonalizationEntities
-        .filter((x: any) => x?.quantity !== 0)
-        .map((a: any) => a?.title + ' X ' + a?.quantity),
-    };
+      const updateBookingDetailsPayload = {
+        bookingId: reservationInfo?.details.id,
+        reservationId: reservationInfo?.reservationId,
+        startDate: reservationInfo?.details.checkInDate.split('T')[0],
+        endDate: reservationInfo?.details.checkOutDate.split('T')[0],
+        uniqueBookingId: reservationInfo?.uniqueBookingId,
+        reservationType: reservationInfo?.confirmationType,
+        accountId: reservationInfo?.accountId,
+        noOfGuest: reservationInfo?.details.totalGuestCount,
+        roomCategory: reservationInfo?.roomTypes[0].name,
+        roomCharge: reservationInfo?.roomTypes[0].totalCharge,
+        personalisation: [],
+        comments: personalizationStorageInfo?.map((a: any) => a?.title + ' X ' + a?.quantity),
+      };
 
-    try {
-      await client.query({
-        query: UPDATE_BOOKING_DETAILS,
-        context: { clientName: 'rest' },
-        variables: {
-          confirmationNumber: reservationInfo?.confirmationId as string,
-          body: updateBookingDetailsPayload,
-        },
-      });
-      navigate(availablePaths?.CHECK_IN);
-    } catch (e) {
-      toast('Error while updating the booking', { type: 'error' });
+      try {
+        await client.query({
+          query: UPDATE_BOOKING_DETAILS,
+          context: { clientName: 'rest' },
+          variables: {
+            confirmationNumber: reservationInfo?.confirmationId as string,
+            body: updateBookingDetailsPayload,
+          },
+        });
+        navigate(availablePaths?.REVIEW);
+      } catch (e) {
+        toggleNotification(true);
+        setNotificationState({
+          title: 'Please Try Again!',
+          description: 'Your order was not confirmed',
+          redirect: null,
+          type: FAILURE,
+        });
+      }
     }
     setLoadingButton(false);
   }, [
-    currentPersonalizationEntities,
     navigate,
+    personalizationStorageInfo,
     reservationInfo?.accountId,
     reservationInfo?.confirmationId,
     reservationInfo?.confirmationType,
@@ -140,15 +142,33 @@ const PersonalizeYourRoom: React.FC = () => {
     reservationInfo?.uniqueBookingId,
   ]);
 
+  useEffect(() => {
+    StepperInformationStorage(
+      produce(StepperInformationStorage(), (draft: any) => {
+        const item = draft?.find((el: any) => el?.title === STEPPER_PAYMENT);
+        if (item) {
+          item.value = 100;
+        }
+      }),
+    );
+  }, []);
+
   return (
     <>
       <Head>
         <title>
-          {config?.name} | {t(`${personalisationConfig?.title}`)}
+          {config?.name} | {t('Customisation')}
         </title>
       </Head>
       <Header displayBackButton screenTitle={t(`${personalisationConfig?.label}`) as string} />
       <PageWrapper className={styles.pageWrapper}>
+        <Stepper />
+        <div className={styles.titleWrapper}>
+          <p className={styles.title}>{t('Customise My Stay')}</p>
+          <p className={styles.description}>
+            {t('Personalize every aspect of your stay – tailor your experience to perfection.')}
+          </p>
+        </div>
         <div className={styles.personalizationEntitiesWrapper}>
           {loading ? (
             <>
@@ -164,11 +184,8 @@ const PersonalizeYourRoom: React.FC = () => {
                 type='PER_DAY'
                 price={el.cost}
                 currency={el.currency}
-                setCurrentPersonalizationEntities={setCurrentPersonalizationEntities}
-                count={
-                  currentPersonalizationEntities.find((entity: any) => el?.id === entity?.id)
-                    ?.quantity || '0'
-                }
+                maxQuantity={el.maxQuantity}
+                setNotificationState={setNotificationState}
               />
             ))
           )}
@@ -179,13 +196,18 @@ const PersonalizeYourRoom: React.FC = () => {
             className={styles.confirmButton}
             variant='contained'
             onClick={goToNextStep}
-            arrow={buttonArrow}
             loading={loadingButton}
           >
-            {t('Continue')}
+            {t('Next')}
           </StyledButton>
         </div>
-      </PageWrapper>
+        <Notification
+          title={notificationState?.title}
+          description={notificationState?.description}
+          redirect={notificationState?.redirect}
+          type={notificationState?.type}
+        />
+      </PageWrapper>{' '}
     </>
   );
 };

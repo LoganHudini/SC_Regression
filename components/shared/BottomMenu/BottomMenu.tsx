@@ -31,7 +31,6 @@ import { useHideOnScroll } from 'utils/hooks/useHideOnScroll';
 import useOutsideAlerter from 'utils/hooks/useOutsideAlerter';
 import { selectedOfferOption } from 'storage/offers.storage';
 import { CustomDrawer } from '../CustomDrawer/CustomDrawer';
-import { buttonArrow } from 'utils/functions';
 import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
 import { ASSETS_URL } from 'core/graphql/endpoints';
 import { useConfig } from 'utils/hooks/useConfiguration';
@@ -135,9 +134,11 @@ export const BottomMenu: React.FC<unknown> = () => {
         <div className={cx(styles.bottomMenuWrapper, { [styles.hideOnScroll]: hideOnScroll })}>
           <StyledButton
             variant='contained'
-            className={styles.bottomMenuButton}
+            className={cx(styles.bottomMenuButton, {
+              [styles.bottomMenuButtonWithoutArrow]:
+                !homeActive || (homeActive && isCheckedIn?.checkedIn && isCheckedIn?.roomNumber),
+            })}
             onClick={openModuleOptionsDrawer}
-            arrow={buttonArrow && !isCheckedIn?.checkedIn && homeActive}
           >
             <span className={styles.btnText}>
               {homeActive &&
@@ -149,12 +150,13 @@ export const BottomMenu: React.FC<unknown> = () => {
               {hotelCompendiumActive && t(`${hotelCompendiumSelected?.name}`)}
               {checkOutActive && t('PAY & CHECKOUT')}
             </span>
-            {homeActive ? (
-              isCheckedIn?.checkedIn &&
-              isCheckedIn?.roomNumber && <DownArrowIcon className={styles.downArrow} />
-            ) : (
-              <DownArrowIcon className={styles.downArrow} />
-            )}
+            <span className={styles.expandArrow}>
+              {homeActive ? (
+                isCheckedIn?.checkedIn && isCheckedIn?.roomNumber && <DownArrowIcon />
+              ) : (
+                <DownArrowIcon />
+              )}
+            </span>
           </StyledButton>
 
           <div className={styles.hamburgerIcon}>

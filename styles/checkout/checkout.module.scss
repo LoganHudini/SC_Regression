@@ -8,4 +8,7 @@
   font-size: $extraSmall;
   margin-inline-start: 15px;
   margin-top: 20px;
+  &:after {
+    display: none;
+  }
 }

@@ -9,8 +9,6 @@ import { housekeepingOptions } from 'storage/housekeeping.storage';
 import { CAROUSEL_RESPONSIVE, HouseKeeping, SERVICE_REQUEST_OPTIONS } from 'utils/constants';
 import { availablePaths } from 'utils/availablePaths';
 import { CarouselLoader } from 'components/shared/Loaders/Loaders';
-import { buttonArrow } from 'utils/functions';
-import ArrowButton from '@icons/readMoreArrow.svg';
 import cx from 'classnames';
 
 interface ICarouselProps {
@@ -25,7 +23,6 @@ interface ICarouselSlideProps {
 const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide }) => {
   const { t } = useTranslation(['common']);
   const navigate = useLocalizedRouter();
-  const buttonArrowState = buttonArrow;
 
   const handleClick = () => {
     const selectedData = SERVICE_REQUEST_OPTIONS.find(
@@ -46,10 +43,7 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide }) => {
             ? t('Housekeeping')
             : slide?.__typename === 'Concierge' && 'Maintenance'}
         </h3>
-        <p className={styles.carouselSlideViewMore}>
-          {t('view more')}
-          {buttonArrowState && <ArrowButton />}
-        </p>
+        <p className={styles.carouselSlideViewMore}>{t('view more')}</p>
       </div>
     </div>
   );
@@ -74,22 +68,24 @@ export const ServiceRequestCarousel: React.FC<ICarouselProps> = ({ data, loading
   }, [data]);
 
   return (
-    <div className={styles.ServiceRequestCarouselWrapper}>
-      <p className={styles.servicesCarouselTitle}>{t('Services')}</p>
-      {loading ? (
-        <CarouselLoader />
-      ) : (
-        <WithScrollbar
-          responsive={CAROUSEL_RESPONSIVE}
-          className={cx(styles.carouselWrapper, {
-            [styles.carouselWrapperSingleImage]: showServiceRequest?.length === 1,
-          })}
-        >
-          {showServiceRequest?.map((slide: any) => (
-            <CarouselSlide key={slide?.name} slide={slide} />
-          ))}
-        </WithScrollbar>
-      )}
-    </div>
+    showServiceRequest?.length > 0 && (
+      <div className={styles.ServiceRequestCarouselWrapper}>
+        <p className={styles.servicesCarouselTitle}>{t('Services')}</p>
+        {loading ? (
+          <CarouselLoader />
+        ) : (
+          <WithScrollbar
+            responsive={CAROUSEL_RESPONSIVE}
+            className={cx(styles.carouselWrapper, {
+              [styles.carouselWrapperSingleImage]: showServiceRequest?.length === 1,
+            })}
+          >
+            {showServiceRequest?.map((slide: any) => (
+              <CarouselSlide key={slide?.name} slide={slide} />
+            ))}
+          </WithScrollbar>
+        )}
+      </div>
+    )
   );
 };

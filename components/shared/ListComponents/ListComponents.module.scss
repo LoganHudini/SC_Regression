@@ -57,8 +57,9 @@
 }
 
 .listDurationOffer {
-  font: $small var(--primary-font-heading);
+  font: $xsmall var(--primary-font-heading);
   margin: 8px 0;
+  -webkit-line-clamp: 1;
 }
 
 .listDescription {

@@ -26,7 +26,7 @@
   right: 0rem;
   width: 90%;
   max-width: 708px;
-  min-height: 77px;
+  min-height: 50px;
   max-height: 150px;
   display: flex;
   background: var(--primary-background-color);
@@ -65,11 +65,11 @@
 }
 
 .title {
-  font: $header var(--heading-font-regular);
+  font: $xlarge var(--heading-font-regular);
   margin: 4px 0;
 }
 
 .description {
-  font: $xsmall var(--primary-font-regular);
+  font: $small var(--primary-font-regular);
   line-height: 1.5;
 }

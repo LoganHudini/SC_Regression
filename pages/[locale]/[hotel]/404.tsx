@@ -10,6 +10,8 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import i18nConfig from 'next-i18next.config';
 import { getStaticPaths } from 'utils/getStatic';
 import { useConfig } from 'utils/hooks/useConfiguration';
+import { FailureAnimation, PageNotFoundAnimation } from 'components/shared/Loaders/Loaders';
+import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 
 export { getStaticPaths };
 
@@ -26,16 +28,11 @@ const NotFound = () => {
         </title>
       </Head>
       <Header displayHome />
-      <div className={styles.wrapper}>
-        <img
-          src={'https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif'}
-          alt='404'
-        />
-        <h2>Oops! Looks like you are lost</h2>
-        <StyledButton className={styles.findWayBtn} onClick={() => navigate(`/${config?.code}/`)}>
-          GO HOME
-        </StyledButton>
-      </div>
+      <PageWrapper displayBottomMenu className={styles.pageWrapper}>
+        <PageNotFoundAnimation />
+        <h2 className={styles.title}>Something Went Wrong</h2>
+        <span className={styles.description}>The page you are looking for could not be found.</span>
+      </PageWrapper>
     </>
   );
 };

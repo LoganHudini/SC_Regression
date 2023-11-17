@@ -33,7 +33,7 @@
 }
 
 .title {
-  font: $medium var(--primary-title-font-family);
+  font: $medium var(--primary-title-font-family) !important;
   color: var(--secondary-text-color);
   text-transform: uppercase;
 }

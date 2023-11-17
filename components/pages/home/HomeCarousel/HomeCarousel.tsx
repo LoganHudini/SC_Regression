@@ -39,12 +39,7 @@ const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
 };
 
 export const HomeCarousel: React.FC<IHomeCarouselProps> = ({ data }) => {
-  const offersData = data?.getOffersDetails;
-  const filteredOffers = offersData?.filter((item: any) => isOfferActive(item));
-
-  const filteredOffersWthCategory = filteredOffers?.filter((restaurant: any) => {
-    return restaurant.isActive;
-  });
+  const filteredOffers = data?.filter((item: any) => isOfferActive(item));
 
   return (
     <Carousel
@@ -56,12 +51,12 @@ export const HomeCarousel: React.FC<IHomeCarouselProps> = ({ data }) => {
       activeIndicatorIconButtonProps={{
         className: styles.activeIndicatorIcon,
       }}
-      indicators={(filteredOffersWthCategory?.length || 0) > 1}
+      indicators={(filteredOffers?.length || 0) > 1}
       className={styles.carousel}
       autoPlay={false}
       animation={'slide'}
     >
-      {filteredOffersWthCategory?.map((carouselItem: any, i: number) => (
+      {filteredOffers?.map((carouselItem: any, i: number) => (
         <HeroBannerItem key={i} carouselItem={carouselItem} />
       ))}
     </Carousel>

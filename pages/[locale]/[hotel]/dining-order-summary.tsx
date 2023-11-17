@@ -20,7 +20,7 @@ import produce from 'immer';
 import dayjs from 'dayjs';
 import { CURRENCY } from 'core/graphql/endpoints';
 import { DiningCustomisationDrawer } from 'components/pages/dining/DiningCustomisationDrawer/DiningCustomisationDrawer';
-import { PAYMENT } from 'utils/constants';
+import { DINING, FAILURE, PAYMENT, SUCCESS } from 'utils/constants';
 import { InputAdornment, TextField } from '@mui/material';
 import Cookinginstructions from '@icons/cooking_instructions.svg';
 import { IRD_ORDER } from 'core/graphql/queries/IRD_ORDER';
@@ -46,6 +46,7 @@ const DiningOrderSummary = () => {
   const [paymentType, setpaymentType] = useState<any>(PAYMENT[0]);
   const [guestNumber, setguestNumber] = useState(1);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [errorNotification, setErrorNotification] = useState(false);
 
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
 
@@ -173,10 +174,13 @@ const DiningOrderSummary = () => {
         variables: irdOrderPayload,
       });
       irdOrderEvent(response?.data?.createOrder);
+      setErrorNotification(false);
+
       toggleNotification(true);
     } catch (getUpdatedReservationError) {
-      processError(t, getUpdatedReservationError as ApolloError);
+      setErrorNotification(true);
     }
+    toggleNotification(true);
     setLoading(false);
   }, [
     checkinData?.email,
@@ -187,7 +191,6 @@ const DiningOrderSummary = () => {
     guestNumber,
     paymentType?.name,
     specialRequests,
-    t,
     totalAmount,
   ]);
 
@@ -409,10 +412,16 @@ const DiningOrderSummary = () => {
           closeCustomisationDrawer={closeCustomisationDrawer}
         />
         <Notification
-          title={t('Thank You!') as string}
-          description={t('Your order has been confirmed.') as string}
-          redirect={availablePaths?.DINING}
-          type='success'
+          title={
+            errorNotification ? ('Something Went Wrong!' as string) : (t('Thank You!') as string)
+          }
+          description={
+            errorNotification
+              ? ('Your order was not confirmed.' as string)
+              : (t('Your order has been confirmed.') as string)
+          }
+          redirect={!errorNotification && availablePaths?.DINING}
+          type={errorNotification ? FAILURE : SUCCESS}
         />
         <DiningDetailsDrawer />
       </PageWrapper>

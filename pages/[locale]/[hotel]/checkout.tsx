@@ -28,13 +28,15 @@ import { Notification } from 'components/shared/Notification/Notification';
 import { availablePaths } from 'utils/availablePaths';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { useConfig } from 'utils/hooks/useConfiguration';
+import { FAILURE, SUCCESS } from 'utils/constants';
 
 export { getStaticPaths };
 
 const CheckOut = () => {
   const { t } = useTranslation('common');
   const hotelName = useConfig()?.name;
-  const [openNotification, setOpenNotification] = useState(false);
+  const [errorToggle, setErrorToggle] = useState<any>();
+
   const openCheckOutDrawer = useReactiveVar(toggleOpenCheckOutDrawer);
   const checkedInData = useCheckedIn();
   const [emailLoader, setEmailLoader] = useState(false);
@@ -89,12 +91,25 @@ const CheckOut = () => {
           body: emailInvoicePayload,
         },
       });
-      toggleNotification(true);
       setEmailLoader(false);
+      setErrorToggle({
+        state: false,
+        message: 'Mail sent successfully',
+        type: 'email',
+        description: 'Please check your mailbox.',
+      });
     } catch (getUpdatedReservationError) {
+      setErrorToggle({
+        state: true,
+        message: 'Oops!',
+        type: 'email',
+        description: 'Something went wrong',
+      });
       setEmailLoader(false);
     }
+    toggleNotification(true);
   };
+  const currency = reservationInfo?.details?.holdAmount?.currency ?? '';
 
   return (
     <>
@@ -123,6 +138,7 @@ const CheckOut = () => {
                     price={el.amount}
                     chequeNo={el.cheque_no}
                     date={el.time_stamp}
+                    currency={currency}
                   />
                 ))
               ) : (
@@ -133,6 +149,7 @@ const CheckOut = () => {
                   <TotalBill
                     totalAmountDue={invoiceData?.invoice?.data?.totalDueAmount as string}
                     totalBillAmount={invoiceData?.invoice?.data?.totalBillAmount as string}
+                    currency={currency}
                   />
                 )}
             </div>
@@ -146,22 +163,20 @@ const CheckOut = () => {
           </>
         )}
       </PageWrapper>
-      <CheckoutDrawer setOpenNotification={setOpenNotification} />
+      <CheckoutDrawer setErrorToggle={setErrorToggle} />
       <Notification
-        title={
-          !openNotification
-            ? (t('Mail sent successfully') as string)
-            : (t('You’ve Checkedout') as string)
+        title={errorToggle?.message}
+        description={errorToggle?.description}
+        type={errorToggle?.state ? FAILURE : SUCCESS}
+        redirect={
+          errorToggle?.type === 'feedback'
+            ? availablePaths?.FEEDBACK
+            : errorToggle?.type === 'checkout'
+            ? availablePaths?.BILL
+            : errorToggle?.type === 'home'
+            ? availablePaths?.HOME
+            : null
         }
-        description={
-          !openNotification
-            ? (t('Please check your mailbox.') as string)
-            : (t(
-                'Hope you had a pleasant stay with us. We look forward to your next visit.\n Thank You',
-              ) as string)
-        }
-        type='success'
-        redirect={!openNotification ? availablePaths.BILL : availablePaths.HOME}
       />
     </>
   );

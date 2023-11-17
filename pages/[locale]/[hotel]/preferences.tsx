@@ -21,7 +21,6 @@ import { client } from 'core/graphql/client';
 import { POST_REQUEST } from 'core/graphql/queries/POST_REQUEST';
 import { availablePaths } from 'utils/availablePaths';
 import { processError } from 'utils/processError';
-import { buttonArrow } from 'utils/functions';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import Head from 'next/head';
@@ -182,7 +181,6 @@ const Preferences = () => {
                 className={styles.bottomMenuButton}
                 onClick={submit}
                 loading={loading}
-                arrow={buttonArrow}
                 disabled={Object.keys(selectedOptions)?.length === 0}
               >
                 {t('submit')}

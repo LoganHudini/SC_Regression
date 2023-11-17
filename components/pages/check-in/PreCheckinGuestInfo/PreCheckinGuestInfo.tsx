@@ -6,11 +6,14 @@ import { useFormik } from 'formik';
 import { useState } from 'react';
 import { useReactiveVar } from '@apollo/client';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
-import { SELECTDROPDOWN } from 'utils/constants';
+import { DATEPICKER, SELECTDROPDOWN } from 'utils/constants';
 import { generateInitialFieldValues, generateValidationSchema } from 'utils/functions';
 import { InputLabel, Select, MenuItem } from '@mui/material';
 import { StyledFormControl } from 'components/shared/StyledFormControl/StyledFormControl';
 import DropDown from '@icons/dropDownIcon.svg';
+import { DatePicker } from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
+import { timeFormats } from 'utils/timeFormats';
 
 export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
   selectedGuest,
@@ -28,6 +31,7 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
     const inputValue = value;
     reservationGuestInfoStorageData({ ...guestReservationInfo, [inputField]: inputValue });
   };
+
   const initialFieldValues = generateInitialFieldValues(guestInformationSection, selectedGuest);
 
   // const initialFieldValues: any = dynamicInitialValues(guestInformationSection, selectedGuest)
@@ -44,42 +48,78 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
 
   return (
     <div className={styles.identityInputs}>
-      {guestInformationSection.map(
+      {guestInformationSection?.map(
         (field: any) =>
           field?.isActive && (
             <div key={field?.name}>
               {field?.type == SELECTDROPDOWN ? (
-                <StyledFormControl
-                  required={field?.required}
-                  disabled={field?.isDisabled}
-                  className={styles.guestDataInput}
-                  variant='standard'
-                  sx={{ m: 1, minWidth: '100%' }}
-                >
-                  <InputLabel>{field?.label}</InputLabel>
-                  <Select
+                <div className={styles.col_100}>
+                  <StyledFormControl
+                    required={field?.required}
+                    disabled={field?.isDisabled}
+                    className={styles.guestDataInput}
+                    variant='standard'
+                    sx={{ m: 1, minWidth: '100%' }}
+                  >
+                    <InputLabel>{field?.label}</InputLabel>
+                    <Select
+                      className={styles.guestDataInput}
+                      label={field?.label}
+                      variant='standard'
+                      name={field?.name}
+                      id={field?.name}
+                      value={formik.values[field?.name] || ''}
+                      onChange={(e: any) => {
+                        formik.handleChange(e);
+                        updateGuestDetails(e.target.name, e.target.value);
+                      }}
+                      disabled={field?.isDisabled}
+                      IconComponent={DropDown}
+                    >
+                      {field?.options.map((item: any) => {
+                        return (
+                          <MenuItem value={item?.value} key={item?.value}>
+                            <em>{item?.name}</em>
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </StyledFormControl>
+                </div>
+              ) : field?.type === DATEPICKER ? (
+                <div className={styles.col_100}>
+                  <DatePicker
                     className={styles.guestDataInput}
                     label={field?.label}
-                    variant='standard'
-                    name={field?.name}
-                    id={field?.name}
-                    value={formik.values[field?.name] || ''}
-                    onChange={(e: any) => {
-                      formik.handleChange(e);
-                      updateGuestDetails(e.target.name, e.target.value);
+                    value={formik.values[field?.name] || null}
+                    onChange={(date) => {
+                      const expiryDate = dayjs(date).format(timeFormats.YEAR_MONTH_DAY);
+                      formik.setFieldValue(field?.name, expiryDate);
+                      updateGuestDetails(field?.name, expiryDate);
                     }}
                     disabled={field?.isDisabled}
-                    IconComponent={DropDown}
-                  >
-                    {field?.options.map((item: any) => {
-                      return (
-                        <MenuItem value={item?.value} key={item?.value}>
-                          <em>{item?.name}</em>
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </StyledFormControl>
+                    disableFuture={field?.isDisableFuture}
+                    disablePast={field?.isDisablePast}
+                    renderInput={(params) => (
+                      <StyledInput
+                        required={field?.required}
+                        autoComplete='off'
+                        className={styles.guestDataInput}
+                        variant='standard'
+                        name={field?.name}
+                        id={field?.name}
+                        onFocus={() => formik.setFieldTouched(field?.name, true)}
+                        {...params}
+                        error={formik.touched[field?.name] && Boolean(formik.errors[field?.name])}
+                        helperText={
+                          formik.touched[field?.name] &&
+                          formik.errors[field?.name] &&
+                          `${formik.errors[field?.name]}`
+                        }
+                      />
+                    )}
+                  />
+                </div>
               ) : (
                 <div key={field?.name} className={styles.col_100}>
                   <StyledInput

@@ -3,4 +3,5 @@ export interface IBIllElementProps {
   title: string;
   chequeNo: string;
   price: string;
+  currency?: string;
 }

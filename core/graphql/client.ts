@@ -29,6 +29,8 @@ import {
   X_API_GROUP_V3,
   X_API_TOKEN,
   X_API_GROUP,
+  INTEGRATION_API_KEY_V5,
+  INTEGRATION_HOST_V5,
 } from './endpoints';
 import { checkinStorage } from 'storage/check-in.storage';
 
@@ -143,6 +145,14 @@ const hostV6Link = new HttpLink({
   },
 });
 
+const integrationV5Link = new HttpLink({
+  uri: INTEGRATION_HOST_V5 as string,
+  headers: {
+    ['x-api-key']: INTEGRATION_API_KEY_V5 as string,
+    ['Content-Type']: 'application/json',
+  },
+});
+
 const onPremLink = new RestLink({
   uri: ONPREM_API_URL as string,
 });
@@ -181,15 +191,19 @@ export const client = new ApolloClient({
                         (operation) => operation.getContext().clientName === 'onprem',
                         onPremLink,
                         ApolloLink.split(
-                          (operation) => operation.getContext().clientName === 'host_v6',
-                          hostV6Link,
+                          (operation) => operation.getContext().clientName === 'integration_v5',
+                          integrationV5Link,
                           ApolloLink.split(
-                            (operation) => operation.getContext().clientName === 'rest_v3',
-                            restv3Link,
+                            (operation) => operation.getContext().clientName === 'host_v6',
+                            hostV6Link,
                             ApolloLink.split(
-                              (operation) => operation.getContext().clientName === 'housekeeping',
-                              housekeepingLink,
-                              hostV2Link,
+                              (operation) => operation.getContext().clientName === 'rest_v3',
+                              restv3Link,
+                              ApolloLink.split(
+                                (operation) => operation.getContext().clientName === 'housekeeping',
+                                housekeepingLink,
+                                hostV2Link,
+                              ),
                             ),
                           ),
                         ),

@@ -1,13 +1,26 @@
-.wrapper {
-  margin: auto;
-  height: 100vh;
+.pageWrapper {
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 0;
+  gap: 10px;
+}
+
+.description {
+  font-family: var(--primary-font-medium);
+  font-size: $small;
+  padding: 20px 0px;
+  color: var(--tertiary-text-color);
+  line-height: 22px;
   text-align: center;
 }
 
 .findWayBtn {
   width: 40%;
   margin: 2rem auto;
+}
+
+.title {
+  margin-top: 10px;
 }

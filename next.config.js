@@ -17,7 +17,6 @@ const regexEqual = (x, y) => {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: { scrollRestoration: true },
   reactStrictMode: true,
   swcMinify: false,
   webpack(config, options) {

@@ -1,11 +1,12 @@
 import { makeVar } from '@apollo/client';
 
 export type IPersonalizeYourRoomStorageData = {
-  code: string;
+  id: string;
   title: string;
   quantity: any;
   price: string;
   currency?: string;
+  selected?: boolean;
 }[];
 
 export const personalizeYourRoomStorage = makeVar<IPersonalizeYourRoomStorageData>([]);

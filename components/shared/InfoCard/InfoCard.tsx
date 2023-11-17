@@ -13,7 +13,7 @@ import DownArrow from '@icons/downArrowCard.svg';
 import GuestGroup from '@icons/guestsGroupCard.svg';
 import { availablePaths } from 'utils/availablePaths';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { CREDITCARD, CYBERSOURCE, GUEST, GUESTICON, USERGROUP } from 'utils/constants';
+import { CREDITCARD, CYBERSOURCE, GUEST, GUESTICON, MANUAL, USERGROUP } from 'utils/constants';
 
 export const InfoCard: React.FC<IInfoCardProps> = ({
   icon,
@@ -26,16 +26,12 @@ export const InfoCard: React.FC<IInfoCardProps> = ({
   paymentType,
 }) => {
   const [cardOpened, setCardOpened] = useState(isCardOpened);
-  const [expanded, setExpanded] = useState(false);
   const navigate = useLocalizedRouter();
 
   const toggleCard = () => {
-    setExpanded((state) => !state);
-    setCardOpened(!cardOpened);
-
     if (icon === CREDITCARD && !status) {
-      if (paymentType === CYBERSOURCE) {
-        // navigate(availablePaths.CHECK_IN_PAYMENT);
+      if (paymentType && paymentType !== MANUAL) {
+        navigate(availablePaths?.PAYMENT);
       }
     } else {
       setCardOpened(!cardOpened);
@@ -63,7 +59,6 @@ export const InfoCard: React.FC<IInfoCardProps> = ({
               </div>
               <div className={styles.homeCardInfo}>
                 <div className={styles.titleText}>{title}</div>
-
                 {status ? (
                   <div className={styles.detailsText}>{details}</div>
                 ) : (
@@ -71,16 +66,7 @@ export const InfoCard: React.FC<IInfoCardProps> = ({
                 )}
               </div>
             </div>
-            <div>
-              {status &&
-                (expanded && !completedCheck ? (
-                  <DownArrow />
-                ) : completedCheck ? (
-                  <CheckMark />
-                ) : (
-                  <EditIcon />
-                ))}
-            </div>
+            <div>{status ? <CheckMark /> : icon === CREDITCARD && <EditIcon />}</div>
           </div>
         </div>
         {cardOpened && <div>{children}</div>}

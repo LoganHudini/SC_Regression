@@ -212,6 +212,7 @@ export const Countries = [
     value: 'CR',
   },
   {
+    // eslint-disable-next-line quotes
     name: "Cote D'Ivoire",
     value: 'CI',
   },

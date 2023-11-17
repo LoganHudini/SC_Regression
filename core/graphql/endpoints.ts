@@ -20,6 +20,9 @@ export const API_KEY_V4 = process.env.NEXT_PUBLIC_API_KEY_V4;
 export const HOST_V5 = process.env.NEXT_PUBLIC_HOST_V5;
 export const API_KEY_V5 = process.env.NEXT_PUBLIC_API_KEY_V5;
 
+export const INTEGRATION_HOST_V5 = process.env.NEXT_PUBLIC_HOST_INTEGRATION_V5;
+export const INTEGRATION_API_KEY_V5 = process.env.NEXT_PUBLIC_API_KEY_INTEGRATION_V5;
+
 export const HOST_V6 = process.env.NEXT_PUBLIC_HOST_V6;
 export const API_KEY_V6 = process.env.NEXT_PUBLIC_API_KEY_V6;
 

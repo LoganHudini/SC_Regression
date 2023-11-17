@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import Head from 'next/head';
 import SignatureCanvas from 'react-signature-canvas';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
@@ -21,7 +22,7 @@ import { ICheckinProps } from 'types/check-in.types';
 import { GetStaticProps } from 'next';
 import { processError } from 'utils/processError';
 import { saveTrip } from 'storage/trips.storage';
-import { checkinStorage } from 'storage/check-in.storage';
+import { StepperInformationStorage, checkinStorage } from 'storage/check-in.storage';
 import {
   IPreSignDocUploadApiRequest,
   IPreSignDocUploadApiResponse,
@@ -32,14 +33,13 @@ import { useTranslation } from 'react-i18next';
 import { getStaticPaths } from 'utils/getStatic';
 import i18nConfig from 'next-i18next.config';
 import { availablePaths } from 'utils/availablePaths';
-import { DetailsCard } from 'components/shared/DetailsCard/DetailsCard';
+import { DetailsCard, DetailsCardShrinked } from 'components/shared/DetailsCard/DetailsCard';
 import { timeFormats } from 'utils/timeFormats';
 import dayjs from 'dayjs';
 import cx from 'classnames';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
-import { CURRENCY } from 'core/graphql/endpoints';
+import { BRAND_CODE, CURRENCY } from 'core/graphql/endpoints';
 import { PRECHECKIN } from 'core/graphql/queries/PRECHECKIN';
-import { toast } from 'react-toastify';
 import {
   PRE_CHECKIN_ERROR_MSG,
   cardTypes,
@@ -49,12 +49,18 @@ import {
   CHECKEDOUT,
   CANCELED,
   PERSONALISATION,
+  STEPPER_CHECK_IN,
+  SUCCESS,
+  FAILURE,
+  CARD_TYPE,
 } from 'utils/constants';
 import { GET_E_REG_DETAILS } from 'core/graphql/queries/GET_E_REG_DETAILS';
-import { buttonArrow } from 'utils/functions';
 import { Notification } from 'components/shared/Notification/Notification';
 import { toggleNotification } from 'storage/home.storage';
 import { useConfig } from 'utils/hooks/useConfiguration';
+import { Stepper } from 'components/shared/Stepper/Stepper';
+import produce from 'immer';
+import { accompanyGuestDetails } from 'storage/accompany-guest-details';
 
 export { getStaticPaths };
 
@@ -65,13 +71,48 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const { t } = useTranslation(['check-in', 'common']);
   const guests = useReactiveVar(guestInformationStorage);
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
+
+  const accompanyGuestInfo = useReactiveVar(accompanyGuestDetails);
+  function removeDuplicateFormData(arr: any) {
+    const uniqueFormData = new Set();
+    const result = [];
+
+    for (const item of arr) {
+      const formDataString = JSON.stringify(item?.formData);
+      if (!uniqueFormData?.has(formDataString)) {
+        result?.push(item?.formData);
+        uniqueFormData?.add(formDataString);
+      }
+    }
+    return result;
+  }
+
+  const accompanyGuestGlobal = accompanyGuestInfo && removeDuplicateFormData(accompanyGuestInfo);
+  const [accompanyGuestInformationState, setAcccompanyGuestInformation] = useState(
+    new Array(accompanyGuestGlobal?.length)?.fill(false),
+  );
+
+  const toggleAccompanyGuestInformation = (index: any) => {
+    setAcccompanyGuestInformation((prev) => {
+      const newState = [...prev];
+      newState[index] = !newState[index];
+      return newState;
+    });
+  };
   const personalizationEntities = useReactiveVar(personalizeYourRoomStorage);
   const specialRequests = useReactiveVar(specialRequestsStorage);
+  const [errorNotification, setErrorNotification] = useState(false);
 
   const [conditionsAccepted, setConditionsAccepted] = useState(false);
   const [btnStatus, setBtnStatus] = useState(false);
+  const [errorText, setErrorText] = useState('Please proceed to the front desk!');
   const [signature, setSignature] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+
+  // card expansion states
+  const [stayInformation, setStayInformation] = useState(false);
+  const [primaryGuestInformation, setPrimaryGuestInformation] = useState(false);
+  const [creditCardInformation, setCreditCardInformation] = useState(false);
 
   const data: any = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
@@ -189,7 +230,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       type: 'reservation_docs',
       propertyType: 'hotels',
       confirmationId: reservationInfo?.confirmationId ?? '',
-      filename: `${guests ? guests[0].firstName : ''}_${
+      filename: `${guests ? guests[0]?.firstName : ''}_${
         guests ? guests[0].lastName : ''
       }_signature.png`,
       contentType: 'image/png',
@@ -215,7 +256,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
     try {
       await client.query({
-        query: roomNo ? CHECKIN : PRECHECKIN,
+        query: BRAND_CODE === 'itc' ? PRECHECKIN : roomNo ? CHECKIN : PRECHECKIN,
         context: { clientName: 'rest' },
         variables: {
           confirmationNumber: reservationInfo?.confirmationId as string,
@@ -225,8 +266,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
       saveTrip({
         reservationId: reservationInfo?.confirmationId as string,
-        preCheckedIn: !roomNo ? true : false,
-        checkedIn: roomNo ? true : false,
+        preCheckedIn: BRAND_CODE === 'itc' ? true : !roomNo ? true : false,
+        checkedIn: BRAND_CODE === 'itc' ? false : roomNo ? true : false,
         name: guestReservationInfo?.lastName,
         email: guestReservationInfo?.emails,
         roomNumber: roomNo,
@@ -235,24 +276,28 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
       checkinStorage({
         reservationId: reservationInfo?.confirmationId as string,
-        preCheckedIn: !roomNo ? true : false,
-        checkedIn: roomNo ? true : false,
+        preCheckedIn: BRAND_CODE === 'itc' ? true : !roomNo ? true : false,
+        checkedIn: BRAND_CODE === 'itc' ? false : roomNo ? true : false,
         name: guestReservationInfo?.lastName,
         email: guestReservationInfo?.emails,
         roomNumber: roomNo,
         invoiceId: reservationInfo?.reservationId as string,
+        currency: reservationInfo?.details?.holdAmount?.currency,
       });
-      toggleNotification(true);
+      setErrorNotification(false);
     } catch (checkinError) {
       const error = checkinError as ApolloError;
       const networkError = error?.networkError as { result?: { errors?: string } };
-
+      setErrorNotification(true);
+      if (networkError?.result?.errors === 'error pre-checking operation' && BRAND_CODE === 'itc') {
+        setErrorNotification(false);
+      }
       if (networkError?.result?.errors === PRE_CHECKIN_ERROR_MSG) {
-        toast('You are Pre Checked-In', { type: 'error' });
-      } else {
-        toast('Please try again', { type: 'error' });
+        setErrorNotification(true);
+        setErrorText('You are Pre Checked-In');
       }
     }
+    toggleNotification(true);
     setLoading(false);
   }, [
     reservationInfo?.confirmationType,
@@ -260,6 +305,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     reservationInfo?.confirmationId,
     reservationInfo?.details?.checkInDate,
     reservationInfo?.details?.checkOutDate,
+    reservationInfo?.details?.holdAmount?.currency,
     reservationInfo?.roomTypes,
     roomNo,
     guestReservationInfo?.emails,
@@ -279,91 +325,265 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     t,
   ]);
 
+  useEffect(() => {
+    StepperInformationStorage(
+      produce(StepperInformationStorage(), (draft: any) => {
+        const item = draft?.find((el: any) => el?.title === STEPPER_CHECK_IN);
+        if (item) {
+          item.value = btnStatus ? 100 : 60;
+        }
+      }),
+    );
+  }, [btnStatus]);
+
+  const Item: React.FC<any> = ({ title, value }) => {
+    return (
+      <>
+        {value && (
+          <div className={styles.itemsColumn}>
+            <p className={styles.checkDatesText}>{title}</p>
+            <p className={cx(styles.checkDatesDetails, styles.left)}>{value}</p>
+          </div>
+        )}
+      </>
+    );
+  };
+  const ItemFullWidth: React.FC<any> = ({ title, value }) => {
+    return (
+      <>
+        {value && (
+          <div>
+            <p className={styles.checkDatesText}>{title}</p>
+            <p className={cx(styles.checkDatesDetails, styles.left)}>{value}</p>
+          </div>
+        )}
+      </>
+    );
+  };
+
+  const ShrinkedItem: React.FC<any> = ({ title, value }) => {
+    return (
+      <>
+        {value && (
+          <div className={cx(styles.shrinkedText, styles.left)}>
+            {title && title} {value}
+          </div>
+        )}
+      </>
+    );
+  };
+
+  const toggleStayInformation = () => {
+    setStayInformation((prev) => !prev);
+  };
+
+  const togglePrimaryGuestInformation = () => {
+    setPrimaryGuestInformation((prev) => !prev);
+  };
+
+  const toggleCreditCardInformation = () => {
+    setCreditCardInformation((prev) => !prev);
+  };
+
   return (
     <>
       <Head>
         <title>
-          {config?.name} | {t(`${reviewConfig?.title}`)}
+          {config?.name} | {t('Review & Sign')}
         </title>
       </Head>
-      <Header displayBackButton screenTitle={t(`${reviewConfig?.label}`) as string} />
+      <Header displayBackButton screenTitle={t('Review & Sign') as string} />
       <PageWrapper className={styles.pageWrapper}>
-        <div className={styles.infoText}>{t(`${reviewConfig?.subTitle}`)}</div>
-        <DetailsCard title={t(`${reviewConfig?.guestInformationDetails[0]?.title}`)}>
-          <div>
-            <div className={styles.checkDates}>
-              <div className={styles.checkDatesColumn}>
-                <p className={cx(styles.checkDatesText, styles.textTransform)}>{t('Check-In')}</p>{' '}
-                <p className={styles.checkDatesDetails}>
-                  {dayjs(data?.getReservation.data.details.checkInDate).format(
+        <Stepper />
+        <div className={styles.titleWrapper}>
+          <p className={styles.title}>{t('Review & Sign')}</p>
+          <p className={styles.titleDescription}>
+            {t('Please review and confirm the below information to complete the Check-In process')}
+          </p>
+        </div>
+        <div onClick={toggleStayInformation}>
+          {stayInformation ? (
+            <DetailsCard title={t('Stay Information')} icon>
+              <div className={styles.stayInformation}>
+                <Item
+                  title={'Check-In Date'}
+                  value={dayjs(reservationInfo?.details?.checkInDate).format(
                     timeFormats.DAY_MONTH_YEAR,
                   )}
-                </p>
-              </div>
-              <div className={styles.checkDatesColumn}>
-                <p className={cx(styles.checkDatesText, styles.right, styles.textTransform)}>
-                  {t('Checkout')}
-                </p>{' '}
-                <p className={cx(styles.checkDatesDetails, styles.right)}>
-                  {dayjs(data?.getReservation.data.details.checkOutDate).format(
+                />
+                <Item
+                  title={'Checkout Date'}
+                  value={dayjs(reservationInfo?.details?.checkOutDate).format(
                     timeFormats.DAY_MONTH_YEAR,
                   )}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className={styles.description}>
-            <div>
-              {data?.getReservation.data.guests[0].firstName ?? ''}{' '}
-              {data?.getReservation.data.guests[0].lastName ?? ''}
-            </div>
-            <div>{data?.getReservation.data.guests[0].emails ?? ''}</div>
-            <div>{data?.getReservation.data.guests[0].phone ?? ''}</div>
-          </div>
-        </DetailsCard>
+                />
+                <Item title={'Booking Id'} value={reservationInfo?.confirmationId} />
+                <Item title={'Room Number'} value={reservationInfo?.roomTypes[0]?.roomNumber} />
 
-        <DetailsCard title={t(`${reviewConfig?.creditCardDetails?.title}`)}>
-          <div>
-            {reviewConfig?.creditCardDetails?.details?.map((detail: any, index: number) => (
-              <div key={index} className={styles.checkDatesColumn}>
-                <p className={styles.checkDatesText}>{detail?.label}</p>
-                <p className={cx(styles.checkDatesDetails, styles.left)}>
-                  {detail?.name === 'cardType'
-                    ? cardType
-                    : guestReservationInfo?.[detail?.name] ??
-                      data?.getReservation?.data?.reservePayments[0]?.[detail?.name] ??
-                      ''}
-                </p>
+                {(reservationInfo?.details?.adultGuestCount ||
+                  reservationInfo?.details?.childGuestCount) && (
+                  <div style={{ width: '100%' }}>
+                    <p className={styles.checkDatesText}>Guests</p>
+                    <p className={cx(styles.checkDatesDetails, styles.left)}>
+                      {reservationInfo?.details?.adultGuestCount > 0 && (
+                        <>
+                          {reservationInfo?.details?.adultGuestCount}{' '}
+                          {reservationInfo?.details?.adultGuestCount === 1 ? 'Adult' : 'Adults'}
+                        </>
+                      )}
+                      {reservationInfo?.details?.childGuestCount > 0 && (
+                        <>
+                          {reservationInfo?.details?.childGuestCount}{' '}
+                          {reservationInfo?.details?.childGuestCount === 1 ? 'Child' : 'Children'}
+                        </>
+                      )}
+                    </p>
+                  </div>
+                )}
+
+                <Item
+                  title={'Rate'}
+                  value={`${reservationInfo?.details?.holdAmount?.currency} ${Number(
+                    reservationInfo?.roomTypes[0]?.totalCharge,
+                  )?.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                  })}`}
+                />
+
+                <ItemFullWidth
+                  title={'Room Type'}
+                  value={reservationInfo?.roomTypes[0]?.shortName}
+                />
+              </div>
+            </DetailsCard>
+          ) : (
+            <DetailsCardShrinked title={t('Stay Information')}>
+              <ShrinkedItem title={'Room No:'} value={reservationInfo?.roomTypes[0]?.roomNumber} />
+              <ShrinkedItem value={reservationInfo?.roomTypes[0]?.shortName} />
+            </DetailsCardShrinked>
+          )}
+        </div>
+
+        <div onClick={togglePrimaryGuestInformation}>
+          {primaryGuestInformation ? (
+            <DetailsCard title={t('Primary Guest Information')} icon>
+              <div className={styles.guestInformation}>
+                <ItemFullWidth title={'First Name'} value={reservationInfo?.guests[0]?.firstName} />
+                <ItemFullWidth title={'Last Name'} value={reservationInfo?.guests[0]?.lastName} />
+                <ItemFullWidth
+                  title={'Email'}
+                  value={guestReservationInfo?.emails ?? reservationInfo?.guests[0]?.emails}
+                />
+                <ItemFullWidth
+                  title={'Phone Number'}
+                  value={guestReservationInfo?.phone ?? reservationInfo?.guests[0]?.phone}
+                />
+
+                {reviewConfig?.identityVerificationDetails?.map(
+                  (configData: any, index: number) => (
+                    <ItemFullWidth
+                      key={index}
+                      title={configData?.label}
+                      value={
+                        guestReservationInfo?.[configData.name] ??
+                        data?.getReservation?.data?.guests[0]?.[configData.name] ??
+                        ''
+                      }
+                    />
+                  ),
+                )}
+              </div>
+            </DetailsCard>
+          ) : (
+            <DetailsCardShrinked title={t('Primary Guest Information')}>
+              <ShrinkedItem
+                value={`${reservationInfo?.guests[0]?.firstName} ${reservationInfo?.guests[0]?.lastName}`}
+              />
+              {reviewConfig?.identityVerificationDetails?.map((configData: any, index: number) => (
+                <ShrinkedItem
+                  key={index}
+                  value={
+                    guestReservationInfo?.[configData.name] ??
+                    data?.getReservation?.data?.guests[0]?.[configData.name] ??
+                    ''
+                  }
+                />
+              ))}
+            </DetailsCardShrinked>
+          )}
+        </div>
+
+        <div>
+          {accompanyGuestGlobal?.filter((item: any) => item?.id)?.length > 0 &&
+            accompanyGuestGlobal?.map((accompanyGuest: any, index: number) => (
+              <div key={accompanyGuest.id} onClick={() => toggleAccompanyGuestInformation(index)}>
+                {accompanyGuestInformationState[index] ? (
+                  <div>
+                    <DetailsCard title={`Guest ${index + 1}`} icon>
+                      <div className={styles.guestInformation}>
+                        <ItemFullWidth title={'First Name'} value={accompanyGuest?.firstName} />
+                        <ItemFullWidth title={'Last Name'} value={accompanyGuest?.lastName} />
+                        <ItemFullWidth title={'Email'} value={accompanyGuest?.email} />
+                        <ItemFullWidth title={'Phone Number'} value={accompanyGuest?.phone} />
+                        {reviewConfig?.identityGuestVerificationDetails?.map(
+                          (configData: any, index: number) => (
+                            <Item
+                              key={index}
+                              title={configData?.label}
+                              value={accompanyGuest?.[configData?.name] ?? ''}
+                            />
+                          ),
+                        )}
+                      </div>
+                    </DetailsCard>
+                  </div>
+                ) : (
+                  <DetailsCardShrinked title={`Guest ${index + 1}`}>
+                    <ShrinkedItem
+                      value={`${accompanyGuest?.firstName} ${accompanyGuest?.lastName}`}
+                    />
+                  </DetailsCardShrinked>
+                )}
               </div>
             ))}
-          </div>
-        </DetailsCard>
+        </div>
 
-        {eRegDocumentInformationDetails?.length !== 0 && (
-          <DetailsCard title={t(`${reviewConfig?.identityVerificationDetails[0]?.title}`)}>
-            <div>
-              <div className={styles.border}></div>
+        <div onClick={toggleCreditCardInformation}>
+          {creditCardInformation ? (
+            <DetailsCard title={t(`${reviewConfig?.creditCardDetails?.title}`)} icon>
               <div>
-                {eRegDocumentInformationDetails?.map((showData: any, index: number) => (
+                {reviewConfig?.creditCardDetails?.details?.map((detail: any, index: number) => (
                   <div key={index} className={styles.checkDatesColumn}>
-                    {reviewConfig?.identityVerificationDetails
-                      ?.filter((cmsData: any) => cmsData.cmsName === showData?.name)
-                      ?.map((configData: any) => (
-                        <div key={index}>
-                          <p className={styles.checkDatesText}>{configData?.label}</p>
-                          <p className={cx(styles.checkDatesDetails, styles.left)}>
-                            {guestReservationInfo?.[configData.name] ??
-                              data?.getReservation?.data?.guests[0]?.[configData.name] ??
-                              ''}
-                          </p>
-                        </div>
-                      ))}
+                    <p className={styles.checkDatesText}>{detail?.label}</p>
+                    <p className={cx(styles.checkDatesDetails, styles.left)}>
+                      {detail?.name === CARD_TYPE
+                        ? cardType
+                        : guestReservationInfo?.[detail?.name] ??
+                          data?.getReservation?.data?.reservePayments[0]?.[detail?.name] ??
+                          ''}
+                    </p>
                   </div>
                 ))}
               </div>
-            </div>
-          </DetailsCard>
-        )}
+            </DetailsCard>
+          ) : (
+            <DetailsCardShrinked title={t(`${reviewConfig?.creditCardDetails?.title}`)}>
+              {reviewConfig?.creditCardDetails?.details?.map((detail: any, index: number) => (
+                <div key={index} className={styles.checkDatesColumn}>
+                  <ShrinkedItem
+                    value={
+                      detail?.name === 'cardType'
+                        ? cardType
+                        : guestReservationInfo?.[detail?.name] ??
+                          data?.getReservation?.data?.reservePayments[0]?.[detail?.name] ??
+                          ''
+                    }
+                  />
+                </div>
+              ))}
+            </DetailsCardShrinked>
+          )}
+        </div>
 
         {((eRegPersonalization &&
           eRegPersonalization[0]?.required &&
@@ -374,15 +594,17 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               <div className={styles.personalzizationWrapper}>
                 <div className={styles.border}></div>
                 {personalizationEntities?.map((personalizationEntity) => (
-                  <div key={personalizationEntity?.code} className={styles.personalizationData}>
+                  <div key={personalizationEntity?.id} className={styles.personalizationData}>
                     <p className={styles.personalizationText}>
                       {personalizationEntity?.quantity} x {personalizationEntity?.title}
                     </p>
                     <p className={styles.personalizationQuantity}>
-                      {CURRENCY}{' '}
+                      {personalizationEntity?.currency}{' '}
                       <span className={styles.price}>
-                        {Number(personalizationEntity?.price) *
-                          Number(personalizationEntity?.quantity)}
+                        {Number(
+                          Number(personalizationEntity?.price) *
+                            Number(personalizationEntity?.quantity),
+                        )?.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                       </span>
                     </p>
                   </div>
@@ -397,7 +619,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             </DetailsCard>
           </div>
         )}
-        {(reservationInfo?.settlementTypes?.length || 0) > 0 && (
+        {/* {(reservationInfo?.settlementTypes?.length || 0) > 0 && (
           <div className={styles.cardWrapper}>
             <Card>
               <div className={styles.settlementWrapper}>
@@ -414,7 +636,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               </div>
             </Card>
           </div>
-        )}
+        )} */}
         <div className={styles.agrementWrapper}>
           <div className={styles.checkBoxAlign}>
             <StyledCheckBox onClick={toggleConditionsAccepted} value={conditionsAccepted} />
@@ -450,15 +672,25 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             onClick={goToCheckIn}
             loading={loading}
             variant='contained'
-            arrow={buttonArrow}
           >
             {t(`${reviewConfig?.buttonLabelCheckIn}`)}
           </StyledButton>
         </div>
+
         <Notification
-          title={t('Welcome Aboard!') as string}
+          title={
+            errorNotification
+              ? t('Something Went Wrong!' as string)
+              : (t('Welcome Aboard!') as string)
+          }
           description={
-            roomNo
+            errorNotification
+              ? (errorText as string)
+              : BRAND_CODE === 'itc'
+              ? (t(
+                  'You have pre checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
+                ) as string)
+              : roomNo
               ? (t(
                   'You have checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
                 ) as string)
@@ -466,8 +698,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                   'You have pre checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
                 ) as string)
           }
-          redirect={availablePaths?.HOME}
-          type='success'
+          redirect={!errorNotification && availablePaths?.HOME}
+          type={errorNotification ? FAILURE : SUCCESS}
         />
       </PageWrapper>
     </>

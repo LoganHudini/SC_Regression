@@ -1,5 +1,6 @@
 .roomPersonalizationEntityWrapper {
   background: var(--primary-card-background-color);
+  border-radius: var(--primary-card-border-radius);
   display: flex;
   margin-top: 15px;
 }
@@ -22,7 +23,9 @@
   font-family: var(--primary-card-desc-font-family);
   font-size: $small;
   color: var(--tertiary-text-color);
-  margin-bottom: 35px;
+  min-height: 2rem;
+  max-height: 3.25rem;
+  -webkit-line-clamp: 2;
   line-height: 1.5;
 }
 
@@ -40,7 +43,7 @@
 }
 
 .price {
-  font-family: var(--primary-font-medium);
+  font-family: var(--primary-font-regular);
   font-size: $xsmall;
   margin-top: 9px;
   color: var(--tertiary-text-color);
@@ -55,11 +58,14 @@
 }
 
 .addButton {
-  font-family: var(--primary-button-font-family);
-  font-size: $extraSmall;
+  font-family: var(--primary-font-regular);
+  font-size: $xsmall;
   min-width: 65px;
   height: 33px;
   width: 98px;
+  &:after {
+    display: none;
+  }
 }
 
 .roomPersonalizationInputWrapper {

@@ -1,0 +1,16 @@
+{
+  "theme_color": "#d0a968",
+  "background_color": "#ffffff",
+  "display": "fullscreen",
+  "scope": "/",
+  "start_url": "/",
+  "name": "ITC",
+  "short_name": "ITC",
+  "icons": [
+    {
+      "src": "/images/itc/Logo.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ]
+}

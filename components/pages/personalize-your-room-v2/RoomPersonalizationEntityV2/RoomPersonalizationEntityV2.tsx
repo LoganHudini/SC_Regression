@@ -1,81 +1,124 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import styles from './RoomPersonalizationEntityV2.module.scss';
 import cx from 'classnames';
 import { StyledButton } from '../../../shared/StyledButton/StyledButton';
-import RemoveOutlinedIcon from '@icons/RemoveOutlined.svg';
-import AddOutlinedIcon from '@icons/AddOutlined.svg';
 import { IRoomPersonalizationEntityProps } from './RoomPersonalizationEntityV2.types';
 import { useTranslation } from 'react-i18next';
+import produce from 'immer';
+import { personalizeYourRoomStorage } from 'storage/personalize-your-room.storage';
+import { useReactiveVar } from '@apollo/client';
+import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
+import { toggleNotification } from 'storage/home.storage';
+import { FAILURE } from 'utils/constants';
 
 export const RoomPersonalizationEntityV2: React.FC<IRoomPersonalizationEntityProps> = ({
   title,
   description,
   price,
-  type,
   currency,
   id,
-  setCurrentPersonalizationEntities,
-  count,
+  maxQuantity,
+  setNotificationState,
 }) => {
-  const [quantity, setQuantity] = useState(count);
   const { t } = useTranslation('personalize-your-room');
+  const personalizationStorageInfo = useReactiveVar(personalizeYourRoomStorage);
+  const currentItem = personalizationStorageInfo?.find((el) => el.id === id);
+
+  const quantity = currentItem?.quantity || 0;
 
   const handleAdd = useCallback(() => {
-    const newEntity = {
-      id: id as string,
-      quantity: +quantity + 1,
-      price: `${price}`,
-      title,
-      currency: `${currency}`,
-    };
-    setQuantity(+quantity + 1);
-    setCurrentPersonalizationEntities((oldEntities: any) => {
-      const newEntities = [...oldEntities.filter((el: any) => el.id !== id), newEntity];
-      return newEntities;
-    });
-  }, [quantity, currency, id, price, setCurrentPersonalizationEntities, title]);
+    if (quantity < maxQuantity?.maxQuantityValue) {
+      personalizeYourRoomStorage(
+        produce(personalizeYourRoomStorage(), (draft) => {
+          const item = draft?.find((el) => el.id === id);
+          if (item) {
+            item.quantity++;
+          } else {
+            draft?.push({
+              id: id,
+              quantity: 1,
+              selected: true,
+              title: title,
+              price: price,
+              currency: currency,
+            });
+          }
+        }),
+      );
+    } else {
+      toggleNotification(true);
+      setNotificationState({
+        title: 'Limit Exceeded!',
+        description: 'Maximum limit reached for the selected item',
+        redirect: null,
+        type: FAILURE,
+      });
+    }
+  }, [currency, id, maxQuantity?.maxQuantityValue, price, quantity, setNotificationState, title]);
 
   const handleRemove = useCallback(() => {
-    const newEntity = {
-      id: id as string,
-      quantity: +quantity - 1,
-      price: `${price}`,
-      title,
-      currency: `${currency}`,
-    };
-    setQuantity(+quantity - 1);
-    setCurrentPersonalizationEntities((oldEntities: any) => {
-      const newEntities = [...oldEntities.filter((el: any) => el.id !== id), newEntity];
-      return newEntities;
-    });
-  }, [quantity, currency, id, price, setCurrentPersonalizationEntities, title]);
+    personalizeYourRoomStorage(
+      produce(personalizeYourRoomStorage(), (draft) => {
+        const item = draft?.find((el) => el?.id === id);
+        if (item) {
+          item.quantity === 1 ? draft.pop() : item.quantity--;
+        }
+      }),
+    );
+  }, [id]);
 
   const isActive = Number(quantity) > 0;
+
+  const handleToggle = () => {
+    personalizeYourRoomStorage(
+      produce(personalizeYourRoomStorage(), (draft) => {
+        const item = draft?.find((el) => el.id === id);
+        if (item) {
+          const index = (draft ?? [])?.indexOf(item);
+          if (index > -1) {
+            draft?.splice(index, 1);
+          }
+        } else {
+          draft?.push({
+            id: id,
+            quantity: 1,
+            selected: true,
+            title: title,
+            price: price,
+            currency: currency,
+          });
+        }
+      }),
+    );
+  };
 
   return (
     <div className={styles.roomPersonalizationEntityWrapper}>
       <div className={styles.roomPersonalizationFirstColumn}>
         <h2 className={styles.roomPersonalizationTitle}>{title}</h2>
-        <p className={styles.roomPersonalizationText}>{description}</p>
+        {description && <p className={styles.roomPersonalizationText}>{description}</p>}
         <div className={styles.bottomSec}>
           <div className={cx(styles.price, { [styles.priceActive]: isActive })}>
-            {currency} <span className={styles.priceNo}>{price}</span>
+            {currency}{' '}
+            <span className={styles.priceNo}>
+              {Number(price)?.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+            </span>
           </div>
-          {isActive ? (
-            <div className={styles.roomPersonalizationInputWrapper}>
-              <span className={styles.minusButton} onClick={handleRemove}>
-                <RemoveOutlinedIcon className={styles.minusIcon} />
-              </span>
-              <div className={styles.roomPersonalizationInput}>
-                <span>{quantity}</span>
-              </div>
-              <span className={styles.plusButton} onClick={handleAdd}>
-                <AddOutlinedIcon className={styles.plusIcon} />
-              </span>
-            </div>
+          {maxQuantity?.status === 'active' ? (
+            <>
+              <PlusMinusInput
+                value={quantity}
+                onClickMinus={handleRemove}
+                onClickPlus={handleAdd}
+              />
+            </>
           ) : (
-            <StyledButton className={styles.addButton} onClick={handleAdd} variant='contained'>
-              {t('Select')}
+            <StyledButton
+              variant={quantity === 0 ? 'outlined' : 'contained'}
+              className={styles.addButton}
+              onClick={handleToggle}
+            >
+              {quantity === 0 ? t('SELECT') : t('SELECTED')}
             </StyledButton>
           )}
         </div>

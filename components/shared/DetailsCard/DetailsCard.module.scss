@@ -60,7 +60,6 @@
   height: 4vh;
   text-align: start;
   line-height: 4vh;
-  border-bottom: 1px solid var(--primary-border-color);
   color: var(--primary-text-color);
 }
 
@@ -78,8 +77,29 @@
 .homeCardInfo {
   align-items: flex-start;
 }
+
 .detailsCard {
   margin-bottom: 2vh;
-  padding: 20px 20px 0px 20px;
+  padding: 20px 20px 1px 20px;
+  background: var(--primary-card-background-color);
+}
+
+.titleCard {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--primary-border-color);
+  margin-bottom: 2vh;
+  align-items: center;
+}
+
+.shrinkedTitleCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.shrinkedCard {
+  margin-bottom: 2vh;
+  padding: 20px;
   background: var(--primary-card-background-color);
 }

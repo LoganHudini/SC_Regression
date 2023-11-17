@@ -2,8 +2,17 @@ import dayjs from 'dayjs';
 import { scrollState } from 'storage/dining-menu.storage';
 import { DOCTYPE, PHONE_REGEX, TIMINGS } from './constants';
 import * as yup from 'yup';
-import { toggleLoader } from 'storage/home.storage';
-import { configuration } from 'core/graphql/queries/GET_CONFIGURATION';
+import { toggleCheckInDetailsDrawer, toggleLoader, toggleNotification } from 'storage/home.storage';
+import { ApolloError } from '@apollo/client';
+import { client } from 'core/graphql/client';
+import { GET_RESERVATION } from 'core/graphql/queries/GET_RESERVATION';
+import { toast } from 'react-toastify';
+import { checkinStorage } from 'storage/check-in.storage';
+import { saveTrip } from 'storage/trips.storage';
+import { availablePaths } from './availablePaths';
+import { processError } from './processError';
+import { useLocalizedRouter } from './hooks/useLocalizedRouter';
+import { useConfig } from './hooks/useConfiguration';
 
 // Extract data from local storage
 export const guestNameFandB = () =>
@@ -35,6 +44,12 @@ export const FandBOrders = () =>
     localStorage.getItem('FandBOrders') &&
     JSON.parse(localStorage.getItem('FandBOrders') ?? '')) ??
   '';
+
+export const getWelcomeDrawer = () =>
+  (typeof window !== 'undefined' &&
+    localStorage.getItem('welcomeDrawer') &&
+    JSON.parse(localStorage.getItem('welcomeDrawer') ?? '')) ??
+  true;
 
 // Convert time format from 24H to 12H
 export const convertTo12HourFormat = (time24: string) => {
@@ -103,7 +118,7 @@ export const generateValidationSchema = (sections: any) => {
           },
           phone: {
             validation: yup.string().matches(PHONE_REGEX, 'Invalid phone number'),
-            requiredMessage: 'Phone is required',
+            requiredMessage: 'Phone Number is required',
           },
           // Add more validation
         };
@@ -129,8 +144,8 @@ export const generateValidationSchema = (sections: any) => {
 
 // Generate dynamic formik field values
 export const generateInitialFieldValues = (field: any, selectedField: any) => {
-  return field.reduce((values: any, field: any) => {
-    values[field?.name] = selectedField[field?.name] || '';
+  return field?.reduce((values: any, field: any) => {
+    values[field?.name] = selectedField[field?.name] ? selectedField[field?.name] : '';
     return values;
   }, {});
 };
@@ -138,7 +153,7 @@ export const generateInitialFieldValues = (field: any, selectedField: any) => {
 // Filter restaurants list based on type
 export const filterRestaurantList = (queryResultsData: any, diningOptionSelected: any) => {
   return queryResultsData?.filter((restaurant: any) => {
-    return restaurant.isActive && restaurant?.type === diningOptionSelected?.id;
+    return restaurant?.isActive && restaurant?.type === diningOptionSelected?.id;
   });
 };
 
@@ -152,9 +167,6 @@ export const platformLoader = (duration: number) => {
 
 // Return active items
 export const activeItems = (list: any) => list && list?.filter((item: any) => item?.isActive);
-
-// Button arrow status
-export const buttonArrow = true;
 
 // restaurant timings
 export const restaurantTimings = (data: any) =>
@@ -209,4 +221,80 @@ export const isOfferActive = (offer: any) => {
   }
 
   return false;
+};
+
+export const getReservationFunction = async (
+  values: any,
+  hotelId: any,
+  path: any,
+  t: any,
+  home: any,
+) => {
+  try {
+    // setLoading(true);
+    const { data } = await client.query({
+      query: GET_RESERVATION,
+      context: { clientName: 'rest' },
+      variables: {
+        confirmationNumber: values?.confirmationNumber,
+        lastName: values?.lastName,
+        hotelId: hotelId,
+      },
+      fetchPolicy: 'no-cache',
+    });
+
+    if (data) {
+      client.writeQuery({
+        query: GET_RESERVATION,
+        data,
+      });
+
+      const roomNo = data?.getReservation?.data?.roomTypes[0]?.roomNumber;
+
+      if (
+        data.getReservation.data.reservationStatus === 'CANCELED' ||
+        data.getReservation.data.reservationStatus === 'CHKOUT' ||
+        data.getReservation.data.reservationStatus === 'CHECKEDOUT'
+      ) {
+        toast(t('No Reservation Found'), { type: 'error' });
+        checkinStorage({
+          reservationId: data.getReservation.data.confirmationId as string,
+          checkedIn: false,
+          preCheckedIn: false,
+        });
+        // setLoading(false);
+      } else if (data.getReservation.data.reservationStatus === 'INHOUSE') {
+        toggleNotification(true);
+        saveTrip({
+          reservationId: data?.getReservation?.data?.confirmationId as string,
+          preCheckedIn: !roomNo ? true : false,
+          checkedIn: roomNo ? true : false,
+          name: data?.getReservation?.data?.lastName,
+          email: data?.getReservation?.data?.emails,
+          roomNumber: roomNo,
+          invoiceId: data?.getReservation?.data?.reservationId as string,
+        });
+        checkinStorage({
+          reservationId: data?.getReservation?.data?.confirmationId as string,
+          preCheckedIn: !roomNo ? true : false,
+          checkedIn: roomNo ? true : false,
+          name: data?.getReservation?.data?.lastName,
+          email: data?.getReservation?.data?.emails,
+          roomNumber: roomNo,
+          invoiceId: data?.getReservation?.data?.reservationId as string,
+        });
+        toggleCheckInDetailsDrawer(false);
+        return home;
+
+        // setLoading(false);
+      } else {
+        toggleCheckInDetailsDrawer(false);
+        return path;
+        // setLoading(false);
+      }
+    }
+  } catch (error) {
+    processError(t, error as ApolloError);
+    // setLoading(false);
+  }
 };

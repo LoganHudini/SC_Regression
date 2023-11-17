@@ -51,3 +51,11 @@ export const ImageLoader: React.FC<unknown> = (props) => {
 export const SuccessAnimation = () => (
   <Player autoplay loop src={`/jsons/${BRAND_CODE}/success.json`} />
 );
+
+export const FailureAnimation = () => (
+  <Player autoplay loop src={`/jsons/${BRAND_CODE}/error.json`} className={styles.errorAnimation} />
+);
+
+export const PageNotFoundAnimation = () => (
+  <Player autoplay loop src={`/jsons/${BRAND_CODE}/crossAnimation.json`} />
+);

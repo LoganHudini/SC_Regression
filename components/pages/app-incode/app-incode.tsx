@@ -120,7 +120,7 @@ function ProcessId({ session, onSuccess }: { session: any; onSuccess: any; onErr
   // const dispatch = useDispatch();
   const navigate = useLocalizedRouter();
   const goToTheNextStep = useCallback(() => {
-    navigate(availablePaths.GUEST_INFORMATION_INPUT);
+    navigate(availablePaths.CHECK_IN);
   }, [navigate]);
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
 
@@ -329,7 +329,7 @@ export default function AppIncode(props: any) {
         guestFaceMatchStorageData({ faceMatch: false, checked: true });
       }
 
-      navigate(availablePaths.GUEST_INFORMATION_INPUT);
+      navigate(availablePaths.CHECK_IN);
     });
   }
 
@@ -364,7 +364,7 @@ export default function AppIncode(props: any) {
         >
           <button
             onClick={() => {
-              navigate(availablePaths.GUEST_INFORMATION_INPUT);
+              navigate(availablePaths.CHECK_IN);
             }}
           >
             Back

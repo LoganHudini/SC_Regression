@@ -1,3 +1,5 @@
+import { getHotelCode } from './fetchConfigs';
+
 export const CHECK_IN_FLOW_VERSION = process.env.NEXT_PUBLIC_CHECK_IN_FLOW_VERSION;
 export const CHECK_OUT_FLOW_VERSION = process.env.NEXT_PUBLIC_CHECK_OUT_FLOW_VERSION;
 export const DINING_FLOW_VERSION = process.env.NEXT_PUBLIC_DINING_FLOW_VERSION;
@@ -90,6 +92,17 @@ export const CHECKOUT = 'Check-out';
 export const CHECKIN = 'Check-in';
 export const TIMINGS = 'timings';
 export const DOCTYPE = 'docType';
+export const MANUAL = 'manual';
+export const STEPPER_REVIEW = 'Review';
+export const STEPPER_PAYMENT = 'Payment';
+export const STEPPER_CHECK_IN = 'Check-In';
+export const YOUVERSE = 'youverse';
+export const MANUAL_ENTRY = 'manual_entry';
+export const PRIMARY = 'primary';
+export const DATEPICKER = 'datePicker';
+export const SUCCESS = 'success';
+export const FAILURE = 'failure';
+export const CARD_TYPE = 'cardType';
 
 // flow constants
 export const DAYS = [
@@ -102,18 +115,25 @@ export const DAYS = [
   { id: 7, ischecked: false, name: 'Sunday', from: null, to: null },
 ];
 
+export const DOCUMENT_OPTIONS = [
+  { name: 'Passport', value: 'PASSPORT', code: 'PASSPORT' },
+  { name: 'Aadhaar Card', value: 'ID', code: 'IDENTITY_CARD' },
+  { name: 'Driving License', value: 'DL', code: 'DRIVING_LICENSE' },
+];
+
 // ird to be removed later
+const hotel = getHotelCode();
 export const DINING_OPTIONS_PRE_CHECK_IN = [
   {
     id: 'restaurant',
     title: 'Restaurants',
-    path: '/restaurants-bars',
+    path: `/${hotel}/restaurants-bars`,
     width: '101.36px',
   },
   {
     id: 'bar',
     title: 'Bars',
-    path: '/restaurants-bars',
+    path: `/${hotel}/restaurants-bars`,
     width: '47.77px',
   },
 ];
@@ -122,19 +142,19 @@ export const DINING_OPTIONS = [
   {
     id: 'ird',
     title: 'In-Room Dining',
-    path: '/dining',
+    path: `/${hotel}/dining`,
     width: '116.89px',
   },
   {
     id: 'restaurant',
     title: 'Restaurants',
-    path: '/restaurants-bars',
+    path: `/${hotel}/restaurants-bars`,
     width: '101.36px',
   },
   {
     id: 'bar',
     title: 'Bars',
-    path: '/restaurants-bars',
+    path: `/${hotel}/restaurants-bars`,
     width: '47.77px',
   },
 ];

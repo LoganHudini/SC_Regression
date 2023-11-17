@@ -1,206 +1,246 @@
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
-import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import React, { useCallback, useEffect, useState } from 'react';
+import { Header } from 'components/shared/Header/Header';
+import styles from '@styles/guestDetail_checkin_v2/guestDetail_checkin_v2.module.scss';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
+import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
-import { StyledInput } from 'components/shared/StyledInput/StyledInput';
-import styles from 'styles/get-reservation/get-reservation.module.scss';
-import { IGetPrecheckinReservationData } from 'types/get-reservation.types';
-import { getReservationValidation } from 'validation/get-reservation.validation';
-import { useFormik } from 'formik';
-import { GET_RESERVATION } from 'core/graphql/queries/GET_RESERVATION';
+import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
 import { client } from 'core/graphql/client';
-import { processError } from 'utils/processError';
-import { ApolloError } from '@apollo/client';
+import dayjs from 'dayjs';
+import cx from 'classnames';
+import {
+  IGetRoomDetailsApiResponse,
+  GET_ROOM_DETAILS,
+} from 'core/graphql/queries/GET_ROOM_DETAILS';
 import { GetStaticProps } from 'next';
+import { AboutYourStayProps } from 'types/about-your-stay.types';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'react-i18next';
-import i18nConfig from 'next-i18next.config';
-import { availablePaths } from 'utils/availablePaths';
 import { getStaticPaths } from 'utils/getStatic';
-import { Drawer } from '@mui/material';
-import { BRAND_CODE } from 'core/graphql/endpoints';
-import CloseOutlinedIcon from '@icons/CloseOutlined.svg';
-import { useRouter } from 'next/router';
+import i18nConfig from 'next-i18next.config';
+import { timeFormats } from 'utils/timeFormats';
+import DropDown from '@icons/detailArrow.svg';
+import BedIcon from '@icons/double-bed.svg';
+import UserIcon from '@icons/user.svg';
+import DocIcon from '@icons/docPoints.svg';
+import NightIcon from '@icons/night-mode.svg';
+import { availablePaths } from 'utils/availablePaths';
+import { useConfig } from 'utils/hooks/useConfiguration';
+import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
+import { ASSETS_URL, BRAND_CODE } from 'core/graphql/endpoints';
+import { useReactiveVar } from '@apollo/client';
+import { hotelImage } from 'storage/home.storage';
+import { StableImage } from 'components/shared/StableImage/StableImage';
+import { getWelcomeDrawer } from 'utils/functions';
 
 export { getStaticPaths };
 
-const GetReservation: React.FC = () => {
+const GuestDetail: React.FC<AboutYourStayProps> = () => {
   const navigate = useLocalizedRouter();
-  const router = useRouter();
+  const config = useConfig();
+  const hotelName = config?.name;
+  const hotel = config?.code;
+  const hotelImageInfo = useReactiveVar(hotelImage);
+  const [welcomeDrawer, setWelcomeDrawer] = useState(getWelcomeDrawer());
 
-  const { t } = useTranslation(['get-reservation', 'common']);
-  const [inputDrawer, setInputDrawer] = useState(true);
+  const { t } = useTranslation('about-your-stay');
 
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    navigate(availablePaths?.HOME);
-    if (router.query['resId'] && router.query['lastName']) {
-      getReservation(router.query['resId'], router.query['lastName']);
-    }
-  }, []);
-
-  const goToTheNextStep = useCallback(
-    async (values: IGetPrecheckinReservationData) => {
-      await getReservation(values.confirmationNumber, values.lastName);
-    },
-    [navigate, t],
-  );
-
-  const getReservation = async (confirmationNumber: any, lastName: any) => {
-    try {
-      setLoading(true);
-      const { data } = await client.query({
-        query: GET_RESERVATION,
-        context: { clientName: 'rest' },
-        variables: {
-          confirmationNumber: confirmationNumber,
-          lastName: lastName,
-        },
-        fetchPolicy: 'no-cache',
-      });
-
-      if (data) {
-        client.writeQuery({
-          query: GET_RESERVATION,
-          data,
-        });
-
-        // if (
-        //   data.getReservation.data.reservationStatus === 'CANCELED' ||
-        //   data.getReservation.data.reservationStatus === 'CHKOUT' ||
-        //   data.getReservation.data.reservationStatus === 'CHECKEDOUT'
-        // ) {
-        //   toast(t('No Reservation Found'), { type: 'error' });
-        //   checkinStorage({
-        //     reservationId: data.getReservation.data.confirmationId as string,
-        //     checkedIn: false,
-        //     preCheckedIn: false,
-        //   });
-        //   setLoading(false);
-        // } else if (data.getReservation.data.reservationStatus === 'INHOUSE') {
-        //   toast(t('Checked In Successfully'), { type: 'success' });
-        //   checkinStorage({
-        //     reservationId: data.getReservation.data.confirmationId as string,
-        //     checkedIn: true,
-        //     preCheckedIn: true,
-        //     bookingId: data.getReservation.data.reservationId,
-        //   });
-        //   navigate(availablePaths?.HOME);
-        // } else {
-        navigate(availablePaths?.GUEST_INFORMATION_INPUT);
-        // }
-      }
-    } catch (error) {
-      processError(t, error as ApolloError);
-      setLoading(false);
-    }
-  };
-
-  const formik = useFormik({
-    initialValues: {
-      confirmationNumber: router.query['resId'] ? router.query['resId'] : '',
-      lastName: router.query['lastName'] ? router.query['lastName'] : '',
-    },
-    validationSchema: getReservationValidation,
-    onSubmit: goToTheNextStep,
+  const reservationData = client.readQuery<IGetReservationApiResponse>({
+    query: GET_RESERVATION,
   });
 
-  const closeInputDrawer = useCallback(() => {
-    setInputDrawer((state) => !state);
-    navigate(availablePaths.HOME);
-  }, [navigate]);
+  const reservationInfo = reservationData?.getReservation?.data;
+
+  useEffect(() => {
+    !reservationInfo && navigate(`/${hotel}/`);
+  }, [hotel, navigate, reservationInfo]);
+
+  const WelcomeDetails = () => (
+    <>
+      <div className={styles.drawerWrapper}>
+        <h3 className={styles.welcomeTitle}>
+          Welcome to <span className={styles.capitalise}>{BRAND_CODE}</span> Hotels!
+        </h3>
+        <p className={styles.welcomeDescription}>Check-In now to save time when you arrive.</p>
+        <StableImage
+          src={`/images/${BRAND_CODE}/Divider.png`}
+          alt='Divider'
+          className={styles.dividerImage}
+        />
+        <p className={styles.welcomeDescription}>
+          You will need the following documents handy to finish online Check-In:
+        </p>
+        <p className={styles.documentsList}>
+          <DocIcon />
+          <span className={styles.space}>Passport / Aadhaar / Driving License</span>
+        </p>
+        <div className={styles.verticalLine}></div>
+        <p className={styles.documentsList}>
+          <DocIcon />
+          <span className={styles.space}>Credit Card</span>
+        </p>
+      </div>
+      <StyledButton className={styles.beginCheckIn} onClick={closeWelcomeDrawer}>
+        {t('BEGIN CHECK-IN')}
+      </StyledButton>
+    </>
+  );
+
+  const closeWelcomeDrawer = () => {
+    localStorage.setItem('welcomeDrawer', JSON.stringify(false));
+    setWelcomeDrawer(false);
+  };
 
   return (
     <>
       <Head>
-        <title>{t('Booking Details')}</title>
+        <title>
+          {hotelName} | {t('Stay Details')}
+        </title>
       </Head>
-      <Drawer
-        variant='temporary'
-        anchor='bottom'
-        open={inputDrawer}
-        PaperProps={{
-          elevation: 0,
-          style: {
-            borderTopRightRadius: '2rem',
-            borderTopLeftRadius: '2rem',
-            maxWidth: '772px',
-            margin: 'auto',
-            height: '445px',
-            overflow: 'hidden',
-          },
-        }}
-        BackdropProps={{
-          style: {
-            backgroundImage: `url('/images/${BRAND_CODE}/background.png')`,
-            maxWidth: '772px',
-            margin: 'auto',
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat',
-          },
-        }}
-      >
-        <PageWrapper className={styles.pageWrapper}>
-          <p className={styles.pageTitle}>{t('Please fill your details')}</p>
-          <div className={styles.reservationInputs}>
-            <button onClick={closeInputDrawer} className={styles.closeBtn}>
-              <CloseOutlinedIcon />
-            </button>
-            <StyledInput
-              autoComplete='off'
-              required
-              className={styles.reservationInput}
-              label={t('Last Name')}
-              variant='standard'
-              name='lastName'
-              id='lastName'
-              value={formik.values.lastName}
-              onChange={formik.handleChange}
-              error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-              helperText={formik.touched?.lastName && formik.errors.lastName}
-            />
-            <StyledInput
-              autoComplete='off'
-              required
-              className={styles.reservationInput}
-              label={t('Reservation ID')}
-              variant='standard'
-              name='confirmationNumber'
-              id='confirmationNumber'
-              type={'number'}
-              value={formik.values.confirmationNumber}
-              onChange={formik.handleChange}
-              error={formik.touched.confirmationNumber && Boolean(formik.errors.confirmationNumber)}
-              helperText={formik.touched?.confirmationNumber && formik.errors.confirmationNumber}
-            />
+      <Header screenTitle={t('check-In') as string} displayHome />
+      <PageWrapper className={styles.pageWrapper}>
+        {hotelImageInfo?.ratio16to9 && (
+          <StableImage
+            className={styles.image}
+            src={`${ASSETS_URL}/${hotelImageInfo?.ratio16to9}`}
+          />
+        )}
+        <div className={styles.cardWrapper}>
+          <p className={styles.title}>{t('Your Stay Details')}</p>
+          <StableImage src={`/images/${BRAND_CODE}/Divider.png`} alt='Divider' />
+          <div className={styles.nameBox}>
+            <div className={styles.nameWrapper}>
+              <p className={styles.detailTitle}>{t('NAME')}</p>
+              <p
+                className={styles.detailValue}
+              >{`${reservationInfo?.details?.contactPerson?.firstName} ${reservationInfo?.details?.contactPerson?.lastName}`}</p>
+            </div>
+            <div className={styles.divider} />
+
+            <div className={styles.nameWrapper}>
+              <p className={styles.detailTitle}>{t('BOOKING ID')}</p>
+              <p className={styles.detailValue}>{reservationInfo?.confirmationId}</p>
+            </div>
           </div>
-          <StyledButton
-            loading={loading}
-            disabled={loading}
-            className={styles.findMyBookingBtn}
-            onClick={formik.submitForm}
-          >
-            {t('SUBMIT')}
-          </StyledButton>
-        </PageWrapper>
-      </Drawer>
+          <div className={styles.dateWrapper}>
+            <div className={styles.checkInWrapper}>
+              <p className={styles.detailCheckinTitleCaps}>{t('Check-In')}</p>
+              <div className={styles.checkContainer}>
+                <p className={styles.detailCheckinTitle}>
+                  {dayjs(reservationInfo?.details?.checkInDate).format(timeFormats.DAY)}
+                </p>
+                <p className={styles.detailCheckinTitleDate}>
+                  {dayjs(reservationInfo?.details?.checkInDate).format(timeFormats.DAY_DIGIT)}
+                </p>
+                <p className={styles.detailCheckinTitle}>
+                  {dayjs(reservationInfo?.details?.checkInDate).format(timeFormats.MONTH_YEAR)}
+                </p>
+              </div>
+              <p className={styles.detailCheckinTitle}>
+                From{' '}
+                {dayjs(
+                  `${reservationInfo?.details?.checkInDate?.split('T')[0]}${
+                    reservationInfo?.details?.contactPerson?.eta?.split('.')[0]
+                  }`,
+                )?.format(timeFormats.HOURS_MINUTES_AM_2)}
+              </p>
+            </div>
+            <div className={styles.arrow}>
+              <DropDown />
+            </div>
+            <div className={styles.checkOutWrapper}>
+              <p className={styles.detailCheckinTitleCaps}>{t('Checkout')}</p>
+              <div className={styles.checkContainer}>
+                <p className={styles.detailCheckinTitle}>
+                  {dayjs(reservationInfo?.details?.checkOutDate).format(timeFormats.DAY)}
+                </p>
+                <p className={styles.detailCheckinTitleDate}>
+                  {dayjs(reservationInfo?.details?.checkOutDate).format(timeFormats.DAY_DIGIT)}
+                </p>
+                <p className={styles.detailCheckinTitle}>
+                  {dayjs(reservationInfo?.details?.checkOutDate).format(timeFormats.MONTH_YEAR)}
+                </p>
+              </div>
+              <p className={styles.detailCheckinTitle}>
+                Till{' '}
+                {dayjs(
+                  `${reservationInfo?.details?.checkOutDate?.split('T')[0]}${
+                    reservationInfo?.details?.contactPerson?.etd?.split('.')[0]
+                  }`,
+                )?.format(timeFormats.HOURS_MINUTES_AM_2)}
+              </p>
+            </div>
+          </div>
+          <div className={styles.stayWrapper}>
+            {reservationInfo?.roomTypes[0]?.shortName && (
+              <div className={styles.stayDetails}>
+                <span className={styles.icon}>
+                  <BedIcon />
+                </span>
+                {reservationInfo?.roomTypes[0]?.shortName}
+              </div>
+            )}
+            {reservationInfo?.details?.nightCount !== 0 && (
+              <div className={styles.stayDetails}>
+                <span className={styles.icon}>
+                  <NightIcon />
+                </span>
+                {reservationInfo?.details?.nightCount}{' '}
+                {reservationInfo?.details?.nightCount === 1 ? 'Night' : 'Nights'}
+              </div>
+            )}
+            {(reservationInfo?.details?.adultGuestCount !== 0 ||
+              reservationInfo?.details?.childGuestCount !== 0) && (
+              <div className={styles.stayDetails}>
+                <span className={styles.icon}>
+                  <UserIcon />
+                </span>
+                {reservationInfo?.details?.adultGuestCount !== 0 && (
+                  <>
+                    {reservationInfo?.details?.adultGuestCount}{' '}
+                    {reservationInfo?.details?.adultGuestCount === 1 ? 'Adult' : 'Adults'}{' '}
+                  </>
+                )}
+                {reservationInfo?.details?.childGuestCount !== 0 && (
+                  <>
+                    {reservationInfo?.details?.childGuestCount}{' '}
+                    {reservationInfo?.details?.childGuestCount === 1 ? 'Child' : 'Children'}
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+          <div className={cx(styles.bottomMenuWrapper)}>
+            <StyledButton
+              variant='contained'
+              onClick={() => navigate(availablePaths?.GUEST_VERIFICATION)}
+              className={styles.bottomMenuButton}
+            >
+              {t('continue')}
+            </StyledButton>
+          </div>
+        </div>
+      </PageWrapper>
+      <CustomDrawer open={welcomeDrawer} onClose={closeWelcomeDrawer} content={WelcomeDetails()} />
     </>
   );
 };
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const locale = ctx?.params?.locale;
+  const { data } = await client.query<IGetRoomDetailsApiResponse>({
+    query: GET_ROOM_DETAILS,
+    context: { clientName: 'host_v0' },
+  });
+
   return {
     props: {
-      ...(await serverSideTranslations(
-        locale as string,
-        ['get-reservation', 'common'],
-        i18nConfig,
-      )),
+      roomDetails: data,
+      ...(await serverSideTranslations(locale as string, ['about-your-stay'], i18nConfig)),
     },
   };
 };
 
-export default GetReservation;
+export default GuestDetail;

@@ -2,6 +2,7 @@ import { gql } from '@apollo/client';
 import { ENVIRONMENT, HOTEL_ID } from '../endpoints';
 
 export interface IPersonalizeYourRoomEntity {
+  maxQuantity: any;
   id: string;
   hotelId: string;
   code: string;

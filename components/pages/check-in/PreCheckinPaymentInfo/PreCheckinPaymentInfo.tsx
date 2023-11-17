@@ -6,19 +6,15 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { useReactiveVar } from '@apollo/client';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
-import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { availablePaths } from 'utils/availablePaths';
-import * as yup from 'yup';
 import { generateInitialFieldValues, generateValidationSchema } from 'utils/functions';
+import { CARD_TYPE } from 'utils/constants';
 
 export const PreCheckinPaymentInfo: React.FC<IPreCheckinPaymentInfoProps> = ({
   paymentInfo,
   creditCardInfoSection,
-  paymentType,
 }) => {
   const { t } = useTranslation('check-in');
   const [cardOpened, setCardOpened] = useState(true);
-  const navigate = useLocalizedRouter();
 
   const handleInputChange = () => {
     setCardOpened(!cardOpened);
@@ -30,10 +26,6 @@ export const PreCheckinPaymentInfo: React.FC<IPreCheckinPaymentInfoProps> = ({
     const inputField = name;
     const inputValue = value;
     reservationGuestInfoStorageData({ ...guestReservationInfo, [inputField]: inputValue });
-  };
-
-  const edit = () => {
-    navigate(availablePaths.CHECK_IN_PAYMENT);
   };
 
   const initialFieldValues = generateInitialFieldValues(creditCardInfoSection, paymentInfo);
@@ -60,7 +52,13 @@ export const PreCheckinPaymentInfo: React.FC<IPreCheckinPaymentInfoProps> = ({
                 variant='standard'
                 name={field?.name}
                 id={field?.name}
-                value={formik.values[field?.name]}
+                value={
+                  field?.name === CARD_TYPE
+                    ? formik.values[field?.name] === 'VS'
+                      ? 'VISA'
+                      : formik.values[field?.name]
+                    : formik.values[field?.name]
+                }
                 disabled={field?.isDisabled}
                 onChange={(e) => {
                   formik.handleChange(e);
@@ -77,11 +75,6 @@ export const PreCheckinPaymentInfo: React.FC<IPreCheckinPaymentInfoProps> = ({
             </div>
           ),
       )}
-      <div className={styles.editBtn}>
-        <button className='' onClick={edit}>
-          <span className={styles.btnText}>Edit</span>
-        </button>
-      </div>
     </div>
   );
 };

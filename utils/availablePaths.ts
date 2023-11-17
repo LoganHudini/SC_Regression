@@ -10,11 +10,15 @@ export const availablePaths = {
   PREFERENCES: `/${hotel}/preferences`,
 
   // Check-in flow
-  GUEST_INFORMATION_INPUT: `/${hotel}/check-in/information`,
-  ACCOMPANY_GUEST: `/${hotel}/check-in/accompanyguest`,
-  CHECK_IN_PAYMENT: `/${hotel}/check-in/payment`,
-  PERSONALIZE_YOUR_ROOM: `/${hotel}/check-in/personalization`,
-  CHECK_IN: `/${hotel}/check-in/review`,
+  CHECK_IN: `/${hotel}/check-in`,
+  GUEST_VERIFICATION: `/${hotel}/check-in/guest-verification`,
+  CARD_AUTHORISATION: `/${hotel}/check-in/card-authorisation`,
+  PAYMENT: `/${hotel}/check-in/payment`,
+  PERSONALIZE: `/${hotel}/check-in/personalization`,
+  REVIEW: `/${hotel}/check-in/review`,
+
+  // Youverse
+  YOUVERSE: `/${hotel}/youverse`,
 
   // Dining flow
   DINING: `/${hotel}/dining`,

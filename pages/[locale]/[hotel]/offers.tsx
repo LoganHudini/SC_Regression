@@ -112,11 +112,12 @@ const Offers: React.FC = () => {
   const startDate = dayjs(queryResultEntity?.duration?.startDate, 'DD-MM-YYYY');
   const endDate = dayjs(queryResultEntity?.duration?.endDate, 'DD-MM-YYYY');
 
-  const displayStartDate = startDate?.format('MMMM D, YYYY');
-  const displayEndDate =
+  const displayStartDate =
     startDate?.year() === endDate?.year()
-      ? endDate.format('MMMM D')
-      : endDate.format('MMMM D, YYYY');
+      ? startDate.format('MMMM D')
+      : startDate.format('MMMM D, YYYY');
+
+  const displayEndDate = endDate.format('MMMM D, YYYY');
 
   const timeDisplayed =
     queryResultEntity &&

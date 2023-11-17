@@ -31,10 +31,12 @@ import {
   EMAIL,
   ENQUIRE,
   EXTERNALURL,
+  FAILURE,
   IRD,
   OK,
   PHONE,
   S3,
+  SUCCESS,
   WEBURL,
 } from 'utils/constants';
 import { filterRestaurantList, restaurantTimings } from 'utils/functions';
@@ -79,6 +81,7 @@ const RestaurantAndBars: React.FC = () => {
   const initialSelected = useReactiveVar(selectedRestaurantStorage);
   const currentYear = new Date().getFullYear();
   const [selectedRestaurantData, setSelectedRestaurantData] = useState<any>();
+  const [errorNotification, setErrorNotification] = useState(false);
 
   const { data, loading } = useQuery<IGetRestaurantDetailsResponse>(GET_RESTAURANT_DETAILS, {
     skip: !hotelId,
@@ -187,13 +190,14 @@ const RestaurantAndBars: React.FC = () => {
         fetchPolicy: 'network-only',
         variables: DetailsReservationPayload,
       });
-      toggleNotification(true);
+      setErrorNotification(false);
       setTimeout(() => {
         closeDrawer();
       }, 4000);
     } catch (err) {
-      processError(t, err as ApolloError);
+      setErrorNotification(true);
     }
+    toggleNotification(true);
   }, [
     selectedTime,
     currentYear,
@@ -368,14 +372,18 @@ const RestaurantAndBars: React.FC = () => {
         </StyledButton>
       )}
       <Notification
-        title={t('Thank You!') as string}
-        description={
-          t(
-            'Your booking has been received. Our reservation team will get in touch with you soon',
-          ) as string
+        title={
+          errorNotification ? ('Something Went Wrong!' as string) : (t('Thank You!') as string)
         }
-        redirect={availablePaths?.RESTAURANTS_BARS}
-        type='success'
+        description={
+          errorNotification
+            ? ('Your booking was not received.' as string)
+            : (t(
+                'Your booking has been received. Our reservation team will get in touch with you soon',
+              ) as string)
+        }
+        redirect={!errorNotification && availablePaths?.RESTAURANTS_BARS}
+        type={errorNotification ? FAILURE : SUCCESS}
       />
     </div>
   );

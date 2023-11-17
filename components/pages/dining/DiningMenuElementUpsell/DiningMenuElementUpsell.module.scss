@@ -72,6 +72,9 @@
   text-align: center;
   background-color: var(--primary-theme-color);
   font: $extraSmall var(--primary-card-cta-font-family);
+  &:after {
+    display: none;
+  }
 }
 
 .menuUnavailable {

@@ -65,6 +65,28 @@
       "problemMatcher": [],
       "label": "Start: FAIRMONT",
       "detail": "env-cmd -f .env.fairmont next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:itc",
+      "problemMatcher": [],
+      "label": "Dev: ITC",
+      "detail": "env-cmd -f .env.itc yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:itc",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: ITC",
+      "detail": "env-cmd -f .env.itc yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:itc",
+      "problemMatcher": [],
+      "label": "Start: ITC",
+      "detail": "env-cmd -f .env.itc next start"
     }
   ]
 }

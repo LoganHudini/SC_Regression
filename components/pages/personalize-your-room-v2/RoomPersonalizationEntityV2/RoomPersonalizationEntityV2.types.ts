@@ -1,5 +1,3 @@
-import { IPersonalizeYourRoomStorageData } from 'storage/personalize-your-room.storage';
-
 export interface IRoomPersonalizationEntityProps {
   title: string;
   description: string;
@@ -7,6 +5,6 @@ export interface IRoomPersonalizationEntityProps {
   price: string;
   currency: string;
   id: string;
-  count: any;
-  setCurrentPersonalizationEntities: any;
+  maxQuantity: any;
+  setNotificationState: any;
 }

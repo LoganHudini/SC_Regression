@@ -54,9 +54,9 @@ export const PreCheckinDocInfo: React.FC<IPreCheckinDocInfoProps> = ({
     onSubmit: handleInputChange,
   });
 
-  // const scan = () => {
-  //   navigate(availablePaths.INCODE);
-  // };
+  const scan = () => {
+    navigate(availablePaths.YOUVERSE);
+  };
 
   // useEffect(() => {
   //   reservationGuestInfoStorageData({
@@ -66,9 +66,6 @@ export const PreCheckinDocInfo: React.FC<IPreCheckinDocInfoProps> = ({
   //   });
   // }, [formik.values]);
 
-  const setEmpty = () => {
-    formik.values.docNo = '';
-  };
   // useEffect(() => {
   //   if (formik.values?.docType !== guestReservationInfo.docType.value) {
   //     formik.values.docNo = '';
@@ -77,7 +74,7 @@ export const PreCheckinDocInfo: React.FC<IPreCheckinDocInfoProps> = ({
 
   return (
     <div className={styles.identityInputs}>
-      {identityVerificationSection.map(
+      {identityVerificationSection?.map(
         (field: any) =>
           field?.isActive && (
             <div key={field?.name}>
@@ -181,8 +178,9 @@ export const PreCheckinDocInfo: React.FC<IPreCheckinDocInfoProps> = ({
             )}
           />
         </div>
-      </div>
-      <div className={styles.col_100}>
+      </div> */}
+
+      {/* <div className={styles.col_100}>
         <div className={styles.col_100}>
           <DatePicker
             disablePast={true}
@@ -215,8 +213,9 @@ export const PreCheckinDocInfo: React.FC<IPreCheckinDocInfoProps> = ({
             )}
           />
         </div>
-      </div>
-      <div className={styles.col_100}>
+      </div> */}
+
+      {/* <div className={styles.col_100}>
         <div className={styles.col_100}>
           <StyledInput
             required

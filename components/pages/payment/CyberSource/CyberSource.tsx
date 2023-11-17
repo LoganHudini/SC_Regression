@@ -44,11 +44,15 @@ import { timeFormats } from 'utils/timeFormats';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { useConfig } from 'utils/hooks/useConfiguration';
+import { Notification } from 'components/shared/Notification/Notification';
+import { FAILURE, SUCCESS } from 'utils/constants';
+import { toggleNotification } from 'storage/home.storage';
 
 const CyberSource: React.FC = () => {
   let transactionId: string;
   const navigate = useLocalizedRouter();
   const hotelName = useConfig()?.name;
+  const [errorNotification, setErrorNotification] = useState(false);
 
   const [loading, setLoading] = useState(true);
 
@@ -65,7 +69,7 @@ const CyberSource: React.FC = () => {
   const reservationInfo = reservationData?.getReservation.data;
 
   const onPaymentDone = useCallback(async () => {
-    navigate(availablePaths.GUEST_INFORMATION_INPUT);
+    navigate(availablePaths.CARD_AUTHORISATION);
   }, [navigate, t]);
 
   const preparePayment = useCallback(async () => {
@@ -84,7 +88,7 @@ const CyberSource: React.FC = () => {
       updatedReservationData = data;
     } catch (getUpdatedReservationError) {
       processError(t, getUpdatedReservationError as ApolloError);
-      navigate(availablePaths.GUEST_INFORMATION_INPUT);
+      navigate(availablePaths.CARD_AUTHORISATION);
     }
 
     if (updatedReservationData) {
@@ -115,7 +119,7 @@ const CyberSource: React.FC = () => {
         paymentData = data;
       } catch (initiatePaymentError) {
         processError(t, initiatePaymentError as ApolloError);
-        navigate(availablePaths.GUEST_INFORMATION_INPUT);
+        navigate(availablePaths.CARD_AUTHORISATION);
       }
 
       if (paymentData) {
@@ -163,12 +167,11 @@ const CyberSource: React.FC = () => {
               cardType: paymentStatusData?.getPaymentStatus.data['paymentMethod '],
               cardExpiryDate: paymentStatusData?.getPaymentStatus.data['cardExpiry'],
             });
-            navigate(availablePaths.GUEST_INFORMATION_INPUT);
           }
           if (status === 'Failed') {
-            toast('Card Authentication Failed', { type: 'error' });
-            navigate(availablePaths.GUEST_INFORMATION_INPUT);
+            setErrorNotification(true);
           }
+          toggleNotification(true);
         } catch (paymentStatusError) {
           processError(t, paymentStatusError as ApolloError);
         }
@@ -191,7 +194,7 @@ const CyberSource: React.FC = () => {
         </title>
       </Head>
       <Header
-        backRoute={availablePaths?.GUEST_INFORMATION_INPUT}
+        backRoute={availablePaths?.CHECK_IN}
         displayBackButton
         screenTitle={t('Payment') as string}
       />
@@ -201,6 +204,16 @@ const CyberSource: React.FC = () => {
           ref={iframeRef}
           className={cx(styles.paymentWindow, { [styles.paymentWindowHidden]: loading })}
           onLoad={handleIframeChange}
+        />
+        <Notification
+          title={errorNotification ? ('Payment Failed!' as string) : (t('Thank You!') as string)}
+          description={
+            errorNotification
+              ? ('Card Authentication Failed !' as string)
+              : (t('Card Authentication completed') as string)
+          }
+          redirect={availablePaths?.CARD_AUTHORISATION}
+          type={errorNotification ? FAILURE : SUCCESS}
         />
       </PageWrapper>
     </>

@@ -2,185 +2,234 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  padding: 64px 20px 110px 20px;
-  padding-bottom: 110px !important;
+  padding: 64px 20px 100px 20px;
 }
 
-.centeredText {
-  text-align: center;
-  font-size: $medium;
-  font-family: var(--primary-font-medium);
-  padding: 10px 0px 10px 0;
-  background: #f4f4f4;
-}
-
-.tripDetails {
-  border-bottom: 1px solid var(--primary-text-color);
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 8px;
-}
-
-.tripDetailsText {
-  font-size: 1rem;
-  font-weight: 400;
-  text-transform: uppercase;
-  font-size: var(--primary-text-color);
-  margin: 0;
-}
-
-.tripDetailsIcon {
-  height: 15px;
-  & > path {
-    fill: var(--primary-theme-color);
-  }
-}
-
-.nameSurname {
-  font-weight: 600;
-  font-size: 1.125rem;
-  margin: 10px 0 5px 0;
-  font-family: 'Bodoni MT Std';
-}
-
-.bookingId {
-  margin-bottom: 20px;
-  font-weight: 400;
-}
-
-.checkDates {
-  display: flex;
-  justify-content: space-between;
-}
-
-.checkDatesColumn {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.checkDatesText {
-  font-size: $extraSmall;
-  color: var(--tertiary-text-color);
-  margin-bottom: 1vh;
-  line-height: 1;
-  margin-top: 2vh;
-  text-transform: uppercase;
-}
-
-.right {
-  text-align: right;
-  align-self: flex-end;
-}
-
-.checkDatesDetails {
-  font-size: $small;
-  font-family: var(--primary-font-heading);
-  color: var(--tertiary-text-color);
-  line-height: 1;
-  font-weight: bold;
-}
-
-.checkDatesIcon {
-  width: 20px;
-  height: auto;
-  align-self: center;
-  & > path {
-    fill: var(--primary-text-color);
-  }
-}
-
-.details {
+.bottomMenuWrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
   flex-direction: row;
-  margin-top: 25px;
+  max-width: 768px;
+  height: 64px;
+  margin: auto;
+  border-top-left-radius: var(--primary-card-border-radius);
+  border-top-right-radius: var(--primary-card-border-radius);
+  box-shadow: 0px -2px 8px var(--primary-box-shadow-color);
+  background: var(--primary-background-color);
+  z-index: 1;
+  animation: fadeIn 0.5s;
 }
 
-.detailsColumn {
+.bottomMenuButton {
+  width: 100%;
+  margin: auto 22px;
+  height: 44px;
+}
+
+.titleWrapper {
   display: flex;
   flex-direction: column;
-
-  &:first-of-type {
-    margin-right: 25px;
-  }
-}
-
-.detailsText {
-  font-size: 0.9375rem;
-  font-weight: 400;
-  line-height: 1;
-  margin-top: 5px;
-
-  &:not(:first-of-type) {
-    margin-top: 16px;
-  }
-}
-
-.yourRoom {
-  border-bottom: 1px solid var(--primary-text-color);
-  padding-bottom: 2px;
-  font-size: 1rem;
-  font-weight: 400;
-  text-transform: uppercase;
-  margin: 30px 0 23px 0;
-}
-
-.roomDetailsTitle {
-  margin: 0 0 5px 0;
-  font-weight: 600;
-  font-size: 1.125rem;
-  font-family: 'Bodoni MT Std';
-}
-
-.roomDetailsText {
-  font-size: 0.9375rem;
-  font-weight: 400;
-  line-height: 1.25;
-
-  &:first-of-type {
-    margin-bottom: 15px;
-  }
-
-  &:last-of-type {
-    margin-top: 5px;
-  }
-}
-
-.nextButton {
-  margin-top: 46px;
-  font-weight: bold;
-}
-
-.roomDetailsCardWrapper {
-  margin-right: 5px;
-}
-
-.step {
-  font-size: $small;
-  display: flex;
+  align-items: center;
   justify-content: center;
-  padding: 30px 15px 10px;
+  gap: 6px;
+}
+
+.cardAuthorisationTitleWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: $large;
+  font-family: var(--heading-font-regular);
+  text-align: center;
+  margin: auto;
+}
+
+.description {
+  font-size: $xsmall;
   color: var(--tertiary-text-color);
-  border-bottom: 1px solid var(--primary-theme-color);
-  font-family: var(--secondary-title-font-family);
+  text-align: center;
+  width: 85%;
+  line-height: 1.25;
+  margin: 4px auto;
+}
+
+.cardTitle {
+  font-size: $medium;
+  font-family: var(--primary-font-heading);
+  text-align: start;
+}
+
+.cardTitleAccompany {
+  font-size: $medium;
+  font-family: var(--primary-font-heading);
+  text-align: start;
+  margin-bottom: 10px;
+}
+
+.guestType {
+  font-size: $small;
+  font-family: var(--primary-font-heading);
+}
+
+.box {
+  background-color: var(--primary-card-background-color);
+  display: flex;
+  flex-direction: column;
+  padding: 26px;
+  gap: 10px;
+  border: var(--primary-card-border);
+  border-radius: var(--primary-card-border-radius);
+}
+
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.boxWrapper {
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+}
+
+// accompany
+.col_100 {
+  width: 100%;
+}
+
+.guestDataInput {
+  width: 100%;
+  label {
+    // text-transform: capitalize !important;
+  }
   div {
-    margin: 0px 0px 0px 8px;
-    font-size: $xsmall;
-    width: 18px;
-    height: 18px;
-    line-height: 18px;
-    border-radius: 50%;
-    text-align: center;
-    color: #ffff;
+    input {
+      font-weight: bold;
+      // text-transform: capitalize;
+      color: var(--tertiary-text-color) !important;
+    }
   }
-  .active {
-    background-color: var(--primary-theme-color);
-    border: 1px solid var(--primary-theme-color);
+}
+
+.btnText {
+  text-align: center;
+  font-size: 14px;
+  padding: 6px 10px;
+  width: 80px;
+}
+
+.scanBtn {
+  margin: 15px 0px;
+  display: flex;
+  justify-content: right;
+  button {
+    display: flex;
   }
-  .disabled {
-    background-color: #d2d1d0;
-    border: 1px solid #d2d1d0;
+}
+
+.alignment {
+  vertical-align: middle;
+}
+
+.buttonContainer {
+  margin-top: 1rem;
+}
+
+.buttonLeft {
+  margin-inline-end: 1rem;
+  border-radius: 7px;
+  &:disabled {
+    color: #ffffffab !important;
   }
+}
+
+.buttonRight {
+  margin-top: 30px;
+  &:disabled {
+    opacity: 0.7 !important;
+    margin-top: 30px;
+  }
+}
+
+.agrementWrapperTitle {
+  display: flex;
+  margin: 25px 0 5px 0;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.agrementText {
+  max-width: none;
+  margin-inline-start: 20px;
+  a {
+    text-decoration: none;
+    white-space: nowrap;
+  }
+}
+
+.guestDataInput {
+  width: 100%;
+  margin-top: 15px;
+
+  label {
+    letter-spacing: 0.72px !important;
+  }
+  div {
+    div {
+      padding-bottom: 0px !important;
+    }
+    input {
+      padding: 0px !important;
+      padding-bottom: 6px !important;
+    }
+  }
+}
+
+.styledDateInput {
+  width: 100%;
+  margin-top: 17px;
+  label {
+    letter-spacing: 0.72px !important;
+    text-transform: uppercase !important;
+  }
+  div {
+    div {
+      padding-bottom: 0px !important;
+    }
+    input {
+    }
+  }
+}
+
+.buttonContainerForm {
+  display: flex;
+  flex-direction: row;
+  padding: 0px 20px 0px 20px;
+}
+
+.update {
+  font-size: $small;
+  font-family: var(--primary-font-regular);
+  margin-top: 30px;
+  margin-inline-end: 1rem;
+  height: 40px;
+}
+
+.delete {
+  margin-top: 30px;
+  border-radius: 7px;
+  height: 40px;
 }
 
 .confirmOrderButton {
@@ -228,4 +277,45 @@
   width: 100%;
   margin: auto 10px;
   height: 44px;
+}
+
+.scanDocWrapper {
+  width: fit-content;
+  gap: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  padding: 10px 20px;
+  border-radius: 29px;
+  height: 35px;
+  background-color: var(--secondary-button-color);
+  margin-top: 10px;
+  &:after {
+    display: none;
+  }
+}
+
+.scanDocText {
+  font-family: var(--primary-font-regular);
+  font-size: $xsmall;
+  color: var(--primary-button-color);
+}
+
+.cardTitleWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.identityInputs {
+  padding: 25px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+
+  border: var(--primary-card-border);
+  border-radius: var(--primary-card-border-radius);
+  &:not(:first-child) {
+    margin-top: 10px;
+  }
 }

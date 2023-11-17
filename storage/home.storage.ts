@@ -7,6 +7,13 @@ export type IdiningOptionsProps = {
   path: string;
 };
 
+export type INotificationDetailsProps = {
+  title?: string;
+  description?: string;
+  redirect?: string | null;
+  type?: string;
+};
+
 export const diningOptions = makeVar<IdiningOptionsProps>(DINING_OPTIONS[0]);
 
 export const toggleModuleOptionsDrawer = makeVar(false);
@@ -19,6 +26,8 @@ export const toggleMapState = makeVar(true);
 
 export const toggleNotification = makeVar(false);
 
+export const notificationDetails = makeVar<INotificationDetailsProps>({});
+
 export const toggleLoader = makeVar(false);
 
 export const toggleDetailsDrawer = makeVar(false);
@@ -26,4 +35,7 @@ export const toggleDetailsDrawer = makeVar(false);
 export const toggleCheckInDetailsDrawer = makeVar(false);
 
 export const getHotelCompendium = makeVar([]);
+
 export const selectedCompendiumCategory = makeVar([]);
+
+export const hotelImage = makeVar<any>({});

@@ -37,7 +37,7 @@ const Payment: React.FC = () => {
           {hotelName} | {t('Payment')}
         </title>
       </Head>
-      <Header backRoute={availablePaths?.GUEST_INFORMATION_INPUT} displayBackButton />
+      <Header displayBackButton />
       <PageWrapper>
         {/* {redirectPayment()} */}
         <Shift4 />

@@ -12,18 +12,17 @@ import {
   IGetReservationApiResponse,
 } from 'core/graphql/queries/GET_RESERVATION';
 import { useCheckedIn } from 'storage/check-in.storage';
-import { availablePaths } from 'utils/availablePaths';
-import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { processError } from 'utils/processError';
+import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
 import { ckeckoutTrip } from 'storage/trips.storage';
+import { useConfig } from 'utils/hooks/useConfiguration';
 
 const CheckoutDrawer = (props: any) => {
-  const { setOpenNotification } = props;
+  const { setErrorToggle } = props;
+  const locale = useLocale();
+  const hotelId = useConfig()?.hotelId;
   const { t } = useTranslation(['common']);
-  const navigate = useLocalizedRouter();
   const [checkoutLoader, setCheckoutLoader] = useState(false);
-  const navigation = useLocalizedRouter();
   const detailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
   const checkedInData = useCheckedIn();
 
@@ -38,8 +37,13 @@ const CheckoutDrawer = (props: any) => {
   );
 
   const { data: feedBackList } = useQuery(GET_FEEDBACK, {
+    skip: !hotelId,
     context: { clientName: 'host_v4' },
     fetchPolicy: 'no-cache',
+    variables: {
+      hotelId: hotelId,
+      lang: locale === 'en' ? '' : locale,
+    },
   });
 
   const feedbackData = feedBackList?.listFeedback?.filter(
@@ -57,14 +61,13 @@ const CheckoutDrawer = (props: any) => {
 
   const handleCheckout = async () => {
     setCheckoutLoader(true);
+    const checkoutPayload: ICheckoutApiRequest = {
+      reservationType,
+      reservationId,
+      bookingId,
+      paymentType: 'OPIVA',
+    };
     try {
-      const checkoutPayload: ICheckoutApiRequest = {
-        reservationType,
-        reservationId,
-        bookingId,
-        paymentType: 'OPIVA',
-      };
-
       await client.query({
         query: CHECKOUT,
         context: { clientName: 'rest' },
@@ -72,19 +75,43 @@ const CheckoutDrawer = (props: any) => {
           body: checkoutPayload,
         },
       });
-      setOpenNotification(true);
-      toggleNotification(true);
       toggleDetailsDrawer(false);
       ckeckoutTrip(checkoutPayload);
-      feedbackData?.length === 0
-        ? navigate(availablePaths.HOME)
-        : navigate(availablePaths.FEEDBACK);
+      toggleNotification(true);
+      setErrorToggle({
+        state: false,
+        message: 'Checkedout Successfully',
+        type: feedbackData?.length === 0 ? 'home' : 'feedback',
+        description:
+          'Hope you had a pleasant stay with us. We look forward to your next visit.\n Thank You.',
+      });
     } catch (error) {
-      processError(t, error as ApolloError);
+      const errorMsg = error as ApolloError;
+      const networkError = errorMsg?.networkError as { result?: { errors?: string } };
+      if (
+        networkError?.result?.errors ===
+        'Please proceed to the front desk to complete your checkout'
+      ) {
+        toggleNotification(true);
+        setTimeout(() => {
+          ckeckoutTrip(checkoutPayload);
+        }, 5000);
+        setErrorToggle({
+          state: false,
+          message: 'Thank You!',
+          type: feedbackData?.length === 0 ? 'home' : 'feedback',
+          description: 'Please proceed to the front desk to complete your checkout',
+        });
+      } else {
+        toggleNotification(true);
+        setErrorToggle({
+          state: true,
+          message: 'Something Went Wrong!',
+          type: 'checkout',
+          description: 'Please Try Again.',
+        });
+      }
       toggleDetailsDrawer(false);
-      feedbackData?.length === 0
-        ? navigate(availablePaths.HOME)
-        : navigate(availablePaths.FEEDBACK);
     }
     setCheckoutLoader(false);
   };

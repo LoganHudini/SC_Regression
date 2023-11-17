@@ -115,12 +115,18 @@
   padding: 0 0.5rem;
   box-shadow: none !important;
   margin-inline-end: 10px;
+  &:after {
+    display: none;
+  }
 }
 
 .customizationActive {
   background: var(--primary-theme-color) !important;
   color: white !important;
   border: 1px solid var(--primary-theme-color) !important;
+  &:after {
+    display: none;
+  }
 }
 
 .irdCheckboxItemWrapper {
@@ -215,9 +221,13 @@
 .plusMinusInput {
   margin: 0.5rem 1rem;
 }
+
 .addToCart {
   width: 200px;
   height: 44px !important;
   line-height: 44px !important;
   margin: 0.5rem;
+  &:after {
+    display: none;
+  }
 }

@@ -20,6 +20,7 @@ import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { saveTrip } from 'storage/trips.storage';
 import { Notification } from 'components/shared/Notification/Notification';
 import { useRouter } from 'next/router';
+import { FAILURE, SUCCESS } from 'utils/constants';
 import { useConfig } from 'utils/hooks/useConfiguration';
 
 const CheckInDrawer = () => {
@@ -30,8 +31,16 @@ const CheckInDrawer = () => {
   const { t } = useTranslation(['get-reservation', 'common']);
   const router = useRouter();
   const HOME = `/${hotel}/`;
+  const resId = router?.query?.resId ?? '';
+  const lastName = router?.query?.lastName ?? '';
 
   const [loading, setLoading] = useState(false);
+  const [errorNotification, setErrorNotification] = useState<{
+    state: boolean;
+    title: string;
+    description: string;
+    appoloErrorMessage?: any;
+  }>({ state: false, title: '', description: '', appoloErrorMessage: '' });
 
   const goToTheNextStep = useCallback(
     async (values: IGetPrecheckinReservationData) => {
@@ -41,8 +50,8 @@ const CheckInDrawer = () => {
           query: GET_RESERVATION,
           context: { clientName: 'rest' },
           variables: {
-            confirmationNumber: values?.confirmationNumber,
-            lastName: values?.lastName,
+            confirmationNumber: values?.confirmationNumber?.toString()?.trim(),
+            lastName: values?.lastName?.toString()?.trim(),
             hotelId: hotelId,
           },
           fetchPolicy: 'no-cache',
@@ -61,21 +70,35 @@ const CheckInDrawer = () => {
             data.getReservation.data.reservationStatus === 'CHKOUT' ||
             data.getReservation.data.reservationStatus === 'CHECKEDOUT'
           ) {
-            toast(t('No Reservation Found'), { type: 'error' });
+            setErrorNotification({
+              state: true,
+              title: 'Reservation Not Found',
+              description: 'Please proceed to the front desk for further assistance.',
+            });
             checkinStorage({
               reservationId: data.getReservation.data.confirmationId as string,
               checkedIn: false,
               preCheckedIn: false,
             });
+            toggleNotification(true);
+            toggleCheckInDetailsDrawer(false);
             setLoading(false);
           } else if (data.getReservation.data.reservationStatus === 'INHOUSE') {
+            setErrorNotification({
+              state: false,
+              title: 'Hello Again!',
+              description:
+                'Reservation validated successfully. You can now explore our in-stay services.',
+            });
             toggleNotification(true);
+            toggleCheckInDetailsDrawer(false);
+
             saveTrip({
               reservationId: data?.getReservation?.data?.confirmationId as string,
               preCheckedIn: !roomNo ? true : false,
               checkedIn: roomNo ? true : false,
-              name: data?.getReservation?.data?.lastName,
-              email: data?.getReservation?.data?.emails,
+              name: data?.getReservation?.data?.details?.contactPerson?.lastName,
+              email: data?.getReservation?.data?.details?.contactPerson?.email,
               roomNumber: roomNo,
               invoiceId: data?.getReservation?.data?.reservationId as string,
             });
@@ -83,50 +106,35 @@ const CheckInDrawer = () => {
               reservationId: data?.getReservation?.data?.confirmationId as string,
               preCheckedIn: !roomNo ? true : false,
               checkedIn: roomNo ? true : false,
-              name: data?.getReservation?.data?.lastName,
-              email: data?.getReservation?.data?.emails,
+              name: data?.getReservation?.data?.details?.contactPerson?.lastName,
+              email: data?.getReservation?.data?.details?.contactPerson?.email,
               roomNumber: roomNo,
               invoiceId: data?.getReservation?.data?.reservationId as string,
+              currency: data?.getReservation?.data?.details?.holdAmount?.currency,
             });
-
             navigate(HOME);
             toggleCheckInDetailsDrawer(false);
             setLoading(false);
           } else {
-            navigate(availablePaths?.GUEST_INFORMATION_INPUT);
+            navigate(availablePaths?.CHECK_IN);
             toggleCheckInDetailsDrawer(false);
             setLoading(false);
           }
         }
       } catch (error) {
-        processError(t, error as ApolloError);
+        setErrorNotification({
+          state: true,
+          title: 'Something Went Wrong!',
+          description: 'Please Try Again',
+          appoloErrorMessage: error as ApolloError,
+        });
+        toggleNotification(true);
+        toggleCheckInDetailsDrawer(false);
         setLoading(false);
       }
     },
-    [HOME, hotelId, navigate, t],
+    [HOME, hotelId, navigate],
   );
-
-  const resId = router?.query?.resId ?? '';
-  const lastName = router?.query?.lastName ?? '';
-
-  const openCheckInDrawer = () => {
-    if (resId && lastName) {
-      updateFieldValue();
-      toggleCheckInDetailsDrawer(true);
-    }
-  };
-
-  const updateFieldValue = () => {
-    formik.setValues({
-      ...formik.values,
-      ['lastName' as string]: lastName,
-      ['confirmationNumber' as string]: resId,
-    });
-  };
-
-  useEffect(() => {
-    openCheckInDrawer();
-  }, [resId, lastName]);
 
   const formik = useFormik({
     initialValues: {
@@ -136,6 +144,19 @@ const CheckInDrawer = () => {
     validationSchema: getReservationValidation,
     onSubmit: goToTheNextStep,
   });
+
+  useEffect(() => {
+    if (resId && lastName) {
+      const values = { confirmationNumber: resId, lastName: lastName };
+      formik.setValues({
+        ...formik.values,
+        ['lastName' as string]: lastName,
+        ['confirmationNumber' as string]: resId,
+      });
+      toggleCheckInDetailsDrawer(true);
+      goToTheNextStep(values);
+    }
+  }, [resId, lastName]);
 
   const closeInputDrawer = useCallback(() => {
     toggleCheckInDetailsDrawer(false);
@@ -181,7 +202,6 @@ const CheckInDrawer = () => {
             loading={loading}
             className={styles.findMyBookingBtn}
             onClick={formik.submitForm}
-            arrow
           >
             {t('NEXT')}
           </StyledButton>
@@ -198,14 +218,11 @@ const CheckInDrawer = () => {
         content={checkInDetails()}
       />
       <Notification
-        title={t('Hello Again!') as string}
-        description={
-          t(
-            'Reservation validated successfully. You can now explore our in-stay services.',
-          ) as string
-        }
-        redirect={HOME}
-        type='success'
+        title={errorNotification?.title as string}
+        description={errorNotification?.description as string}
+        redirect={errorNotification.state && availablePaths?.HOME}
+        type={errorNotification.state ? FAILURE : SUCCESS}
+        apolloError={errorNotification?.state && errorNotification?.appoloErrorMessage}
       />
     </>
   );

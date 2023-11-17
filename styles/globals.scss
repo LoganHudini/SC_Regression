@@ -39,6 +39,45 @@
 }
 
 @font-face {
+  font-family: 'ITC Franklin Gothic Std Book';
+  src: url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Book.otf') format('opentype'),
+    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Book.ttf') format('ttf'),
+    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Book.woff') format('woff'),
+    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Book.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'ITC Franklin Gothic Std Medium';
+  src: url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Med.otf') format('opentype'),
+    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Med.ttf') format('ttf'),
+    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Med.woff') format('woff'),
+    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Med.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Arial';
+  src: url('/fonts/Arial/Arial.otf') format('opentype'), url('/fonts/Arial/Arial.ttf') format('ttf'),
+    url('/fonts/Arial/Arial.woff') format('woff'), url('/fonts/Arial/Arial.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Arial Bold';
+  src: url('/fonts/Arial/Arial-Bold.otf') format('opentype'),
+    url('/fonts/Arial/Arial-Bold.ttf') format('ttf'),
+    url('/fonts/Arial/Arial-Bold.woff') format('woff'),
+    url('/fonts/Arial/Arial-Bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'ITC Modern No 216';
+  src: url('/fonts/ITCModernNo216/ITCModernNo216-Regular.otf') format('opentype'),
+    url('/fonts/ITCModernNo216/ITCModernNo216-Regular.ttf') format('ttf'),
+    url('/fonts/ITCModernNo216/ITCModernNo216-Regular.woff') format('woff'),
+    url('/fonts/ITCModernNo216/ITCModernNo216-Regular.woff2') format('woff2');
+}
+
+// header font-families
+@font-face {
   font-family: 'Garamond';
   src: url('/fonts/Garamond/Garamond-Regular.otf') format('opentype'),
     url('/fonts/Garamond/Garamond-Regular.ttf') format('ttf'),
@@ -55,19 +94,8 @@
 }
 
 @font-face {
-  font-family: 'ITC Franklin Gothic Std Book';
-  src: url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Book.otf') format('opentype'),
-    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Book.ttf') format('ttf'),
-    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Book.woff') format('woff'),
-    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Book.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'ITC Franklin Gothic Std Medium';
-  src: url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Med.otf') format('opentype'),
-    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Med.ttf') format('ttf'),
-    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Med.woff') format('woff'),
-    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Med.woff2') format('woff2');
+  font-family: 'Trajan Pro Bold';
+  src: url('/fonts/TrajanPro/TrajanPro-Bold.otf') format('opentype');
 }
 
 :root {
@@ -78,7 +106,7 @@
   --primary-border-color: #e0e0e0;
   --primary-box-shadow-color: #00000029;
   --primary-error-text-color: #f41313;
-  --primary-disabled-color: #919090;
+  --primary-disabled-color: #e0e0e0;
 
   // overlays
   --primary-overlay-color: #120e0e79;
@@ -128,8 +156,9 @@
   --primary-card-desc-font-family: 'ClanOT Book';
   --primary-card-cta-font-family: 'ClanOT Extended Medium';
   --primary-card-background-color: #f8f8f8;
-  --primary-card-border-radius: 0px;
+  --primary-card-border-radius: 7px;
   --primary-card-shadow-color: #00000010;
+  --primary-card-border: 0.5px solid #9a9a9a;
 
   // button configs
   --primary-button-color: #ffffff;
@@ -207,11 +236,15 @@ img {
   line-height: 44px;
   text-align: center;
   &:disabled {
-    background: var(--primary-disabled-color);
+    background: var(--primary-disabled-color) !important;
     color: var(--primary-button-color);
   }
   &:hover:enabled {
-    background: var(--primary-theme-color);
+    background-color: var(--primary-button-background-color);
+  }
+  &:after {
+    content: url('/images/sofitel/ArrowCta.png');
+    padding-bottom: 6px;
   }
 }
 
@@ -253,6 +286,10 @@ img {
   }
 }
 
+.MuiLoadingButton-loadingIndicator {
+  color: var(--primary-theme-color) !important;
+}
+
 .MuiInputLabel-root {
   color: var(--tertiary-text-color);
 }
@@ -263,8 +300,11 @@ img {
 
 .MuiInputBase-root,
 .MuiInputBase-input,
-.MuiFormLabel-root,
 .MuiMenuItem-root {
+  font-family: var(--primary-font-heading);
+}
+
+.MuiFormLabel-root {
   font-family: var(--primary-font-regular);
 }
 
@@ -321,7 +361,7 @@ img {
   border-radius: 10px;
   width: 80%;
   margin: 0 auto;
-  height: 100px;
+  min-height: 100px;
 }
 
 .MuiInputAdornment-root {

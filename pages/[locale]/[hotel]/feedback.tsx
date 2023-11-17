@@ -25,7 +25,6 @@ import { timeFormats } from 'utils/timeFormats';
 import { availablePaths } from 'utils/availablePaths';
 import Head from 'next/head';
 import { useCheckedIn } from 'storage/check-in.storage';
-import { buttonArrow } from 'utils/functions';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { GET_HOTEL_INFORMATION } from 'core/graphql/queries/GET_HOTEL_INFORMATION';
 import { Loader } from 'components/shared/Loaders/Loaders';
@@ -211,7 +210,6 @@ const Feedback = () => {
                 className={styles.bottomMenuButton}
                 onClick={submit}
                 loading={loading}
-                arrow={buttonArrow}
               >
                 {t('submit')}
               </StyledButton>

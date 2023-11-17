@@ -5,9 +5,9 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ASSETS_URL } from '../../../../core/graphql/endpoints';
 import styles from './SpaCarousel.module.scss';
-import { activeItems, buttonArrow } from 'utils/functions';
+import { activeItems } from 'utils/functions';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
-import { spaCategoryList, spaInformationStorage } from 'storage/spa.storage';
+import { spaInformationStorage } from 'storage/spa.storage';
 import { availablePaths } from 'utils/availablePaths';
 import { CarouselLoader } from 'components/shared/Loaders/Loaders';
 import cx from 'classnames';
@@ -42,9 +42,7 @@ export const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide }) => {
         {slide?.description && (
           <p className={styles.carouselSlideDescription}> {slide?.description}</p>
         )}
-        <StyledButton className={styles.carouselSlideViewMore} arrow={buttonArrow}>
-          {t('Explore')}
-        </StyledButton>
+        <StyledButton className={styles.carouselSlideViewMore}>{t('Explore')}</StyledButton>
       </div>
     </div>
   );
@@ -57,23 +55,25 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data, loading }) => {
 
   return (
     <>
-      <div className={styles.spaCarouselWrapper}>
-        <p className={styles.spaTitle}>{t('Spa')}</p>
-        {loading ? (
-          <CarouselLoader />
-        ) : (
-          <WithScrollbar
-            className={cx(styles.carouselWrapper, {
-              [styles.carouselWrapperSingleImage]: spaInfoList?.length === 1,
-            })}
-            itemClass={styles.carouselItem}
-          >
-            {spaInfoList?.map((slide: any) => (
-              <CarouselSlide key={slide?.name} slide={slide} />
-            ))}
-          </WithScrollbar>
-        )}
-      </div>
+      {spaInfoList?.length > 0 && (
+        <div className={styles.spaCarouselWrapper}>
+          <p className={styles.spaTitle}>{t('Spa')}</p>
+          {loading ? (
+            <CarouselLoader />
+          ) : (
+            <WithScrollbar
+              className={cx(styles.carouselWrapper, {
+                [styles.carouselWrapperSingleImage]: spaInfoList?.length === 1,
+              })}
+              itemClass={styles.carouselItem}
+            >
+              {spaInfoList?.map((slide: any) => (
+                <CarouselSlide key={slide?.name} slide={slide} />
+              ))}
+            </WithScrollbar>
+          )}
+        </div>
+      )}
     </>
   );
 };

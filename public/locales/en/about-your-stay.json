@@ -12,5 +12,11 @@
   "Guests": "Guests",
   "Next": "Next",
   "Adults / Children": "{{adults}} Adults / {{children}} Children",
-  "Please Complete Your Pre Check-In Process": "Please Complete Your Pre Check-In Process"
+  "Please Complete Your Pre Check-In Process": "Please Complete Your Pre Check-In Process",
+  "Your Stay Details": "Your Stay Details",
+  "NAME": "NAME",
+  "BOOKING ID": "BOOKING ID",
+  "Guest Verification": "Guest Verification",
+  "Verify yourself and all your guests": "Verify yourself and all your guests",
+  "Primary Guest": "Primary Guest"
 }

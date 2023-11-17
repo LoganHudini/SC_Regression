@@ -30,4 +30,7 @@
 
 .buttonYes {
   width: 45%;
+  &:after {
+    display: none;
+  }
 }

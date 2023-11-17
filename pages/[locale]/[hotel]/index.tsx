@@ -35,8 +35,9 @@ export { getStaticPaths };
 const Home: NextPage = () => {
   const { t } = useTranslation('common');
   const locale = useLocale();
-  const hotelId = useConfig()?.hotelId;
-  const hotelName = useConfig()?.name;
+  const config = useConfig();
+  const hotelId = config?.hotelId;
+  const hotelName = config?.name;
 
   const checkInData = useCheckedIn();
 
@@ -130,7 +131,9 @@ const Home: NextPage = () => {
           restaurantloading ||
           spaloading ||
           offersListLoading) && <LogoLoader />}
-        <HomeCarousel data={offersList} />
+        {offersList?.getOffersDetails?.length > 0 && (
+          <HomeCarousel data={offersList?.getOffersDetails} />
+        )}
         {!checkInData?.checkedIn && (
           <HotelInformation details={homeCarouselDetails} loading={homeCarouselLoading} />
         )}

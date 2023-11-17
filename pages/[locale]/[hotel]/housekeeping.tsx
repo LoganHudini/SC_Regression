@@ -11,7 +11,7 @@ import {
   GET_HOUSEKEEPING,
   IGetHousekeepingApiResponse,
 } from 'core/graphql/queries/GET_HOUSEKEEPING';
-import { ApolloError, useMutation, useQuery, useReactiveVar } from '@apollo/client';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { housekeepingOptions } from 'storage/housekeeping.storage';
 import { useTranslation } from 'react-i18next';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
@@ -25,13 +25,22 @@ import { housekeepingCheckboxStorage } from 'storage/housekeeping-checkbox.stora
 import { HousekeepingQuantityItem } from 'components/pages/housekeeping/HousekeepingQuantityItem/HousekeepingQuantityItem';
 import { HousekeepingCheckboxItem } from 'components/pages/housekeeping/HousekeepingCheckboxItem/HousekeepingCheckboxItem';
 import TimeIcon from '@icons/time-left.svg';
-import { CUSTOM, DATE, DATETIME, IMMEDIATE, TIME, TODAY, TOMORROW } from 'utils/constants';
+import {
+  CUSTOM,
+  DATE,
+  DATETIME,
+  FAILURE,
+  IMMEDIATE,
+  SUCCESS,
+  TIME,
+  TODAY,
+  TOMORROW,
+} from 'utils/constants';
 import DateTimeSelect from 'components/shared/DateTimeSelect/DateTimeSelect';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { HOUSEKEEPING_ORDER } from 'core/graphql/queries/HOUSEKEEPING_ORDER';
 import { HOTEL_ID } from 'core/graphql/endpoints';
 import { toggleDetailsDrawer, toggleNotification } from 'storage/home.storage';
-import { processError } from 'utils/processError';
 import { Notification } from 'components/shared/Notification/Notification';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { availablePaths } from 'utils/availablePaths';
@@ -50,6 +59,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
   const [showCalendar, setShowCalendar] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [showText, setShowText] = useState(false);
+  const [errorNotification, setErrorNotification] = useState(false);
   const [selectedTime, setSelectedTime] = useState(
     dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM),
   );
@@ -167,7 +177,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
             })),
         },
       });
-      toggleNotification(true);
+      setErrorNotification(false);
       setTimeout(() => {
         setDisabled(false);
         housekeepingQuantityStorage({ selectedItems: [] });
@@ -178,8 +188,9 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
         toggleDetailsDrawer(false);
       }, 4000);
     } catch (e) {
-      processError(t, e as ApolloError);
+      setErrorNotification(true);
     }
+    toggleNotification(true);
   };
 
   const drawerDetails = () => (
@@ -296,10 +307,16 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
         </div>
       </div>
       <Notification
-        title={t('Thank You!') as string}
-        description={t('Your request has been confirmed') as string}
-        redirect={availablePaths?.HOUSEKEEPING}
-        type='success'
+        title={
+          errorNotification ? ('Something Went Wrong!' as string) : (t('Thank You!') as string)
+        }
+        description={
+          errorNotification
+            ? ('Your request was not confirmed.' as string)
+            : (t('Your request has been confirmed.') as string)
+        }
+        redirect={!errorNotification && availablePaths?.HOUSEKEEPING}
+        type={errorNotification ? FAILURE : SUCCESS}
       />
     </>
   );

@@ -10,6 +10,7 @@ export interface ISavedTrip {
   email?: string;
   roomNumber?: string;
   invoiceId?: string;
+  bookingId?: any;
 }
 
 export const saveTrip = (payload: ISavedTrip) => {
@@ -39,9 +40,7 @@ export const saveTrip = (payload: ISavedTrip) => {
 export const ckeckoutTrip = (payload: ISavedTrip) => {
   const existingTrips: ISavedTrip[] = JSON.parse(localStorage.getItem(TRIPS_KEY) || '[]');
 
-  const savedTrip = existingTrips.find(
-    (el: ISavedTrip) => el.reservationId === payload.reservationId,
-  );
+  const savedTrip = existingTrips.find((el: ISavedTrip) => el.reservationId === payload.bookingId);
 
   if (savedTrip) {
     savedTrip.checkedIn = false;

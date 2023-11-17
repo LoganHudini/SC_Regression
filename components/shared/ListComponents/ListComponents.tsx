@@ -3,12 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { useCallback } from 'react';
 import ClockIcon from '@icons/clockIcon.svg';
 import DishIcon from '@icons/dishIcon.svg';
-import ArrowButton from '@icons/readMoreArrow.svg';
 import styles from './ListComponents.module.scss';
 import { ASSETS_URL, CURRENCY } from 'core/graphql/endpoints';
 import { OFFERSDURATION } from 'utils/constants';
 import dayjs from 'dayjs';
-import { buttonArrow, restaurantTimings } from 'utils/functions';
+import { restaurantTimings } from 'utils/functions';
 
 interface ListComponentEntityProps {
   queryResultEntity: any;
@@ -21,7 +20,6 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
   selectedListItem,
 }) => {
   const { t } = useTranslation(['common']);
-  const buttonArrowState = buttonArrow;
 
   const onCtaClick = useCallback(() => {
     selectedListItem(queryResultEntity);
@@ -56,11 +54,12 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
                   : (() => {
                       const startDate = dayjs(queryResultEntity?.duration?.startDate, 'DD-MM-YYYY');
                       const endDate = dayjs(queryResultEntity?.duration?.endDate, 'DD-MM-YYYY');
-                      const displayStartDate = startDate?.format('MMM D, YYYY');
-                      const displayEndDate =
+                      const displayStartDate =
                         startDate?.year() === endDate?.year()
-                          ? endDate.format('MMM D')
-                          : endDate.format('MMM D, YYYY');
+                          ? startDate.format('MMMM D')
+                          : startDate.format('MMMM D, YYYY');
+
+                      const displayEndDate = endDate.format('MMMM D, YYYY');
 
                       return `${displayStartDate} until ${displayEndDate}`;
                     })()}
@@ -81,10 +80,7 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
               <p>{time?.value}</p>
             </div>
           )}
-          <span className={styles.readMoreButton}>
-            {t('Read more')}
-            {buttonArrowState && <ArrowButton />}
-          </span>
+          <span className={styles.readMoreButton}>{t('Read more')}</span>
         </div>
       </div>
     </div>

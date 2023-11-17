@@ -31,10 +31,16 @@
 
 .bottomMenuButton {
   width: 80%;
-  margin: auto 10px !important;
+  margin: auto 5px auto 15px;
   height: 44px;
   background-color: var(--primary-button-background-color) !important;
   font-family: var(--primary-button-font-family) !important;
+}
+
+.bottomMenuButtonWithoutArrow {
+  &:after {
+    display: none;
+  }
 }
 
 .btnText {
@@ -44,11 +50,8 @@
   white-space: nowrap;
 }
 
-.downArrow {
-  margin: 0 10px;
-  & > path {
-    fill: var(--primary-icon-color) !important;
-  }
+.expandArrow {
+  padding-bottom: 4px;
 }
 
 .hamburgerIcon {
