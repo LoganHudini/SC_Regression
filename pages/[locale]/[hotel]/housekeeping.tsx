@@ -200,7 +200,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
           <h2 className={styles.title}>{showSchedules?.name}</h2>
           <div className={styles.totalRequestsWrapper}>
             <div>
-              {showSchedules && showSchedules?.maxQuantityActive ? (
+              {showSchedules && showSchedules?.maxQuantityActive && !showSchedules?.isItemActive ? (
                 <HousekeepingQuantityItem
                   id={showSchedules?.id}
                   title={showSchedules?.name}
@@ -210,7 +210,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
                 />
               ) : (
                 <>
-                  {showSchedules?.items?.length > 0 && (
+                  {showSchedules?.items?.length > 0 && showSchedules?.isItemActive && (
                     <div className={styles.wholeItemsWrapper}>
                       <div className={styles.itemsWrapper}>
                         <div>{t('Items Required')}</div>
