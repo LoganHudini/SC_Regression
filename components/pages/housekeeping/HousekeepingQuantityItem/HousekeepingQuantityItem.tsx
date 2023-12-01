@@ -9,6 +9,8 @@ import { housekeepingQuantityStorage } from 'storage/housekeeping-quantity.stora
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { useTranslation } from 'react-i18next';
 import cx from 'classnames';
+import { toggleNotification } from 'storage/home.storage';
+import { FAILURE } from 'utils/constants';
 
 export const HousekeepingQuantityItem: React.FC<IHousekeepingQuantityItemProps> = ({
   title,
@@ -16,6 +18,7 @@ export const HousekeepingQuantityItem: React.FC<IHousekeepingQuantityItemProps> 
   maxQuantity,
   maxQuantityActive,
   changeAlignment,
+  setNotificationState,
 }) => {
   const { t } = useTranslation('housekeeping-quantity');
 
@@ -37,7 +40,13 @@ export const HousekeepingQuantityItem: React.FC<IHousekeepingQuantityItemProps> 
         }),
       );
     } else {
-      toast(t('Max limit reached for the selected item'), { type: 'error' });
+      setNotificationState({
+        title: 'Max limit exceeded!',
+        description: 'Max limit reached for the selected item',
+        redirect: null,
+        type: FAILURE,
+      });
+      toggleNotification(true);
     }
   }, [id, maxQuantity, quantity, t, title]);
 

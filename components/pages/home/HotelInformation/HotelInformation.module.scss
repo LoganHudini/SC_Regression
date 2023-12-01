@@ -8,6 +8,7 @@
   object-fit: cover;
   margin: auto;
   display: flex;
+  border-radius: var(--primary-card-border-radius);
 }
 
 .welcome {

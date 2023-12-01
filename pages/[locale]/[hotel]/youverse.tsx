@@ -99,14 +99,20 @@ const Youverse: React.FC = () => {
               if (
                 res?.data?.getyoonikresponse?.data?.firstName &&
                 res?.data?.getyoonikresponse?.data?.lastName &&
-                ((res.data.getyoonikresponse?.data?.firstName?.toLowerCase() !==
-                  reservationDataSelected?.firstName?.toLowerCase() &&
-                  res.data.getyoonikresponse?.data?.firstName?.toLowerCase() !==
-                    reservationDataSelected?.lastName?.toLowerCase()) ||
-                  (res.data.getyoonikresponse?.data?.lastName?.toLowerCase() !==
-                    reservationDataSelected?.lastName.toLowerCase() &&
-                    res.data.getyoonikresponse?.data?.lastName?.toLowerCase() !==
-                      reservationDataSelected?.firstName.toLowerCase()))
+                !(
+                  (res?.data?.getyoonikresponse?.data?.firstName
+                    ?.toLowerCase()
+                    .includes(reservationDataSelected?.firstName?.toLowerCase()) ||
+                    res?.data?.getyoonikresponse?.data?.firstName
+                      ?.toLowerCase()
+                      .includes(reservationDataSelected?.lastName?.toLowerCase())) &&
+                  (res?.data?.getyoonikresponse?.data?.lastName
+                    ?.toLowerCase()
+                    .includes(reservationDataSelected?.firstName.toLowerCase()) ||
+                    res?.data?.getyoonikresponse?.data?.lastName
+                      ?.toLowerCase()
+                      .includes(reservationDataSelected?.lastName.toLowerCase()))
+                )
               ) {
                 toggleNotification(true);
                 notificationDetails({

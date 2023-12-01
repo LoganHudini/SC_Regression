@@ -27,7 +27,6 @@ import {
   CHECK_IN,
   EMAIL_REGEX,
   GUESTINFORMATION,
-  IDENTITYVERIFICATION,
   INFORMATION,
   PHONE,
   PHONE_REGEX,
@@ -41,7 +40,9 @@ import {
   PRIMARY,
   DATEPICKER,
   FAILURE,
-  DOCUMENT_OPTIONS,
+  INCODE,
+  DOCTYPE,
+  ERRORMSG,
 } from 'utils/constants';
 import { updateDocTypeOptions } from 'utils/functions';
 import { docTypeStorage } from 'storage/guest-information.storage';
@@ -85,18 +86,9 @@ const Guest: React.FC<any> = () => {
     (section: any) => section?.name === GUESTINFORMATION && section.isActive,
   );
 
-  const identityVerificationSection = activeSections?.find(
-    (section: any) => section?.name === IDENTITYVERIFICATION && section.isActive,
-  );
-
-  const transformedData = identityVerificationSection?.details
-    ?.map((e: any) =>
-      e?.options?.map((item: any) => ({
-        value: item?.value,
-        name: item?.name,
-      })),
-    )
-    .slice(0, 1)[0];
+  const transformedData = guestInformationSection?.details?.find(
+    (e: any) => e?.name === DOCTYPE,
+  )?.options;
 
   useEffect(() => {
     if (transformedData) {
@@ -160,9 +152,7 @@ const Guest: React.FC<any> = () => {
       reservationGuestInfoStorageData({
         ...initialGuestReservationInfo,
         ...guestReservationInfo,
-        isComplete:
-          validateGuestReservation(guestInformationSection?.details) &&
-          validateGuestReservation(identityVerificationSection?.details),
+        isComplete: validateGuestReservation(guestInformationSection?.details),
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -374,12 +364,9 @@ const Guest: React.FC<any> = () => {
 
     try {
       const updateGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
-        docType:
-          guestInformationSection?.type === YOUVERSE
-            ? DOCUMENT_OPTIONS?.find(
-                (document: any) => document?.name === guestReservationInfo?.docType,
-              )?.value
-            : guestReservationInfo?.docType,
+        docType: transformedData?.find(
+          (option: any) => option?.name === guestReservationInfo?.docType,
+        )?.code,
         docNumber: guestReservationInfo?.docNo,
         reservationId: reservationInfo?.confirmationId as string,
         firstName: guestReservationInfo?.firstName,
@@ -439,12 +426,9 @@ const Guest: React.FC<any> = () => {
           const data = updatedData[i];
           if (data?.formData?.docType) {
             const updateAccompanyGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
-              docType:
-                accompanyingGuestSubmodule?.type === YOUVERSE
-                  ? DOCUMENT_OPTIONS?.find(
-                      (document: any) => document?.name === data?.formData?.docType,
-                    )?.value
-                  : data?.formData?.docType,
+              docType: transformedData?.find(
+                (option: any) => option?.name === data?.formData?.docType,
+              )?.code,
               docNumber: data?.formData?.docNo,
               reservationId: reservationInfo?.reservationId as string,
               firstName: data?.formData?.firstName,
@@ -503,13 +487,19 @@ const Guest: React.FC<any> = () => {
         });
       }
     } catch (error) {
-      processError(t, error as ApolloError);
+      notificationDetails({
+        title: ERRORMSG,
+        redirect: null,
+        type: FAILURE,
+        apolloError: error as ApolloError,
+      });
+      toggleNotification(true);
+      // processError(t, error as ApolloError);
     }
 
     setLoading(false);
   }, [
-    guestInformationSection?.type,
-    guestReservationInfo?.docType,
+    transformedData,
     guestReservationInfo?.docNo,
     guestReservationInfo?.firstName,
     guestReservationInfo?.lastName,
@@ -523,11 +513,11 @@ const Guest: React.FC<any> = () => {
     guestReservationInfo?.countryCode,
     guestReservationInfo?.phone,
     guestReservationInfo?.emails,
+    guestReservationInfo?.docType,
     reservationInfo?.confirmationId,
     reservationInfo?.guests,
     reservationInfo?.reservationId,
     infoCards,
-    accompanyingGuestSubmodule?.type,
     navigate,
     t,
   ]);
@@ -575,8 +565,11 @@ const Guest: React.FC<any> = () => {
                   )} */}
             </div>
             <>
-              {guestInformationSection?.type === YOUVERSE ? (
-                guestReservationInfo?.docNo === '' && guestReservationInfo?.docType === '' ? (
+              {guestInformationSection?.type === YOUVERSE ||
+              guestInformationSection?.type === INCODE ? (
+                !guestReservationInfo?.docNo ||
+                !guestReservationInfo?.docType ||
+                !guestReservationInfo?.issueCountry ? (
                   <StyledButton
                     variant='contained'
                     className={styles.scanDocWrapper}
@@ -585,7 +578,11 @@ const Guest: React.FC<any> = () => {
                         id: reservationInfo?.guests[0]?.id,
                         guestType: PRIMARY,
                       });
-                      navigate(availablePaths?.YOUVERSE);
+                      navigate(
+                        guestInformationSection?.type === YOUVERSE
+                          ? availablePaths?.YOUVERSE
+                          : availablePaths?.INCODE,
+                      );
                     }}
                   >
                     <Camera />
@@ -641,7 +638,22 @@ const Guest: React.FC<any> = () => {
                 </div>
 
                 {accompanyingGuestSubmodule?.type === YOUVERSE ? (
-                  card?.formData?.docNo !== '' ? (
+                  !card?.formData?.docNo || !card?.formData?.docType ? (
+                    <StyledButton
+                      variant='contained'
+                      className={styles.scanDocWrapper}
+                      onClick={() => {
+                        youverseProfileIDStorage({
+                          id: card?.formData?.id,
+                          guestType: ACCOMPANYINGGUEST,
+                        });
+                        navigate(availablePaths?.YOUVERSE);
+                      }}
+                    >
+                      <Camera />
+                      <span className={styles.scanDocText}>{t('SCAN DOCUMENT')}</span>
+                    </StyledButton>
+                  ) : (
                     docTypeFunction?.map((item: any) => {
                       if (item?.isActive) {
                         return (
@@ -730,21 +742,6 @@ const Guest: React.FC<any> = () => {
                         return null;
                       }
                     })
-                  ) : (
-                    <StyledButton
-                      variant='contained'
-                      className={styles.scanDocWrapper}
-                      onClick={() => {
-                        youverseProfileIDStorage({
-                          id: card?.formData?.id,
-                          guestType: ACCOMPANYINGGUEST,
-                        });
-                        navigate(availablePaths?.YOUVERSE);
-                      }}
-                    >
-                      <Camera />
-                      <span className={styles.scanDocText}>{t('SCAN DOCUMENT')}</span>
-                    </StyledButton>
                   )
                 ) : (
                   docTypeFunction?.map((item: any) => {
@@ -892,7 +889,7 @@ const Guest: React.FC<any> = () => {
 
       <Notification
         title={notificationInfo?.title}
-        description={notificationInfo?.description}
+        apolloError={notificationInfo?.apolloError}
         redirect={notificationInfo?.redirect}
         type={notificationInfo?.type}
       />

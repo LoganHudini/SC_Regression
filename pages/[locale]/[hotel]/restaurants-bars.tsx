@@ -30,21 +30,22 @@ import {
   DINING_OPTIONS,
   EMAIL,
   ENQUIRE,
-  EXTERNALURL,
+  ERRORMSG,
+  EXTERNAL_URL,
   FAILURE,
   IRD,
   OK,
   PHONE,
+  RESTAURANT_BOOKING_FLOW,
   S3,
   SUCCESS,
   WEBURL,
 } from 'utils/constants';
-import { filterRestaurantList, restaurantTimings } from 'utils/functions';
+import { filterRestaurantList, getTimings } from 'utils/functions';
 import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { CREATE_RESTAURANT_RESERVATION } from 'core/graphql/queries/GET_RESTAURANT_RESERVATION_DETAILS';
 import { client } from 'core/graphql/client';
-import { processError } from 'utils/processError';
 import dayjs from 'dayjs';
 import { downloadFile } from 'utils/downloadFile';
 import { timeFormats } from 'utils/timeFormats';
@@ -119,10 +120,10 @@ const RestaurantAndBars: React.FC = () => {
   const restaurantId = queryResultEntity?.id;
 
   const onCtaClick = useCallback(() => {
-    if (queryResultEntity?.cta?.redirectOption === EXTERNALURL) {
+    if (queryResultEntity?.cta?.redirectOption === EXTERNAL_URL) {
       router.push(queryResultEntity?.cta?.redirectUrl);
     }
-    if (queryResultEntity?.cta?.redirectOption === 'Restaurant Booking Flow') {
+    if (queryResultEntity?.cta?.redirectOption === RESTAURANT_BOOKING_FLOW) {
       tableReservationStorage({
         restaurantName: queryResultEntity?.name,
         id: queryResultEntity?.id,
@@ -205,23 +206,23 @@ const RestaurantAndBars: React.FC = () => {
     isCheckedIn?.name,
     isCheckedIn?.roomNumber,
     guestCount,
-    t,
   ]);
 
-  const restaurantTiming = restaurantTimings(queryResultEntity?.customAttributes);
+  const restaurantTiming = getTimings(queryResultEntity?.customAttributes);
 
   const restaurantDetail = () => (
     <div className={styles.listComponent}>
       {!availableSlots && (
         <div className={styles.imageWrapper}>
-          {queryResultEntity && queryResultEntity?.images[0]?.ratio16to9 ? (
-            <StableImage
-              className={styles.bannerImage}
-              src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.ratio16to9}`}
-            />
-          ) : (
-            <div className='imagePlaceHolderAnimation' />
-          )}
+          {queryResultEntity?.images?.length > 0 &&
+            (queryResultEntity?.images[0]?.ratio16to9 ? (
+              <StableImage
+                className={styles.bannerImage}
+                src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.ratio16to9}`}
+              />
+            ) : (
+              <div className='imagePlaceHolderAnimation' />
+            ))}
           {queryResultEntity?.cta?.status === ACTIVE && (
             <StyledButton
               variant='contained'
@@ -372,9 +373,7 @@ const RestaurantAndBars: React.FC = () => {
         </StyledButton>
       )}
       <Notification
-        title={
-          errorNotification ? ('Something Went Wrong!' as string) : (t('Thank You!') as string)
-        }
+        title={errorNotification ? (ERRORMSG as string) : (t('Thank You!') as string)}
         description={
           errorNotification
             ? ('Your booking was not received.' as string)

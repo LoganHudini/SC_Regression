@@ -170,6 +170,7 @@
 }
 
 .subCategoriesText {
+  font: $header var(--heading-font-regular);
   margin: 18px 12px 0px;
   text-align: start;
 }
@@ -201,7 +202,7 @@
   overflow: scroll;
   padding: 1.6rem 1rem 1.4rem;
   background-color: var(--primary-background-color);
-  width: 92%;
+  width: 91%;
   max-width: 768px;
   margin: auto;
   position: sticky;

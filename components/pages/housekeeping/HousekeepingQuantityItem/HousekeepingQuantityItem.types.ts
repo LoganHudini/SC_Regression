@@ -4,4 +4,5 @@ export interface IHousekeepingQuantityItemProps {
   maxQuantity: number;
   maxQuantityActive: boolean;
   changeAlignment?: boolean;
+  setNotificationState?: any;
 }

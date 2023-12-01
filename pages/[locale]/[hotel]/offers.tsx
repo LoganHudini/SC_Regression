@@ -15,7 +15,7 @@ import { StableImage } from 'components/shared/StableImage/StableImage';
 import { ASSETS_URL } from 'core/graphql/endpoints';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { Header } from 'components/shared/Header/Header';
-import { EXTERNALURL, OFFERS, RESTAURANTS_BARS, RESTAURANT_BOOKIN_FLOW } from 'utils/constants';
+import { EXTERNAL_URL, OFFERS, RESTAURANTS_BARS, RESTAURANT_BOOKING_FLOW } from 'utils/constants';
 import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import dayjs from 'dayjs';
@@ -78,10 +78,10 @@ const Offers: React.FC = () => {
   const queryResultEntity = selectedOfferData ? selectedOfferData[0] : '';
 
   const onCtaClick = useCallback(() => {
-    if (queryResultEntity?.CTA?.redirectTo === EXTERNALURL) {
+    if (queryResultEntity?.CTA?.redirectTo === EXTERNAL_URL) {
       router.push(queryResultEntity?.CTA?.URL);
     }
-    if (queryResultEntity?.CTA?.redirectTo === RESTAURANT_BOOKIN_FLOW) {
+    if (queryResultEntity?.CTA?.redirectTo === RESTAURANT_BOOKING_FLOW) {
       tableReservationStorage({
         restaurantName: queryResultEntity?.name,
         id: queryResultEntity?.id,
@@ -90,7 +90,7 @@ const Offers: React.FC = () => {
           '',
       });
     }
-    if (queryResultEntity?.CTA?.redirectTo !== EXTERNALURL) {
+    if (queryResultEntity?.CTA?.redirectTo !== EXTERNAL_URL) {
       const redirectUrl =
         flowPathMap[queryResultEntity?.CTA?.redirectTo.toUpperCase() as keyof typeof flowPathMap];
 
@@ -127,14 +127,15 @@ const Offers: React.FC = () => {
   const offerDetails = () => (
     <div className={styles.listComponent}>
       <div className={styles.imageWrapper}>
-        {queryResultEntity?.images ? (
-          <StableImage
-            className={styles.bannerImage}
-            src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.ratio16to9}`}
-          />
-        ) : (
-          <div className='imagePlaceHolderAnimation' />
-        )}
+        {queryResultEntity?.images?.length > 0 &&
+          (queryResultEntity?.images[0]?.ratio16to9 ? (
+            <StableImage
+              className={styles.bannerImage}
+              src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.ratio16to9}`}
+            />
+          ) : (
+            <div className='imagePlaceHolderAnimation' />
+          ))}
         {queryResultEntity?.CTA &&
           (queryResultEntity?.CTA?.redirectTo || queryResultEntity?.CTA?.URL) && (
             <StyledButton variant='contained' onClick={onCtaClick} className={styles.button}>

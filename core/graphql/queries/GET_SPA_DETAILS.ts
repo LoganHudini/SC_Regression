@@ -59,6 +59,12 @@ export const GET_SPA_DETAILS = gql`
           longitude
           timeZone
         }
+        cta {
+          ctaTitle
+          redirectOption
+          redirectUrl
+          status
+        }
         images {
           fileName
           index

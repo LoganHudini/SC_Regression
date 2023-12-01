@@ -10,7 +10,13 @@
     {
       "src": "/images/itc/Logo.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "196x196",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/itc/Logo.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ]
 }

@@ -26,6 +26,8 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { useTranslation } from 'react-i18next';
 import { useCheckedIn } from 'storage/check-in.storage';
+import { IN_ROOM_DINING, IRD, SERVICES } from 'utils/constants';
+import { activeModule } from 'utils/functions';
 import { getStaticPaths } from 'utils/getStatic';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
@@ -38,6 +40,8 @@ const Home: NextPage = () => {
   const config = useConfig();
   const hotelId = config?.hotelId;
   const hotelName = config?.name;
+  const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
+  const serviceModule: any = activeModule(config?.modules, SERVICES);
 
   const checkInData = useCheckedIn();
 
@@ -137,13 +141,14 @@ const Home: NextPage = () => {
         {!checkInData?.checkedIn && (
           <HotelInformation details={homeCarouselDetails} loading={homeCarouselLoading} />
         )}
-        {checkInData?.checkedIn && (
+        {checkInData?.checkedIn && serviceModule && (
           <ServiceRequestCarousel data={serviceCarouselDetails} loading={serviceCarouselLoading} />
         )}
         <DiningCarousel
           ird={irdMenu}
           restaurants={restaurantList}
           loading={irdloading || restaurantloading}
+          irdModule={irdModule}
         />
         <SpaCarousel data={spaList} loading={spaloading} />
         <HotelCompendiumContainer data={hotelCompendiumList} loading={hotelCompendiumloading} />

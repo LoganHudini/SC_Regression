@@ -9,6 +9,7 @@ export type IReservationGuestInfoStorageData = {
   cardHolderName?: string;
   cardType?: string;
   cardExpiryDate?: string;
+  paymentType?: string;
   docNo?: string;
   docType?: string;
   effectiveDate: string;

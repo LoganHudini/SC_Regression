@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'ClanOT Medium';
   src: url('/fonts/ClanOT/ClanOT-Medium.otf') format('opentype'),
-    url('/fonts/ClanOT/ClanOT-Medium.ttf') format('ttf'),
+    url('/fonts/ClanOT/ClanOT-Medium.ttf') format('truetype'),
     url('/fonts/ClanOT/ClanOT-Medium.woff') format('woff'),
     url('/fonts/ClanOT/ClanOT-Medium.woff2') format('woff2');
 }
@@ -9,7 +9,7 @@
 @font-face {
   font-family: 'ClanOT News';
   src: url('/fonts/ClanOT/ClanOT-News.otf') format('opentype'),
-    url('/fonts/ClanOT/ClanOT-News.ttf') format('ttf'),
+    url('/fonts/ClanOT/ClanOT-News.ttf') format('truetype'),
     url('/fonts/ClanOT/ClanOT-News.woff') format('woff'),
     url('/fonts/ClanOT/ClanOT-News.woff2') format('woff2');
 }
@@ -17,7 +17,7 @@
 @font-face {
   font-family: 'ClanOT Book';
   src: url('/fonts/ClanOT/ClanOT-Book.otf') format('opentype'),
-    url('/fonts/ClanOT/ClanOT-Book.ttf') format('ttf'),
+    url('/fonts/ClanOT/ClanOT-Book.ttf') format('truetype'),
     url('/fonts/ClanOT/ClanOT-Book.woff') format('woff'),
     url('/fonts/ClanOT/ClanOT-Book.woff2') format('woff2');
 }
@@ -25,7 +25,7 @@
 @font-face {
   font-family: 'ClanOT Extended Book';
   src: url('/fonts/ClanOT/ClanOT-ExtdBook.otf') format('opentype'),
-    url('/fonts/ClanOT/ClanOT-ExtdBook.ttf') format('ttf'),
+    url('/fonts/ClanOT/ClanOT-ExtdBook.ttf') format('truetype'),
     url('/fonts/ClanOT/ClanOT-ExtdBook.woff') format('woff'),
     url('/fonts/ClanOT/ClanOT-ExtdBook.woff2') format('woff2');
 }
@@ -33,7 +33,7 @@
 @font-face {
   font-family: 'ClanOT Extended Medium';
   src: url('/fonts/ClanOT/ClanOT-ExtdMedium.otf') format('opentype'),
-    url('/fonts/ClanOT/ClanOT-ExtdMedium.ttf') format('ttf'),
+    url('/fonts/ClanOT/ClanOT-ExtdMedium.ttf') format('truetype'),
     url('/fonts/ClanOT/ClanOT-ExtdMedium.woff') format('woff'),
     url('/fonts/ClanOT/ClanOT-ExtdMedium.woff2') format('woff2');
 }
@@ -41,7 +41,7 @@
 @font-face {
   font-family: 'ITC Franklin Gothic Std Book';
   src: url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Book.otf') format('opentype'),
-    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Book.ttf') format('ttf'),
+    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Book.ttf') format('truetype'),
     url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Book.woff') format('woff'),
     url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Book.woff2') format('woff2');
 }
@@ -49,21 +49,22 @@
 @font-face {
   font-family: 'ITC Franklin Gothic Std Medium';
   src: url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Med.otf') format('opentype'),
-    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Med.ttf') format('ttf'),
+    url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Med.ttf') format('truetype'),
     url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Med.woff') format('woff'),
     url('/fonts/ITCFranklinGothicStd/ITCFranklinGothicStd-Med.woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'Arial';
-  src: url('/fonts/Arial/Arial.otf') format('opentype'), url('/fonts/Arial/Arial.ttf') format('ttf'),
-    url('/fonts/Arial/Arial.woff') format('woff'), url('/fonts/Arial/Arial.woff2') format('woff2');
+  src: url('/fonts/Arial/Arial.otf') format('opentype'),
+    url('/fonts/Arial/Arial.ttf') format('truetype'), url('/fonts/Arial/Arial.woff') format('woff'),
+    url('/fonts/Arial/Arial.woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'Arial Bold';
   src: url('/fonts/Arial/Arial-Bold.otf') format('opentype'),
-    url('/fonts/Arial/Arial-Bold.ttf') format('ttf'),
+    url('/fonts/Arial/Arial-Bold.ttf') format('truetype'),
     url('/fonts/Arial/Arial-Bold.woff') format('woff'),
     url('/fonts/Arial/Arial-Bold.woff2') format('woff2');
 }
@@ -71,16 +72,41 @@
 @font-face {
   font-family: 'ITC Modern No 216';
   src: url('/fonts/ITCModernNo216/ITCModernNo216-Regular.otf') format('opentype'),
-    url('/fonts/ITCModernNo216/ITCModernNo216-Regular.ttf') format('ttf'),
+    url('/fonts/ITCModernNo216/ITCModernNo216-Regular.ttf') format('truetype'),
     url('/fonts/ITCModernNo216/ITCModernNo216-Regular.woff') format('woff'),
     url('/fonts/ITCModernNo216/ITCModernNo216-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'AvertaPE';
+  src: url('/fonts/AvertaPE/AvertaPE.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'AvertaPE Bold';
+  src: url('/fonts/AvertaPE/AvertaPE-Bold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('/fonts/Lato/Lato.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Lato Medium';
+  src: url('/fonts/Lato/Lato-Medium.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Montserrat Bold';
+  src: url('/fonts/Montserrat/Montserrat-Bold.otf') format('opentype');
 }
 
 // header font-families
 @font-face {
   font-family: 'Garamond';
   src: url('/fonts/Garamond/Garamond-Regular.otf') format('opentype'),
-    url('/fonts/Garamond/Garamond-Regular.ttf') format('ttf'),
+    url('/fonts/Garamond/Garamond-Regular.ttf') format('truetype'),
     url('/fonts/Garamond/Garamond-Regular.woff') format('woff'),
     url('/fonts/Garamond/Garamond-Regular.woff2') format('woff2');
 }
@@ -88,7 +114,7 @@
 @font-face {
   font-family: 'Domaine Display';
   src: url('/fonts/DomaineDisplay/DomaineDisplay-Regular.otf') format('opentype'),
-    url('/fonts/DomaineDisplay/DomaineDisplay-Regular.ttf') format('ttf'),
+    url('/fonts/DomaineDisplay/DomaineDisplay-Regular.ttf') format('truetype'),
     url('/fonts/DomaineDisplay/DomaineDisplay-Regular.woff') format('woff'),
     url('/fonts/DomaineDisplay/DomaineDisplay-Regular.woff2') format('woff2');
 }
@@ -96,6 +122,16 @@
 @font-face {
   font-family: 'Trajan Pro Bold';
   src: url('/fonts/TrajanPro/TrajanPro-Bold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Atlantis The Royal';
+  src: url('/fonts/AtlantisTheRoyal/AtlantisTheRoyal.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Noto Serif Display';
+  src: url('/fonts/NotoSerifDisplay/NotoSerifDisplay.otf') format('opentype');
 }
 
 :root {
@@ -130,7 +166,7 @@
   --primary-image-transition-background-color: #a0a1a3;
 
   // hamburger menu colors
-  --hamburgermenu-background-color: #120e0ef4;
+  --hamburgermenu-drawer-color: #120e0ef4;
   --hamburgermenu-text-color: #ffffff;
   --hamburgermenu-icon-color: #ffffff;
 
@@ -156,9 +192,9 @@
   --primary-card-desc-font-family: 'ClanOT Book';
   --primary-card-cta-font-family: 'ClanOT Extended Medium';
   --primary-card-background-color: #f8f8f8;
-  --primary-card-border-radius: 7px;
+  --primary-card-border-radius: 0px;
   --primary-card-shadow-color: #00000010;
-  --primary-card-border: 0.5px solid #9a9a9a;
+  --primary-card-border: none;
 
   // button configs
   --primary-button-color: #ffffff;
@@ -170,6 +206,13 @@
   --secondary-button-background-color: #ffffff;
   --secondary-button-border-radius: 0px;
   --secondary-button-font-family: 'ClanOT Extended Book';
+
+  // read more cta configs
+  --readmore-text: flex;
+  --readmore-arrowwithtext: block;
+  --readmore-arrow: none;
+  --readmore-arrowhead: none;
+  --readmore-underline: none;
 }
 
 body {

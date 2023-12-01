@@ -141,7 +141,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
               ?.find((cat: any) => cat.id === elementId);
             if (category) {
               diningInformationStorage(
-                produce(diningInformationStorage(), (draft) => {
+                produce(diningInformationStorage(), (draft: any) => {
                   if (draft) {
                     draft.selectedCategory = category?.id ?? '';
                     draft.categoryName = category?.value ?? '';

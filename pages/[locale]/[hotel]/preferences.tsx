@@ -12,7 +12,7 @@ import { ApolloError, useQuery } from '@apollo/client';
 import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import cx from 'classnames';
-import { CHECKIN, HEADERSCONFIG, PREFERENCES, YESNO } from 'utils/constants';
+import { CHECKIN, ERRORMSG, FAILURE, HEADERSCONFIG, PREFERENCES, YESNO } from 'utils/constants';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { GET_HOTEL_INFORMATION } from 'core/graphql/queries/GET_HOTEL_INFORMATION';
@@ -24,6 +24,8 @@ import { processError } from 'utils/processError';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import Head from 'next/head';
+import { toggleNotification } from 'storage/home.storage';
+import { Notification } from 'components/shared/Notification/Notification';
 
 export { getStaticPaths };
 
@@ -41,6 +43,7 @@ const Preferences = () => {
   const imageDetails = homeModule?.submodules?.find(
     (submodule: any) => submodule?.code === HEADERSCONFIG && submodule.isActive,
   )?.details[0];
+  const [notificationState, setNotificationState] = useState<any>(false);
 
   const { data, loading: feedbackLoading } = useQuery(GET_FEEDBACK, {
     skip: !hotelId,
@@ -124,7 +127,14 @@ const Preferences = () => {
       navigate(availablePaths?.HOME);
       setLoading(false);
     } catch (uploadSignatureError) {
-      processError(t, uploadSignatureError as ApolloError);
+      setNotificationState({
+        title: ERRORMSG,
+        redirect: null,
+        type: FAILURE,
+        apolloError: uploadSignatureError as ApolloError,
+      });
+      toggleNotification(true);
+      // processError(t, uploadSignatureError as ApolloError);
       setLoading(false);
     }
   };
@@ -189,6 +199,12 @@ const Preferences = () => {
           </div>
         </PageWrapper>
       )}
+      <Notification
+        title={notificationState?.title}
+        apolloError={notificationState?.apolloError}
+        redirect={notificationState?.redirect}
+        type={notificationState?.type}
+      />
     </>
   );
 };

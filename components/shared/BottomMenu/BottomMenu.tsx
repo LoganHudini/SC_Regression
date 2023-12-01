@@ -150,13 +150,19 @@ export const BottomMenu: React.FC<unknown> = () => {
               {hotelCompendiumActive && t(`${hotelCompendiumSelected?.name}`)}
               {checkOutActive && t('PAY & CHECKOUT')}
             </span>
-            <span className={styles.expandArrow}>
-              {homeActive ? (
-                isCheckedIn?.checkedIn && isCheckedIn?.roomNumber && <DownArrowIcon />
-              ) : (
+
+            {homeActive ? (
+              isCheckedIn?.checkedIn &&
+              isCheckedIn?.roomNumber && (
+                <span className={styles.expandArrow}>
+                  <DownArrowIcon />
+                </span>
+              )
+            ) : (
+              <span className={styles.expandArrow}>
                 <DownArrowIcon />
-              )}
-            </span>
+              </span>
+            )}
           </StyledButton>
 
           <div className={styles.hamburgerIcon}>

@@ -25,17 +25,19 @@
   right: 0;
   bottom: 0;
   background: var(--secondary-overlay-color);
+  border-radius: var(--primary-card-border-radius);
 }
 
 .image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: var(--primary-card-border-radius);
 }
 
 .title {
   margin: 16px 0 8px;
-  font: 30px var(--heading-font-regular);
+  font: $xheader var(--heading-font-regular);
   text-align: center;
 }
 

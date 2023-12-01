@@ -6,7 +6,7 @@
 
 .itemsAddedText {
   height: 60px;
-  margin: 0 8px;
+  margin: 0 8px 1rem;
   align-items: center;
   display: flex;
   border-bottom: 1px dashed var(--primary-border-color);
@@ -19,11 +19,12 @@
   display: flex;
   flex-direction: column;
   border-radius: var(--primary-card-border-radius);
+  background-color: var(--primary-card-background-color);
   box-shadow: 0px 3px 6px var(--primary-card-shadow-color);
 }
 
 .cartItemWrapper {
-  padding: 8px 0;
+  padding: 0.5rem;
 }
 
 .itemTitleWrapper {
@@ -87,12 +88,12 @@
 }
 
 .textInput {
-  width: 96%;
+  width: 91%;
   margin: 1rem 0px;
-  padding: 0 8px;
-  border-radius: var(--primary-card-border-radius);
+  padding: 1rem;
+  border-radius: var(--primary-button-border-radius);
   box-shadow: 0px 3px 6px var(--primary-card-shadow-color);
-  height: 40px;
+  background-color: var(--primary-card-background-color);
 }
 
 .customUnderline:before,
@@ -113,7 +114,7 @@
 }
 
 .upsellWrapper {
-  margin: 1.5rem 0.5rem;
+  margin: 1.5rem 0.5rem 1rem;
 }
 
 .upsell {
@@ -130,8 +131,9 @@
   margin: 0.5rem 0px;
   border-radius: var(--primary-card-border-radius);
   box-shadow: 0px 3px 6px var(--primary-card-shadow-color);
+  background-color: var(--primary-card-background-color);
   display: flex;
-  padding: 8px;
+  padding: 1rem;
   justify-content: space-between;
   align-items: center;
 }

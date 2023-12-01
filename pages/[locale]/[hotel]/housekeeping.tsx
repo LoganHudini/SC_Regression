@@ -14,7 +14,7 @@ import {
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { housekeepingOptions } from 'storage/housekeeping.storage';
 import { useTranslation } from 'react-i18next';
-import { useLocale } from 'utils/hooks/useLocalizedRouter';
+import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { IHousekeepingProps } from 'types/housekeeping.types';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
@@ -26,11 +26,14 @@ import { HousekeepingQuantityItem } from 'components/pages/housekeeping/Housekee
 import { HousekeepingCheckboxItem } from 'components/pages/housekeeping/HousekeepingCheckboxItem/HousekeepingCheckboxItem';
 import TimeIcon from '@icons/time-left.svg';
 import {
+  CHECK_IN,
   CUSTOM,
   DATE,
   DATETIME,
+  ERRORMSG,
   FAILURE,
   IMMEDIATE,
+  SERVICES,
   SUCCESS,
   TIME,
   TODAY,
@@ -46,6 +49,7 @@ import { Loader } from 'components/shared/Loaders/Loaders';
 import { availablePaths } from 'utils/availablePaths';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { useConfig } from 'utils/hooks/useConfiguration';
+import { activeModule } from 'utils/functions';
 
 export { getStaticPaths };
 
@@ -54,12 +58,12 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
   const locale = useLocale();
   const checkinData = useCheckedIn();
   const hotelId = useConfig()?.hotelId;
+  const config = useConfig();
   const [showServiceRequest, setShowServiceRequest] = useState([]);
   const [showSchedules, setShowSchedules] = useState<any>([]);
   const [showCalendar, setShowCalendar] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [showText, setShowText] = useState(false);
-  const [errorNotification, setErrorNotification] = useState(false);
   const [selectedTime, setSelectedTime] = useState(
     dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM),
   );
@@ -67,6 +71,10 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
   const housekeepingInfoQuantity: any = useReactiveVar(housekeepingQuantityStorage);
   const housekeepingInfoCheckbox = useReactiveVar(housekeepingCheckboxStorage);
   const serviceRequesttDetailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
+  const serviceModule: any = activeModule(config?.modules, SERVICES);
+  const checkinModule: any = activeModule(config?.modules, CHECK_IN);
+  const navigate = useLocalizedRouter();
+  const [notificationState, setNotificationState] = useState<any>(false);
 
   const [sendHousekeepingOrder] = useMutation(HOUSEKEEPING_ORDER, {
     context: { clientName: 'host_v4' },
@@ -85,6 +93,12 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
     () => [...housekeepingInfoQuantity.selectedItems, ...housekeepingInfoCheckbox.selectedItems],
     [housekeepingInfoQuantity.selectedItems, housekeepingInfoCheckbox.selectedItems],
   );
+
+  useEffect(() => {
+    if (!serviceModule || !checkinModule || !checkinData?.checkedIn) {
+      navigate(availablePaths?.HOME);
+    }
+  }, [navigate, t, serviceModule, checkinModule]);
 
   useEffect(() => {
     if (!showSchedules?.isItemActive && !showSchedules?.maxQuantityActive) {
@@ -177,7 +191,12 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
             })),
         },
       });
-      setErrorNotification(false);
+      setNotificationState({
+        title: 'Thank You!',
+        description: 'Your request was not confirmed.',
+        redirect: null,
+        type: SUCCESS,
+      });
       setTimeout(() => {
         setDisabled(false);
         housekeepingQuantityStorage({ selectedItems: [] });
@@ -186,9 +205,14 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
         setShowText(false);
         setSelectedTime(dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM));
         toggleDetailsDrawer(false);
-      }, 4000);
+      }, 5000);
     } catch (e) {
-      setErrorNotification(true);
+      setNotificationState({
+        title: ERRORMSG,
+        description: 'Your request was not confirmed.',
+        redirect: null,
+        type: FAILURE,
+      });
     }
     toggleNotification(true);
   };
@@ -207,6 +231,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
                   maxQuantity={showSchedules?.maxQuantity}
                   maxQuantityActive={showSchedules?.maxQuantityActive}
                   changeAlignment={false}
+                  setNotificationState={setNotificationState}
                 />
               ) : (
                 <>
@@ -227,6 +252,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
                               maxQuantity={schedule?.maxQuantity}
                               maxQuantityActive={schedule?.maxQuantityActive}
                               changeAlignment={true}
+                              setNotificationState={setNotificationState}
                             />
                           </React.Fragment>
                         ))}
@@ -307,16 +333,10 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
         </div>
       </div>
       <Notification
-        title={
-          errorNotification ? ('Something Went Wrong!' as string) : (t('Thank You!') as string)
-        }
-        description={
-          errorNotification
-            ? ('Your request was not confirmed.' as string)
-            : (t('Your request has been confirmed.') as string)
-        }
-        redirect={!errorNotification && availablePaths?.HOUSEKEEPING}
-        type={errorNotification ? FAILURE : SUCCESS}
+        title={notificationState?.title}
+        description={notificationState?.description}
+        redirect={notificationState?.redirect}
+        type={notificationState?.type}
       />
     </>
   );

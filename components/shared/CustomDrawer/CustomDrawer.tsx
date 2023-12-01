@@ -1,14 +1,44 @@
 import styles from './CustomDrawer.module.scss';
 import { SwipeableDrawer } from '@mui/material';
 import cx from 'classnames';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { toggleOpenCheckOutDrawer } from 'storage/checkout.storage';
+import {
+  toggleCheckInDetailsDrawer,
+  toggleDetailsDrawer,
+  toggleHamburgerMenuDrawer,
+  toggleHotelInfoDrawer,
+  toggleModuleOptionsDrawer,
+} from 'storage/home.storage';
 
 interface IDetailPageProps {
   open: boolean;
   content?: any;
   onClose?: any;
+  background?: boolean;
 }
 
 export const CustomDrawer: React.FC<IDetailPageProps> = ({ open, onClose, content }) => {
+  const router = useRouter();
+  useEffect(() => {
+    router.beforePopState(({ as }) => {
+      if (as !== router.asPath) {
+        onClose();
+        toggleDetailsDrawer(false);
+        toggleCheckInDetailsDrawer(false);
+        toggleHamburgerMenuDrawer(false);
+        toggleModuleOptionsDrawer(false);
+        toggleOpenCheckOutDrawer(false);
+        toggleHotelInfoDrawer(false);
+      }
+      return true;
+    });
+    return () => {
+      router.beforePopState(() => true);
+    };
+  }, [onClose, router]);
+
   return (
     <>
       <div

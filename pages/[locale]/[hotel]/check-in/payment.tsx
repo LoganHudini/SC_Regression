@@ -6,29 +6,33 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'react-i18next';
 import { getStaticPaths } from 'utils/getStatic';
 import i18nConfig from 'next-i18next.config';
-import { availablePaths } from 'utils/availablePaths';
-import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import Shift4 from 'components/pages/payment/Shift4/Shift4';
 import { useConfig } from 'utils/hooks/useConfiguration';
+import { CHECK_IN, CREDIT_CARD_INFO, CYBERSOURCE, INFORMATION, SHIFT4 } from 'utils/constants';
+import CyberSource from 'components/pages/payment/CyberSource/CyberSource';
+import { availablePaths } from 'utils/availablePaths';
 
 export { getStaticPaths };
 
 const Payment: React.FC = () => {
   const { t } = useTranslation(['check-in-payment', 'common']);
-  const hotelName = useConfig()?.name;
-  // do not remove
-  // const paymentConfig = paymentConfiguration;
-  // console.log(paymentConfig);
-  // const redirectPayment = () => {
-  //   switch (paymentConfig as any) {
-  //     case CYBERSOURCE:
-  //       return <CyberSource />;
-  //     case SHIFT4:
-  //       return <Shift4 />;
-  //     default:
-  //       break;
-  //   }
-  // };
+  const config = useConfig();
+  const hotelName = config?.name;
+  const paymentConfig: any = config?.modules
+    ?.find((module: any) => module?.isActive && module?.code === CHECK_IN)
+    ?.submodules?.find((submodule: any) => submodule?.isActive && submodule?.name === INFORMATION)
+    ?.details?.find((detail: any) => detail?.isActive && detail?.name === CREDIT_CARD_INFO);
+
+  const redirectPayment = () => {
+    switch (paymentConfig?.type) {
+      case CYBERSOURCE:
+        return <CyberSource />;
+      case SHIFT4:
+        return <Shift4 />;
+      default:
+        break;
+    }
+  };
 
   return (
     <>
@@ -37,11 +41,8 @@ const Payment: React.FC = () => {
           {hotelName} | {t('Payment')}
         </title>
       </Head>
-      <Header displayBackButton />
-      <PageWrapper>
-        {/* {redirectPayment()} */}
-        <Shift4 />
-      </PageWrapper>
+      <Header displayBackButton backRoute={availablePaths?.CARD_AUTHORISATION} />
+      {redirectPayment()}
     </>
   );
 };

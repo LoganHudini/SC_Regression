@@ -3,7 +3,7 @@
   flex-direction: row;
   width: 100px;
   justify-content: space-between;
-  background-color: var(--primary-background-color);
+  // background-color: var(--primary-background-color);
   align-items: center;
 }
 
@@ -51,4 +51,5 @@
   user-select: none;
   width: 30px;
   height: 30px;
+  line-height: 30px;
 }

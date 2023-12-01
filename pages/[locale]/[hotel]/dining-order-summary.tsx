@@ -11,16 +11,15 @@ import { getStaticPaths } from 'utils/getStatic';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { useTranslation } from 'react-i18next';
 import { client } from 'core/graphql/client';
-import { ApolloError, useReactiveVar } from '@apollo/client';
+import { useReactiveVar } from '@apollo/client';
 import { IDiningMenuStorageData, diningMenuStorage } from 'storage/dining-menu.storage';
 import { availablePaths } from 'utils/availablePaths';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { processError } from 'utils/processError';
 import produce from 'immer';
 import dayjs from 'dayjs';
 import { CURRENCY } from 'core/graphql/endpoints';
 import { DiningCustomisationDrawer } from 'components/pages/dining/DiningCustomisationDrawer/DiningCustomisationDrawer';
-import { DINING, FAILURE, PAYMENT, SUCCESS } from 'utils/constants';
+import { ERRORMSG, FAILURE, PAYMENT, SUCCESS } from 'utils/constants';
 import { InputAdornment, TextField } from '@mui/material';
 import Cookinginstructions from '@icons/cooking_instructions.svg';
 import { IRD_ORDER } from 'core/graphql/queries/IRD_ORDER';
@@ -412,9 +411,7 @@ const DiningOrderSummary = () => {
           closeCustomisationDrawer={closeCustomisationDrawer}
         />
         <Notification
-          title={
-            errorNotification ? ('Something Went Wrong!' as string) : (t('Thank You!') as string)
-          }
+          title={errorNotification ? (ERRORMSG as string) : (t('Thank You!') as string)}
           description={
             errorNotification
               ? ('Your order was not confirmed.' as string)

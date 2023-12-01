@@ -4,7 +4,6 @@ import { Header } from 'components/shared/Header/Header';
 import styles from '@styles/pre-checkin-form/pre-checkin-form.module.scss';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { InfoCard } from 'components/shared/InfoCard/InfoCard';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
 import { client } from 'core/graphql/client';
@@ -22,7 +21,6 @@ import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.
 import { useConfig } from 'utils/hooks/useConfiguration';
 import {
   CHECK_IN,
-  CREDITCARD,
   CREDIT_CARD_INFO,
   EMAIL_REGEX,
   INFORMATION,

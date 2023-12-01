@@ -6,10 +6,9 @@ import { getHotelCompendium, selectedCompendiumCategory } from 'storage/home.sto
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
 import { useTranslation } from 'react-i18next';
-import { CarouselLoader } from 'components/shared/Loaders/Loaders';
 
 export const HotelCompendiumContainer = (props: any) => {
-  const { data, loading } = props;
+  const { data } = props;
   const { t } = useTranslation('common');
   const navigate = useLocalizedRouter();
 
@@ -38,31 +37,28 @@ export const HotelCompendiumContainer = (props: any) => {
 
   return (
     <>
-      {loading ? (
-        <CarouselLoader />
-      ) : (
-        categories?.length > 0 && (
-          <>
-            <div className={styles.title}>{t('Things To Do')}</div>
-            <div className={styles.container}>
-              {categories?.map((category: any, index: number) => (
-                <div
-                  key={index}
-                  className={styles.wrapper}
-                  onClick={() => handleClick(category?.id)}
-                >
-                  <div className={styles.imgWrapper}>
-                    <p className={styles.name}>{category?.name}</p>
-                  </div>
-                  <StableImage
-                    className={styles.image}
-                    src={`${ASSETS_URL}/${hotelAmenities[index]?.images[0]?.master}`}
-                  />
+      {categories?.length > 0 && (
+        <>
+          <div className={styles.title}>{t('Things To Do')}</div>
+          <div className={styles.container}>
+            {categories?.map((category: any, index: number) => (
+              <div key={index} className={styles.wrapper} onClick={() => handleClick(category?.id)}>
+                <div className={styles.imgWrapper}>
+                  <p className={styles.name}>{category?.name}</p>
                 </div>
-              ))}
-            </div>
-          </>
-        )
+                {/* {hotelAmenities[index]?.images[0]?.master && ( */}
+                <StableImage
+                  className={styles.image}
+                  src={`${ASSETS_URL}/${
+                    hotelAmenities[index]?.images[0]?.master &&
+                    hotelAmenities[index]?.images[0]?.master
+                  }`}
+                />
+                {/* )} */}
+              </div>
+            ))}
+          </div>
+        </>
       )}
     </>
   );

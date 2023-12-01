@@ -1,6 +1,5 @@
 import { ApolloError, useReactiveVar } from '@apollo/client';
 import cx from 'classnames';
-import { Header } from 'components/shared/Header/Header';
 import { client } from 'core/graphql/client';
 import {
   IGetReservationApiResponse,
@@ -10,48 +9,27 @@ import {
 import {
   IInitiatePaymentApiRequest,
   IInitiatePaymentApiResponse,
-  INITIATE_PAYMENT_SHIFT4,
   INITIATE_PAYMENT_CYBERSOURCE,
-  INITIATE_PAYMENT_FISERV,
 } from 'core/graphql/queries/INITIATE_PAYMENT';
-import Head from 'next/head';
 import styles from '@styles/check-in-payment/check-in-payment.module.scss';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import dayjs from 'dayjs';
-import { IPreCheckInApiRequest, PRECHECKIN } from 'core/graphql/queries/PRECHECKIN';
-import { IGetRoomStatusApiResponse, GET_ROOM_STATUS } from 'core/graphql/queries/GET_ROOM_STATUS';
 import {
   IGetPaymentStatusApiResponse,
   GET_PAYMENT_STATUS,
 } from 'core/graphql/queries/GET_PAYMENT_STATUS';
-import { toast } from 'react-toastify';
 import { processError } from 'utils/processError';
 import { PaymentLoader } from 'components/pages/payment/PaymentLoader/PaymentLoader';
-import { saveTrip } from 'storage/trips.storage';
-import {
-  personalizeYourRoomStorage,
-  specialRequestsStorage,
-} from 'storage/personalize-your-room.storage';
-import { guestInformationStorage } from 'storage/guest-information.storage';
-import { GetStaticProps } from 'next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'react-i18next';
-import { getStaticPaths } from 'utils/getStatic';
-import i18nConfig from 'next-i18next.config';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
-import { timeFormats } from 'utils/timeFormats';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
-import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
-import { useConfig } from 'utils/hooks/useConfiguration';
 import { Notification } from 'components/shared/Notification/Notification';
 import { FAILURE, SUCCESS } from 'utils/constants';
 import { toggleNotification } from 'storage/home.storage';
 
 const CyberSource: React.FC = () => {
-  let transactionId: string;
+  const transactionId = useRef('');
   const navigate = useLocalizedRouter();
-  const hotelName = useConfig()?.name;
   const [errorNotification, setErrorNotification] = useState(false);
 
   const [loading, setLoading] = useState(true);
@@ -66,11 +44,11 @@ const CyberSource: React.FC = () => {
     query: GET_RESERVATION,
   });
 
-  const reservationInfo = reservationData?.getReservation.data;
+  const reservationInfo = reservationData?.getReservation?.data;
 
   const onPaymentDone = useCallback(async () => {
-    navigate(availablePaths.CARD_AUTHORISATION);
-  }, [navigate, t]);
+    navigate(availablePaths?.CARD_AUTHORISATION);
+  }, [navigate]);
 
   const preparePayment = useCallback(async () => {
     let updatedReservationData: IGetReservationApiResponse | null = null;
@@ -84,26 +62,20 @@ const CyberSource: React.FC = () => {
           confirmationNumber: reservationInfo?.confirmationId,
         },
       });
-
       updatedReservationData = data;
     } catch (getUpdatedReservationError) {
-      processError(t, getUpdatedReservationError as ApolloError);
-      navigate(availablePaths.CARD_AUTHORISATION);
+      // processError(t, getUpdatedReservationError as ApolloError);
+      setErrorNotification(true);
+      toggleNotification(true);
+      onPaymentDone();
     }
 
     if (updatedReservationData) {
-      const balance = Number(updatedReservationData?.getReservation.data?.roomTypes[0].balance);
-
-      // if (balance <= 0) {
-      //   onPaymentDone();
-      // }
-
-      // if (balance > 0) {
       const initiatePaymentPayload: IInitiatePaymentApiRequest = {
-        currency: reservationInfo?.details.holdAmount.currency as string,
-        amount: 2,
+        currency: reservationInfo?.details?.holdAmount?.currency as string,
+        amount: 1,
         bookingId: reservationInfo?.confirmationId as string,
-        orderId: reservationInfo?.confirmationId as string,
+        orderId: Math.floor(Math.random() * 9000000000) + 1000000000 + '',
       };
 
       let paymentData: IInitiatePaymentApiResponse | null = null;
@@ -118,16 +90,19 @@ const CyberSource: React.FC = () => {
 
         paymentData = data;
       } catch (initiatePaymentError) {
-        processError(t, initiatePaymentError as ApolloError);
-        navigate(availablePaths.CARD_AUTHORISATION);
+        // processError(t, initiatePaymentError as ApolloError);
+        setErrorNotification(true);
+        toggleNotification(true);
+        onPaymentDone();
       }
 
       if (paymentData) {
         const html = paymentData.initiatePayment.data.answer.payment_zone_data;
         const doc = iframeRef.current?.contentWindow?.document;
 
-        transactionId = paymentData.initiatePayment.data.answer.transaction_id as string;
-
+        transactionId.current = paymentData?.initiatePayment?.data?.answer
+          ?.transaction_id as string;
+        // console.log(transactionId.current);
         if (doc) {
           doc.open();
           doc.write(html as string);
@@ -136,86 +111,90 @@ const CyberSource: React.FC = () => {
           setLoading(false);
         }
       }
-      // }
     }
   }, [
     onPaymentDone,
     reservationInfo?.confirmationId,
-    reservationInfo?.details.holdAmount.currency,
-    navigate,
-    t,
+    reservationInfo?.details?.holdAmount?.currency,
   ]);
 
   const handleIframeChange = useCallback(() => {
     setTimeout(async () => {
-      if (transactionId) {
+      if (transactionId.current) {
+        const cardOptions = [
+          { code: 'MC', value: 'Mastercard' },
+          { code: 'VS', value: 'Visa' },
+          { code: 'AX', value: 'Americanexpress' },
+        ];
         try {
           const { data: paymentStatusData } = await client.query<IGetPaymentStatusApiResponse>({
             query: GET_PAYMENT_STATUS,
             context: { clientName: 'rest' },
             fetchPolicy: 'network-only',
-            variables: { paymentId: transactionId },
+            variables: { paymentId: transactionId?.current },
           });
 
           const status = paymentStatusData?.getPaymentStatus.data['status '];
+          // console.log('paymentStatusData', paymentStatusData, status);
 
           if (status === 'Success') {
             reservationGuestInfoStorageData({
               ...guestReservationInfo,
-              cardNumber: paymentStatusData?.getPaymentStatus.data['cardNumber '],
-              cardHolderName: paymentStatusData?.getPaymentStatus.data['cardHolderName '],
-              cardType: paymentStatusData?.getPaymentStatus.data['paymentMethod '],
-              cardExpiryDate: paymentStatusData?.getPaymentStatus.data['cardExpiry'],
+              token: paymentStatusData?.getPaymentStatus?.data['token'],
+              cardNumber: paymentStatusData?.getPaymentStatus?.data['cardNumber '],
+              cardHolderName: paymentStatusData?.getPaymentStatus?.data['cardHolderName '],
+              cardType: cardOptions?.find(
+                (option: any) =>
+                  option?.value === paymentStatusData?.getPaymentStatus?.data['cardType '],
+              )?.code,
+              cardExpiryDate: paymentStatusData?.getPaymentStatus?.data['cardExpiry'],
+              paymentType: paymentStatusData?.getPaymentStatus?.data['paymentMethod '],
             });
+            setErrorNotification(false);
+            toggleNotification(true);
+            onPaymentDone();
           }
           if (status === 'Failed') {
             setErrorNotification(true);
+            toggleNotification(true);
+            onPaymentDone();
           }
-          toggleNotification(true);
         } catch (paymentStatusError) {
-          processError(t, paymentStatusError as ApolloError);
+          // processError(t, paymentStatusError as ApolloError);
+          setErrorNotification(true);
+          toggleNotification(true);
+          onPaymentDone();
         }
       }
     }, 1500);
-  }, [onPaymentDone, navigate, t]);
+  }, [guestReservationInfo, onPaymentDone]);
 
   useEffect(() => {
-    if (!reservationData) {
+    if (!reservationInfo?.confirmationId) {
       navigate(availablePaths?.HOME);
     }
     preparePayment();
-  }, [preparePayment, reservationData, navigate]);
+  }, [navigate, preparePayment, reservationInfo?.confirmationId]);
 
   return (
     <>
-      <Head>
-        <title>
-          {hotelName} | {t('Payment')}
-        </title>
-      </Head>
-      <Header
-        backRoute={availablePaths?.CHECK_IN}
-        displayBackButton
-        screenTitle={t('Payment') as string}
-      />
       {loading && <PaymentLoader />}
-      <PageWrapper>
-        <iframe
-          ref={iframeRef}
-          className={cx(styles.paymentWindow, { [styles.paymentWindowHidden]: loading })}
-          onLoad={handleIframeChange}
-        />
-        <Notification
-          title={errorNotification ? ('Payment Failed!' as string) : (t('Thank You!') as string)}
-          description={
-            errorNotification
-              ? ('Card Authentication Failed !' as string)
-              : (t('Card Authentication completed') as string)
-          }
-          redirect={availablePaths?.CARD_AUTHORISATION}
-          type={errorNotification ? FAILURE : SUCCESS}
-        />
-      </PageWrapper>
+
+      <iframe
+        ref={iframeRef}
+        className={cx(styles.paymentWindow, { [styles.paymentWindowHidden]: loading })}
+        onLoad={handleIframeChange}
+      />
+      <Notification
+        title={errorNotification ? ('Payment Failed!' as string) : (t('Thank You!') as string)}
+        description={
+          errorNotification
+            ? ('Card Authentication Failed!' as string)
+            : (t('Card Authentication completed') as string)
+        }
+        redirect={availablePaths?.CARD_AUTHORISATION}
+        type={errorNotification ? FAILURE : SUCCESS}
+      />
     </>
   );
 };

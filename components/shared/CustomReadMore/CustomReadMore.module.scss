@@ -1,0 +1,32 @@
+.textWrapper {
+  display: flex;
+  color: var(--primary-theme-color);
+  font-family: var(--primary-font-extd-regular);
+  text-align: center;
+  margin: 10px auto;
+  font-size: $extraSmall;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  padding: 2px;
+  border-bottom: var(--readmore-underline);
+}
+
+.text {
+  display: var(--readmore-text);
+}
+
+.readMoreArrow {
+  display: var(--readmore-arrowwithtext);
+  padding-bottom: 1px;
+}
+
+.arrow {
+  display: var(--readmore-arrow);
+  padding-bottom: 1px;
+}
+
+.arrowHead {
+  display: var(--readmore-arrowhead);
+}

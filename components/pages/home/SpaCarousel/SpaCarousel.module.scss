@@ -3,13 +3,12 @@
 }
 
 .spaTitle {
-  font: 30px var(--heading-font-regular);
+  font: $xheader var(--heading-font-regular);
   text-align: center;
   margin: 8px 0 24px;
 }
 
 .carouselWrapper {
-  -webkit-user-select: none;
   user-select: none;
   overflow: scroll;
   margin-inline-start: 12px;
@@ -19,41 +18,43 @@
   justify-content: center;
 }
 
-.carouselItem {
-  margin-inline-end: 10px;
-  max-width: 338px;
-  min-width: 338px;
-}
-
 .carouselWrapper::-webkit-scrollbar {
   display: none;
 }
 
 .carouselSlideWrapper {
-  height: 354px;
-  width: 338px;
+  width: 100%;
+  height: 286px;
   cursor: pointer;
-  display: flex;
 }
 
 .carouselSlideImage {
-  height: 225px;
-  width: 338px;
+  position: relative;
+  z-index: -1;
+  height: 182px;
+  width: 273px;
   object-fit: cover;
   pointer-events: none;
-  z-index: 200;
+  z-index: 100;
   position: absolute;
+  border-radius: var(--primary-card-border-radius);
 }
 
 .carouselSlideDetailsWrapper {
-  width: 310px;
+  width: 251px;
+  height: 134px;
   background: var(--primary-background-color);
   box-shadow: 0px 3px 6px var(--primary-box-shadow-color);
   text-align: center;
+  z-index: 200;
   position: absolute;
-  z-index: 300;
-  top: 180px;
+  bottom: 5px;
   left: 10px;
+  border-radius: var(--primary-card-border-radius);
+  background: var(--primary-card-background-color);
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: center;
 }
 
 .carouselSlideTitle {
@@ -78,4 +79,158 @@
   margin: 1.2rem auto;
   width: 70%;
   text-transform: uppercase;
+}
+
+.timings {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  text-decoration: none;
+  margin: 10px 0;
+  font-family: var(--primary-font-regular);
+  font-size: $xsmall;
+  text-transform: capitalize;
+  justify-content: flex-start;
+  text-align: start;
+  padding-left: 10%;
+
+  p {
+    margin-inline-start: 16px;
+  }
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  min-height: 210px;
+  display: flex;
+  object-fit: cover;
+}
+
+.button {
+  width: 80%;
+  height: 60px;
+  font-size: $xsmall;
+  margin: auto;
+  margin-top: -2rem;
+}
+
+.wrapper {
+  padding: 0.5rem 1.5rem 1rem;
+}
+
+.detailComponentTitle {
+  font: $header var(--heading-font-regular);
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.detailComponentDuration {
+  font: $medium var(--primary-font-heading);
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.currency {
+  font-size: $xsmall;
+}
+
+.detailComponentDescription {
+  font: $small var(--primary-font-regular);
+  color: var(--tertiary-text-color);
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.cuisineRowTime {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  text-decoration: none;
+  margin: 10px 0;
+  font-family: var(--primary-font-regular);
+  font-size: $xsmall;
+  text-transform: capitalize;
+  justify-content: center;
+  text-align: center;
+  gap: 15px;
+
+  p {
+    margin-inline-start: 16px;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    text-transform: capitalize;
+    color: var(--primary-text-color);
+    -webkit-line-clamp: 2;
+    width: 81%;
+  }
+}
+
+.location {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  text-decoration: none;
+  margin: 10px 0;
+  font-family: var(--primary-font-regular);
+  font-size: $xsmall;
+  text-transform: capitalize;
+  justify-content: center;
+  text-align: center;
+  gap: 15px;
+
+  p {
+    margin-inline-start: 16px;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    text-transform: capitalize;
+    color: var(--primary-text-color);
+    -webkit-line-clamp: 2;
+    width: 81%;
+  }
+}
+
+.buttonView {
+  font-size: $xsmall !important;
+  margin: 1.5rem auto;
+  width: fit-content;
+  display: flex;
+}
+
+.icon_contact {
+  color: var(--primary-theme-color) !important;
+  font-size: $small !important;
+  padding-top: 1px;
+}
+
+.informationWrapper {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.infoText {
+  font-size: $small;
+  color: var(--primary-theme-color) !important;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+}
+
+.telephoneIcon {
+  path {
+    fill: var(--primary-theme-color);
+  }
+}
+
+.mailIcon {
+  path {
+    fill: var(--primary-theme-color);
+  }
+}
+
+.text {
+  margin-inline-start: 10px;
 }

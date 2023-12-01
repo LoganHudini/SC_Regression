@@ -9,19 +9,18 @@ import { getReservationValidation } from 'validation/get-reservation.validation'
 import { useFormik } from 'formik';
 import { GET_RESERVATION } from 'core/graphql/queries/GET_RESERVATION';
 import { client } from 'core/graphql/client';
-import { processError } from 'utils/processError';
 import { ApolloError, useReactiveVar } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { availablePaths } from 'utils/availablePaths';
-import { toast } from 'react-toastify';
 import { checkinStorage } from 'storage/check-in.storage';
 import { toggleCheckInDetailsDrawer, toggleNotification } from 'storage/home.storage';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { saveTrip } from 'storage/trips.storage';
 import { Notification } from 'components/shared/Notification/Notification';
 import { useRouter } from 'next/router';
-import { FAILURE, SUCCESS } from 'utils/constants';
+import { CANCELED, CHECKEDOUT, CHKOUT, ERRORMSG, FAILURE, NOSHOW, SUCCESS } from 'utils/constants';
 import { useConfig } from 'utils/hooks/useConfiguration';
+import { Loader } from 'components/shared/Loaders/Loaders';
 
 const CheckInDrawer = () => {
   const navigate = useLocalizedRouter();
@@ -66,9 +65,10 @@ const CheckInDrawer = () => {
           const roomNo = data?.getReservation?.data?.roomTypes[0]?.roomNumber;
 
           if (
-            data.getReservation.data.reservationStatus === 'CANCELED' ||
-            data.getReservation.data.reservationStatus === 'CHKOUT' ||
-            data.getReservation.data.reservationStatus === 'CHECKEDOUT'
+            data.getReservation.data.reservationStatus === CANCELED ||
+            data.getReservation.data.reservationStatus === CHKOUT ||
+            data.getReservation.data.reservationStatus === CHECKEDOUT ||
+            data.getReservation.data.reservationStatus === NOSHOW
           ) {
             setErrorNotification({
               state: true,
@@ -124,7 +124,7 @@ const CheckInDrawer = () => {
       } catch (error) {
         setErrorNotification({
           state: true,
-          title: 'Something Went Wrong!',
+          title: ERRORMSG,
           description: 'Please Try Again',
           appoloErrorMessage: error as ApolloError,
         });
@@ -166,6 +166,7 @@ const CheckInDrawer = () => {
   const checkInDetails = () => {
     return (
       <>
+        {loading && <Loader />}
         <PageWrapper className={styles.pageWrapper}>
           <p className={styles.pageTitle}>
             {t('Please enter the details to start your check-in process')}

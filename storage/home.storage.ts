@@ -12,6 +12,7 @@ export type INotificationDetailsProps = {
   description?: string;
   redirect?: string | null;
   type?: string;
+  apolloError?: string | any;
 };
 
 export const diningOptions = makeVar<IdiningOptionsProps>(DINING_OPTIONS[0]);

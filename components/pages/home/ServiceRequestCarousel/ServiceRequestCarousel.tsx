@@ -8,8 +8,8 @@ import styles from './ServiceRequestCarousel.module.scss';
 import { housekeepingOptions } from 'storage/housekeeping.storage';
 import { CAROUSEL_RESPONSIVE, HouseKeeping, SERVICE_REQUEST_OPTIONS } from 'utils/constants';
 import { availablePaths } from 'utils/availablePaths';
-import { CarouselLoader } from 'components/shared/Loaders/Loaders';
 import cx from 'classnames';
+import { CustomReadMore } from 'components/shared/CustomReadMore/CustomReadMore';
 
 interface ICarouselProps {
   data: any;
@@ -43,7 +43,7 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide }) => {
             ? t('Housekeeping')
             : slide?.__typename === 'Concierge' && 'Maintenance'}
         </h3>
-        <p className={styles.carouselSlideViewMore}>{t('view more')}</p>
+        <CustomReadMore text={'READ MORE'} />
       </div>
     </div>
   );
@@ -71,20 +71,16 @@ export const ServiceRequestCarousel: React.FC<ICarouselProps> = ({ data, loading
     showServiceRequest?.length > 0 && (
       <div className={styles.ServiceRequestCarouselWrapper}>
         <p className={styles.servicesCarouselTitle}>{t('Services')}</p>
-        {loading ? (
-          <CarouselLoader />
-        ) : (
-          <WithScrollbar
-            responsive={CAROUSEL_RESPONSIVE}
-            className={cx(styles.carouselWrapper, {
-              [styles.carouselWrapperSingleImage]: showServiceRequest?.length === 1,
-            })}
-          >
-            {showServiceRequest?.map((slide: any) => (
-              <CarouselSlide key={slide?.name} slide={slide} />
-            ))}
-          </WithScrollbar>
-        )}
+        <WithScrollbar
+          responsive={CAROUSEL_RESPONSIVE}
+          className={cx(styles.carouselWrapper, {
+            [styles.carouselWrapperSingleImage]: showServiceRequest?.length === 1,
+          })}
+        >
+          {showServiceRequest?.map((slide: any) => (
+            <CarouselSlide key={slide?.name} slide={slide} />
+          ))}
+        </WithScrollbar>
       </div>
     )
   );

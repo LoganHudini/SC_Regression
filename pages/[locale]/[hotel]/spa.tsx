@@ -23,17 +23,17 @@ import { availablePaths } from 'utils/availablePaths';
 import { ASSETS_URL, CURRENCY } from 'core/graphql/endpoints';
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { useRouter } from 'next/router';
-import { downloadFile } from 'utils/downloadFile';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
-import cx from 'classnames';
 import { useConfig } from 'utils/hooks/useConfiguration';
-import { useLocale } from 'utils/hooks/useLocalizedRouter';
+import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
+import { ACTIVE, EXTERNAL_URL } from 'utils/constants';
 
 export { getStaticPaths };
 
 const Spa: React.FC = () => {
   const { t } = useTranslation(['spa']);
   const router = useRouter();
+  const navigate = useLocalizedRouter();
   const hotelId = useConfig()?.hotelId;
   const hotelName = useConfig()?.name;
   const locale = useLocale();
@@ -50,7 +50,7 @@ const Spa: React.FC = () => {
     },
   });
 
-  const spaInfoURL = activeItems(data?.getSpaDetails?.spa)?.find(
+  const spaInformation = activeItems(data?.getSpaDetails?.spa)?.find(
     (info: any) => info?.id === spaInfo?.selectedSpaInfoId,
   );
 
@@ -79,6 +79,12 @@ const Spa: React.FC = () => {
   );
 
   useEffect(() => {
+    if (spaTreatmentsList?.length === 0) {
+      navigate(availablePaths?.HOME);
+    }
+  }, []);
+
+  useEffect(() => {
     data?.getSpaDetails?.spa &&
       spaInformationStorage({
         selectedSpaInfoName:
@@ -97,7 +103,7 @@ const Spa: React.FC = () => {
 
   const selectedSpa = (treatment: any) => {
     spaInformationStorage(
-      produce(spaInformationStorage(), (draft) => {
+      produce(spaInformationStorage(), (draft: any) => {
         if (draft) {
           draft.selectedSpaTreatmentName = treatment?.name;
           draft.selectedSpaTreatmentId = treatment?.id;
@@ -118,42 +124,29 @@ const Spa: React.FC = () => {
   };
 
   const onCtaClick = () => {
-    const menuType = spaInfoURL?.treatmentsMenu?.split('type=')[1].split('}')[0].split(',')[0];
-
-    if (menuType === 'WEB_URL') {
-      router.push(spaInfoURL?.treatmentsMenu?.split('=')[1].split(',')[0]);
-    }
-
-    if (menuType === 'S3') {
-      downloadFile(
-        `${ASSETS_URL}/${spaInfoURL?.treatmentsMenu?.split('=')[1].split(',')[0]}`,
-        'treatmentsMenu.pdf',
-      );
+    if (spaInformation?.cta?.redirectOption === EXTERNAL_URL) {
+      router.push(spaInformation?.cta?.redirectUrl);
     }
   };
 
   const spaDetails = () => (
     <>
-      {selectedSpaItem?.images[0]?.ratio16to9 ? (
-        <StableImage
-          className={styles.image}
-          src={`${ASSETS_URL}/${selectedSpaItem?.images[0]?.ratio16to9}`}
-        />
-      ) : (
-        <div className='imagePlaceHolderAnimation' />
-      )}
-      {/* {selectedSpaItem?.cta?.status === ACTIVE && (
-        <StyledButton variant='contained' onClick={onCtaClick} className={styles.button}>
-          {selectedSpaItem?.cta?.ctaTitle || t('BOOK NOW')}
-        </StyledButton>
-      )} */}
+      {selectedSpaItem?.images?.length > 0 &&
+        (selectedSpaItem?.images[0]?.ratio16to9 ? (
+          <StableImage
+            className={styles.image}
+            src={`${ASSETS_URL}/${selectedSpaItem?.images[0]?.ratio16to9}`}
+          />
+        ) : (
+          <div className='imagePlaceHolderAnimation' />
+        ))}
 
-      {/* demo purpose only */}
-      {spaInfoURL && (
+      {spaInformation?.cta?.status === ACTIVE && (
         <StyledButton variant='contained' onClick={onCtaClick} className={styles.button}>
-          {t('BOOK NOW')}
+          {spaInformation?.cta?.ctaTitle || t('BOOK NOW')}
         </StyledButton>
       )}
+
       <div className={styles.wrapper}>
         {selectedSpaItem?.name && (
           <h2 className={styles.detailComponentTitle}>{t(`${selectedSpaItem?.name}`)}</h2>
@@ -203,13 +196,19 @@ const Spa: React.FC = () => {
           displayBottomMenu={spaCategory && spaTreatmentsList}
         >
           <div>
-            {spaTreatmentsList?.map((selectedSpaItem: any) => (
-              <ListComponentEntity
-                key={selectedSpaItem.id}
-                queryResultEntity={selectedSpaItem}
-                selectedListItem={selectedSpa}
-              />
-            ))}
+            {spaTreatmentsList?.length > 0 ? (
+              spaTreatmentsList?.map((selectedSpaItem: any) => (
+                <ListComponentEntity
+                  key={selectedSpaItem.id}
+                  queryResultEntity={selectedSpaItem}
+                  selectedListItem={selectedSpa}
+                />
+              ))
+            ) : (
+              <div className={styles.treatmentsNotFound}>
+                <h2>Spa treatments not found</h2>
+              </div>
+            )}
           </div>
         </PageWrapper>
       )}

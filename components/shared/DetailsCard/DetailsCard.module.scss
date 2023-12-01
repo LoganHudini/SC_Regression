@@ -82,6 +82,7 @@
   margin-bottom: 2vh;
   padding: 20px 20px 1px 20px;
   background: var(--primary-card-background-color);
+  border-radius: var(--primary-card-border-radius);
 }
 
 .titleCard {
@@ -102,4 +103,5 @@
   margin-bottom: 2vh;
   padding: 20px;
   background: var(--primary-card-background-color);
+  border-radius: var(--primary-card-border-radius);
 }

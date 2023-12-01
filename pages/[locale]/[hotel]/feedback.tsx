@@ -12,7 +12,7 @@ import { ApolloError, useQuery } from '@apollo/client';
 import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import cx from 'classnames';
-import { CHECKOUT, EMAIL_CAPS, RATING5STARS } from 'utils/constants';
+import { CHECKOUT, EMAIL_CAPS, ERRORMSG, FAILURE, RATING5STARS, SUCCESS } from 'utils/constants';
 import Okay from '@icons/okayFeedback.svg';
 import Good from '@icons/goodFeedback.svg';
 import Great from '@icons/greatFeedback.svg';
@@ -28,6 +28,8 @@ import { useCheckedIn } from 'storage/check-in.storage';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { GET_HOTEL_INFORMATION } from 'core/graphql/queries/GET_HOTEL_INFORMATION';
 import { Loader } from 'components/shared/Loaders/Loaders';
+import { Notification } from 'components/shared/Notification/Notification';
+import { toggleNotification } from 'storage/home.storage';
 
 export { getStaticPaths };
 
@@ -41,6 +43,7 @@ const Feedback = () => {
   const hotelId = useConfig()?.hotelId;
   const hotelName = useConfig()?.name;
   const navigate = useLocalizedRouter();
+  const [notificationState, setNotificationState] = useState<any>(false);
 
   const { data: homeCarouselDetails, loading: homeCarouselLoading } = useQuery(
     GET_HOTEL_INFORMATION,
@@ -108,7 +111,15 @@ const Feedback = () => {
       navigate(availablePaths.HOME);
       setLoading(false);
     } catch (uploadSignatureError) {
-      processError(t, uploadSignatureError as ApolloError);
+      setNotificationState({
+        title: ERRORMSG,
+        redirect: null,
+        type: FAILURE,
+        apolloError: uploadSignatureError as ApolloError,
+      });
+      toggleNotification(true);
+
+      // processError(t, uploadSignatureError as ApolloError);
       setLoading(false);
     }
   };
@@ -217,6 +228,12 @@ const Feedback = () => {
           </div>
         </PageWrapper>
       )}
+      <Notification
+        title={notificationState?.title}
+        apolloError={notificationState?.apolloError}
+        redirect={notificationState?.redirect}
+        type={notificationState?.type}
+      />
     </>
   );
 };

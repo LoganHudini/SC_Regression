@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import Head from 'next/head';
 import SignatureCanvas from 'react-signature-canvas';
-import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
+import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Card } from 'components/shared/Card/Card';
 import { Header } from 'components/shared/Header/Header';
@@ -38,7 +38,7 @@ import { timeFormats } from 'utils/timeFormats';
 import dayjs from 'dayjs';
 import cx from 'classnames';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
-import { BRAND_CODE, CURRENCY } from 'core/graphql/endpoints';
+import { BRAND_CODE } from 'core/graphql/endpoints';
 import { PRECHECKIN } from 'core/graphql/queries/PRECHECKIN';
 import {
   PRE_CHECKIN_ERROR_MSG,
@@ -53,11 +53,13 @@ import {
   SUCCESS,
   FAILURE,
   CARD_TYPE,
+  NOSHOW,
+  ERRORMSG,
 } from 'utils/constants';
 import { GET_E_REG_DETAILS } from 'core/graphql/queries/GET_E_REG_DETAILS';
 import { Notification } from 'components/shared/Notification/Notification';
 import { toggleNotification } from 'storage/home.storage';
-import { useConfig } from 'utils/hooks/useConfiguration';
+import { useConfig, usePaymentConfig } from 'utils/hooks/useConfiguration';
 import { Stepper } from 'components/shared/Stepper/Stepper';
 import produce from 'immer';
 import { accompanyGuestDetails } from 'storage/accompany-guest-details';
@@ -67,6 +69,7 @@ export { getStaticPaths };
 const CheckIn: React.FC<ICheckinProps> = () => {
   const navigate = useLocalizedRouter();
   const config = useConfig();
+  const paymentConfig: any = usePaymentConfig();
   const hotelId = config?.hotelId;
   const { t } = useTranslation(['check-in', 'common']);
   const guests = useReactiveVar(guestInformationStorage);
@@ -153,7 +156,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       !data ||
       data?.getReservation?.data?.reservationStatus === CANCELED ||
       data?.getReservation?.data?.reservationStatus === CHECKEDOUT ||
-      data.getReservation.data.reservationStatus === CHKOUT
+      data.getReservation.data.reservationStatus === CHKOUT ||
+      data.getReservation.data.reservationStatus === NOSHOW
     ) {
       navigate(availablePaths?.HOME);
     }
@@ -207,9 +211,9 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         adult: adult,
         children: children,
       },
-      paymentType: cardType ?? 'VISA',
+      paymentType: paymentConfig?.paymentMethod ?? guestReservationInfo?.paymentType,
       expirationDate: guestReservationInfo?.cardExpiryDate as string,
-      creditCardType: cardType,
+      creditCardType: guestReservationInfo?.cardType,
       lastFourDigits: guestReservationInfo?.cardNumber?.substr(
         guestReservationInfo?.cardNumber?.length - 4,
       ),
@@ -251,7 +255,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       });
       checkInPayload.guestSignature = uploadSignatureResponse.data.preSignDocUpload.data.key;
     } catch (uploadSignatureError) {
-      processError(t, uploadSignatureError as ApolloError);
+      setErrorNotification(true);
+      // processError(t, uploadSignatureError as ApolloError);
     }
 
     try {
@@ -312,14 +317,16 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     guestReservationInfo?.firstName,
     guestReservationInfo?.lastName,
     guestReservationInfo?.phone,
+    guestReservationInfo?.paymentType,
     guestReservationInfo?.cardExpiryDate,
+    guestReservationInfo?.cardType,
     guestReservationInfo?.cardNumber,
     guestReservationInfo?.token,
     guestReservationInfo?.docType,
     guestReservationInfo?.docNo,
     adult,
     children,
-    cardType,
+    paymentConfig?.paymentMethod,
     personalizationEntities,
     guests,
     t,
@@ -659,7 +666,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               ref={sigCanvas}
               maxWidth={1.5}
               penColor='#3D3C3C'
-              canvasProps={{ height: 100, width: 350 }}
+              canvasProps={{
+                height: 100,
+                width: 350,
+              }}
               clearOnResize={false}
               onEnd={() => handleSignatureChange()}
             />
@@ -678,11 +688,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         </div>
 
         <Notification
-          title={
-            errorNotification
-              ? t('Something Went Wrong!' as string)
-              : (t('Welcome Aboard!') as string)
-          }
+          title={errorNotification ? t(ERRORMSG as string) : (t('Welcome Aboard!') as string)}
           description={
             errorNotification
               ? (errorText as string)

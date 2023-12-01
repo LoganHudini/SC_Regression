@@ -24,25 +24,25 @@
     },
     {
       "type": "npm",
-      "script": "dev:uat",
+      "script": "dev:sofitel",
       "problemMatcher": [],
-      "label": "Dev: UAT",
-      "detail": "env-cmd -f .env.uat yarn next dev"
+      "label": "Dev: SOFITEL",
+      "detail": "env-cmd -f .env.sofitel yarn next dev"
     },
     {
       "type": "npm",
-      "script": "build:uat",
+      "script": "build:sofitel",
       "group": "build",
       "problemMatcher": [],
-      "label": "Build: UAT",
-      "detail": "env-cmd -f .env.uat yarn build"
+      "label": "Build: SOFITEL",
+      "detail": "env-cmd -f .env.sofitel yarn build"
     },
     {
       "type": "npm",
-      "script": "start:uat",
+      "script": "start:sofitel",
       "problemMatcher": [],
-      "label": "Start: UAT",
-      "detail": "env-cmd -f .env.uat next start"
+      "label": "Start: SOFITEL",
+      "detail": "env-cmd -f .env.sofitel next start"
     },
     {
       "type": "npm",
@@ -87,6 +87,50 @@
       "problemMatcher": [],
       "label": "Start: ITC",
       "detail": "env-cmd -f .env.itc next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:raffles",
+      "problemMatcher": [],
+      "label": "Dev: RAFFLES",
+      "detail": "env-cmd -f .env.raffles yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:raffles",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: RAFFLES",
+      "detail": "env-cmd -f .env.raffles yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:raffles",
+      "problemMatcher": [],
+      "label": "Start: RAFFLES",
+      "detail": "env-cmd -f .env.raffles next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:atlantis",
+      "problemMatcher": [],
+      "label": "Dev: ATLANTIS",
+      "detail": "env-cmd -f .env.atlantis yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:atlantis",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: ATLANTIS",
+      "detail": "env-cmd -f .env.atlantis yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:atlantis",
+      "problemMatcher": [],
+      "label": "Start: ATLANTIS",
+      "detail": "env-cmd -f .env.atlantis next start"
     }
   ]
 }

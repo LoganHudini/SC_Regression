@@ -16,12 +16,14 @@ import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
 import { IDiningMenuStorageData, diningMenuStorage } from 'storage/dining-menu.storage';
 import cx from 'classnames';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { filterLiveMenu, irdActiveMenuList } from 'utils/functions';
+import { activeModule, filterLiveMenu, irdActiveMenuList } from 'utils/functions';
 import { availablePaths } from 'utils/availablePaths';
 import DiningMenu from 'components/pages/dining/DiningMenu/DiningMenu';
 import ScrollDown from '@icons/scrollDown.svg';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { client } from 'core/graphql/client';
+import { CHECKIN, CHECK_IN, IN_ROOM_DINING, IRD } from 'utils/constants';
+import { useCheckedIn } from 'storage/check-in.storage';
 
 export { getStaticPaths };
 
@@ -30,6 +32,7 @@ const Dining = () => {
   const locale = useLocale();
   const hotelId = useConfig()?.hotelId;
   const hotelName = useConfig()?.name;
+  const config = useConfig();
   const navigate = useLocalizedRouter();
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
   const filter = useReactiveVar(diningInformationStorage);
@@ -37,6 +40,7 @@ const Dining = () => {
   const [categoryId1, setcategoryId] = useState('');
   const dropdownRef: any = useRef();
   const [scrollTop, setScrollTop] = useState(0);
+  const checkInData = useCheckedIn();
 
   const { data, loading: irdMenuLoading } = useQuery<IRDMenuApiResponse>(IRD_MENU, {
     skip: !hotelId,
@@ -71,12 +75,19 @@ const Dining = () => {
   ]);
 
   const [search, setsearch] = useState(false);
+  const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
+  const checkinModule: any = activeModule(config?.modules, CHECK_IN);
 
   useEffect(() => {
-    if (data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length === 0) {
+    if (
+      data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length === 0 ||
+      !irdModule ||
+      !checkinModule ||
+      !checkInData?.checkedIn
+    ) {
       navigate(availablePaths?.HOME);
     }
-  }, [data?.getIRDMenuOutputDetails, navigate, t]);
+  }, [data?.getIRDMenuOutputDetails, navigate, t, irdModule, checkinModule]);
 
   useEffect(() => {
     if (header[0]?.name == undefined && header[0].hours == undefined) {

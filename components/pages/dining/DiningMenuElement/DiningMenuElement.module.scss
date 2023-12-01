@@ -1,6 +1,6 @@
 .card {
   display: flex;
-  margin: 0.25rem 0 0.5rem;
+  margin: 0.75rem 0 0.75rem;
   padding: 0.8rem;
   text-align: start;
   justify-content: space-between;
@@ -35,7 +35,8 @@
   color: var(--tertiary-text-color);
   width: 140%;
   min-height: 1rem;
-  max-height: 3.25rem;
+  line-height: 1.5;
+  max-height: 4rem;
   -webkit-line-clamp: 3;
 }
 

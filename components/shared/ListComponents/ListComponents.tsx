@@ -7,7 +7,8 @@ import styles from './ListComponents.module.scss';
 import { ASSETS_URL, CURRENCY } from 'core/graphql/endpoints';
 import { OFFERSDURATION } from 'utils/constants';
 import dayjs from 'dayjs';
-import { restaurantTimings } from 'utils/functions';
+import { getTimings } from 'utils/functions';
+import { CustomReadMore } from '../CustomReadMore/CustomReadMore';
 
 interface ListComponentEntityProps {
   queryResultEntity: any;
@@ -25,7 +26,7 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
     selectedListItem(queryResultEntity);
   }, [queryResultEntity, selectedListItem]);
 
-  const time = restaurantTimings(queryResultEntity?.customAttributes);
+  const time = getTimings(queryResultEntity?.customAttributes);
 
   return (
     <div className={styles.listComponent} onClick={onCtaClick}>
@@ -80,7 +81,7 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
               <p>{time?.value}</p>
             </div>
           )}
-          <span className={styles.readMoreButton}>{t('Read more')}</span>
+          <CustomReadMore text={'READ MORE'} />
         </div>
       </div>
     </div>

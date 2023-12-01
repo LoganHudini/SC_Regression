@@ -14,7 +14,6 @@ import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { personalizeYourRoomStorage } from 'storage/personalize-your-room.storage';
 import { client } from 'core/graphql/client';
 import { IGetReservationApiResponse, GET_RESERVATION } from 'core/graphql/queries/GET_RESERVATION';
-import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';

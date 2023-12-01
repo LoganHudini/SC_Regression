@@ -1,0 +1,22 @@
+{
+  "theme_color": "#011446",
+  "background_color": "#ffffff",
+  "display": "fullscreen",
+  "scope": "/",
+  "start_url": "/",
+  "name": "Atlantis",
+  "short_name": "Atlantis",
+  "icons": [
+    {
+      "src": "/images/atlantis/Logo.png",
+      "type": "image/png",
+      "sizes": "196x196",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/stlantis/Logo.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

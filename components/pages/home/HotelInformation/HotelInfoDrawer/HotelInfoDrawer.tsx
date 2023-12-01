@@ -81,59 +81,63 @@ const HotelInfoDrawer = () => {
               </Carousel>
             </div>
 
-            <div className={styles.phoneEmailCtaWrapper}>
-              {phoneData && (
-                <>
-                  <div className={cx(styles.border, styles.align)}>
-                    <a
-                      aria-label={`${t('Phone')}`}
-                      href={`tel:${phoneData?.value}`}
-                      target='_blank'
-                      rel='noreferrer'
-                      className={styles.phoneText}
-                    >
-                      <Phone className={styles.phoneIcon} />
-                    </a>
-                  </div>
-                  <div className={styles.verticalline}></div>
-                </>
-              )}
+            {(phoneData || webData || mailData || hotelInfo?.location?.addressLine1) && (
+              <div className={styles.phoneEmailCtaWrapper}>
+                {phoneData && (
+                  <>
+                    <div className={cx(styles.border, styles.align)}>
+                      <a
+                        aria-label={`${t('Phone')}`}
+                        href={`tel:${phoneData?.value}`}
+                        target='_blank'
+                        rel='noreferrer'
+                        className={styles.phoneText}
+                      >
+                        <Phone className={styles.phoneIcon} />
+                      </a>
+                    </div>
+                    <div className={styles.verticalline}></div>
+                  </>
+                )}
+                {webData && (
+                  <>
+                    <div className={styles.border}>
+                      <a
+                        aria-label={`${t('Link')}`}
+                        href={webData?.value}
+                        className={styles.urlText}
+                        target='_blank'
+                        rel='noreferrer'
+                      >
+                        <Link className={styles.linkIcon} />
+                      </a>
+                    </div>
+                    <div className={styles.verticalline}></div>
+                  </>
+                )}
 
-              {webData && (
                 <>
                   <div className={styles.border}>
-                    <a
-                      aria-label={`${t('Link')}`}
-                      href={webData?.value}
-                      className={styles.urlText}
-                      target='_blank'
-                      rel='noreferrer'
-                    >
-                      <Link className={styles.linkIcon} />
-                    </a>
+                    <Map onClick={() => handleClick()} />
                   </div>
-                  <div className={styles.verticalline}></div>
                 </>
-              )}
 
-              <div className={styles.border}>
-                <Map onClick={() => handleClick()} />
+                {mailData && (
+                  <>
+                    <div className={styles.verticalline}></div>
+                    <div className={styles.mailWrapper}>
+                      <a
+                        href={`mailto:${mailData?.value}`}
+                        aria-label={`${t('Email')}`}
+                        className={styles.emailText}
+                      >
+                        <Mail className={styles.emailIcon} />
+                      </a>
+                    </div>
+                  </>
+                )}
               </div>
-
-              <div className={styles.verticalline}></div>
-
-              {mailData && (
-                <div className={styles.mailWrapper}>
-                  <a
-                    href={`mailto:${mailData?.value}`}
-                    aria-label={`${t('Email')}`}
-                    className={styles.emailText}
-                  >
-                    <Mail className={styles.emailIcon} />
-                  </a>
-                </div>
-              )}
-            </div>
+            )}
           </div>
           <div className={styles.wrapper}>
             <h2 className={styles.title}>{t(`${hotelInfo?.name}`)}</h2>

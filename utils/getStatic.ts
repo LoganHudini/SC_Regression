@@ -1,6 +1,13 @@
 import i18nextConfig from '../next-i18next.config';
 
-const propertyList = ['sofitel-manila', 'fairmont-marrakech', 'itc-grand-chola'];
+const propertyList = [
+  'pwa-demo',
+  'sofitel-manila',
+  'fairmont-marrakech',
+  'itc-grand-chola',
+  'raffles-the-palm',
+  'atlantis',
+];
 
 export const getI18nPaths = () =>
   i18nextConfig?.i18n?.locales

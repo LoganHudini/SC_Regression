@@ -20,6 +20,9 @@ export const availablePaths = {
   // Youverse
   YOUVERSE: `/${hotel}/youverse`,
 
+  // Incode
+  INCODE: `/${hotel}/incode`,
+
   // Dining flow
   DINING: `/${hotel}/dining`,
   DINING_ORDER_SUMMARY: `/${hotel}/dining-order-summary`,

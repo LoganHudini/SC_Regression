@@ -5,6 +5,8 @@ import { Player } from '@lottiefiles/react-lottie-player';
 import ItemNotFound from '@jsons/itemsNotFound.json';
 import Carousel from '@jsons/carousel.json';
 import Image from '@jsons/image.json';
+import Failure from '@jsons/failure.json';
+import PageNotFound from '@jsons/pageNotFound.json';
 import { BRAND_CODE } from 'core/graphql/endpoints';
 
 export const LogoLoader = () => {
@@ -53,9 +55,7 @@ export const SuccessAnimation = () => (
 );
 
 export const FailureAnimation = () => (
-  <Player autoplay loop src={`/jsons/${BRAND_CODE}/error.json`} className={styles.errorAnimation} />
+  <Player autoplay loop src={Failure} className={styles.errorAnimation} />
 );
 
-export const PageNotFoundAnimation = () => (
-  <Player autoplay loop src={`/jsons/${BRAND_CODE}/crossAnimation.json`} />
-);
+export const PageNotFoundAnimation = () => <Player autoplay loop src={PageNotFound} />;

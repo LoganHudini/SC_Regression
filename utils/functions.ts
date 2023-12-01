@@ -2,17 +2,6 @@ import dayjs from 'dayjs';
 import { scrollState } from 'storage/dining-menu.storage';
 import { DOCTYPE, PHONE_REGEX, TIMINGS } from './constants';
 import * as yup from 'yup';
-import { toggleCheckInDetailsDrawer, toggleLoader, toggleNotification } from 'storage/home.storage';
-import { ApolloError } from '@apollo/client';
-import { client } from 'core/graphql/client';
-import { GET_RESERVATION } from 'core/graphql/queries/GET_RESERVATION';
-import { toast } from 'react-toastify';
-import { checkinStorage } from 'storage/check-in.storage';
-import { saveTrip } from 'storage/trips.storage';
-import { availablePaths } from './availablePaths';
-import { processError } from './processError';
-import { useLocalizedRouter } from './hooks/useLocalizedRouter';
-import { useConfig } from './hooks/useConfiguration';
 
 // Extract data from local storage
 export const guestNameFandB = () =>
@@ -157,20 +146,11 @@ export const filterRestaurantList = (queryResultsData: any, diningOptionSelected
   });
 };
 
-// Loader function
-export const platformLoader = (duration: number) => {
-  toggleLoader(true);
-  setTimeout(() => {
-    toggleLoader(false);
-  }, duration);
-};
-
 // Return active items
 export const activeItems = (list: any) => list && list?.filter((item: any) => item?.isActive);
 
-// restaurant timings
-export const restaurantTimings = (data: any) =>
-  data && data?.find((item: any) => item?.key === TIMINGS);
+// Timings
+export const getTimings = (data: any) => data && data?.find((item: any) => item?.key === TIMINGS);
 
 export const updateDocTypeOptions = (data: any, replaceData: any) => {
   return data?.map((item: any) => {
@@ -223,78 +203,7 @@ export const isOfferActive = (offer: any) => {
   return false;
 };
 
-export const getReservationFunction = async (
-  values: any,
-  hotelId: any,
-  path: any,
-  t: any,
-  home: any,
-) => {
-  try {
-    // setLoading(true);
-    const { data } = await client.query({
-      query: GET_RESERVATION,
-      context: { clientName: 'rest' },
-      variables: {
-        confirmationNumber: values?.confirmationNumber,
-        lastName: values?.lastName,
-        hotelId: hotelId,
-      },
-      fetchPolicy: 'no-cache',
-    });
-
-    if (data) {
-      client.writeQuery({
-        query: GET_RESERVATION,
-        data,
-      });
-
-      const roomNo = data?.getReservation?.data?.roomTypes[0]?.roomNumber;
-
-      if (
-        data.getReservation.data.reservationStatus === 'CANCELED' ||
-        data.getReservation.data.reservationStatus === 'CHKOUT' ||
-        data.getReservation.data.reservationStatus === 'CHECKEDOUT'
-      ) {
-        toast(t('No Reservation Found'), { type: 'error' });
-        checkinStorage({
-          reservationId: data.getReservation.data.confirmationId as string,
-          checkedIn: false,
-          preCheckedIn: false,
-        });
-        // setLoading(false);
-      } else if (data.getReservation.data.reservationStatus === 'INHOUSE') {
-        toggleNotification(true);
-        saveTrip({
-          reservationId: data?.getReservation?.data?.confirmationId as string,
-          preCheckedIn: !roomNo ? true : false,
-          checkedIn: roomNo ? true : false,
-          name: data?.getReservation?.data?.lastName,
-          email: data?.getReservation?.data?.emails,
-          roomNumber: roomNo,
-          invoiceId: data?.getReservation?.data?.reservationId as string,
-        });
-        checkinStorage({
-          reservationId: data?.getReservation?.data?.confirmationId as string,
-          preCheckedIn: !roomNo ? true : false,
-          checkedIn: roomNo ? true : false,
-          name: data?.getReservation?.data?.lastName,
-          email: data?.getReservation?.data?.emails,
-          roomNumber: roomNo,
-          invoiceId: data?.getReservation?.data?.reservationId as string,
-        });
-        toggleCheckInDetailsDrawer(false);
-        return home;
-
-        // setLoading(false);
-      } else {
-        toggleCheckInDetailsDrawer(false);
-        return path;
-        // setLoading(false);
-      }
-    }
-  } catch (error) {
-    processError(t, error as ApolloError);
-    // setLoading(false);
-  }
-};
+export const activeModule = (moduleList: any, moduleActive: any) =>
+  moduleList.find((module: any) => module?.code === moduleActive && module?.isActive)
+    ? true
+    : false;

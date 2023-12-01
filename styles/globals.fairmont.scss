@@ -30,7 +30,7 @@
   --primary-image-transition-background-color: #a0a1a3;
 
   // hamburger menu colors
-  --hamburgermenu-background-color: #333333;
+  --hamburgermenu-drawer-color: #333333;
   --hamburgermenu-text-color: #ffffff;
   --hamburgermenu-icon-color: #ffffff;
 
@@ -69,9 +69,19 @@
   --secondary-button-background-color: #ffffff;
   --secondary-button-border-radius: 0px;
   --secondary-button-font-family: 'ITC Franklin Gothic Std Medium';
+
+  // read more cta configs
+  --readmore-text: none;
+  --readmore-arrowwithtext: none;
+  --readmore-arrow: flex;
+  --readmore-arrowhead: none;
+  --readmore-underline: none;
 }
 
 .MuiButton-containedPrimary {
+  &:disabled {
+    background: var(--primary-disabled-color);
+  }
   &:after {
     display: none;
   }

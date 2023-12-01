@@ -3,7 +3,7 @@
 }
 
 .diningCarouselTitle {
-  font: 30px var(--heading-font-regular);
+  font: $xheader var(--heading-font-regular);
   text-align: center;
   margin: 10px;
 }
@@ -17,6 +17,7 @@
   padding: 0 8px;
   justify-content: center;
   margin: 1rem auto 1.5rem;
+  border-radius: var(--primary-button-border-radius);
 }
 
 .diningOptionsItem {
@@ -49,6 +50,7 @@
 }
 
 .diningOptionsItemActive:before {
+  border-radius: var(--primary-button-border-radius);
   left: 0;
   opacity: 1;
 }
@@ -86,6 +88,7 @@
   pointer-events: none;
   z-index: 100;
   position: absolute;
+  border-radius: var(--primary-card-border-radius);
 }
 
 .carouselSlideDetailsWrapper {
@@ -98,6 +101,7 @@
   position: absolute;
   bottom: 5px;
   left: 10px;
+  border-radius: var(--primary-card-border-radius);
 }
 
 .carouselSlideDetailsWrapperRestaurantsAndBars {
@@ -110,6 +114,8 @@
   position: absolute;
   bottom: 5px;
   left: 10px;
+  border-radius: var(--primary-card-border-radius);
+  background: var(--primary-card-background-color);
 }
 
 .carouselSlideTitle {

@@ -78,14 +78,15 @@ const HotelCompendium = () => {
     <>
       {showSelectedAmenity && (
         <>
-          {showSelectedAmenity?.images[0]?.ratio16to9 ? (
-            <StableImage
-              className={styles.image}
-              src={`${ASSETS_URL}/${showSelectedAmenity?.images[0]?.ratio16to9}`}
-            />
-          ) : (
-            <div className='imagePlaceHolderAnimation' />
-          )}
+          {showSelectedAmenity?.images?.length > 0 &&
+            (showSelectedAmenity?.images[0]?.ratio16to9 ? (
+              <StableImage
+                className={styles.image}
+                src={`${ASSETS_URL}/${showSelectedAmenity?.images[0]?.ratio16to9}`}
+              />
+            ) : (
+              <div className='imagePlaceHolderAnimation' />
+            ))}
           <div className={styles.wrapper}>
             {showSelectedAmenity?.name && (
               <p className={styles.title}>{showSelectedAmenity?.name}</p>

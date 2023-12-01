@@ -16,6 +16,7 @@ import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
 import { ckeckoutTrip } from 'storage/trips.storage';
 import { useConfig } from 'utils/hooks/useConfiguration';
+import { ERRORMSG } from 'utils/constants';
 
 const CheckoutDrawer = (props: any) => {
   const { setErrorToggle } = props;
@@ -106,7 +107,7 @@ const CheckoutDrawer = (props: any) => {
         toggleNotification(true);
         setErrorToggle({
           state: true,
-          message: 'Something Went Wrong!',
+          message: ERRORMSG,
           type: 'checkout',
           description: 'Please Try Again.',
         });

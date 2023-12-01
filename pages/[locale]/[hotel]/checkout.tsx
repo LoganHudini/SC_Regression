@@ -29,12 +29,14 @@ import { availablePaths } from 'utils/availablePaths';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { FAILURE, SUCCESS } from 'utils/constants';
+import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 
 export { getStaticPaths };
 
 const CheckOut = () => {
   const { t } = useTranslation('common');
   const hotelName = useConfig()?.name;
+  const navigate = useLocalizedRouter();
   const [errorToggle, setErrorToggle] = useState<any>();
 
   const openCheckOutDrawer = useReactiveVar(toggleOpenCheckOutDrawer);
@@ -60,6 +62,12 @@ const CheckOut = () => {
   const loading = invoiceLoading || reservationLoading;
   const invoiceElements = invoiceData?.invoice?.data?.billItems;
   const reservationInfo = reservationData?.getReservation?.data;
+
+  useEffect(() => {
+    if (!reservationInfo) {
+      navigate(availablePaths?.HOME);
+    }
+  }, [navigate, reservationInfo]);
 
   useEffect(() => {
     if (openCheckOutDrawer) {

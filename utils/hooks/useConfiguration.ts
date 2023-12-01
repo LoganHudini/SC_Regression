@@ -1,7 +1,7 @@
 import { configuration } from 'core/graphql/queries/GET_CONFIGURATION';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { CHECK_IN, GUESTINFORMATION, INFORMATION } from 'utils/constants';
+import { CHECK_IN, CREDIT_CARD_INFO, GUESTINFORMATION, INFORMATION } from 'utils/constants';
 
 export const useConfig = () => {
   const router = useRouter();
@@ -22,10 +22,13 @@ export const useConfig = () => {
   return configuration?.find((config) => hotel && config?.code === hotel);
 };
 
-// export const paymentConfiguration = getConfig()
-//   ?.modules?.find((module: any) => module?.isActive && module?.code === CHECK_IN)
-//   ?.submodules?.find((submodule: any) => submodule?.isActive && submodule?.name === INFORMATION)
-//   ?.details?.find((detail: any) => detail?.isActive && detail?.name === CREDIT_CARD_INFO);
+export const usePaymentConfig = () => {
+  const config = useConfig();
+  return config?.modules
+    ?.find((module: any) => module?.isActive && module?.code === CHECK_IN)
+    ?.submodules?.find((submodule: any) => submodule?.isActive && submodule?.name === INFORMATION)
+    ?.details?.find((detail: any) => detail?.isActive && detail?.name === CREDIT_CARD_INFO);
+};
 
 export const useDocumentConfig = () => {
   const config = useConfig();

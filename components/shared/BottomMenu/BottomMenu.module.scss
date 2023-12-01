@@ -31,7 +31,7 @@
 
 .bottomMenuButton {
   width: 80%;
-  margin: auto 5px auto 15px;
+  margin: auto 5px auto 15px !important;
   height: 44px;
   background-color: var(--primary-button-background-color) !important;
   font-family: var(--primary-button-font-family) !important;
@@ -66,7 +66,7 @@
   align-items: center;
   max-width: 768px;
   overflow-y: scroll;
-  background: var(--hamburgermenu-background-color);
+  background-color: var(--hamburgermenu-drawer-color) !important;
   padding: 2rem 1.5rem;
   z-index: 1;
   transform-origin: bottom;
