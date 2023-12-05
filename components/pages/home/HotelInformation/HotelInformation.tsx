@@ -8,14 +8,14 @@ import { hotelImage, toggleHotelInfoDrawer, toggleMapState } from 'storage/home.
 import { CustomReadMore } from 'components/shared/CustomReadMore/CustomReadMore';
 
 const HotelInformation = (props: any) => {
-  const { details, loading } = props;
+  const { details } = props;
   const { t } = useTranslation(['common']);
   const hotelInfo = details && details?.getPropertyDetailsByHotelId?.hotel;
   hotelImage(hotelInfo?.images[0]);
 
   return (
     <>
-      {details && (
+      {hotelInfo && (
         <div
           className={styles.carouselSlideWrapper}
           onClick={() => {

@@ -169,7 +169,11 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
           {config?.name} | {t('Card Confirmation')}
         </title>
       </Head>
-      <Header screenTitle={t(`${accompanyingGuestSubmodule?.label}`) as string} displayBackButton />
+      <Header
+        screenTitle={t(`${accompanyingGuestSubmodule?.label}`) as string}
+        displayBackButton
+        backRoute={availablePaths?.GUEST_VERIFICATION}
+      />
       <PageWrapper className={styles.pageWrapper}>
         <Stepper />
         <div className={styles.cardAuthorisationTitleWrapper}>

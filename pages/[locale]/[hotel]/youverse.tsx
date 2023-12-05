@@ -13,10 +13,10 @@ import { availablePaths } from 'utils/availablePaths';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
 import { useReactiveVar } from '@apollo/client';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
-import { useConfig } from 'utils/hooks/useConfiguration';
+import { useConfig, useDocumentConfig } from 'utils/hooks/useConfiguration';
 import { youverseProfileIDStorage } from 'storage/check-in.storage';
 import { accompanyGuestDetails } from 'storage/accompany-guest-details';
-import { DOCUMENT_OPTIONS, FAILURE, PRIMARY } from 'utils/constants';
+import { DOCTYPE, FAILURE, PRIMARY } from 'utils/constants';
 import { STORE_RESERVATION } from 'core/graphql/queries/STORE_RESERVATION';
 import { Notification } from 'components/shared/Notification/Notification';
 import { notificationDetails, toggleNotification } from 'storage/home.storage';
@@ -32,9 +32,12 @@ const Youverse: React.FC = () => {
   const [src, setSrc] = useState('');
   const notificationInfo = useReactiveVar(notificationDetails);
   const youverseProfileIDState = useReactiveVar(youverseProfileIDStorage);
-  const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
-
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
+  const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
+  const documentConfig: any = useDocumentConfig();
+
+  const docTypes = documentConfig?.details?.find((e: any) => e?.name === DOCTYPE)?.options;
+
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
   });
@@ -144,9 +147,9 @@ const Youverse: React.FC = () => {
                   reservationGuestInfoStorageData({
                     ...guestReservationInfo,
                     docNo: res?.data?.getyoonikresponse?.data?.documentNumber,
-                    docType: DOCUMENT_OPTIONS?.find(
+                    docType: docTypes?.find(
                       (document: any) =>
-                        document?.code === res?.data?.getyoonikresponse?.data?.youverseType,
+                        document?.youverse === res?.data?.getyoonikresponse?.data?.youverseType,
                     )?.name,
                     effectiveDate: res?.data?.getyoonikresponse?.data?.issueDate,
                     expiryDate: res?.data?.getyoonikresponse?.data?.expiryDate,
@@ -164,9 +167,10 @@ const Youverse: React.FC = () => {
                         formData: {
                           ...guest.formData,
                           docNo: res?.data?.getyoonikresponse?.data?.documentNumber,
-                          docType: DOCUMENT_OPTIONS?.find(
+                          docType: docTypes?.find(
                             (document: any) =>
-                              document?.code === res?.data?.getyoonikresponse?.data?.youverseType,
+                              document?.youverse ===
+                              res?.data?.getyoonikresponse?.data?.youverseType,
                           )?.name,
                           effectiveDate: res?.data?.getyoonikresponse?.data?.issueDate,
                           expiryDate: res?.data?.getyoonikresponse?.data?.expiryDate,

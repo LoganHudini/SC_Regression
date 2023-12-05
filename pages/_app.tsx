@@ -5,7 +5,7 @@ import { client } from '../core/graphql/client';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { StyledEngineProvider } from '@mui/material/styles';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import CloseToastIcon from '@icons/closeToast.svg';
 import ErrorIcon from '@icons/error.svg';
 import SuccessIcon from '@icons/success.svg';
@@ -28,7 +28,6 @@ const ToastErrorIcon: ToastIcon = (props) => {
 };
 
 function App({ Component, pageProps }: AppProps) {
-  // const [color] = useState('#d0f');
   const router = useRouter();
   useEffect(() => {
     const handleRouteChange = (url: any) => {
@@ -39,6 +38,52 @@ function App({ Component, pageProps }: AppProps) {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, []);
+
+  useEffect(() => {
+    const registerServiceWorker = async () => {
+      if ('serviceWorker' in navigator) {
+        try {
+          const registration = await navigator.serviceWorker.register('/service-worker.js');
+          console.log('Service Worker registered with scope:', registration.scope);
+
+          registration.onupdatefound = () => {
+            const installingWorker: any = registration.installing;
+            installingWorker.onstatechange = () => {
+              if (installingWorker.state === 'installed') {
+                if (navigator.serviceWorker.controller) {
+                  // Trigger an event to notify the application of an update
+                  const updateEvent = new Event('swUpdate');
+                  document.dispatchEvent(updateEvent);
+                  console.log('Update Performed!');
+                } else {
+                  console.log('Content is now available offline!');
+                }
+              }
+            };
+          };
+        } catch (error) {
+          console.error('Error registering Service Worker:', error);
+        }
+      }
+    };
+
+    registerServiceWorker();
+  }, []);
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      // Display a notification or UI indicating an update is available
+      // Prompt the user to reload the page or automatically reload
+      window.location.reload();
+    };
+
+    document.addEventListener('swUpdate', handleUpdate);
+
+    return () => {
+      document.removeEventListener('swUpdate', handleUpdate);
+    };
+  }, []);
+
   return (
     <StyledEngineProvider injectFirst>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -62,7 +107,6 @@ function App({ Component, pageProps }: AppProps) {
                 </button>
               )}
             />
-            {/* <style>{`:root { --custom-color: ${color}; --primary-theme-color: ${color};}`}</style> */}
             <Component {...pageProps} />
           </React.StrictMode>
         </ApolloProvider>

@@ -9,7 +9,7 @@ import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/querie
 import { client } from 'core/graphql/client';
 import cx from 'classnames';
 import { GetStaticProps } from 'next';
-import { ApolloError, useReactiveVar, useQuery } from '@apollo/client';
+import { ApolloError, useReactiveVar } from '@apollo/client';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'react-i18next';
 import { getStaticPaths } from 'utils/getStatic';
@@ -21,7 +21,6 @@ import {
   IUpdateGuestDetailsApiRequest,
   UPDATE_GUEST_DETAILS,
 } from 'core/graphql/queries/UPDATE_GUEST_DETAILS';
-import { processError } from 'utils/processError';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import {
   CHECK_IN,
@@ -33,12 +32,8 @@ import {
   EMAILS,
   STEPPER_REVIEW,
   ACCOMPANYINGGUEST,
-  EMAIL,
-  SELECTDROPDOWN,
-  CHECKBOX,
   YOUVERSE,
   PRIMARY,
-  DATEPICKER,
   FAILURE,
   INCODE,
   DOCTYPE,
@@ -49,18 +44,8 @@ import { docTypeStorage } from 'storage/guest-information.storage';
 import { Stepper } from 'components/shared/Stepper/Stepper';
 import { StepperInformationStorage, youverseProfileIDStorage } from 'storage/check-in.storage';
 import produce from 'immer';
-import { StyledInput } from 'components/shared/StyledInput/StyledInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import { StyledFormControl } from 'components/shared/StyledFormControl/StyledFormControl';
-import DropDown from '@icons/dropDownIcon.svg';
 import Camera from '@icons/cameraIcon.svg';
-import { StyledCheckBox } from 'components/shared/StyledCheckBox/StyledCheckBox';
 import { accompanyGuestDetails } from 'storage/accompany-guest-details';
-import { DatePicker } from '@mui/x-date-pickers';
-import dayjs from 'dayjs';
-import { timeFormats } from 'utils/timeFormats';
 import { Notification } from 'components/shared/Notification/Notification';
 import { notificationDetails, toggleNotification } from 'storage/home.storage';
 export { getStaticPaths };
@@ -71,34 +56,43 @@ const Guest: React.FC<any> = () => {
   const notificationInfo = useReactiveVar(notificationDetails);
   const config = useConfig();
   const { t } = useTranslation('about-your-stay');
+  const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
+  const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
   });
 
+  const reservationInfo = reservationData?.getReservation?.data;
+
   const checkinModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
+
+  // primary guest configuration
   const guestSubmodule = checkinModule?.submodules?.find(
     (submodule: any) => submodule?.name === INFORMATION && submodule?.isActive,
   );
   const activeSections = guestSubmodule?.details?.filter((section: any) => section?.isActive);
-
   const guestInformationSection = activeSections?.find(
     (section: any) => section?.name === GUESTINFORMATION && section.isActive,
   );
-
-  const transformedData = guestInformationSection?.details?.find(
+  const documentTypes = guestInformationSection?.details?.find(
     (e: any) => e?.name === DOCTYPE,
   )?.options;
 
-  useEffect(() => {
-    if (transformedData) {
-      docTypeStorage(transformedData);
-    }
-  }, [transformedData]);
+  // accompanyguest configuration
+  const accompanyingGuestSubmodule = checkinModule?.submodules?.find(
+    (submodule: any) => submodule?.name === ACCOMPANYINGGUEST && submodule.isActive,
+  );
+  const accompanyGuestInformationSection = updateDocTypeOptions(
+    accompanyingGuestSubmodule?.details,
+    documentTypes,
+  );
 
-  const reservationInfo = reservationData?.getReservation?.data;
-  const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
-  const guestLength = reservationInfo?.guests?.length;
+  useEffect(() => {
+    if (documentTypes) {
+      docTypeStorage(documentTypes);
+    }
+  }, [documentTypes]);
 
   useEffect(() => {
     if (!reservationData) {
@@ -106,6 +100,7 @@ const Guest: React.FC<any> = () => {
     }
   }, [reservationData, navigate]);
 
+  // primary guest initialization
   const extractDataForField = useCallback(
     (fieldName: string) => {
       const fieldPath = fieldName.split('.');
@@ -129,7 +124,6 @@ const Guest: React.FC<any> = () => {
     },
     [reservationInfo?.guests, reservationInfo?.reservePayments],
   );
-
   useEffect(() => {
     if (reservationInfo?.guests) {
       const initialGuestReservationInfo = activeSections?.reduce((values: any, section: any) => {
@@ -152,14 +146,18 @@ const Guest: React.FC<any> = () => {
       reservationGuestInfoStorageData({
         ...initialGuestReservationInfo,
         ...guestReservationInfo,
-        isComplete: validateGuestReservation(guestInformationSection?.details),
+        isComplete: validateCompleteGuestDetails(
+          guestReservationInfo,
+          guestInformationSection?.details,
+        ),
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [extractDataForField, reservationInfo?.guests]);
 
-  const validateGuestReservation = (field: any) => {
-    if (!guestReservationInfo) {
+  // guest validation
+  const validateCompleteGuestDetails = (guestDetails: any, field: any) => {
+    if (!guestDetails) {
       return true;
     }
     if (field === undefined) {
@@ -170,7 +168,7 @@ const Guest: React.FC<any> = () => {
         return true;
       }
 
-      const infoValue = guestReservationInfo[fieldItem?.name];
+      const infoValue = fieldItem?.name in guestDetails ? guestDetails[fieldItem?.name] : true;
 
       if (fieldItem.name === PHONE) {
         return PHONE_REGEX.test(infoValue);
@@ -184,187 +182,70 @@ const Guest: React.FC<any> = () => {
     });
   };
 
-  const validButton = validateGuestReservation(guestInformationSection?.details);
-
-  const accompanyingGuestSubmodule = checkinModule?.submodules?.find(
-    (submodule: any) => submodule?.name === ACCOMPANYINGGUEST && submodule.isActive,
+  const guestValidation = validateCompleteGuestDetails(
+    guestReservationInfo,
+    guestInformationSection?.details,
   );
 
-  const docTypeFunction = updateDocTypeOptions(
-    accompanyingGuestSubmodule?.details,
-    transformedData,
-  );
+  const generateAccompanyGuestDetails = useCallback(
+    (accompanyGuestLists: any) => {
+      return accompanyGuestLists
+        ?.map((accompanyGuest: any) => {
+          const guestData: any = { id: accompanyGuest?.id };
 
-  const [otherFieldErrors, setOtherFieldErrors] = useState<any>([]);
-  let isValid: any = true;
-  let errorMessage: any = '';
-
-  const handleFieldBlur: any = (index: any, fieldName: any, value: any, item?: any) => {
-    if (!value) {
-      errorMessage = t(`${item} is required`);
-    } else if (fieldName === EMAIL && !EMAIL_REGEX.test(value)) {
-      isValid = false;
-      errorMessage = t('Invalid email address');
-    } else if (fieldName === PHONE && !PHONE_REGEX.test(value)) {
-      isValid = false;
-      errorMessage = t('Invalid phone number');
-    }
-
-    setOtherFieldErrors((prevErrors: any) => {
-      const updatedErrors: any = [...prevErrors];
-      updatedErrors[index] = { fieldName, isValid, errorMessage };
-      return updatedErrors;
-    });
-  };
-
-  const [infoCards, setInfoCards] = useState<any>([]);
-  const [statusClass, setStatus] = useState<any>([]);
-  const [conditionsAccepted, setConditionsAccepted] = useState(false);
-  const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
-
-  useEffect(() => {
-    function extractAndStoreGuests(response: any) {
-      if (response?.guests && response?.guests?.length > 1) {
-        const storedGuests = response?.guests?.slice(1)?.map((guest: any) => {
-          return {
-            formData: {
-              alreadyUpdated: true,
-              id: guest?.id,
-              firstName: guest?.firstName,
-              lastName: guest?.lastName,
-              email: '',
-              phone: null,
-              docType: '',
-              docNo: '',
-            },
-          };
-        });
-
-        return storedGuests;
-      } else {
-        return [];
-      }
-    }
-    if (!accompanyGuestData) {
-      accompanyGuestDetails(extractAndStoreGuests(reservationInfo));
-    }
-  }, [reservationInfo, accompanyGuestData]);
-
-  useEffect(() => {
-    const generateInfoCards = (guestData: any, initial = false) => {
-      return guestData?.map((guest: any) => {
-        const formData: any = { alreadyUpdated: !initial, id: guest?.id };
-
-        docTypeFunction?.forEach((item: any) => {
-          const guestItem = guest[item?.name];
-          if (guestItem && guestItem.isActive) {
-            formData[item?.name] = guestItem.value;
-          } else if (item?.name in guest) {
-            formData[item?.name] = guest[item?.name];
-          } else if (item?.isActive) {
-            formData[item?.name] = '';
-          }
-        });
-
-        return { formData };
-      });
-    };
-
-    if (accompanyGuestData && accompanyGuestData?.length > 0) {
-      setInfoCards(accompanyGuestData);
-    } else if (reservationInfo && reservationInfo?.guests?.length > 1) {
-      const initialInfoCards = generateInfoCards(reservationInfo?.guests.slice(1), false);
-      setInfoCards(initialInfoCards);
-    } else {
-      setInfoCards([{ formData: { alreadyUpdated: false } }]);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accompanyGuestData, accompanyingGuestSubmodule?.details, reservationInfo]);
-
-  const buttonValidation =
-    guestLength && guestLength > 1 && statusClass?.some((item: any) => item === false);
-
-  const handleInputChange = (index: number, label?: any) => (e: any) => {
-    const { name, value, required } = e.target;
-
-    setInfoCards((prevCards: any) =>
-      prevCards.map((card: any, i: number) =>
-        i === index ? { ...card, formData: { ...card.formData, [name]: value } } : card,
-      ),
-    );
-    if (required) {
-      setOtherFieldErrors((prevErrors: any) => {
-        const updatedErrors = [...prevErrors];
-        const fieldName = name;
-        let isValid = true;
-        let errorMessage = '';
-
-        if (!value) {
-          errorMessage = t(`${label} is required`);
-        } else if (fieldName === EMAIL && !EMAIL_REGEX.test(value)) {
-          isValid = false;
-          errorMessage = t('Invalid email address');
-        } else if (fieldName === PHONE && !PHONE_REGEX.test(value)) {
-          isValid = false;
-          errorMessage = t('Invalid phone number');
-        }
-
-        updatedErrors[index] = { fieldName, isValid, errorMessage };
-        return updatedErrors;
-      });
-    }
-  };
-
-  useEffect(() => {
-    const updatedStatus = infoCards?.map((card: any) => {
-      let cardStatus = true;
-
-      docTypeFunction?.forEach((item: any) => {
-        if (item?.isActive && item?.required) {
-          if (item?.required) {
-            if (!card?.formData[item?.name]) {
-              cardStatus = false;
+          accompanyGuestInformationSection?.forEach((item: any) => {
+            if (item?.name in accompanyGuest && item?.isActive) {
+              guestData[item?.name] = Array.isArray(accompanyGuest[item?.name])
+                ? accompanyGuest[item?.name][0] || ''
+                : accompanyGuest[item?.name] || '';
             }
-          }
+          });
+          return { guestData };
+        })
+        ?.map((item: any) => item?.guestData);
+    },
+    [accompanyGuestInformationSection],
+  );
 
-          if (item?.name === EMAIL && !EMAIL_REGEX.test(card.formData[item?.name])) {
-            cardStatus = false;
-          }
-          if (item?.name === PHONE && !PHONE_REGEX.test(card.formData[item?.name])) {
-            cardStatus = false;
-          }
-        }
-      });
+  // accompany guests initialization and validation
+  useEffect(() => {
+    if (
+      reservationInfo &&
+      reservationInfo?.guests?.length > 1 &&
+      accompanyGuestData?.length === 0
+    ) {
+      accompanyGuestDetails(generateAccompanyGuestDetails(reservationInfo?.guests?.slice(1)));
+    }
+  }, [accompanyGuestData, generateAccompanyGuestDetails, reservationInfo]);
 
-      return cardStatus;
-    });
+  const accompanyGuestValidation = accompanyGuestData
+    ?.map((accompanyGuest: any) =>
+      validateCompleteGuestDetails(accompanyGuest, accompanyGuestInformationSection),
+    )
+    ?.every((item: boolean) => item);
 
-    setStatus(updatedStatus);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [infoCards, accompanyingGuestSubmodule?.details]);
-
-  const toggleConditionsAccepted = useCallback(() => {
-    setConditionsAccepted((oldState) => !oldState);
-  }, []);
-
+  // stepper component
   useEffect(() => {
     StepperInformationStorage(
       produce(StepperInformationStorage(), (draft: any) => {
         const item = draft?.find((el: any) => el?.title === STEPPER_REVIEW);
         if (item) {
-          item.value = !(!validButton || !reservationData || buttonValidation) ? 100 : 60;
+          item.value = !(!guestValidation || !reservationData || !accompanyGuestValidation)
+            ? 100
+            : 60;
         }
       }),
     );
-  }, [buttonValidation, reservationData, validButton]);
+  }, [accompanyGuestValidation, reservationData, guestValidation]);
 
+  // document update
   const goToTheNextStep = useCallback(async () => {
     setLoading(true);
     let successFlag = true;
 
     try {
       const updateGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
-        docType: transformedData?.find(
+        docType: documentTypes?.find(
           (option: any) => option?.name === guestReservationInfo?.docType,
         )?.code,
         docNumber: guestReservationInfo?.docNo,
@@ -420,40 +301,37 @@ const Guest: React.FC<any> = () => {
         successFlag = false;
       }
 
-      const updatedData = infoCards?.filter((card: any) => card?.formData?.alreadyUpdated);
-      if (updatedData.length > 0) {
-        for (let i = 0; i < updatedData.length; i++) {
-          const data = updatedData[i];
-          if (data?.formData?.docType) {
+      if (accompanyGuestData.length > 0) {
+        for (let i = 0; i < accompanyGuestData.length; i++) {
+          const data = accompanyGuestData[i];
+          if (data?.docType) {
             const updateAccompanyGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
-              docType: transformedData?.find(
-                (option: any) => option?.name === data?.formData?.docType,
-              )?.code,
-              docNumber: data?.formData?.docNo,
+              docType: documentTypes?.find((option: any) => option?.name === data?.docType)?.code,
+              docNumber: data?.docNo,
               reservationId: reservationInfo?.reservationId as string,
-              firstName: data?.formData?.firstName,
-              lastName: data?.formData?.lastName,
-              profileId: data?.formData?.id as string,
+              firstName: data?.firstName,
+              lastName: data?.lastName,
+              profileId: data?.id as string,
               isPrimary: 'N',
               effectiveDate: '',
-              expiryDate: data?.formData?.expiryDate || '',
-              countryOfIssue: data?.formData?.issueCountry || '',
-              gender: data?.formData?.gender,
+              expiryDate: data?.expiryDate || '',
+              countryOfIssue: data?.issueCountry || '',
+              gender: data?.gender,
               channel: 'PWA',
               updateGuestDetails: {
                 name: {
-                  firstName: data?.formData?.firstName,
-                  lastName: data?.formData?.lastName,
+                  firstName: data?.firstName,
+                  lastName: data?.lastName,
                   nationality: '',
                   dob: '',
                 },
                 phone: {
                   phoneType: 'HOME',
-                  phoneNumber: data?.formData?.phone ?? '',
+                  phoneNumber: data?.phone ?? '',
                   phoneRole: 'PHONE',
                 },
                 email: {
-                  email: data?.formData?.email,
+                  email: data?.emails,
                 },
               },
             };
@@ -475,7 +353,6 @@ const Guest: React.FC<any> = () => {
       }
 
       if (successFlag) {
-        accompanyGuestDetails(infoCards);
         navigate(availablePaths?.CARD_AUTHORISATION);
       } else {
         toggleNotification(true);
@@ -499,7 +376,7 @@ const Guest: React.FC<any> = () => {
 
     setLoading(false);
   }, [
-    transformedData,
+    documentTypes,
     guestReservationInfo?.docNo,
     guestReservationInfo?.firstName,
     guestReservationInfo?.lastName,
@@ -517,10 +394,11 @@ const Guest: React.FC<any> = () => {
     reservationInfo?.confirmationId,
     reservationInfo?.guests,
     reservationInfo?.reservationId,
-    infoCards,
+    accompanyGuestData,
     navigate,
-    t,
   ]);
+
+  // console.log(guestValidation, accompanyGuestData, accompanyGuestValidation);
 
   return (
     <>
@@ -541,14 +419,15 @@ const Guest: React.FC<any> = () => {
             )}
           </p>
         </div>
-        <div className={styles.boxWrapper}>
-          <p className={styles.guestType}>{t('Primary Guest')}</p>
-          <div className={styles.box}>
-            <div className={styles.cardTitleWrapper}>
-              <p
-                className={styles.cardTitle}
-              >{`${reservationInfo?.details?.contactPerson?.firstName} ${reservationInfo?.details?.contactPerson?.lastName}`}</p>
-              {/* {guestReservationInfo?.docNo &&
+        {reservationInfo?.details?.contactPerson?.firstName && (
+          <div className={styles.boxWrapper}>
+            <p className={styles.guestType}>{t('Primary Guest')}</p>
+            <div className={styles.box}>
+              <div className={styles.cardTitleWrapper}>
+                <p
+                  className={styles.cardTitle}
+                >{`${reservationInfo?.details?.contactPerson?.firstName} ${reservationInfo?.details?.contactPerson?.lastName}`}</p>
+                {/* {guestReservationInfo?.docNo &&
                   guestReservationInfo?.docType &&
                   guestInformationSection?.type === YOUVERSE && (
                     <div
@@ -563,70 +442,78 @@ const Guest: React.FC<any> = () => {
                       <EditIcon />
                     </div>
                   )} */}
-            </div>
-            <>
-              {guestInformationSection?.type === YOUVERSE ||
-              guestInformationSection?.type === INCODE ? (
-                !guestReservationInfo?.docNo ||
-                !guestReservationInfo?.docType ||
-                !guestReservationInfo?.issueCountry ? (
-                  <StyledButton
-                    variant='contained'
-                    className={styles.scanDocWrapper}
-                    onClick={() => {
-                      youverseProfileIDStorage({
-                        id: reservationInfo?.guests[0]?.id,
-                        guestType: PRIMARY,
-                      });
-                      navigate(
-                        guestInformationSection?.type === YOUVERSE
-                          ? availablePaths?.YOUVERSE
-                          : availablePaths?.INCODE,
-                      );
-                    }}
-                  >
-                    <Camera />
-                    <span className={styles.scanDocText}>{t('SCAN DOCUMENT')}</span>
-                  </StyledButton>
+              </div>
+              <div>
+                {guestInformationSection?.type === YOUVERSE ||
+                guestInformationSection?.type === INCODE ? (
+                  !guestReservationInfo?.docNo ||
+                  !guestReservationInfo?.docType ||
+                  !guestReservationInfo?.issueCOuntry ? (
+                    <StyledButton
+                      variant='contained'
+                      className={styles.scanDocWrapper}
+                      onClick={() => {
+                        youverseProfileIDStorage({
+                          id: reservationInfo?.guests[0]?.id,
+                          guestType: PRIMARY,
+                        });
+                        navigate(
+                          guestInformationSection?.type === YOUVERSE
+                            ? availablePaths?.YOUVERSE
+                            : availablePaths?.INCODE,
+                        );
+                      }}
+                    >
+                      <Camera />
+                      <span className={styles.scanDocText}>{t('SCAN DOCUMENT')}</span>
+                    </StyledButton>
+                  ) : (
+                    guestReservationInfo &&
+                    guestInformationSection?.details && (
+                      <PreCheckinGuestInfo
+                        selectedGuest={guestReservationInfo}
+                        guestInformationSection={guestInformationSection?.details}
+                        updateSelectedGuestInformation={reservationGuestInfoStorageData}
+                        type='primary'
+                      ></PreCheckinGuestInfo>
+                    )
+                  )
                 ) : (
                   guestReservationInfo &&
-                  guestInformationSection?.details && (
+                  guestInformationSection?.details?.length > 0 && (
                     <PreCheckinGuestInfo
                       selectedGuest={guestReservationInfo}
                       guestInformationSection={guestInformationSection?.details}
+                      updateSelectedGuestInformation={reservationGuestInfoStorageData}
+                      type='primary'
                     ></PreCheckinGuestInfo>
                   )
-                )
-              ) : (
-                guestReservationInfo &&
-                guestInformationSection?.details && (
-                  <PreCheckinGuestInfo
-                    selectedGuest={guestReservationInfo}
-                    guestInformationSection={guestInformationSection?.details}
-                  ></PreCheckinGuestInfo>
-                )
-              )}
-            </>
+                )}
+              </div>
+            </div>
           </div>
-        </div>
-        {guestLength && guestLength > 1 && (
+        )}
+        {accompanyGuestData && accompanyGuestData?.length > 0 && (
           <div className={styles.boxWrapper}>
             <p className={styles.guestType}>
-              {infoCards?.length === 1 ? t('Accompanying Guest') : t('Accompanying Guests')}{' '}
+              {accompanyGuestData?.length === 1
+                ? t('Accompanying Guest')
+                : t('Accompanying Guests')}{' '}
             </p>
-            {infoCards?.map((card: any, index: number) => (
-              <div key={index} className={styles.identityInputs}>
-                <div className={styles.cardTitleWrapper}>
-                  <p className={styles.cardTitleAccompany}>
-                    {`${card?.formData?.firstName} ${card?.formData?.lastName}`}
-                  </p>
-                  {/* {accompanyingGuestSubmodule?.type === YOUVERSE &&
-                      card?.formData?.docNo &&
-                      card?.formData?.docType && (
+            {accompanyGuestData?.length > 0 &&
+              accompanyGuestData?.map((selectedAccompanyGuest: any, index: number) => (
+                <div key={index} className={styles.identityInputs}>
+                  <div className={styles.cardTitleWrapper}>
+                    <p className={styles.cardTitleAccompany}>
+                      {`${selectedAccompanyGuest?.firstName} ${selectedAccompanyGuest?.lastName}`}
+                    </p>
+                    {/* {accompanyingGuestSubmodule?.type === YOUVERSE &&
+                      selectedAccompanyGuest?.docNo &&
+                      selectedAccompanyGuest?.docType && (
                         <div
                           onClick={() => {
                             youverseProfileIDStorage({
-                              id: card?.formData?.id,
+                              id: selectedAccompanyGuest?.id,
                               guestType: ACCOMPANYINGGUEST,
                             });
                             navigate(availablePaths?.YOUVERSE);
@@ -635,250 +522,55 @@ const Guest: React.FC<any> = () => {
                           <EditIcon />
                         </div>
                       )} */}
-                </div>
+                  </div>
 
-                {accompanyingGuestSubmodule?.type === YOUVERSE ? (
-                  !card?.formData?.docNo || !card?.formData?.docType ? (
-                    <StyledButton
-                      variant='contained'
-                      className={styles.scanDocWrapper}
-                      onClick={() => {
-                        youverseProfileIDStorage({
-                          id: card?.formData?.id,
-                          guestType: ACCOMPANYINGGUEST,
-                        });
-                        navigate(availablePaths?.YOUVERSE);
-                      }}
-                    >
-                      <Camera />
-                      <span className={styles.scanDocText}>{t('SCAN DOCUMENT')}</span>
-                    </StyledButton>
+                  {accompanyingGuestSubmodule?.type === YOUVERSE ? (
+                    !selectedAccompanyGuest?.docNo || !selectedAccompanyGuest?.docType ? (
+                      <StyledButton
+                        variant='contained'
+                        className={styles.scanDocWrapper}
+                        onClick={() => {
+                          youverseProfileIDStorage({
+                            id: selectedAccompanyGuest?.id,
+                            guestType: ACCOMPANYINGGUEST,
+                          });
+                          navigate(availablePaths?.YOUVERSE);
+                        }}
+                      >
+                        <Camera />
+                        <span className={styles.scanDocText}>{t('SCAN DOCUMENT')}</span>
+                      </StyledButton>
+                    ) : (
+                      selectedAccompanyGuest &&
+                      accompanyGuestInformationSection?.length > 0 && (
+                        <PreCheckinGuestInfo
+                          selectedGuest={selectedAccompanyGuest}
+                          guestInformationSection={accompanyGuestInformationSection}
+                          updateSelectedGuestInformation={accompanyGuestDetails}
+                          type='secondary'
+                        ></PreCheckinGuestInfo>
+                      )
+                    )
                   ) : (
-                    docTypeFunction?.map((item: any) => {
-                      if (item?.isActive) {
-                        return (
-                          <React.Fragment key={item?.name}>
-                            {item?.type === SELECTDROPDOWN ? (
-                              <div className={styles.col_100}>
-                                <StyledFormControl
-                                  required={item?.required}
-                                  disabled={item?.isDisabled}
-                                  className={styles.guestDataInput}
-                                  variant='standard'
-                                  sx={{ m: 1, minWidth: '100%' }}
-                                >
-                                  <InputLabel>{item?.label}</InputLabel>
-                                  <Select
-                                    className={styles.guestDataInput}
-                                    label={item?.label}
-                                    variant='standard'
-                                    name={item?.name}
-                                    id={item?.name}
-                                    value={card?.formData?.[item?.name] || ''}
-                                    onChange={handleInputChange(index)}
-                                    disabled={item?.isDisabled}
-                                    IconComponent={DropDown}
-                                  >
-                                    {item?.options?.map((item: any) => {
-                                      return (
-                                        <MenuItem value={item?.value} key={item?.value}>
-                                          <em>{item?.name}</em>
-                                        </MenuItem>
-                                      );
-                                    })}
-                                  </Select>
-                                </StyledFormControl>
-                              </div>
-                            ) : item?.type === CHECKBOX ? (
-                              <div className={styles.agrementWrapperTitle}>
-                                <StyledCheckBox
-                                  onChange={handleInputChange(index)}
-                                  onClick={toggleConditionsAccepted}
-                                  name={item?.name}
-                                  value={conditionsAccepted}
-                                  checked={card.formData.condition == 'false'}
-                                />
-                                <p className={styles.agrementText}>
-                                  {t(`${item?.label}`) as string}
-                                </p>
-                              </div>
-                            ) : (
-                              <div className={styles.col_100}>
-                                <StyledInput
-                                  required={item?.required}
-                                  autoComplete='off'
-                                  label={item?.label}
-                                  className={styles.guestDataInput}
-                                  variant='standard'
-                                  name={item?.name}
-                                  value={card?.formData?.[item?.name] || ''}
-                                  type={item?.type}
-                                  disabled={item?.isDisabled}
-                                  onChange={handleInputChange(index, item?.label)}
-                                  onFocus={() => {
-                                    item?.required &&
-                                      handleFieldBlur(
-                                        index,
-                                        item?.name,
-                                        card?.formData?.[item?.name] || '',
-                                        item?.label,
-                                      );
-                                  }}
-                                  error={
-                                    otherFieldErrors[index]?.fieldName === item?.name &&
-                                    !otherFieldErrors[index]?.isValid
-                                  }
-                                  helperText={
-                                    otherFieldErrors[index]?.fieldName === item?.name
-                                      ? otherFieldErrors[index]?.errorMessage
-                                      : ''
-                                  }
-                                />
-                              </div>
-                            )}
-                          </React.Fragment>
-                        );
-                      } else {
-                        return null;
-                      }
-                    })
-                  )
-                ) : (
-                  docTypeFunction?.map((item: any) => {
-                    if (item?.isActive) {
-                      return (
-                        <React.Fragment key={item?.name}>
-                          {item?.type === SELECTDROPDOWN ? (
-                            <div className={styles.col_100}>
-                              <StyledFormControl
-                                required={item?.required}
-                                disabled={item?.isDisabled}
-                                className={styles.guestDataInput}
-                                variant='standard'
-                                sx={{ m: 1, minWidth: '100%' }}
-                              >
-                                <InputLabel>{item?.label}</InputLabel>
-                                <Select
-                                  className={styles.guestDataInput}
-                                  label={item?.label}
-                                  variant='standard'
-                                  name={item?.name}
-                                  id={item?.name}
-                                  value={card?.formData?.[item?.name] || ''}
-                                  onChange={handleInputChange(index)}
-                                  disabled={item?.isDisabled}
-                                  IconComponent={DropDown}
-                                >
-                                  {item?.options?.map((item: any) => {
-                                    return (
-                                      <MenuItem value={item?.value} key={item?.value}>
-                                        <em>{item?.name}</em>
-                                      </MenuItem>
-                                    );
-                                  })}
-                                </Select>
-                              </StyledFormControl>
-                            </div>
-                          ) : item?.type === CHECKBOX ? (
-                            <div className={styles.agrementWrapperTitle}>
-                              <StyledCheckBox
-                                onChange={handleInputChange(index)}
-                                onClick={toggleConditionsAccepted}
-                                name={item?.name}
-                                value={conditionsAccepted}
-                                checked={card.formData.condition == 'false'}
-                              />
-                              <p className={styles.agrementText}>{t(`${item?.label}`) as string}</p>
-                            </div>
-                          ) : item?.type === DATEPICKER ? (
-                            <div className={styles.col_100}>
-                              <DatePicker
-                                label={item?.label}
-                                className={styles.guestDataInput}
-                                value={card?.formData?.[item?.name] || ''}
-                                onChange={(date) => {
-                                  const expiryDate = dayjs(date).format(timeFormats.YEAR_MONTH_DAY);
-
-                                  handleInputChange(
-                                    index,
-                                    item?.label,
-                                  )({ target: { name: item?.name, value: expiryDate } });
-                                }}
-                                disabled={item?.isDisabled}
-                                disableFuture={item?.isDisableFuture}
-                                disablePast={item?.isDisablePast}
-                                renderInput={(params) => (
-                                  <StyledInput
-                                    required={item?.required}
-                                    autoComplete='off'
-                                    className={styles.guestDataInput}
-                                    variant='standard'
-                                    name={item?.name}
-                                    id={item?.name}
-                                    {...params}
-                                    error={
-                                      otherFieldErrors[index]?.fieldName === item?.name &&
-                                      !otherFieldErrors[index]?.isValid
-                                    }
-                                    helperText={
-                                      otherFieldErrors[index]?.fieldName === item?.name
-                                        ? otherFieldErrors[index]?.errorMessage
-                                        : ''
-                                    }
-                                  />
-                                )}
-                              />
-                            </div>
-                          ) : (
-                            <div className={styles.col_100}>
-                              <StyledInput
-                                required={item?.required}
-                                autoComplete='off'
-                                label={item?.label}
-                                className={styles.guestDataInput}
-                                variant='standard'
-                                name={item?.name}
-                                value={card?.formData?.[item?.name] || ''}
-                                type={item?.type}
-                                disabled={item?.isDisabled}
-                                onChange={handleInputChange(index, item?.label)}
-                                onFocus={() => {
-                                  item?.required &&
-                                    handleFieldBlur(
-                                      index,
-                                      item?.name,
-                                      card?.formData?.[item?.name] || '',
-                                      item?.label,
-                                    );
-                                }}
-                                error={
-                                  otherFieldErrors[index]?.fieldName === item?.name &&
-                                  !otherFieldErrors[index]?.isValid
-                                }
-                                helperText={
-                                  otherFieldErrors[index]?.fieldName === item?.name
-                                    ? otherFieldErrors[index]?.errorMessage
-                                    : ''
-                                }
-                              />
-                            </div>
-                          )}
-                        </React.Fragment>
-                      );
-                    } else {
-                      return null;
-                    }
-                  })
-                )}
-              </div>
-            ))}
+                    selectedAccompanyGuest &&
+                    accompanyGuestInformationSection?.length > 0 && (
+                      <PreCheckinGuestInfo
+                        selectedGuest={selectedAccompanyGuest}
+                        guestInformationSection={accompanyGuestInformationSection}
+                        updateSelectedGuestInformation={accompanyGuestDetails}
+                        type='secondary'
+                      ></PreCheckinGuestInfo>
+                    )
+                  )}
+                </div>
+              ))}
           </div>
         )}
         <div className={cx(styles.bottomMenuWrapper)}>
           <StyledButton
             variant='contained'
             loading={loading}
-            disabled={!validButton || !reservationData || buttonValidation}
+            disabled={!guestValidation || !reservationData || !accompanyGuestValidation}
             onClick={goToTheNextStep}
             className={styles.bottomMenuButton}
           >

@@ -26,7 +26,7 @@ import { useConfig } from 'utils/hooks/useConfiguration';
 
 export { getStaticPaths };
 
-const HotelCompendium = () => {
+const HotelCompendium: React.FC = () => {
   const { t } = useTranslation('common');
   const locale = useLocale();
   const hotelId = useConfig()?.hotelId;

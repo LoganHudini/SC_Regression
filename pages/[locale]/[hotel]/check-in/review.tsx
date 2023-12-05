@@ -20,7 +20,6 @@ import { IGetReservationApiResponse, GET_RESERVATION } from 'core/graphql/querie
 import { CHECKIN, ICheckInApiRequest } from 'core/graphql/queries/CHECKIN';
 import { ICheckinProps } from 'types/check-in.types';
 import { GetStaticProps } from 'next';
-import { processError } from 'utils/processError';
 import { saveTrip } from 'storage/trips.storage';
 import { StepperInformationStorage, checkinStorage } from 'storage/check-in.storage';
 import {
@@ -74,34 +73,12 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const { t } = useTranslation(['check-in', 'common']);
   const guests = useReactiveVar(guestInformationStorage);
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
-
   const accompanyGuestInfo = useReactiveVar(accompanyGuestDetails);
-  function removeDuplicateFormData(arr: any) {
-    const uniqueFormData = new Set();
-    const result = [];
 
-    for (const item of arr) {
-      const formDataString = JSON.stringify(item?.formData);
-      if (!uniqueFormData?.has(formDataString)) {
-        result?.push(item?.formData);
-        uniqueFormData?.add(formDataString);
-      }
-    }
-    return result;
-  }
-
-  const accompanyGuestGlobal = accompanyGuestInfo && removeDuplicateFormData(accompanyGuestInfo);
   const [accompanyGuestInformationState, setAcccompanyGuestInformation] = useState(
-    new Array(accompanyGuestGlobal?.length)?.fill(false),
+    new Array(accompanyGuestInfo?.length)?.fill(false),
   );
 
-  const toggleAccompanyGuestInformation = (index: any) => {
-    setAcccompanyGuestInformation((prev) => {
-      const newState = [...prev];
-      newState[index] = !newState[index];
-      return newState;
-    });
-  };
   const personalizationEntities = useReactiveVar(personalizeYourRoomStorage);
   const specialRequests = useReactiveVar(specialRequestsStorage);
   const [errorNotification, setErrorNotification] = useState(false);
@@ -290,6 +267,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         currency: reservationInfo?.details?.holdAmount?.currency,
       });
       setErrorNotification(false);
+      guestInformationStorage(null);
+      accompanyGuestDetails(null);
     } catch (checkinError) {
       const error = checkinError as ApolloError;
       const networkError = error?.networkError as { result?: { errors?: string } };
@@ -329,7 +308,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     paymentConfig?.paymentMethod,
     personalizationEntities,
     guests,
-    t,
   ]);
 
   useEffect(() => {
@@ -386,6 +364,14 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
   const togglePrimaryGuestInformation = () => {
     setPrimaryGuestInformation((prev) => !prev);
+  };
+
+  const toggleAccompanyGuestInformation = (index: any) => {
+    setAcccompanyGuestInformation((prev) => {
+      const newState = [...prev];
+      newState[index] = !newState[index];
+      return newState;
+    });
   };
 
   const toggleCreditCardInformation = () => {
@@ -520,40 +506,38 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           )}
         </div>
 
-        <div>
-          {accompanyGuestGlobal?.filter((item: any) => item?.id)?.length > 0 &&
-            accompanyGuestGlobal?.map((accompanyGuest: any, index: number) => (
-              <div key={accompanyGuest.id} onClick={() => toggleAccompanyGuestInformation(index)}>
-                {accompanyGuestInformationState[index] ? (
-                  <div>
-                    <DetailsCard title={`Guest ${index + 1}`} icon>
-                      <div className={styles.guestInformation}>
-                        <ItemFullWidth title={'First Name'} value={accompanyGuest?.firstName} />
-                        <ItemFullWidth title={'Last Name'} value={accompanyGuest?.lastName} />
-                        <ItemFullWidth title={'Email'} value={accompanyGuest?.email} />
-                        <ItemFullWidth title={'Phone Number'} value={accompanyGuest?.phone} />
-                        {reviewConfig?.identityGuestVerificationDetails?.map(
-                          (configData: any, index: number) => (
-                            <Item
-                              key={index}
-                              title={configData?.label}
-                              value={accompanyGuest?.[configData?.name] ?? ''}
-                            />
-                          ),
-                        )}
-                      </div>
-                    </DetailsCard>
-                  </div>
-                ) : (
-                  <DetailsCardShrinked title={`Guest ${index + 1}`}>
-                    <ShrinkedItem
-                      value={`${accompanyGuest?.firstName} ${accompanyGuest?.lastName}`}
-                    />
-                  </DetailsCardShrinked>
-                )}
-              </div>
-            ))}
-        </div>
+        {accompanyGuestInfo?.length > 0 &&
+          accompanyGuestInfo?.map((accompanyGuest: any, index: number) => (
+            <div key={accompanyGuest.id} onClick={() => toggleAccompanyGuestInformation(index)}>
+              {accompanyGuestInformationState[index] ? (
+                <div>
+                  <DetailsCard title={`Guest ${index + 1}`} icon>
+                    <div className={styles.guestInformation}>
+                      <ItemFullWidth title={'First Name'} value={accompanyGuest?.firstName} />
+                      <ItemFullWidth title={'Last Name'} value={accompanyGuest?.lastName} />
+                      <ItemFullWidth title={'Email'} value={accompanyGuest?.email} />
+                      <ItemFullWidth title={'Phone Number'} value={accompanyGuest?.phone} />
+                      {reviewConfig?.identityGuestVerificationDetails?.map(
+                        (configData: any, index: number) => (
+                          <Item
+                            key={index}
+                            title={configData?.label}
+                            value={accompanyGuest?.[configData?.name] ?? ''}
+                          />
+                        ),
+                      )}
+                    </div>
+                  </DetailsCard>
+                </div>
+              ) : (
+                <DetailsCardShrinked title={`Guest ${index + 1}`}>
+                  <ShrinkedItem
+                    value={`${accompanyGuest?.firstName} ${accompanyGuest?.lastName}`}
+                  />
+                </DetailsCardShrinked>
+              )}
+            </div>
+          ))}
 
         <div onClick={toggleCreditCardInformation}>
           {creditCardInformation ? (

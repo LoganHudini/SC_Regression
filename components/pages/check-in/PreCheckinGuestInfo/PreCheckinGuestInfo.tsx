@@ -4,8 +4,6 @@ import styles from './PreCheckinGuestInfo.module.scss';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { useState } from 'react';
-import { useReactiveVar } from '@apollo/client';
-import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
 import { DATEPICKER, SELECTDROPDOWN } from 'utils/constants';
 import { generateInitialFieldValues, generateValidationSchema } from 'utils/functions';
 import { InputLabel, Select, MenuItem } from '@mui/material';
@@ -14,27 +12,41 @@ import DropDown from '@icons/dropDownIcon.svg';
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
+import { useReactiveVar } from '@apollo/client';
+import { accompanyGuestDetails } from 'storage/accompany-guest-details';
 
 export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
   selectedGuest,
   guestInformationSection,
+  updateSelectedGuestInformation,
+  type,
 }) => {
   const { t } = useTranslation('check-in');
   const [cardOpened, setCardOpened] = useState(true);
+  const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
+
   const handleInputChange = () => {
     setCardOpened(!cardOpened);
   };
 
-  const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const updateGuestDetails = (name: string, value: string) => {
     const inputField = name;
     const inputValue = value;
-    reservationGuestInfoStorageData({ ...guestReservationInfo, [inputField]: inputValue });
+
+    accompanyGuestData?.findIndex((item: any) => item?.id === selectedGuest?.id) > -1 &&
+      (accompanyGuestData[
+        accompanyGuestData?.findIndex((item: any) => item?.id === selectedGuest?.id)
+      ] = {
+        ...selectedGuest,
+        [inputField]: inputValue,
+      });
+
+    type === 'primary'
+      ? updateSelectedGuestInformation({ ...selectedGuest, [inputField]: inputValue })
+      : updateSelectedGuestInformation([...accompanyGuestData]);
   };
 
   const initialFieldValues = generateInitialFieldValues(guestInformationSection, selectedGuest);
-
-  // const initialFieldValues: any = dynamicInitialValues(guestInformationSection, selectedGuest)
 
   const validationSchema = generateValidationSchema(guestInformationSection);
 
@@ -43,8 +55,6 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
     validationSchema: validationSchema,
     onSubmit: handleInputChange,
   });
-
-  // const firstNameField = guestInformationSection.some((field: any) => field?.name === 'firstName' && field?.isActive) && guestInformationSection.some((field: any) => field?.name === 'lastName' && field?.isActive);
 
   return (
     <div className={styles.identityInputs}>

@@ -26,12 +26,14 @@ import { Loader } from 'components/shared/Loaders/Loaders';
 import { isEmpty } from 'lodash';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { isOfferActive } from 'utils/functions';
+import Head from 'next/head';
 
 export { getStaticPaths };
 
 const Offers: React.FC = () => {
   const { t } = useTranslation(['ui-builder']);
   const hotelId = useConfig()?.hotelId;
+  const hotelName = useConfig()?.name;
   const locale = useLocale();
   const [selectedOfferData, setSelectedOfferData] = useState<any>();
   const offersOptionSelected: any = useReactiveVar(selectedOfferOption);
@@ -191,24 +193,27 @@ const Offers: React.FC = () => {
 
   return (
     <>
+      <Head>
+        <title>
+          {hotelName} | {t('Offers')}
+        </title>
+      </Head>
+      <Header screenTitle={t('Offers') as string} displayHome />
       {loading ? (
         <Loader />
       ) : (
-        <>
-          <Header screenTitle={t('Offers') as string} displayHome />
-          <PageWrapper className={styles.pageWrapper} displayBottomMenu>
-            {filteredOffersWthCategory?.map((queryResultEntity: any) => (
-              <ListComponentEntity
-                key={queryResultEntity.id}
-                queryResultEntity={queryResultEntity}
-                selectedListItem={selectedListItem}
-                module={OFFERS}
-              />
-            ))}
-          </PageWrapper>
-          <CustomDrawer open={offerDetailStatus} onClose={closeDrawer} content={offerDetails()} />
-        </>
+        <PageWrapper className={styles.pageWrapper} displayBottomMenu>
+          {filteredOffersWthCategory?.map((queryResultEntity: any) => (
+            <ListComponentEntity
+              key={queryResultEntity.id}
+              queryResultEntity={queryResultEntity}
+              selectedListItem={selectedListItem}
+              module={OFFERS}
+            />
+          ))}
+        </PageWrapper>
       )}
+      <CustomDrawer open={offerDetailStatus} onClose={closeDrawer} content={offerDetails()} />
     </>
   );
 };

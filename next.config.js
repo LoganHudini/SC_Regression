@@ -138,4 +138,5 @@ module.exports = withPWA({
   sw: 'service-worker.js',
   disable: process.env.NODE_ENV === 'development',
   skipWaiting: true,
+  buildExcludes: ['app-build-manifest.json'],
 })(nextConfig);

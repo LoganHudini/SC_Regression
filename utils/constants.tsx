@@ -119,12 +119,6 @@ export const DAYS = [
   { id: 7, ischecked: false, name: 'Sunday', from: null, to: null },
 ];
 
-export const DOCUMENT_OPTIONS = [
-  { name: 'Passport', value: 'PASSPORT', code: 'PASSPORT' },
-  { name: 'Aadhaar Card', value: 'ID', code: 'IDENTITY_CARD' },
-  { name: 'Driving License', value: 'DL', code: 'DRIVING_LICENSE' },
-];
-
 // ird to be removed later
 const hotel = getHotelCode();
 export const DINING_OPTIONS_PRE_CHECK_IN = [

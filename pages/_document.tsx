@@ -32,8 +32,8 @@ class MyDocument extends Document {
             </>
           )}
           <link rel='manifest' href={`/manifest.${BRAND_CODE}.json`} />
-          <link rel='icon' type='image/png' href={`${BRAND_CODE}.ico`} />
-          <link rel='apple-touch-icon' type='image/png' href={`${BRAND_CODE}.ico`} />
+          <link rel='icon' type='image/png' href={`/${BRAND_CODE}.ico`} />
+          <link rel='apple-touch-icon' type='image/png' href={`/${BRAND_CODE}.ico`} />
           <meta name='theme-color' content={THEME_COLOR} />
           <meta key='robots' name='robots' content='noindex,nofollow' />
           <meta key='googlebot' name='googlebot' content='noindex,nofollow' />
