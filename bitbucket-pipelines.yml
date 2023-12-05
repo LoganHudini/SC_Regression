@@ -6,14 +6,44 @@
 
 image: node:18.12.1
 pipelines:
-  default:
-    - step:
-        name: Build and test
-        script:
-          - rm -rf package-lock.json
-          - rm -rf yarn.lock
-          - rm -rf node_modules
-          - yarn
+  #default:
+  #  - step:
+  #      name: Build and test
+  #      script:
+  #        - rm -rf package-lock.json
+  #        - rm -rf yarn.lock
+  #        - rm -rf node_modules
+  #        - yarn
+  branches: # Pipelines that run automatically on a push to a develop
+    develop:
+      - step:
+          deployment: uat
+          size : 2x
+          caches:
+            - node
+          name: Automatacilly Deploy to UAT(DEV Bucket) https://pwa-infinite-dev.hudini.app/
+          script:
+            - rm -rf package-lock.json
+            - rm -rf yarn.lock
+            - rm -rf node_modules
+            - yarn
+            - CI='' yarn build:sofitel
+            - CI='' yarn export
+            - cd out
+            - pipe: atlassian/aws-s3-deploy:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_UAT # Optional if already defined in the context.
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT # Optional if already defined in the context.
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT # Optional if already defined in the context.
+                #ACL: 'public-read'
+                S3_BUCKET: $S3_BUCKET_PWA_INFINITE_DEV
+                LOCAL_PATH: $(pwd)
+            - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_UAT
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
+                DISTRIBUTION_ID: 'E9PVO4YEDANZA'         
   custom:
     deployToSofitelStaging:
       - step:
@@ -189,3 +219,32 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E3ZUF2S563M5Q'
+    deployToPWA_INFINITE_STAGEUAT:
+      - step:
+          caches:
+            - node
+          name: Deploy Manually to UAT https://atlantis-pwa.hudini.app/
+          deployment: uat
+          size: 2x # Double resources available for this step.
+          script:
+            - rm -rf package-lock.json
+            - rm -rf yarn.lock
+            - rm -rf node_modules
+            - yarn
+            - CI='' yarn build:atlantis
+            - CI='' yarn export
+            - cd out
+            - pipe: atlassian/aws-s3-deploy:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_UAT # Optional if already defined in the context.
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT # Optional if already defined in the context.
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT # Optional if already defined in the context.
+                #ACL: 'public-read'
+                S3_BUCKET: $S3_BUCKET_ATLANTIS_UAT
+                LOCAL_PATH: $(pwd)
+            - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_UAT
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
+                DISTRIBUTION_ID: 'E3ZUF2S563M5Q'            
