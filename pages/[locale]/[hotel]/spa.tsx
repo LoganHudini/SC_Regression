@@ -24,7 +24,7 @@ import { ASSETS_URL, CURRENCY } from 'core/graphql/endpoints';
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { useRouter } from 'next/router';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
-import { useConfig } from 'utils/hooks/useConfiguration';
+import { useConfig, useCurrency } from 'utils/hooks/useConfiguration';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { ACTIVE, EXTERNAL_URL } from 'utils/constants';
 
@@ -39,6 +39,7 @@ const Spa: React.FC = () => {
   const locale = useLocale();
   const spaInfo = useReactiveVar(spaInformationStorage);
   const spaDetailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
+  const currency = useCurrency();
 
   const { data, loading } = useQuery(GET_SPA_DETAILS, {
     skip: !hotelId,
@@ -154,7 +155,7 @@ const Spa: React.FC = () => {
 
         {selectedSpaItem?.duration && selectedSpaItem?.duration[0]?.price && (
           <p className={styles.detailComponentDuration}>
-            <span className={styles.currency}>{CURRENCY} </span>
+            <span className={styles.currency}>{currency} </span>
             {selectedSpaItem?.duration[0]?.price}
             {'   '}|{'   '}
             {selectedSpaItem?.duration[0]?.duration} Min

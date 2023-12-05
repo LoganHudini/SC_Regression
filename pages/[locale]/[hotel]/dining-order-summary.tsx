@@ -31,6 +31,7 @@ import DiningDetailsDrawer from 'components/pages/dining/DiningDetailsDrawer/Din
 import { toggleNotification } from 'storage/home.storage';
 import { DiningMenuElementUpsell } from 'components/pages/dining/DiningMenuElementUpsell/DiningMenuElementUpsell';
 import { useCheckedIn } from 'storage/check-in.storage';
+import { useCurrency } from 'utils/hooks/useConfiguration';
 
 export { getStaticPaths };
 
@@ -46,6 +47,7 @@ const DiningOrderSummary = () => {
   const [guestNumber, setguestNumber] = useState(1);
   const [totalAmount, setTotalAmount] = useState(0);
   const [errorNotification, setErrorNotification] = useState(false);
+  const currency = useCurrency();
 
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
 
@@ -85,6 +87,7 @@ const DiningOrderSummary = () => {
                   name: selectedItem?.title,
                   price: selectedItem?.price,
                   quantity: 1,
+                  currency: currency,
                 }));
             draft.selectedItemId = itemId;
             draft.selectedIndex = index;
@@ -172,7 +175,7 @@ const DiningOrderSummary = () => {
         fetchPolicy: 'network-only',
         variables: irdOrderPayload,
       });
-      irdOrderEvent(response?.data?.createOrder);
+      irdOrderEvent(response?.data?.createOrder, currency);
       setErrorNotification(false);
 
       toggleNotification(true);
@@ -262,7 +265,7 @@ const DiningOrderSummary = () => {
                         {t('Add-ons :')}
                         {item?.addons?.map((item, index) => (
                           <span key={index} className={styles.items}>
-                            {item?.name} ({CURRENCY} {item?.price})
+                            {item?.name} ({currency} {item?.price})
                           </span>
                         ))}
                       </p>
@@ -276,7 +279,7 @@ const DiningOrderSummary = () => {
 
                   <div className={styles.priceEditWrapper}>
                     <p className={styles.itemPrice}>
-                      <span className={styles.itemCurrency}>{CURRENCY} </span>
+                      <span className={styles.itemCurrency}>{currency} </span>
                       {(isNaN(totalPrice)
                         ? item.quantity * item.price
                         : item.quantity * totalPrice
@@ -389,7 +392,7 @@ const DiningOrderSummary = () => {
               )}
               {totalAmount && (
                 <p className={styles.totalCost}>
-                  {t('TOTAL')} - <span className={styles.currency}>{CURRENCY} </span>{' '}
+                  {t('TOTAL')} - <span className={styles.currency}>{currency} </span>{' '}
                   {totalAmount?.toFixed(2)}
                 </p>
               )}

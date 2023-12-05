@@ -3,6 +3,7 @@ import React, { useCallback } from 'react';
 import styles from './DiningCheckboxItem.module.scss';
 import { IDiningCheckboxItemProps } from './DiningCheckboxItem.types';
 import { CURRENCY } from 'core/graphql/endpoints';
+import { useCurrency } from 'utils/hooks/useConfiguration';
 
 export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
   element,
@@ -24,12 +25,13 @@ export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
       setAddons([...(addons ?? []), element]);
     }
   }, [addons, element, setAddons, setupdateAddons, updateAddons]);
+  const currency = useCurrency();
 
   const showCurrency = () => {
     return (
       <>
         <p className={styles.price}>
-          <span className={styles.currency}>{CURRENCY}</span>
+          <span className={styles.currency}>{currency}</span>
           {element?.price?.toFixed(2)}
         </p>
       </>

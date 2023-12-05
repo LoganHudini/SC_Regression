@@ -1,6 +1,8 @@
+import { useReactiveVar } from '@apollo/client';
 import { configuration } from 'core/graphql/queries/GET_CONFIGURATION';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { hotelInfoStorage } from 'storage/home.storage';
 import { CHECK_IN, CREDIT_CARD_INFO, GUESTINFORMATION, INFORMATION } from 'utils/constants';
 
 export const useConfig = () => {
@@ -36,4 +38,10 @@ export const useDocumentConfig = () => {
     ?.find((module: any) => module?.isActive && module?.code === CHECK_IN)
     ?.submodules?.find((submodule: any) => submodule?.isActive && submodule?.name === INFORMATION)
     ?.details?.find((detail: any) => detail?.isActive && detail?.name === GUESTINFORMATION);
+};
+
+export const useCurrency = () => {
+  const hotelInfo = useReactiveVar(hotelInfoStorage);
+  const currency = hotelInfo?.getPropertyDetailsByHotelId?.hotel?.currency ?? '';
+  return currency;
 };

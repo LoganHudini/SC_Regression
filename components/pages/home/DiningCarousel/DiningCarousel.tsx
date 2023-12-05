@@ -1,16 +1,26 @@
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { WithScrollbar } from 'components/shared/WithScrollbar/WithScrollbar';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ASSETS_URL } from '../../../../core/graphql/endpoints';
 import styles from './DiningCarousel.module.scss';
-import { filterRestaurantList, irdActiveMenuList, getTimings } from 'utils/functions';
 import {
+  filterRestaurantList,
+  irdActiveMenuList,
+  getTimings,
+  uniqueDiningOption,
+  diningOptionList,
+} from 'utils/functions';
+import {
+  BAR,
+  BARS_CAPS,
   CAROUSEL_RESPONSIVE,
   DINING_OPTIONS,
   DINING_OPTIONS_PRE_CHECK_IN,
   IN_ROOM_DINING,
+  RESTAURANT,
+  RESTAURANTS,
 } from 'utils/constants';
 import cx from 'classnames';
 import { diningInformationStorage } from 'storage/dining.storage';
@@ -21,6 +31,7 @@ import { diningOptions } from 'storage/home.storage';
 import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { CustomReadMore } from 'components/shared/CustomReadMore/CustomReadMore';
+import { getHotelCode } from 'utils/fetchConfigs';
 
 interface ICarouselProps {
   ird: any;
@@ -34,9 +45,17 @@ interface ICarouselSlideProps {
   imageSlide?: any;
   diningOptionsCarousal?: any;
   module?: boolean;
+  slideStyle?: any;
 }
 
-const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOptionsCarousal }) => {
+const CarouselSlide: React.FC<ICarouselSlideProps> = ({
+  slide,
+  module,
+  diningOptionsCarousal,
+  slideStyle,
+}) => {
+  const hotel = getHotelCode();
+
   const { t } = useTranslation(['common']);
   const navigate = useLocalizedRouter();
   const handleMenu = () => {
@@ -51,7 +70,7 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
   const redirect = () => {
     diningOptions(diningOptionsCarousal);
     selectedRestaurantStorage(slide);
-    navigate(diningOptionsCarousal?.path);
+    navigate(`/${hotel}/${module ? 'dining' : 'restaurants-bars'}`);
   };
 
   const time = getTimings(slide?.customAttributes);
@@ -62,11 +81,17 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
         <div className={styles.carouselSlideWrapper} onClick={handleMenu}>
           {slide.images[0]?.master && (
             <StableImage
-              className={styles.carouselSlideImage}
               src={`${ASSETS_URL}/${slide.images[0]?.master}`}
+              className={cx(styles.carouselSlideImage, {
+                [styles.carouselWrapperSingleImage]: slideStyle,
+              })}
             />
           )}
-          <div className={styles.carouselSlideDetailsWrapper}>
+          <div
+            className={cx(styles.carouselSlideDetailsWrapper, {
+              [styles.detailPosition]: slideStyle,
+            })}
+          >
             {slide.name && <h3 className={styles.carouselSlideTitle}>{slide.name}</h3>}
             {slide.hours[0]?.day && (
               <p className={styles.carouselSlideTimings}>{slide.hours[0]?.day}</p>
@@ -80,7 +105,11 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
             className={styles.carouselSlideImage}
             src={`${ASSETS_URL}/${slide?.images[0]?.master}`}
           />
-          <div className={styles.carouselSlideDetailsWrapperRestaurantsAndBars}>
+          <div
+            className={cx(styles.carouselSlideDetailsWrapperRestaurantsAndBars, {
+              [styles.detailPosition]: slideStyle,
+            })}
+          >
             <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>
             <div className={styles.content}>
               {slide?.primaryCuisine && (
@@ -113,15 +142,27 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({
   const { t } = useTranslation(['common']);
   const isCheckedIn = useCheckedIn();
 
-  const [diningOptionsState, setDiningOption] = useState(
-    isCheckedIn?.checkedIn ? DINING_OPTIONS[0] : DINING_OPTIONS_PRE_CHECK_IN[0],
-  );
+  const [diningOptionsState, setDiningOption] = useState<any>();
 
   const irdActiveMenu = irdActiveMenuList(ird);
   const queryResultsData: any = restaurants?.getRestaurantDetails?.restaurant;
   const filteredList = filterRestaurantList(queryResultsData, diningOptionsState);
 
-  const slides = diningOptionsState.title === IN_ROOM_DINING ? irdActiveMenu : filteredList;
+  const filteredOptionFunction = () => {
+    let value: any;
+    value = queryResultsData?.map((option: any) => ({
+      ...option,
+    }));
+    if (isCheckedIn?.checkedIn && irdModule && irdActiveMenu && Array.isArray(irdActiveMenu)) {
+      const irdMenu = irdActiveMenu.map((option: any) => ({
+        ...option,
+        type: IN_ROOM_DINING,
+      }));
+      value = [...irdMenu, ...value];
+    }
+    return value;
+  };
+  const filteredOptions: any = filteredOptionFunction();
 
   const renderSlides = (slides: any, module: boolean) =>
     slides?.length > 0 &&
@@ -131,37 +172,45 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({
         slide={slide}
         diningOptionsCarousal={diningOptionsState}
         module={module}
+        slideStyle={slides?.length === 1}
       />
     ));
+  const uniqueFilteredDiningOptions = uniqueDiningOption(filteredOptions);
 
+  const slides = filterRestaurantList(filteredOptions, diningOptionsState);
+
+  useEffect(() => {
+    if (uniqueFilteredDiningOptions?.length > 0 && !diningOptionsState) {
+      setDiningOption(uniqueFilteredDiningOptions[0]);
+    }
+  }, [diningOptionsState, uniqueFilteredDiningOptions]);
   return (
     (irdActiveMenu?.length > 0 || filteredList?.length > 0) && (
       <div className={styles.diningCarouselWrapper}>
         <p className={styles.diningCarouselTitle}>{t('Dining')}</p>
-        <div className={styles.diningOptions}>
-          {(isCheckedIn?.checkedIn && irdModule
-            ? DINING_OPTIONS
-            : DINING_OPTIONS_PRE_CHECK_IN
-          )?.map((dining) => (
-            <p
-              key={dining?.id}
-              className={cx(styles.diningOptionsItem, {
-                [styles.diningOptionsItemActive]: diningOptionsState?.id === dining?.id,
-              })}
-              onClick={() => setDiningOption(dining)}
-              data-tip={dining?.title}
-            >
-              {dining?.title}
-            </p>
-          ))}
-        </div>
+        {uniqueFilteredDiningOptions?.length !== 0 && (
+          <div className={styles.diningOptions}>
+            {uniqueFilteredDiningOptions?.map((dining: any) => (
+              <p
+                key={dining?.id}
+                className={cx(styles.diningOptionsItem, {
+                  [styles.diningOptionsItemActive]: diningOptionsState?.id === dining?.id,
+                })}
+                onClick={() => setDiningOption(dining)}
+                data-tip={diningOptionList(dining?.type)}
+              >
+                {diningOptionList(dining?.type)}
+              </p>
+            ))}
+          </div>
+        )}
         <WithScrollbar
           responsive={CAROUSEL_RESPONSIVE}
           className={cx(styles.carouselWrapper, {
-            [styles.carouselWrapperSingleImage]: slides?.length === 1,
+            [styles.carouselWrapperSingleImageUl]: slides?.length === 1,
           })}
         >
-          {renderSlides(slides, diningOptionsState.title === IN_ROOM_DINING)}
+          {renderSlides(slides, diningOptionsState?.title === IN_ROOM_DINING)}
         </WithScrollbar>
       </div>
     )

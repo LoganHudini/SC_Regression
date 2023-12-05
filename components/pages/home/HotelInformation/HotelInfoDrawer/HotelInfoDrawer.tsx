@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './HotelInfoDrawer.module.scss';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { GET_HOTEL_INFORMATION } from 'core/graphql/queries/GET_HOTEL_INFORMATION';
@@ -16,6 +16,7 @@ import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { EMAILCAPS, PHONECAPS, URL } from 'utils/constants';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import {
+  hotelInfoStorage,
   toggleCheckInDetailsDrawer,
   toggleHotelInfoDrawer,
   toggleMapState,
@@ -30,16 +31,7 @@ const HotelInfoDrawer = () => {
   const hotelInfoDetailsDrawerStatus = useReactiveVar(toggleHotelInfoDrawer);
   const checkInDetailsDrawerStatus = useReactiveVar(toggleCheckInDetailsDrawer);
   const showMap = useReactiveVar(toggleMapState);
-
-  const { data } = useQuery(GET_HOTEL_INFORMATION, {
-    skip: !hotelId,
-    context: { clientName: 'host_v0' },
-    fetchPolicy: 'no-cache',
-    variables: {
-      hotelId: hotelId,
-      lang: locale === 'en' ? '' : locale,
-    },
-  });
+  const data = useReactiveVar(hotelInfoStorage);
 
   const hotelInfo = data?.getPropertyDetailsByHotelId?.hotel;
   const phoneData = hotelInfo?.information?.find((x: any) => x?.type === PHONECAPS);

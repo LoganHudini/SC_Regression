@@ -4,6 +4,7 @@
 
 .carouselItem {
   margin-inline-end: 10px;
-  max-width: 273px;
+  // max-width: 100%;
   min-width: 273px;
+  width: 0% !important;
 }

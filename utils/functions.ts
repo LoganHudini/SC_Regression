@@ -1,6 +1,14 @@
 import dayjs from 'dayjs';
 import { scrollState } from 'storage/dining-menu.storage';
-import { DOCTYPE, PHONE_REGEX, TIMINGS } from './constants';
+import {
+  BAR,
+  BARS_CAPS,
+  DOCTYPE,
+  PHONE_REGEX,
+  RESTAURANT,
+  RESTAURANTS,
+  TIMINGS,
+} from './constants';
 import * as yup from 'yup';
 
 // Extract data from local storage
@@ -142,7 +150,7 @@ export const generateInitialFieldValues = (field: any, selectedField: any) => {
 // Filter restaurants list based on type
 export const filterRestaurantList = (queryResultsData: any, diningOptionSelected: any) => {
   return queryResultsData?.filter((restaurant: any) => {
-    return restaurant?.isActive && restaurant?.type === diningOptionSelected?.id;
+    return restaurant?.isActive && restaurant?.type === diningOptionSelected?.type;
   });
 };
 
@@ -207,3 +215,19 @@ export const activeModule = (moduleList: any, moduleActive: any) =>
   moduleList.find((module: any) => module?.code === moduleActive && module?.isActive)
     ? true
     : false;
+
+export const uniqueDiningOption = (queryResultsData: any) => {
+  const uniqueTypes = new Set();
+  const uniqueFilteredDiningOptions = queryResultsData?.filter((dining: any) => {
+    if (!uniqueTypes?.has(dining?.type)) {
+      uniqueTypes?.add(dining?.type);
+      return true;
+    }
+    return false;
+  });
+  return uniqueFilteredDiningOptions;
+};
+
+export const diningOptionList = (type: any) => {
+  return type === RESTAURANT ? RESTAURANTS : type === BAR ? BARS_CAPS : type;
+};

@@ -13,15 +13,21 @@ import {
   toggleModuleOptionsDrawer,
   toggleHotelInfoDrawer,
   toggleMapState,
+  diningHeaders,
 } from 'storage/home.storage';
 import cx from 'classnames';
 import {
   ABOUT_US,
+  BAR,
+  BARS_CAPS,
   DINING_OPTIONS,
   DINING_OPTIONS_PRE_CHECK_IN,
   EXTERNAL,
   FLOW,
   IN_APP,
+  IN_ROOM_DINING,
+  RESTAURANT,
+  RESTAURANTS,
   SERVICE_REQUEST_OPTIONS,
 } from 'utils/constants';
 import CheckIcon from '@icons/checkIcon.svg';
@@ -37,6 +43,8 @@ import { useCheckedIn } from 'storage/check-in.storage';
 import { ReactSVG } from 'react-svg';
 import { isFunction } from 'lodash';
 import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
+import { getHotelCode } from 'utils/fetchConfigs';
+import { diningOptionList } from 'utils/functions';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
   title,
@@ -103,11 +111,14 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   spaActive,
   offersActive,
 }) => {
+  const hotel = getHotelCode();
+
   const navigate = useLocalizedRouter();
   const isCheckedIn = useCheckedIn();
   const [highLightViewBill, setHighLightViewBill] = useState(false);
   const [highLightCheckOut, setHighLightCheckOut] = useState(false);
   const diningOptionSelected = useReactiveVar(diningOptions);
+  const irdOption = useReactiveVar(diningHeaders);
   const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
   const drawerStatus = useReactiveVar(toggleModuleOptionsDrawer);
   const compendiumInfo: any = useReactiveVar(getHotelCompendium);
@@ -178,28 +189,26 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
           <div>
             <p className={styles.title}>{t('Choose your category')}</p>
             <div className={styles.optionsList}>
-              {(isCheckedIn?.checkedIn ? DINING_OPTIONS : DINING_OPTIONS_PRE_CHECK_IN)?.map(
-                (dining) => (
-                  <div key={dining?.id} className={cx(styles.optionsListItem)}>
-                    <p
-                      className={cx(styles.inActiveDiningText, {
-                        [styles.activeText]: diningOptionSelected?.id === dining?.id,
-                      })}
-                      onClick={() => {
-                        selectedRestaurantStorage({});
-                        diningOptions(dining);
-                        closeDrawer();
-                        navigate(dining?.path);
-                      }}
-                    >
-                      {dining?.title}{' '}
-                    </p>
-                    {diningOptionSelected?.id === dining?.id && (
-                      <CheckIcon className={styles.icon} />
-                    )}
-                  </div>
-                ),
-              )}
+              {irdOption?.map((dining: any) => (
+                <div key={dining?.id} className={cx(styles.optionsListItem)}>
+                  <p
+                    className={cx(styles.inActiveDiningText, {
+                      [styles.activeText]: diningOptionSelected?.id === dining?.id,
+                    })}
+                    onClick={() => {
+                      selectedRestaurantStorage({});
+                      diningOptions(dining);
+                      closeDrawer();
+                      dining?.type === IN_ROOM_DINING
+                        ? navigate(availablePaths.DINING)
+                        : navigate(availablePaths.RESTAURANTS_BARS);
+                    }}
+                  >
+                    {diningOptionList(dining?.type)}{' '}
+                  </p>
+                  {diningOptionSelected?.id === dining?.id && <CheckIcon className={styles.icon} />}
+                </div>
+              ))}
             </div>
           </div>
         )}

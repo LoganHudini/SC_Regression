@@ -1,4 +1,4 @@
-import { makeVar } from '@apollo/client';
+import { makeVar, useReactiveVar } from '@apollo/client';
 import { DINING_OPTIONS } from 'utils/constants';
 
 export type IdiningOptionsProps = {
@@ -15,7 +15,7 @@ export type INotificationDetailsProps = {
   apolloError?: string | any;
 };
 
-export const diningOptions = makeVar<IdiningOptionsProps>(DINING_OPTIONS[0]);
+export const diningOptions = makeVar<any>({});
 
 export const toggleModuleOptionsDrawer = makeVar(false);
 
@@ -40,3 +40,7 @@ export const getHotelCompendium = makeVar([]);
 export const selectedCompendiumCategory = makeVar([]);
 
 export const hotelImage = makeVar<any>({});
+
+export const hotelInfoStorage = makeVar<any>([]);
+
+export const diningHeaders = makeVar<any>([]);

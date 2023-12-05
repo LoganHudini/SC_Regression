@@ -67,6 +67,7 @@
 
 .carouselWrapperSingleImage {
   justify-content: center;
+  width: 100% !important;
 }
 
 .carouselWrapper::-webkit-scrollbar {
@@ -83,7 +84,7 @@
   position: relative;
   z-index: -1;
   height: 182px;
-  width: 273px;
+  width: 100%;
   object-fit: cover;
   pointer-events: none;
   z-index: 100;
@@ -113,7 +114,9 @@
   z-index: 200;
   position: absolute;
   bottom: 5px;
-  left: 10px;
+  left: 0px;
+  right: 0px;
+  margin: auto;
   border-radius: var(--primary-card-border-radius);
   background: var(--primary-card-background-color);
 }
@@ -222,4 +225,14 @@
   flex-direction: column;
   justify-content: center;
   height: 55px;
+}
+
+.carouselWrapperSingleImageUl {
+  ul {
+    width: 100% !important;
+  }
+}
+
+.detailPosition {
+  width: 95% !important;
 }

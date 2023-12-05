@@ -24,7 +24,12 @@ import { ASSETS_URL, HOTEL_ID } from 'core/graphql/endpoints';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import DishIcon from '@icons/dishIcon.svg';
 import { Header } from 'components/shared/Header/Header';
-import { diningOptions, toggleDetailsDrawer, toggleNotification } from 'storage/home.storage';
+import {
+  diningOptions,
+  diningHeaders,
+  toggleDetailsDrawer,
+  toggleNotification,
+} from 'storage/home.storage';
 import {
   ACTIVE,
   DINING_OPTIONS,
@@ -33,6 +38,7 @@ import {
   ERRORMSG,
   EXTERNAL_URL,
   FAILURE,
+  IN_ROOM_DINING,
   IRD,
   OK,
   PHONE,
@@ -41,7 +47,12 @@ import {
   SUCCESS,
   WEBURL,
 } from 'utils/constants';
-import { filterRestaurantList, getTimings } from 'utils/functions';
+import {
+  activeModule,
+  filterRestaurantList,
+  getTimings,
+  uniqueDiningOption,
+} from 'utils/functions';
 import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { CREATE_RESTAURANT_RESERVATION } from 'core/graphql/queries/GET_RESTAURANT_RESERVATION_DETAILS';
@@ -78,11 +89,13 @@ const RestaurantAndBars: React.FC = () => {
     dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM),
   );
   const router = useRouter();
+  const config = useConfig();
   const restaurantDetailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
   const initialSelected = useReactiveVar(selectedRestaurantStorage);
   const currentYear = new Date().getFullYear();
   const [selectedRestaurantData, setSelectedRestaurantData] = useState<any>();
   const [errorNotification, setErrorNotification] = useState(false);
+  const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
 
   const { data, loading } = useQuery<IGetRestaurantDetailsResponse>(GET_RESTAURANT_DETAILS, {
     skip: !hotelId,
@@ -96,8 +109,8 @@ const RestaurantAndBars: React.FC = () => {
 
   const diningOptionSelected = useReactiveVar(diningOptions);
 
-  const queryResultsData = data?.getRestaurantDetails?.restaurant;
-  restaurantListStorage(queryResultsData?.map((item) => ({ id: item?.id, name: item?.name })));
+  const queryResultsData: any = data?.getRestaurantDetails?.restaurant;
+  restaurantListStorage(queryResultsData?.map((item: any) => ({ id: item?.id, name: item?.name })));
 
   const selectedListItem = (item: any) => {
     setSelectedRestaurantData(item);
@@ -105,16 +118,31 @@ const RestaurantAndBars: React.FC = () => {
   };
 
   useEffect(() => {
-    diningOptionSelected.id === IRD && diningOptions(DINING_OPTIONS[1]);
+    queryResultsData?.length != 0 &&
+      isEmpty(diningOptionSelected) &&
+      diningOptions(data?.getRestaurantDetails?.restaurant[0]);
     if (!isEmpty(initialSelected)) {
+      diningOptions(initialSelected);
       setSelectedRestaurantData(initialSelected);
       setTimeout(() => {
         toggleDetailsDrawer(true);
       }, 1000);
     }
-  }, [diningOptionSelected.id, initialSelected]);
+  }, [queryResultsData]);
 
   const filteredList = filterRestaurantList(queryResultsData, diningOptionSelected);
+
+  const uniqueFilteredDiningOptions = uniqueDiningOption(queryResultsData);
+
+  useEffect(() => {
+    if (uniqueFilteredDiningOptions?.length > 0) {
+      diningHeaders(
+        isCheckedIn?.checkedIn && irdModule
+          ? [...uniqueFilteredDiningOptions, { type: IN_ROOM_DINING }]
+          : uniqueFilteredDiningOptions,
+      );
+    }
+  }, [queryResultsData]);
 
   const queryResultEntity = selectedRestaurantData;
   const restaurantId = queryResultEntity?.id;

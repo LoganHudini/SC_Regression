@@ -16,7 +16,12 @@ import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
 import { IDiningMenuStorageData, diningMenuStorage } from 'storage/dining-menu.storage';
 import cx from 'classnames';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { activeModule, filterLiveMenu, irdActiveMenuList } from 'utils/functions';
+import {
+  activeModule,
+  filterLiveMenu,
+  irdActiveMenuList,
+  uniqueDiningOption,
+} from 'utils/functions';
 import { availablePaths } from 'utils/availablePaths';
 import DiningMenu from 'components/pages/dining/DiningMenu/DiningMenu';
 import ScrollDown from '@icons/scrollDown.svg';
@@ -24,6 +29,12 @@ import { useConfig } from 'utils/hooks/useConfiguration';
 import { client } from 'core/graphql/client';
 import { CHECKIN, CHECK_IN, IN_ROOM_DINING, IRD } from 'utils/constants';
 import { useCheckedIn } from 'storage/check-in.storage';
+import {
+  IGetRestaurantDetailsResponse,
+  GET_RESTAURANT_DETAILS,
+} from 'core/graphql/queries/GET_RESTAURTANT_DETAILS';
+import { diningOptions, diningHeaders } from 'storage/home.storage';
+import { isEmpty } from 'lodash';
 
 export { getStaticPaths };
 
@@ -41,7 +52,21 @@ const Dining = () => {
   const dropdownRef: any = useRef();
   const [scrollTop, setScrollTop] = useState(0);
   const checkInData = useCheckedIn();
+  const irdOption = useReactiveVar(diningHeaders);
+  const diningOptionSelected = useReactiveVar(diningOptions);
 
+  const { data: restaurantList, loading } = useQuery<IGetRestaurantDetailsResponse>(
+    GET_RESTAURANT_DETAILS,
+    {
+      skip: !hotelId,
+      context: { clientName: 'host_v0' },
+      fetchPolicy: 'no-cache',
+      variables: {
+        lang: locale === 'en' ? '' : locale,
+        hotelId: hotelId,
+      },
+    },
+  );
   const { data, loading: irdMenuLoading } = useQuery<IRDMenuApiResponse>(IRD_MENU, {
     skip: !hotelId,
     context: { clientName: 'host_v2' },
@@ -60,9 +85,28 @@ const Dining = () => {
     });
   }
 
+  const queryResultsData: any = restaurantList?.getRestaurantDetails?.restaurant;
+
+  const uniqueFilteredDiningOptions = uniqueDiningOption(queryResultsData);
+
   const filteredList = data?.getIRDMenuOutputDetails?.filter(
     (item: any) => item?.isActive && filterLiveMenu(item?.hours),
   );
+
+  useEffect(() => {
+    if (
+      uniqueFilteredDiningOptions?.length > 0 &&
+      irdOption?.length === 0 &&
+      isEmpty(diningOptionSelected)
+    ) {
+      diningHeaders(
+        checkInData?.checkedIn && irdModule
+          ? [...uniqueFilteredDiningOptions, { type: IN_ROOM_DINING }]
+          : uniqueFilteredDiningOptions,
+      );
+      diningOptions({ type: IN_ROOM_DINING });
+    }
+  }, [queryResultsData]);
 
   const irdActiveMenu = irdActiveMenuList(data);
   const menuName = irdActiveMenu && irdActiveMenu[0]?.name;

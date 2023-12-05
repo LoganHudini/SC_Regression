@@ -35,7 +35,7 @@ export const fAndBOrderEvent = (order: any) => {
     gtag('event', 'purchase', {
       transaction_id: order?.id,
       value: order?.totalAmount,
-      currency: CURRENCY,
+      currency: order.currency,
       items: order?.items?.map((item: any, index: number) => ({
         item_name: item?.name,
         index: index,
@@ -50,12 +50,12 @@ export const fAndBOrderEvent = (order: any) => {
     });
 };
 
-export const irdOrderEvent = (order: any) => {
+export const irdOrderEvent = (order: any, currency: any) => {
   gtag &&
     gtag('event', 'purchase', {
       transaction_id: order?.id,
       value: order?.totalAmount,
-      currency: CURRENCY,
+      currency: currency,
       items: order?.items?.map((item: any, index: number) => ({
         item_name: item?.name,
         index: index,
@@ -73,7 +73,7 @@ export const irdOrderEvent = (order: any) => {
 export const viewItemEvent = (item: any) => {
   gtag &&
     gtag('event', 'view_item', {
-      currency: CURRENCY,
+      currency: item.currency,
       value: item?.price,
       items: [
         {
@@ -88,7 +88,7 @@ export const viewItemEvent = (item: any) => {
 export const addToCartEvent = (item: any) => {
   gtag &&
     gtag('event', 'add_to_cart', {
-      currency: CURRENCY,
+      currency: item.currency,
       value: item?.price,
       items: [
         {

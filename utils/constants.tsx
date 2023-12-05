@@ -107,6 +107,9 @@ export const CARD_TYPE = 'cardType';
 export const INACTIVE = 'Inactive';
 export const SERVICES = 'Services';
 export const ERRORMSG = 'Something Went Wrong!';
+export const RESTAURANT = 'restaurant';
+export const BAR = 'bar';
+export const BARS_CAPS = 'bars';
 
 // flow constants
 export const DAYS = [

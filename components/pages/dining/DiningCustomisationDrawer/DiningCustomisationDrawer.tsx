@@ -13,6 +13,7 @@ import produce from 'immer';
 import { useTranslation } from 'react-i18next';
 import { CURRENCY } from 'core/graphql/endpoints';
 import { addToCartEvent } from 'utils/gtag';
+import { useCurrency } from 'utils/hooks/useConfiguration';
 
 export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps> = ({
   customisationDrawer,
@@ -25,6 +26,7 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
   const selectedItem = diningData?.items?.find(
     (item, index) => item?.itemId === selectedItemId && index === diningData?.selectedIndex,
   );
+  const currency = useCurrency();
 
   useEffect(() => {
     settotalAddons((selectedItem?.addons ?? [])?.reduce((acc, addon) => acc + addon?.price, 0));
@@ -41,6 +43,7 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
       name: selectedItem?.title,
       price: selectedItem?.price,
       quantity: selectedItem?.quantity,
+      currency: currency,
     };
     closeCustomisationDrawer();
     diningMenuStorage(
@@ -80,7 +83,7 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
           {selectedItem?.title && <p className={styles.itemTitle}>{selectedItem?.title}</p>}
           {selectedItem?.price && (
             <p className={styles.itemPrice}>
-              <span className={styles.currency}>{CURRENCY}</span>{' '}
+              <span className={styles.currency}>{currency}</span>{' '}
               {(selectedItem?.price + totalAddons)?.toFixed(2)}
             </p>
           )}
@@ -101,7 +104,7 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
             <span className={styles.grayText}>{t('Add-ons :')} </span>
             {selectedItem?.addons?.map((item, index) => (
               <span key={index} className={styles.item}>
-                {item?.name} ({CURRENCY} {item?.price})
+                {item?.name} ({currency} {item?.price})
               </span>
             ))}
           </p>

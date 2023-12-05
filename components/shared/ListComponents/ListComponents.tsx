@@ -9,7 +9,7 @@ import { OFFERSDURATION } from 'utils/constants';
 import dayjs from 'dayjs';
 import { getTimings } from 'utils/functions';
 import { CustomReadMore } from '../CustomReadMore/CustomReadMore';
-
+import { useCurrency } from 'utils/hooks/useConfiguration';
 interface ListComponentEntityProps {
   queryResultEntity: any;
   selectedListItem: any;
@@ -21,6 +21,7 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
   selectedListItem,
 }) => {
   const { t } = useTranslation(['common']);
+  const currency = useCurrency();
 
   const onCtaClick = useCallback(() => {
     selectedListItem(queryResultEntity);
@@ -41,7 +42,7 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
           )}
           {queryResultEntity?.duration && queryResultEntity?.duration[0]?.price && (
             <p className={styles.listDurationPrice}>
-              <span className={styles.currency}>{CURRENCY} </span>
+              <span className={styles.currency}>{currency} </span>
               {queryResultEntity?.duration[0]?.price}
               {'   '}|{'   '}
               {queryResultEntity?.duration[0]?.duration} Min

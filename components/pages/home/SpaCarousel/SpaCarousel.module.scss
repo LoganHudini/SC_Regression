@@ -16,6 +16,7 @@
 
 .carouselWrapperSingleImage {
   justify-content: center;
+  width: 100% !important;
 }
 
 .carouselWrapper::-webkit-scrollbar {
@@ -49,7 +50,9 @@
   z-index: 200;
   position: absolute;
   bottom: 5px;
-  left: 10px;
+  left: 0px;
+  right: 0px;
+  margin: auto;
   border-radius: var(--primary-card-border-radius);
   background: var(--primary-card-background-color);
   // display: flex;
@@ -233,4 +236,14 @@
 
 .text {
   margin-inline-start: 10px;
+}
+
+.carouselWrapperSingleImageUl {
+  ul {
+    width: 100% !important;
+  }
+}
+
+.detailPosition {
+  width: 95% !important;
 }

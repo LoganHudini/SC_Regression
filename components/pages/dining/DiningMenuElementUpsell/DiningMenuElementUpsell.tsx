@@ -10,6 +10,7 @@ import produce from 'immer';
 import { useReactiveVar } from '@apollo/client';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import cx from 'classnames';
+import { useCurrency } from 'utils/hooks/useConfiguration';
 
 export const DiningMenuElementUpsell: React.FC<IDiningMenuElementProps> = ({
   title,
@@ -24,6 +25,7 @@ export const DiningMenuElementUpsell: React.FC<IDiningMenuElementProps> = ({
   const totalQuantity = diningData?.items
     ?.filter((el) => el.itemId === id && el.quantity > 0)
     .reduce((acc, el) => acc + el.quantity, 0);
+  const currency = useCurrency();
 
   const onClickPlus = useCallback(() => {
     diningMenuStorage(
@@ -97,7 +99,7 @@ export const DiningMenuElementUpsell: React.FC<IDiningMenuElementProps> = ({
           </p>
         )}
         <p className={styles.currency}>
-          {CURRENCY} <span className={styles.price}>{price?.toFixed(2)}</span>
+          {currency} <span className={styles.price}>{price?.toFixed(2)}</span>
         </p>
       </div>
       <div className={styles.imageWrapper}>

@@ -22,6 +22,7 @@ import { addToCartEvent } from 'utils/gtag';
 import cx from 'classnames';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { client } from 'core/graphql/client';
+import { useCurrency } from 'utils/hooks/useConfiguration';
 
 const DiningDetailsDrawer = () => {
   const { t } = useTranslation(['dining', 'common']);
@@ -47,6 +48,7 @@ const DiningDetailsDrawer = () => {
   const data = client.readQuery<IRDMenuApiResponse>({ query: IRD_MENU });
 
   const irdMenu = irdActiveMenuList(data);
+  const currency = useCurrency();
 
   let irdItemsList: any = [];
 
@@ -251,6 +253,7 @@ const DiningDetailsDrawer = () => {
       name: selectedItem?.name,
       price: selectedItem?.price,
       quantity: count,
+      currency: currency,
     };
     addToCartEvent(item);
     closeDrawer();
@@ -424,7 +427,7 @@ const DiningDetailsDrawer = () => {
               <>
                 <p className={styles.priceText}>{t('total item price')}</p>
                 <p className={styles.totalItemPrice}>
-                  {CURRENCY}{' '}
+                  {currency}{' '}
                   <span className={styles.price}>
                     {' '}
                     {(selectedItem?.price + totalAddons)?.toFixed(2)}

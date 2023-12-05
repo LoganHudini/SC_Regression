@@ -9,6 +9,7 @@ import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
 import { CURRENCY } from 'core/graphql/endpoints';
 import { useTranslation } from 'react-i18next';
+import { useCurrency } from 'utils/hooks/useConfiguration';
 
 export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
   ordersDrawer,
@@ -19,6 +20,7 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
   const [myOrders, setMyOrders] = useState(true);
   const [thankYou, setThankYou] = useState(false);
   const [expandedCardId, setExpandedCardId] = useState('');
+  const currency = useCurrency();
 
   const handleOk = () => {
     setThankYou(false);
@@ -104,7 +106,7 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
                                 {item?.count} x {item?.name}{' '}
                               </p>
                               <p className={styles.itemsPrice}>
-                                <span className={styles.currency}>{CURRENCY}</span>{' '}
+                                <span className={styles.currency}>{currency}</span>{' '}
                                 {itemTotal(item)?.toFixed(2)}
                               </p>
                             </div>
@@ -120,7 +122,7 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
                                   {t('Add-ons :')}{' '}
                                   {item?.addOns?.map((item: any, index: number) => (
                                     <span key={index} className={styles.grayText}>
-                                      {item?.name} ({CURRENCY} {item?.price})
+                                      {item?.name} ({currency} {item?.price})
                                     </span>
                                   ))}
                                 </p>
@@ -138,7 +140,7 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
                           <p className={styles.total}>{t('Total')} </p>
                           <p className={styles.totalPrice}>
                             {' '}
-                            <span className={styles.currency}>{CURRENCY}</span>{' '}
+                            <span className={styles.currency}>{currency}</span>{' '}
                             {orderCategory?.totalAmount?.toFixed(2)}
                           </p>
                         </div>
@@ -151,7 +153,7 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
                 <p className={styles.totalTitle}>{t('Total to be paid')}</p>
                 <p className={styles.totalTitlePrice}>
                   {' '}
-                  <span className={styles.currency}>{CURRENCY}</span> {totalToBePaid?.toFixed(2)}
+                  <span className={styles.currency}>{currency}</span> {totalToBePaid?.toFixed(2)}
                 </p>
               </div>
             </div>

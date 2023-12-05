@@ -29,9 +29,10 @@ interface ICarouselProps {
 }
 interface ICarouselSlideProps {
   slide: any;
+  slideStyle?: any;
 }
 
-export const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide }) => {
+export const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle }) => {
   const handleClick = () => {
     spaInformationStorage({
       selectedSpaInfoName: slide?.name,
@@ -45,10 +46,16 @@ export const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide }) => {
   return (
     <div className={styles.carouselSlideWrapper} onClick={handleClick}>
       <StableImage
-        className={styles.carouselSlideImage}
+        className={cx(styles.carouselSlideImage, {
+          [styles.carouselWrapperSingleImage]: slideStyle,
+        })}
         src={`${ASSETS_URL}/${slide?.images[0]?.master}`}
       />
-      <div className={styles.carouselSlideDetailsWrapper}>
+      <div
+        className={cx(styles.carouselSlideDetailsWrapper, {
+          [styles.detailPosition]: slideStyle,
+        })}
+      >
         {slide?.name && <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>}
         {time?.value && (
           <div className={styles.timings}>
@@ -193,11 +200,15 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
           <p className={styles.spaTitle}>{t('Spa')}</p>
           <WithScrollbar
             className={cx(styles.carouselWrapper, {
-              [styles.carouselWrapperSingleImage]: spaInfoList?.length === 1,
+              [styles.carouselWrapperSingleImageUl]: spaInfoList?.length === 1,
             })}
           >
             {spaInfoList?.map((slide: any) => (
-              <CarouselSlide key={slide?.name} slide={slide} />
+              <CarouselSlide
+                key={slide?.name}
+                slide={slide}
+                slideStyle={spaInfoList?.length === 1}
+              />
             ))}
           </WithScrollbar>
         </div>

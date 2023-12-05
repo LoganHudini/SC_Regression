@@ -12,6 +12,7 @@ import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { DiningCustomisationDrawer } from 'components/pages/dining/DiningCustomisationDrawer/DiningCustomisationDrawer';
 import cx from 'classnames';
 import { addToCartEvent, viewItemEvent } from 'utils/gtag';
+import { useCurrency } from 'utils/hooks/useConfiguration';
 
 export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
   title,
@@ -25,6 +26,8 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
   const { t } = useTranslation('dining');
   const [customisationDrawer, setCustomisationDrawer] = useState(false);
   const diningData = useReactiveVar(diningMenuStorage);
+  const currency = useCurrency();
+
   const totalQuantity = diningData?.items
     ?.filter((el) => el.itemId === id && el.quantity > 0)
     .reduce((acc, el) => acc + el.quantity, 0);
@@ -35,7 +38,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
         draft.selectedItemId = id;
       }),
     );
-    const item = { id: id, name: title, price: price };
+    const item = { id: id, name: title, price: price, currency: currency };
     viewItemEvent(item);
     toggleDiningDetailsDrawer(true);
   }, [id, price, title]);
@@ -55,6 +58,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
                 name: selectedItem?.title,
                 price: selectedItem?.price,
                 quantity: 1,
+                currency: currency,
               }));
 
           draft.selectedItemId = id;
@@ -92,7 +96,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
           </p>
         )}
         <p className={styles.currency}>
-          {CURRENCY} <span className={styles.price}>{price?.toFixed(2)}</span>
+          {currency} <span className={styles.price}>{price?.toFixed(2)}</span>
         </p>
       </div>
       <div className={styles.imageWrapper}>

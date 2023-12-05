@@ -35,6 +35,8 @@ import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
 import { ASSETS_URL } from 'core/graphql/endpoints';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
+import { BAR, BARS_CAPS, RESTAURANT, RESTAURANTS } from 'utils/constants';
+import { diningOptionList } from 'utils/functions';
 
 export const BottomMenu: React.FC<unknown> = () => {
   const wrapperRef = useRef(null);
@@ -125,7 +127,7 @@ export const BottomMenu: React.FC<unknown> = () => {
   return (
     <>
       {(homeActive ||
-        (irdActive && diningOptionSelected?.title) ||
+        (irdActive && diningOptionSelected?.type) ||
         (housekeepingActive && houseKeepingOptionSelected?.title) ||
         (spaActive && spaInformation?.selectedSpaCategoryName) ||
         (offersActive && offersOptionSelected?.type) ||
@@ -143,7 +145,7 @@ export const BottomMenu: React.FC<unknown> = () => {
             <span className={styles.btnText}>
               {homeActive &&
                 (isCheckedIn?.checkedIn ? `Room ${isCheckedIn?.roomNumber}` : t('CHECK-IN'))}
-              {irdActive && t(`${diningOptionSelected?.title}`)}
+              {irdActive && t(diningOptionList(diningOptionSelected?.type))}
               {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
               {spaActive && t(`${spaInformation?.selectedSpaCategoryName}`)}
               {offersActive && t(`${offersOptionSelected?.type}`)}
