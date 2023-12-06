@@ -80,3 +80,9 @@
   font-family: var(--primary-font-heading) !important;
   font-size: $medium !important;
 }
+
+.withoutImageButton {
+  position: relative;
+  margin-bottom: 15px;
+  margin-top: 25px;
+}

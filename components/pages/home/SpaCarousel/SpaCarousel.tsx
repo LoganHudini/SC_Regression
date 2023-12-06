@@ -130,7 +130,13 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
         />
       )}
       {(spaTreatments?.length > 0 || spaInfoDetails?.cta?.status === ACTIVE) && (
-        <StyledButton variant='contained' onClick={onCtaClick} className={styles.button}>
+        <StyledButton
+          variant='contained'
+          onClick={onCtaClick}
+          className={cx(styles.button, {
+            [styles.withoutImageButton]: spaInfoDetails && !spaInfoDetails?.images[0]?.ratio16to9,
+          })}
+        >
           {spaTreatments?.length > 0
             ? t('View Treatments')
             : spaInfoDetails?.cta?.status === ACTIVE &&

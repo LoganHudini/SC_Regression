@@ -26,6 +26,7 @@ import { Loader } from 'components/shared/Loaders/Loaders';
 import { isEmpty } from 'lodash';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { isOfferActive } from 'utils/functions';
+import cx from 'classnames';
 import Head from 'next/head';
 
 export { getStaticPaths };
@@ -140,7 +141,14 @@ const Offers: React.FC = () => {
           ))}
         {queryResultEntity?.CTA &&
           (queryResultEntity?.CTA?.redirectTo || queryResultEntity?.CTA?.URL) && (
-            <StyledButton variant='contained' onClick={onCtaClick} className={styles.button}>
+            <StyledButton
+              variant='contained'
+              onClick={onCtaClick}
+              className={cx(styles.button, {
+                [styles.withoutImageButton]:
+                  queryResultEntity && !queryResultEntity?.images[0]?.ratio16to9,
+              })}
+            >
               {queryResultEntity?.CTA?.ctaTitle || t('BOOK NOW')}
             </StyledButton>
           )}

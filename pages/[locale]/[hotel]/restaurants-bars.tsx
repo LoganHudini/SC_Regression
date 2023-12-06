@@ -257,6 +257,8 @@ const RestaurantAndBars: React.FC = () => {
               onClick={onCtaClick}
               className={cx(styles.button, {
                 [styles.buttonNone]: timeSelectDrawer,
+                [styles.withoutImageButton]:
+                  queryResultEntity && !queryResultEntity?.images[0]?.ratio16to9,
               })}
             >
               {queryResultEntity?.cta?.ctaTitle || t('BOOK NOW')}
