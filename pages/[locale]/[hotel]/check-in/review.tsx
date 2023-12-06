@@ -16,7 +16,11 @@ import {
   specialRequestsStorage,
 } from 'storage/personalize-your-room.storage';
 import { client } from 'core/graphql/client';
-import { IGetReservationApiResponse, GET_RESERVATION } from 'core/graphql/queries/GET_RESERVATION';
+import {
+  IGetReservationApiResponse,
+  GET_RESERVATION,
+  GET_RESERVATION_ROOM_STATUS,
+} from 'core/graphql/queries/GET_RESERVATION';
 import { CHECKIN, ICheckInApiRequest } from 'core/graphql/queries/CHECKIN';
 import { ICheckinProps } from 'types/check-in.types';
 import { GetStaticProps } from 'next';
@@ -97,8 +101,24 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const data: any = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
   });
-
   const reservationInfo = data?.getReservation?.data;
+  const adult = reservationInfo?.details.adultGuestCount.toString();
+  const children = reservationInfo?.details.childGuestCount.toString();
+  const roomNo = reservationInfo?.roomTypes[0]?.roomNumber;
+
+  const { data: roomStatusData } = useQuery(GET_RESERVATION_ROOM_STATUS, {
+    skip: !hotelId,
+    context: { clientName: 'rest' },
+    fetchPolicy: 'no-cache',
+    variables: {
+      roomNumber: roomNo,
+      hotelId: hotelId,
+    },
+  });
+
+  const roomStatus =
+    roomStatusData?.getReservationRoomStatus?.data?.roomStatus === 'IP' ? true : false;
+
   const cardType = cardTypes
     ?.find((item) => item?.code === guestReservationInfo?.cardType)
     ?.name?.toUpperCase();
@@ -165,10 +185,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const handleSignatureChange = () => {
     setSignature(sigCanvas?.current);
   };
-
-  const adult = reservationInfo?.details.adultGuestCount.toString();
-  const children = reservationInfo?.details.childGuestCount.toString();
-  const roomNo = reservationInfo?.roomTypes[0]?.roomNumber;
 
   const goToCheckIn = useCallback(async () => {
     setLoading(true);
@@ -238,7 +254,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
     try {
       await client.query({
-        query: BRAND_CODE === 'itc' ? PRECHECKIN : roomNo ? CHECKIN : PRECHECKIN,
+        query: BRAND_CODE === 'itc' ? PRECHECKIN : roomNo && roomStatus ? CHECKIN : PRECHECKIN,
         context: { clientName: 'rest' },
         variables: {
           confirmationNumber: reservationInfo?.confirmationId as string,
@@ -248,8 +264,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
       saveTrip({
         reservationId: reservationInfo?.confirmationId as string,
-        preCheckedIn: BRAND_CODE === 'itc' ? true : !roomNo ? true : false,
-        checkedIn: BRAND_CODE === 'itc' ? false : roomNo ? true : false,
+        preCheckedIn: BRAND_CODE === 'itc' ? true : !(roomNo && roomStatus) ? true : false,
+        checkedIn: BRAND_CODE === 'itc' ? false : roomNo && roomStatus ? true : false,
         name: guestReservationInfo?.lastName,
         email: guestReservationInfo?.emails,
         roomNumber: roomNo,
@@ -258,8 +274,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
       checkinStorage({
         reservationId: reservationInfo?.confirmationId as string,
-        preCheckedIn: BRAND_CODE === 'itc' ? true : !roomNo ? true : false,
-        checkedIn: BRAND_CODE === 'itc' ? false : roomNo ? true : false,
+        preCheckedIn: BRAND_CODE === 'itc' ? true : !(roomNo && roomStatus) ? true : false,
+        checkedIn: BRAND_CODE === 'itc' ? false : roomNo && roomStatus ? true : false,
         name: guestReservationInfo?.lastName,
         email: guestReservationInfo?.emails,
         roomNumber: roomNo,
@@ -308,6 +324,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     paymentConfig?.paymentMethod,
     personalizationEntities,
     guests,
+    roomStatus,
   ]);
 
   useEffect(() => {
@@ -680,7 +697,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               ? (t(
                   'You have pre checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
                 ) as string)
-              : roomNo
+              : roomNo && roomStatus
               ? (t(
                   'You have checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
                 ) as string)

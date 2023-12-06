@@ -7,7 +7,7 @@ import { useFormik } from 'formik';
 import { useReactiveVar } from '@apollo/client';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
 import { generateInitialFieldValues, generateValidationSchema } from 'utils/functions';
-import { CARD_TYPE } from 'utils/constants';
+import { CARD_TYPE, cardTypes } from 'utils/constants';
 
 export const PreCheckinPaymentInfo: React.FC<IPreCheckinPaymentInfoProps> = ({
   paymentInfo,
@@ -54,9 +54,9 @@ export const PreCheckinPaymentInfo: React.FC<IPreCheckinPaymentInfoProps> = ({
                 id={field?.name}
                 value={
                   field?.name === CARD_TYPE
-                    ? formik.values[field?.name] === 'VS'
-                      ? 'VISA'
-                      : formik.values[field?.name]
+                    ? cardTypes
+                        ?.find((item) => item?.code === formik.values[field?.name])
+                        ?.name?.toUpperCase()
                     : formik.values[field?.name]
                 }
                 disabled={field?.isDisabled}

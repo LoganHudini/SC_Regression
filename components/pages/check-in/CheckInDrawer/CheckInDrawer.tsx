@@ -124,7 +124,7 @@ const CheckInDrawer = () => {
       } catch (error) {
         setErrorNotification({
           state: true,
-          title: ERRORMSG,
+          title: 'Reservation Not Found',
           description: 'Please Try Again',
           appoloErrorMessage: error as ApolloError,
         });

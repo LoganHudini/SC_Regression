@@ -151,3 +151,17 @@ export const GET_RESERVATION_NO_ARRIVAL_DATE = gql`
     }
   }
 `;
+
+export const GET_RESERVATION_ROOM_STATUS = gql`
+  query GetReservationRoomStatus($roomNumber: String, $hotelId: String) {
+    getReservationRoomStatus(roomNumber: $roomNumber, hotelId: $hotelId)
+      @rest(
+        type: "GetReservationPayload"
+        path: "/${ENVIRONMENT}/booking/hotel/{args.hotelId}/rooms/{args.roomNumber}/status"
+      ) {
+      errors
+      data
+      status
+    }
+  }
+`;

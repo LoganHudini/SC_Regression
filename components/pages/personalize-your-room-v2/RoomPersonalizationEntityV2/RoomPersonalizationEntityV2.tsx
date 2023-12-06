@@ -61,7 +61,8 @@ export const RoomPersonalizationEntityV2: React.FC<IRoomPersonalizationEntityPro
       produce(personalizeYourRoomStorage(), (draft) => {
         const item = draft?.find((el) => el?.id === id);
         if (item) {
-          item.quantity === 1 ? draft.pop() : item.quantity--;
+          const index = (draft ?? [])?.indexOf(item);
+          item.quantity === 1 ? index > -1 && draft?.splice(index, 1) : item.quantity--;
         }
       }),
     );
