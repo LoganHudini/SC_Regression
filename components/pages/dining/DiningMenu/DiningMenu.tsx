@@ -190,7 +190,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
 
   useEffect(() => {
     const totalAmount = diningData?.items?.reduce((allTotal, item) => {
-      const addonsTotal = item?.addons?.reduce((acc, addon) => {
+      const addonsTotal = item?.addons?.reduce((acc: any, addon: any) => {
         return acc + addon.price * item.quantity;
       }, 0);
 

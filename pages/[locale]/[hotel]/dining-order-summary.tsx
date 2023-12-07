@@ -55,7 +55,7 @@ const DiningOrderSummary = () => {
 
   useEffect(() => {
     const totalAmount = diningData?.items?.reduce((allTotal, item) => {
-      const addonsTotal = item?.addons?.reduce((acc, addon) => {
+      const addonsTotal = item?.addons?.reduce((acc: any, addon: any) => {
         return acc + addon.price * item.quantity;
       }, 0);
       return allTotal + item.quantity * item.price + (addonsTotal ?? 0);
@@ -156,7 +156,7 @@ const DiningOrderSummary = () => {
         code: el?.code,
         count: el?.quantity,
         amount: el?.price,
-        addOns: el?.addons?.map((item) => ({
+        addOns: el?.addons?.map((item: any) => ({
           code: item?.code,
           name: item?.name,
           price: item?.price,
@@ -228,7 +228,7 @@ const DiningOrderSummary = () => {
         <div className={styles.cartWrapper}>
           {items?.map((item, index) => {
             const totalAddonPrice: any = item?.addons?.reduce(
-              (acc, addon) => acc + addon?.price,
+              (acc: any, addon: any) => acc + addon?.price,
               0,
             );
             const totalPrice = item?.price + totalAddonPrice ?? 0;
@@ -248,27 +248,34 @@ const DiningOrderSummary = () => {
                   </div>
                   <div className={styles.selectionsWrapper}>
                     {(item?.customisation ?? [])?.length > 0 && (
-                      <p className={styles.itemDescription}>
-                        {item?.customisation?.map((item: any, index: any) => (
-                          <>
-                            {item?.ingredient}:{' '}
-                            <span key={index} className={styles.items}>
-                              {item?.name}
-                            </span>
+                      <p className={styles.itemDescriptionCust}>
+                        {item?.customisation?.map((items: any, index: any) => (
+                          <div key={index}>
+                            {items?.name}
+                            {index !== item?.customisation?.length - 1 ? ', ' : ''}
+
                             <br />
-                          </>
+                          </div>
                         ))}
                       </p>
                     )}
                     {(item?.addons ?? [])?.length > 0 && (
-                      <p className={styles.itemDescription}>
-                        {t('Add-ons :')}
-                        {item?.addons?.map((item, index) => (
-                          <span key={index} className={styles.items}>
-                            {item?.name} ({currency} {item?.price})
-                          </span>
+                      <div className={styles.addonsWrapperCols}>
+                        {item?.addons?.map((items: any, index: any) => (
+                          <div className={styles.addonsWrapperRows} key={index}>
+                            <span className={styles.itemDescription}>
+                              {items?.name}
+                              {' - '}
+                            </span>
+                            <span key={index} className={styles.items}>
+                              <span key={index} className={styles.itemsCurrency}>
+                                {currency}{' '}
+                              </span>
+                              {items?.price} {index !== item?.addons?.length - 1 ? ',' : ''}{' '}
+                            </span>
+                          </div>
                         ))}
-                      </p>
+                      </div>
                     )}
                     {item?.cookingInstruction && (
                       <p className={styles.itemDescription}>
@@ -391,10 +398,18 @@ const DiningOrderSummary = () => {
                 }`}</p>
               )}
               {totalAmount && (
-                <p className={styles.totalCost}>
-                  {t('TOTAL')} - <span className={styles.currency}>{currency} </span>{' '}
-                  {totalAmount?.toFixed(2)}
-                </p>
+                <div className={styles.totalCostWrapper}>
+                  <div className={styles.titleCostWrapper}>
+                    <span className={styles.currency}>{t('TOTAL')} </span>{' '}
+                    <span className={styles.currency}>
+                      {t('ITEMS')} - {items && items?.length}
+                    </span>
+                  </div>
+                  <span className={styles.currencyTitle}>
+                    {currency}
+                    <span className={styles.currencyValueTitle}>{totalAmount?.toFixed(2)}</span>
+                  </span>
+                </div>
               )}
             </div>
             <StyledButton
@@ -403,9 +418,8 @@ const DiningOrderSummary = () => {
               className={styles.confirmButton}
               onClick={handleOrder}
               variant='contained'
-              count={items?.length}
             >
-              {t('Confirm Order')}
+              {t('Confirm')}
             </StyledButton>
           </div>
         )}

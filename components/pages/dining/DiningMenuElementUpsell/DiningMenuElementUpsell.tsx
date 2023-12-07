@@ -93,23 +93,15 @@ export const DiningMenuElementUpsell: React.FC<IDiningMenuElementProps> = ({
     <div className={styles.card}>
       <div className={styles.contentWrapper} onClick={onClickPlus}>
         <h4 className={cx(styles.title, { [styles.titleWithImage]: image })}>{title}</h4>
-        {description && (
-          <p className={cx(styles.description, { [styles.descriptionWithImage]: image })}>
-            {description}
-          </p>
-        )}
         <p className={styles.currency}>
           {currency} <span className={styles.price}>{price?.toFixed(2)}</span>
         </p>
       </div>
       <div className={styles.imageWrapper}>
-        <div className={styles.pointer} onClick={onClickPlus}>
-          {image && <StableImage className={styles.image} src={`${ASSETS_URL}/${image}`} />}
-        </div>
         {totalQuantity == 0 ? (
-          <StyledButton onClick={onClickPlus} className={cx(styles.addCta)} variant='contained'>
-            {t('Add')}
-          </StyledButton>
+          <span onClick={onClickPlus} className={cx(styles.addCta)}>
+            +
+          </span>
         ) : (
           <div className={styles.counterStyle}>
             <PlusMinusInput

@@ -126,3 +126,13 @@
 .wholeItemsWrapper {
   margin-bottom: 30px;
 }
+
+.schedulerTitle {
+  width: 100%;
+  display: flex;
+  font: $xsmall var(--primary-font-regular);
+  color: var(--tertiary-text-color);
+  text-align: start;
+  justify-content: center;
+  align-items: center;
+}

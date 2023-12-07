@@ -26,5 +26,6 @@
   "Preferred Table": "Mesa preferida",
   "Maintenance": "Mantenimiento",
   "Quantity": "Cantidad",
-  "Time": "Tiempo"
+  "Time": "Tiempo",
+  "The scheduler is set to begin 15 minutes from now, as this aligns with our standard delivery time.": "The scheduler is set to begin 15 minutes from now, as this aligns with our standard delivery time."
 }

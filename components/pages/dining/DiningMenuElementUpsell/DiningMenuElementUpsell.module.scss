@@ -6,6 +6,8 @@
   border-radius: var(--primary-card-border-radius);
   box-shadow: 0px 3px 6px var(--primary-card-shadow-color);
   background-color: var(--primary-card-background-color);
+  flex-direction: column;
+  gap: 20px;
 }
 
 .contentWrapper {
@@ -13,7 +15,8 @@
   display: flex;
   flex-direction: column;
   text-align: start;
-  width: 200px;
+  width: 168px;
+  gap: 9px;
 }
 
 .title {
@@ -51,7 +54,6 @@
 
 .imageWrapper {
   display: flex;
-  align-items: center;
   flex-direction: column;
   justify-content: end;
 }
@@ -65,14 +67,12 @@
 }
 
 .addCta {
-  height: 30px;
-  width: 90px;
-  line-height: 30px;
-  position: relative;
-  margin-top: -15px;
+  width: 45px;
+  height: 37px;
+  color: var(--primary-background-color);
   text-align: center;
   background-color: var(--primary-theme-color);
-  font: $extraSmall var(--primary-card-cta-font-family);
+  font: $xheader var(--primary-font-regular);
   &:after {
     display: none;
   }
@@ -95,6 +95,7 @@
   background-color: var(--primary-background-color);
   z-index: 0;
   box-shadow: 0px 3px 6px var(--primary-box-shadow-color);
+  width: 55%;
 }
 
 .pointer {

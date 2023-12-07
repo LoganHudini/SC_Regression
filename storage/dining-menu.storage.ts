@@ -16,14 +16,16 @@ export type IDiningMenuStorageData = {
           id: string;
         }[]
       | any;
-    addons?: {
-      code: string;
-      id: string;
-      name: string;
-      price: number;
-      comment?: string;
-      quantity?: number;
-    }[];
+    addons?:
+      | {
+          code: string;
+          id: string;
+          name: string;
+          price: number;
+          comment?: string;
+          quantity?: number;
+        }[]
+      | any;
     upsell?: {
       code?: string;
       description?: string;

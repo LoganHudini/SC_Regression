@@ -154,7 +154,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({
       ...option,
     }));
     if (isCheckedIn?.checkedIn && irdModule && irdActiveMenu && Array.isArray(irdActiveMenu)) {
-      const irdMenu = irdActiveMenu.map((option: any) => ({
+      const irdMenu = irdActiveMenu?.map((option: any) => ({
         ...option,
         type: IN_ROOM_DINING,
       }));
@@ -162,7 +162,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({
     }
     return value;
   };
-  const filteredOptions: any = filteredOptionFunction();
+  const filteredOptions: any = queryResultsData && filteredOptionFunction();
 
   const renderSlides = (slides: any, module: boolean) =>
     slides?.length > 0 &&
@@ -183,7 +183,8 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({
     if (uniqueFilteredDiningOptions?.length > 0 && !diningOptionsState) {
       setDiningOption(uniqueFilteredDiningOptions[0]);
     }
-  }, [diningOptionsState, uniqueFilteredDiningOptions]);
+  }, [diningOptionsState, uniqueFilteredDiningOptions, filteredOptions, irdActiveMenu]);
+
   return (
     (irdActiveMenu?.length > 0 || filteredList?.length > 0) && (
       <div className={styles.diningCarouselWrapper}>
@@ -210,7 +211,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({
             [styles.carouselWrapperSingleImageUl]: slides?.length === 1,
           })}
         >
-          {renderSlides(slides, diningOptionsState?.title === IN_ROOM_DINING)}
+          {renderSlides(slides, diningOptionsState?.type === IN_ROOM_DINING)}
         </WithScrollbar>
       </div>
     )

@@ -25,6 +25,7 @@ import { housekeepingCheckboxStorage } from 'storage/housekeeping-checkbox.stora
 import { HousekeepingQuantityItem } from 'components/pages/housekeeping/HousekeepingQuantityItem/HousekeepingQuantityItem';
 import { HousekeepingCheckboxItem } from 'components/pages/housekeeping/HousekeepingCheckboxItem/HousekeepingCheckboxItem';
 import TimeIcon from '@icons/time-left.svg';
+import InfoIcon from '@icons/info_icon.svg';
 import {
   CHECK_IN,
   CUSTOM,
@@ -290,6 +291,15 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
                 <>
                   {!showCalendar && (
                     <div className={styles.calendarDateWrapper}>
+                      <span className={styles.schedulerTitle}>
+                        <InfoIcon />
+
+                        {showText
+                          ? t(
+                              'The scheduler is set to begin 15 minutes from now, as this aligns with our standard delivery time.',
+                            )
+                          : t('Your items will be delivered in 15 minutes or less!')}
+                      </span>
                       <div
                         className={styles.calendarDateLabel}
                         onClick={() => handleShowSchedules()}

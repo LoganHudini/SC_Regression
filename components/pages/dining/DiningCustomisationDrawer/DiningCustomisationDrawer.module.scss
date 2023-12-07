@@ -16,6 +16,9 @@
 
 .title {
   font: $header var(--heading-font-regular);
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 10px;
 }
 
 .priceContainer {
@@ -25,7 +28,7 @@
 }
 
 .itemTitle {
-  margin: 1.25rem 0;
+  margin: 0.6rem 0;
   width: 65%;
   font: $medium var(--primary-font-heading);
 }
@@ -36,9 +39,13 @@
 
 .itemPrice {
   margin: 1.25rem 0;
-  width: 30%;
-  text-align: end;
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
   font: $medium var(--primary-font-heading);
+  font-family: var(--primary-font-heading);
+  color: var(--primary-text-color);
+  font-size: $xsmall;
 }
 
 .grayText {
@@ -47,20 +54,32 @@
 }
 
 .itemDescription {
-  font: $small var(--primary-font-medium);
+  font: $xsmall var(--primary-font-regular);
   margin: 4px 0;
   color: var(--tertiary-text-color);
+  display: flex;
+  flex-direction: column;
+  line-height: 1.6 !important;
+  white-space: none !important;
+}
+
+.itemDescriptionCust {
+  font: $xsmall var(--primary-font-regular);
+  margin: 4px 0;
+  color: var(--tertiary-text-color);
+  line-height: 1.6 !important;
+  display: flex;
+  flex-direction: row;
 }
 
 .customisation {
-  line-height: 2;
+  line-height: 1.6;
 }
 
 .item + .item::before {
-  display: inline-block;
-  white-space: pre;
-  content: ', ';
   line-height: 1.5;
+  font: $xsmall var(--primary-font-regular);
+  color: var(--tertiary-text-color);
 }
 
 .buttonContainer {
@@ -89,4 +108,20 @@
   &:after {
     display: none;
   }
+}
+
+.currencyItems {
+  font: $xsmall var(--primary-font-heading);
+  color: var(--tertiary-text-color);
+}
+
+.addonsTitle {
+  font-family: var(--primary-font-heading);
+  color: var(--primary-text-color);
+  margin: 10px 0px;
+  font-size: $xsmall;
+}
+
+.currencyValue {
+  font: $medium var(--primary-font-heading);
 }

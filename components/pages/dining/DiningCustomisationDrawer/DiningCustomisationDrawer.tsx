@@ -29,7 +29,9 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
   const currency = useCurrency();
 
   useEffect(() => {
-    settotalAddons((selectedItem?.addons ?? [])?.reduce((acc, addon) => acc + addon?.price, 0));
+    settotalAddons(
+      (selectedItem?.addons ?? [])?.reduce((acc: any, addon: any) => acc + addon?.price, 0),
+    );
   }, [totalAddons, selectedItem?.addons]);
 
   const handleAddNew = useCallback(() => {
@@ -77,23 +79,19 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
     >
       <div className={styles.wrapper}>
         <div className={styles.drawerNotch}></div>
-        <h3 className={styles.title}>{t('Repeat previous customization?')} </h3>
+        <h3 className={styles.title}>{t('Repeat last used customization?')} </h3>
 
         <div className={styles.priceContainer}>
           {selectedItem?.title && <p className={styles.itemTitle}>{selectedItem?.title}</p>}
-          {selectedItem?.price && (
-            <p className={styles.itemPrice}>
-              <span className={styles.currency}>{currency}</span>{' '}
-              {(selectedItem?.price + totalAddons)?.toFixed(2)}
-            </p>
-          )}
         </div>
         {(selectedItem?.customisation ?? [])?.length > 0 && (
-          <p className={styles.itemDescription}>
+          <p className={styles.itemDescriptionCust}>
             {selectedItem?.customisation?.map((item: any, index: any) => (
               <span key={index} className={styles.customisation}>
-                <span className={styles.grayText}>{item?.ingredient}: </span>
-                {item?.name}
+                <span className={styles.grayText}>
+                  {item?.name}
+                  {index !== selectedItem?.customisation.length - 1 ? ', ' : ''}
+                </span>
                 <br />
               </span>
             ))}
@@ -101,13 +99,30 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
         )}
         {(selectedItem?.addons ?? [])?.length > 0 && (
           <p className={styles.itemDescription}>
-            <span className={styles.grayText}>{t('Add-ons :')} </span>
-            {selectedItem?.addons?.map((item, index) => (
+            <span className={styles.addonsTitle}>{t('Add-ons')} :</span>
+            {selectedItem?.addons?.map((item: any, index: any) => (
               <span key={index} className={styles.item}>
-                {item?.name} ({currency} {item?.price})
+                {item?.name}
+                {' - '}
+                <span className={styles.currencyItems}>
+                  {currency} {item?.price}
+                </span>
               </span>
             ))}
           </p>
+        )}
+        {selectedItem?.price && (
+          <>
+            <p className={styles.itemPrice}>
+              <span>{t('Total Item Price :')}</span>
+              <div>
+                <span className={styles.currency}>{currency} </span>{' '}
+                <span className={styles.currencyValue}>
+                  {(selectedItem?.price + totalAddons)?.toFixed(2)}
+                </span>
+              </div>
+            </p>
+          </>
         )}
         {selectedItem?.cookingInstruction && (
           <p className={styles.itemDescription}>

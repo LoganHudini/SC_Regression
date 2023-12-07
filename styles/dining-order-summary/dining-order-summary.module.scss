@@ -44,18 +44,29 @@
 }
 
 .itemDescription {
-  font-size: $small;
+  font-size: $xsmall;
   line-height: 1.5;
   padding: 0 0.1rem;
   font-family: var(--primary-font-regular);
   color: var(--tertiary-text-color);
   margin: 4px 0;
-  width: 95%;
+}
+
+.itemDescriptionCust {
+  font-size: $xsmall;
+  line-height: 1.5;
+  padding: 0 0.1rem;
+  font-family: var(--primary-font-regular);
+  color: var(--tertiary-text-color);
+  margin: 4px 0;
+  display: flex;
+  flex-direction: row;
 }
 
 .items {
-  font-size: $small;
+  font-size: $xsmall;
   font-family: var(--primary-font-medium);
+  color: var(--tertiary-text-color);
 }
 
 .items + .items::before {
@@ -194,14 +205,15 @@
   border-top-right-radius: var(--primary-card-border-radius);
   box-shadow: 0px -2px 10px var(--primary-box-shadow-color);
   max-width: 736px;
+  display: flex;
 }
 
 .totalCostRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 0 0.75rem;
   border-bottom: none;
+  width: 190px;
 }
 
 .roomNumber {
@@ -212,11 +224,57 @@
   font: $small var(--primary-font-medium);
 }
 .currency {
-  font-size: $xsmall;
+  font-size: $extraSmall;
+  color: var(--primary-text-color);
+  font-family: var(--secondary-title-font-family);
 }
 
 .divider {
   margin-top: 20px;
   width: 100%;
   border-bottom: 1px dashed var(--primary-border-color);
+}
+
+.totalCostWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-right: 20px;
+  gap: 8px;
+}
+
+.titleCostWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.currencyTitle {
+  font: $xsmall var(--primary-font-medium);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.currencyValueTitle {
+  font: $medium var(--primary-font-medium);
+  margin-top: -3px;
+}
+
+.confirmButton {
+  height: 54px !important;
+}
+
+.addonsWrapperCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.addonsWrapperRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.itemsCurrency {
+  font-size: $extraSmall;
 }
