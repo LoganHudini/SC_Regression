@@ -246,7 +246,7 @@ const Guest: React.FC<any> = () => {
     try {
       const updateGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
         docType: documentTypes?.find(
-          (option: any) => option?.name === guestReservationInfo?.docType,
+          (option: any) => option?.value === guestReservationInfo?.docType,
         )?.code,
         docNumber: guestReservationInfo?.docNo,
         reservationId: reservationInfo?.confirmationId as string,
@@ -306,7 +306,7 @@ const Guest: React.FC<any> = () => {
           const data = accompanyGuestData[i];
           if (data?.docType) {
             const updateAccompanyGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
-              docType: documentTypes?.find((option: any) => option?.name === data?.docType)?.code,
+              docType: documentTypes?.find((option: any) => option?.value === data?.docType)?.code,
               docNumber: data?.docNo,
               reservationId: reservationInfo?.reservationId as string,
               firstName: data?.firstName,
