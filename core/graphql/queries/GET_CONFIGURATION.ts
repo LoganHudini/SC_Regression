@@ -333,6 +333,16 @@ export const configuration = [
           },
         ],
       },
+      {
+        code: 'In-Room Dining',
+        name: 'In-Room Dining',
+        isActive: true,
+      },
+      {
+        code: 'Services',
+        name: 'Services',
+        isActive: true,
+      },
     ],
   },
   {

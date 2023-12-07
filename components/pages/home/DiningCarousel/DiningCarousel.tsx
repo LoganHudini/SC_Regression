@@ -180,10 +180,10 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({
   const slides = filterRestaurantList(filteredOptions, diningOptionsState);
 
   useEffect(() => {
-    if (uniqueFilteredDiningOptions?.length > 0 && !diningOptionsState) {
+    if (uniqueFilteredDiningOptions?.length > 0) {
       setDiningOption(uniqueFilteredDiningOptions[0]);
     }
-  }, [diningOptionsState, uniqueFilteredDiningOptions, filteredOptions, irdActiveMenu]);
+  }, [isCheckedIn?.checkedIn, irdModule, ird]);
 
   return (
     (irdActiveMenu?.length > 0 || filteredList?.length > 0) && (
