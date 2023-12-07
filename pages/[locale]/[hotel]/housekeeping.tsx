@@ -193,7 +193,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
       });
       setNotificationState({
         title: 'Thank You!',
-        description: 'Your request was not confirmed.',
+        description: 'Your request has been confirmed.',
         redirect: null,
         type: SUCCESS,
       });

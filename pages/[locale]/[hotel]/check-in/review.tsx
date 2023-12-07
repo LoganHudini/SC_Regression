@@ -294,7 +294,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       }
       if (networkError?.result?.errors === PRE_CHECKIN_ERROR_MSG) {
         setErrorNotification(true);
-        setErrorText('You are Pre Checked-In');
+        setErrorText('You have already completed the pre check-in process.');
       }
     }
     toggleNotification(true);
