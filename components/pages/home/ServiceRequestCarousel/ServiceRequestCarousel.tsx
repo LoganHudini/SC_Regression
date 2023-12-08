@@ -18,9 +18,10 @@ interface ICarouselProps {
 }
 interface ICarouselSlideProps {
   slide: any;
+  slideStyle?: any;
 }
 
-const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide }) => {
+const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle }) => {
   const { t } = useTranslation(['common']);
   const navigate = useLocalizedRouter();
 
@@ -34,10 +35,16 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide }) => {
   return (
     <div className={styles.carouselSlideWrapper} onClick={handleClick}>
       <StableImage
-        className={styles.carouselSlideImage}
         src={`${ASSETS_URL}/${slide?.images[0]?.master}`}
+        className={cx(styles.carouselSlideImage, {
+          [styles.carouselWrapperSingleImage]: slideStyle,
+        })}
       />
-      <div className={styles.carouselSlideDetailsWrapper}>
+      <div
+        className={cx(styles.carouselSlideDetailsWrapper, {
+          [styles.detailPosition]: slideStyle,
+        })}
+      >
         <h3 className={styles.carouselSlideTitle}>
           {slide?.__typename === HouseKeeping
             ? t('Housekeeping')
@@ -78,7 +85,11 @@ export const ServiceRequestCarousel: React.FC<ICarouselProps> = ({ data, loading
           })}
         >
           {showServiceRequest?.map((slide: any) => (
-            <CarouselSlide key={slide?.name} slide={slide} />
+            <CarouselSlide
+              key={slide?.name}
+              slide={slide}
+              slideStyle={showServiceRequest?.length === 1}
+            />
           ))}
         </WithScrollbar>
       </div>
