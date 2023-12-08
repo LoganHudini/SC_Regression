@@ -149,20 +149,17 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({
   const filteredList = filterRestaurantList(queryResultsData, diningOptionsState);
 
   const filteredOptionFunction = () => {
-    let value: any;
-    value = queryResultsData?.map((option: any) => ({
-      ...option,
-    }));
-    if (isCheckedIn?.checkedIn && irdModule && irdActiveMenu && Array.isArray(irdActiveMenu)) {
-      const irdMenu = irdActiveMenu?.map((option: any) => ({
-        ...option,
-        type: IN_ROOM_DINING,
-      }));
-      value = [...irdMenu, ...value];
+    const value = uniqueDiningOption(queryResultsData);
+    if (isCheckedIn?.checkedIn && irdModule && irdActiveMenu) {
+      value?.unshift({ type: IN_ROOM_DINING });
     }
     return value;
   };
-  const filteredOptions: any = queryResultsData && filteredOptionFunction();
+
+  const irdMenu = irdActiveMenu?.map((option: any) => ({
+    ...option,
+    type: IN_ROOM_DINING,
+  }));
 
   const renderSlides = (slides: any, module: boolean) =>
     slides?.length > 0 &&
@@ -175,9 +172,13 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({
         slideStyle={slides?.length === 1}
       />
     ));
-  const uniqueFilteredDiningOptions = uniqueDiningOption(filteredOptions);
 
-  const slides = filterRestaurantList(filteredOptions, diningOptionsState);
+  const uniqueFilteredDiningOptions = filteredOptionFunction();
+
+  const slides = filterRestaurantList(
+    diningOptionsState?.type === IN_ROOM_DINING ? irdMenu : queryResultsData,
+    diningOptionsState,
+  );
 
   useEffect(() => {
     if (uniqueFilteredDiningOptions?.length > 0) {
@@ -195,7 +196,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({
               <p
                 key={dining?.id}
                 className={cx(styles.diningOptionsItem, {
-                  [styles.diningOptionsItemActive]: diningOptionsState?.id === dining?.id,
+                  [styles.diningOptionsItemActive]: diningOptionsState?.type === dining?.type,
                 })}
                 onClick={() => setDiningOption(dining)}
                 data-tip={diningOptionList(dining?.type)}

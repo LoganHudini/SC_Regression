@@ -217,15 +217,15 @@ export const activeModule = (moduleList: any, moduleActive: any) =>
     : false;
 
 export const uniqueDiningOption = (queryResultsData: any) => {
-  const uniqueTypes = new Set();
-  const uniqueFilteredDiningOptions = queryResultsData?.filter((dining: any) => {
-    if (!uniqueTypes?.has(dining?.type)) {
-      uniqueTypes?.add(dining?.type);
-      return true;
-    }
-    return false;
-  });
-  return uniqueFilteredDiningOptions;
+  const value = queryResultsData
+    ?.map((option: any) => ({
+      type: option?.type,
+      isActive: option?.isActive,
+    }))
+    .filter((obj: any, index: any) => {
+      return index === queryResultsData?.findIndex((itemType: any) => obj?.type === itemType?.type);
+    });
+  return value;
 };
 
 export const diningOptionList = (type: any) => {

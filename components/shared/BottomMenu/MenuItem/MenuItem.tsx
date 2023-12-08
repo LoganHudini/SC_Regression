@@ -193,7 +193,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                 <div key={dining?.id} className={cx(styles.optionsListItem)}>
                   <p
                     className={cx(styles.inActiveDiningText, {
-                      [styles.activeText]: diningOptionSelected?.id === dining?.id,
+                      [styles.activeText]: diningOptionSelected?.type === dining?.type,
                     })}
                     onClick={() => {
                       selectedRestaurantStorage({});
@@ -206,7 +206,9 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                   >
                     {diningOptionList(dining?.type)}{' '}
                   </p>
-                  {diningOptionSelected?.id === dining?.id && <CheckIcon className={styles.icon} />}
+                  {diningOptionSelected?.type === dining?.type && (
+                    <CheckIcon className={styles.icon} />
+                  )}
                 </div>
               ))}
             </div>
