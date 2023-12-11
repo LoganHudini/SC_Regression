@@ -112,11 +112,8 @@ const CyberSource: React.FC = () => {
         }
       }
     }
-  }, [
-    onPaymentDone,
-    reservationInfo?.confirmationId,
-    reservationInfo?.details?.holdAmount?.currency,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleIframeChange = useCallback(() => {
     setTimeout(async () => {
@@ -174,7 +171,8 @@ const CyberSource: React.FC = () => {
       navigate(availablePaths?.HOME);
     }
     preparePayment();
-  }, [navigate, preparePayment, reservationInfo?.confirmationId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

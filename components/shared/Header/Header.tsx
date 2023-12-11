@@ -206,7 +206,7 @@ export const Header: React.FC<IHeaderProps> = ({
                         onClick={(e) => {
                           handleLanguageChange(e, el);
                         }}
-                        placeholder={el?.title}
+                        // placeholder={el?.title}
                         key={`${el}-${index}`}
                       >
                         {el?.title}
