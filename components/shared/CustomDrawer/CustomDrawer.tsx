@@ -2,7 +2,7 @@ import styles from './CustomDrawer.module.scss';
 import { SwipeableDrawer } from '@mui/material';
 import cx from 'classnames';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { toggleOpenCheckOutDrawer } from 'storage/checkout.storage';
 import {
   toggleCheckInDetailsDrawer,
@@ -21,6 +21,46 @@ interface IDetailPageProps {
 
 export const CustomDrawer: React.FC<IDetailPageProps> = ({ open, onClose, content }) => {
   const router = useRouter();
+  const contentRef: any = useRef(null);
+  const [drawerHeight, setDrawerHeight] = useState<any>();
+  const [drawerMaxHeight, setDrawerMaxHeight] = useState<any>(drawerHeight);
+
+  useEffect(() => {
+    let primaryDrawerHeight: any;
+    if (!drawerHeight) {
+      primaryDrawerHeight = getComputedStyle(document.documentElement).getPropertyValue(
+        '--primary-drawer-height',
+      );
+      setDrawerHeight(primaryDrawerHeight);
+      setDrawerMaxHeight(primaryDrawerHeight);
+    }
+  }, []);
+
+  useEffect(() => {
+    const contentElement = contentRef.current;
+    const handleScroll = () => {
+      if (contentElement) {
+        const { scrollHeight, clientHeight } = contentElement;
+        const newMaxHeight = Math.min(scrollHeight, clientHeight);
+        const newHeight = (newMaxHeight / window.innerHeight) * 100;
+        if (Math.floor(newHeight) <= 90) {
+          setDrawerMaxHeight('90vh');
+        }
+      }
+    };
+
+    if (open && contentElement) {
+      contentElement.addEventListener('scroll', handleScroll);
+    }
+
+    return () => {
+      setDrawerMaxHeight(drawerHeight);
+      if (contentElement) {
+        contentElement.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, [drawerHeight, open]);
+
   useEffect(() => {
     router.beforePopState(({ as }) => {
       if (as !== router.asPath) {
@@ -55,7 +95,7 @@ export const CustomDrawer: React.FC<IDetailPageProps> = ({ open, onClose, conten
           elevation: 0,
           style: {
             maxWidth: '768px',
-            maxHeight: 'var(--primary-drawer-height)',
+            maxHeight: drawerMaxHeight,
             margin: 'auto',
             borderTopLeftRadius: 'var(--primary-drawer-top-left-border-radius)',
             borderTopRightRadius: 'var(--primary-drawer-top-right-border-radius)',
@@ -73,9 +113,11 @@ export const CustomDrawer: React.FC<IDetailPageProps> = ({ open, onClose, conten
         }}
         disableSwipeToOpen={true}
       >
-        <div className={styles.drawerNotch}></div>
-        {content}
-        <div className={styles.drawerNotchBottom}></div>
+        <div ref={contentRef} className={styles.drawerContent}>
+          <div className={styles.drawerNotch}></div>
+          {content}
+          <div className={styles.drawerNotchBottom}></div>
+        </div>
       </SwipeableDrawer>
     </>
   );
