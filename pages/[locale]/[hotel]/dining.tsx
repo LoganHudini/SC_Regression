@@ -124,10 +124,11 @@ const Dining = () => {
 
   useEffect(() => {
     if (
-      data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length === 0 ||
-      !irdModule ||
-      !checkinModule ||
-      !checkInData?.checkedIn
+      data?.getIRDMenuOutputDetails &&
+      (data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length === 0 ||
+        !irdModule ||
+        !checkinModule ||
+        !checkInData?.checkedIn)
     ) {
       navigate(availablePaths?.HOME);
     }

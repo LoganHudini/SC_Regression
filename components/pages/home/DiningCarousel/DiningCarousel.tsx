@@ -163,9 +163,9 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({
 
   const renderSlides = (slides: any, module: boolean) =>
     slides?.length > 0 &&
-    slides?.map((slide: any) => (
+    slides?.map((slide: any, index: any) => (
       <CarouselSlide
-        key={slide?.name}
+        key={index}
         slide={slide}
         diningOptionsCarousal={diningOptionsState}
         module={module}
@@ -192,9 +192,9 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({
         <p className={styles.diningCarouselTitle}>{t('Dining')}</p>
         {uniqueFilteredDiningOptions?.length !== 0 && (
           <div className={styles.diningOptions}>
-            {uniqueFilteredDiningOptions?.map((dining: any) => (
+            {uniqueFilteredDiningOptions?.map((dining: any, index: any) => (
               <p
-                key={dining?.id}
+                key={index}
                 className={cx(styles.diningOptionsItem, {
                   [styles.diningOptionsItemActive]: diningOptionsState?.type === dining?.type,
                 })}

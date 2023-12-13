@@ -37,6 +37,7 @@ import { useCheckedIn } from 'storage/check-in.storage';
 import { useHideOnScroll } from 'utils/hooks/useHideOnScroll';
 import { client } from 'core/graphql/client';
 import { useConfig } from 'utils/hooks/useConfiguration';
+import { debounce } from 'lodash';
 
 export { getStaticPaths };
 interface DiningMenuProps {
@@ -125,36 +126,45 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     }, 1200);
   }, [scrollPosition?.scrollY]);
 
-  // Dynamically change category status while scrolling
+  const handleIntersection = (entries: IntersectionObserverEntry[]) => {
+    const visibleCategories = entries
+      .filter((entry) => entry.isIntersecting)
+      .map((entry) => {
+        const elementId = entry.target?.id.slice(8);
+        return selectedMenu?.categories
+          ?.filter((item: any) => item?.isActive)
+          ?.find((cat: any) => cat.id === elementId);
+      })
+      .filter(Boolean);
+
+    if (visibleCategories.length > 0) {
+      const category = visibleCategories[0];
+      diningInformationStorage(
+        produce(diningInformationStorage(), (draft: any) => {
+          if (draft) {
+            draft.selectedCategory = category?.id ?? '';
+            draft.categoryName = category?.value ?? '';
+          }
+        }),
+      );
+    }
+  };
+
   useEffect(() => {
     if (scrollHide) {
-      const handleScroll = () => {
-        const categoryElements = document.querySelectorAll('.category-element');
-        categoryElements?.forEach((item: any) => {
-          const element = item as HTMLElement;
-          const { top, bottom } = element.getBoundingClientRect();
-          const elementId = element?.id.slice(8);
-          setScrollPosition(0, window.scrollY);
-          if (top <= 170 && bottom >= 0) {
-            const category = selectedMenu?.categories
-              ?.filter((item: any) => item?.isActive)
-              ?.find((cat: any) => cat.id === elementId);
-            if (category) {
-              diningInformationStorage(
-                produce(diningInformationStorage(), (draft: any) => {
-                  if (draft) {
-                    draft.selectedCategory = category?.id ?? '';
-                    draft.categoryName = category?.value ?? '';
-                  }
-                }),
-              );
-            }
-          }
-        });
-      };
-      window.addEventListener('scroll', handleScroll);
+      const observer = new IntersectionObserver(handleIntersection, {
+        root: null,
+        rootMargin: '-13%',
+        threshold: 0.1,
+      });
+
+      const categoryElements = document.querySelectorAll('.category-element');
+      categoryElements?.forEach((item) => {
+        observer.observe(item);
+      });
+
       return () => {
-        window.removeEventListener('scroll', handleScroll);
+        observer.disconnect();
       };
     }
   }, [scrollHide, selectedMenu?.categories]);

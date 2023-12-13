@@ -189,8 +189,8 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
           <div>
             <p className={styles.title}>{t('Choose your category')}</p>
             <div className={styles.optionsList}>
-              {irdOption?.map((dining: any) => (
-                <div key={dining?.id} className={cx(styles.optionsListItem)}>
+              {irdOption?.map((dining: any, index: any) => (
+                <div key={index} className={cx(styles.optionsListItem)}>
                   <p
                     className={cx(styles.inActiveDiningText, {
                       [styles.activeText]: diningOptionSelected?.type === dining?.type,
@@ -243,8 +243,8 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
           <div>
             <p className={styles.title}>{t('Choose your category')}</p>
             <div className={styles.optionsList}>
-              {filteredDetails?.map((category: any) => (
-                <div key={category?.id} className={cx(styles.optionsListItem)}>
+              {filteredDetails?.map((category: any, index: any) => (
+                <div key={index} className={cx(styles.optionsListItem)}>
                   <p
                     className={cx(styles.inActiveDiningText, {
                       [styles.activeText]: selectedCompendiumInfo?.id === category?.id,
