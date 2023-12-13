@@ -43,6 +43,7 @@ const Youverse: React.FC = () => {
   });
 
   const reservationId = reservationData?.getReservation?.data?.confirmationId;
+  const lastName = reservationData?.getReservation?.data?.guests[0]?.lastName;
 
   const reservationDataSelected = reservationData?.getReservation?.data?.guests?.find(
     (item) => item?.id === youverseProfileIDState?.id,
@@ -94,6 +95,7 @@ const Youverse: React.FC = () => {
                   variables: {
                     profileId: reservationDataSelected?.id,
                     reservationId: reservationId,
+                    lastName: lastName,
                   },
                 });
               } catch (e) {
