@@ -5,8 +5,9 @@ export const STORE_RESERVATION = gql`
 mutation MyMutation (
     $profileId: String!,
     $reservationId:String!,
+    $lastName:String
     ){
-    storeReservation(input: {hotelId: "${HOTEL_ID}", profileId: $profileId, reservationId: $reservationId}) {
+    storeReservation(input: {hotelId: "${HOTEL_ID}", profileId: $profileId, reservationId: $reservationId,lastName:$lastName}) {
       message
       status
     }
