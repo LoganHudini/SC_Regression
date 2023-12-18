@@ -392,11 +392,6 @@ const DiningOrderSummary = () => {
         {items?.length > 0 && (
           <div className={styles.confirmOrderButtonWrapper}>
             <div className={styles.totalCostRow}>
-              {checkinData?.roomNumber && (
-                <p className={styles.roomNumber}>{`${t('ROOM NO -')} ${
-                  checkinData?.roomNumber
-                }`}</p>
-              )}
               {totalAmount && (
                 <div className={styles.totalCostWrapper}>
                   <div className={styles.titleCostWrapper}>

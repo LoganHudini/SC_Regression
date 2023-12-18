@@ -116,6 +116,7 @@ const DiningDetailsDrawer = () => {
     toggleDiningDetailsDrawer(false);
     setCustomisation([]);
     setAddons([]);
+    setinstruction('');
     setCount(1);
     diningMenuStorage(
       produce(diningMenuStorage(), (draft) => {
@@ -398,6 +399,7 @@ const DiningDetailsDrawer = () => {
               autoComplete='off'
               fullWidth
               color='success'
+              value={instruction}
               className={styles.textInput}
               id='input-with-icon-textfield'
               placeholder={`${t('Add instructions')}`}
