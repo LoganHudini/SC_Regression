@@ -160,11 +160,12 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
             <p>{time?.value}</p>
           </div>
         )}
-        {spaInfoDetails?.treatmentsMenu?.split('=')[1].split(',')[0] && (
-          <StyledButton variant='outlined' onClick={onViewMenu} className={styles.buttonView}>
-            {t('VIEW MENU')}
-          </StyledButton>
-        )}
+        {spaInfoDetails?.treatmentsMenu !== '{}' &&
+          spaInfoDetails?.treatmentsMenu?.split('=')[1].split(',')[0] && (
+            <StyledButton variant='outlined' onClick={onViewMenu} className={styles.buttonView}>
+              {t('VIEW MENU')}
+            </StyledButton>
+          )}
 
         {spaInfoDetails?.description && (
           <p className={styles.detailComponentDescription}>{t(`${spaInfoDetails?.description}`)}</p>

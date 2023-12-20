@@ -262,6 +262,7 @@ const DiningDetailsDrawer = () => {
     addons,
     closeDrawer,
     count,
+    currency,
     customisation,
     instruction,
     selectedItem?.code,

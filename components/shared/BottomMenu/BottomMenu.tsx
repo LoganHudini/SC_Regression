@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styles from './BottomMenu.module.scss';
 import HamburgerIcon from '@icons/hamburger.svg';
 import DownArrowIcon from '@icons/downArrow.svg';
@@ -35,15 +35,16 @@ import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
 import { ASSETS_URL } from 'core/graphql/endpoints';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
-import { BAR, BARS_CAPS, RESTAURANT, RESTAURANTS } from 'utils/constants';
-import { diningOptionList } from 'utils/functions';
+import { activeModule, diningOptionList } from 'utils/functions';
+import { CHECK_IN } from 'utils/constants';
 
 export const BottomMenu: React.FC<unknown> = () => {
   const wrapperRef = useRef(null);
   const router = useRouter();
   const locale = useLocale();
   const isCheckedIn = useCheckedIn();
-  const hotelId = useConfig()?.hotelId;
+  const config = useConfig();
+  const hotelId = config?.hotelId;
   const hideOnScroll = useHideOnScroll();
   const hamburgerMenuStatus = useReactiveVar(toggleHamburgerMenuDrawer);
   const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
@@ -52,6 +53,7 @@ export const BottomMenu: React.FC<unknown> = () => {
   const { t } = useTranslation(['common']);
   const spaInformation = useReactiveVar(spaInformationStorage);
   const hotelCompendiumSelected: any = useReactiveVar(selectedCompendiumCategory);
+  const checkinModule: boolean = activeModule(config?.modules, CHECK_IN);
 
   const homeActive = router?.pathname === '/[locale]/[hotel]';
   const irdActive =
@@ -144,13 +146,16 @@ export const BottomMenu: React.FC<unknown> = () => {
           >
             <span className={styles.btnText}>
               {homeActive &&
-                (isCheckedIn?.checkedIn ? `Room ${isCheckedIn?.roomNumber}` : t('CHECK-IN'))}
+                (isCheckedIn?.checkedIn
+                  ? `Room ${isCheckedIn?.roomNumber}`
+                  : checkinModule
+                  ? t('CHECK-IN')
+                  : t('CONNECT TO ROOM'))}
               {irdActive && t(diningOptionList(diningOptionSelected?.type))}
               {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
               {spaActive && t(`${spaInformation?.selectedSpaCategoryName}`)}
               {offersActive && t(`${offersOptionSelected?.type}`)}
-              {hotelCompendiumActive && t(`${hotelCompendiumSelected?.name}`)}
-              {checkOutActive && t('PAY & CHECKOUT')}
+              {checkOutActive && (checkinModule ? t('PAY & CHECKOUT') : t('DISCONNECT FROM ROOM'))}
             </span>
 
             {homeActive ? (

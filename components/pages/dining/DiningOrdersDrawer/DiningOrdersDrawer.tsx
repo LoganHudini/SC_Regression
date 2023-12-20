@@ -153,7 +153,8 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
                 <p className={styles.totalTitle}>{t('Total to be paid')}</p>
                 <p className={styles.totalTitlePrice}>
                   {' '}
-                  <span className={styles.currency}>{currency}</span> {totalToBePaid?.toFixed(2)}
+                  <span className={styles.currency}>{currency} </span>
+                  {totalToBePaid?.toFixed(2)}
                 </p>
               </div>
             </div>

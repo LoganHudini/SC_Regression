@@ -4,7 +4,8 @@ export interface IGetReservationData {
 }
 
 export interface IGetPrecheckinReservationData {
-  confirmationNumber: string | string[];
+  confirmationNumber?: string | string[];
+  roomNo?: string | string[];
   lastName: string | string[];
 }
 

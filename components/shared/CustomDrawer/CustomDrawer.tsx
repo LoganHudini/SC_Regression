@@ -97,6 +97,7 @@ export const CustomDrawer: React.FC<IDetailPageProps> = ({ open, onClose, conten
             maxWidth: '768px',
             maxHeight: drawerMaxHeight,
             margin: 'auto',
+            backgroundColor: 'var(--primary-drawer-color)',
             borderTopLeftRadius: 'var(--primary-drawer-top-left-border-radius)',
             borderTopRightRadius: 'var(--primary-drawer-top-right-border-radius)',
           },

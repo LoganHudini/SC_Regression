@@ -152,12 +152,12 @@ export const GET_RESERVATION_NO_ARRIVAL_DATE = gql`
   }
 `;
 
-export const GET_RESERVATION_ROOM_STATUS = gql`
-  query GetReservationRoomStatus($roomNumber: String, $hotelId: String) {
-    getReservationRoomStatus(roomNumber: $roomNumber, hotelId: $hotelId)
+export const GET_RESERVATION_WITH_ROOM_NUMBER = gql`
+  query GetReservation( $roomNo: String, $lastName: String) {
+    getReservation(roomNo: $roomNo, lastName: $lastName)
       @rest(
         type: "GetReservationPayload"
-        path: "/${ENVIRONMENT}/booking/hotel/{args.hotelId}/rooms/{args.roomNumber}/status"
+        path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/details/na?lastName={args.lastName}&roomNo={args.roomNo}&arrivalDateRequired=no&fetchFromDb=yes"
       ) {
       errors
       data

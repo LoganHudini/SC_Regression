@@ -27,7 +27,7 @@ import DiningMenu from 'components/pages/dining/DiningMenu/DiningMenu';
 import ScrollDown from '@icons/scrollDown.svg';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { client } from 'core/graphql/client';
-import { CHECKIN, CHECK_IN, IN_ROOM_DINING, IRD } from 'utils/constants';
+import { IN_ROOM_DINING } from 'utils/constants';
 import { useCheckedIn } from 'storage/check-in.storage';
 import {
   IGetRestaurantDetailsResponse,
@@ -120,19 +120,16 @@ const Dining = () => {
 
   const [search, setsearch] = useState(false);
   const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
-  const checkinModule: any = activeModule(config?.modules, CHECK_IN);
 
   useEffect(() => {
     if (
-      data?.getIRDMenuOutputDetails &&
-      (data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length === 0 ||
-        !irdModule ||
-        !checkinModule ||
-        !checkInData?.checkedIn)
+      data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length === 0 ||
+      !irdModule ||
+      !checkInData?.checkedIn
     ) {
       navigate(availablePaths?.HOME);
     }
-  }, [data?.getIRDMenuOutputDetails, navigate, t, irdModule, checkinModule]);
+  }, [data?.getIRDMenuOutputDetails, navigate, t, irdModule]);
 
   useEffect(() => {
     if (header[0]?.name == undefined && header[0].hours == undefined) {

@@ -20,6 +20,7 @@ import {
   ABOUT_US,
   BAR,
   BARS_CAPS,
+  CHECK_IN,
   DINING_OPTIONS,
   DINING_OPTIONS_PRE_CHECK_IN,
   EXTERNAL,
@@ -44,7 +45,9 @@ import { ReactSVG } from 'react-svg';
 import { isFunction } from 'lodash';
 import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
 import { getHotelCode } from 'utils/fetchConfigs';
-import { diningOptionList } from 'utils/functions';
+import { activeModule, diningOptionList } from 'utils/functions';
+import { useConfig } from 'utils/hooks/useConfiguration';
+import { setHighLightCheckOut } from 'storage/menu-item';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
   title,
@@ -115,8 +118,10 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
 
   const navigate = useLocalizedRouter();
   const isCheckedIn = useCheckedIn();
+  const config = useConfig();
   const [highLightViewBill, setHighLightViewBill] = useState(false);
-  const [highLightCheckOut, setHighLightCheckOut] = useState(false);
+  const [highLightIRD, setHighLightIRD] = useState(false);
+  const [highLightServices, setHighLightServices] = useState(false);
   const diningOptionSelected = useReactiveVar(diningOptions);
   const irdOption = useReactiveVar(diningHeaders);
   const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
@@ -127,8 +132,10 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   const spaCategories = useReactiveVar(spaCategoryList);
   const offersOptionSelected: any = useReactiveVar(selectedOfferOption);
   const offersList = useReactiveVar(offerList);
+  const highLightCheckOut = useReactiveVar(setHighLightCheckOut);
 
   const { t } = useTranslation(['common']);
+  const checkinModule: boolean = activeModule(config?.modules, CHECK_IN);
 
   const filteredDetails = compendiumInfo?.categories?.filter((category: any) => {
     return compendiumInfo?.amenities?.find(
@@ -156,32 +163,81 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
               <p className={styles.title}>Room {isCheckedIn?.roomNumber}</p>
             )}
             <div className={styles.optionsList}>
-              <p
-                className={cx(styles.inActiveText, {
-                  [styles.activeText]: highLightViewBill,
-                })}
-                onClick={() => {
-                  setHighLightViewBill(true);
-                  toggleOpenCheckOutDrawer(false);
-                  navigate(availablePaths.BILL);
-                  closeDrawer();
-                }}
-              >
-                {t('View Bill')}
-              </p>
-              <p
-                className={cx(styles.inActiveText, {
-                  [styles.activeText]: highLightCheckOut,
-                })}
-                onClick={() => {
-                  setHighLightCheckOut(true);
-                  toggleOpenCheckOutDrawer(true);
-                  closeDrawer();
-                  navigate(availablePaths.BILL);
-                }}
-              >
-                {t('Checkout')}
-              </p>
+              {checkinModule ? (
+                <>
+                  <p
+                    className={cx(styles.inActiveText, {
+                      [styles.activeText]: highLightViewBill,
+                    })}
+                    onClick={() => {
+                      setHighLightViewBill(true);
+                      toggleOpenCheckOutDrawer(false);
+                      setHighLightCheckOut(false);
+                      navigate(availablePaths.BILL);
+                      closeDrawer();
+                    }}
+                  >
+                    {t('View Bill')}
+                  </p>
+                  <p
+                    className={cx(styles.inActiveText, {
+                      [styles.activeText]: highLightCheckOut,
+                    })}
+                    onClick={() => {
+                      setHighLightCheckOut(true);
+                      toggleOpenCheckOutDrawer(true);
+                      closeDrawer();
+                      navigate(availablePaths.BILL);
+                    }}
+                  >
+                    {t('Checkout')}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p
+                    className={cx(styles.inActiveText, {
+                      [styles.activeText]: highLightIRD,
+                    })}
+                    onClick={() => {
+                      setHighLightIRD(true);
+                      setHighLightCheckOut(false);
+                      navigate(availablePaths.DINING);
+                      closeDrawer();
+                    }}
+                  >
+                    {t('In-Room Dining')}
+                  </p>
+                  <p
+                    className={cx(styles.inActiveText, {
+                      [styles.activeText]: highLightServices,
+                    })}
+                    onClick={() => {
+                      setHighLightServices(true);
+                      setHighLightCheckOut(false);
+                      navigate(availablePaths.HOUSEKEEPING);
+                      closeDrawer();
+                    }}
+                  >
+                    {t('Services')}
+                  </p>
+                  <div className={styles.optionsListItem}>
+                    <p
+                      className={cx(styles.inActiveDiningText, {
+                        [styles.activeText]: highLightCheckOut,
+                      })}
+                      onClick={() => {
+                        setHighLightCheckOut(true);
+                        navigate(availablePaths.BILL);
+                        closeDrawer();
+                      }}
+                    >
+                      {t('Stay Summary')}
+                    </p>
+                    {highLightCheckOut && <CheckIcon className={styles.icon} />}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         )}

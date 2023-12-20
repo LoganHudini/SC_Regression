@@ -110,6 +110,7 @@ export const ERRORMSG = 'Something Went Wrong!';
 export const RESTAURANT = 'restaurant';
 export const BAR = 'bar';
 export const BARS_CAPS = 'bars';
+export const NA = 'na';
 
 // flow constants
 export const DAYS = [

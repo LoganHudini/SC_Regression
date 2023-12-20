@@ -16,11 +16,7 @@ import {
   specialRequestsStorage,
 } from 'storage/personalize-your-room.storage';
 import { client } from 'core/graphql/client';
-import {
-  IGetReservationApiResponse,
-  GET_RESERVATION,
-  GET_RESERVATION_ROOM_STATUS,
-} from 'core/graphql/queries/GET_RESERVATION';
+import { IGetReservationApiResponse, GET_RESERVATION } from 'core/graphql/queries/GET_RESERVATION';
 import { CHECKIN, ICheckInApiRequest } from 'core/graphql/queries/CHECKIN';
 import { ICheckinProps } from 'types/check-in.types';
 import { GetStaticProps } from 'next';
@@ -66,6 +62,7 @@ import { useConfig, usePaymentConfig } from 'utils/hooks/useConfiguration';
 import { Stepper } from 'components/shared/Stepper/Stepper';
 import produce from 'immer';
 import { accompanyGuestDetails } from 'storage/accompany-guest-details';
+import { GET_ROOM_STATUS, IGetRoomStatusApiResponse } from 'core/graphql/queries/GET_ROOM_STATUS';
 
 export { getStaticPaths };
 
@@ -106,7 +103,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const children = reservationInfo?.details.childGuestCount.toString();
   const roomNo = reservationInfo?.roomTypes[0]?.roomNumber;
 
-  const { data: roomStatusData } = useQuery(GET_RESERVATION_ROOM_STATUS, {
+  const { data: roomStatusData } = useQuery<IGetRoomStatusApiResponse>(GET_ROOM_STATUS, {
     skip: !hotelId,
     context: { clientName: 'rest' },
     fetchPolicy: 'no-cache',
@@ -116,8 +113,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     },
   });
 
-  const roomStatus =
-    roomStatusData?.getReservationRoomStatus?.data?.roomStatus === 'IP' ? true : false;
+  const roomStatus = roomStatusData?.getRoomStatus?.data?.roomStatus === 'IP' ? true : false;
 
   const cardType = cardTypes
     ?.find((item) => item?.code === guestReservationInfo?.cardType)

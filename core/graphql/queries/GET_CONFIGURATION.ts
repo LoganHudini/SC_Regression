@@ -343,6 +343,16 @@ export const configuration = [
         name: 'Services',
         isActive: true,
       },
+      {
+        code: 'view-bill',
+        name: 'View Bill',
+        isActive: true,
+      },
+      {
+        code: 'checkout',
+        name: 'Checkout',
+        isActive: true,
+      },
     ],
   },
   {
@@ -712,6 +722,16 @@ export const configuration = [
         name: 'Services',
         isActive: true,
       },
+      {
+        code: 'view-bill',
+        name: 'View Bill',
+        isActive: true,
+      },
+      {
+        code: 'checkout',
+        name: 'Checkout',
+        isActive: true,
+      },
     ],
   },
   {
@@ -1057,13 +1077,22 @@ export const configuration = [
         name: 'Services',
         isActive: true,
       },
+      {
+        code: 'view-bill',
+        name: 'View Bill',
+        isActive: true,
+      },
+      {
+        code: 'checkout',
+        name: 'Checkout',
+        isActive: true,
+      },
     ],
   },
   {
     code: 'raffles-the-palm',
     name: 'Raffles The Palm',
-    // demo instance
-    hotelId: '78402815-a21e-486f-992b-91104e0cb887',
+    hotelId: '4e67ef89-b1d7-42fd-9cf0-70001cae54fc',
     modules: [
       {
         code: 'Preferences',
@@ -1084,7 +1113,7 @@ export const configuration = [
       {
         code: 'Check-In',
         name: 'Check-In',
-        isActive: true,
+        isActive: false,
         submodules: [
           {
             name: 'information',
@@ -1420,6 +1449,16 @@ export const configuration = [
         code: 'Services',
         name: 'Services',
         isActive: true,
+      },
+      {
+        code: 'view-bill',
+        name: 'View Bill',
+        isActive: true,
+      },
+      {
+        code: 'checkout',
+        name: 'Checkout',
+        isActive: false,
       },
     ],
   },
@@ -1778,6 +1817,16 @@ export const configuration = [
       {
         code: 'Services',
         name: 'Services',
+        isActive: true,
+      },
+      {
+        code: 'view-bill',
+        name: 'View Bill',
+        isActive: true,
+      },
+      {
+        code: 'checkout',
+        name: 'Checkout',
         isActive: true,
       },
     ],
@@ -2142,6 +2191,16 @@ export const configuration = [
       {
         code: 'Services',
         name: 'Services',
+        isActive: true,
+      },
+      {
+        code: 'view-bill',
+        name: 'View Bill',
+        isActive: true,
+      },
+      {
+        code: 'checkout',
+        name: 'Checkout',
         isActive: true,
       },
     ],

@@ -5,9 +5,15 @@ import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { StyledInput } from 'components/shared/StyledInput/StyledInput';
 import styles from './CheckInDrawer.module.scss';
 import { IGetPrecheckinReservationData } from 'types/get-reservation.types';
-import { getReservationValidation } from 'validation/get-reservation.validation';
+import {
+  getReservationForCheckinValidation,
+  getReservationForConnectToRoomValidation,
+} from 'validation/get-reservation.validation';
 import { useFormik } from 'formik';
-import { GET_RESERVATION } from 'core/graphql/queries/GET_RESERVATION';
+import {
+  GET_RESERVATION,
+  GET_RESERVATION_WITH_ROOM_NUMBER,
+} from 'core/graphql/queries/GET_RESERVATION';
 import { client } from 'core/graphql/client';
 import { ApolloError, useReactiveVar } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
@@ -18,20 +24,35 @@ import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { saveTrip } from 'storage/trips.storage';
 import { Notification } from 'components/shared/Notification/Notification';
 import { useRouter } from 'next/router';
-import { CANCELED, CHECKEDOUT, CHKOUT, ERRORMSG, FAILURE, NOSHOW, SUCCESS } from 'utils/constants';
+import {
+  CANCELED,
+  CHECKEDOUT,
+  CHECK_IN,
+  CHKOUT,
+  FAILURE,
+  NOSHOW,
+  SUCCESS,
+  NA,
+} from 'utils/constants';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { Loader } from 'components/shared/Loaders/Loaders';
+import { activeModule } from 'utils/functions';
 
 const CheckInDrawer = () => {
   const navigate = useLocalizedRouter();
-  const hotelId = useConfig()?.hotelId;
-  const hotel = useConfig()?.code;
+  const config = useConfig();
+  const hotelId = config?.hotelId;
+  const hotel = config?.code;
+
   const checkInDrawerStatus = useReactiveVar(toggleCheckInDetailsDrawer);
   const { t } = useTranslation(['get-reservation', 'common']);
   const router = useRouter();
   const HOME = `/${hotel}/`;
   const resId = router?.query?.resId ?? '';
   const lastName = router?.query?.lastName ?? '';
+  const roomNo = router?.query?.roomNo ?? '';
+
+  const checkinModule: boolean = activeModule(config?.modules, CHECK_IN);
 
   const [loading, setLoading] = useState(false);
   const [errorNotification, setErrorNotification] = useState<{
@@ -46,13 +67,19 @@ const CheckInDrawer = () => {
       try {
         setLoading(true);
         const { data } = await client.query({
-          query: GET_RESERVATION,
+          query: checkinModule ? GET_RESERVATION : GET_RESERVATION_WITH_ROOM_NUMBER,
           context: { clientName: 'rest' },
-          variables: {
-            confirmationNumber: values?.confirmationNumber?.toString()?.trim(),
-            lastName: values?.lastName?.toString()?.trim(),
-            hotelId: hotelId,
-          },
+          variables: checkinModule
+            ? {
+                confirmationNumber: values?.confirmationNumber?.toString()?.trim(),
+                lastName: values?.lastName?.toString()?.trim(),
+                hotelId: hotelId,
+              }
+            : {
+                roomNo: values?.roomNo?.toString()?.trim(),
+                lastName: values?.lastName?.toString()?.trim(),
+                hotelId: hotelId,
+              },
           fetchPolicy: 'no-cache',
         });
 
@@ -94,7 +121,10 @@ const CheckInDrawer = () => {
             toggleCheckInDetailsDrawer(false);
 
             saveTrip({
-              reservationId: data?.getReservation?.data?.confirmationId as string,
+              reservationId:
+                data?.getReservation?.data?.confirmationId !== NA
+                  ? (data?.getReservation?.data?.confirmationId as string)
+                  : (data?.getReservation?.data?.uniqueBookingId as string),
               preCheckedIn: !roomNo ? true : false,
               checkedIn: roomNo ? true : false,
               name: data?.getReservation?.data?.details?.contactPerson?.lastName,
@@ -103,7 +133,10 @@ const CheckInDrawer = () => {
               invoiceId: data?.getReservation?.data?.reservationId as string,
             });
             checkinStorage({
-              reservationId: data?.getReservation?.data?.confirmationId as string,
+              reservationId:
+                data?.getReservation?.data?.confirmationId !== NA
+                  ? (data?.getReservation?.data?.confirmationId as string)
+                  : (data?.getReservation?.data?.uniqueBookingId as string),
               preCheckedIn: !roomNo ? true : false,
               checkedIn: roomNo ? true : false,
               name: data?.getReservation?.data?.details?.contactPerson?.lastName,
@@ -116,9 +149,16 @@ const CheckInDrawer = () => {
             toggleCheckInDetailsDrawer(false);
             setLoading(false);
           } else {
-            navigate(availablePaths?.CHECK_IN);
+            navigate(checkinModule ? availablePaths?.CHECK_IN : availablePaths?.HOME);
             toggleCheckInDetailsDrawer(false);
             setLoading(false);
+            setErrorNotification({
+              state: true,
+              title: 'Oops! Check-In Incomplete!',
+              description:
+                'Please complete your check-in at our front desk to connect your phone with the room.',
+            });
+            toggleNotification(true);
           }
         }
       } catch (error) {
@@ -133,20 +173,27 @@ const CheckInDrawer = () => {
         setLoading(false);
       }
     },
-    [HOME, hotelId, navigate],
+    [HOME, checkinModule, hotelId, navigate],
   );
 
   const formik = useFormik({
-    initialValues: {
-      confirmationNumber: '',
-      lastName: '',
-    },
-    validationSchema: getReservationValidation,
+    initialValues: checkinModule
+      ? {
+          confirmationNumber: '',
+          lastName: '',
+        }
+      : {
+          roomNo: '',
+          lastName: '',
+        },
+    validationSchema: checkinModule
+      ? getReservationForCheckinValidation
+      : getReservationForConnectToRoomValidation,
     onSubmit: goToTheNextStep,
   });
 
   useEffect(() => {
-    if (resId && lastName) {
+    if (resId && lastName && checkinModule) {
       const values = { confirmationNumber: resId, lastName: lastName };
       formik.setValues({
         ...formik.values,
@@ -155,8 +202,17 @@ const CheckInDrawer = () => {
       });
       toggleCheckInDetailsDrawer(true);
       goToTheNextStep(values);
+    } else if (roomNo && lastName && !checkinModule) {
+      const values = { roomNo: roomNo, lastName: lastName };
+      formik.setValues({
+        ...formik.values,
+        ['lastName' as string]: lastName,
+        ['roomNo' as string]: roomNo,
+      });
+      toggleCheckInDetailsDrawer(true);
+      goToTheNextStep(values);
     }
-  }, [resId, lastName]);
+  }, [resId, lastName, checkinModule, roomNo, formik, goToTheNextStep]);
 
   const closeInputDrawer = useCallback(() => {
     toggleCheckInDetailsDrawer(false);
@@ -169,21 +225,31 @@ const CheckInDrawer = () => {
         {loading && <Loader />}
         <PageWrapper className={styles.pageWrapper}>
           <p className={styles.pageTitle}>
-            {t('Please enter the details to start your check-in process')}
+            {checkinModule
+              ? t('Please enter the details to start your check-in process')
+              : t('Connect your phone to access in-room features on your device.')}
           </p>
           <div className={styles.reservationInputs}>
             <StyledInput
               autoComplete='off'
               required
               className={styles.reservationInput}
-              label={t('Booking ID')}
+              label={checkinModule ? t('Booking ID') : t('Room No')}
               variant='standard'
-              name='confirmationNumber'
-              id='confirmationNumber'
-              value={formik.values.confirmationNumber}
+              name={checkinModule ? 'confirmationNumber' : 'roomNo'}
+              id={checkinModule ? 'confirmationNumber' : 'roomNo'}
+              value={checkinModule ? formik.values.confirmationNumber : formik.values.roomNo}
               onChange={formik.handleChange}
-              error={formik.touched.confirmationNumber && Boolean(formik.errors.confirmationNumber)}
-              helperText={formik.touched?.confirmationNumber && formik.errors.confirmationNumber}
+              error={
+                checkinModule
+                  ? formik.touched.confirmationNumber && Boolean(formik.errors.confirmationNumber)
+                  : formik.touched.roomNo && Boolean(formik.errors.roomNo)
+              }
+              helperText={
+                checkinModule
+                  ? formik.touched?.confirmationNumber && formik.errors.confirmationNumber
+                  : formik.touched?.roomNo && formik.errors.roomNo
+              }
             />
             <StyledInput
               autoComplete='off'
@@ -204,7 +270,7 @@ const CheckInDrawer = () => {
             className={styles.findMyBookingBtn}
             onClick={formik.submitForm}
           >
-            {t('NEXT')}
+            {checkinModule ? t('NEXT') : t('CONNECT TO ROOM')}
           </StyledButton>
         </PageWrapper>
       </>

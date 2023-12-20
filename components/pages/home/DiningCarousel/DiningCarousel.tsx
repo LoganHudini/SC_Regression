@@ -79,14 +79,12 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({
     <>
       {module ? (
         <div className={styles.carouselSlideWrapper} onClick={handleMenu}>
-          {slide.images[0]?.master && (
-            <StableImage
-              src={`${ASSETS_URL}/${slide.images[0]?.master}`}
-              className={cx(styles.carouselSlideImage, {
-                [styles.carouselWrapperSingleImage]: slideStyle,
-              })}
-            />
-          )}
+          <StableImage
+            src={`${ASSETS_URL}/${slide.images[0]?.master}`}
+            className={cx(styles.carouselSlideImage, {
+              [styles.carouselWrapperSingleImage]: slideStyle,
+            })}
+          />
           <div
             className={cx(styles.carouselSlideDetailsWrapper, {
               [styles.detailPosition]: slideStyle,

@@ -56,7 +56,7 @@ export const HomeCarousel: React.FC<IHomeCarouselProps> = ({ data }) => {
       autoPlay={false}
       animation={'slide'}
     >
-      {filteredOffers?.map((carouselItem: any, i: number) => (
+      {filteredOffers?.slice(0, 6)?.map((carouselItem: any, i: number) => (
         <HeroBannerItem key={i} carouselItem={carouselItem} />
       ))}
     </Carousel>

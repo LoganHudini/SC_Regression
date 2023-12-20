@@ -43,6 +43,12 @@ const CheckOut = () => {
   const checkedInData = useCheckedIn();
   const [emailLoader, setEmailLoader] = useState(false);
 
+  useEffect(() => {
+    if (checkedInData && !checkedInData?.checkedIn) {
+      navigate(availablePaths?.HOME);
+    }
+  }, [checkedInData, navigate]);
+
   const { data: reservationData, loading: reservationLoading } =
     useQuery<IGetReservationApiResponse>(GET_RESERVATION_NO_LAST_NAME, {
       context: { clientName: 'rest' },
@@ -62,12 +68,6 @@ const CheckOut = () => {
   const loading = invoiceLoading || reservationLoading;
   const invoiceElements = invoiceData?.invoice?.data?.billItems;
   const reservationInfo = reservationData?.getReservation?.data;
-
-  useEffect(() => {
-    if (!reservationInfo) {
-      navigate(availablePaths?.HOME);
-    }
-  }, [navigate, reservationInfo]);
 
   useEffect(() => {
     if (openCheckOutDrawer) {

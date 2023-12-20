@@ -16,16 +16,20 @@ import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
 import { ckeckoutTrip } from 'storage/trips.storage';
 import { useConfig } from 'utils/hooks/useConfiguration';
-import { ERRORMSG } from 'utils/constants';
+import { CHECK_IN, ERRORMSG } from 'utils/constants';
+import { activeModule } from 'utils/functions';
 
 const CheckoutDrawer = (props: any) => {
   const { setErrorToggle } = props;
   const locale = useLocale();
+  const config = useConfig();
   const hotelId = useConfig()?.hotelId;
   const { t } = useTranslation(['common']);
   const [checkoutLoader, setCheckoutLoader] = useState(false);
   const detailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
   const checkedInData = useCheckedIn();
+
+  const checkinModule: boolean = activeModule(config?.modules, CHECK_IN);
 
   const { data: reservationData } = useQuery<IGetReservationApiResponse>(
     GET_RESERVATION_NO_LAST_NAME,
@@ -117,11 +121,36 @@ const CheckoutDrawer = (props: any) => {
     setCheckoutLoader(false);
   };
 
+  const handleDeviceDeactivate = () => {
+    const removeUserData: ICheckoutApiRequest = {
+      reservationType,
+      reservationId,
+      bookingId,
+      paymentType: 'OPIVA',
+    };
+    toggleDetailsDrawer(false);
+    ckeckoutTrip(removeUserData);
+    toggleNotification(true);
+    setErrorToggle({
+      state: false,
+      message: 'Phone Disconnected!',
+      type: feedbackData?.length === 0 ? 'home' : 'feedback',
+      description:
+        'Hope you had a pleasant stay with us. We look forward to your next visit.\n Thank You.',
+    });
+  };
+
   const checkoutDrawerDetails = () => (
     <div className={styles.wrapper}>
-      <p className={styles.title}>{t('Confirm Checkout')}</p>
+      <p className={styles.title}>
+        {checkinModule ? t('Confirm Checkout') : t('Disconnect Phone')}
+      </p>
       <p className={styles.content}>
-        {t('This action cannot be reversed. Your room access will be disabled after Checkout.')}
+        {checkinModule
+          ? t('This action cannot be reversed. Your room access will be disabled after Checkout.')
+          : t(
+              'This action is irreversible. Your phone will no longer have access to in-room features, including In-Room Dining, Services, and others',
+            )}
       </p>
       <div className={styles.buttonWrapper}>
         <StyledButton className={styles.buttonNo} variant='outlined' onClick={() => closeDrawer()}>
@@ -131,7 +160,7 @@ const CheckoutDrawer = (props: any) => {
           loading={checkoutLoader}
           className={styles.buttonYes}
           variant='contained'
-          onClick={() => handleCheckout()}
+          onClick={() => (checkinModule ? handleCheckout() : handleDeviceDeactivate())}
         >
           {t('YES')}
         </StyledButton>

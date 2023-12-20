@@ -27,7 +27,6 @@ import { HousekeepingCheckboxItem } from 'components/pages/housekeeping/Housekee
 import TimeIcon from '@icons/time-left.svg';
 import InfoIcon from '@icons/info_icon.svg';
 import {
-  CHECK_IN,
   CUSTOM,
   DATE,
   DATETIME,
@@ -73,7 +72,6 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
   const housekeepingInfoCheckbox = useReactiveVar(housekeepingCheckboxStorage);
   const serviceRequesttDetailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
   const serviceModule: any = activeModule(config?.modules, SERVICES);
-  const checkinModule: any = activeModule(config?.modules, CHECK_IN);
   const navigate = useLocalizedRouter();
   const [notificationState, setNotificationState] = useState<any>(false);
 
@@ -96,10 +94,10 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
   );
 
   useEffect(() => {
-    if (!serviceModule || !checkinModule || !checkinData?.checkedIn) {
+    if (!serviceModule || !checkinData?.checkedIn) {
       navigate(availablePaths?.HOME);
     }
-  }, [navigate, t, serviceModule, checkinModule]);
+  }, [navigate, t, serviceModule, checkinData]);
 
   useEffect(() => {
     if (!showSchedules?.isItemActive && !showSchedules?.maxQuantityActive) {

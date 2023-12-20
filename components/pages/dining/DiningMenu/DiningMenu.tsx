@@ -22,13 +22,7 @@ import SearchText from '@icons/search_text_delete.svg';
 import { DiningOrders } from 'components/pages/dining/DiningOrders/DiningOrders';
 import { DiningOrdersDrawer } from 'components/pages/dining/DiningOrdersDrawer/DiningOrdersDrawer';
 import { GET_ORDERS } from 'core/graphql/queries/GET_ORDERS_BY_ID';
-import { GET_F_AND_B_ORDER } from 'core/graphql/queries/GET_F_AND_B_ORDER';
-import {
-  FandBOrders,
-  convertTo12HourFormat,
-  irdActiveMenuList,
-  setScrollPosition,
-} from 'utils/functions';
+import { convertTo12HourFormat, irdActiveMenuList, setScrollPosition } from 'utils/functions';
 import { DiningCategoryOptions } from 'components/pages/dining/DiningCategoryOptions/DiningCategoryOptions';
 import produce from 'immer';
 import { ItemNotFoundLoader, Loader } from 'components/shared/Loaders/Loaders';
