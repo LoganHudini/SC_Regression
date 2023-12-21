@@ -428,7 +428,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
                 {(reservationInfo?.details?.adultGuestCount ||
                   reservationInfo?.details?.childGuestCount) && (
-                  <div style={{ width: '100%' }}>
+                  <div className={styles.itemsColumn}>
                     <p className={styles.checkDatesText}>Guests</p>
                     <p className={cx(styles.checkDatesDetails, styles.left)}>
                       {reservationInfo?.details?.adultGuestCount > 0 && (

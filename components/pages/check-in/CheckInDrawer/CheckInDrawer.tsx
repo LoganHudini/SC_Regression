@@ -150,15 +150,16 @@ const CheckInDrawer = () => {
             setLoading(false);
           } else {
             navigate(checkinModule ? availablePaths?.CHECK_IN : availablePaths?.HOME);
+            !checkinModule &&
+              (setErrorNotification({
+                state: true,
+                title: 'Oops! Check-In Incomplete!',
+                description:
+                  'Please complete your check-in at our front desk to connect your phone with the room.',
+              }),
+              toggleNotification(true));
             toggleCheckInDetailsDrawer(false);
             setLoading(false);
-            setErrorNotification({
-              state: true,
-              title: 'Oops! Check-In Incomplete!',
-              description:
-                'Please complete your check-in at our front desk to connect your phone with the room.',
-            });
-            toggleNotification(true);
           }
         }
       } catch (error) {
@@ -212,7 +213,8 @@ const CheckInDrawer = () => {
       toggleCheckInDetailsDrawer(true);
       goToTheNextStep(values);
     }
-  }, [resId, lastName, checkinModule, roomNo, formik, goToTheNextStep]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lastName, resId, roomNo]);
 
   const closeInputDrawer = useCallback(() => {
     toggleCheckInDetailsDrawer(false);
