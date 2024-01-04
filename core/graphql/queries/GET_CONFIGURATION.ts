@@ -138,7 +138,7 @@ export const configuration = [
               {
                 name: 'Credit Card Info',
                 isActive: true,
-                type: 'SHIFT4',
+                type: 'NONE',
                 details: [
                   {
                     name: 'cardNumber',

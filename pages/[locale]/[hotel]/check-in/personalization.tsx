@@ -23,7 +23,14 @@ import { availablePaths } from 'utils/availablePaths';
 import { timeFormats } from 'utils/timeFormats';
 import { RoomPersonalizationEntityV2 } from 'components/pages/personalize-your-room-v2/RoomPersonalizationEntityV2/RoomPersonalizationEntityV2';
 import { UPDATE_BOOKING_DETAILS } from 'core/graphql/queries/UPDATE_BOOKING_DETAILS';
-import { CHECK_IN, FAILURE, STEPPER_PAYMENT, SUCCESS, personalisation } from 'utils/constants';
+import {
+  CHECK_IN,
+  FAILURE,
+  STEPPER_PAYMENT,
+  STEPPER_CUSTOMISATION,
+  SUCCESS,
+  personalisation,
+} from 'utils/constants';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { Notification } from 'components/shared/Notification/Notification';
 import { toggleNotification } from 'storage/home.storage';
@@ -144,7 +151,9 @@ const PersonalizeYourRoom: React.FC = () => {
   useEffect(() => {
     StepperInformationStorage(
       produce(StepperInformationStorage(), (draft: any) => {
-        const item = draft?.find((el: any) => el?.title === STEPPER_PAYMENT);
+        const item = draft?.find(
+          (el: any) => el?.title === (STEPPER_CUSTOMISATION || STEPPER_PAYMENT),
+        );
         if (item) {
           item.value = 100;
         }

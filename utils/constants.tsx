@@ -95,6 +95,7 @@ export const DOCTYPE = 'docType';
 export const MANUAL = 'manual';
 export const STEPPER_REVIEW = 'Review';
 export const STEPPER_PAYMENT = 'Payment';
+export const STEPPER_CUSTOMISATION = 'Customisation';
 export const STEPPER_CHECK_IN = 'Check-In';
 export const YOUVERSE = 'youverse';
 export const INCODE = 'incode';
@@ -111,6 +112,7 @@ export const RESTAURANT = 'restaurant';
 export const BAR = 'bar';
 export const BARS_CAPS = 'bars';
 export const NA = 'na';
+export const NONE = 'NONE';
 
 // flow constants
 export const DAYS = [

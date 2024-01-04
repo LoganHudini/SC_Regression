@@ -21,7 +21,7 @@ import {
   IUpdateGuestDetailsApiRequest,
   UPDATE_GUEST_DETAILS,
 } from 'core/graphql/queries/UPDATE_GUEST_DETAILS';
-import { useConfig } from 'utils/hooks/useConfiguration';
+import { useConfig, usePaymentConfig } from 'utils/hooks/useConfiguration';
 import {
   CHECK_IN,
   EMAIL_REGEX,
@@ -31,6 +31,8 @@ import {
   PHONE_REGEX,
   EMAILS,
   STEPPER_REVIEW,
+  STEPPER_PAYMENT,
+  STEPPER_CUSTOMISATION,
   ACCOMPANYINGGUEST,
   YOUVERSE,
   PRIMARY,
@@ -38,6 +40,7 @@ import {
   INCODE,
   DOCTYPE,
   ERRORMSG,
+  NONE,
 } from 'utils/constants';
 import { updateDocTypeOptions } from 'utils/functions';
 import { docTypeStorage } from 'storage/guest-information.storage';
@@ -48,6 +51,8 @@ import Camera from '@icons/cameraIcon.svg';
 import { accompanyGuestDetails } from 'storage/accompany-guest-details';
 import { Notification } from 'components/shared/Notification/Notification';
 import { notificationDetails, toggleNotification } from 'storage/home.storage';
+import { object, string } from 'yup';
+
 export { getStaticPaths };
 
 const Guest: React.FC<any> = () => {
@@ -55,6 +60,7 @@ const Guest: React.FC<any> = () => {
   const [loading, setLoading] = useState(false);
   const notificationInfo = useReactiveVar(notificationDetails);
   const config = useConfig();
+  const paymentConfig: any = usePaymentConfig();
   const { t } = useTranslation('about-your-stay');
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
@@ -238,6 +244,17 @@ const Guest: React.FC<any> = () => {
     );
   }, [accompanyGuestValidation, reservationData, guestValidation]);
 
+  useEffect(() => {
+    StepperInformationStorage(
+      produce(StepperInformationStorage(), (draft: any) => {
+        const item = draft?.find((el: any) => el?.title === STEPPER_PAYMENT);
+        if (item) {
+          paymentConfig.type === 'NONE' ? (item.title = STEPPER_CUSTOMISATION) : null;
+        }
+      }),
+    );
+  }, []);
+
   // document update
   const goToTheNextStep = useCallback(async () => {
     setLoading(true);
@@ -353,7 +370,9 @@ const Guest: React.FC<any> = () => {
       }
 
       if (successFlag) {
-        navigate(availablePaths?.CARD_AUTHORISATION);
+        paymentConfig.type === 'NONE'
+          ? navigate(availablePaths?.PERSONALIZE)
+          : navigate(availablePaths?.CARD_AUTHORISATION);
       } else {
         toggleNotification(true);
         notificationDetails({
