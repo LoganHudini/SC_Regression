@@ -51,7 +51,6 @@ import Camera from '@icons/cameraIcon.svg';
 import { accompanyGuestDetails } from 'storage/accompany-guest-details';
 import { Notification } from 'components/shared/Notification/Notification';
 import { notificationDetails, toggleNotification } from 'storage/home.storage';
-import { object, string } from 'yup';
 
 export { getStaticPaths };
 
@@ -116,7 +115,9 @@ const Guest: React.FC<any> = () => {
 
       for (const field of fieldPath) {
         if (source && source[field]) {
-          source = source[field];
+          guestInformationSection?.type === YOUVERSE && field === 'docNo'
+            ? (source = '')
+            : (source = source[field]);
         } else {
           source = remainingAttributes[field];
           break;
@@ -128,7 +129,7 @@ const Guest: React.FC<any> = () => {
       }
       return source;
     },
-    [reservationInfo?.guests, reservationInfo?.reservePayments],
+    [guestInformationSection?.type, reservationInfo?.guests, reservationInfo?.reservePayments],
   );
   useEffect(() => {
     if (reservationInfo?.guests) {
@@ -203,6 +204,8 @@ const Guest: React.FC<any> = () => {
             if (item?.name in accompanyGuest && item?.isActive) {
               guestData[item?.name] = Array.isArray(accompanyGuest[item?.name])
                 ? accompanyGuest[item?.name][0] || ''
+                : guestInformationSection?.type === YOUVERSE && item?.name === 'docNo'
+                ? ''
                 : accompanyGuest[item?.name] || '';
             }
           });
@@ -210,7 +213,7 @@ const Guest: React.FC<any> = () => {
         })
         ?.map((item: any) => item?.guestData);
     },
-    [accompanyGuestInformationSection],
+    [accompanyGuestInformationSection, guestInformationSection?.type],
   );
 
   // accompany guests initialization and validation
@@ -249,11 +252,11 @@ const Guest: React.FC<any> = () => {
       produce(StepperInformationStorage(), (draft: any) => {
         const item = draft?.find((el: any) => el?.title === STEPPER_PAYMENT);
         if (item) {
-          paymentConfig.type === 'NONE' ? (item.title = STEPPER_CUSTOMISATION) : null;
+          paymentConfig?.type === NONE ? (item.title = STEPPER_CUSTOMISATION) : null;
         }
       }),
     );
-  }, []);
+  }, [paymentConfig?.type]);
 
   // document update
   const goToTheNextStep = useCallback(async () => {
@@ -370,7 +373,7 @@ const Guest: React.FC<any> = () => {
       }
 
       if (successFlag) {
-        paymentConfig.type === 'NONE'
+        paymentConfig?.type === NONE
           ? navigate(availablePaths?.PERSONALIZE)
           : navigate(availablePaths?.CARD_AUTHORISATION);
       } else {
@@ -414,6 +417,7 @@ const Guest: React.FC<any> = () => {
     reservationInfo?.guests,
     reservationInfo?.reservationId,
     accompanyGuestData,
+    paymentConfig?.type,
     navigate,
   ]);
 
@@ -467,7 +471,7 @@ const Guest: React.FC<any> = () => {
                 guestInformationSection?.type === INCODE ? (
                   !guestReservationInfo?.docNo ||
                   !guestReservationInfo?.docType ||
-                  !guestReservationInfo?.issueCOuntry ? (
+                  !guestReservationInfo?.issueCountry ? (
                     <StyledButton
                       variant='contained'
                       className={styles.scanDocWrapper}

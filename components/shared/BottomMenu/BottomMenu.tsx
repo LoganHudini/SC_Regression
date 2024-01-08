@@ -155,6 +155,7 @@ export const BottomMenu: React.FC<unknown> = () => {
               {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
               {spaActive && t(`${spaInformation?.selectedSpaCategoryName}`)}
               {offersActive && t(`${offersOptionSelected?.type}`)}
+              {hotelCompendiumActive && hotelCompendiumSelected?.name}
               {checkOutActive && (checkinModule ? t('PAY & CHECKOUT') : t('DISCONNECT FROM ROOM'))}
             </span>
 

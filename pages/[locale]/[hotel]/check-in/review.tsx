@@ -54,6 +54,9 @@ import {
   CARD_TYPE,
   NOSHOW,
   ERRORMSG,
+  NONE,
+  ITC_GRAND_CHOLA,
+  FAIRMONT_THE_PALM_DUBAI,
 } from 'utils/constants';
 import { GET_E_REG_DETAILS } from 'core/graphql/queries/GET_E_REG_DETAILS';
 import { Notification } from 'components/shared/Notification/Notification';
@@ -70,6 +73,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const navigate = useLocalizedRouter();
   const config = useConfig();
   const paymentConfig: any = usePaymentConfig();
+  const hotelCode = config?.code;
   const hotelId = config?.hotelId;
   const { t } = useTranslation(['check-in', 'common']);
   const guests = useReactiveVar(guestInformationStorage);
@@ -250,7 +254,12 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
     try {
       await client.query({
-        query: BRAND_CODE === 'itc' ? PRECHECKIN : roomNo && roomStatus ? CHECKIN : PRECHECKIN,
+        query:
+          hotelCode === ITC_GRAND_CHOLA
+            ? PRECHECKIN
+            : roomNo && roomStatus && paymentConfig?.type !== NONE
+            ? CHECKIN
+            : PRECHECKIN,
         context: { clientName: 'rest' },
         variables: {
           confirmationNumber: reservationInfo?.confirmationId as string,
@@ -260,8 +269,18 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
       saveTrip({
         reservationId: reservationInfo?.confirmationId as string,
-        preCheckedIn: BRAND_CODE === 'itc' ? true : !(roomNo && roomStatus) ? true : false,
-        checkedIn: BRAND_CODE === 'itc' ? false : roomNo && roomStatus ? true : false,
+        preCheckedIn:
+          hotelCode === ITC_GRAND_CHOLA
+            ? true
+            : !(roomNo && roomStatus && paymentConfig?.type !== NONE)
+            ? true
+            : false,
+        checkedIn:
+          hotelCode === ITC_GRAND_CHOLA
+            ? false
+            : roomNo && roomStatus && paymentConfig?.type !== NONE
+            ? true
+            : false,
         name: guestReservationInfo?.lastName,
         email: guestReservationInfo?.emails,
         roomNumber: roomNo,
@@ -270,8 +289,18 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
       checkinStorage({
         reservationId: reservationInfo?.confirmationId as string,
-        preCheckedIn: BRAND_CODE === 'itc' ? true : !(roomNo && roomStatus) ? true : false,
-        checkedIn: BRAND_CODE === 'itc' ? false : roomNo && roomStatus ? true : false,
+        preCheckedIn:
+          hotelCode === ITC_GRAND_CHOLA
+            ? true
+            : !(roomNo && roomStatus && paymentConfig?.type !== NONE)
+            ? true
+            : false,
+        checkedIn:
+          hotelCode === ITC_GRAND_CHOLA
+            ? false
+            : roomNo && roomStatus && paymentConfig?.type !== NONE
+            ? true
+            : false,
         name: guestReservationInfo?.lastName,
         email: guestReservationInfo?.emails,
         roomNumber: roomNo,
@@ -285,7 +314,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       const error = checkinError as ApolloError;
       const networkError = error?.networkError as { result?: { errors?: string } };
       setErrorNotification(true);
-      if (networkError?.result?.errors === 'error pre-checking operation' && BRAND_CODE === 'itc') {
+      if (
+        networkError?.result?.errors === 'error pre-checking operation' &&
+        (hotelCode === ITC_GRAND_CHOLA || hotelCode === FAIRMONT_THE_PALM_DUBAI)
+      ) {
         setErrorNotification(false);
       }
       if (networkError?.result?.errors === PRE_CHECKIN_ERROR_MSG) {
@@ -318,8 +350,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     adult,
     children,
     paymentConfig?.paymentMethod,
+    paymentConfig?.type,
     personalizationEntities,
     guests,
+    hotelCode,
     roomStatus,
   ]);
 
@@ -552,42 +586,44 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             </div>
           ))}
 
-        <div onClick={toggleCreditCardInformation}>
-          {creditCardInformation ? (
-            <DetailsCard title={t(`${reviewConfig?.creditCardDetails?.title}`)} icon>
-              <div>
+        {paymentConfig?.type !== NONE && (
+          <div onClick={toggleCreditCardInformation}>
+            {creditCardInformation ? (
+              <DetailsCard title={t(`${reviewConfig?.creditCardDetails?.title}`)} icon>
+                <div>
+                  {reviewConfig?.creditCardDetails?.details?.map((detail: any, index: number) => (
+                    <div key={index} className={styles.checkDatesColumn}>
+                      <p className={styles.checkDatesText}>{detail?.label}</p>
+                      <p className={cx(styles.checkDatesDetails, styles.left)}>
+                        {detail?.name === CARD_TYPE
+                          ? cardType
+                          : guestReservationInfo?.[detail?.name] ??
+                            data?.getReservation?.data?.reservePayments[0]?.[detail?.name] ??
+                            ''}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </DetailsCard>
+            ) : (
+              <DetailsCardShrinked title={t(`${reviewConfig?.creditCardDetails?.title}`)}>
                 {reviewConfig?.creditCardDetails?.details?.map((detail: any, index: number) => (
                   <div key={index} className={styles.checkDatesColumn}>
-                    <p className={styles.checkDatesText}>{detail?.label}</p>
-                    <p className={cx(styles.checkDatesDetails, styles.left)}>
-                      {detail?.name === CARD_TYPE
-                        ? cardType
-                        : guestReservationInfo?.[detail?.name] ??
-                          data?.getReservation?.data?.reservePayments[0]?.[detail?.name] ??
-                          ''}
-                    </p>
+                    <ShrinkedItem
+                      value={
+                        detail?.name === 'cardType'
+                          ? cardType
+                          : guestReservationInfo?.[detail?.name] ??
+                            data?.getReservation?.data?.reservePayments[0]?.[detail?.name] ??
+                            ''
+                      }
+                    />
                   </div>
                 ))}
-              </div>
-            </DetailsCard>
-          ) : (
-            <DetailsCardShrinked title={t(`${reviewConfig?.creditCardDetails?.title}`)}>
-              {reviewConfig?.creditCardDetails?.details?.map((detail: any, index: number) => (
-                <div key={index} className={styles.checkDatesColumn}>
-                  <ShrinkedItem
-                    value={
-                      detail?.name === 'cardType'
-                        ? cardType
-                        : guestReservationInfo?.[detail?.name] ??
-                          data?.getReservation?.data?.reservePayments[0]?.[detail?.name] ??
-                          ''
-                    }
-                  />
-                </div>
-              ))}
-            </DetailsCardShrinked>
-          )}
-        </div>
+              </DetailsCardShrinked>
+            )}
+          </div>
+        )}
 
         {((eRegPersonalization &&
           eRegPersonalization[0]?.required &&
@@ -689,7 +725,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           description={
             errorNotification
               ? (errorText as string)
-              : BRAND_CODE === 'itc'
+              : hotelCode === ITC_GRAND_CHOLA || hotelCode === FAIRMONT_THE_PALM_DUBAI
               ? (t(
                   'You have pre checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
                 ) as string)

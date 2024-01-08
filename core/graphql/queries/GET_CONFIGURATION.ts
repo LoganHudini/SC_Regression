@@ -138,7 +138,7 @@ export const configuration = [
               {
                 name: 'Credit Card Info',
                 isActive: true,
-                type: 'NONE',
+                type: 'SHIFT4',
                 details: [
                   {
                     name: 'cardNumber',
@@ -501,22 +501,12 @@ export const configuration = [
                     isDisabled: true,
                     isActive: false,
                   },
-                  // {
-                  //   name: 'expiryDate',
-                  //   label: 'Document Expiry',
-                  //   type: 'Text',
-                  //   required: true,
-                  //   isDisabled: true,
-                  //   isActive: true,
-                  //   isDisableFuture: true,
-                  //   isDisablePast: true,
-                  // },
                 ],
               },
               {
                 name: 'Credit Card Info',
                 isActive: true,
-                type: 'CYBERSOURCE',
+                type: 'NONE',
                 paymentMethod: 'KIOSK',
                 details: [
                   {
@@ -580,9 +570,9 @@ export const configuration = [
                 isActive: true,
               },
               {
-                name: 'email',
+                name: 'emails',
                 label: 'Email',
-                type: 'email',
+                type: 'Text',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -611,24 +601,6 @@ export const configuration = [
                 isDisabled: false,
                 isActive: true,
               },
-              // {
-              //   name: 'expiryDate',
-              //   label: 'Document Expiry',
-              //   type: 'Text',
-              //   required: true,
-              //   isDisabled: true,
-              //   isActive: true,
-              //   isDisableFuture: true,
-              //   isDisablePast: true,
-              // },
-              // {
-              //   name: 'countryOfIssue',
-              //   label: 'Document Issuing Authority',
-              //   type: 'Text',
-              //   required: true,
-              //   isDisabled: true,
-              //   isActive: true,
-              // },
               {
                 name: 'condition',
                 label:
@@ -934,9 +906,9 @@ export const configuration = [
                 isActive: true,
               },
               {
-                name: 'email',
+                name: 'emails',
                 label: 'Email',
-                type: 'email',
+                type: 'Text',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -1090,8 +1062,8 @@ export const configuration = [
     ],
   },
   {
-    code: 'raffles-the-palm',
-    name: 'Raffles The Palm',
+    code: 'raffles-the-palm-dubai',
+    name: 'Raffles The Palm Dubai',
     hotelId: '4e67ef89-b1d7-42fd-9cf0-70001cae54fc',
     modules: [
       {
@@ -1114,331 +1086,6 @@ export const configuration = [
         code: 'Check-In',
         name: 'Check-In',
         isActive: false,
-        submodules: [
-          {
-            name: 'information',
-            label: 'Check-In',
-            title: 'Please Complete Your Check-In Process',
-            isActive: true,
-            details: [
-              {
-                name: 'Guest Information',
-                isActive: true,
-                type: 'manual',
-                details: [
-                  {
-                    name: 'firstName',
-                    label: 'First Name',
-                    type: 'Text',
-                    required: true,
-                    isDisabled: true,
-                    isActive: true,
-                  },
-                  {
-                    name: 'lastName',
-                    label: 'Last Name',
-                    type: 'Text',
-                    required: true,
-                    isDisabled: true,
-                    isActive: true,
-                  },
-                  {
-                    name: 'emails',
-                    label: 'Email',
-                    type: 'Text',
-                    required: true,
-                    isDisabled: false,
-                    isActive: true,
-                  },
-                  {
-                    name: 'phone',
-                    label: 'Phone Number',
-                    type: 'tel',
-                    required: true,
-                    isDisabled: false,
-                    isActive: true,
-                  },
-                  {
-                    name: 'countryCode',
-                    label: 'Country',
-                    type: 'Select',
-                    required: true,
-                    isDisabled: false,
-                    isActive: true,
-                    options: Countries,
-                  },
-                  {
-                    name: 'docType',
-                    label: 'Document Type',
-                    type: 'Select',
-                    required: true,
-                    isDisabled: false,
-                    isActive: true,
-                    options: [
-                      { name: 'Passport', value: 'PASSPORT', code: 'PASSPORT' },
-                      { name: 'Aadhaar Card', value: 'ID', code: 'IDENTITY_CARD' },
-                      { name: 'Driving Licence', value: 'DL', code: 'DRIVING_LICENSE' },
-                    ],
-                  },
-                  {
-                    name: 'docNo',
-                    label: 'Document Number',
-                    type: 'Text',
-                    required: true,
-                    isDisabled: false,
-                    isActive: true,
-                  },
-                  {
-                    name: 'issueCountry',
-                    label: 'Document Issuing Authority',
-                    type: 'text',
-                    required: false,
-                    isDisabled: true,
-                    isActive: false,
-                  },
-                  // {
-                  //   name: 'expiryDate',
-                  //   label: 'Document Expiry',
-                  //   type: 'Text',
-                  //   required: true,
-                  //   isDisabled: true,
-                  //   isActive: true,
-                  //   isDisableFuture: true,
-                  //   isDisablePast: true,
-                  // },
-                ],
-              },
-              {
-                name: 'Credit Card Info',
-                isActive: true,
-                type: 'SHIFT4',
-                details: [
-                  {
-                    name: 'cardNumber',
-                    label: 'Card Number',
-                    type: 'Text',
-                    required: true,
-                    isDisabled: true,
-                    isActive: true,
-                  },
-                  {
-                    name: 'cardHolderName',
-                    label: 'Card Holder Name',
-                    type: 'Text',
-                    required: false,
-                    isDisabled: true,
-                    isActive: false,
-                  },
-                  {
-                    name: 'cardType',
-                    label: 'Card Type',
-                    type: 'Text',
-                    required: true,
-                    isDisabled: true,
-                    isActive: true,
-                  },
-                  {
-                    name: 'cardExpiryDate',
-                    label: 'Expiry Date',
-                    type: 'Text',
-                    required: true,
-                    isDisabled: true,
-                    isActive: true,
-                  },
-                ],
-              },
-              {
-                name: 'Identity Verification',
-                type: 'manual',
-                isActive: true,
-                details: [
-                  {
-                    name: 'docType',
-                    label: 'Document Type',
-                    type: 'Select',
-                    required: true,
-                    isDisabled: false,
-                    isActive: true,
-                    options: [
-                      { name: 'Passport', value: 'PASSPORT', code: 'PASSPORT' },
-                      { name: 'Aadhaar Card', value: 'ID', code: 'IDENTITY_CARD' },
-                      { name: 'Driving Licence', value: 'DL', code: 'DRIVING_LICENSE' },
-                    ],
-                  },
-
-                  {
-                    name: 'docNo',
-                    label: 'Document Number',
-                    type: 'Text',
-                    required: true,
-                    isDisabled: false,
-                    isActive: true,
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            name: 'accompanyingGuest',
-            label: 'Secondary Guest',
-            title: '',
-            type: 'manual',
-            isActive: true,
-            cardIcon: 'guest',
-            details: [
-              {
-                name: 'firstName',
-                label: 'First Name',
-                type: 'Text',
-                required: true,
-                isDisabled: true,
-                isActive: true,
-              },
-              {
-                name: 'lastName',
-                label: 'Last Name',
-                type: 'Text',
-                required: true,
-                isDisabled: true,
-                isActive: true,
-              },
-              {
-                name: 'email',
-                label: 'Email',
-                type: 'email',
-                required: true,
-                isDisabled: false,
-                isActive: true,
-              },
-              {
-                name: 'phone',
-                label: 'Phone Number',
-                type: 'tel',
-                required: true,
-                isDisabled: false,
-                isActive: true,
-              },
-              {
-                name: 'docType',
-                label: 'Document Type',
-                type: 'Select',
-                required: true,
-                isDisabled: false,
-                isActive: true,
-                options: [
-                  { name: 'Passport', value: 'PASSPORT', code: 'PASSPORT' },
-                  { name: 'Aadhaar Card', value: 'ID', code: 'IDENTITY_CARD' },
-                  { name: 'Driving Licence', value: 'DL', code: 'DRIVING_LICENSE' },
-                ],
-              },
-              {
-                name: 'docNo',
-                label: 'Document Number',
-                type: 'Text',
-                required: true,
-                isDisabled: false,
-                isActive: true,
-              },
-              // {
-              //   name: 'expiryDate',
-              //   label: 'Document Expiry',
-              //   type: 'Text',
-              //   required: true,
-              //   isDisabled: true,
-              //   isActive: true,
-              //   isDisableFuture: true,
-              //   isDisablePast: true,
-              // },
-              // {
-              //   name: 'countryOfIssue',
-              //   label: 'Document Issuing Authority',
-              //   type: 'Text',
-              //   required: true,
-              //   isDisabled: true,
-              //   isActive: true,
-              // },
-              {
-                name: 'condition',
-                label:
-                  'I agree to receive an invitation email to validate and sign up for a complimentary ACCOR Membership.',
-                type: 'CheckBox',
-                required: true,
-                isDisabled: false,
-                isActive: false,
-              },
-            ],
-          },
-          {
-            name: 'personalisation',
-            label: 'Customize My Stay',
-            title: 'Check-In',
-            type: 'cms',
-            isActive: true,
-          },
-          {
-            name: 'review',
-            label: 'Review & Sign',
-            title: 'Check-In',
-            buttonLabelCheckIn: 'CHECK-IN',
-            // eslint-disable-next-line quotes
-            termsAndCondition: `I have read, understood and agree to the <a href='https://www.sofitelmanila.com/privacy-policy/' target='_blank' rel='noopener noreferrer'>Terms & Conditions</a> and <a href='https://www.sofitelmanila.com/privacy-policy/' target='_blank' rel='noopener noreferrer'>Privacy Laws</a>.`,
-            subTitle:
-              'Please review and confirm the below information to complete the Check-In process',
-            type: 'cms',
-            isActive: true,
-            guestInformationDetails: [
-              {
-                title: 'Guest Information',
-              },
-              {
-                checkIn: 'Check-In',
-                checkOut: 'Checkout',
-              },
-            ],
-            creditCardDetails: {
-              title: 'Credit Card Info',
-              details: [
-                {
-                  name: 'cardNumber',
-                  label: 'Card Number',
-                },
-                {
-                  name: 'cardType',
-                  label: 'Card Type',
-                },
-                {
-                  name: 'cardExpiryDate',
-                  label: 'Expiry Date',
-                },
-              ],
-            },
-            identityVerificationDetails: [
-              {
-                title: 'Identity Verification',
-              },
-              {
-                name: 'docType',
-                cmsName: 'DOCUMENT_TYPE',
-                label: 'Document Type',
-              },
-              {
-                name: 'docNo',
-                cmsName: 'DOCUMENT_NUMBER',
-                label: 'Document Number',
-              },
-              // {
-              //   name: 'issueCountry',
-              //   cmsName: 'COUNTRY_OF_ISSUE',
-              //   label: 'Document Issuing Authority',
-              // },
-            ],
-            personalizationDetails: [
-              {
-                title: 'Add-Ons',
-              },
-            ],
-          },
-        ],
       },
       {
         code: 'In-Room Dining',
@@ -1463,8 +1110,8 @@ export const configuration = [
     ],
   },
   {
-    code: 'fairmont-marrakech',
-    name: 'Fairmont Marrakech',
+    code: 'fairmont-royal-palm-marrakech',
+    name: 'Fairmont Royal Palm Marrakech',
     hotelId: 'cadcb011-3655-47c8-a016-e79bb59b5d1e',
     modules: [
       {
@@ -1676,9 +1323,9 @@ export const configuration = [
                 isActive: true,
               },
               {
-                name: 'email',
+                name: 'emails',
                 label: 'Email',
-                type: 'email',
+                type: 'Text',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -1755,7 +1402,357 @@ export const configuration = [
             title: 'Check-In',
             buttonLabelCheckIn: 'CHECK-IN',
             // eslint-disable-next-line quotes
-            termsAndCondition: `I have read, understood and agree to the <a href='https://www.itchotels.com/in/en/terms' target='_blank' rel='noopener noreferrer'>Terms & Conditions</a> and <a href='https://www.itchotels.com/in/en/terms' target='_blank' rel='noopener noreferrer'>Privacy Laws</a>.`,
+            termsAndCondition: `I have read, understood and agree to the <a href='https://www.fairmont.com/terms-and-conditions/' target='_blank' rel='noopener noreferrer'>Terms & Conditions</a> and <a href='https://all.accor.com/information/legal/data-protection.en.shtml?merchantid=MS-MULTI-FAIRMONT&sourceid=UTM_gclid&gacid=807341428.1704366251&otConsentId=f6a0c919-fe6f-465c-aceb-1ddd1dab6a8f&otConsentString=,C0001,C0003,C0007,C0002,C0004,&partner_id=fairmont&_ga=2.13984114.474450766.1704366252-807341428.1704366251&_gac=1.127310591.1704366252.Cj0KCQiAy9msBhD0ARIsANbk0A9D1XlscxGHpwAkDa6mJT2sBaFCZ4ibkRuePtHHQ6EkhERDZ_mBDp8aAj1GEALw_wcB&_gl=1*j9eppi*_ga*ODA3MzQxNDI4LjE3MDQzNjYyNTE.*_ga_WPLEEQEV59*MTcwNDM2NjI1MS4xLjEuMTcwNDM2NjMwMC4wLjAuMA..*_fplc*N3dGYm95ajc1OUhaeFo5emoyNllscDBIaUpENHc5RkhHdHJuWDF4UGpjZHAyNlZDR3NnTlFGJTJGWjQ3WnQ4TWV0MCUyQmhZemFJeVVpRXowbkZlNnloT05TN0VXNm54YjdQYkNaJTJCRkVnY2pUSGNEVkxHWlV0VTFBZlplaTRTelZBJTNEJTNE' target='_blank' rel='noopener noreferrer'>Privacy Laws</a>.`,
+            subTitle:
+              'Please review and confirm the below information to complete the Check-In process',
+            type: 'cms',
+            isActive: true,
+            guestInformationDetails: [
+              {
+                title: 'Guest Information',
+              },
+              {
+                checkIn: 'Check-In',
+                checkOut: 'Checkout',
+              },
+            ],
+            creditCardDetails: {
+              title: 'Credit Card Info',
+              details: [
+                {
+                  name: 'cardNumber',
+                  label: 'Card Number',
+                },
+                {
+                  name: 'cardType',
+                  label: 'Card Type',
+                },
+                {
+                  name: 'cardExpiryDate',
+                  label: 'Expiry Date',
+                },
+              ],
+            },
+            identityVerificationDetails: [
+              {
+                title: 'Identity Verification',
+              },
+              {
+                name: 'docType',
+                cmsName: 'DOCUMENT_TYPE',
+                label: 'Document Type',
+              },
+              {
+                name: 'docNo',
+                cmsName: 'DOCUMENT_NUMBER',
+                label: 'Document Number',
+              },
+            ],
+            personalizationDetails: [
+              {
+                title: 'Add-Ons',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        code: 'In-Room Dining',
+        name: 'In-Room Dining',
+        isActive: true,
+      },
+      {
+        code: 'Services',
+        name: 'Services',
+        isActive: true,
+      },
+      {
+        code: 'view-bill',
+        name: 'View Bill',
+        isActive: true,
+      },
+      {
+        code: 'checkout',
+        name: 'Checkout',
+        isActive: true,
+      },
+    ],
+  },
+  {
+    code: 'fairmont-the-palm-dubai',
+    name: 'Fairmont The Palm Dubai',
+    hotelId: 'dc9849bf-bef7-4ba9-a288-cea18f493173',
+    modules: [
+      {
+        code: 'Preferences',
+        name: 'Preferences',
+        isActive: true,
+        submodules: [
+          {
+            code: 'Headers',
+            isActive: true,
+            details: [
+              {
+                title: 'ENHANCE YOUR STAY! SHARE YOUR DESIRES BELOW',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        code: 'Check-In',
+        name: 'Check-In',
+        isActive: true,
+        submodules: [
+          {
+            name: 'information',
+            label: 'Check-In',
+            title: 'Please Complete Your Check-In Process',
+            isActive: true,
+            details: [
+              {
+                name: 'Guest Information',
+                isActive: true,
+                type: 'manual',
+                details: [
+                  {
+                    name: 'firstName',
+                    label: 'First Name',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'lastName',
+                    label: 'Last Name',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'emails',
+                    label: 'Email',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
+                    name: 'phone',
+                    label: 'Phone Number',
+                    type: 'tel',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
+                    name: 'countryCode',
+                    label: 'Country',
+                    type: 'Select',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    options: Countries,
+                  },
+                  {
+                    name: 'docType',
+                    label: 'Document Type',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    options: [
+                      {
+                        name: 'Passport',
+                        value: 'Passport',
+                        code: 'PASSPORT',
+                        youverse: 'PASSPORT',
+                      },
+                      {
+                        name: 'Identity Card',
+                        value: 'IDC',
+                        code: 'IDC',
+                        youverse: 'IDENTITY_CARD',
+                      },
+                      {
+                        name: 'Drivers License',
+                        value: 'DRL',
+                        code: 'DRL',
+                        youverse: 'DRIVING_LICENSE',
+                      },
+                    ],
+                  },
+                  {
+                    name: 'docNo',
+                    label: 'Document Number',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
+                    name: 'issueCountry',
+                    label: 'Document Issuing Authority',
+                    type: 'text',
+                    required: false,
+                    isDisabled: true,
+                    isActive: false,
+                  },
+                ],
+              },
+              {
+                name: 'Credit Card Info',
+                isActive: true,
+                type: 'NONE',
+                details: [
+                  {
+                    name: 'cardNumber',
+                    label: 'Card Number',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'cardHolderName',
+                    label: 'Card Holder Name',
+                    type: 'Text',
+                    required: false,
+                    isDisabled: true,
+                    isActive: false,
+                  },
+                  {
+                    name: 'cardType',
+                    label: 'Card Type',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'cardExpiryDate',
+                    label: 'Expiry Date',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                ],
+              },
+              {
+                name: 'Identity Verification',
+                type: 'manual',
+                isActive: false,
+                details: [
+                  {
+                    name: 'docType',
+                    label: 'Document Type',
+                    type: 'Select',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    options: [
+                      { name: 'Passport', value: 'PASSPORT', code: 'PASSPORT' },
+                      { name: 'Aadhaar Card', value: 'ID', code: 'IDENTITY_CARD' },
+                      { name: 'Driving Licence', value: 'DL', code: 'DRIVING_LICENSE' },
+                    ],
+                  },
+
+                  {
+                    name: 'docNo',
+                    label: 'Document Number',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'accompanyingGuest',
+            label: 'Secondary Guest',
+            title: '',
+            type: 'manual',
+            isActive: true,
+            cardIcon: 'guest',
+            details: [
+              {
+                name: 'firstName',
+                label: 'First Name',
+                type: 'Text',
+                required: true,
+                isDisabled: true,
+                isActive: true,
+              },
+              {
+                name: 'lastName',
+                label: 'Last Name',
+                type: 'Text',
+                required: true,
+                isDisabled: true,
+                isActive: true,
+              },
+              {
+                name: 'emails',
+                label: 'Email',
+                type: 'Text',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'phone',
+                label: 'Phone Number',
+                type: 'tel',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'docType',
+                label: 'Document Type',
+                type: 'Select',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'docNo',
+                label: 'Document Number',
+                type: 'Text',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'condition',
+                label:
+                  'I agree to receive an invitation email to validate and sign up for a complimentary ACCOR Membership.',
+                type: 'CheckBox',
+                required: true,
+                isDisabled: false,
+                isActive: false,
+              },
+            ],
+          },
+          {
+            name: 'personalisation',
+            label: 'Customize My Stay',
+            title: 'Check-In',
+            type: 'cms',
+            isActive: true,
+          },
+          {
+            name: 'review',
+            label: 'Review & Sign',
+            title: 'Check-In',
+            buttonLabelCheckIn: 'CHECK-IN',
+            // eslint-disable-next-line quotes
+            termsAndCondition: `I have read, understood and agree to the <a href='https://www.fairmont.com/terms-and-conditions/' target='_blank' rel='noopener noreferrer'>Terms & Conditions</a> and <a href='https://all.accor.com/information/legal/data-protection.en.shtml?merchantid=MS-MULTI-FAIRMONT&sourceid=UTM_gclid&gacid=807341428.1704366251&otConsentId=f6a0c919-fe6f-465c-aceb-1ddd1dab6a8f&otConsentString=,C0001,C0003,C0007,C0002,C0004,&partner_id=fairmont&_ga=2.13984114.474450766.1704366252-807341428.1704366251&_gac=1.127310591.1704366252.Cj0KCQiAy9msBhD0ARIsANbk0A9D1XlscxGHpwAkDa6mJT2sBaFCZ4ibkRuePtHHQ6EkhERDZ_mBDp8aAj1GEALw_wcB&_gl=1*j9eppi*_ga*ODA3MzQxNDI4LjE3MDQzNjYyNTE.*_ga_WPLEEQEV59*MTcwNDM2NjI1MS4xLjEuMTcwNDM2NjMwMC4wLjAuMA..*_fplc*N3dGYm95ajc1OUhaeFo5emoyNllscDBIaUpENHc5RkhHdHJuWDF4UGpjZHAyNlZDR3NnTlFGJTJGWjQ3WnQ4TWV0MCUyQmhZemFJeVVpRXowbkZlNnloT05TN0VXNm54YjdQYkNaJTJCRkVnY2pUSGNEVkxHWlV0VTFBZlplaTRTelZBJTNEJTNE' target='_blank' rel='noopener noreferrer'>Privacy Laws</a>.`,
             subTitle:
               'Please review and confirm the below information to complete the Check-In process',
             type: 'cms',
@@ -2046,9 +2043,9 @@ export const configuration = [
                 isActive: true,
               },
               {
-                name: 'email',
+                name: 'emails',
                 label: 'Email',
-                type: 'email',
+                type: 'Text',
                 required: true,
                 isDisabled: false,
                 isActive: true,

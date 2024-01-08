@@ -182,7 +182,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({
     if (uniqueFilteredDiningOptions?.length > 0) {
       setDiningOption(uniqueFilteredDiningOptions[0]);
     }
-  }, [isCheckedIn?.checkedIn, irdModule, ird]);
+  }, [isCheckedIn?.checkedIn, irdModule, ird, queryResultsData]);
 
   return (
     (irdActiveMenu?.length > 0 || filteredList?.length > 0) && (

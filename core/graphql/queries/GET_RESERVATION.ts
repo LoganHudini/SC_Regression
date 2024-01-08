@@ -129,7 +129,7 @@ export const GET_RESERVATION_NO_LAST_NAME = gql`
     getReservation(confirmationNumber: $confirmationNumber)
       @rest(
         type: "GetReservationPayload"
-        path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/details/{args.confirmationNumber}?lastNameRequired=no&arrivalDateRequired=no"
+        path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/details/{args.confirmationNumber}?lastNameRequired=no&arrivalDateRequired=no&fetchFromDb=yes"
       ) {
       errors
       data
@@ -143,7 +143,7 @@ export const GET_RESERVATION_NO_ARRIVAL_DATE = gql`
     getReservation(confirmationNumber: $confirmationNumber, lastName: $lastName)
       @rest(
         type: "GetReservationPayload"
-        path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/details/{args.confirmationNumber}?lastName={args.lastName}&arrivalDateRequired=no"
+        path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/details/{args.confirmationNumber}?lastName={args.lastName}&arrivalDateRequired=no&fetchFromDb=yes"
       ) {
       errors
       data
