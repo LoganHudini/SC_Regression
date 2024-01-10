@@ -148,9 +148,17 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({
 
   const filteredOptionFunction = () => {
     const value = uniqueDiningOption(queryResultsData);
-    if (isCheckedIn?.checkedIn && irdModule && irdActiveMenu) {
-      value?.unshift({ type: IN_ROOM_DINING });
+    if (value?.length > 0) {
+      if (value[0]?.type === BAR) {
+        let firstItem = value?.shift();
+        value?.push(firstItem);
+      }
+
+      if (isCheckedIn?.checkedIn && irdModule && irdActiveMenu) {
+        value?.unshift({ type: IN_ROOM_DINING });
+      }
     }
+
     return value;
   };
 
