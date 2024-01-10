@@ -150,7 +150,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({
     const value = uniqueDiningOption(queryResultsData);
     if (value?.length > 0) {
       if (value[0]?.type === BAR) {
-        let firstItem = value?.shift();
+        const firstItem = value?.shift();
         value?.push(firstItem);
       }
 
