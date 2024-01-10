@@ -387,7 +387,9 @@
 }
 
 .thirdRow {
-  width: 46%;
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
 }
 
 .cuisineRow {
@@ -414,6 +416,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 
 .buttonNone {
