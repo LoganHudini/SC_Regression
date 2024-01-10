@@ -53,6 +53,7 @@
   font-size: $xsmall;
   font-family: var(--primary-font-regular);
   text-align: center;
+  min-inline-size: max-content;
 }
 
 .label {
