@@ -157,6 +157,8 @@
   text-align: center;
   border-radius: var(--primary-card-border-radius);
   margin-inline-start: 0.5rem;
+  display: flex;
+  align-items: center;
 }
 
 .optionalTextWarning {

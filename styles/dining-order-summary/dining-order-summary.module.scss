@@ -95,7 +95,8 @@
   text-transform: uppercase;
   color: var(--primary-theme-color);
   font: $xsmall var(--primary-font-medium);
-  margin: 0 8px;
+  margin: 0 10px;
+  cursor: pointer;
 }
 
 .textInput {

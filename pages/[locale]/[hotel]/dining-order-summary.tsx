@@ -12,7 +12,12 @@ import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { useTranslation } from 'react-i18next';
 import { client } from 'core/graphql/client';
 import { useReactiveVar } from '@apollo/client';
-import { IDiningMenuStorageData, diningMenuStorage } from 'storage/dining-menu.storage';
+import {
+  IDiningMenuStorageData,
+  diningMenuStorage,
+  toggleDiningDetailsDrawer,
+  editControl,
+} from 'storage/dining-menu.storage';
 import { availablePaths } from 'utils/availablePaths';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import produce from 'immer';
@@ -31,6 +36,7 @@ import DiningDetailsDrawer from 'components/pages/dining/DiningDetailsDrawer/Din
 import { toggleNotification } from 'storage/home.storage';
 import { DiningMenuElementUpsell } from 'components/pages/dining/DiningMenuElementUpsell/DiningMenuElementUpsell';
 import { useCheckedIn } from 'storage/check-in.storage';
+import EditIcon from '@icons/commonEditIcon.svg';
 import { useCurrency } from 'utils/hooks/useConfiguration';
 
 export { getStaticPaths };
@@ -76,7 +82,7 @@ const DiningOrderSummary = () => {
       );
       diningMenuStorage(
         produce(diningMenuStorage(), (draft) => {
-          const item = draft?.items?.find((el, i) => el.itemId === itemId && i === index);
+          const item = draft?.items?.find((el, i) => el?.itemId === itemId && i === index);
 
           if (item) {
             (item?.customisation ?? []).length > 0 || (item?.addons ?? []).length > 0
@@ -91,6 +97,24 @@ const DiningOrderSummary = () => {
                 }));
             draft.selectedItemId = itemId;
             draft.selectedIndex = index;
+          }
+        }),
+      );
+    },
+    [diningData?.items],
+  );
+
+  const editFunction = useCallback(
+    (itemId: any, index: number) => {
+      diningMenuStorage(
+        produce(diningMenuStorage(), (draft) => {
+          const item = draft?.items?.find((el, i) => el.itemId === itemId && i === index);
+
+          if (item) {
+            draft.selectedItemId = itemId;
+            draft.selectedIndex = index;
+            editControl(true);
+            toggleDiningDetailsDrawer(true);
           }
         }),
       );
@@ -124,6 +148,7 @@ const DiningOrderSummary = () => {
   }, []);
 
   const closeCustomisationDrawer = useCallback(() => {
+    editControl(false);
     setCustomisationDrawer((state) => !state);
   }, []);
 
@@ -285,6 +310,10 @@ const DiningOrderSummary = () => {
                   </div>
 
                   <div className={styles.priceEditWrapper}>
+                    <EditIcon
+                      className={styles.edit}
+                      onClick={() => editFunction(item?.itemId, index)}
+                    />
                     <p className={styles.itemPrice}>
                       <span className={styles.itemCurrency}>{currency} </span>
                       {(isNaN(totalPrice)
