@@ -197,12 +197,13 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({
       <div className={styles.diningCarouselWrapper}>
         <p className={styles.diningCarouselTitle}>{t('Dining')}</p>
         {uniqueFilteredDiningOptions?.length !== 0 && (
-          <div className={styles.diningOptions}>
+          <div className={cx(styles.diningOptions, 'globals-diningOptions')}>
             {uniqueFilteredDiningOptions?.map((dining: any, index: any) => (
               <p
                 key={index}
-                className={cx(styles.diningOptionsItem, {
-                  [styles.diningOptionsItemActive]: diningOptionsState?.type === dining?.type,
+                className={cx(styles.diningOptionsItem, 'globals-diningOptionsItem', {
+                  [cx(styles.diningOptionsItemActive, 'globals-diningOptionsItemActive')]:
+                    diningOptionsState?.type === dining?.type,
                 })}
                 onClick={() => setDiningOption(dining)}
                 data-tip={diningOptionList(dining?.type)}

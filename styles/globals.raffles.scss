@@ -86,3 +86,25 @@
     display: none;
   }
 }
+
+.globals-diningOptionsItem {
+  font-size: $medium !important;
+  font-family: var(--primary-font-medium) !important;
+  text-transform: uppercase !important;
+  height: 20px !important;
+  padding: 0 !important;
+  margin: 0 8px;
+}
+
+.globals-diningOptionsItem:before {
+  background-color: transparent !important;
+  color: var(--primary-theme-color) !important;
+}
+
+.globals-diningOptions {
+  background: none !important;
+}
+
+.globals-diningOptionsItemActive {
+  border-bottom: 1px solid var(--primary-theme-color);
+}

@@ -21,13 +21,13 @@
 }
 
 .diningOptionsItem {
-  display: flex;
-  align-items: center;
   font: $xsmall var(--primary-font-medium);
   text-transform: uppercase;
   height: 38px;
-  width: fit-content;
   padding: 0 8px;
+  display: flex;
+  align-items: center;
+  width: fit-content;
   justify-content: center;
   cursor: pointer;
   position: relative;
