@@ -1,7 +1,7 @@
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { WithScrollbar } from 'components/shared/WithScrollbar/WithScrollbar';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ASSETS_URL } from '../../../../core/graphql/endpoints';
 import styles from './DiningCarousel.module.scss';
@@ -11,6 +11,7 @@ import {
   getTimings,
   uniqueDiningOption,
   diningOptionList,
+  restaurantCtaNavigation,
 } from 'utils/functions';
 import {
   BAR,
@@ -18,9 +19,11 @@ import {
   CAROUSEL_RESPONSIVE,
   DINING_OPTIONS,
   DINING_OPTIONS_PRE_CHECK_IN,
+  EXTERNAL_URL,
   IN_ROOM_DINING,
   RESTAURANT,
   RESTAURANTS,
+  RESTAURANT_BOOKING_FLOW,
 } from 'utils/constants';
 import cx from 'classnames';
 import { diningInformationStorage } from 'storage/dining.storage';
@@ -28,10 +31,15 @@ import { availablePaths } from 'utils/availablePaths';
 import ClockIcon from '@icons/clockIcon.svg';
 import DishIcon from '@icons/dishIcon.svg';
 import { diningOptions } from 'storage/home.storage';
-import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
+import {
+  selectedRestaurantStorage,
+  tableReservationStorage,
+} from 'storage/table-reservation.storage';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { CustomReadMore } from 'components/shared/CustomReadMore/CustomReadMore';
 import { getHotelCode } from 'utils/fetchConfigs';
+import { StyledButton } from 'components/shared/StyledButton/StyledButton';
+import { useRouter } from 'next/router';
 
 interface ICarouselProps {
   ird: any;
@@ -58,6 +66,7 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({
 
   const { t } = useTranslation(['common']);
   const navigate = useLocalizedRouter();
+  const router = useRouter();
   const handleMenu = () => {
     diningInformationStorage({
       selectedMenu: slide?.id,
@@ -123,7 +132,25 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({
                 </div>
               )}
             </div>
-            <CustomReadMore text={'READ MORE'} />
+            {!module ? (
+              <div className={styles.buttonWrapper}>
+                <StyledButton
+                  variant='outlined'
+                  className={styles.button}
+                  onClick={() =>
+                    restaurantCtaNavigation(
+                      slide,
+                      router,
+                      navigate(availablePaths.RESTAURANTS_BARS),
+                    )
+                  }
+                >
+                  {slide?.cta?.ctaTitle || t('BOOK NOW')}
+                </StyledButton>
+              </div>
+            ) : (
+              <CustomReadMore text={'READ MORE'} />
+            )}
           </div>
         </div>
       )}

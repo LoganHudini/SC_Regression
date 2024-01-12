@@ -51,6 +51,7 @@ import {
   activeModule,
   filterRestaurantList,
   getTimings,
+  restaurantCtaNavigation,
   uniqueDiningOption,
 } from 'utils/functions';
 import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
@@ -147,30 +148,6 @@ const RestaurantAndBars: React.FC = () => {
   const queryResultEntity = selectedRestaurantData;
   const restaurantId = queryResultEntity?.id;
 
-  const onCtaClick = useCallback(() => {
-    if (queryResultEntity?.cta?.redirectOption === EXTERNAL_URL) {
-      router.push(queryResultEntity?.cta?.redirectUrl);
-    }
-    if (queryResultEntity?.cta?.redirectOption === RESTAURANT_BOOKING_FLOW) {
-      tableReservationStorage({
-        restaurantName: queryResultEntity?.name,
-        id: queryResultEntity?.id,
-        venueId:
-          (queryResultEntity?.customAttributes && queryResultEntity?.customAttributes[0]?.value) ??
-          '',
-      });
-      setDetailContent(false);
-      setTimeSelectDrawer(true);
-    }
-  }, [
-    queryResultEntity?.cta?.redirectOption,
-    queryResultEntity?.cta?.redirectUrl,
-    queryResultEntity?.customAttributes,
-    queryResultEntity?.id,
-    queryResultEntity?.name,
-    router,
-  ]);
-
   const onSeeMenuClick = useCallback(() => {
     if (queryResultEntity?.menuType === WEBURL) {
       router.push(queryResultEntity?.menu.split('=')[1].split(',')[0]);
@@ -254,7 +231,14 @@ const RestaurantAndBars: React.FC = () => {
           {queryResultEntity?.cta?.status === ACTIVE && (
             <StyledButton
               variant='contained'
-              onClick={onCtaClick}
+              onClick={() =>
+                restaurantCtaNavigation(
+                  queryResultEntity,
+                  router,
+                  setDetailContent(false),
+                  setTimeSelectDrawer(true),
+                )
+              }
               className={cx(styles.button, {
                 [styles.buttonNone]: timeSelectDrawer,
                 [styles.withoutImageButton]:

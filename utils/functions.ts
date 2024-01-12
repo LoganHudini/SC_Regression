@@ -4,12 +4,15 @@ import {
   BAR,
   BARS_CAPS,
   DOCTYPE,
+  EXTERNAL_URL,
   PHONE_REGEX,
   RESTAURANT,
   RESTAURANTS,
+  RESTAURANT_BOOKING_FLOW,
   TIMINGS,
 } from './constants';
 import * as yup from 'yup';
+import { tableReservationStorage } from 'storage/table-reservation.storage';
 
 // Extract data from local storage
 export const guestNameFandB = () =>
@@ -230,4 +233,26 @@ export const uniqueDiningOption = (queryResultsData: any) => {
 
 export const diningOptionList = (type: any) => {
   return type === RESTAURANT ? RESTAURANTS : type === BAR ? BARS_CAPS : type;
+};
+
+export const restaurantCtaNavigation = (
+  object: any,
+  router: any,
+  navigate?: any,
+  setDetailContent?: any,
+  setTimeSelectDrawer?: any,
+) => {
+  if (object?.cta?.redirectOption === EXTERNAL_URL) {
+    router.push(object?.cta?.redirectUrl);
+  }
+  if (object?.cta?.redirectOption === RESTAURANT_BOOKING_FLOW) {
+    tableReservationStorage({
+      restaurantName: object?.name,
+      id: object?.id,
+      venueId: (object?.customAttributes && object?.customAttributes[0]?.value) ?? '',
+    });
+    navigate;
+    setTimeSelectDrawer;
+    setDetailContent;
+  }
 };
