@@ -1542,7 +1542,7 @@ export const configuration = [
                   {
                     name: 'phone',
                     label: 'Phone Number',
-                    type: 'tel',
+                    type: 'Tel',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -1559,7 +1559,7 @@ export const configuration = [
                   {
                     name: 'docType',
                     label: 'Document Type',
-                    type: 'Text',
+                    type: 'Select',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -1571,15 +1571,15 @@ export const configuration = [
                         youverse: 'PASSPORT',
                       },
                       {
-                        name: 'Identity Card',
-                        value: 'IDC',
-                        code: 'IDC',
+                        name: 'Aadhaar Card',
+                        value: 'Aadhaar Card',
+                        code: 'ID',
                         youverse: 'IDENTITY_CARD',
                       },
                       {
-                        name: 'Drivers License',
-                        value: 'DRL',
-                        code: 'DRL',
+                        name: 'Driving License',
+                        value: 'Driving License',
+                        code: 'DL',
                         youverse: 'DRIVING_LICENSE',
                       },
                     ],
@@ -1595,7 +1595,7 @@ export const configuration = [
                   {
                     name: 'issueCountry',
                     label: 'Document Issuing Authority',
-                    type: 'text',
+                    type: 'Text',
                     required: false,
                     isDisabled: true,
                     isActive: false,
@@ -1641,35 +1641,6 @@ export const configuration = [
                   },
                 ],
               },
-              {
-                name: 'Identity Verification',
-                type: 'manual',
-                isActive: false,
-                details: [
-                  {
-                    name: 'docType',
-                    label: 'Document Type',
-                    type: 'Select',
-                    required: true,
-                    isDisabled: false,
-                    isActive: true,
-                    options: [
-                      { name: 'Passport', value: 'PASSPORT', code: 'PASSPORT' },
-                      { name: 'Aadhaar Card', value: 'ID', code: 'IDENTITY_CARD' },
-                      { name: 'Driving Licence', value: 'DL', code: 'DRIVING_LICENSE' },
-                    ],
-                  },
-
-                  {
-                    name: 'docNo',
-                    label: 'Document Number',
-                    type: 'Text',
-                    required: true,
-                    isDisabled: false,
-                    isActive: true,
-                  },
-                ],
-              },
             ],
           },
           {
@@ -1707,7 +1678,7 @@ export const configuration = [
               {
                 name: 'phone',
                 label: 'Phone Number',
-                type: 'tel',
+                type: 'Tel',
                 required: true,
                 isDisabled: false,
                 isActive: true,

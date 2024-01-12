@@ -562,9 +562,9 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                     <div className={styles.guestInformation}>
                       <ItemFullWidth title={'First Name'} value={accompanyGuest?.firstName} />
                       <ItemFullWidth title={'Last Name'} value={accompanyGuest?.lastName} />
-                      <ItemFullWidth title={'Email'} value={accompanyGuest?.email} />
+                      <ItemFullWidth title={'Email'} value={accompanyGuest?.emails} />
                       <ItemFullWidth title={'Phone Number'} value={accompanyGuest?.phone} />
-                      {reviewConfig?.identityGuestVerificationDetails?.map(
+                      {reviewConfig?.identityVerificationDetails?.map(
                         (configData: any, index: number) => (
                           <Item
                             key={index}

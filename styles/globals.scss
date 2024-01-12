@@ -222,6 +222,8 @@ body {
   background-color: var(--primary-background-color);
   font-family: var(--primary-font-regular);
   font-synthesis: none;
+  -webkit-user-select: none;
+  user-select: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
