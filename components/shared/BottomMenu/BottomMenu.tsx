@@ -159,18 +159,18 @@ export const BottomMenu: React.FC<unknown> = () => {
               {checkOutActive && (checkinModule ? t('PAY & CHECKOUT') : t('DISCONNECT FROM ROOM'))}
             </span>
 
-            {homeActive ? (
-              isCheckedIn?.checkedIn &&
-              isCheckedIn?.roomNumber && (
-                <span className={styles.expandArrow}>
-                  <DownArrowIcon />
-                </span>
-              )
-            ) : (
-              <span className={styles.expandArrow}>
-                <DownArrowIcon />
-              </span>
-            )}
+            {homeActive
+              ? isCheckedIn?.checkedIn &&
+                isCheckedIn?.roomNumber && (
+                  <span className={styles.expandArrow}>
+                    <DownArrowIcon />
+                  </span>
+                )
+              : !checkOutActive && (
+                  <span className={styles.expandArrow}>
+                    <DownArrowIcon />
+                  </span>
+                )}
           </StyledButton>
 
           <div className={styles.hamburgerIcon}>
