@@ -163,81 +163,49 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
               <p className={styles.title}>Room {isCheckedIn?.roomNumber}</p>
             )}
             <div className={styles.optionsList}>
-              {checkinModule ? (
-                <>
+              <>
+                <p
+                  className={cx(styles.inActiveText, {
+                    [styles.activeText]: highLightIRD,
+                  })}
+                  onClick={() => {
+                    setHighLightIRD(true);
+                    setHighLightCheckOut(false);
+                    navigate(availablePaths.DINING);
+                    closeDrawer();
+                  }}
+                >
+                  {t('In-Room Dining')}
+                </p>
+                <p
+                  className={cx(styles.inActiveText, {
+                    [styles.activeText]: highLightServices,
+                  })}
+                  onClick={() => {
+                    setHighLightServices(true);
+                    setHighLightCheckOut(false);
+                    navigate(availablePaths.HOUSEKEEPING);
+                    closeDrawer();
+                  }}
+                >
+                  {t('Services')}
+                </p>
+                <div className={styles.optionsListItem}>
                   <p
-                    className={cx(styles.inActiveText, {
-                      [styles.activeText]: highLightViewBill,
-                    })}
-                    onClick={() => {
-                      setHighLightViewBill(true);
-                      toggleOpenCheckOutDrawer(false);
-                      setHighLightCheckOut(false);
-                      navigate(availablePaths.BILL);
-                      closeDrawer();
-                    }}
-                  >
-                    {t('View Bill')}
-                  </p>
-                  <p
-                    className={cx(styles.inActiveText, {
+                    className={cx(styles.inActiveDiningText, {
                       [styles.activeText]: highLightCheckOut,
                     })}
                     onClick={() => {
                       setHighLightCheckOut(true);
-                      toggleOpenCheckOutDrawer(true);
-                      closeDrawer();
                       navigate(availablePaths.BILL);
-                    }}
-                  >
-                    {t('Checkout')}
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p
-                    className={cx(styles.inActiveText, {
-                      [styles.activeText]: highLightIRD,
-                    })}
-                    onClick={() => {
-                      setHighLightIRD(true);
-                      setHighLightCheckOut(false);
-                      navigate(availablePaths.DINING);
                       closeDrawer();
                     }}
                   >
-                    {t('In-Room Dining')}
+                    {t('Stay Summary')}
                   </p>
-                  <p
-                    className={cx(styles.inActiveText, {
-                      [styles.activeText]: highLightServices,
-                    })}
-                    onClick={() => {
-                      setHighLightServices(true);
-                      setHighLightCheckOut(false);
-                      navigate(availablePaths.HOUSEKEEPING);
-                      closeDrawer();
-                    }}
-                  >
-                    {t('Services')}
-                  </p>
-                  <div className={styles.optionsListItem}>
-                    <p
-                      className={cx(styles.inActiveDiningText, {
-                        [styles.activeText]: highLightCheckOut,
-                      })}
-                      onClick={() => {
-                        setHighLightCheckOut(true);
-                        navigate(availablePaths.BILL);
-                        closeDrawer();
-                      }}
-                    >
-                      {t('Stay Summary')}
-                    </p>
-                    {highLightCheckOut && <CheckIcon className={styles.icon} />}
-                  </div>
-                </>
-              )}
+                  {highLightCheckOut && <CheckIcon className={styles.icon} />}
+                </div>
+              </>
             </div>
           </div>
         )}
