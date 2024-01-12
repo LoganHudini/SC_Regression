@@ -76,3 +76,21 @@
   border-radius: 0;
   background: var(--primary-indicator-color);
 }
+
+.carouselWrapper {
+  -webkit-user-select: none;
+  user-select: none;
+  overflow: scroll;
+  margin-inline-start: 12px;
+  min-height: 245px;
+}
+
+.carouselWrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.carouselWrapperSingleImage {
+  ul {
+    width: 100% !important;
+  }
+}

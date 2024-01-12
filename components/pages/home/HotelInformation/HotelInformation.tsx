@@ -3,9 +3,11 @@ import React from 'react';
 import styles from './HotelInformation.module.scss';
 import { ASSETS_URL } from 'core/graphql/endpoints';
 import { useTranslation } from 'react-i18next';
-import Carousel from 'react-material-ui-carousel';
 import { hotelImage, toggleHotelInfoDrawer, toggleMapState } from 'storage/home.storage';
 import { CustomReadMore } from 'components/shared/CustomReadMore/CustomReadMore';
+import { WithScrollbar } from 'components/shared/WithScrollbar/WithScrollbar';
+import { CAROUSEL_RESPONSIVE } from 'utils/constants';
+import cx from 'classnames';
 
 const HotelInformation = (props: any) => {
   const { details } = props;
@@ -26,16 +28,11 @@ const HotelInformation = (props: any) => {
           <p className={styles.welcome}>{t('Welcome to')}</p>
           <p className={styles.name}>{hotelInfo?.name}</p>
           <div>
-            <Carousel
-              navButtonsAlwaysInvisible
-              indicatorContainerProps={{
-                className: styles.indicatorIconContainer,
-              }}
-              IndicatorIcon={<div className={styles.indicatorIcon} />}
-              activeIndicatorIconButtonProps={{
-                className: styles.activeIndicatorIcon,
-              }}
-              indicators={(hotelInfo?.images?.length || 0) > 1}
+            <WithScrollbar
+              responsive={CAROUSEL_RESPONSIVE}
+              className={cx(styles.carouselWrapper, {
+                [styles.carouselWrapperSingleImage]: hotelInfo?.images?.length === 1,
+              })}
             >
               {hotelInfo?.images?.map((image: any, i: any) => (
                 <StableImage
@@ -44,7 +41,7 @@ const HotelInformation = (props: any) => {
                   src={`${ASSETS_URL}/${image?.master}`}
                 />
               ))}
-            </Carousel>
+            </WithScrollbar>
             <p className={styles.description}>{hotelInfo?.description}</p>
             <CustomReadMore text={'READ MORE'} />
           </div>
