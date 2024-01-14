@@ -23,6 +23,7 @@ import { getStaticPaths } from 'utils/getStatic';
 import cx from 'classnames';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { useConfig } from 'utils/hooks/useConfiguration';
+import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 
 export { getStaticPaths };
 
@@ -78,15 +79,15 @@ const HotelCompendium: React.FC = () => {
     <>
       {showSelectedAmenity && (
         <>
-          {showSelectedAmenity?.images?.length > 0 &&
-            (showSelectedAmenity?.images[0]?.ratio16to9 ? (
-              <StableImage
-                className={styles.image}
-                src={`${ASSETS_URL}/${showSelectedAmenity?.images[0]?.ratio16to9}`}
-              />
-            ) : (
-              <div className='imagePlaceHolderAnimation' />
-            ))}
+          {showSelectedAmenity?.images?.length > 0 ? (
+            <StableImage
+              className={styles.image}
+              src={`${ASSETS_URL}/${showSelectedAmenity?.images[0]?.ratio16to9}`}
+            />
+          ) : (
+            <PlaceholderImage />
+          )}
+
           <div className={styles.wrapper}>
             {showSelectedAmenity?.name && (
               <p className={styles.title}>{showSelectedAmenity?.name}</p>

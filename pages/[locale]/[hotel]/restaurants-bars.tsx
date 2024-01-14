@@ -73,6 +73,7 @@ import { Loader } from 'components/shared/Loaders/Loaders';
 import { isEmpty } from 'lodash';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
+import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 
 export { getStaticPaths };
 
@@ -219,15 +220,14 @@ const RestaurantAndBars: React.FC = () => {
     <div className={styles.listComponent}>
       {!availableSlots && (
         <div className={styles.imageWrapper}>
-          {queryResultEntity?.images?.length > 0 &&
-            (queryResultEntity?.images[0]?.ratio16to9 ? (
-              <StableImage
-                className={styles.bannerImage}
-                src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.ratio16to9}`}
-              />
-            ) : (
-              <div className='imagePlaceHolderAnimation' />
-            ))}
+          {queryResultEntity?.images?.length > 0 ? (
+            <StableImage
+              className={styles.bannerImage}
+              src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.ratio16to9}`}
+            />
+          ) : (
+            <PlaceholderImage />
+          )}
           {queryResultEntity?.cta?.status === ACTIVE && (
             <StyledButton
               variant='contained'

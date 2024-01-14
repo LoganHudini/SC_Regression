@@ -22,6 +22,7 @@ import { ACTIVE, EXTERNAL_URL } from 'utils/constants';
 import Phone from '@icons/telephone.svg';
 import Mail from '@icons/email.svg';
 import { downloadFile } from 'utils/downloadFile';
+import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 
 interface ICarouselProps {
   data: any;
@@ -123,12 +124,15 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
 
   const spaDetails = () => (
     <>
-      {spaInfoDetails?.images[0]?.ratio16to9 && (
+      {spaInfoDetails?.images?.length > 0 ? (
         <StableImage
           className={styles.image}
           src={`${ASSETS_URL}/${spaInfoDetails?.images[0]?.ratio16to9}`}
         />
+      ) : (
+        <PlaceholderImage />
       )}
+
       {(spaTreatments?.length > 0 || spaInfoDetails?.cta?.status === ACTIVE) && (
         <StyledButton
           variant='contained'

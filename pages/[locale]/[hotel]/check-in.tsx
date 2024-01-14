@@ -101,7 +101,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
       </Head>
       <Header screenTitle={t('check-In') as string} displayHome />
       <PageWrapper className={styles.pageWrapper}>
-        {hotelImageInfo?.ratio16to9 && (
+        {hotelImageInfo && (
           <StableImage
             className={styles.image}
             src={`${ASSETS_URL}/${hotelImageInfo?.ratio16to9}`}

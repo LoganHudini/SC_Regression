@@ -28,6 +28,7 @@ import { useConfig } from 'utils/hooks/useConfiguration';
 import { isOfferActive } from 'utils/functions';
 import cx from 'classnames';
 import Head from 'next/head';
+import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 
 export { getStaticPaths };
 
@@ -130,15 +131,14 @@ const Offers: React.FC = () => {
   const offerDetails = () => (
     <div className={styles.listComponent}>
       <div className={styles.imageWrapper}>
-        {queryResultEntity?.images?.length > 0 &&
-          (queryResultEntity?.images[0]?.ratio16to9 ? (
-            <StableImage
-              className={styles.bannerImage}
-              src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.ratio16to9}`}
-            />
-          ) : (
-            <div className='imagePlaceHolderAnimation' />
-          ))}
+        {queryResultEntity?.images?.length > 0 ? (
+          <StableImage
+            className={styles.bannerImage}
+            src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.ratio16to9}`}
+          />
+        ) : (
+          <PlaceholderImage />
+        )}
         {queryResultEntity?.CTA &&
           (queryResultEntity?.CTA?.redirectTo || queryResultEntity?.CTA?.URL) && (
             <StyledButton
