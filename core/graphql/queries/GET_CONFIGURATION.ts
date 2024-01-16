@@ -337,11 +337,13 @@ export const configuration = [
         code: 'In-Room Dining',
         name: 'In-Room Dining',
         isActive: true,
+        type: 'CMS',
       },
       {
         code: 'Services',
         name: 'Services',
         isActive: true,
+        type: 'CMS',
       },
       {
         code: 'view-bill',
@@ -688,11 +690,13 @@ export const configuration = [
         code: 'In-Room Dining',
         name: 'In-Room Dining',
         isActive: true,
+        type: 'CMS',
       },
       {
         code: 'Services',
         name: 'Services',
         isActive: true,
+        type: 'CMS',
       },
       {
         code: 'view-bill',
@@ -1043,11 +1047,14 @@ export const configuration = [
         code: 'In-Room Dining',
         name: 'In-Room Dining',
         isActive: true,
+        type: 'CMS',
       },
       {
         code: 'Services',
         name: 'Services',
+
         isActive: true,
+        type: 'CMS',
       },
       {
         code: 'view-bill',
@@ -1091,11 +1098,13 @@ export const configuration = [
         code: 'In-Room Dining',
         name: 'In-Room Dining',
         isActive: true,
+        type: 'VENDOR',
       },
       {
         code: 'Services',
         name: 'Services',
         isActive: true,
+        type: 'VENDOR',
       },
       {
         code: 'view-bill',
@@ -1781,11 +1790,13 @@ export const configuration = [
         code: 'In-Room Dining',
         name: 'In-Room Dining',
         isActive: true,
+        type: 'CMS',
       },
       {
         code: 'Services',
         name: 'Services',
         isActive: true,
+        type: 'CMS',
       },
       {
         code: 'view-bill',
@@ -2155,11 +2166,13 @@ export const configuration = [
         code: 'In-Room Dining',
         name: 'In-Room Dining',
         isActive: true,
+        type: 'CMS',
       },
       {
         code: 'Services',
         name: 'Services',
         isActive: true,
+        type: 'CMS',
       },
       {
         code: 'view-bill',

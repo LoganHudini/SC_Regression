@@ -18,8 +18,8 @@ import {
   API_KEY_V4,
   API_KEY_HOUSEKEEPING_ORDER,
   HOST_HOUSEKEEPING_ORDER,
-  API_KEY_SIMPHONY,
-  HOST_SIMPHONY,
+  INTEGRATION_API_KEY_V1,
+  INTEGRATION_HOST_V1,
   ONPREM_API_URL,
   HOST_V5,
   API_KEY_V5,
@@ -129,10 +129,10 @@ const restv3Link = new RestLink({
   },
 });
 
-const hostSimphonyLink = new HttpLink({
-  uri: HOST_SIMPHONY as string,
+const integrationv1Link = new HttpLink({
+  uri: INTEGRATION_HOST_V1 as string,
   headers: {
-    ['x-api-key']: API_KEY_SIMPHONY as string,
+    ['x-api-key']: INTEGRATION_API_KEY_V1 as string,
     ['Content-Type']: 'application/json',
   },
 });
@@ -185,8 +185,8 @@ export const client = new ApolloClient({
                     (operation) => operation.getContext().clientName === 'host_v4',
                     hostv4Link,
                     ApolloLink.split(
-                      (operation) => operation.getContext().clientName === 'simphony',
-                      hostSimphonyLink,
+                      (operation) => operation.getContext().clientName === 'integration_v1',
+                      integrationv1Link,
                       ApolloLink.split(
                         (operation) => operation.getContext().clientName === 'onprem',
                         onPremLink,

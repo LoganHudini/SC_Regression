@@ -23,7 +23,7 @@ import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import produce from 'immer';
 import dayjs from 'dayjs';
 import { DiningCustomisationDrawer } from 'components/pages/dining/DiningCustomisationDrawer/DiningCustomisationDrawer';
-import { ERRORMSG, FAILURE, PAYMENT, SUCCESS } from 'utils/constants';
+import { CMS, ERRORMSG, FAILURE, IN_ROOM_DINING, PAYMENT, SUCCESS, VENDOR } from 'utils/constants';
 import { InputAdornment, TextField } from '@mui/material';
 import Cookinginstructions from '@icons/cooking_instructions.svg';
 import { IRD_ORDER } from 'core/graphql/queries/IRD_ORDER';
@@ -35,8 +35,9 @@ import DiningDetailsDrawer from 'components/pages/dining/DiningDetailsDrawer/Din
 import { toggleNotification } from 'storage/home.storage';
 import { DiningMenuElementUpsell } from 'components/pages/dining/DiningMenuElementUpsell/DiningMenuElementUpsell';
 import { useCheckedIn } from 'storage/check-in.storage';
+import { useConfig, useCurrency } from 'utils/hooks/useConfiguration';
+import { IRD_ORDER_TRANSACTION_POS } from 'core/graphql/queries/IRD_ORDER_TRANSACTION_POS';
 import EditIcon from '@icons/commonEditIcon.svg';
-import { useCurrency } from 'utils/hooks/useConfiguration';
 
 export { getStaticPaths };
 
@@ -53,6 +54,12 @@ const DiningOrderSummary = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [errorNotification, setErrorNotification] = useState(false);
   const currency = useCurrency();
+  const config = useConfig();
+  const hotelId = config?.hotelId;
+
+  const irdOrderType: any = config?.modules?.find(
+    (module: any) => module?.isActive && module?.code === IN_ROOM_DINING,
+  )?.type;
 
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
 
@@ -192,13 +199,54 @@ const DiningOrderSummary = () => {
         cookingInstructions: el?.cookingInstruction,
       })),
     };
+
+    const irdOrderPOSPayload = {
+      hotelId: hotelId,
+      date: '',
+      deliveryLocation: '',
+      guestName: checkinData?.name,
+      guests: guestNumber,
+      paymentMethod: paymentType?.name,
+      roomNo: checkinData?.roomNumber,
+      items: diningData?.items?.map((el) => ({
+        name: el?.title,
+        code: el?.code,
+        quantity: el?.quantity,
+        price: el?.price,
+        comment: el?.cookingInstruction || '',
+        addons: el?.addons?.map((item: any) => ({
+          code: item?.code,
+          name: item?.name,
+          price: item?.price,
+          quantity: 1,
+          comment: '',
+        })),
+        customisations: el?.customisation?.map((item: any) => ({
+          code: item?.code,
+          name: item?.name,
+        })),
+      })),
+      additionalNote: specialRequests,
+    };
+
+    let response;
     try {
-      const response = await client.mutate({
-        mutation: IRD_ORDER,
-        context: { clientName: 'host_v3' },
-        fetchPolicy: 'network-only',
-        variables: irdOrderPayload,
-      });
+      if (irdOrderType === CMS) {
+        response = await client.mutate({
+          mutation: IRD_ORDER,
+          context: { clientName: 'host_v3' },
+          fetchPolicy: 'network-only',
+          variables: irdOrderPayload,
+        });
+      } else if (irdOrderType === VENDOR) {
+        response = await client.mutate({
+          mutation: IRD_ORDER_TRANSACTION_POS,
+          context: { clientName: 'integration_v1' },
+          fetchPolicy: 'network-only',
+          variables: irdOrderPOSPayload,
+        });
+      }
+
       irdOrderEvent(response?.data?.createOrder, currency);
       setErrorNotification(false);
 

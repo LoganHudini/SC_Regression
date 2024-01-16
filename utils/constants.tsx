@@ -118,6 +118,8 @@ export const RESTAURANT = 'restaurant';
 export const BAR = 'bar';
 export const BARS_CAPS = 'bars';
 export const NA = 'na';
+export const CMS = 'CMS';
+export const VENDOR = 'VENDOR';
 export const NONE = 'NONE';
 
 // flow constants

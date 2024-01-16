@@ -1,11 +1,11 @@
 import { gql } from '@apollo/client';
 
-export const IRD_ORDER_SIMPHONY = gql`
+export const IRD_ORDER_TRANSACTION_POS = gql`
   mutation MyMutation(
-    $date: String!
+    $date: String
     $deliveryLocation: String!
     $guestName: String!
-    $guests: Int!
+    $guests: Int
     $paymentMethod: String!
     $roomNo: String!
     $items: [TransactionPOSItemInput!]!

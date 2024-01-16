@@ -27,6 +27,7 @@ import { HousekeepingCheckboxItem } from 'components/pages/housekeeping/Housekee
 import TimeIcon from '@icons/time-left.svg';
 import InfoIcon from '@icons/info_icon.svg';
 import {
+  CMS,
   CUSTOM,
   DATE,
   DATETIME,
@@ -50,6 +51,7 @@ import { availablePaths } from 'utils/availablePaths';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { activeModule } from 'utils/functions';
+import { HOUSEKEEPING_ORDER_TRANSACTION_HK } from 'core/graphql/queries/HOUSEKEEPING_ORDER_TRANSACTION_HK';
 
 export { getStaticPaths };
 
@@ -77,6 +79,10 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
 
   const [sendHousekeepingOrder] = useMutation(HOUSEKEEPING_ORDER, {
     context: { clientName: 'host_v4' },
+  });
+
+  const [sendHousekeepingOrderIntegration] = useMutation(HOUSEKEEPING_ORDER_TRANSACTION_HK, {
+    context: { clientName: 'integration_v1' },
   });
 
   const { data, loading } = useQuery<IGetHousekeepingApiResponse>(GET_HOUSEKEEPING, {
@@ -160,36 +166,72 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
     setShowCalendar(false);
   };
 
+  const serviceType: any = config?.modules?.find(
+    (module: any) => module?.isActive && module?.code === SERVICES,
+  )?.type;
+
   const handleOrder = async () => {
     try {
-      const response = await sendHousekeepingOrder({
-        variables: {
-          bookingTime: dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2),
-          guestName: checkinData?.name,
-          serviceName: showSchedules?.name,
-          requestType: showSchedules?.__typename,
-          hotelId: HOTEL_ID,
-          roomNo: checkinData?.roomNumber,
-          items: combinedServiceRequestArray
-            ?.filter((item: any) => item?.quantity > 0)
-            ?.map((el: any) => ({
-              id: el?.itemId,
-              name: el?.name + ' X ' + el?.quantity,
-              instructions: '',
-              scheduledFor: showSchedules?.scheduleActive
-                ? showSchedules?.schedule?.includes(CUSTOM)
-                  ? showSchedules?.customSchedule === DATE
-                    ? dayjs(selectedTime).format(timeFormats.DAY_MONTH)
-                    : showSchedules?.customSchedule === TIME
-                    ? dayjs(selectedTime).format(timeFormats.HOURS_MINUTES_AM)
-                    : showSchedules?.customSchedule === DATETIME
-                    ? dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
+      if (serviceType === CMS) {
+        const response = await sendHousekeepingOrder({
+          variables: {
+            bookingTime: dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2),
+            guestName: checkinData?.name,
+            serviceName: showSchedules?.name,
+            requestType: showSchedules?.__typename,
+            hotelId: HOTEL_ID,
+            roomNo: checkinData?.roomNumber,
+            items: combinedServiceRequestArray
+              ?.filter((item: any) => item?.quantity > 0)
+              ?.map((el: any) => ({
+                id: el?.itemId,
+                name: el?.name + ' X ' + el?.quantity,
+                instructions: '',
+                scheduledFor: showSchedules?.scheduleActive
+                  ? showSchedules?.schedule?.includes(CUSTOM)
+                    ? showSchedules?.customSchedule === DATE
+                      ? dayjs(selectedTime).format(timeFormats.DAY_MONTH)
+                      : showSchedules?.customSchedule === TIME
+                      ? dayjs(selectedTime).format(timeFormats.HOURS_MINUTES_AM)
+                      : showSchedules?.customSchedule === DATETIME
+                      ? dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
+                      : dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
                     : dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
-                  : dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
-                : '',
-            })),
-        },
-      });
+                  : '',
+              })),
+          },
+        });
+      } else {
+        const response = await sendHousekeepingOrderIntegration({
+          variables: {
+            hotelId: HOTEL_ID,
+            roomNo: checkinData?.roomNumber,
+            bookingId: checkinData?.reservationId,
+            guestEmail: checkinData?.email,
+            guestFirstName: checkinData?.name,
+            items: combinedServiceRequestArray
+              ?.filter((item: any) => item?.quantity > 0)
+              ?.map((el: any) => ({
+                code: el?.itemId,
+                priorityId: '11',
+                name: el?.name + ' X ' + el?.quantity,
+                quantity: 1,
+                scheduled: showSchedules?.scheduleActive
+                  ? showSchedules?.schedule?.includes(CUSTOM)
+                    ? showSchedules?.customSchedule === DATE
+                      ? dayjs(selectedTime).format(timeFormats.DAY_MONTH)
+                      : showSchedules?.customSchedule === TIME
+                      ? dayjs(selectedTime).format(timeFormats.HOURS_MINUTES_AM)
+                      : showSchedules?.customSchedule === DATETIME
+                      ? dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
+                      : dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
+                    : dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
+                  : '',
+              })),
+          },
+        });
+      }
+
       setNotificationState({
         title: 'Thank You!',
         description: 'Your request has been confirmed.',
