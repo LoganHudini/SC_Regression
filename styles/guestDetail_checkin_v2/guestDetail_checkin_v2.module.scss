@@ -27,11 +27,11 @@
 .welcomeTitle {
   font: $large var(--heading-font-regular);
   text-align: center;
-  text-transform: uppercase;
+  text-transform: capitalize;
 }
 
 .capitalise {
-  text-transform: uppercase;
+  text-transform: capitalize;
 }
 
 .divider {
