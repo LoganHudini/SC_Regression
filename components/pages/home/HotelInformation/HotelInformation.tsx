@@ -43,7 +43,7 @@ const HotelInformation = (props: any) => {
               ))}
             </WithScrollbar>
             <p className={styles.description}>{hotelInfo?.description}</p>
-            <CustomReadMore text={'READ MORE'} />
+            <CustomReadMore text={'READ MORE'} className={styles.readMore} />
           </div>
         </div>
       )}

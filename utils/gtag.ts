@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { CURRENCY, GA_MEASUREMENT_ID } from 'core/graphql/endpoints';
+import { GA_MEASUREMENT_ID } from 'core/graphql/endpoints';
 import { getHotelName } from './fetchConfigs';
 
 declare global {

@@ -5,7 +5,7 @@ import styles from './DiningMenuElement.module.scss';
 import { IDiningMenuElementProps } from './DiningMenuElement.types';
 import { diningMenuStorage, toggleDiningDetailsDrawer } from 'storage/dining-menu.storage';
 import { StableImage } from 'components/shared/StableImage/StableImage';
-import { ASSETS_URL, CURRENCY } from 'core/graphql/endpoints';
+import { ASSETS_URL } from 'core/graphql/endpoints';
 import produce from 'immer';
 import { useReactiveVar } from '@apollo/client';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';

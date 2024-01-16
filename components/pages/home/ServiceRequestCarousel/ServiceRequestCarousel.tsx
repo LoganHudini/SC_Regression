@@ -33,19 +33,22 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle }) => 
     navigate(availablePaths.HOUSEKEEPING);
   };
   return (
-    <div className={styles.carouselSlideWrapper} onClick={handleClick}>
+    <div
+      className={cx(styles.carouselSlideWrapper, 'globals-carouselSlideWrapperServiceRequest')}
+      onClick={handleClick}
+    >
       <StableImage
         src={`${ASSETS_URL}/${slide?.images[0]?.master}`}
-        className={cx(styles.carouselSlideImage, {
+        className={cx(styles.carouselSlideImage, 'globals-carouselSlideImage', {
           [styles.carouselWrapperSingleImage]: slideStyle,
         })}
       />
       <div
-        className={cx(styles.carouselSlideDetailsWrapper, {
-          [styles.detailPosition]: slideStyle,
+        className={cx(styles.carouselSlideDetailsWrapper, 'globals-carouselSlideDetailsWrapper', {
+          [(styles.detailPosition, 'globals-detailPosition')]: slideStyle,
         })}
       >
-        <h3 className={styles.carouselSlideTitle}>
+        <h3 className={cx(styles.carouselSlideTitle, 'globals-carouselSlideTitle')}>
           {slide?.__typename === HouseKeeping
             ? t('Housekeeping')
             : slide?.__typename === 'Concierge' && 'Maintenance'}

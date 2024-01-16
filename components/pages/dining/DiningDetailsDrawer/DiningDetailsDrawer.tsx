@@ -4,21 +4,20 @@ import Cookinginstructions from '@icons/cooking_instructions.svg';
 import React, { useCallback, useEffect, useState } from 'react';
 import styles from './DiningDetailsDrawer.module.scss';
 import { useTranslation } from 'react-i18next';
-import { useQuery, useReactiveVar } from '@apollo/client';
+import { useReactiveVar } from '@apollo/client';
 import {
   IDiningMenuStorageData,
   diningMenuStorage,
   editControl,
   toggleDiningDetailsDrawer,
 } from 'storage/dining-menu.storage';
-import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
+import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { StableImage } from 'components/shared/StableImage/StableImage';
-import { ASSETS_URL, CURRENCY } from 'core/graphql/endpoints';
+import { ASSETS_URL } from 'core/graphql/endpoints';
 import produce from 'immer';
 import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
 import { DiningCheckboxItem } from 'components/pages/dining/DiningCheckboxItem/DiningCheckboxItem';
 import { InputAdornment } from '@mui/material';
-import { DiningMenuElementSkeleton } from 'components/pages/dining/DiningMenuElementSkeleton/DiningMenuElementSkeleton';
 import { sortBy } from 'lodash';
 import TextField from '@mui/material/TextField';
 import { iconsMap } from 'utils/hamburger/hamburgerIconsMap';
@@ -33,7 +32,6 @@ import { PlaceholderImage } from 'components/shared/PlaceholderImage/Placeholder
 const DiningDetailsDrawer = () => {
   const { t } = useTranslation(['dining', 'common']);
   const navigate = useLocalizedRouter();
-  const locale = useLocale();
   const selectedItemId = useReactiveVar(diningMenuStorage)?.selectedItemId;
   const selectedItemIndex = useReactiveVar(diningMenuStorage)?.selectedIndex;
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;

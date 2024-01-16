@@ -4,17 +4,13 @@ import { useTranslation } from 'react-i18next';
 import styles from './DiningMenuElementUpsell.module.scss';
 import { IDiningMenuElementProps } from './DiningMenuElementUpsell.types';
 import { diningMenuStorage } from 'storage/dining-menu.storage';
-import { StableImage } from 'components/shared/StableImage/StableImage';
-import { ASSETS_URL, CURRENCY } from 'core/graphql/endpoints';
 import produce from 'immer';
 import { useReactiveVar } from '@apollo/client';
-import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import cx from 'classnames';
 import { useCurrency } from 'utils/hooks/useConfiguration';
 
 export const DiningMenuElementUpsell: React.FC<IDiningMenuElementProps> = ({
   title,
-  description,
   price,
   id,
   image,

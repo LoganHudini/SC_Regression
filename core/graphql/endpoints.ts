@@ -49,7 +49,6 @@ export const ONPREM_API_URL = process.env.NEXT_PUBLIC_ONPREM_API_URL;
 
 // property specific settings
 export const BRAND_CODE = process.env.NEXT_PUBLIC_BRAND_CODE;
-export const CURRENCY = process.env.NEXT_PUBLIC_CURRENCY;
 export const HOTEL_ID = getHotelId();
 export const THEME_COLOR = '#ffffff';
 export const GA_MEASUREMENT_ID = process.env.GA_MEASUREMENT_ID;

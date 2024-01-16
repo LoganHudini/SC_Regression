@@ -33,12 +33,8 @@
 }
 
 .listComponent {
-  margin: 2rem 0;
+  margin: 1rem 0;
   cursor: pointer;
-
-  &:first-child {
-    margin: 1rem 0;
-  }
 }
 
 .listComponentTitle {

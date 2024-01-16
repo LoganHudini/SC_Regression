@@ -7,7 +7,6 @@ import { STATUS } from 'utils/constants';
 import CheckMark from '@icons/thinCheckMark.svg';
 import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
-import { CURRENCY } from 'core/graphql/endpoints';
 import { useTranslation } from 'react-i18next';
 import { useCurrency } from 'utils/hooks/useConfiguration';
 

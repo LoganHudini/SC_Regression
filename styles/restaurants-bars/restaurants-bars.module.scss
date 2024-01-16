@@ -44,8 +44,6 @@
 
 .listComponentTitle {
   cursor: pointer;
-  font-size: $xlarge;
-  font-family: var(--heading-font-regular);
   text-align: center;
   color: var(--primary-text-color);
 }
@@ -333,7 +331,6 @@
   right: 0;
   left: 0;
   margin: auto;
-  box-shadow: 0px -2px 10px var(--primary-box-shadow-color);
   height: 60px;
   font-size: $xsmall;
 }

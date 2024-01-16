@@ -1,5 +1,5 @@
 {
-  "theme_color": "#2c2c2c",
+  "theme_color": "#595959",
   "background_color": "#ffffff",
   "display": "fullscreen",
   "scope": "/",
@@ -10,7 +10,7 @@
     {
       "src": "/images/raffles/Logo.png",
       "type": "image/png",
-      "sizes": "196x196",
+      "sizes": "192x192",
       "purpose": "any maskable"
     },
     {

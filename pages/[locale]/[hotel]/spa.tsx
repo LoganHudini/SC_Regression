@@ -20,7 +20,7 @@ import { Loader } from 'components/shared/Loaders/Loaders';
 import produce from 'immer';
 import { Notification } from 'components/shared/Notification/Notification';
 import { availablePaths } from 'utils/availablePaths';
-import { ASSETS_URL, CURRENCY } from 'core/graphql/endpoints';
+import { ASSETS_URL } from 'core/graphql/endpoints';
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { useRouter } from 'next/router';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';

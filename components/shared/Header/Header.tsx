@@ -14,7 +14,6 @@ import styles from './Header.module.scss';
 import { IHeaderProps } from './Header.types';
 import { useRouter } from 'next/router';
 import ArrowBackIosIcon from '@icons/ArrowBack.svg';
-import { availablePaths } from 'utils/availablePaths';
 import { ALL_DAY, LANGUAGE_LIST_BARCELONA, HOME } from 'utils/constants';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { useQuery, useReactiveVar } from '@apollo/client';
@@ -118,7 +117,7 @@ export const Header: React.FC<IHeaderProps> = ({
         <div className={styles.categoryContainer}>
           {displayHome && (
             <div className={styles.backButton} onClick={goHome}>
-              <HomeHeader className={styles.backIcon} viewBox='0 0 25.204 25.927' />
+              <img src={`/images/${BRAND_CODE}/HomeHeader.svg`} />
             </div>
           )}
 
@@ -150,7 +149,11 @@ export const Header: React.FC<IHeaderProps> = ({
             </div>
           ) : (
             // screenTitle && <p className={styles.screenHeader}>{t(`${screenTitle}`)}</p>
-            <img src={`/images/${BRAND_CODE}/Logo.svg`} />
+            <img
+              className={styles.headerLogo}
+              src={`/images/${BRAND_CODE}/Logo.svg`}
+              onClick={goHome}
+            />
           )}
 
           {displaySearchButton && search && (

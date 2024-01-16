@@ -4,7 +4,7 @@
 
 .bannerImage {
   height: 225px;
-  width: 90%;
+  width: 100%;
   object-fit: cover;
   margin: auto;
   display: flex;
@@ -93,4 +93,8 @@
   ul {
     width: 100% !important;
   }
+}
+
+.readMore {
+  margin: 10px auto !important;
 }

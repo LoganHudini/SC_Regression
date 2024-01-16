@@ -1,7 +1,7 @@
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { WithScrollbar } from 'components/shared/WithScrollbar/WithScrollbar';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ASSETS_URL } from '../../../../core/graphql/endpoints';
 import styles from './DiningCarousel.module.scss';
@@ -13,33 +13,20 @@ import {
   diningOptionList,
   restaurantCtaNavigation,
 } from 'utils/functions';
-import {
-  BAR,
-  BARS_CAPS,
-  CAROUSEL_RESPONSIVE,
-  DINING_OPTIONS,
-  DINING_OPTIONS_PRE_CHECK_IN,
-  EXTERNAL_URL,
-  IN_ROOM_DINING,
-  RESTAURANT,
-  RESTAURANTS,
-  RESTAURANT_BOOKING_FLOW,
-} from 'utils/constants';
+import { BAR, CAROUSEL_RESPONSIVE, IN_ROOM_DINING } from 'utils/constants';
 import cx from 'classnames';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { availablePaths } from 'utils/availablePaths';
 import ClockIcon from '@icons/clockIcon.svg';
 import DishIcon from '@icons/dishIcon.svg';
 import { diningOptions } from 'storage/home.storage';
-import {
-  selectedRestaurantStorage,
-  tableReservationStorage,
-} from 'storage/table-reservation.storage';
+import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { CustomReadMore } from 'components/shared/CustomReadMore/CustomReadMore';
 import { getHotelCode } from 'utils/fetchConfigs';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { useRouter } from 'next/router';
+import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 
 interface ICarouselProps {
   ird: any;
@@ -56,12 +43,7 @@ interface ICarouselSlideProps {
   slideStyle?: any;
 }
 
-const CarouselSlide: React.FC<ICarouselSlideProps> = ({
-  slide,
-  module,
-  diningOptionsCarousal,
-  slideStyle,
-}) => {
+const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOptionsCarousal }) => {
   const hotel = getHotelCode();
 
   const { t } = useTranslation(['common']);
@@ -86,84 +68,65 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({
 
   return (
     <>
-      {module ? (
-        <div className={styles.carouselSlideWrapper} onClick={handleMenu}>
+      <div
+        className={cx(styles.carouselSlideWrapper, 'globals-carouselSlideWrapper')}
+        onClick={module ? handleMenu : redirect}
+      >
+        {slide?.images[0]?.master ? (
           <StableImage
-            src={`${ASSETS_URL}/${slide.images[0]?.master}`}
-            className={cx(styles.carouselSlideImage, {
-              [styles.carouselWrapperSingleImage]: slideStyle,
-            })}
-          />
-          <div
-            className={cx(styles.carouselSlideDetailsWrapper, {
-              [styles.detailPosition]: slideStyle,
-            })}
-          >
-            {slide.name && <h3 className={styles.carouselSlideTitle}>{slide.name}</h3>}
-            {slide.hours[0]?.day && (
-              <p className={styles.carouselSlideTimings}>{slide.hours[0]?.day}</p>
-            )}
-            <CustomReadMore text={'READ MORE'} />
-          </div>
-        </div>
-      ) : (
-        <div className={styles.carouselSlideWrapper} onClick={redirect}>
-          <StableImage
-            className={styles.carouselSlideImage}
+            className={cx(styles.carouselSlideImage, 'globals-carouselSlideImage')}
             src={`${ASSETS_URL}/${slide?.images[0]?.master}`}
           />
-          <div
-            className={cx(styles.carouselSlideDetailsWrapperRestaurantsAndBars, {
-              [styles.detailPosition]: slideStyle,
-            })}
-          >
-            <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>
-            <div className={styles.content}>
-              {slide?.primaryCuisine && (
-                <div className={styles.cuisineRow}>
-                  <DishIcon className={styles.cuisineIcon} />
-                  <span>{slide?.primaryCuisine?.toLowerCase()}</span>
-                </div>
-              )}{' '}
-              {time && (
-                <div className={styles.cuisineRowTime}>
-                  <ClockIcon className={styles.cuisineIcon} />
-                  <p>{time?.value}</p>
-                </div>
-              )}
-            </div>
-            {!module ? (
-              <div className={styles.buttonWrapper}>
-                <StyledButton
-                  variant='outlined'
-                  className={styles.button}
-                  onClick={() =>
-                    restaurantCtaNavigation(
-                      slide,
-                      router,
-                      navigate(availablePaths.RESTAURANTS_BARS),
-                    )
-                  }
-                >
-                  {slide?.cta?.ctaTitle || t('BOOK NOW')}
-                </StyledButton>
+        ) : (
+          <PlaceholderImage />
+        )}
+        <div
+          className={cx(
+            styles.carouselSlideDetailsWrapperRestaurantsAndBars,
+            { [styles.carouselSlideDetailsWrapperIrd]: module },
+            'globals-carouselSlideDetailsWrapperRestaurantsAndBars',
+          )}
+        >
+          <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>
+          <div className={cx(styles.content, 'globals-content')}>
+            {slide?.primaryCuisine && (
+              <div className={styles.cuisineRow}>
+                <DishIcon className={styles.cuisineIcon} />
+                <span>{slide?.primaryCuisine?.toLowerCase()}</span>
               </div>
-            ) : (
-              <CustomReadMore text={'READ MORE'} />
+            )}{' '}
+            {slide.hours[0]?.day && module && (
+              <p className={styles.carouselSlideTimings}>{slide.hours[0]?.day}</p>
+            )}
+            {time && (
+              <div className={styles.cuisineRowTime}>
+                <ClockIcon className={styles.cuisineIcon} />
+                <p>{time?.value}</p>
+              </div>
             )}
           </div>
+          {!module ? (
+            <div className={cx(styles.buttonWrapper, 'globals-buttonWrapper')}>
+              <StyledButton
+                variant='outlined'
+                className={styles.button}
+                onClick={() =>
+                  restaurantCtaNavigation(slide, router, navigate(availablePaths.RESTAURANTS_BARS))
+                }
+              >
+                {slide?.cta?.ctaTitle || t('BOOK NOW')}
+              </StyledButton>
+            </div>
+          ) : (
+            <CustomReadMore text={'READ MORE'} />
+          )}
         </div>
-      )}
+      </div>
     </>
   );
 };
 
-export const DiningCarousel: React.FC<ICarouselProps> = ({
-  ird,
-  restaurants,
-  loading,
-  irdModule,
-}) => {
+export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, irdModule }) => {
   const { t } = useTranslation(['common']);
   const isCheckedIn = useCheckedIn();
 
@@ -219,11 +182,19 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({
     }
   }, [isCheckedIn?.checkedIn, irdModule, ird, queryResultsData]);
 
+  console.log(uniqueFilteredDiningOptions);
+
   return (
     (irdActiveMenu?.length > 0 || filteredList?.length > 0) && (
       <div className={styles.diningCarouselWrapper}>
-        <p className={styles.diningCarouselTitle}>{t('Dining')}</p>
-        {uniqueFilteredDiningOptions?.length !== 0 && (
+        <p
+          className={cx(styles.diningCarouselTitle, {
+            [styles.diningSecondaryCarouselTitle]: uniqueFilteredDiningOptions?.length <= 1,
+          })}
+        >
+          {t('Dining')}
+        </p>
+        {uniqueFilteredDiningOptions?.length > 1 && (
           <div className={cx(styles.diningOptions, 'globals-diningOptions')}>
             {uniqueFilteredDiningOptions?.map((dining: any, index: any) => (
               <p

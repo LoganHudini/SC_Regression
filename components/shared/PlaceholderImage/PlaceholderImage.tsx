@@ -1,5 +1,5 @@
 import PlaceholderIcon from '@icons/imagePlaceholder.svg';
-import styles from './PageHolderImage.module.scss';
+import styles from './PlaceholderImage.module.scss';
 import cx from 'classnames';
 
 export const PlaceholderImage = () => {

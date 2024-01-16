@@ -410,12 +410,6 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
 
       {diningData?.items?.length > 0 && totalAmount !== 0 && !search && (
         <div className={cx(styles.totalWrapper, { [styles.hideOnScroll]: hideOnScroll })}>
-          {/* <div className={styles.totalRow}>
-              <p className={styles.totalText}>{t('Total')}</p>
-              <p className={styles.totalPrice}>
-                {CURRENCY} <span className={styles.currencyValue}>{totalAmount?.toFixed(2)}</span>
-              </p>
-            </div> */}
           <StyledButton count={diningData.items.length} onClick={confirmOrder}>
             {t('cart')}
           </StyledButton>

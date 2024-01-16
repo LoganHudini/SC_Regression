@@ -22,7 +22,6 @@ import { availablePaths } from 'utils/availablePaths';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import produce from 'immer';
 import dayjs from 'dayjs';
-import { CURRENCY } from 'core/graphql/endpoints';
 import { DiningCustomisationDrawer } from 'components/pages/dining/DiningCustomisationDrawer/DiningCustomisationDrawer';
 import { ERRORMSG, FAILURE, PAYMENT, SUCCESS } from 'utils/constants';
 import { InputAdornment, TextField } from '@mui/material';

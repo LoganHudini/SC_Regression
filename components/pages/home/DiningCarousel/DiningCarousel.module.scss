@@ -5,7 +5,11 @@
 .diningCarouselTitle {
   font: $xheader var(--heading-font-regular);
   text-align: center;
-  margin: 10px;
+  margin: 0.5rem;
+}
+
+.diningSecondaryCarouselTitle {
+  margin: 0.5rem 0 1.5rem;
 }
 
 .diningOptions {
@@ -93,23 +97,9 @@
   border-radius: var(--primary-card-border-radius);
 }
 
-.carouselSlideDetailsWrapper {
-  width: 251px;
-  height: 148px;
-  background: var(--primary-card-background-color);
-  box-shadow: 0px 3px 6px var(--primary-box-shadow-color);
-  text-align: center;
-  z-index: 200;
-  position: absolute;
-  bottom: 5px;
-  left: 10px;
-  border-radius: var(--primary-card-border-radius);
-}
-
 .carouselSlideDetailsWrapperRestaurantsAndBars {
-  width: 251px;
-  height: auto;
-  background: var(--primary-background-color);
+  width: 90%;
+  height: 160px;
   box-shadow: 0px 3px 6px var(--primary-box-shadow-color);
   text-align: center;
   z-index: 200;
@@ -120,30 +110,46 @@
   margin: auto;
   border-radius: var(--primary-card-border-radius);
   background: var(--primary-card-background-color);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.carouselSlideDetailsWrapperIrd {
+  height: 120px;
+  bottom: 15px;
 }
 
 .carouselSlideTitle {
-  font: $header var(--heading-font-regular);
-  padding: 29px 1rem 19px;
-  height: 22px;
+  font: $xlarge var(--heading-font-regular);
+  padding: 0.5rem 0;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
 
 .carouselSlideTimings {
-  height: 15px;
   font: $xsmall var(--primary-font-regular);
   color: var(--tertiary-text-color);
-  padding: 6px 0 20px;
+}
+
+.content {
+  padding-left: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.content {
+  padding-left: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .carouselSlideViewMore {
-  height: 12px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 15px;
+  margin: 0.25rem 0;
   font: 9px var(--primary-font-extd-regular);
   color: var(--primary-theme-color);
   text-transform: uppercase;
@@ -179,6 +185,7 @@
   width: 100%;
   text-decoration: none;
   font-family: var(--primary-font-regular);
+  margin: 4px 0;
   font-size: $xsmall;
   text-transform: capitalize;
   justify-content: flex-start;
@@ -198,7 +205,7 @@
   align-items: center;
   width: 100%;
   text-decoration: none;
-  margin-top: 7px;
+  margin: 4px 0;
   font-family: var(--primary-font-regular);
   font-size: $xsmall;
   text-transform: capitalize;
@@ -220,31 +227,19 @@
   --webkit-line-clamp: 1;
 }
 
-.content {
-  padding-left: 10%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 55px;
-}
-
 .carouselWrapperSingleImageUl {
   ul {
     width: 100% !important;
   }
 }
 
-.detailPosition {
-  width: 95% !important;
-}
-
 .button {
   width: auto;
   font-size: $xsmall;
-  height: 31px;
+  height: 30px;
 }
 
 .buttonWrapper {
   text-align: start;
-  padding: 10px 0 10px 10%;
+  margin: 5px auto;
 }

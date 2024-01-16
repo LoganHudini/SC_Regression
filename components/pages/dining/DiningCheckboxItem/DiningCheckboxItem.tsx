@@ -2,7 +2,6 @@ import { WhiteStyledCheckbox } from 'components/shared/WhiteStyledCheckbox/White
 import React, { useCallback } from 'react';
 import styles from './DiningCheckboxItem.module.scss';
 import { IDiningCheckboxItemProps } from './DiningCheckboxItem.types';
-import { CURRENCY } from 'core/graphql/endpoints';
 import { useReactiveVar } from '@apollo/client';
 import { editControl } from 'storage/dining-menu.storage';
 import { useCurrency } from 'utils/hooks/useConfiguration';

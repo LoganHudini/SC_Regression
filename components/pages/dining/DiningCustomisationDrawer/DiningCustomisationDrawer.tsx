@@ -11,7 +11,6 @@ import {
 } from 'storage/dining-menu.storage';
 import produce from 'immer';
 import { useTranslation } from 'react-i18next';
-import { CURRENCY } from 'core/graphql/endpoints';
 import { addToCartEvent } from 'utils/gtag';
 import { useCurrency } from 'utils/hooks/useConfiguration';
 

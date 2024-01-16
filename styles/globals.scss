@@ -98,6 +98,11 @@
 }
 
 @font-face {
+  font-family: 'Lato Bold';
+  src: url('/fonts/Lato/Lato-Bold.ttf') format('truetype');
+}
+
+@font-face {
   font-family: 'Montserrat Bold';
   src: url('/fonts/Montserrat/Montserrat-Bold.otf') format('opentype');
 }
@@ -132,6 +137,11 @@
 @font-face {
   font-family: 'Noto Serif Display';
   src: url('/fonts/NotoSerifDisplay/NotoSerifDisplay.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Canela Light';
+  src: url('/fonts/Canela/Canela-Light.otf') format('opentype');
 }
 
 :root {

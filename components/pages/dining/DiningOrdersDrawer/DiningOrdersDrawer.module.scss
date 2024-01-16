@@ -16,7 +16,7 @@
 }
 
 .heading {
-  font: $xlarge var(--heading-font-regular);
+  font: $header var(--heading-font-regular);
   text-align: center;
 }
 
@@ -244,7 +244,7 @@
 }
 
 .thankyouTitle {
-  font-size: $xlarge;
+  font-size: $header;
   font-family: var(--primary-font-regular);
   padding: 0.5rem 0;
 }

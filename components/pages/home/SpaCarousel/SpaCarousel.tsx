@@ -22,6 +22,7 @@ import { ACTIVE, EXTERNAL_URL } from 'utils/constants';
 import Phone from '@icons/telephone.svg';
 import Mail from '@icons/email.svg';
 import { downloadFile } from 'utils/downloadFile';
+import DishIcon from '@icons/dishIcon.svg';
 import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 
 interface ICarouselProps {
@@ -45,28 +46,35 @@ export const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle
   const time = getTimings(slide?.customAttributes);
 
   return (
-    <div className={styles.carouselSlideWrapper} onClick={handleClick}>
-      <StableImage
-        className={cx(styles.carouselSlideImage, {
+    <>
+      <div
+        className={cx(styles.carouselSlideWrapperSpa, 'globals-carouselSlideWrapperSpa', {
           [styles.carouselWrapperSingleImage]: slideStyle,
         })}
-        src={`${ASSETS_URL}/${slide?.images[0]?.master}`}
-      />
-      <div
-        className={cx(styles.carouselSlideDetailsWrapper, {
-          [styles.detailPosition]: slideStyle,
-        })}
+        onClick={handleClick}
       >
-        {slide?.name && <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>}
-        {time?.value && (
-          <div className={styles.timings}>
-            <ClockIcon />
-            <p>{time?.value}</p>
-          </div>
-        )}
-        <CustomReadMore text={'VIEW TREATMENTS'} />
+        <StableImage
+          className={cx(styles.carouselSlideImage, 'globals-carouselSlideImage')}
+          src={`${ASSETS_URL}/${slide?.images[0]?.master}`}
+        />
+        <div
+          className={cx(
+            styles.carouselSlideDetailsWrapper,
+            { [styles.carouselSlideDetailsWrapperIrd]: module },
+            'globals-carouselSlideDetailsWrapperRestaurantsAndBars',
+          )}
+        >
+          {slide?.name && <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>}
+          {time && (
+            <div className={styles.cuisineRowTime}>
+              <ClockIcon className={styles.cuisineIcon} />
+              <p>{time?.value}</p>
+            </div>
+          )}
+          <CustomReadMore text={'VIEW MORE'} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
@@ -159,7 +167,7 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
           </div>
         )}
         {time?.value && (
-          <div className={styles.cuisineRowTime}>
+          <div className={styles.DetailscuisineRowTime}>
             <ClockIcon className={styles.cuisineIcon} />
             <p>{time?.value}</p>
           </div>

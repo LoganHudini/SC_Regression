@@ -4,12 +4,14 @@ import { useCallback } from 'react';
 import ClockIcon from '@icons/clockIcon.svg';
 import DishIcon from '@icons/dishIcon.svg';
 import styles from './ListComponents.module.scss';
-import { ASSETS_URL, CURRENCY } from 'core/graphql/endpoints';
+import { ASSETS_URL } from 'core/graphql/endpoints';
 import { OFFERSDURATION } from 'utils/constants';
 import dayjs from 'dayjs';
 import { getTimings } from 'utils/functions';
 import { CustomReadMore } from '../CustomReadMore/CustomReadMore';
 import { useCurrency } from 'utils/hooks/useConfiguration';
+import cx from 'classnames';
+
 interface ListComponentEntityProps {
   queryResultEntity: any;
   selectedListItem: any;
@@ -35,13 +37,15 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
         className={styles.bannerImage}
         src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.ratio16to9}`}
       />
-      <div className={styles.contentWrapper}>
-        <div className={styles.imageContent}>
+      <div className={cx(styles.contentWrapper, 'globals-contentWrapper')}>
+        <div className={cx(styles.imageContent, 'globals-imageContent')}>
           {queryResultEntity?.name && (
-            <h2 className={styles.listComponentTitle}>{t(`${queryResultEntity?.name}`)}</h2>
+            <h2 className={cx(styles.listComponentTitle, 'globals-text-align')}>
+              {t(`${queryResultEntity?.name}`)}
+            </h2>
           )}
           {queryResultEntity?.duration && queryResultEntity?.duration[0]?.price && (
-            <p className={styles.listDurationPrice}>
+            <p className={cx(styles.listDurationPrice, 'globals-text-align')}>
               <span className={styles.currency}>{currency} </span>
               {queryResultEntity?.duration[0]?.price}
               {'   '}|{'   '}
@@ -50,7 +54,7 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
           )}
           {queryResultEntity?.duration &&
             queryResultEntity?.duration.__typename === OFFERSDURATION && (
-              <p className={styles.listDurationOffer}>
+              <p className={cx(styles.listDurationOffer, 'globals-listDurationOffer')}>
                 {queryResultEntity?.duration?.alwaysActive
                   ? t('Everyday')
                   : (() => {
@@ -68,7 +72,9 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
               </p>
             )}
           {queryResultEntity?.description && (
-            <p className={styles.listDescription}>{queryResultEntity?.description}</p>
+            <p className={cx(styles.listDescription, 'globals-text-align')}>
+              {queryResultEntity?.description}
+            </p>
           )}
           {queryResultEntity?.primaryCuisine && (
             <div className={styles.cuisineRow}>
