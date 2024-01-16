@@ -151,6 +151,7 @@
   font-weight: 500;
   text-transform: uppercase;
   font-family: var(--primary-font-medium);
+  color: var(--secondary-text-color);
 }
 
 @keyframes load {
@@ -243,4 +244,12 @@
   width: 70%;
   margin: auto;
   padding-bottom: 10px;
+}
+
+.spaceValue {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 14%;
 }

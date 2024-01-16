@@ -30,8 +30,7 @@ import DiningDetailsDrawer from '../DiningDetailsDrawer/DiningDetailsDrawer';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { useHideOnScroll } from 'utils/hooks/useHideOnScroll';
 import { client } from 'core/graphql/client';
-import { useConfig } from 'utils/hooks/useConfiguration';
-import { debounce } from 'lodash';
+import { useConfig, useCurrency } from 'utils/hooks/useConfiguration';
 
 export { getStaticPaths };
 interface DiningMenuProps {
@@ -65,6 +64,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   const [orderDrawer, setOrderDrawer] = useState(false);
   const [scrollHide, setScrollHide] = useState(true);
   const [scrollPosition] = useState(scrollData);
+  const currency = useCurrency();
 
   const data = client.readQuery<IRDMenuApiResponse>({ query: IRD_MENU });
 
@@ -411,7 +411,12 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
       {diningData?.items?.length > 0 && totalAmount !== 0 && !search && (
         <div className={cx(styles.totalWrapper, { [styles.hideOnScroll]: hideOnScroll })}>
           <StyledButton count={diningData.items.length} onClick={confirmOrder}>
-            {t('cart')}
+            <div className={styles.spaceValue}>
+              <p className={styles.totalPrice}>
+                {currency} <span className={styles.currencyValue}>{totalAmount?.toFixed(2)}</span>
+              </p>
+              {t('View Order')}
+            </div>
           </StyledButton>
         </div>
       )}
