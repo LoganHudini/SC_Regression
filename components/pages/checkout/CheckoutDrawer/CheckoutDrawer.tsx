@@ -85,7 +85,7 @@ const CheckoutDrawer = (props: any) => {
       toggleNotification(true);
       setErrorToggle({
         state: false,
-        message: 'Checkedout Successfully',
+        message: 'You’ve Checked-out',
         type: feedbackData?.length === 0 ? 'home' : 'feedback',
         description:
           'Hope you had a pleasant stay with us. We look forward to your next visit.\n Thank You.',
@@ -103,9 +103,10 @@ const CheckoutDrawer = (props: any) => {
         }, 5000);
         setErrorToggle({
           state: false,
-          message: 'Thank You!',
+          message: 'Unable to checkout',
           type: feedbackData?.length === 0 ? 'home' : 'feedback',
-          description: 'Please proceed to the front desk to complete your checkout',
+          description:
+            'There are outstanding payments to settle. Kindly proceed to the front desk to complete the checkout process.',
         });
       } else {
         toggleNotification(true);
