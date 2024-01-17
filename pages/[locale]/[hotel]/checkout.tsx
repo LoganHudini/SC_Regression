@@ -30,6 +30,8 @@ import { Loader } from 'components/shared/Loaders/Loaders';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { FAILURE, SUCCESS } from 'utils/constants';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
+import { timeFormats } from 'utils/timeFormats';
+import dayjs from 'dayjs';
 
 export { getStaticPaths };
 
@@ -68,6 +70,7 @@ const CheckOut = () => {
   const loading = invoiceLoading || reservationLoading;
   const invoiceElements = invoiceData?.invoice?.data?.billItems;
   const reservationInfo = reservationData?.getReservation?.data;
+  const currency = reservationInfo?.details?.holdAmount?.currency ?? '';
 
   useEffect(() => {
     if (openCheckOutDrawer) {
@@ -82,11 +85,28 @@ const CheckOut = () => {
     const emailInvoicePayload = {
       registeredGuest: checkedInData?.name,
       email: checkedInData?.email,
-      checkInDate: reservationInfo?.details?.checkInDate,
-      checkOutDate: reservationInfo?.details?.checkOutDate,
+      checkInDate:
+        reservationInfo?.details?.checkInDate?.split('T')[0] +
+        ' ' +
+        dayjs(
+          `${reservationInfo?.details?.checkInDate?.split('T')[0]}${
+            reservationInfo?.details?.contactPerson?.eta?.split('.')[0]
+          }`,
+        )?.format('HH:mm'),
+      checkOutDate:
+        reservationInfo?.details?.checkOutDate?.split('T')[0] +
+        ' ' +
+        dayjs(
+          `${reservationInfo?.details?.checkOutDate?.split('T')[0]}${
+            reservationInfo?.details?.contactPerson?.etd?.split('.')[0]
+          }`,
+        )?.format('HH:mm'),
       totalBillAmount: invoiceData?.invoice?.data?.totalBillAmount,
       billItems: invoiceElements,
       totalDueAmount: invoiceData?.invoice?.data?.totalDueAmount,
+      roomNumber:
+        checkedInData?.roomNumber || (reservationInfo?.roomTypes[0]?.roomNumber as string),
+      currencyCode: currency,
     };
 
     try {
@@ -117,7 +137,6 @@ const CheckOut = () => {
     }
     toggleNotification(true);
   };
-  const currency = reservationInfo?.details?.holdAmount?.currency ?? '';
 
   return (
     <>
