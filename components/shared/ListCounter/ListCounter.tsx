@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import cx from 'classnames';
 import styles from './ListCounter.module.scss';
-import RemoveOutlinedIcon from '@icons/leftArrow.svg';
-import AddOutlinedIcon from '@icons/rightArrow.svg';
+import RemoveOutlinedIcon from '@icons/LeftArrow.svg';
+import AddOutlinedIcon from '@icons/RightArrow.svg';
 import { IListCounterInputProps } from './ListCounter.types';
 
 export const ListCounter: React.FC<IListCounterInputProps> = ({
