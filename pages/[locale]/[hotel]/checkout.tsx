@@ -30,7 +30,6 @@ import { Loader } from 'components/shared/Loaders/Loaders';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { FAILURE, SUCCESS } from 'utils/constants';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { timeFormats } from 'utils/timeFormats';
 import dayjs from 'dayjs';
 
 export { getStaticPaths };
