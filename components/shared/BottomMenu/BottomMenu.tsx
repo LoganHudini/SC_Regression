@@ -176,6 +176,7 @@ export const BottomMenu: React.FC<unknown> = () => {
           <div className={styles.hamburgerIcon}>
             <Hamburger
               distance={'sm'}
+              rounded
               color={'var(--primary-theme-color)'}
               toggled={hamburgerMenuStatus}
               toggle={(toggled) => {
