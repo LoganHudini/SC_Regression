@@ -51,6 +51,7 @@ import Camera from '@icons/cameraIcon.svg';
 import { accompanyGuestDetails } from 'storage/accompany-guest-details';
 import { Notification } from 'components/shared/Notification/Notification';
 import { notificationDetails, toggleNotification } from 'storage/home.storage';
+import { usePersonalisation } from 'utils/hooks/usePersonalisation';
 
 export { getStaticPaths };
 
@@ -63,6 +64,7 @@ const Guest: React.FC<any> = () => {
   const { t } = useTranslation('about-your-stay');
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
+  const [personalisationData] = usePersonalisation();
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
@@ -258,6 +260,18 @@ const Guest: React.FC<any> = () => {
     );
   }, [paymentConfig?.type]);
 
+  const nextStep = () => {
+    if (paymentConfig?.type === NONE && personalisationData?.length === 0) {
+      navigate(availablePaths?.REVIEW);
+    } else if (paymentConfig?.type === NONE && personalisationData?.length !== 0) {
+      navigate(availablePaths?.PERSONALIZE);
+    } else if (paymentConfig?.type !== NONE && personalisationData?.length !== 0) {
+      navigate(availablePaths?.CARD_AUTHORISATION);
+    } else if (paymentConfig?.type !== NONE && personalisationData?.length === 0) {
+      navigate(availablePaths?.CARD_AUTHORISATION);
+    }
+  };
+
   // document update
   const goToTheNextStep = useCallback(async () => {
     setLoading(true);
@@ -373,9 +387,7 @@ const Guest: React.FC<any> = () => {
       }
 
       if (successFlag) {
-        paymentConfig?.type === NONE
-          ? navigate(availablePaths?.PERSONALIZE)
-          : navigate(availablePaths?.CARD_AUTHORISATION);
+        nextStep();
       } else {
         toggleNotification(true);
         notificationDetails({

@@ -26,13 +26,23 @@ import UserIcon from '@icons/user.svg';
 import DocIcon from '@icons/docPoints.svg';
 import NightIcon from '@icons/night-mode.svg';
 import { availablePaths } from 'utils/availablePaths';
-import { useConfig } from 'utils/hooks/useConfiguration';
+import { useConfig, usePaymentConfig } from 'utils/hooks/useConfiguration';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { ASSETS_URL, BRAND_CODE } from 'core/graphql/endpoints';
 import { useReactiveVar } from '@apollo/client';
 import { hotelImage } from 'storage/home.storage';
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { getWelcomeDrawer } from 'utils/functions';
+import { StepperInformationStorage } from 'storage/check-in.storage';
+import produce from 'immer';
+import {
+  STEPPER_PAYMENT,
+  STEPPER_CUSTOMISATION,
+  STEPPER_CHECK_IN,
+  STEPPER_REVIEW,
+  NONE,
+} from 'utils/constants';
+import { usePersonalisation } from 'utils/hooks/usePersonalisation';
 
 export { getStaticPaths };
 
@@ -43,6 +53,8 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
   const hotel = config?.code;
   const hotelImageInfo = useReactiveVar(hotelImage);
   const [welcomeDrawer, setWelcomeDrawer] = useState(getWelcomeDrawer());
+  const paymentConfig: any = usePaymentConfig();
+  const [availablePersonalizations, personalisationDataloading] = usePersonalisation();
 
   const { t } = useTranslation('about-your-stay');
 
@@ -91,6 +103,28 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
     localStorage.setItem('welcomeDrawer', JSON.stringify(false));
     setWelcomeDrawer(false);
   };
+
+  useEffect(() => {
+    if (!personalisationDataloading) {
+      if (paymentConfig?.type === NONE) {
+        if (availablePersonalizations?.length === 0) {
+          StepperInformationStorage([
+            { value: 60, label: 1, title: STEPPER_REVIEW },
+            { value: 0, label: 2, title: STEPPER_CHECK_IN },
+          ]);
+        } else {
+          StepperInformationStorage(
+            produce(StepperInformationStorage(), (draft: any) => {
+              const item = draft?.find((el: any) => el?.title === STEPPER_PAYMENT);
+              if (item) {
+                item.title = STEPPER_CUSTOMISATION;
+              }
+            }),
+          );
+        }
+      }
+    }
+  }, [personalisationDataloading, availablePersonalizations, paymentConfig?.type]);
 
   return (
     <>

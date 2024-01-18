@@ -34,12 +34,14 @@ import { StepperInformationStorage } from 'storage/check-in.storage';
 import produce from 'immer';
 import EditIcon from '@icons/commonEditIcon.svg';
 import CardIcon from '@icons/cardIcon.svg';
+import { usePersonalisation } from 'utils/hooks/usePersonalisation';
 
 export { getStaticPaths };
 
 const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
   const navigate = useLocalizedRouter();
   const config = useConfig();
+  const [availablePersonalizations] = usePersonalisation();
 
   const { t } = useTranslation('about-your-stay');
 
@@ -122,8 +124,10 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
   }, [extractDataForField, reservationInfo?.guests]);
 
   const goToTheNextStep = useCallback(() => {
-    navigate(availablePaths?.PERSONALIZE);
-  }, [navigate]);
+    availablePersonalizations?.length > 0
+      ? navigate(availablePaths?.PERSONALIZE)
+      : navigate(availablePaths?.REVIEW);
+  }, [navigate, availablePersonalizations]);
 
   const validateGuestReservation = (field: any) => {
     if (!guestReservationInfo) {
@@ -157,10 +161,11 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
         const item = draft?.find((el: any) => el?.title === STEPPER_PAYMENT);
         if (item) {
           item.value = validButton ? 80 : 40;
+          !availablePersonalizations?.length && validButton ? (item.value = 100) : null;
         }
       }),
     );
-  }, [validButton]);
+  }, [validButton, availablePersonalizations]);
 
   return (
     <>

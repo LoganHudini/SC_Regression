@@ -28,7 +28,6 @@ import {
   FAILURE,
   STEPPER_PAYMENT,
   STEPPER_CUSTOMISATION,
-  SUCCESS,
   personalisation,
 } from 'utils/constants';
 import { Loader } from 'components/shared/Loaders/Loaders';
@@ -63,6 +62,17 @@ const PersonalizeYourRoom: React.FC = () => {
       navigate(availablePaths.HOME);
     }
   }, [reservationData, navigate]);
+
+  useEffect(() => {
+    StepperInformationStorage(
+      produce(StepperInformationStorage(), (draft: any) => {
+        const item = draft?.find((el: any) => el?.title === STEPPER_PAYMENT);
+        if (item) {
+          item.value = 100;
+        }
+      }),
+    );
+  }, []);
 
   const reservationInfo = reservationData?.getReservation.data;
 
