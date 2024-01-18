@@ -122,7 +122,6 @@ export const CMS = 'CMS';
 export const VENDOR = 'VENDOR';
 export const NONE = 'NONE';
 export const TABLE_RESERVATION = 'tableReservation';
-export const CMS = 'CMS';
 export const SPA_RESERVATION = 'spaReservation';
 export const SPA_BOOKING_FLOW = 'SPA Booking Flow';
 
