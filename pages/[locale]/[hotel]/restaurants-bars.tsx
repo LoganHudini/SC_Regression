@@ -32,6 +32,7 @@ import {
 } from 'storage/home.storage';
 import {
   ACTIVE,
+  CMS,
   DINING_OPTIONS,
   EMAIL,
   ENQUIRE,
@@ -51,6 +52,7 @@ import {
   activeModule,
   filterRestaurantList,
   getTimings,
+  moduleType,
   restaurantCtaNavigation,
   uniqueDiningOption,
 } from 'utils/functions';
@@ -189,7 +191,6 @@ const RestaurantAndBars: React.FC = () => {
       roomNo: isCheckedIn?.roomNumber,
       tableNumbers: [],
     };
-
     try {
       await client.mutate({
         mutation: CREATE_RESTAURANT_RESERVATION,

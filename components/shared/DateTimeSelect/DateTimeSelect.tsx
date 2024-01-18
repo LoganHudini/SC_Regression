@@ -18,6 +18,7 @@ import {
   TimeFormatArray,
 } from 'utils/constants';
 import { useTranslation } from 'react-i18next';
+import cx from 'classnames';
 
 const dayMonthArray: any = [];
 for (let month = 0; month < 12; month++) {
@@ -36,6 +37,7 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
   handleSave,
   showSchedules,
   buttonTitle,
+  buttonStyle,
 }) => {
   const { t } = useTranslation(['common']);
   const [disable, setDisable] = useState(false);
@@ -159,7 +161,7 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
           </MultiPicker>
         </div>
 
-        <StyledButton disabled={!disable} onClick={() => handleSave()}>
+        <StyledButton disabled={!disable} onClick={() => handleSave()} className={cx(buttonStyle)}>
           {buttonTitle || t('Save')}
         </StyledButton>
       </>

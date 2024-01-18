@@ -21,4 +21,5 @@ export const timeFormats = {
   MONTH_DAY: 'MMM DD',
   MONTH_YEAR: 'MMM YYYY',
   YOUVERSE_EXPIRE_DATE: 'YYYY-MM-DDThh:mm',
+  DATE_TIME: 'YYYY-MM-DD HH:mm',
 };

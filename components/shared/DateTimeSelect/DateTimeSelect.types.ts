@@ -4,4 +4,5 @@ export interface IDateTimeSelectProps {
   handleSave: any;
   showSchedules: any;
   buttonTitle?: any;
+  buttonStyle?: any;
 }

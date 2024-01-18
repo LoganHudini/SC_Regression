@@ -91,5 +91,6 @@
   "until": "until",
   "Everyday": "Everyday",
   "Choose your category": "Choose your category",
-  "Select up to option(s)": "Select up to {{value}} option(s)"
+  "Select up to option(s)": "Select up to {{value}} option(s)",
+  "Duration": "Duration"
 }

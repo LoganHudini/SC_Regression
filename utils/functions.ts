@@ -235,6 +235,10 @@ export const diningOptionList = (type: any) => {
   return type === RESTAURANT ? RESTAURANTS : type === BAR ? BARS_CAPS : type;
 };
 
+export const moduleType = (config: any, targetType: any) => {
+  return config?.find((module: any) => module?.isActive && module?.code === targetType);
+};
+
 export const restaurantCtaNavigation = (
   object: any,
   router: any,

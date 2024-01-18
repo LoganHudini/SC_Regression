@@ -3,14 +3,18 @@ import { useQuery, useReactiveVar } from '@apollo/client';
 import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { getStaticPaths } from 'utils/getStatic';
 import styles from '@styles/spa/spa.module.scss';
 import { useTranslation } from 'react-i18next';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { Header } from 'components/shared/Header/Header';
-import { toggleDetailsDrawer, toggleHamburgerMenuDrawer } from 'storage/home.storage';
-import { activeItems } from 'utils/functions';
+import {
+  toggleDetailsDrawer,
+  toggleHamburgerMenuDrawer,
+  toggleNotification,
+} from 'storage/home.storage';
+import { activeItems, moduleType, restaurantId } from 'utils/functions';
 import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { GET_SPA_DETAILS } from 'core/graphql/queries/GET_SPA_DETAILS';
@@ -20,13 +24,32 @@ import { Loader } from 'components/shared/Loaders/Loaders';
 import produce from 'immer';
 import { Notification } from 'components/shared/Notification/Notification';
 import { availablePaths } from 'utils/availablePaths';
-import { ASSETS_URL } from 'core/graphql/endpoints';
+import { ASSETS_URL, HOTEL_ID } from 'core/graphql/endpoints';
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { useRouter } from 'next/router';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { useConfig, useCurrency } from 'utils/hooks/useConfiguration';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { ACTIVE, EXTERNAL_URL } from 'utils/constants';
+import {
+  ACTIVE,
+  CMS,
+  ERRORMSG,
+  EXTERNAL_URL,
+  FAILURE,
+  RESTAURANT_BOOKING_FLOW,
+  SPA_BOOKING_FLOW,
+  SUCCESS,
+} from 'utils/constants';
+import DateTimeSelect from 'components/shared/DateTimeSelect/DateTimeSelect';
+import { client } from 'core/graphql/client';
+import { CREATE_RESTAURANT_RESERVATION } from 'core/graphql/queries/GET_RESTAURANT_RESERVATION_DETAILS';
+import dayjs from 'dayjs';
+import { timeFormats } from 'utils/timeFormats';
+import { useCheckedIn } from 'storage/check-in.storage';
+import cx from 'classnames';
+import { ListCounter } from 'components/shared/ListCounter/ListCounter';
+import { CREATE_SPA_ORDER } from 'core/graphql/queries/CREATE_SPA_RESERVATION';
+import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
 import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 
 export { getStaticPaths };
@@ -41,6 +64,17 @@ const Spa: React.FC = () => {
   const spaInfo = useReactiveVar(spaInformationStorage);
   const spaDetailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
   const currency = useCurrency();
+  const [timeSelectDrawer, setTimeSelectDrawer] = useState(false);
+  const [detailContent, setDetailContent] = useState(true);
+  const [selectedTime, setSelectedTime] = useState(
+    dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM),
+  );
+  const isCheckedIn = useCheckedIn();
+  const currentYear = new Date().getFullYear();
+  const config = useConfig();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [guestCount, setGuestCount] = useState(1);
+  const [errorNotification, setErrorNotification] = useState(false);
 
   const { data, loading } = useQuery(GET_SPA_DETAILS, {
     skip: !hotelId,
@@ -114,6 +148,7 @@ const Spa: React.FC = () => {
     );
     toggleDetailsDrawer(true);
     toggleHamburgerMenuDrawer(false);
+    setDetailContent(true);
   };
 
   const closeDrawer = () => {
@@ -123,62 +158,160 @@ const Spa: React.FC = () => {
         null;
       }),
     );
+    setTimeSelectDrawer(false);
   };
 
   const onCtaClick = () => {
     if (spaInformation?.cta?.redirectOption === EXTERNAL_URL) {
       router.push(spaInformation?.cta?.redirectUrl);
     }
+    if (spaInformation?.cta?.redirectOption === SPA_BOOKING_FLOW) {
+      setDetailContent(false);
+      setTimeSelectDrawer(true);
+    }
   };
 
+  const handleSpaReservation = useCallback(async () => {
+    const DetailsReservationPayload = {
+      bookingId: isCheckedIn?.reservationId,
+      hotelId: HOTEL_ID,
+      bookingTime: dayjs().format(timeFormats.DATE_TIME),
+      roomNo: isCheckedIn?.roomNumber,
+      guestName: isCheckedIn?.name,
+      guestType: isCheckedIn?.roomNumber ? 'resident' : 'nonresident',
+      numberOfGuest: guestCount,
+      pax: '',
+      scheduledDate: dayjs(selectedTime).year(currentYear).format(timeFormats.YEAR_MONTH_DAY),
+      scheduledTime: dayjs(selectedTime).format(timeFormats.RAILWAY_TIME),
+      treatmentDuration: selectedSpaItem?.duration[currentIndex]?.duration as string,
+      totalAmount: selectedSpaItem?.duration[currentIndex]?.price,
+      spaId: selectedSpaItem?.spaId,
+      items: [
+        {
+          name: selectedSpaItem?.name,
+          treatmentDuration: selectedSpaItem?.duration[currentIndex]?.duration,
+          amount: selectedSpaItem?.duration[currentIndex]?.price,
+          description: '',
+        },
+      ],
+      spaName: selectedSpaItem?.name,
+    };
+
+    try {
+      await client.mutate({
+        mutation: CREATE_SPA_ORDER,
+        context: { clientName: 'host_v3' },
+        fetchPolicy: 'network-only',
+        variables: DetailsReservationPayload,
+      });
+      setTimeout(() => {
+        closeDrawer();
+      }, 4000);
+      setErrorNotification(false);
+    } catch (err) {
+      setErrorNotification(true);
+    }
+    toggleNotification(true);
+  }, [
+    selectedTime,
+    currentYear,
+    restaurantId,
+    isCheckedIn?.name,
+    isCheckedIn?.roomNumber,
+    guestCount,
+  ]);
+
   const spaDetails = () => (
-    <>
-      {selectedSpaItem?.images?.length > 0 ? (
-        <StableImage
-          className={styles.image}
-          src={`${ASSETS_URL}/${selectedSpaItem?.images[0]?.ratio16to9}`}
-        />
-      ) : (
-        <PlaceholderImage />
+    <div>
+      {detailContent && (
+        <>
+          {selectedSpaItem?.images?.length > 0 ? (
+            <StableImage
+              className={styles.image}
+              src={`${ASSETS_URL}/${selectedSpaItem?.images[0]?.ratio16to9}`}
+            />
+          ) : (
+            <PlaceholderImage />
+          )}
+
+          {spaInformation?.cta?.status === ACTIVE && (
+            <StyledButton variant='contained' onClick={onCtaClick} className={styles.button}>
+              {spaInformation?.cta?.ctaTitle || t('BOOK NOW')}
+            </StyledButton>
+          )}
+
+          <div className={styles.wrapper}>
+            {selectedSpaItem?.name && (
+              <h2 className={styles.detailComponentTitle}>{t(`${selectedSpaItem?.name}`)}</h2>
+            )}
+
+            {selectedSpaItem?.duration && selectedSpaItem?.duration[0]?.price && (
+              <p className={styles.detailComponentDuration}>
+                <span className={styles.currency}>{currency} </span>
+                {selectedSpaItem?.duration[0]?.price}
+                {'   '}|{'   '}
+                {selectedSpaItem?.duration[0]?.duration} Min
+              </p>
+            )}
+
+            {selectedSpaItem?.description && (
+              <p className={styles.detailComponentDescription}>
+                {t(`${selectedSpaItem?.description}`)}
+              </p>
+            )}
+          </div>
+        </>
       )}
 
-      {spaInformation?.cta?.status === ACTIVE && (
-        <StyledButton variant='contained' onClick={onCtaClick} className={styles.button}>
-          {spaInformation?.cta?.ctaTitle || t('BOOK NOW')}
-        </StyledButton>
+      {timeSelectDrawer && (
+        <div className={styles.timeSelectDrawerWrapper}>
+          <div className={styles.counterWrapper}>
+            <p className={styles.counterTitle}>{t('No. of people')}</p>
+            <PlusMinusInput
+              value={guestCount}
+              className={styles.plusMinusInput}
+              onClickMinus={() => setGuestCount((count) => count - 1)}
+              onClickPlus={() => setGuestCount((count) => count + 1)}
+              minQuantity={1}
+              valueClassName={styles.value}
+            />
+          </div>
+          <div className={styles.counterWrapper}>
+            <p className={styles.counterTitle}>{t('Duration')}</p>
+            <ListCounter
+              values={selectedSpaItem?.duration}
+              className={styles.plusMinusInput}
+              valueClassName={styles.value}
+              setCurrentIndex={setCurrentIndex}
+              currentIndex={currentIndex}
+            />
+          </div>
+          <div className={styles.timeWrapper}>
+            <p className={styles.preferredTitle}>{t('Preferred Date & Time')}</p>
+            <DateTimeSelect
+              setSelectedTime={setSelectedTime}
+              selectedTime={selectedTime}
+              handleSave={handleSpaReservation}
+              showSchedules={undefined}
+              buttonTitle={t('FIND A TABLE')}
+              buttonStyle={styles.buttonPicker}
+            />
+          </div>
+        </div>
       )}
-
-      <div className={styles.wrapper}>
-        {selectedSpaItem?.name && (
-          <h2 className={styles.detailComponentTitle}>{t(`${selectedSpaItem?.name}`)}</h2>
-        )}
-
-        {selectedSpaItem?.duration && selectedSpaItem?.duration[0]?.price && (
-          <p className={styles.detailComponentDuration}>
-            <span className={styles.currency}>{currency} </span>
-            {selectedSpaItem?.duration[0]?.price}
-            {'   '}|{'   '}
-            {selectedSpaItem?.duration[0]?.duration} Min
-          </p>
-        )}
-
-        {selectedSpaItem?.description && (
-          <p className={styles.detailComponentDescription}>
-            {t(`${selectedSpaItem?.description}`)}
-          </p>
-        )}
-      </div>
       <Notification
-        title={t('Thank You!') as string}
+        title={errorNotification ? (ERRORMSG as string) : (t('Thank You!') as string)}
         description={
-          t(
-            'Your booking has been received. Our reservation team will get in touch with you soon',
-          ) as string
+          errorNotification
+            ? ('Your booking was not received.' as string)
+            : (t(
+                'Your booking has been received. Our reservation team will get in touch with you soon',
+              ) as string)
         }
-        redirect={availablePaths?.SPA}
-        type={'success'}
+        redirect={null}
+        type={errorNotification ? FAILURE : SUCCESS}
       />
-    </>
+    </div>
   );
 
   return (
