@@ -95,6 +95,10 @@
   margin: auto;
 }
 
+.removeScroll {
+  display: none;
+}
+
 .scrollContainer {
   &:not(:last-child) {
     color: #00000029;
@@ -104,5 +108,11 @@
   }
   &:last-child {
     margin-bottom: 2rem;
+  }
+}
+
+.notScrollContainer {
+  &:last-child {
+    margin-bottom: 0;
   }
 }

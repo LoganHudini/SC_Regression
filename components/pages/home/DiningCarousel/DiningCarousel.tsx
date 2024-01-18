@@ -182,8 +182,6 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, ird
     }
   }, [isCheckedIn?.checkedIn, irdModule, ird, queryResultsData]);
 
-  console.log(uniqueFilteredDiningOptions);
-
   return (
     (irdActiveMenu?.length > 0 || filteredList?.length > 0) && (
       <div className={styles.diningCarouselWrapper}>

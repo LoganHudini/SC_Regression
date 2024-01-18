@@ -227,7 +227,13 @@ const Dining = () => {
                 <div className={styles.menuDropdown}>
                   <div id='container' className={styles.menuList}>
                     {irdActiveMenu?.map((el: any) => (
-                      <div key={el.id} ref={dropdownRef} className={styles.scrollContainer}>
+                      <div
+                        key={el.id}
+                        ref={dropdownRef}
+                        className={cx(styles.scrollContainer, {
+                          [styles.notScrollContainer]: irdActiveMenu?.length < 3,
+                        })}
+                      >
                         <DiningMenuOptions
                           name={el?.name}
                           image={el.images[0] ? el.images[0].master : null}
@@ -239,7 +245,11 @@ const Dining = () => {
                     ))}
                   </div>
 
-                  <div className={styles.bottomScrollIcon}>
+                  <div
+                    className={cx(styles.bottomScrollIcon, {
+                      [styles.removeScroll]: irdActiveMenu?.length < 3,
+                    })}
+                  >
                     {scrollTop !== 369 && <ScrollDown onClick={scrollToBottom} />}
                   </div>
                 </div>
