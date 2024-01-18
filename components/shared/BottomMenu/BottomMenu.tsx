@@ -37,8 +37,9 @@ import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { activeModule, diningOptionList } from 'utils/functions';
 import { CHECK_IN } from 'utils/constants';
+import { IBottomMenuProps } from './BottomMenu.types';
 
-export const BottomMenu: React.FC<unknown> = () => {
+export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled }) => {
   const wrapperRef = useRef(null);
   const router = useRouter();
   const locale = useLocale();
@@ -138,6 +139,7 @@ export const BottomMenu: React.FC<unknown> = () => {
         <div className={cx(styles.bottomMenuWrapper, { [styles.hideOnScroll]: hideOnScroll })}>
           <StyledButton
             variant='contained'
+            disabled={disabled}
             className={cx(styles.bottomMenuButton, {
               [styles.bottomMenuButtonWithoutArrow]:
                 !homeActive || (homeActive && isCheckedIn?.checkedIn && isCheckedIn?.roomNumber),

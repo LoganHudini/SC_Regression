@@ -145,7 +145,11 @@ const CheckOut = () => {
         </title>
       </Head>
       <Header displayHome screenTitle={t('Stay Summary') as string} />
-      <PageWrapper displayBottomMenu className={styles.pageWrapper}>
+      <PageWrapper
+        displayBottomMenu
+        disabled={reservationData && invoiceData ? false : true}
+        className={styles.pageWrapper}
+      >
         {loading ? (
           <Loader />
         ) : (
@@ -179,13 +183,15 @@ const CheckOut = () => {
                   />
                 )}
             </div>
-            <StyledButton
-              loading={emailLoader}
-              className={styles.button}
-              onClick={() => handleMail()}
-            >
-              {t('EMAIL')}
-            </StyledButton>
+            {reservationInfo && invoiceElements && (
+              <StyledButton
+                loading={emailLoader}
+                className={styles.button}
+                onClick={() => handleMail()}
+              >
+                {t('EMAIL')}
+              </StyledButton>
+            )}
           </>
         )}
       </PageWrapper>

@@ -14,6 +14,7 @@ export const PageWrapper: React.FC<IPageWrapperProps> = ({
   children,
   displayBottomMenu,
   className,
+  disabled,
 }) => {
   const locale = useLocale();
   const hotelId = useConfig()?.hotelId;
@@ -49,7 +50,7 @@ export const PageWrapper: React.FC<IPageWrapperProps> = ({
       })}
     >
       {children}
-      {displayBottomMenu && <BottomMenu />}
+      {displayBottomMenu && <BottomMenu disabled={disabled} />}
     </div>
   );
 };
