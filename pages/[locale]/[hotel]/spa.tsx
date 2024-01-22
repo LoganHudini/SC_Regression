@@ -39,6 +39,7 @@ import {
   RESTAURANT_BOOKING_FLOW,
   SPA_BOOKING_FLOW,
   SUCCESS,
+  SPA_TREATMENTS,
 } from 'utils/constants';
 import DateTimeSelect from 'components/shared/DateTimeSelect/DateTimeSelect';
 import { client } from 'core/graphql/client';
@@ -51,6 +52,7 @@ import { ListCounter } from 'components/shared/ListCounter/ListCounter';
 import { CREATE_SPA_ORDER } from 'core/graphql/queries/CREATE_SPA_RESERVATION';
 import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
 import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
+import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 
 export { getStaticPaths };
 
@@ -75,6 +77,7 @@ const Spa: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [guestCount, setGuestCount] = useState(1);
   const [errorNotification, setErrorNotification] = useState(false);
+  const [spaBooking, setspaBooking] = useState(false);
 
   const { data, loading } = useQuery(GET_SPA_DETAILS, {
     skip: !hotelId,
@@ -161,9 +164,13 @@ const Spa: React.FC = () => {
     setTimeSelectDrawer(false);
   };
 
+  const closeSpa = () => {
+    setspaBooking(false);
+  };
+
   const onCtaClick = () => {
     if (spaInformation?.cta?.redirectOption === EXTERNAL_URL) {
-      router.push(spaInformation?.cta?.redirectUrl);
+      setspaBooking(true);
     }
     if (spaInformation?.cta?.redirectOption === SPA_BOOKING_FLOW) {
       setDetailContent(false);
@@ -347,7 +354,22 @@ const Spa: React.FC = () => {
         </PageWrapper>
       )}
 
-      <CustomDrawer open={spaDetailsDrawerStatus} onClose={closeDrawer} content={spaDetails()} />
+      {spaBooking ? (
+        <CustomDrawer
+          open={spaBooking}
+          onClose={closeSpa}
+          content={
+            <IframeComponent
+              src={spaInformation?.cta?.redirectUrl}
+              handledrawerState={setspaBooking}
+              name={SPA_TREATMENTS}
+            />
+          }
+          isIframe={true}
+        />
+      ) : (
+        <CustomDrawer open={spaDetailsDrawerStatus} onClose={closeDrawer} content={spaDetails()} />
+      )}
     </>
   );
 };

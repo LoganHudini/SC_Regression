@@ -1,7 +1,7 @@
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { WithScrollbar } from 'components/shared/WithScrollbar/WithScrollbar';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ASSETS_URL } from '../../../../core/graphql/endpoints';
 import styles from './SpaCarousel.module.scss';
@@ -18,12 +18,13 @@ import { useReactiveVar } from '@apollo/client';
 import produce from 'immer';
 import ClockIcon from '@icons/clockIcon.svg';
 import LocationIcon from '@icons/location.svg';
-import { ACTIVE, EXTERNAL_URL } from 'utils/constants';
+import { ACTIVE, EXTERNAL_URL, SPA_AND_WELLNESS } from 'utils/constants';
 import Phone from '@icons/telephone.svg';
 import Mail from '@icons/email.svg';
 import { downloadFile } from 'utils/downloadFile';
 import DishIcon from '@icons/dishIcon.svg';
 import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
+import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 
 interface ICarouselProps {
   data: any;
@@ -83,6 +84,9 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
   const navigate = useLocalizedRouter();
   const router = useRouter();
   const spaDetailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
+  const [spaBooking, setspaBooking] = useState(false);
+  const [menu, setMenu] = useState(false);
+  const [menuLink, setmenuLink] = useState(null);
 
   const closeDrawer = () => {
     toggleDetailsDrawer(false);
@@ -91,6 +95,14 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
         null;
       }),
     );
+  };
+
+  const closespaBooking = () => {
+    setspaBooking(false);
+  };
+
+  const closeMenu = () => {
+    setMenu(false);
   };
 
   const spaInfoList = activeItems(data?.getSpaDetails?.spa);
@@ -109,23 +121,22 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
     if (spaTreatments?.length > 0) {
       navigate(availablePaths?.SPA);
     } else if (spaInfoDetails?.cta?.redirectOption === EXTERNAL_URL) {
-      router.push(spaInfoDetails?.cta?.redirectUrl);
+      setspaBooking(true);
     }
   };
 
   const onViewMenu = () => {
+    setMenu(true);
+    let link = null;
     const menuType = spaInfoDetails?.treatmentsMenu?.split('type=')[1].split('}')[0].split(',')[0];
-
     if (menuType === 'WEB_URL') {
-      router.push(spaInfoDetails?.treatmentsMenu?.split('=')[1].split(',')[0]);
+      link = spaInfoDetails?.treatmentsMenu?.split('=')[1].split(',')[0];
     }
 
     if (menuType === 'S3') {
-      downloadFile(
-        `${ASSETS_URL}/${spaInfoDetails?.treatmentsMenu?.split('=')[1].split(',')[0]}`,
-        'treatmentsMenu.pdf',
-      );
+      link = `${ASSETS_URL}/${spaInfoDetails?.treatmentsMenu?.split('=')[1].split(',')[0]}`;
     }
+    setmenuLink(link);
   };
 
   const time = getTimings(spaInfoDetails?.customAttributes);
@@ -232,8 +243,22 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
           </WithScrollbar>
         </div>
       )}
-
-      <CustomDrawer open={spaDetailsDrawerStatus} onClose={closeDrawer} content={spaDetails()} />
+      {spaBooking || menu ? (
+        <CustomDrawer
+          open={spaBooking ? spaBooking : menu}
+          onClose={spaBooking ? closespaBooking : closeMenu}
+          content={
+            <IframeComponent
+              src={spaBooking ? spaInfoDetails?.cta?.redirectUrl : menuLink}
+              handledrawerState={spaBooking ? setspaBooking : setMenu}
+              name={SPA_AND_WELLNESS}
+            />
+          }
+          isIframe={true}
+        />
+      ) : (
+        <CustomDrawer open={spaDetailsDrawerStatus} onClose={closeDrawer} content={spaDetails()} />
+      )}
     </>
   );
 };

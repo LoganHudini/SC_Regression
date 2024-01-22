@@ -124,6 +124,9 @@ export const NONE = 'NONE';
 export const TABLE_RESERVATION = 'tableReservation';
 export const SPA_RESERVATION = 'spaReservation';
 export const SPA_BOOKING_FLOW = 'SPA Booking Flow';
+export const SPA_TREATMENTS = 'SPA Treatments';
+export const RESTAURANTS_AND_BARS = 'Restaurants & Bars';
+export const SPA_AND_WELLNESS = 'Spa & Wellness';
 
 // flow constants
 export const DAYS = [

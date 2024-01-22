@@ -29,6 +29,7 @@ import { isOfferActive } from 'utils/functions';
 import cx from 'classnames';
 import Head from 'next/head';
 import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
+import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 
 export { getStaticPaths };
 
@@ -42,6 +43,7 @@ const Offers: React.FC = () => {
   const offerDetailStatus: any = useReactiveVar(offerDetailDrawerStatus);
   const router = useRouter();
   const navigate = useLocalizedRouter();
+  const [offerBooking, setofferBooking] = useState(false);
 
   const { data, loading } = useQuery(GET_OFFERS, {
     skip: !hotelId,
@@ -83,7 +85,7 @@ const Offers: React.FC = () => {
 
   const onCtaClick = useCallback(() => {
     if (queryResultEntity?.CTA?.redirectTo === EXTERNAL_URL) {
-      router.push(queryResultEntity?.CTA?.URL);
+      setofferBooking(true);
     }
     if (queryResultEntity?.CTA?.redirectTo === RESTAURANT_BOOKING_FLOW) {
       tableReservationStorage({
@@ -199,6 +201,10 @@ const Offers: React.FC = () => {
     setSelectedOfferData('');
   };
 
+  const closeofferBooking = () => {
+    setofferBooking(false);
+  };
+
   return (
     <>
       <Head>
@@ -221,7 +227,23 @@ const Offers: React.FC = () => {
           ))}
         </PageWrapper>
       )}
-      <CustomDrawer open={offerDetailStatus} onClose={closeDrawer} content={offerDetails()} />
+      {/* <CustomDrawer open={offerDetailStatus} onClose={closeDrawer} content={offerDetails()} /> */}
+      {offerBooking ? (
+        <CustomDrawer
+          open={offerBooking}
+          onClose={closeofferBooking}
+          content={
+            <IframeComponent
+              src={queryResultEntity?.CTA?.URL}
+              handledrawerState={setofferBooking}
+              name={OFFERS}
+            />
+          }
+          isIframe={true}
+        />
+      ) : (
+        <CustomDrawer open={offerDetailStatus} onClose={closeDrawer} content={offerDetails()} />
+      )}
     </>
   );
 };

@@ -47,6 +47,7 @@ import {
   S3,
   SUCCESS,
   WEBURL,
+  RESTAURANTS_AND_BARS,
 } from 'utils/constants';
 import {
   activeModule,
@@ -61,7 +62,6 @@ import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { CREATE_RESTAURANT_RESERVATION } from 'core/graphql/queries/GET_RESTAURANT_RESERVATION_DETAILS';
 import { client } from 'core/graphql/client';
 import dayjs from 'dayjs';
-import { downloadFile } from 'utils/downloadFile';
 import { timeFormats } from 'utils/timeFormats';
 import DateTimeSelect from 'components/shared/DateTimeSelect/DateTimeSelect';
 import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
@@ -76,6 +76,7 @@ import { isEmpty } from 'lodash';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
+import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 
 export { getStaticPaths };
 
@@ -92,6 +93,9 @@ const RestaurantAndBars: React.FC = () => {
   const [selectedTime, setSelectedTime] = useState(
     dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM),
   );
+  const [booking, setBooking] = useState(false);
+  const [menu, setMenu] = useState(false);
+  const [menuLink, setmenuLink] = useState(null);
   const router = useRouter();
   const config = useConfig();
   const restaurantDetailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
@@ -152,16 +156,16 @@ const RestaurantAndBars: React.FC = () => {
   const restaurantId = queryResultEntity?.id;
 
   const onSeeMenuClick = useCallback(() => {
+    setMenu(true);
+    let link = null;
     if (queryResultEntity?.menuType === WEBURL) {
-      router.push(queryResultEntity?.menu.split('=')[1].split(',')[0]);
+      link = queryResultEntity?.menu.split('=')[1].split(',')[0];
     }
 
     if (queryResultEntity?.menuType === S3) {
-      downloadFile(
-        `${ASSETS_URL}/${queryResultEntity?.menu.split('=')[1].split(',')[0]}`,
-        'menu.pdf',
-      );
+      link = `${ASSETS_URL}/${queryResultEntity?.menu.split('=')[1].split(',')[0]}`;
     }
+    setmenuLink(link);
   }, [queryResultEntity?.menu, queryResultEntity?.menuType, router]);
 
   const closeDrawer = () => {
@@ -172,6 +176,14 @@ const RestaurantAndBars: React.FC = () => {
     setDetailContent(true);
     setGuestCount(1);
     setSelectedRestaurantData('');
+  };
+
+  const closeBooking = () => {
+    setBooking(false);
+  };
+
+  const closeMenu = () => {
+    setMenu(false);
   };
 
   const handleFindTable = useCallback(async () => {
@@ -232,14 +244,18 @@ const RestaurantAndBars: React.FC = () => {
           {queryResultEntity?.cta?.status === ACTIVE && (
             <StyledButton
               variant='contained'
-              onClick={() =>
-                restaurantCtaNavigation(
-                  queryResultEntity,
-                  router,
-                  setDetailContent(false),
-                  setTimeSelectDrawer(true),
-                )
-              }
+              onClick={() => {
+                queryResultEntity?.cta?.redirectOption === EXTERNAL_URL &&
+                  queryResultEntity?.cta?.redirectUrl &&
+                  setBooking(true);
+                queryResultEntity?.cta?.redirectOption === RESTAURANT_BOOKING_FLOW &&
+                  restaurantCtaNavigation(
+                    queryResultEntity,
+                    router,
+                    setDetailContent(false),
+                    setTimeSelectDrawer(true),
+                  );
+              }}
               className={cx(styles.button, {
                 [styles.buttonNone]: timeSelectDrawer,
                 [styles.withoutImageButton]:
@@ -251,7 +267,6 @@ const RestaurantAndBars: React.FC = () => {
           )}
         </div>
       )}
-
       {detailContent && (
         <>
           {' '}
@@ -333,7 +348,6 @@ const RestaurantAndBars: React.FC = () => {
           </div>
         </>
       )}
-
       {timeSelectDrawer && (
         <>
           <div className={styles.counterWrapper}>
@@ -360,7 +374,6 @@ const RestaurantAndBars: React.FC = () => {
         </>
       )}
       {availableSlots && <></>}
-
       {queryResultEntity?.CTA?.type && (
         <StyledButton className={styles.bookTableBtn} variant='contained'>
           <>
@@ -425,11 +438,27 @@ const RestaurantAndBars: React.FC = () => {
               ))}
             </div>
           </PageWrapper>
-          <CustomDrawer
-            open={restaurantDetailsDrawerStatus}
-            onClose={closeDrawer}
-            content={restaurantDetail()}
-          />
+
+          {booking || menu ? (
+            <CustomDrawer
+              open={booking ? booking : menu}
+              onClose={booking ? closeBooking : closeMenu}
+              content={
+                <IframeComponent
+                  src={booking ? queryResultEntity?.cta?.redirectUrl : menuLink}
+                  handledrawerState={booking ? setBooking : setMenu}
+                  name={RESTAURANTS_AND_BARS}
+                />
+              }
+              isIframe={true}
+            />
+          ) : (
+            <CustomDrawer
+              open={restaurantDetailsDrawerStatus}
+              onClose={closeDrawer}
+              content={restaurantDetail()}
+            />
+          )}
         </>
       )}
     </>

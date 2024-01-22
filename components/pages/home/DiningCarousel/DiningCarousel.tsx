@@ -13,7 +13,13 @@ import {
   diningOptionList,
   restaurantCtaNavigation,
 } from 'utils/functions';
-import { BAR, CAROUSEL_RESPONSIVE, IN_ROOM_DINING } from 'utils/constants';
+import {
+  BAR,
+  CAROUSEL_RESPONSIVE,
+  IN_ROOM_DINING,
+  EXTERNAL_URL,
+  RESTAURANTS_AND_BARS,
+} from 'utils/constants';
 import cx from 'classnames';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { availablePaths } from 'utils/availablePaths';
@@ -27,6 +33,8 @@ import { getHotelCode } from 'utils/fetchConfigs';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { useRouter } from 'next/router';
 import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
+import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
+import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 
 interface ICarouselProps {
   ird: any;
@@ -49,6 +57,8 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
   const { t } = useTranslation(['common']);
   const navigate = useLocalizedRouter();
   const router = useRouter();
+  const [booking, setBooking] = useState<boolean>(false);
+
   const handleMenu = () => {
     diningInformationStorage({
       selectedMenu: slide?.id,
@@ -65,6 +75,10 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
   };
 
   const time = getTimings(slide?.customAttributes);
+
+  const closeBooking = () => {
+    setBooking(false);
+  };
 
   return (
     <>
@@ -106,13 +120,19 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
             )}
           </div>
           {!module ? (
-            <div className={cx(styles.buttonWrapper, 'globals-buttonWrapper')}>
+            <div className={styles.buttonWrapper}>
               <StyledButton
                 variant='outlined'
                 className={styles.button}
-                onClick={() =>
-                  restaurantCtaNavigation(slide, router, navigate(availablePaths.RESTAURANTS_BARS))
-                }
+                onClick={() => {
+                  slide?.cta?.redirectOption === EXTERNAL_URL
+                    ? setBooking(true)
+                    : restaurantCtaNavigation(
+                        slide,
+                        router,
+                        navigate(availablePaths.RESTAURANTS_BARS),
+                      );
+                }}
               >
                 {slide?.cta?.ctaTitle || t('BOOK NOW')}
               </StyledButton>
@@ -122,6 +142,20 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
           )}
         </div>
       </div>
+      {booking && (
+        <CustomDrawer
+          open={booking}
+          onClose={closeBooking}
+          content={
+            <IframeComponent
+              src={slide?.cta?.redirectUrl}
+              handledrawerState={setBooking}
+              name={RESTAURANTS_AND_BARS}
+            />
+          }
+          isIframe={true}
+        />
+      )}
     </>
   );
 };

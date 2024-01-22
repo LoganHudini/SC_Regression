@@ -260,3 +260,11 @@ export const restaurantCtaNavigation = (
     setDetailContent;
   }
 };
+
+export const openLinknewTab = (url: string) => {
+  const a = document.createElement('a');
+  a.target = '_blank';
+  a.referrerPolicy = 'noopener, noreferrer';
+  a.href = url;
+  a.click();
+};

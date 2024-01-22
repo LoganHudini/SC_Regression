@@ -17,9 +17,15 @@ interface IDetailPageProps {
   content?: any;
   onClose?: any;
   background?: boolean;
+  isIframe?: boolean;
 }
 
-export const CustomDrawer: React.FC<IDetailPageProps> = ({ open, onClose, content }) => {
+export const CustomDrawer: React.FC<IDetailPageProps> = ({
+  open,
+  onClose,
+  content,
+  isIframe = false,
+}) => {
   const router = useRouter();
   const contentRef: any = useRef(null);
   const [drawerHeight, setDrawerHeight] = useState<any>();
@@ -29,7 +35,7 @@ export const CustomDrawer: React.FC<IDetailPageProps> = ({ open, onClose, conten
     let primaryDrawerHeight: any;
     if (!drawerHeight) {
       primaryDrawerHeight = getComputedStyle(document.documentElement).getPropertyValue(
-        '--primary-drawer-height',
+        isIframe ? '--primary-iframe-drawer-height' : '--primary-drawer-height',
       );
       setDrawerHeight(primaryDrawerHeight);
       setDrawerMaxHeight(primaryDrawerHeight);
@@ -44,7 +50,7 @@ export const CustomDrawer: React.FC<IDetailPageProps> = ({ open, onClose, conten
         const newMaxHeight = Math.min(scrollHeight, clientHeight);
         const newHeight = (newMaxHeight / window.innerHeight) * 100;
         if (Math.floor(newHeight) <= 90) {
-          setDrawerMaxHeight('90vh');
+          setDrawerMaxHeight(isIframe ? '100dvh' : '90vh');
         }
       }
     };
@@ -59,7 +65,7 @@ export const CustomDrawer: React.FC<IDetailPageProps> = ({ open, onClose, conten
         contentElement.removeEventListener('scroll', handleScroll);
       }
     };
-  }, [drawerHeight, open]);
+  }, [drawerHeight, open, isIframe]);
 
   useEffect(() => {
     router.beforePopState(({ as }) => {
@@ -115,7 +121,7 @@ export const CustomDrawer: React.FC<IDetailPageProps> = ({ open, onClose, conten
         disableSwipeToOpen={true}
       >
         <div ref={contentRef} className={styles.drawerContent}>
-          <div className={styles.drawerNotch}></div>
+          {!isIframe && <div className={styles.drawerNotch}></div>}
           {content}
           <div className={styles.drawerNotchBottom}></div>
         </div>
