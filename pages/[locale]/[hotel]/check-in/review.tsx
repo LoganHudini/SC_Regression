@@ -725,11 +725,11 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           description={
             errorNotification
               ? (errorText as string)
-              : hotelCode === ITC_GRAND_CHOLA || hotelCode === FAIRMONT_THE_PALM_DUBAI
+              : hotelCode === ITC_GRAND_CHOLA
               ? (t(
                   'You have pre checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
                 ) as string)
-              : roomNo && roomStatus
+              : roomNo && roomStatus && paymentConfig?.type !== NONE
               ? (t(
                   'You have checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
                 ) as string)
