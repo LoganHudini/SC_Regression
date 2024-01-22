@@ -93,7 +93,7 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
           <div className={styles.menuItemIconWrapper}>
             <div>
               {Icon && isFunction(Icon) ? (
-                <Icon />
+                <Icon className={styles.imageIcon} />
               ) : (
                 <ReactSVG src={Icon} className={styles.image} />
               )}

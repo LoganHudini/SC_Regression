@@ -13,32 +13,32 @@
         <g id="g2156" transform="translate(0 -682.665)">
           <g id="g2158" clip-path="url(#clip-path)">
             <g id="g2164" transform="translate(0.488 22.168)">
-              <path id="path2166" d="M-258.19-61.656H-268V-64h24.023v2.344H-253.8" transform="translate(268.005 64)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
+              <path id="path2166" d="M-258.19-61.656H-268V-64h24.023v2.344H-253.8" transform="translate(268.005 64)" fill="none" stroke="var(--hamburgermenu-drawer-color)" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
             </g>
           </g>
         </g>
-        <path id="path2168" d="M74.7-608H53.333v19.829H74.7Z" transform="translate(-51.519 -72.126)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
+        <path id="path2168" d="M74.7-608H53.333v19.829H74.7Z" transform="translate(-51.519 -72.126)" fill="none" stroke="var(--hamburgermenu-drawer-color)" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
         <g id="g2170" transform="translate(0 -682.665)">
           <g id="g2172" clip-path="url(#clip-path)">
-            <path id="path2178" d="M177.811-667.086H164.888v-2.246h12.923Z" transform="translate(-158.849 669.82)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
+            <path id="path2178" d="M177.811-667.086H164.888v-2.246h12.923Z" transform="translate(-158.849 669.82)" fill="none" stroke="var(--hamburgermenu-drawer-color)" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
             <g id="g2180" transform="translate(8.984 15.234)">
-              <path id="path2182" d="M-92.484,0h0A3.516,3.516,0,0,0-96,3.516V6.934h7.031V3.516A3.516,3.516,0,0,0-92.484,0Z" transform="translate(96 0)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
+              <path id="path2182" d="M-92.484,0h0A3.516,3.516,0,0,0-96,3.516V6.934h7.031V3.516A3.516,3.516,0,0,0-92.484,0Z" transform="translate(96 0)" fill="none" stroke="var(--hamburgermenu-drawer-color)" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
             </g>
             <g id="g2184" transform="translate(12.5 15.234)">
-              <path id="path2186" d="M0,0V6.934" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
+              <path id="path2186" d="M0,0V6.934" fill="none" stroke="var(--hamburgermenu-drawer-color)" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
             </g>
-            <path id="path2188" d="M119.677-520.322h-2.344v-2.344h2.344Z" transform="translate(-113.036 528.525)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
-            <path id="path2190" d="M247.677-520.322h-2.344v-2.344h2.344Z" transform="translate(-236.348 528.525)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
-            <path id="path2192" d="M375.676-520.322h-2.344v-2.344h2.344Z" transform="translate(-359.661 528.525)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
-            <path id="path2194" d="M503.676-520.322h-2.344v-2.344h2.344Z" transform="translate(-482.973 528.525)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
-            <path id="path2196" d="M119.677-392.322h-2.344v-2.344h2.344Z" transform="translate(-113.036 405.213)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
-            <path id="path2198" d="M247.677-392.322h-2.344v-2.344h2.344Z" transform="translate(-236.348 405.213)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
-            <path id="path2200" d="M375.676-392.322h-2.344v-2.344h2.344Z" transform="translate(-359.661 405.213)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
-            <path id="path2202" d="M503.676-392.322h-2.344v-2.344h2.344Z" transform="translate(-482.973 405.213)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
-            <path id="path2204" d="M119.677-264.322h-2.344v-2.344h2.344Z" transform="translate(-113.036 281.9)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
-            <path id="path2206" d="M503.676-264.322h-2.344v-2.344h2.344Z" transform="translate(-482.973 281.9)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
+            <path id="path2188" d="M119.677-520.322h-2.344v-2.344h2.344Z" transform="translate(-113.036 528.525)" fill="none" stroke="var(--hamburgermenu-drawer-color)" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
+            <path id="path2190" d="M247.677-520.322h-2.344v-2.344h2.344Z" transform="translate(-236.348 528.525)" fill="none" stroke="var(--hamburgermenu-drawer-color)" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
+            <path id="path2192" d="M375.676-520.322h-2.344v-2.344h2.344Z" transform="translate(-359.661 528.525)" fill="none" stroke="var(--hamburgermenu-drawer-color)" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
+            <path id="path2194" d="M503.676-520.322h-2.344v-2.344h2.344Z" transform="translate(-482.973 528.525)" fill="none" stroke="var(--hamburgermenu-drawer-color)" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
+            <path id="path2196" d="M119.677-392.322h-2.344v-2.344h2.344Z" transform="translate(-113.036 405.213)" fill="none" stroke="var(--hamburgermenu-drawer-color)" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
+            <path id="path2198" d="M247.677-392.322h-2.344v-2.344h2.344Z" transform="translate(-236.348 405.213)" fill="none" stroke="var(--hamburgermenu-drawer-color)" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
+            <path id="path2200" d="M375.676-392.322h-2.344v-2.344h2.344Z" transform="translate(-359.661 405.213)" fill="none" stroke="var(--hamburgermenu-drawer-color)" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
+            <path id="path2202" d="M503.676-392.322h-2.344v-2.344h2.344Z" transform="translate(-482.973 405.213)" fill="none" stroke="var(--hamburgermenu-drawer-color)" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
+            <path id="path2204" d="M119.677-264.322h-2.344v-2.344h2.344Z" transform="translate(-113.036 281.9)" fill="none" stroke="var(--hamburgermenu-drawer-color)" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
+            <path id="path2206" d="M503.676-264.322h-2.344v-2.344h2.344Z" transform="translate(-482.973 281.9)" fill="none" stroke="var(--hamburgermenu-drawer-color)" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
             <g id="g2208" transform="translate(12.5 24.512)">
-              <path id="path2210" d="M0,0H0" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
+              <path id="path2210" d="M0,0H0" fill="none" stroke="var(--hamburgermenu-drawer-color)" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
             </g>
           </g>
         </g>

@@ -104,6 +104,13 @@
 }
 
 .image svg {
+  width: 50px;
+  path {
+    fill: var(--hamburgermenu-icon-color);
+  }
+}
+
+.imageIcon {
   path {
     fill: var(--hamburgermenu-icon-color);
   }
