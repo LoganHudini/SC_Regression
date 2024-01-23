@@ -226,13 +226,13 @@ export const uniqueDiningOption = (queryResultsData: any) => {
       isActive: option?.isActive,
     }))
     .filter((obj: any, index: any) => {
-      return index === queryResultsData?.findIndex((itemType: any) => obj?.type === itemType?.type);
+      return obj?.type === RESTAURANT;
     });
-  return value;
+  return value?.length > 0 ? [value[0]] : [];
 };
 
 export const diningOptionList = (type: any) => {
-  return type === RESTAURANT ? RESTAURANTS : type === BAR ? BARS_CAPS : type;
+  return type === RESTAURANT || type === BAR ? RESTAURANTS : type;
 };
 
 export const moduleType = (config: any, targetType: any) => {

@@ -12,6 +12,7 @@ import {
   uniqueDiningOption,
   diningOptionList,
   restaurantCtaNavigation,
+  activeItems,
 } from 'utils/functions';
 import {
   BAR,
@@ -19,6 +20,8 @@ import {
   IN_ROOM_DINING,
   EXTERNAL_URL,
   RESTAURANTS_AND_BARS,
+  RESTAURANT,
+  RESTAURANTS,
 } from 'utils/constants';
 import cx from 'classnames';
 import { diningInformationStorage } from 'storage/dining.storage';
@@ -170,17 +173,11 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, ird
   const queryResultsData: any = restaurants?.getRestaurantDetails?.restaurant;
   const filteredList = filterRestaurantList(queryResultsData, diningOptionsState);
 
+  const activeRestaurants = activeItems(restaurants?.getRestaurantDetails?.restaurant);
   const filteredOptionFunction = () => {
-    const value = uniqueDiningOption(queryResultsData);
-    if (value?.length > 0) {
-      if (value[0]?.type === BAR) {
-        const firstItem = value?.shift();
-        value?.push(firstItem);
-      }
-
-      if (isCheckedIn?.checkedIn && irdModule && irdActiveMenu) {
-        value?.unshift({ type: IN_ROOM_DINING });
-      }
+    const value = activeRestaurants?.length > 0 ? [{ type: RESTAURANT }] : [];
+    if (isCheckedIn?.checkedIn && irdModule && irdActiveMenu) {
+      value?.unshift({ type: IN_ROOM_DINING });
     }
 
     return value;
@@ -205,11 +202,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, ird
 
   const uniqueFilteredDiningOptions = filteredOptionFunction();
 
-  const slides = filterRestaurantList(
-    diningOptionsState?.type === IN_ROOM_DINING ? irdMenu : queryResultsData,
-    diningOptionsState,
-  );
-
+  const slides = diningOptionsState?.type === IN_ROOM_DINING ? irdMenu : queryResultsData;
   useEffect(() => {
     if (uniqueFilteredDiningOptions?.length > 0) {
       setDiningOption(uniqueFilteredDiningOptions[0]);
@@ -226,7 +219,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, ird
         >
           {t('Dining')}
         </p>
-        {uniqueFilteredDiningOptions?.length > 1 && (
+        {uniqueFilteredDiningOptions?.length > 0 && (
           <div className={cx(styles.diningOptions, 'globals-diningOptions')}>
             {uniqueFilteredDiningOptions?.map((dining: any, index: any) => (
               <p

@@ -138,8 +138,7 @@ const RestaurantAndBars: React.FC = () => {
     }
   }, [queryResultsData]);
 
-  const filteredList = filterRestaurantList(queryResultsData, diningOptionSelected);
-
+  const filteredList = queryResultsData;
   const uniqueFilteredDiningOptions = uniqueDiningOption(queryResultsData);
 
   useEffect(() => {
