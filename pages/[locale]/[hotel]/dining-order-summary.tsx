@@ -59,7 +59,7 @@ const DiningOrderSummary = () => {
 
   const irdOrderType: any = config?.modules?.find(
     (module: any) => module?.isActive && module?.code === IN_ROOM_DINING,
-  )?.type;
+  );
 
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
 
@@ -231,14 +231,14 @@ const DiningOrderSummary = () => {
 
     let response;
     try {
-      if (irdOrderType === CMS) {
+      if (irdOrderType?.type === CMS) {
         response = await client.mutate({
           mutation: IRD_ORDER,
           context: { clientName: 'host_v3' },
           fetchPolicy: 'network-only',
           variables: irdOrderPayload,
         });
-      } else if (irdOrderType === VENDOR) {
+      } else if (irdOrderType?.type === VENDOR) {
         response = await client.mutate({
           mutation: IRD_ORDER_TRANSACTION_POS,
           context: { clientName: 'integration_v1' },

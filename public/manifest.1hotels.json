@@ -4,17 +4,17 @@
   "display": "fullscreen",
   "scope": "/",
   "start_url": "/",
-  "name": "Raffles",
-  "short_name": "Raffles",
+  "name": "1 Hotels",
+  "short_name": "1 Hotels",
   "icons": [
     {
-      "src": "/images/raffles/Logo.png",
+      "src": "/images/1hotels/Logo.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
-      "src": "/images/raffles/Logo.png",
+      "src": "/images/1hotels/Logo.png",
       "type": "image/png",
       "sizes": "512x512"
     }

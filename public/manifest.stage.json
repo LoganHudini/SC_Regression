@@ -1,20 +1,20 @@
 {
-  "theme_color": "#595959",
+  "theme_color": "#997300",
   "background_color": "#ffffff",
   "display": "fullscreen",
   "scope": "/",
   "start_url": "/",
-  "name": "Raffles",
-  "short_name": "Raffles",
+  "name": "STAGE",
+  "short_name": "STAGE",
   "icons": [
     {
-      "src": "/images/raffles/Logo.png",
+      "src": "/images/stage/Logo.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
-      "src": "/images/raffles/Logo.png",
+      "src": "/images/stage/Logo.png",
       "type": "image/png",
       "sizes": "512x512"
     }

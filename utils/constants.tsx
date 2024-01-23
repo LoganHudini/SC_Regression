@@ -9,12 +9,14 @@ export const HOUSEKEEPING_FLOW_VERSION = process.env.NEXT_PUBLIC_HOUSEKEEPING_FL
 export const ROOM_CONTROLS_FLOW_VERSION = process.env.NEXT_PUBLIC_ROOM_CONTROLS_FLOW_VERSION;
 
 // hotel constants
-export const PWA_DEMO = 'pwa-demo';
+export const STAGE = 'stage';
+export const UAT = 'uat';
 export const SOFITEL_MANILA = 'sofitel-manila';
 export const ITC_GRAND_CHOLA = 'itc-grand-chola';
 export const RAFFLES_THE_PALM_DUBAI = 'raffles-the-palm-dubai';
 export const FAIRMONT_ROYAL_PALM_MARRAKECH = 'fairmont-royal-palm-marrakech';
 export const FAIRMONT_THE_PALM_DUBAI = 'fairmont-the-palm-dubai';
+export const ONE_HOTELS_SOUTH_BEACH = '1-hotels-south-beach';
 export const ATLANTIS = 'atlantis';
 
 // configuration constants

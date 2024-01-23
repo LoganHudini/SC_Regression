@@ -168,11 +168,11 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
 
   const serviceType: any = config?.modules?.find(
     (module: any) => module?.isActive && module?.code === SERVICES,
-  )?.type;
+  );
 
   const handleOrder = async () => {
     try {
-      if (serviceType === CMS) {
+      if (serviceType?.type === CMS) {
         const response = await sendHousekeepingOrder({
           variables: {
             bookingTime: dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2),

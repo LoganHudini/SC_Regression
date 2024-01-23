@@ -24,6 +24,28 @@
     },
     {
       "type": "npm",
+      "script": "dev:uat",
+      "problemMatcher": [],
+      "label": "Dev: UAT",
+      "detail": "env-cmd -f .env.uat yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:uat",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: UAT",
+      "detail": "env-cmd -f .env.uat yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:uat",
+      "problemMatcher": [],
+      "label": "Start: UAT",
+      "detail": "env-cmd -f .env.uat next start"
+    },
+    {
+      "type": "npm",
       "script": "dev:sofitel",
       "problemMatcher": [],
       "label": "Dev: SOFITEL",
@@ -109,6 +131,28 @@
       "problemMatcher": [],
       "label": "Start: RAFFLES",
       "detail": "env-cmd -f .env.raffles next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:1hotels",
+      "problemMatcher": [],
+      "label": "Dev: 1HOTELS",
+      "detail": "env-cmd -f .env.1hotels yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:1hotels",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: 1HOTELS",
+      "detail": "env-cmd -f .env.1hotels yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:1hotels",
+      "problemMatcher": [],
+      "label": "Start: 1HOTELS",
+      "detail": "env-cmd -f .env.1hotels next start"
     },
     {
       "type": "npm",

@@ -31,7 +31,7 @@
 
 .bottomMenuButton {
   width: 80%;
-  margin: auto 5px auto 15px !important;
+  margin: auto 5px auto 15px;
   height: 44px;
   background-color: var(--primary-button-background-color) !important;
   font-family: var(--primary-button-font-family) !important;
@@ -52,6 +52,9 @@
 
 .expandArrow {
   padding-bottom: 4px;
+  path {
+    fill: var(--bottom-menu-arrow-color);
+  }
 }
 
 .hamburgerIcon {

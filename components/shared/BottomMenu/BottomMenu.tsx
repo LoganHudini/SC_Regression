@@ -139,8 +139,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled }) => {
         <div className={cx(styles.bottomMenuWrapper, { [styles.hideOnScroll]: hideOnScroll })}>
           <StyledButton
             variant='contained'
-            disabled={disabled}
-            className={cx(styles.bottomMenuButton, {
+            className={cx(styles.bottomMenuButton, 'globals-bottomMenuButton', {
               [styles.bottomMenuButtonWithoutArrow]:
                 !homeActive || (homeActive && isCheckedIn?.checkedIn && isCheckedIn?.roomNumber),
             })}

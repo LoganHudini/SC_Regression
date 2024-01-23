@@ -7,7 +7,7 @@ export const StyledButton: React.FC<LoadingButtonProps & { count?: any }> = ({
   count,
   ...props
 }) => (
-  <LoadingButton {...props} variant={variant}>
+  <LoadingButton {...props} variant={variant} disableElevation={true}>
     {count && <div className={styles.count}>{count}</div>}
     {props.children}
   </LoadingButton>

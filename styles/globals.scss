@@ -107,6 +107,11 @@
   src: url('/fonts/Montserrat/Montserrat-Bold.otf') format('opentype');
 }
 
+@font-face {
+  font-family: 'Brown Std';
+  src: url('/fonts/BrownStd/BrownStd-Regular.otf') format('opentype');
+}
+
 // header font-families
 @font-face {
   font-family: 'Garamond';
@@ -142,6 +147,11 @@
 @font-face {
   font-family: 'Canela Light';
   src: url('/fonts/Canela/Canela-Light.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Brown Std Alternate';
+  src: url('/fonts/BrownStd/BrownStd-BoldAlt.otf') format('opentype');
 }
 
 :root {
@@ -227,6 +237,9 @@
   --readmore-arrow: none;
   --readmore-arrowhead: none;
   --readmore-underline: none;
+
+  // Bottom menu arrow configs
+  --bottom-menu-arrow-color: #fff;
 }
 
 body {
