@@ -468,9 +468,9 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                       {reservationInfo?.details?.adultGuestCount > 0 && (
                         <>
                           {reservationInfo?.details?.adultGuestCount}{' '}
-                          {reservationInfo?.details?.adultGuestCount === 1 ? 'Adult' : 'Adults'}
+                          {reservationInfo?.details?.adultGuestCount === 1 ? 'Adult' : 'Adults'}{' '}
                         </>
-                      )}
+                      )}{' '}
                       {reservationInfo?.details?.childGuestCount > 0 && (
                         <>
                           {reservationInfo?.details?.childGuestCount}{' '}
