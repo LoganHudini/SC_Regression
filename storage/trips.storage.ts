@@ -11,43 +11,15 @@ export interface ISavedTrip {
   roomNumber?: string;
   invoiceId?: string;
   bookingId?: any;
+  hotelId: any;
 }
 
 export const saveTrip = (payload: ISavedTrip) => {
-  const existingTrips: ISavedTrip[] = JSON.parse(localStorage.getItem(TRIPS_KEY) || '[]');
-
-  const savedTrip = existingTrips.find(
-    (el: ISavedTrip) => el.reservationId === payload.reservationId,
-  );
-
-  if (payload.checkedIn) {
-    existingTrips?.forEach((el) => {
-      el.checkedIn = false;
-    });
-
-    if (savedTrip) {
-      savedTrip.checkedIn = payload.checkedIn;
-    }
-  }
-
-  if (!savedTrip) {
-    existingTrips.push(payload);
-  }
-
-  localStorage.setItem(TRIPS_KEY, JSON.stringify(existingTrips));
+  localStorage.setItem(TRIPS_KEY, JSON.stringify(payload));
 };
 
-export const ckeckoutTrip = (payload: ISavedTrip) => {
-  const existingTrips: ISavedTrip[] = JSON.parse(localStorage.getItem(TRIPS_KEY) || '[]');
-
-  const savedTrip = existingTrips.find((el: ISavedTrip) => el.reservationId === payload.bookingId);
-
-  if (savedTrip) {
-    savedTrip.checkedIn = false;
-    savedTrip.preCheckedIn = false;
-  }
-
-  localStorage.setItem(TRIPS_KEY, JSON.stringify(existingTrips));
+export const checkoutTrip = () => {
+  localStorage.setItem(TRIPS_KEY, JSON.stringify({}));
   checkinStorage({
     reservationId: '',
     preCheckedIn: false,
@@ -59,8 +31,7 @@ export const ckeckoutTrip = (payload: ISavedTrip) => {
   });
 };
 
-export const getTrips = (): ISavedTrip[] => {
-  const existingTrips = JSON.parse(localStorage.getItem(TRIPS_KEY) || '[]');
-
+export const getTrips = (): ISavedTrip => {
+  const existingTrips = JSON.parse(localStorage.getItem(TRIPS_KEY) || '{}');
   return existingTrips;
 };

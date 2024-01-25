@@ -65,7 +65,7 @@ import { useConfig, usePaymentConfig } from 'utils/hooks/useConfiguration';
 import { Stepper } from 'components/shared/Stepper/Stepper';
 import produce from 'immer';
 import { accompanyGuestDetails } from 'storage/accompany-guest-details';
-import { GET_ROOM_STATUS, IGetRoomStatusApiResponse } from 'core/graphql/queries/GET_ROOM_STATUS';
+import { checkRoomStatus } from 'utils/apis/rest';
 
 export { getStaticPaths };
 
@@ -87,6 +87,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const personalizationEntities = useReactiveVar(personalizeYourRoomStorage);
   const specialRequests = useReactiveVar(specialRequestsStorage);
   const [errorNotification, setErrorNotification] = useState(false);
+  const [roomStatus, setRoomStatus] = useState(false);
 
   const [conditionsAccepted, setConditionsAccepted] = useState(false);
   const [btnStatus, setBtnStatus] = useState(false);
@@ -106,18 +107,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const adult = reservationInfo?.details.adultGuestCount.toString();
   const children = reservationInfo?.details.childGuestCount.toString();
   const roomNo = reservationInfo?.roomTypes[0]?.roomNumber;
-
-  const { data: roomStatusData } = useQuery<IGetRoomStatusApiResponse>(GET_ROOM_STATUS, {
-    skip: !hotelId,
-    context: { clientName: 'rest' },
-    fetchPolicy: 'no-cache',
-    variables: {
-      roomNumber: roomNo,
-      hotelId: hotelId,
-    },
-  });
-
-  const roomStatus = roomStatusData?.getRoomStatus?.data?.roomStatus === 'IP' ? true : false;
 
   const cardType = cardTypes
     ?.find((item) => item?.code === guestReservationInfo?.cardType)
@@ -188,146 +177,153 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
   const goToCheckIn = useCallback(async () => {
     setLoading(true);
-    const checkInPayload: ICheckInApiRequest = {
-      reservationType: reservationInfo?.confirmationType as string,
-      reservationId: reservationInfo?.reservationId as string,
-      bookingId: reservationInfo?.confirmationId as string,
-      checkinDate: reservationInfo?.details?.checkInDate as string,
-      checkoutDate: reservationInfo?.details?.checkOutDate as string,
-      roomNo: roomNo as string,
-      roomType: reservationInfo?.roomTypes[0]?.shortName as string,
-      primaryGuestEmail: guestReservationInfo?.emails as string,
-      primaryGuestFirstName: guestReservationInfo?.firstName as string,
-      primaryGuestLastName: guestReservationInfo?.lastName as string,
-      primaryGuestMobileNumber: guestReservationInfo?.phone as string,
-      guestCount: {
-        adult: adult,
-        children: children,
-      },
-      paymentType: paymentConfig?.paymentMethod ?? guestReservationInfo?.paymentType,
-      expirationDate: guestReservationInfo?.cardExpiryDate as string,
-      creditCardType: guestReservationInfo?.cardType,
-      lastFourDigits: guestReservationInfo?.cardNumber?.substr(
-        guestReservationInfo?.cardNumber?.length - 4,
-      ),
-      vaultedCardID: guestReservationInfo?.token,
-      settlement: 'Web',
-      documentType: guestReservationInfo?.docType as string,
-      documentNumber: guestReservationInfo?.docNo as string,
-      channel: 'PWA',
-      upsell: personalizationEntities?.map((personalization) => ({
-        upsellName: personalization?.title,
-        revenue: Number(Number(personalization?.price).toFixed(2)),
-      })),
-      guestSignature: '',
-    };
-
-    const uploadSignaturePayload: IPreSignDocUploadApiRequest = {
-      groupId: 'e8030f49-afb1-43fc-80f6-c0515b62d5f6',
-      type: 'reservation_docs',
-      propertyType: 'hotels',
-      confirmationId: reservationInfo?.confirmationId ?? '',
-      filename: `${guests ? guests[0]?.firstName : ''}_${
-        guests ? guests[0].lastName : ''
-      }_signature.png`,
-      contentType: 'image/png',
-      contentLength: 8196,
-      body: null,
-      contents: (sigCanvas.current?.toDataURL() as string).replace('data:image/png;base64,', ''),
-      isDocUpload: true,
-    };
-
-    try {
-      const uploadSignatureResponse = await client.query<IPreSignDocUploadApiResponse>({
-        query: PRE_SIGN_DOC_UPLOAD,
-        context: { clientName: 'rest' },
-        variables: {
-          confirmationNumber: reservationInfo?.confirmationId as string,
-          body: uploadSignaturePayload,
+    const roomStatusData: any = checkRoomStatus(roomNo, hotelId);
+    roomStatusData.then(async (roomStatus: any) => {
+      setRoomStatus(roomStatus);
+      const checkInPayload: ICheckInApiRequest = {
+        reservationType: reservationInfo?.confirmationType as string,
+        reservationId: reservationInfo?.reservationId as string,
+        bookingId: reservationInfo?.confirmationId as string,
+        checkinDate: reservationInfo?.details?.checkInDate as string,
+        checkoutDate: reservationInfo?.details?.checkOutDate as string,
+        roomNo: roomNo as string,
+        roomType: reservationInfo?.roomTypes[0]?.shortName as string,
+        primaryGuestEmail: guestReservationInfo?.emails as string,
+        primaryGuestFirstName: guestReservationInfo?.firstName as string,
+        primaryGuestLastName: guestReservationInfo?.lastName as string,
+        primaryGuestMobileNumber: guestReservationInfo?.phone as string,
+        guestCount: {
+          adult: adult,
+          children: children,
         },
-      });
-      checkInPayload.guestSignature = uploadSignatureResponse.data.preSignDocUpload.data.key;
-    } catch (uploadSignatureError) {
-      setErrorNotification(true);
-      // processError(t, uploadSignatureError as ApolloError);
-    }
+        paymentType: paymentConfig?.paymentMethod ?? guestReservationInfo?.paymentType,
+        expirationDate: guestReservationInfo?.cardExpiryDate as string,
+        creditCardType: guestReservationInfo?.cardType,
+        lastFourDigits: guestReservationInfo?.cardNumber?.substr(
+          guestReservationInfo?.cardNumber?.length - 4,
+        ),
+        vaultedCardID: guestReservationInfo?.token,
+        settlement: 'Web',
+        documentType: guestReservationInfo?.docType as string,
+        documentNumber: guestReservationInfo?.docNo as string,
+        channel: 'PWA',
+        upsell: personalizationEntities?.map((personalization) => ({
+          upsellName: personalization?.title,
+          revenue: Number(Number(personalization?.price).toFixed(2)),
+        })),
+        guestSignature: '',
+      };
 
-    try {
-      await client.query({
-        query:
-          hotelCode === ITC_GRAND_CHOLA
-            ? PRECHECKIN
-            : roomNo && roomStatus && paymentConfig?.type !== NONE
-            ? CHECKIN
-            : PRECHECKIN,
-        context: { clientName: 'rest' },
-        variables: {
-          confirmationNumber: reservationInfo?.confirmationId as string,
-          body: checkInPayload,
-        },
-      });
+      const uploadSignaturePayload: IPreSignDocUploadApiRequest = {
+        groupId: 'e8030f49-afb1-43fc-80f6-c0515b62d5f6',
+        type: 'reservation_docs',
+        propertyType: 'hotels',
+        confirmationId: reservationInfo?.confirmationId ?? '',
+        filename: `${guests ? guests[0]?.firstName : ''}_${
+          guests ? guests[0].lastName : ''
+        }_signature.png`,
+        contentType: 'image/png',
+        contentLength: 8196,
+        body: null,
+        contents: (sigCanvas.current?.toDataURL() as string).replace('data:image/png;base64,', ''),
+        isDocUpload: true,
+      };
 
-      saveTrip({
-        reservationId: reservationInfo?.confirmationId as string,
-        preCheckedIn:
-          hotelCode === ITC_GRAND_CHOLA
-            ? true
-            : !(roomNo && roomStatus && paymentConfig?.type !== NONE)
-            ? true
-            : false,
-        checkedIn:
-          hotelCode === ITC_GRAND_CHOLA
-            ? false
-            : roomNo && roomStatus && paymentConfig?.type !== NONE
-            ? true
-            : false,
-        name: guestReservationInfo?.lastName,
-        email: guestReservationInfo?.emails,
-        roomNumber: roomNo,
-        invoiceId: reservationInfo?.reservationId as string,
-      });
-
-      checkinStorage({
-        reservationId: reservationInfo?.confirmationId as string,
-        preCheckedIn:
-          hotelCode === ITC_GRAND_CHOLA
-            ? true
-            : !(roomNo && roomStatus && paymentConfig?.type !== NONE)
-            ? true
-            : false,
-        checkedIn:
-          hotelCode === ITC_GRAND_CHOLA
-            ? false
-            : roomNo && roomStatus && paymentConfig?.type !== NONE
-            ? true
-            : false,
-        name: guestReservationInfo?.lastName,
-        email: guestReservationInfo?.emails,
-        roomNumber: roomNo,
-        invoiceId: reservationInfo?.reservationId as string,
-        currency: reservationInfo?.details?.holdAmount?.currency,
-      });
-      setErrorNotification(false);
-      guestInformationStorage(null);
-      accompanyGuestDetails(null);
-    } catch (checkinError) {
-      const error = checkinError as ApolloError;
-      const networkError = error?.networkError as { result?: { errors?: string } };
-      setErrorNotification(true);
-      if (
-        networkError?.result?.errors === 'error pre-checking operation' &&
-        (hotelCode === ITC_GRAND_CHOLA || hotelCode === FAIRMONT_THE_PALM_DUBAI)
-      ) {
-        setErrorNotification(false);
-      }
-      if (networkError?.result?.errors === PRE_CHECKIN_ERROR_MSG) {
+      try {
+        const uploadSignatureResponse = await client.query<IPreSignDocUploadApiResponse>({
+          query: PRE_SIGN_DOC_UPLOAD,
+          context: { clientName: 'rest' },
+          variables: {
+            confirmationNumber: reservationInfo?.confirmationId as string,
+            body: uploadSignaturePayload,
+          },
+        });
+        checkInPayload.guestSignature = uploadSignatureResponse.data.preSignDocUpload.data.key;
+      } catch (uploadSignatureError) {
         setErrorNotification(true);
-        setErrorText('You have already completed the pre check-in process.');
+        // processError(t, uploadSignatureError as ApolloError);
       }
-    }
+
+      try {
+        await client.query({
+          query:
+            hotelCode === ITC_GRAND_CHOLA
+              ? PRECHECKIN
+              : roomNo && roomStatus && paymentConfig?.type !== NONE
+              ? CHECKIN
+              : PRECHECKIN,
+          context: { clientName: 'rest' },
+          variables: {
+            confirmationNumber: reservationInfo?.confirmationId as string,
+            body: checkInPayload,
+          },
+        });
+
+        saveTrip({
+          reservationId: reservationInfo?.confirmationId as string,
+          preCheckedIn:
+            hotelCode === ITC_GRAND_CHOLA
+              ? true
+              : !(roomNo && roomStatus && paymentConfig?.type !== NONE)
+              ? true
+              : false,
+          checkedIn:
+            hotelCode === ITC_GRAND_CHOLA
+              ? false
+              : roomNo && roomStatus && paymentConfig?.type !== NONE
+              ? true
+              : false,
+          name: guestReservationInfo?.lastName,
+          email: guestReservationInfo?.emails,
+          roomNumber: roomNo,
+          invoiceId: reservationInfo?.reservationId as string,
+          hotelId: hotelId,
+        });
+
+        checkinStorage({
+          reservationId: reservationInfo?.confirmationId as string,
+          preCheckedIn:
+            hotelCode === ITC_GRAND_CHOLA
+              ? true
+              : !(roomNo && roomStatus && paymentConfig?.type !== NONE)
+              ? true
+              : false,
+          checkedIn:
+            hotelCode === ITC_GRAND_CHOLA
+              ? false
+              : roomNo && roomStatus && paymentConfig?.type !== NONE
+              ? true
+              : false,
+          name: guestReservationInfo?.lastName,
+          email: guestReservationInfo?.emails,
+          roomNumber: roomNo,
+          invoiceId: reservationInfo?.reservationId as string,
+          currency: reservationInfo?.details?.holdAmount?.currency,
+        });
+        setErrorNotification(false);
+        guestInformationStorage(null);
+        accompanyGuestDetails(null);
+      } catch (checkinError) {
+        const error = checkinError as ApolloError;
+        const networkError = error?.networkError as { result?: { errors?: string } };
+        setErrorNotification(true);
+        if (
+          networkError?.result?.errors === 'error pre-checking operation' &&
+          (hotelCode === ITC_GRAND_CHOLA || hotelCode === FAIRMONT_THE_PALM_DUBAI)
+        ) {
+          setErrorNotification(false);
+        }
+        if (networkError?.result?.errors === PRE_CHECKIN_ERROR_MSG) {
+          setErrorNotification(true);
+          setErrorText('You have already completed the pre check-in process.');
+        }
+      }
+    });
     toggleNotification(true);
     setLoading(false);
   }, [
+    roomNo,
+    hotelId,
     reservationInfo?.confirmationType,
     reservationInfo?.reservationId,
     reservationInfo?.confirmationId,
@@ -335,7 +331,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     reservationInfo?.details?.checkOutDate,
     reservationInfo?.details?.holdAmount?.currency,
     reservationInfo?.roomTypes,
-    roomNo,
     guestReservationInfo?.emails,
     guestReservationInfo?.firstName,
     guestReservationInfo?.lastName,
@@ -354,7 +349,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     personalizationEntities,
     guests,
     hotelCode,
-    roomStatus,
   ]);
 
   useEffect(() => {

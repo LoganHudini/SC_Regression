@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 import { scrollState } from 'storage/dining-menu.storage';
 import {
   BAR,
-  BARS_CAPS,
   DOCTYPE,
   EXTERNAL_URL,
   PHONE_REGEX,

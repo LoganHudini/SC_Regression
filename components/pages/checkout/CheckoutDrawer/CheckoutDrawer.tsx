@@ -14,7 +14,7 @@ import {
 import { useCheckedIn } from 'storage/check-in.storage';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
-import { ckeckoutTrip } from 'storage/trips.storage';
+import { checkoutTrip } from 'storage/trips.storage';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { CHECK_IN, ERRORMSG } from 'utils/constants';
 import { activeModule } from 'utils/functions';
@@ -81,7 +81,7 @@ const CheckoutDrawer = (props: any) => {
         },
       });
       toggleDetailsDrawer(false);
-      ckeckoutTrip(checkoutPayload);
+      checkoutTrip();
       toggleNotification(true);
       setErrorToggle({
         state: false,
@@ -99,7 +99,7 @@ const CheckoutDrawer = (props: any) => {
       ) {
         toggleNotification(true);
         setTimeout(() => {
-          ckeckoutTrip(checkoutPayload);
+          checkoutTrip();
         }, 5000);
         setErrorToggle({
           state: false,
@@ -123,14 +123,8 @@ const CheckoutDrawer = (props: any) => {
   };
 
   const handleDeviceDeactivate = () => {
-    const removeUserData: ICheckoutApiRequest = {
-      reservationType,
-      reservationId,
-      bookingId,
-      paymentType: 'OPIVA',
-    };
     toggleDetailsDrawer(false);
-    ckeckoutTrip(removeUserData);
+    checkoutTrip();
     toggleNotification(true);
     setErrorToggle({
       state: false,

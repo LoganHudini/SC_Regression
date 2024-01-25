@@ -37,6 +37,7 @@ import {
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { activeModule } from 'utils/functions';
+import { checkRoomStatus } from 'utils/apis/rest';
 
 const CheckInDrawer = () => {
   const navigate = useLocalizedRouter();
@@ -88,7 +89,6 @@ const CheckInDrawer = () => {
             query: GET_RESERVATION,
             data,
           });
-
           const roomNo = data?.getReservation?.data?.roomTypes[0]?.roomNumber;
 
           if (
@@ -111,43 +111,71 @@ const CheckInDrawer = () => {
             toggleCheckInDetailsDrawer(false);
             setLoading(false);
           } else if (data.getReservation.data.reservationStatus === 'INHOUSE') {
-            setErrorNotification({
-              state: false,
-              title: 'Hello Again!',
-              description:
-                'Reservation validated successfully. You can now explore our in-stay services.',
-            });
-            toggleNotification(true);
-            toggleCheckInDetailsDrawer(false);
-
-            saveTrip({
-              reservationId:
-                data?.getReservation?.data?.confirmationId !== NA
-                  ? (data?.getReservation?.data?.confirmationId as string)
-                  : (data?.getReservation?.data?.uniqueBookingId as string),
-              preCheckedIn: !roomNo ? true : false,
-              checkedIn: roomNo ? true : false,
-              name: data?.getReservation?.data?.details?.contactPerson?.lastName,
-              email: data?.getReservation?.data?.details?.contactPerson?.email,
-              roomNumber: roomNo,
-              invoiceId: data?.getReservation?.data?.reservationId as string,
-            });
-            checkinStorage({
-              reservationId:
-                data?.getReservation?.data?.confirmationId !== NA
-                  ? (data?.getReservation?.data?.confirmationId as string)
-                  : (data?.getReservation?.data?.uniqueBookingId as string),
-              preCheckedIn: !roomNo ? true : false,
-              checkedIn: roomNo ? true : false,
-              name: data?.getReservation?.data?.details?.contactPerson?.lastName,
-              email: data?.getReservation?.data?.details?.contactPerson?.email,
-              roomNumber: roomNo,
-              invoiceId: data?.getReservation?.data?.reservationId as string,
-              currency: data?.getReservation?.data?.details?.holdAmount?.currency,
-            });
-            navigate(HOME);
-            toggleCheckInDetailsDrawer(false);
-            setLoading(false);
+            if (data.getReservation.data?.roomTypes[0]?.roomNumber) {
+              const roomStatusData = checkRoomStatus(
+                data.getReservation.data?.roomTypes[0]?.roomNumber,
+                hotelId,
+              );
+              roomStatusData.then((roomStatus: any) => {
+                if (roomStatus) {
+                  setErrorNotification({
+                    state: false,
+                    title: 'Hello Again!',
+                    description:
+                      'Reservation validated successfully. You can now explore our in-stay services.',
+                  });
+                  toggleNotification(true);
+                  toggleCheckInDetailsDrawer(false);
+                  saveTrip({
+                    reservationId:
+                      data?.getReservation?.data?.confirmationId !== NA
+                        ? (data?.getReservation?.data?.confirmationId as string)
+                        : (data?.getReservation?.data?.uniqueBookingId as string),
+                    preCheckedIn: !roomNo ? true : false,
+                    checkedIn: roomNo ? true : false,
+                    name: data?.getReservation?.data?.details?.contactPerson?.lastName,
+                    email: data?.getReservation?.data?.details?.contactPerson?.email,
+                    roomNumber: roomNo,
+                    invoiceId: data?.getReservation?.data?.reservationId as string,
+                    hotelId: hotelId,
+                  });
+                  checkinStorage({
+                    reservationId:
+                      data?.getReservation?.data?.confirmationId !== NA
+                        ? (data?.getReservation?.data?.confirmationId as string)
+                        : (data?.getReservation?.data?.uniqueBookingId as string),
+                    preCheckedIn: !roomNo ? true : false,
+                    checkedIn: roomNo ? true : false,
+                    name: data?.getReservation?.data?.details?.contactPerson?.lastName,
+                    email: data?.getReservation?.data?.details?.contactPerson?.email,
+                    roomNumber: roomNo,
+                    invoiceId: data?.getReservation?.data?.reservationId as string,
+                    currency: data?.getReservation?.data?.details?.holdAmount?.currency,
+                  });
+                  navigate(HOME);
+                  toggleCheckInDetailsDrawer(false);
+                  setLoading(false);
+                } else {
+                  setErrorNotification({
+                    state: true,
+                    title: 'Room Unavailable',
+                    description: 'Please try after sometime',
+                  });
+                  toggleNotification(true);
+                  toggleCheckInDetailsDrawer(false);
+                  setLoading(false);
+                }
+              });
+            } else {
+              setErrorNotification({
+                state: true,
+                title: 'Room Unavailable',
+                description: 'Please try after sometime',
+              });
+              toggleNotification(true);
+              toggleCheckInDetailsDrawer(false);
+              setLoading(false);
+            }
           } else {
             navigate(checkinModule ? availablePaths?.CHECK_IN : availablePaths?.HOME);
             !checkinModule &&

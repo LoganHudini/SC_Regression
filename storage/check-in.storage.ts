@@ -2,6 +2,7 @@ import { makeVar, useReactiveVar } from '@apollo/client';
 import { useEffect } from 'react';
 import { getTrips } from './trips.storage';
 import { STEPPER_CHECK_IN, STEPPER_PAYMENT, STEPPER_REVIEW } from 'utils/constants';
+import { useConfig } from 'utils/hooks/useConfiguration';
 
 interface ICheckinStorageData {
   reservationId?: any;
@@ -20,22 +21,22 @@ export const checkinStorage = makeVar<ICheckinStorageData>({
 });
 
 export const useCheckedIn = () => {
+  const config = useConfig();
+  const hotelId = config?.hotelId;
   const checkinData = useReactiveVar(checkinStorage);
 
   useEffect(() => {
     const reservations = getTrips();
 
-    const checkedInReservation = reservations.find((el) => el.checkedIn);
-
-    if (checkedInReservation) {
+    if (reservations?.checkedIn && reservations?.hotelId === hotelId) {
       checkinStorage({
-        reservationId: checkedInReservation?.reservationId,
-        preCheckedIn: checkedInReservation?.preCheckedIn,
-        checkedIn: checkedInReservation?.checkedIn ?? false,
-        name: checkedInReservation?.name,
-        email: checkedInReservation?.email,
-        roomNumber: checkedInReservation?.roomNumber,
-        invoiceId: checkedInReservation?.invoiceId,
+        reservationId: reservations?.reservationId,
+        preCheckedIn: reservations?.preCheckedIn,
+        checkedIn: reservations?.checkedIn ?? false,
+        name: reservations?.name,
+        email: reservations?.email,
+        roomNumber: reservations?.roomNumber,
+        invoiceId: reservations?.invoiceId,
       });
     }
   }, []);
