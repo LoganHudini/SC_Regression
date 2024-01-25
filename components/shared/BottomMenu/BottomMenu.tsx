@@ -46,6 +46,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled }) => {
   const isCheckedIn = useCheckedIn();
   const config = useConfig();
   const hotelId = config?.hotelId;
+  const hotelName = config?.name;
   const hideOnScroll = useHideOnScroll();
   const hamburgerMenuStatus = useReactiveVar(toggleHamburgerMenuDrawer);
   const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
@@ -121,6 +122,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled }) => {
               redirectOptions={hamburgerMenuElement.redirectOptions}
               status={hamburgerMenuElement.isActive}
               toggleOption={closeHamburgerMenuDrawer}
+              hotelName={hotelName}
             />
           ))}
       </div>

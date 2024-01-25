@@ -13,6 +13,7 @@ export interface IMenuItemProps {
   }[];
   status: string;
   toggleOption: () => void;
+  hotelName?: string;
 }
 
 export interface IModuleOptionsDrawerProps {

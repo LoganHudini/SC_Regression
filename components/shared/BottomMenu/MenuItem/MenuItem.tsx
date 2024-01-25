@@ -48,6 +48,7 @@ import { getHotelCode } from 'utils/fetchConfigs';
 import { activeModule, diningOptionList } from 'utils/functions';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { setHighLightCheckOut } from 'storage/menu-item';
+import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
   title,
@@ -58,12 +59,17 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
   redirectOptions,
   paths,
   status,
+  hotelName,
   toggleOption,
 }) => {
   const navigate = useLocalizedRouter();
+  const [externalURL, setExternalURL] = useState<boolean>(false);
+  const closeBooking = () => {
+    setExternalURL(false);
+  };
   const onClick = useCallback(() => {
     if (redirectOptions === EXTERNAL) {
-      window.open(externalLink, '_blank');
+      setExternalURL(true);
       toggleOption();
     }
     if (redirectOptions === IN_APP && paths) {
@@ -88,6 +94,20 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
 
   return (
     <>
+      {externalURL && (
+        <CustomDrawer
+          open={externalURL}
+          onClose={closeBooking}
+          content={
+            <IframeComponent
+              src={externalLink}
+              handledrawerState={setExternalURL}
+              name={hotelName || title}
+            />
+          }
+          isIframe={true}
+        />
+      )}
       {status && (
         <div onClick={onClick} className={styles.menuItemWrapper}>
           <div className={styles.menuItemIconWrapper}>

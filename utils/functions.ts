@@ -241,13 +241,14 @@ export const moduleType = (config: any, targetType: any) => {
 
 export const restaurantCtaNavigation = (
   object: any,
-  router: any,
-  navigate?: any,
   setDetailContent?: any,
   setTimeSelectDrawer?: any,
+  setIframeComponent?: any,
+  navigate?: any,
 ) => {
   if (object?.cta?.redirectOption === EXTERNAL_URL) {
-    router.push(object?.cta?.redirectUrl);
+    object?.cta?.redirectUrl && setIframeComponent(true);
+    setDetailContent(true);
   }
   if (object?.cta?.redirectOption === RESTAURANT_BOOKING_FLOW) {
     tableReservationStorage({
@@ -256,8 +257,8 @@ export const restaurantCtaNavigation = (
       venueId: (object?.customAttributes && object?.customAttributes[0]?.value) ?? '',
     });
     navigate;
-    setTimeSelectDrawer;
-    setDetailContent;
+    setTimeSelectDrawer(false);
+    setIframeComponent(false);
   }
 };
 

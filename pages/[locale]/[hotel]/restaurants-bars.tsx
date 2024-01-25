@@ -93,7 +93,7 @@ const RestaurantAndBars: React.FC = () => {
   const [selectedTime, setSelectedTime] = useState(
     dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM),
   );
-  const [booking, setBooking] = useState(false);
+  const [iframeComponent, setIframeComponent] = useState(false);
   const [menu, setMenu] = useState(false);
   const [menuLink, setmenuLink] = useState(null);
   const router = useRouter();
@@ -178,7 +178,7 @@ const RestaurantAndBars: React.FC = () => {
   };
 
   const closeBooking = () => {
-    setBooking(false);
+    setIframeComponent(false);
   };
 
   const closeMenu = () => {
@@ -244,16 +244,12 @@ const RestaurantAndBars: React.FC = () => {
             <StyledButton
               variant='contained'
               onClick={() => {
-                queryResultEntity?.cta?.redirectOption === EXTERNAL_URL &&
-                  queryResultEntity?.cta?.redirectUrl &&
-                  setBooking(true);
-                queryResultEntity?.cta?.redirectOption === RESTAURANT_BOOKING_FLOW &&
-                  restaurantCtaNavigation(
-                    queryResultEntity,
-                    router,
-                    setDetailContent(false),
-                    setTimeSelectDrawer(true),
-                  );
+                restaurantCtaNavigation(
+                  queryResultEntity,
+                  setDetailContent,
+                  setTimeSelectDrawer,
+                  setIframeComponent,
+                );
               }}
               className={cx(styles.button, {
                 [styles.buttonNone]: timeSelectDrawer,
@@ -438,14 +434,14 @@ const RestaurantAndBars: React.FC = () => {
             </div>
           </PageWrapper>
 
-          {booking || menu ? (
+          {iframeComponent || menu ? (
             <CustomDrawer
-              open={booking ? booking : menu}
-              onClose={booking ? closeBooking : closeMenu}
+              open={iframeComponent ? iframeComponent : menu}
+              onClose={iframeComponent ? closeBooking : closeMenu}
               content={
                 <IframeComponent
-                  src={booking ? queryResultEntity?.cta?.redirectUrl : menuLink}
-                  handledrawerState={booking ? setBooking : setMenu}
+                  src={iframeComponent ? queryResultEntity?.cta?.redirectUrl : menuLink}
+                  handledrawerState={iframeComponent ? setIframeComponent : setMenu}
                   name={RESTAURANTS_AND_BARS}
                 />
               }

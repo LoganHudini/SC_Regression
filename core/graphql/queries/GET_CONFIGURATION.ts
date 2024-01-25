@@ -2035,7 +2035,7 @@ export const configuration = [
   {
     code: '1-hotels-south-beach',
     name: '1 Hotels South Beach',
-    hotelId: '78402815-a21e-486f-992b-91104e0cb887',
+    hotelId: '003a8b2c-3c06-4afd-9b44-c8ecf66395a4',
     modules: [
       {
         code: 'Preferences',

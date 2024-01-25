@@ -60,7 +60,7 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
   const { t } = useTranslation(['common']);
   const navigate = useLocalizedRouter();
   const router = useRouter();
-  const [booking, setBooking] = useState<boolean>(false);
+  const [iframeComponent, setIframeComponent] = useState<boolean>(false);
 
   const handleMenu = () => {
     diningInformationStorage({
@@ -80,7 +80,7 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
   const time = getTimings(slide?.customAttributes);
 
   const closeBooking = () => {
-    setBooking(false);
+    setIframeComponent(false);
   };
 
   return (
@@ -129,7 +129,7 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
                 className={styles.button}
                 onClick={() => {
                   slide?.cta?.redirectOption === EXTERNAL_URL
-                    ? setBooking(true)
+                    ? setIframeComponent(true)
                     : restaurantCtaNavigation(
                         slide,
                         router,
@@ -145,14 +145,14 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
           )}
         </div>
       </div>
-      {booking && (
+      {iframeComponent && (
         <CustomDrawer
-          open={booking}
+          open={iframeComponent}
           onClose={closeBooking}
           content={
             <IframeComponent
               src={slide?.cta?.redirectUrl}
-              handledrawerState={setBooking}
+              handledrawerState={setIframeComponent}
               name={RESTAURANTS_AND_BARS}
             />
           }
