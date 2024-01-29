@@ -106,7 +106,7 @@ const DiningDetailsDrawer = () => {
   }, [addons, updateAddons, totalAddons, selectedItem?.addOnLimit, selectedItem?.addOnValue]);
 
   useEffect(() => {
-    if (!selectedItemId || count === 0) {
+    if (!selectedItemId) {
       toggleDiningDetailsDrawer(false);
       setCount(1);
     }
@@ -206,7 +206,7 @@ const DiningDetailsDrawer = () => {
               selectedItem.customisation = sortBy(customisation, (item) => item?.name);
             }
             selectedItem.cookingInstruction = instruction ?? '';
-            selectedItem.quantity = count || 1;
+            selectedItem.quantity = count;
           }
         }),
       );
@@ -548,7 +548,7 @@ const DiningDetailsDrawer = () => {
                 className={styles.addToCart}
                 variant='contained'
                 disabled={
-                  count === 0 ||
+                  (!editControlStatus && count === 0) ||
                   (selectedItem?.customisation?.length > 0 &&
                     filteredCustomisation?.length !== customisation?.length) ||
                   addonsWarning
