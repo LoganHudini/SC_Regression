@@ -1,6 +1,6 @@
 .card {
   display: flex;
-  margin: 1rem 0;
+  margin: 1rem 1rem 1rem 0;
   padding: 0.8rem;
   text-align: start;
   border-radius: var(--primary-card-border-radius);
@@ -23,7 +23,6 @@
   font: $medium var(--primary-card-title-font-family);
   color: var(--primary-text-color);
   margin: 5px 0;
-  width: 140%;
 }
 
 .titleWithImage {

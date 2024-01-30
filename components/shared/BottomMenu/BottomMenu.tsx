@@ -39,7 +39,7 @@ import { activeModule, diningOptionList } from 'utils/functions';
 import { CHECK_IN } from 'utils/constants';
 import { IBottomMenuProps } from './BottomMenu.types';
 
-export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled }) => {
+export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) => {
   const wrapperRef = useRef(null);
   const router = useRouter();
   const locale = useLocale();
@@ -140,6 +140,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled }) => {
         checkOutActive) && (
         <div className={cx(styles.bottomMenuWrapper, { [styles.hideOnScroll]: hideOnScroll })}>
           <StyledButton
+            disabled={disabled}
             variant='contained'
             className={cx(styles.bottomMenuButton, 'globals-bottomMenuButton', {
               [styles.bottomMenuButtonWithoutArrow]:
@@ -159,7 +160,12 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled }) => {
               {spaActive && t(`${spaInformation?.selectedSpaCategoryName}`)}
               {offersActive && t(`${offersOptionSelected?.type}`)}
               {hotelCompendiumActive && hotelCompendiumSelected?.name}
-              {checkOutActive && (checkinModule ? t('PAY & CHECKOUT') : t('DISCONNECT FROM ROOM'))}
+              {checkOutActive &&
+                (checkinModule
+                  ? amountDue
+                    ? t('CHECKOUT')
+                    : t('PAY & CHECKOUT')
+                  : t('DISCONNECT FROM ROOM'))}
             </span>
 
             {homeActive

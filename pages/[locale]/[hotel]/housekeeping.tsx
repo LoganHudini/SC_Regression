@@ -231,23 +231,21 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
           },
         });
       }
-
+      toggleDetailsDrawer(false);
+      setDisabled(false);
+      housekeepingQuantityStorage({ selectedItems: [] });
+      housekeepingCheckboxStorage({ selectedItems: [] });
+      setShowCalendar(false);
+      setShowText(false);
+      setSelectedTime(dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM));
       setNotificationState({
         title: 'Thank You!',
         description: 'Your request has been confirmed.',
         redirect: null,
         type: SUCCESS,
       });
-      setTimeout(() => {
-        setDisabled(false);
-        housekeepingQuantityStorage({ selectedItems: [] });
-        housekeepingCheckboxStorage({ selectedItems: [] });
-        setShowCalendar(false);
-        setShowText(false);
-        setSelectedTime(dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM));
-        toggleDetailsDrawer(false);
-      }, 5000);
     } catch (e) {
+      toggleDetailsDrawer(false);
       setNotificationState({
         title: ERRORMSG,
         description: 'Your request was not confirmed.',
@@ -382,12 +380,6 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
           </div>
         </div>
       </div>
-      <Notification
-        title={notificationState?.title}
-        description={notificationState?.description}
-        redirect={notificationState?.redirect}
-        type={notificationState?.type}
-      />
     </>
   );
 
@@ -421,7 +413,12 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
             </PageWrapper>
           </>
         )}
-
+        <Notification
+          title={notificationState?.title}
+          description={notificationState?.description}
+          redirect={notificationState?.redirect}
+          type={notificationState?.type}
+        />
         <CustomDrawer
           open={serviceRequesttDetailsDrawerStatus}
           onClose={() => handleClose()}

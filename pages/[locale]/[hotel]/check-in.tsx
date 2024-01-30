@@ -85,7 +85,9 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
         </p>
         <p className={styles.documentsList}>
           <DocIcon />
-          <span className={styles.space}>Passport / Aadhaar / Driving License</span>
+          <span className={styles.space}>
+            Passport {BRAND_CODE === 'itc' && '/ Aadhaar '}/ Driving License
+          </span>
         </p>
         <div className={styles.verticalLine}></div>
         <p className={styles.documentsList}>

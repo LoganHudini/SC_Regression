@@ -147,6 +147,9 @@ const CheckOut = () => {
       <Header displayHome screenTitle={t('Stay Summary') as string} />
       <PageWrapper
         displayBottomMenu
+        amountDue={
+          invoiceData && (invoiceData?.invoice?.data?.totalDueAmount as any) > 0 ? false : true
+        }
         disabled={reservationData && invoiceData ? false : true}
         className={styles.pageWrapper}
       >

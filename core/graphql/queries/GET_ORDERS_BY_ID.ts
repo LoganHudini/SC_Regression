@@ -7,7 +7,7 @@ export const GET_ORDERS = gql`
         bookingId: $bookingId
         hotelId: $hotelId
         lang: $lang
-        orderStatuses: ["NEW_ORDER", "ACCEPTED"]
+        orderStatuses: ["NEW_ORDER", "ACCEPTED", "DELAYED"]
       }
     ) {
       additionalNote

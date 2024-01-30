@@ -78,7 +78,7 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                       variant='standard'
                       name={field?.name}
                       id={field?.name}
-                      value={formik.values[field?.name] || ''}
+                      value={formik?.values[field?.name] || ''}
                       onChange={(e: any) => {
                         formik.handleChange(e);
                         updateGuestDetails(e.target.name, e.target.value);

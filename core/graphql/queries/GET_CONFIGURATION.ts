@@ -94,14 +94,8 @@ export const configuration = [
                         youverse: 'PASSPORT',
                       },
                       {
-                        name: 'Aadhaar Card',
-                        value: 'Aadhaar Card',
-                        code: 'ID',
-                        youverse: 'IDENTITY_CARD',
-                      },
-                      {
                         name: 'Driving License',
-                        value: 'Driving License',
+                        value: 'DL',
                         code: 'DL',
                         youverse: 'DRIVING_LICENSE',
                       },
@@ -432,14 +426,8 @@ export const configuration = [
                         youverse: 'PASSPORT',
                       },
                       {
-                        name: 'Aadhaar Card',
-                        value: 'Aadhaar Card',
-                        code: 'ID',
-                        youverse: 'IDENTITY_CARD',
-                      },
-                      {
                         name: 'Driving License',
-                        value: 'Driving License',
+                        value: 'DL',
                         code: 'DL',
                         youverse: 'DRIVING_LICENSE',
                       },
@@ -989,8 +977,8 @@ export const configuration = [
       {
         code: 'In-Room Dining',
         name: 'In-Room Dining',
-        isActive: true,
-        type: 'CMS',
+        isActive: false,
+        type: 'vendor',
       },
       {
         code: 'Services',
@@ -1104,13 +1092,13 @@ export const configuration = [
                       },
                       {
                         name: 'Aadhaar Card',
-                        value: 'Aadhaar Card',
+                        value: 'ID',
                         code: 'ID',
                         youverse: 'IDENTITY_CARD',
                       },
                       {
                         name: 'Driving License',
-                        value: 'Driving License',
+                        value: 'DL',
                         code: 'DL',
                         youverse: 'DRIVING_LICENSE',
                       },
@@ -1483,14 +1471,8 @@ export const configuration = [
                         youverse: 'PASSPORT',
                       },
                       {
-                        name: 'Aadhaar Card',
-                        value: 'Aadhaar Card',
-                        code: 'ID',
-                        youverse: 'IDENTITY_CARD',
-                      },
-                      {
                         name: 'Driving License',
-                        value: 'Driving License',
+                        value: 'DL',
                         code: 'DL',
                         youverse: 'DRIVING_LICENSE',
                       },
@@ -1594,11 +1576,6 @@ export const configuration = [
                 required: true,
                 isDisabled: true,
                 isActive: true,
-                options: [
-                  { name: 'Passport', value: 'PASSPORT', code: 'PASSPORT' },
-                  { name: 'Aadhaar Card', value: 'ID', code: 'IDENTITY_CARD' },
-                  { name: 'Driving Licence', value: 'DL', code: 'DRIVING_LICENSE' },
-                ],
               },
 
               {
@@ -1802,14 +1779,8 @@ export const configuration = [
                         youverse: 'PASSPORT',
                       },
                       {
-                        name: 'Aadhaar Card',
-                        value: 'Aadhaar Card',
-                        code: 'ID',
-                        youverse: 'IDENTITY_CARD',
-                      },
-                      {
                         name: 'Driving License',
-                        value: 'Driving License',
+                        value: 'DL',
                         code: 'DL',
                         youverse: 'DRIVING_LICENSE',
                       },
@@ -2125,14 +2096,8 @@ export const configuration = [
                         youverse: 'PASSPORT',
                       },
                       {
-                        name: 'Aadhaar Card',
-                        value: 'Aadhaar Card',
-                        code: 'ID',
-                        youverse: 'IDENTITY_CARD',
-                      },
-                      {
                         name: 'Driving License',
-                        value: 'Driving License',
+                        value: 'DL',
                         code: 'DL',
                         youverse: 'DRIVING_LICENSE',
                       },
@@ -2442,9 +2407,18 @@ export const configuration = [
                     isDisabled: false,
                     isActive: true,
                     options: [
-                      { name: 'Passport', value: 'PASSPORT', code: 'PASSPORT' },
-                      { name: 'Aadhaar Card', value: 'ID', code: 'IDENTITY_CARD' },
-                      { name: 'Driving Licence', value: 'DL', code: 'DRIVING_LICENSE' },
+                      {
+                        name: 'Passport',
+                        value: 'Passport',
+                        code: 'PASSPORT',
+                        youverse: 'PASSPORT',
+                      },
+                      {
+                        name: 'Driving License',
+                        value: 'DL',
+                        code: 'DL',
+                        youverse: 'DRIVING_LICENSE',
+                      },
                     ],
                   },
                   {
@@ -2504,35 +2478,6 @@ export const configuration = [
                   },
                 ],
               },
-              {
-                name: 'Identity Verification',
-                type: 'manual',
-                isActive: true,
-                details: [
-                  {
-                    name: 'docType',
-                    label: 'Document Type',
-                    type: 'Select',
-                    required: true,
-                    isDisabled: false,
-                    isActive: true,
-                    options: [
-                      { name: 'Passport', value: 'PASSPORT', code: 'PASSPORT' },
-                      { name: 'Aadhaar Card', value: 'ID', code: 'IDENTITY_CARD' },
-                      { name: 'Driving Licence', value: 'DL', code: 'DRIVING_LICENSE' },
-                    ],
-                  },
-
-                  {
-                    name: 'docNo',
-                    label: 'Document Number',
-                    type: 'Text',
-                    required: true,
-                    isDisabled: false,
-                    isActive: true,
-                  },
-                ],
-              },
             ],
           },
           {
@@ -2582,11 +2527,6 @@ export const configuration = [
                 required: true,
                 isDisabled: false,
                 isActive: true,
-                options: [
-                  { name: 'Passport', value: 'PASSPORT', code: 'PASSPORT' },
-                  { name: 'Aadhaar Card', value: 'ID', code: 'IDENTITY_CARD' },
-                  { name: 'Driving Licence', value: 'DL', code: 'DRIVING_LICENSE' },
-                ],
               },
               {
                 name: 'docNo',

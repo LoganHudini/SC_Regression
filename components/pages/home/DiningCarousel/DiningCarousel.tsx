@@ -202,7 +202,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, ird
 
   const uniqueFilteredDiningOptions = filteredOptionFunction();
 
-  const slides = diningOptionsState?.type === IN_ROOM_DINING ? irdMenu : queryResultsData;
+  const slides = diningOptionsState?.type === IN_ROOM_DINING ? irdMenu : activeRestaurants;
   useEffect(() => {
     if (uniqueFilteredDiningOptions?.length > 0) {
       setDiningOption(uniqueFilteredDiningOptions[0]);
@@ -210,7 +210,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, ird
   }, [isCheckedIn?.checkedIn, irdModule, ird, queryResultsData]);
 
   return (
-    (irdActiveMenu?.length > 0 || filteredList?.length > 0) && (
+    (irdActiveMenu?.length > 0 || activeRestaurants?.length > 0) && (
       <div className={styles.diningCarouselWrapper}>
         <p
           className={cx(styles.diningCarouselTitle, {

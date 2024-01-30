@@ -3,4 +3,5 @@ export interface IPageWrapperProps {
   className?: string;
   displayBottomMenu?: boolean;
   disabled?: boolean;
+  amountDue?: boolean;
 }
