@@ -71,7 +71,16 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
                 const status = STATUS?.find((status: any) => status?.key === orderCategory?.status);
                 return (
                   <React.Fragment key={orderCategory.id}>
-                    <div className={styles.orderCard}>
+                    <div
+                      className={styles.orderCard}
+                      onClick={() => {
+                        if (isCardExpanded) {
+                          setExpandedCardId('');
+                        } else {
+                          setExpandedCardId(orderCategory.id);
+                        }
+                      }}
+                    >
                       <div className={styles.orderWrapper}>
                         <p className={styles.orderHeading}>{t('Order ID')}</p>{' '}
                         <span className={styles.status}>{t(`${status?.value}`)}</span>
@@ -80,13 +89,6 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
                         className={`${styles.orderWrapper} ${
                           isCardExpanded ? styles.expanded : ''
                         }`}
-                        onClick={() => {
-                          if (isCardExpanded) {
-                            setExpandedCardId('');
-                          } else {
-                            setExpandedCardId(orderCategory.id);
-                          }
-                        }}
                       >
                         <p className={styles.dateTime}>{orderCategory?.id.substring(6, 0)}</p>
                         <p className={styles.dateTime}>
