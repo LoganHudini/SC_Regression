@@ -51,5 +51,5 @@ export const ONPREM_API_URL = process.env.NEXT_PUBLIC_ONPREM_API_URL;
 export const BRAND_CODE = process.env.NEXT_PUBLIC_BRAND_CODE;
 export const HOTEL_ID = getHotelId();
 export const THEME_COLOR = '#ffffff';
-export const GA_MEASUREMENT_ID = process.env.GA_MEASUREMENT_ID;
+export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 export const VENUE_ID = '';
