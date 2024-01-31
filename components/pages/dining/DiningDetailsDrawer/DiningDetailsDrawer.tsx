@@ -106,7 +106,7 @@ const DiningDetailsDrawer = () => {
   }, [addons, updateAddons, totalAddons, selectedItem?.addOnLimit, selectedItem?.addOnValue]);
 
   useEffect(() => {
-    if (!selectedItemId) {
+    if (!selectedItemId || count === 0) {
       toggleDiningDetailsDrawer(false);
       setCount(1);
     }
@@ -206,7 +206,7 @@ const DiningDetailsDrawer = () => {
               selectedItem.customisation = sortBy(customisation, (item) => item?.name);
             }
             selectedItem.cookingInstruction = instruction ?? '';
-            selectedItem.quantity = count;
+            selectedItem.quantity = count || 1;
           }
         }),
       );
@@ -548,13 +548,13 @@ const DiningDetailsDrawer = () => {
                 className={styles.addToCart}
                 variant='contained'
                 disabled={
-                  (!editControlStatus && count === 0) ||
+                  count === 0 ||
                   (selectedItem?.customisation?.length > 0 &&
                     filteredCustomisation?.length !== customisation?.length) ||
                   addonsWarning
                 }
               >
-                {t('Add to cart')}
+                {editControlStatus ? t('Update cart') : t('Add to cart')}
               </StyledButton>
             </div>
           </div>
