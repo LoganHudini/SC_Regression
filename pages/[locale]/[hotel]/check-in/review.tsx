@@ -318,9 +318,9 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           setErrorText('You have already completed the pre check-in process.');
         }
       }
+      toggleNotification(true);
+      setLoading(false);
     });
-    toggleNotification(true);
-    setLoading(false);
   }, [
     roomNo,
     hotelId,
