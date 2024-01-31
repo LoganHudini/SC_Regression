@@ -144,7 +144,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
             variant='contained'
             className={cx(styles.bottomMenuButton, 'globals-bottomMenuButton', {
               [styles.bottomMenuButtonWithoutArrow]:
-                !homeActive || (homeActive && isCheckedIn?.checkedIn && isCheckedIn?.roomNumber),
+                (homeActive && isCheckedIn?.checkedIn) || !(checkOutActive || homeActive),
             })}
             onClick={openModuleOptionsDrawer}
           >
