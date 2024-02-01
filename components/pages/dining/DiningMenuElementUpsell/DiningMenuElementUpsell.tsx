@@ -7,7 +7,7 @@ import { diningMenuStorage } from 'storage/dining-menu.storage';
 import produce from 'immer';
 import { useReactiveVar } from '@apollo/client';
 import cx from 'classnames';
-import { useCurrency } from 'utils/hooks/useConfiguration';
+import { useCurrency } from 'utils/hooks/useCurrency';
 
 export const DiningMenuElementUpsell: React.FC<IDiningMenuElementProps> = ({
   title,

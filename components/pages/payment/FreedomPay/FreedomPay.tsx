@@ -1,21 +1,17 @@
 import { useReactiveVar } from '@apollo/client';
 import cx from 'classnames';
 import { client } from 'core/graphql/client';
-import {
-  IGetReservationApiResponse,
-  GET_RESERVATION,
-  GET_RESERVATION_NO_LAST_NAME,
-} from 'core/graphql/queries/GET_RESERVATION';
+import { IGetReservationApiResponse, GET_RESERVATION } from 'core/graphql/queries/GET_RESERVATION';
 import {
   IInitiatePaymentApiRequest,
   IInitiatePaymentApiResponse,
-  INITIATE_PAYMENT_CYBERSOURCE,
+  INITIATE_PAYMENT_FREEDOMPAY,
 } from 'core/graphql/queries/INITIATE_PAYMENT';
 import styles from '@styles/check-in-payment/check-in-payment.module.scss';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   IGetPaymentStatusApiResponse,
-  GET_PAYMENT_STATUS,
+  GET_FREEDOMPAY_STATUS,
 } from 'core/graphql/queries/GET_PAYMENT_STATUS';
 import { PaymentLoader } from 'components/pages/payment/PaymentLoader/PaymentLoader';
 import { useTranslation } from 'react-i18next';
@@ -26,11 +22,11 @@ import { Notification } from 'components/shared/Notification/Notification';
 import { FAILURE, SUCCESS } from 'utils/constants';
 import { toggleNotification } from 'storage/home.storage';
 
-const CyberSource: React.FC = () => {
+const FreedomPay: React.FC = () => {
   const transactionId = useRef('');
   const navigate = useLocalizedRouter();
   const [errorNotification, setErrorNotification] = useState(false);
-
+  const [paymentIntent, setPaymentIntent] = useState('');
   const [loading, setLoading] = useState(true);
 
   const { t } = useTranslation(['check-in-payment', 'common']);
@@ -50,83 +46,71 @@ const CyberSource: React.FC = () => {
   }, [navigate]);
 
   const preparePayment = useCallback(async () => {
-    let updatedReservationData: IGetReservationApiResponse | null = null;
+    const orderId =
+      Math.floor(Math.random() * 9000000000) + 1000000000 + '-' + reservationInfo?.confirmationId;
+    const data = client.readQuery<IGetReservationApiResponse>({
+      query: GET_RESERVATION,
+    });
 
-    try {
-      const { data } = await client.query<IGetReservationApiResponse>({
-        query: GET_RESERVATION_NO_LAST_NAME,
-        context: { clientName: 'rest' },
-        fetchPolicy: 'network-only',
-        variables: {
-          confirmationNumber: reservationInfo?.confirmationId,
-        },
-      });
-      updatedReservationData = data;
-    } catch (getUpdatedReservationError) {
-      // processError(t, getUpdatedReservationError as ApolloError);
-      setErrorNotification(true);
-      toggleNotification(true);
-      onPaymentDone();
-    }
-
-    if (updatedReservationData) {
+    if (data) {
       const initiatePaymentPayload: IInitiatePaymentApiRequest = {
-        currency: reservationInfo?.details?.holdAmount?.currency as string,
+        currency: (reservationInfo?.details?.holdAmount?.currency as string) || 'USD',
         amount: 1,
         bookingId: reservationInfo?.confirmationId as string,
-        orderId: Math.floor(Math.random() * 9000000000) + 1000000000 + '',
+        orderId: orderId,
       };
-
-      let paymentData: IInitiatePaymentApiResponse | null = null;
 
       try {
         const { data } = await client.query<IInitiatePaymentApiResponse>({
-          query: INITIATE_PAYMENT_CYBERSOURCE,
+          query: INITIATE_PAYMENT_FREEDOMPAY,
           variables: { body: initiatePaymentPayload },
           context: { clientName: 'rest' },
           fetchPolicy: 'network-only',
         });
 
-        paymentData = data;
+        if (data) {
+          const html = data.initiatePayment.data.answer.payment_zone_data;
+          const doc = iframeRef.current?.contentWindow?.document;
+
+          setPaymentIntent(data?.initiatePayment?.data?.answer?.intent);
+          transactionId.current = data?.initiatePayment?.data?.answer?.transaction_id as string;
+
+          if (doc) {
+            doc.open();
+            doc.write(html as string);
+            doc.close();
+          }
+        }
       } catch (initiatePaymentError) {
         setErrorNotification(true);
         toggleNotification(true);
         onPaymentDone();
       }
-
-      if (paymentData) {
-        const html = paymentData.initiatePayment.data.answer.payment_zone_data;
-        const doc = iframeRef.current?.contentWindow?.document;
-
-        transactionId.current = paymentData?.initiatePayment?.data?.answer
-          ?.transaction_id as string;
-        // console.log(transactionId.current);
-        if (doc) {
-          doc.open();
-          doc.write(html as string);
-          (doc.getElementById('payForm') as HTMLFormElement).submit();
-          doc.close();
-          setLoading(false);
-        }
-      }
+      setLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleIframeChange = useCallback(() => {
-    setTimeout(async () => {
+  const handlePaymentResponse = useCallback(
+    async (data: any) => {
       if (transactionId.current) {
         const cardOptions = [
           { code: 'MC', value: 'Mastercard' },
           { code: 'VS', value: 'Visa' },
           { code: 'AX', value: 'Americanexpress' },
         ];
+
+        const getPaymentStatusPayload = {
+          paymentIntent: data?.data?.paymentKeys && data?.data?.paymentKeys[0],
+          token: [paymentIntent],
+        };
+
         try {
           const { data: paymentStatusData } = await client.query<IGetPaymentStatusApiResponse>({
-            query: GET_PAYMENT_STATUS,
+            query: GET_FREEDOMPAY_STATUS,
             context: { clientName: 'rest' },
             fetchPolicy: 'network-only',
-            variables: { paymentId: transactionId?.current },
+            variables: { body: getPaymentStatusPayload },
           });
 
           const status = paymentStatusData?.getPaymentStatus.data['status '];
@@ -160,8 +144,9 @@ const CyberSource: React.FC = () => {
           onPaymentDone();
         }
       }
-    }, 1500);
-  }, [guestReservationInfo, onPaymentDone]);
+    },
+    [guestReservationInfo, onPaymentDone, paymentIntent],
+  );
 
   useEffect(() => {
     if (!reservationInfo?.confirmationId) {
@@ -171,15 +156,27 @@ const CyberSource: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  if (typeof window !== 'undefined') {
+    window.onmessage = function (event) {
+      if (event?.data?.data) {
+        console.log(event?.data?.data);
+        // handlePaymentResponse(event?.data);
+      }
+    };
+  }
+
   return (
     <>
       {loading && <PaymentLoader />}
 
-      <iframe
+      {/* <iframe
         ref={iframeRef}
         className={cx(styles.paymentWindow, { [styles.paymentWindowHidden]: loading })}
-        onLoad={handleIframeChange}
-      />
+      ></iframe> */}
+      <iframe
+        className={cx(styles.paymentWindow, { [styles.paymentWindowHidden]: loading })}
+        src={'https://hpc.uat.freedompay.com/api/v1.5/controls?sessionKey=' + paymentIntent}
+      ></iframe>
       <Notification
         title={errorNotification ? ('Payment Failed!' as string) : (t('Thank You!') as string)}
         description={
@@ -194,4 +191,4 @@ const CyberSource: React.FC = () => {
   );
 };
 
-export default CyberSource;
+export default FreedomPay;

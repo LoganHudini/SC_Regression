@@ -8,7 +8,7 @@ import CheckMark from '@icons/thinCheckMark.svg';
 import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
 import { useTranslation } from 'react-i18next';
-import { useCurrency } from 'utils/hooks/useConfiguration';
+import { useCurrency } from 'utils/hooks/useCurrency';
 
 export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
   ordersDrawer,

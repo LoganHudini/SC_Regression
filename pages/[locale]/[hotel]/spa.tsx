@@ -14,7 +14,7 @@ import {
   toggleHamburgerMenuDrawer,
   toggleNotification,
 } from 'storage/home.storage';
-import { activeItems, moduleType, restaurantId } from 'utils/functions';
+import { activeItems, restaurantId } from 'utils/functions';
 import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { GET_SPA_DETAILS } from 'core/graphql/queries/GET_SPA_DETAILS';
@@ -26,39 +26,34 @@ import { Notification } from 'components/shared/Notification/Notification';
 import { availablePaths } from 'utils/availablePaths';
 import { ASSETS_URL, HOTEL_ID } from 'core/graphql/endpoints';
 import { StableImage } from 'components/shared/StableImage/StableImage';
-import { useRouter } from 'next/router';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
-import { useConfig, useCurrency } from 'utils/hooks/useConfiguration';
+import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import {
   ACTIVE,
-  CMS,
   ERRORMSG,
   EXTERNAL_URL,
   FAILURE,
-  RESTAURANT_BOOKING_FLOW,
   SPA_BOOKING_FLOW,
   SUCCESS,
   SPA_TREATMENTS,
 } from 'utils/constants';
 import DateTimeSelect from 'components/shared/DateTimeSelect/DateTimeSelect';
 import { client } from 'core/graphql/client';
-import { CREATE_RESTAURANT_RESERVATION } from 'core/graphql/queries/GET_RESTAURANT_RESERVATION_DETAILS';
 import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
 import { useCheckedIn } from 'storage/check-in.storage';
-import cx from 'classnames';
 import { ListCounter } from 'components/shared/ListCounter/ListCounter';
 import { CREATE_SPA_ORDER } from 'core/graphql/queries/CREATE_SPA_RESERVATION';
 import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
 import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
+import { useCurrency } from 'utils/hooks/useCurrency';
 
 export { getStaticPaths };
 
 const Spa: React.FC = () => {
   const { t } = useTranslation(['spa']);
-  const router = useRouter();
   const navigate = useLocalizedRouter();
   const hotelId = useConfig()?.hotelId;
   const hotelName = useConfig()?.name;
@@ -73,7 +68,6 @@ const Spa: React.FC = () => {
   );
   const isCheckedIn = useCheckedIn();
   const currentYear = new Date().getFullYear();
-  const config = useConfig();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [guestCount, setGuestCount] = useState(1);
   const [errorNotification, setErrorNotification] = useState(false);

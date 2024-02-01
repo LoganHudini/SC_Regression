@@ -1,4 +1,4 @@
-import { ApolloError, useQuery, useReactiveVar } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import {
   GET_RESTAURANT_DETAILS,
@@ -11,7 +11,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import {
   restaurantListStorage,
   selectedRestaurantStorage,
-  tableReservationStorage,
 } from 'storage/table-reservation.storage';
 import { getStaticPaths } from 'utils/getStatic';
 import styles from '@styles/restaurants-bars/restaurants-bars.module.scss';
@@ -32,18 +31,13 @@ import {
 } from 'storage/home.storage';
 import {
   ACTIVE,
-  CMS,
-  DINING_OPTIONS,
   EMAIL,
   ENQUIRE,
   ERRORMSG,
-  EXTERNAL_URL,
   FAILURE,
   IN_ROOM_DINING,
-  IRD,
   OK,
   PHONE,
-  RESTAURANT_BOOKING_FLOW,
   S3,
   SUCCESS,
   WEBURL,
@@ -51,9 +45,7 @@ import {
 } from 'utils/constants';
 import {
   activeModule,
-  filterRestaurantList,
   getTimings,
-  moduleType,
   restaurantCtaNavigation,
   uniqueDiningOption,
 } from 'utils/functions';
@@ -294,17 +286,6 @@ const RestaurantAndBars: React.FC = () => {
                 </div>
               </>
             )}
-
-            {/* {queryResultEntity?.additionalInformation && (
-              <>
-                <div className={styles.timesWrapper}>
-                  <TimeIcon className={styles.timeIcon} />
-                  <p className={cx(styles.additionalInformation, styles.listComponentDataText)}>
-                    {queryResultEntity?.additionalInformation}
-                  </p>
-                </div>
-              </>
-            )} */}
 
             {queryResultEntity?.menuStatus === ACTIVE && (
               <div className={styles.timeRow}>

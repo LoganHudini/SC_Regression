@@ -9,7 +9,7 @@ import { OFFERSDURATION } from 'utils/constants';
 import dayjs from 'dayjs';
 import { getTimings } from 'utils/functions';
 import { CustomReadMore } from '../CustomReadMore/CustomReadMore';
-import { useCurrency } from 'utils/hooks/useConfiguration';
+import { useCurrency } from 'utils/hooks/useCurrency';
 import cx from 'classnames';
 
 interface ListComponentEntityProps {

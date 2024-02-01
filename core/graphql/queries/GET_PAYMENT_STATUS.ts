@@ -50,3 +50,17 @@ query GetPaymentStatus($paymentId: String) {
   }
 }
 `;
+
+export const GET_FREEDOMPAY_STATUS = gql`
+query GetPaymentStatus($body: GetPaymentStatusPayload) {
+    getPaymentStatus(body: $body)
+    @rest(
+      type: "GetPaymentStatusPayload"
+      path: "/${ENVIRONMENT}/v3/getpaymentstatus/freedompay/hotel/${HOTEL_ID}"
+    ) {
+    errors
+    data
+    status
+  }
+}
+`;

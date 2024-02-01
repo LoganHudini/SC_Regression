@@ -333,6 +333,8 @@
   margin: auto;
   height: 60px;
   font-size: $xsmall;
+  color: var(--secondary-text-color);
+  background: var(--primary-theme-color);
 }
 
 .timeRowWrapper {

@@ -4,7 +4,8 @@ export const configuration = [
   {
     code: 'stage',
     name: 'Stage',
-    hotelId: '78402815-a21e-486f-992b-91104e0cb887',
+    hotelId: '989814e5-2fda-4ab8-b795-33f4d76f1866',
+    pms: 'OPERA',
     modules: [
       {
         code: 'Preferences',
@@ -337,6 +338,7 @@ export const configuration = [
     code: 'uat',
     name: 'UAT',
     hotelId: '78402815-a21e-486f-992b-91104e0cb887',
+    pms: 'OPERA',
     modules: [
       {
         code: 'Preferences',
@@ -654,6 +656,7 @@ export const configuration = [
     code: 'sofitel-manila',
     name: 'Sofitel Manila',
     hotelId: '259034ee-3f5c-43b0-9332-dffd85ccba65',
+    pms: 'OPERA',
     modules: [
       {
         code: 'Preferences',
@@ -1002,6 +1005,7 @@ export const configuration = [
     code: 'itc-grand-chola',
     name: 'ITC Grand Chola',
     hotelId: 'ad0fd522-5f0e-4d2c-9f51-c3a43f546a7a',
+    pms: 'OPERA',
     modules: [
       {
         code: 'Preferences',
@@ -1332,6 +1336,7 @@ export const configuration = [
     code: 'raffles-the-palm-dubai',
     name: 'Raffles The Palm Dubai',
     hotelId: '4e67ef89-b1d7-42fd-9cf0-70001cae54fc',
+    pms: 'OPERA',
     modules: [
       {
         code: 'Preferences',
@@ -1382,6 +1387,7 @@ export const configuration = [
     code: 'fairmont-royal-palm-marrakech',
     name: 'Fairmont Royal Palm Marrakech',
     hotelId: 'cadcb011-3655-47c8-a016-e79bb59b5d1e',
+    pms: 'OPERA',
     modules: [
       {
         code: 'Preferences',
@@ -1690,6 +1696,7 @@ export const configuration = [
     code: 'fairmont-the-palm-dubai',
     name: 'Fairmont The Palm Dubai',
     hotelId: 'dc9849bf-bef7-4ba9-a288-cea18f493173',
+    pms: 'OPERA',
     modules: [
       {
         code: 'Preferences',
@@ -2004,9 +2011,10 @@ export const configuration = [
     ],
   },
   {
-    code: '1-hotels-south-beach',
-    name: '1 Hotels South Beach',
+    code: '1-hotel-south-beach',
+    name: '1 Hotel South Beach',
     hotelId: '003a8b2c-3c06-4afd-9b44-c8ecf66395a4',
+    pms: 'INFOR',
     modules: [
       {
         code: 'Preferences',
@@ -2111,20 +2119,12 @@ export const configuration = [
                     isDisabled: false,
                     isActive: true,
                   },
-                  {
-                    name: 'issueCountry',
-                    label: 'Document Issuing Authority',
-                    type: 'Text',
-                    required: false,
-                    isDisabled: true,
-                    isActive: false,
-                  },
                 ],
               },
               {
                 name: 'Credit Card Info',
                 isActive: true,
-                type: 'SHIFT4',
+                type: 'FREEDOMPAY',
                 details: [
                   {
                     name: 'cardNumber',
@@ -2242,7 +2242,7 @@ export const configuration = [
             title: 'Check-In',
             buttonLabelCheckIn: 'CONFIRM CHECK-IN',
             // eslint-disable-next-line quotes
-            termsAndCondition: `I have read, understood and agree to the <a href='https://www.sofitelmanila.com/privacy-policy/' target='_blank' rel='noopener noreferrer'>Terms & Conditions</a> and <a href='https://www.sofitelmanila.com/privacy-policy/' target='_blank' rel='noopener noreferrer'>Privacy Laws</a>.`,
+            termsAndCondition: `I have read, understood and agree to the <a href='https://www.1hotels.com/terms-conditions' target='_blank' rel='noopener noreferrer'>Terms & Conditions</a> and <a href='https://www.1hotels.com/privacy-policy' target='_blank' rel='noopener noreferrer'>Privacy Laws</a>.`,
             subTitle:
               'Please review and confirm the below information to complete the Check-In process',
             type: 'cms',
@@ -2325,6 +2325,7 @@ export const configuration = [
     name: 'Atlantis',
     // demo instance
     hotelId: '78402815-a21e-486f-992b-91104e0cb887',
+    pms: 'OPERA',
     modules: [
       {
         code: 'Preferences',

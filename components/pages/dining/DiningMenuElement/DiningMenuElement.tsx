@@ -12,7 +12,7 @@ import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { DiningCustomisationDrawer } from 'components/pages/dining/DiningCustomisationDrawer/DiningCustomisationDrawer';
 import cx from 'classnames';
 import { addToCartEvent, viewItemEvent } from 'utils/gtag';
-import { useCurrency } from 'utils/hooks/useConfiguration';
+import { useCurrency } from 'utils/hooks/useCurrency';
 
 export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
   title,

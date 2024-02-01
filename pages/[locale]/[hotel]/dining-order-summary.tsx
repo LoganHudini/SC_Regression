@@ -35,9 +35,10 @@ import DiningDetailsDrawer from 'components/pages/dining/DiningDetailsDrawer/Din
 import { toggleNotification } from 'storage/home.storage';
 import { DiningMenuElementUpsell } from 'components/pages/dining/DiningMenuElementUpsell/DiningMenuElementUpsell';
 import { useCheckedIn } from 'storage/check-in.storage';
-import { useConfig, useCurrency } from 'utils/hooks/useConfiguration';
+import { useConfig } from 'utils/hooks/useConfiguration';
 import { IRD_ORDER_TRANSACTION_POS } from 'core/graphql/queries/IRD_ORDER_TRANSACTION_POS';
 import EditIcon from '@icons/commonEditIcon.svg';
+import { useCurrency } from 'utils/hooks/useCurrency';
 
 export { getStaticPaths };
 

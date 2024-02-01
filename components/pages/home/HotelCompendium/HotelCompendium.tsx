@@ -6,6 +6,7 @@ import { getHotelCompendium, selectedCompendiumCategory } from 'storage/home.sto
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
 import { useTranslation } from 'react-i18next';
+import { filterHotelCompendiumCategories } from 'utils/functions';
 
 export const HotelCompendiumContainer = (props: any) => {
   const { data } = props;
@@ -19,7 +20,7 @@ export const HotelCompendiumContainer = (props: any) => {
   }, [data]);
 
   const amenities = data?.getHotelAmenityDetails?.amenities;
-  const categories = data?.getHotelAmenityDetails?.categories;
+  const categories = filterHotelCompendiumCategories(data);
 
   const handleClick = (id: any) => {
     selectedCompendiumCategory(categories?.find((category: any) => category?.id === id));
@@ -46,7 +47,7 @@ export const HotelCompendiumContainer = (props: any) => {
                 <div className={styles.imgWrapper}>
                   <p className={styles.name}>{category?.name}</p>
                 </div>
-                {/* {hotelAmenities[index]?.images[0]?.master && ( */}
+
                 <StableImage
                   className={styles.image}
                   src={`${ASSETS_URL}/${
@@ -54,7 +55,6 @@ export const HotelCompendiumContainer = (props: any) => {
                     hotelAmenities[index]?.images[0]?.master
                   }`}
                 />
-                {/* )} */}
               </div>
             ))}
           </div>

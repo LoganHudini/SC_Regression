@@ -16,16 +16,17 @@ export const ITC_GRAND_CHOLA = 'itc-grand-chola';
 export const RAFFLES_THE_PALM_DUBAI = 'raffles-the-palm-dubai';
 export const FAIRMONT_ROYAL_PALM_MARRAKECH = 'fairmont-royal-palm-marrakech';
 export const FAIRMONT_THE_PALM_DUBAI = 'fairmont-the-palm-dubai';
-export const ONE_HOTELS_SOUTH_BEACH = '1-hotels-south-beach';
+export const ONE_HOTELS_SOUTH_BEACH = '1-hotel-south-beach';
 export const ATLANTIS = 'atlantis';
 
 // configuration constants
-export const HOME = 'Home';
-export const LOADER = 'loader';
+export const OPERA = 'OPERA';
+export const INFOR = 'INFOR';
 
 // payment type constants
 export const SHIFT4 = 'SHIFT4';
 export const CYBERSOURCE = 'CYBERSOURCE';
+export const FREEDOMPAY = 'FREEDOMPAY';
 
 // key constants
 export const HouseKeeping = 'HouseKeeping';

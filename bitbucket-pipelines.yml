@@ -18,7 +18,7 @@ pipelines:
     master:
       - step:
           deployment: dev
-          size : 2x
+          size: 2x
           caches:
             - node
           name: Automatacilly Deploy to Infinite Dev https://pwa-infinite-dev.hudini.app/
@@ -43,7 +43,7 @@ pipelines:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_UAT
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
-                DISTRIBUTION_ID: 'E9PVO4YEDANZA'         
+                DISTRIBUTION_ID: 'E9PVO4YEDANZA'
   custom:
     deployToStaging:
       - step:
@@ -276,7 +276,7 @@ pipelines:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_UAT
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
-                DISTRIBUTION_ID: 'E3QOETK7ZFR0UR' 
+                DISTRIBUTION_ID: 'E3QOETK7ZFR0UR'
     deployToInfiniteUAT:
       - step:
           caches:

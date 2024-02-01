@@ -46,8 +46,8 @@ export const FandBOrders = () =>
 
 export const getWelcomeDrawer = () =>
   (typeof window !== 'undefined' &&
-    localStorage.getItem('welcomeDrawer') &&
-    JSON.parse(localStorage.getItem('welcomeDrawer') ?? '')) ??
+    sessionStorage.getItem('welcomeDrawer') &&
+    JSON.parse(sessionStorage.getItem('welcomeDrawer') ?? '')) ??
   true;
 
 // Convert time format from 24H to 12H
@@ -267,4 +267,12 @@ export const openLinknewTab = (url: string) => {
   a.referrerPolicy = 'noopener, noreferrer';
   a.href = url;
   a.click();
+};
+
+export const filterHotelCompendiumCategories = (data: any) => {
+  return data?.getHotelAmenityDetails?.categories?.filter((category: any) => {
+    return data?.getHotelAmenityDetails?.amenities?.find(
+      (amenity: any) => amenity?.categoryIds?.includes(category?.id) && amenity?.isActive,
+    );
+  });
 };

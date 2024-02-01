@@ -22,7 +22,7 @@ import SearchText from '@icons/search_text_delete.svg';
 import { DiningOrders } from 'components/pages/dining/DiningOrders/DiningOrders';
 import { DiningOrdersDrawer } from 'components/pages/dining/DiningOrdersDrawer/DiningOrdersDrawer';
 import { GET_ORDERS } from 'core/graphql/queries/GET_ORDERS_BY_ID';
-import { convertTo12HourFormat, irdActiveMenuList, setScrollPosition } from 'utils/functions';
+import { convertTo12HourFormat, irdActiveMenuList } from 'utils/functions';
 import { DiningCategoryOptions } from 'components/pages/dining/DiningCategoryOptions/DiningCategoryOptions';
 import produce from 'immer';
 import { ItemNotFoundLoader, Loader } from 'components/shared/Loaders/Loaders';
@@ -30,7 +30,8 @@ import DiningDetailsDrawer from '../DiningDetailsDrawer/DiningDetailsDrawer';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { useHideOnScroll } from 'utils/hooks/useHideOnScroll';
 import { client } from 'core/graphql/client';
-import { useConfig, useCurrency } from 'utils/hooks/useConfiguration';
+import { useConfig } from 'utils/hooks/useConfiguration';
+import { useCurrency } from 'utils/hooks/useCurrency';
 
 export { getStaticPaths };
 interface DiningMenuProps {

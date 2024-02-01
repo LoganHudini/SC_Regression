@@ -62,7 +62,6 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
 
   const paymentType = creditCardInfoSection?.type;
 
-  const reservationInfo = reservationData?.getReservation?.data;
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
 
   useEffect(() => {
@@ -70,58 +69,6 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
       navigate(availablePaths.HOME);
     }
   }, [reservationData, navigate]);
-
-  const extractDataForField = useCallback(
-    (fieldName: string) => {
-      const fieldPath = fieldName.split('.');
-
-      let source: any = reservationInfo?.guests[0];
-      const remainingAttributes: any = reservationInfo?.reservePayments[0];
-
-      for (const field of fieldPath) {
-        if (source && source[field]) {
-          source = source[field];
-        } else {
-          source = remainingAttributes[field];
-          break;
-        }
-      }
-
-      if (Array.isArray(source)) {
-        source = source.join(', ');
-      }
-      return source;
-    },
-    [reservationInfo?.guests, reservationInfo?.reservePayments],
-  );
-
-  useEffect(() => {
-    if (reservationInfo?.guests) {
-      const initialGuestReservationInfo = activeSections?.reduce((values: any, section: any) => {
-        section?.details?.forEach((field: any) => {
-          const { name } = field;
-          values[name] = extractDataForField(name);
-        });
-
-        return values;
-      }, {});
-
-      for (const key in initialGuestReservationInfo) {
-        if (Object.prototype.hasOwnProperty.call(initialGuestReservationInfo, key)) {
-          if (!initialGuestReservationInfo[key]) {
-            initialGuestReservationInfo[key] = '';
-          }
-        }
-      }
-
-      reservationGuestInfoStorageData({
-        ...initialGuestReservationInfo,
-        ...guestReservationInfo,
-        isComplete: validateGuestReservation(creditCardInfoSection?.details),
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [extractDataForField, reservationInfo?.guests]);
 
   const goToTheNextStep = useCallback(() => {
     availablePersonalizations?.length > 0

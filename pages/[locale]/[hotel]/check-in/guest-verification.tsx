@@ -109,21 +109,17 @@ const Guest: React.FC<any> = () => {
 
   // primary guest initialization
   const extractDataForField = useCallback(
-    (fieldName: string) => {
-      const fieldPath = fieldName.split('.');
+    (inputFieldName: string) => {
+      let source: any = reservationInfo?.guests && reservationInfo?.guests[0];
+      const paymentAttributes: any =
+        reservationInfo?.reservePayments && reservationInfo?.reservePayments[0];
 
-      let source: any = reservationInfo?.guests[0];
-      const remainingAttributes: any = reservationInfo?.reservePayments[0];
-
-      for (const field of fieldPath) {
-        if (source && source[field]) {
-          guestInformationSection?.type === YOUVERSE && field === 'docNo'
-            ? (source = '')
-            : (source = source[field]);
-        } else {
-          source = remainingAttributes[field];
-          break;
-        }
+      if (source && source[inputFieldName]) {
+        guestInformationSection?.type === YOUVERSE && inputFieldName === 'docNo'
+          ? (source = '')
+          : (source = source[inputFieldName]);
+      } else {
+        source = paymentAttributes ? paymentAttributes[inputFieldName] : '';
       }
 
       if (Array.isArray(source)) {

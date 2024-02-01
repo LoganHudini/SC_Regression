@@ -307,6 +307,7 @@ img {
   height: 44px;
   line-height: 44px;
   text-align: center;
+
   &:disabled {
     background: var(--primary-disabled-color) !important;
     color: var(--primary-button-color);
@@ -351,7 +352,6 @@ img {
   padding: 11px 0;
   border-radius: 5px;
   overflow: hidden;
-
   &:hover:enabled {
     background: none;
     border: none;

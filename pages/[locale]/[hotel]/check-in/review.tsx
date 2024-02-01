@@ -11,10 +11,7 @@ import styles from '@styles/check-in-v2/check-in-v2.module.scss';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { guestInformationStorage } from 'storage/guest-information.storage';
 import { ApolloError, useQuery, useReactiveVar } from '@apollo/client';
-import {
-  personalizeYourRoomStorage,
-  specialRequestsStorage,
-} from 'storage/personalize-your-room.storage';
+import { personalizeYourRoomStorage } from 'storage/personalize-your-room.storage';
 import { client } from 'core/graphql/client';
 import { IGetReservationApiResponse, GET_RESERVATION } from 'core/graphql/queries/GET_RESERVATION';
 import { CHECKIN, ICheckInApiRequest } from 'core/graphql/queries/CHECKIN';
@@ -37,7 +34,6 @@ import { timeFormats } from 'utils/timeFormats';
 import dayjs from 'dayjs';
 import cx from 'classnames';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
-import { BRAND_CODE } from 'core/graphql/endpoints';
 import { PRECHECKIN } from 'core/graphql/queries/PRECHECKIN';
 import {
   PRE_CHECKIN_ERROR_MSG,
@@ -85,7 +81,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   );
 
   const personalizationEntities = useReactiveVar(personalizeYourRoomStorage);
-  const specialRequests = useReactiveVar(specialRequestsStorage);
   const [errorNotification, setErrorNotification] = useState(false);
   const [roomStatus, setRoomStatus] = useState(false);
 
@@ -619,58 +614,34 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           </div>
         )}
 
-        {((eRegPersonalization &&
+        {eRegPersonalization &&
           eRegPersonalization[0]?.required &&
-          personalizationEntities?.length > 0) ||
-          specialRequests) && (
-          <div className={styles.cardWrapper}>
-            <DetailsCard title={t(`${reviewConfig?.personalizationDetails[0]?.title}`)}>
-              <div className={styles.personalzizationWrapper}>
-                <div className={styles.border}></div>
-                {personalizationEntities?.map((personalizationEntity) => (
-                  <div key={personalizationEntity?.id} className={styles.personalizationData}>
-                    <p className={styles.personalizationText}>
-                      {personalizationEntity?.quantity} x {personalizationEntity?.title}
-                    </p>
-                    <p className={styles.personalizationQuantity}>
-                      {personalizationEntity?.currency}{' '}
-                      <span className={styles.price}>
-                        {Number(
-                          Number(personalizationEntity?.price) *
-                            Number(personalizationEntity?.quantity),
-                        )?.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                      </span>
-                    </p>
-                  </div>
-                ))}
-                {specialRequests && (
-                  <>
-                    <p className={styles.specialRequestsTitle}>{t('Special Request')}</p>
-                    <p className={styles.specialRequestsText}>{specialRequests}</p>
-                  </>
-                )}
-              </div>
-            </DetailsCard>
-          </div>
-        )}
-        {/* {(reservationInfo?.settlementTypes?.length || 0) > 0 && (
-          <div className={styles.cardWrapper}>
-            <Card>
-              <div className={styles.settlementWrapper}>
-                <h2 className={styles.settlementTitle}>{t('Settlement')}</h2>
-
-                <p className={styles.settlementSubtitle}>
-                  {reservationInfo?.settlementTypes.map((el: any, index: number) => (
-                    <div key={index}>
-                      {el?.name}
-                      <br />
+          personalizationEntities?.length > 0 && (
+            <div className={styles.cardWrapper}>
+              <DetailsCard title={t(`${reviewConfig?.personalizationDetails[0]?.title}`)}>
+                <div className={styles.personalzizationWrapper}>
+                  <div className={styles.border}></div>
+                  {personalizationEntities?.map((personalizationEntity) => (
+                    <div key={personalizationEntity?.id} className={styles.personalizationData}>
+                      <p className={styles.personalizationText}>
+                        {personalizationEntity?.quantity} x {personalizationEntity?.title}
+                      </p>
+                      <p className={styles.personalizationQuantity}>
+                        {personalizationEntity?.currency}{' '}
+                        <span className={styles.price}>
+                          {Number(
+                            Number(personalizationEntity?.price) *
+                              Number(personalizationEntity?.quantity),
+                          )?.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        </span>
+                      </p>
                     </div>
                   ))}
-                </p>
-              </div>
-            </Card>
-          </div>
-        )} */}
+                </div>
+              </DetailsCard>
+            </div>
+          )}
+
         <div className={styles.agrementWrapper}>
           <div className={styles.checkBoxAlign}>
             <StyledCheckBox onClick={toggleConditionsAccepted} value={conditionsAccepted} />

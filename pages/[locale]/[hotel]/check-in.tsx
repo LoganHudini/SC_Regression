@@ -41,6 +41,7 @@ import {
   STEPPER_CHECK_IN,
   STEPPER_REVIEW,
   NONE,
+  OPERA,
 } from 'utils/constants';
 import { usePersonalisation } from 'utils/hooks/usePersonalisation';
 
@@ -51,6 +52,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
   const config = useConfig();
   const hotelName = config?.name;
   const hotel = config?.code;
+  const pms = config?.pms;
   const hotelImageInfo = useReactiveVar(hotelImage);
   const [welcomeDrawer, setWelcomeDrawer] = useState(getWelcomeDrawer());
   const paymentConfig: any = usePaymentConfig();
@@ -72,7 +74,9 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
     <>
       <div className={styles.drawerWrapper}>
         <h3 className={styles.welcomeTitle}>
-          Welcome to <span className={styles.capitalise}>{BRAND_CODE}</span> Hotels!
+          Welcome to{' '}
+          <span className={styles.capitalise}>{BRAND_CODE === '1hotels' ? '1' : BRAND_CODE}</span>{' '}
+          Hotels!
         </h3>
         <p className={styles.welcomeDescription}>Check-In now to save time when you arrive.</p>
         <StableImage
@@ -102,7 +106,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
   );
 
   const closeWelcomeDrawer = () => {
-    localStorage.setItem('welcomeDrawer', JSON.stringify(false));
+    sessionStorage.setItem('welcomeDrawer', JSON.stringify(false));
     setWelcomeDrawer(false);
   };
 
@@ -176,11 +180,16 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
               </div>
               <p className={styles.detailCheckinTitle}>
                 From{' '}
-                {dayjs(
-                  `${reservationInfo?.details?.checkInDate?.split('T')[0]}${
-                    reservationInfo?.details?.contactPerson?.eta?.split('.')[0]
-                  }`,
-                )?.format(timeFormats.HOURS_MINUTES_AM_2)}
+                {pms === OPERA
+                  ? dayjs(
+                      `${reservationInfo?.details?.checkInDate?.split('T')[0]}${
+                        reservationInfo?.details?.contactPerson?.eta?.split('.')[0]
+                      }`,
+                    )?.format(timeFormats.HOURS_MINUTES_AM_2)
+                  : dayjs(
+                      reservationInfo?.details?.contactPerson?.eta ||
+                        reservationInfo?.details?.checkInDate,
+                    )?.format(timeFormats.HOURS_MINUTES_AM_2)}
               </p>
             </div>
             <div className={styles.arrow}>
@@ -201,11 +210,16 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
               </div>
               <p className={styles.detailCheckinTitle}>
                 Till{' '}
-                {dayjs(
-                  `${reservationInfo?.details?.checkOutDate?.split('T')[0]}${
-                    reservationInfo?.details?.contactPerson?.etd?.split('.')[0]
-                  }`,
-                )?.format(timeFormats.HOURS_MINUTES_AM_2)}
+                {pms === OPERA
+                  ? dayjs(
+                      `${reservationInfo?.details?.checkOutDate?.split('T')[0]}${
+                        reservationInfo?.details?.contactPerson?.etd?.split('.')[0]
+                      }`,
+                    )?.format(timeFormats.HOURS_MINUTES_AM_2)
+                  : dayjs(
+                      reservationInfo?.details?.contactPerson?.etd ||
+                        reservationInfo?.details?.checkOutDate,
+                    )?.format(timeFormats.HOURS_MINUTES_AM_2)}
               </p>
             </div>
           </div>
@@ -259,7 +273,11 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
           </div>
         </div>
       </PageWrapper>
-      <CustomDrawer open={welcomeDrawer} onClose={closeWelcomeDrawer} content={WelcomeDetails()} />
+      <CustomDrawer
+        open={welcomeDrawer}
+        onClose={closeWelcomeDrawer}
+        content={<WelcomeDetails />}
+      />
     </>
   );
 };

@@ -12,7 +12,7 @@ import {
 import produce from 'immer';
 import { useTranslation } from 'react-i18next';
 import { addToCartEvent } from 'utils/gtag';
-import { useCurrency } from 'utils/hooks/useConfiguration';
+import { useCurrency } from 'utils/hooks/useCurrency';
 
 export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps> = ({
   customisationDrawer,

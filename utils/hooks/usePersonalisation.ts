@@ -28,7 +28,9 @@ export const usePersonalisation = () => {
     });
 
   return [
-    activeItems(personalisationData?.getAvailablePersonalizations?.data),
+    personalisationData?.getAvailablePersonalizations?.data
+      ? activeItems(personalisationData?.getAvailablePersonalizations?.data)
+      : [],
     personalisationDataloadingStatus,
   ];
 };

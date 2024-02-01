@@ -74,7 +74,7 @@ const HotelInfoDrawer = () => {
             </div>
 
             {(phoneData || webData || mailData || hotelInfo?.location?.addressLine1) && (
-              <div className={styles.phoneEmailCtaWrapper}>
+              <StyledButton variant='contained' className={styles.phoneEmailCtaWrapper}>
                 {phoneData && (
                   <>
                     <div className={cx(styles.border, styles.align)}>
@@ -128,7 +128,7 @@ const HotelInfoDrawer = () => {
                     </div>
                   </>
                 )}
-              </div>
+              </StyledButton>
             )}
           </div>
           <div className={styles.wrapper}>

@@ -4,7 +4,7 @@ import styles from './DiningCheckboxItem.module.scss';
 import { IDiningCheckboxItemProps } from './DiningCheckboxItem.types';
 import { useReactiveVar } from '@apollo/client';
 import { editControl } from 'storage/dining-menu.storage';
-import { useCurrency } from 'utils/hooks/useConfiguration';
+import { useCurrency } from 'utils/hooks/useCurrency';
 
 export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
   element,
@@ -15,6 +15,7 @@ export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
   checked,
 }) => {
   const editControlStatus = useReactiveVar(editControl);
+  const currency = useCurrency();
 
   const toggleRequested = useCallback(() => {
     if (editControlStatus) {
@@ -44,20 +45,6 @@ export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
       }
     }
   }, [addons, element, setAddons, setupdateAddons, updateAddons]);
-  const currency = useCurrency();
-
-  // const toggleRequested = useCallback(() => {
-  //   setupdateAddons(!updateAddons);
-  //   const item = addons?.find((item) => item?.id === element?.id);
-  //   if (item) {
-  //     const index = (addons ?? [])?.indexOf(item);
-  //     if (index > -1) {
-  //       addons?.splice(index, 1);
-  //     }
-  //   } else {
-  //     setAddons([...(addons ?? []), element]);
-  //   }
-  // }, [addons, element, setAddons, setupdateAddons, updateAddons]);
 
   const showCurrency = () => {
     return (

@@ -9,19 +9,17 @@ import {
   filterRestaurantList,
   irdActiveMenuList,
   getTimings,
-  uniqueDiningOption,
   diningOptionList,
   restaurantCtaNavigation,
   activeItems,
 } from 'utils/functions';
 import {
-  BAR,
   CAROUSEL_RESPONSIVE,
   IN_ROOM_DINING,
   EXTERNAL_URL,
   RESTAURANTS_AND_BARS,
   RESTAURANT,
-  RESTAURANTS,
+  ACTIVE,
 } from 'utils/constants';
 import cx from 'classnames';
 import { diningInformationStorage } from 'storage/dining.storage';
@@ -122,26 +120,28 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
               </div>
             )}
           </div>
-          {!module ? (
-            <div className={styles.buttonWrapper}>
-              <StyledButton
-                variant='outlined'
-                className={styles.button}
-                onClick={() => {
-                  slide?.cta?.redirectOption === EXTERNAL_URL
-                    ? setIframeComponent(true)
-                    : restaurantCtaNavigation(
-                        slide,
-                        router,
-                        navigate(availablePaths.RESTAURANTS_BARS),
-                      );
-                }}
-              >
-                {slide?.cta?.ctaTitle || t('BOOK NOW')}
-              </StyledButton>
-            </div>
-          ) : (
+          {module ? (
             <CustomReadMore text={'READ MORE'} />
+          ) : (
+            slide?.cta?.status === ACTIVE && (
+              <div className={cx(styles.buttonWrapper, 'globals-buttonWrapper')}>
+                <StyledButton
+                  variant='outlined'
+                  className={styles.button}
+                  onClick={() => {
+                    slide?.cta?.redirectOption === EXTERNAL_URL
+                      ? setIframeComponent(true)
+                      : restaurantCtaNavigation(
+                          slide,
+                          router,
+                          navigate(availablePaths.RESTAURANTS_BARS),
+                        );
+                  }}
+                >
+                  {slide?.cta?.ctaTitle || t('BOOK NOW')}
+                </StyledButton>
+              </div>
+            )
           )}
         </div>
       </div>
@@ -219,7 +219,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, ird
         >
           {t('Dining')}
         </p>
-        {uniqueFilteredDiningOptions?.length > 0 && (
+        {uniqueFilteredDiningOptions?.length > 1 && (
           <div className={cx(styles.diningOptions, 'globals-diningOptions')}>
             {uniqueFilteredDiningOptions?.map((dining: any, index: any) => (
               <p

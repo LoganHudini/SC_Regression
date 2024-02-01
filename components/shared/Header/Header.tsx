@@ -3,7 +3,6 @@
 import { useLanguage, useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import cx from 'classnames';
 import React, { useCallback, useState } from 'react';
-import HomeHeader from '@icons/HomeHeader.svg';
 import MyOrders from '@icons/foodDelivery.svg';
 import MenuDropDown from '@icons/menuDropDown.svg';
 import MenuDropDownSecondary from '@icons/menuDropDownSecondary.svg';
@@ -14,7 +13,7 @@ import styles from './Header.module.scss';
 import { IHeaderProps } from './Header.types';
 import { useRouter } from 'next/router';
 import ArrowBackIosIcon from '@icons/ArrowBack.svg';
-import { ALL_DAY, LANGUAGE_LIST_BARCELONA, HOME } from 'utils/constants';
+import { ALL_DAY, LANGUAGE_LIST_BARCELONA } from 'utils/constants';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import CrossDropdown from '@icons/close.svg';
@@ -161,7 +160,7 @@ export const Header: React.FC<IHeaderProps> = ({
               <SearchIrd className={styles.searchIcon} />
             </button>
           )}
-          {ordersData?.length > 0 && screenTitle === HOME && (
+          {ordersData?.length > 0 && (
             <div className={styles.myOrdersIconContainer}>
               <div className={styles.myOrdersIconWrapper} onClick={openOrdersDrawer}>
                 <MyOrders className={styles.myOrdersIcon} />

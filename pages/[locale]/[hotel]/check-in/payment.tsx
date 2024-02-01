@@ -8,9 +8,17 @@ import { getStaticPaths } from 'utils/getStatic';
 import i18nConfig from 'next-i18next.config';
 import Shift4 from 'components/pages/payment/Shift4/Shift4';
 import { useConfig } from 'utils/hooks/useConfiguration';
-import { CHECK_IN, CREDIT_CARD_INFO, CYBERSOURCE, INFORMATION, SHIFT4 } from 'utils/constants';
+import {
+  CHECK_IN,
+  CREDIT_CARD_INFO,
+  CYBERSOURCE,
+  FREEDOMPAY,
+  INFORMATION,
+  SHIFT4,
+} from 'utils/constants';
 import CyberSource from 'components/pages/payment/CyberSource/CyberSource';
 import { availablePaths } from 'utils/availablePaths';
+import FreedomPay from 'components/pages/payment/FreedomPay/FreedomPay';
 
 export { getStaticPaths };
 
@@ -29,6 +37,8 @@ const Payment: React.FC = () => {
         return <CyberSource />;
       case SHIFT4:
         return <Shift4 />;
+      case FREEDOMPAY:
+        return <FreedomPay />;
       default:
         break;
     }

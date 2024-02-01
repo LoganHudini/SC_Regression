@@ -27,7 +27,7 @@ export interface IInitiatePaymentApiResponse {
 }
 
 export const INITIATE_PAYMENT_SHIFT4 = gql`
-query InitiatePayment( $body: UpdateGuestDetailsPayload) {
+query InitiatePayment( $body: InitiatePaymentPayload) {
     initiatePayment(body: $body)
     @rest(
       type: "InitiatePaymentPayload"
@@ -43,7 +43,7 @@ query InitiatePayment( $body: UpdateGuestDetailsPayload) {
 `;
 
 export const INITIATE_PAYMENT_FISERV = gql`
-query InitiatePayment( $body: UpdateGuestDetailsPayload) {
+query InitiatePayment( $body: InitiatePaymentPayload) {
     initiatePayment(body: $body)
     @rest(
       type: "InitiatePaymentPayload"
@@ -59,11 +59,27 @@ query InitiatePayment( $body: UpdateGuestDetailsPayload) {
 `;
 
 export const INITIATE_PAYMENT_CYBERSOURCE = gql`
-query InitiatePayment( $body: UpdateGuestDetailsPayload) {
+query InitiatePayment( $body: InitiatePaymentPayload) {
     initiatePayment(body: $body)
     @rest(
       type: "InitiatePaymentPayload"
       path: "/${ENVIRONMENT}/payment/cybersource/hotel/${HOTEL_ID}/loadPaymentZone"
+      method: "POST"
+      bodyKey: "body"
+    ) {
+    errors
+    data
+    status
+  }
+}
+`;
+
+export const INITIATE_PAYMENT_FREEDOMPAY = gql`
+query InitiatePayment( $body: InitiatePaymentPayload) {
+    initiatePayment(body: $body)
+    @rest(
+      type: "InitiatePaymentPayload"
+      path: "/${ENVIRONMENT}/v3/loadpaymentzone/freedompay/hotel/${HOTEL_ID}"
       method: "POST"
       bodyKey: "body"
     ) {

@@ -24,6 +24,7 @@ import cx from 'classnames';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
+import { filterHotelCompendiumCategories } from 'utils/functions';
 
 export { getStaticPaths };
 
@@ -48,11 +49,7 @@ const HotelCompendium: React.FC = () => {
 
   useEffect(() => {
     if (data && hotelCompendiumSelectedDetails?.length === 0) {
-      const filteredDetails = data?.getHotelAmenityDetails?.categories?.filter((category: any) => {
-        return data?.getHotelAmenityDetails?.amenities?.find(
-          (amenity: any) => amenity?.categoryIds.includes(category?.id) && amenity?.isActive,
-        );
-      });
+      const filteredDetails = filterHotelCompendiumCategories(data);
       selectedCompendiumCategory(filteredDetails[0]);
       getHotelCompendium(data?.getHotelAmenityDetails);
     }
@@ -61,7 +58,7 @@ const HotelCompendium: React.FC = () => {
   const selectedAmenities = data?.getHotelAmenityDetails?.amenities?.filter(
     (amenity: any) =>
       amenity?.categoryIds?.length > 0 &&
-      amenity?.categoryIds.includes(hotelCompendiumSelectedDetails?.id) &&
+      amenity?.categoryIds?.includes(hotelCompendiumSelectedDetails?.id) &&
       amenity?.isActive,
   );
 

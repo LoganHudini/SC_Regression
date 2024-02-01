@@ -26,7 +26,7 @@ import { addToCartEvent } from 'utils/gtag';
 import cx from 'classnames';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { client } from 'core/graphql/client';
-import { useCurrency } from 'utils/hooks/useConfiguration';
+import { useCurrency } from 'utils/hooks/useCurrency';
 import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 
 const DiningDetailsDrawer = () => {

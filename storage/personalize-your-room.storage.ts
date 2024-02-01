@@ -10,4 +10,3 @@ export type IPersonalizeYourRoomStorageData = {
 }[];
 
 export const personalizeYourRoomStorage = makeVar<IPersonalizeYourRoomStorageData>([]);
-export const specialRequestsStorage = makeVar('');

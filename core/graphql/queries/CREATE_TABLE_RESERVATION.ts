@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { VENUE_ID } from '../endpoints';
 
 export interface ICreateTableReservationApiRequest {
   Date: string;
@@ -14,17 +13,20 @@ export interface ICreateTableReservationApiRequest {
 }
 
 export const CREATE_TABLE_RESERVATION = gql`
-query CreateTableReservation($confirmationNumber: String, $body:ICreateTableReservationApiRequest) {
+  query CreateTableReservation(
+    $confirmationNumber: String
+    $body: ICreateTableReservationApiRequest
+  ) {
     createTableReservation(confirmationNumber: $confirmationNumber, body: $body)
-    @rest(
-      type: "CreateTableReservationPayload"
-      path: "/venues/${VENUE_ID}/book"
-      method: "POST"
-      bodyKey: "body"
-    ) {
-    errors
-    data
-    status
+      @rest(
+        type: "CreateTableReservationPayload"
+        path: "/venues/venueId/book"
+        method: "POST"
+        bodyKey: "body"
+      ) {
+      errors
+      data
+      status
+    }
   }
-}
 `;
