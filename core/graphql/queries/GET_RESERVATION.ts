@@ -115,7 +115,7 @@ export const GET_RESERVATION = gql`
     getReservation(confirmationNumber: $confirmationNumber, lastName: $lastName, hotelId: $hotelId)
       @rest(
         type: "GetReservationPayload"
-        path: "/${ENVIRONMENT}/booking/hotel/{args.hotelId}/details/{args.confirmationNumber}?lastName={args.lastName}&arrivalDateRequired=no&fetchFromDb=yes"
+        path: "/${ENVIRONMENT}/booking/hotel/{args.hotelId}/details/{args.confirmationNumber}?lastName={args.lastName}&arrivalDateRequired=no&fetchFromDb=no"
       ) {
       errors
       data
@@ -129,7 +129,7 @@ export const GET_RESERVATION_NO_LAST_NAME = gql`
     getReservation(confirmationNumber: $confirmationNumber)
       @rest(
         type: "GetReservationPayload"
-        path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/details/{args.confirmationNumber}?lastNameRequired=no&arrivalDateRequired=no&fetchFromDb=yes"
+        path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/details/{args.confirmationNumber}?lastNameRequired=no&arrivalDateRequired=no&fetchFromDb=no"
       ) {
       errors
       data
@@ -143,7 +143,7 @@ export const GET_RESERVATION_NO_ARRIVAL_DATE = gql`
     getReservation(confirmationNumber: $confirmationNumber, lastName: $lastName)
       @rest(
         type: "GetReservationPayload"
-        path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/details/{args.confirmationNumber}?lastName={args.lastName}&arrivalDateRequired=no&fetchFromDb=yes"
+        path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/details/{args.confirmationNumber}?lastName={args.lastName}&arrivalDateRequired=no&fetchFromDb=no"
       ) {
       errors
       data
@@ -157,7 +157,7 @@ export const GET_RESERVATION_WITH_ROOM_NUMBER = gql`
     getReservation(roomNo: $roomNo, lastName: $lastName)
       @rest(
         type: "GetReservationPayload"
-        path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/details/na?lastName={args.lastName}&roomNo={args.roomNo}&arrivalDateRequired=no&fetchFromDb=yes"
+        path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/details/na?lastName={args.lastName}&roomNo={args.roomNo}&arrivalDateRequired=no&fetchFromDb=no"
       ) {
       errors
       data

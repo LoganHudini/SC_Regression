@@ -30,9 +30,9 @@
   --primary-image-transition-background-color: #a0a1a3;
 
   // hamburger menu colors
-  --hamburgermenu-drawer-color: #595959;
-  --hamburgermenu-text-color: #ffffff;
-  --hamburgermenu-icon-color: #ffffff;
+  --hamburgermenu-drawer-color: #E2DEDC;
+  --hamburgermenu-text-color: #303030;
+  --hamburgermenu-icon-color: #303030;
 
   // font-families
   --primary-font-regular: 'Brown Std';
@@ -83,9 +83,6 @@
 
 .MuiButton-containedPrimary {
   border-bottom: 1px solid var(--primary-button-color);
-  &:disabled {
-    background: var(--primary-disabled-color);
-  }
   &:after {
     display: none;
   }

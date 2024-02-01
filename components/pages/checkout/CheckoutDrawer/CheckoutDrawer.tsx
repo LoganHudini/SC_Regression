@@ -7,11 +7,6 @@ import { useTranslation } from 'react-i18next';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { CHECKOUT, ICheckoutApiRequest } from 'core/graphql/queries/CHECKOUT';
 import { client } from 'core/graphql/client';
-import {
-  GET_RESERVATION_NO_LAST_NAME,
-  IGetReservationApiResponse,
-} from 'core/graphql/queries/GET_RESERVATION';
-import { useCheckedIn } from 'storage/check-in.storage';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
 import { checkoutTrip } from 'storage/trips.storage';
@@ -20,26 +15,15 @@ import { CHECK_IN, CHECK_OUT, ERRORMSG } from 'utils/constants';
 import { activeItems, activeModule } from 'utils/functions';
 
 const CheckoutDrawer = (props: any) => {
-  const { setErrorToggle, amountDue } = props;
+  const { setErrorToggle, reservationData, amountDue } = props;
   const locale = useLocale();
   const config = useConfig();
   const hotelId = useConfig()?.hotelId;
   const { t } = useTranslation(['common']);
   const [checkoutLoader, setCheckoutLoader] = useState(false);
   const detailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
-  const checkedInData = useCheckedIn();
 
   const checkinModule: boolean = activeModule(config?.modules, CHECK_IN);
-
-  const { data: reservationData } = useQuery<IGetReservationApiResponse>(
-    GET_RESERVATION_NO_LAST_NAME,
-    {
-      context: { clientName: 'rest' },
-      variables: {
-        confirmationNumber: checkedInData?.reservationId,
-      },
-    },
-  );
 
   const { data: feedBackList } = useQuery(GET_FEEDBACK, {
     skip: !hotelId,
