@@ -19,6 +19,7 @@ import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import {
   activeModule,
   filterLiveMenu,
+  filterIRDMenuItems,
   irdActiveMenuList,
   uniqueDiningOption,
 } from 'utils/functions';
@@ -108,7 +109,8 @@ const Dining = () => {
     }
   }, [queryResultsData]);
 
-  const irdActiveMenu = irdActiveMenuList(data);
+  const irdMenu: IRDMenuApiResponse = irdActiveMenuList(data);
+  const irdActiveMenu: any = filterIRDMenuItems(irdMenu);
   const menuName = irdActiveMenu && irdActiveMenu[0]?.name;
   const menuHours = irdActiveMenu && irdActiveMenu[0]?.hours;
   const [header, setcategoryIdheader] = useState([

@@ -20,7 +20,7 @@ import { CHECK_IN, CHECK_OUT, ERRORMSG } from 'utils/constants';
 import { activeItems, activeModule } from 'utils/functions';
 
 const CheckoutDrawer = (props: any) => {
-  const { setErrorToggle } = props;
+  const { setErrorToggle, amountDue } = props;
   const locale = useLocale();
   const config = useConfig();
   const hotelId = useConfig()?.hotelId;
@@ -105,8 +105,9 @@ const CheckoutDrawer = (props: any) => {
           state: false,
           message: 'Unable to checkout',
           type: feedbackData?.length === 0 ? 'home' : 'feedback',
-          description:
-            'There are outstanding payments to settle. Kindly proceed to the front desk to complete the checkout process.',
+          description: `${
+            amountDue > 0 && 'There are outstanding payments to settle. '
+          }Kindly proceed to the front desk to complete the checkout process.`,
         });
       } else {
         toggleNotification(true);

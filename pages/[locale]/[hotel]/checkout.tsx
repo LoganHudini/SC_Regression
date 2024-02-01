@@ -198,7 +198,10 @@ const CheckOut = () => {
           </>
         )}
       </PageWrapper>
-      <CheckoutDrawer setErrorToggle={setErrorToggle} />
+      <CheckoutDrawer
+        amountDue={invoiceData?.invoice?.data?.totalDueAmount}
+        setErrorToggle={setErrorToggle}
+      />
       <Notification
         title={errorToggle?.message}
         description={errorToggle?.description}

@@ -269,6 +269,20 @@ export const openLinknewTab = (url: string) => {
   a.click();
 };
 
+export const filterIRDMenuItems = (activeMenu: any) => {
+  const irdMenu: any = [];
+  activeMenu?.forEach((menu: any) => {
+    menu?.categories?.forEach((category: any) => {
+      const itemExists = category?.items?.find((item: any) => item?.isActive);
+      if (itemExists) {
+        irdMenu.push(menu);
+      }
+    });
+  });
+
+  return [...new Set(irdMenu)];
+};
+
 export const filterHotelCompendiumCategories = (data: any) => {
   return data?.getHotelAmenityDetails?.categories?.filter((category: any) => {
     return data?.getHotelAmenityDetails?.amenities?.find(

@@ -12,6 +12,7 @@ import {
   diningOptionList,
   restaurantCtaNavigation,
   activeItems,
+  filterIRDMenuItems,
 } from 'utils/functions';
 import {
   CAROUSEL_RESPONSIVE,
@@ -36,6 +37,7 @@ import { useRouter } from 'next/router';
 import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
+import { IRDMenuApiResponse } from 'core/graphql/queries/IRD_MENU';
 
 interface ICarouselProps {
   ird: any;
@@ -169,7 +171,8 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, ird
 
   const [diningOptionsState, setDiningOption] = useState<any>();
 
-  const irdActiveMenu = irdActiveMenuList(ird);
+  const irdMenuActive: IRDMenuApiResponse = irdActiveMenuList(ird);
+  const irdActiveMenu = filterIRDMenuItems(irdMenuActive);
   const queryResultsData: any = restaurants?.getRestaurantDetails?.restaurant;
   const filteredList = filterRestaurantList(queryResultsData, diningOptionsState);
 
