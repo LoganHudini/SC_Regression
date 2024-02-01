@@ -12,13 +12,12 @@ import { ApolloError, useQuery } from '@apollo/client';
 import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import cx from 'classnames';
-import { CHECKOUT, EMAIL_CAPS, ERRORMSG, FAILURE, RATING5STARS, SUCCESS } from 'utils/constants';
+import { CHECK_OUT, EMAIL_CAPS, ERRORMSG, FAILURE, RATING5STARS } from 'utils/constants';
 import Okay from '@icons/okayFeedback.svg';
 import Good from '@icons/goodFeedback.svg';
 import Great from '@icons/greatFeedback.svg';
 import { TextField } from '@mui/material';
 import { client } from 'core/graphql/client';
-import { processError } from 'utils/processError';
 import { PostFeedback } from 'core/graphql/queries/FEEDBACK';
 import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
@@ -30,6 +29,7 @@ import { GET_HOTEL_INFORMATION } from 'core/graphql/queries/GET_HOTEL_INFORMATIO
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { Notification } from 'components/shared/Notification/Notification';
 import { toggleNotification } from 'storage/home.storage';
+import { activeItems } from 'utils/functions';
 
 export { getStaticPaths };
 
@@ -68,8 +68,9 @@ const Feedback = () => {
     },
   });
 
-  const feedbackData = data?.listFeedback?.filter((item: any) => item?.destination === CHECKOUT);
-
+  const feedbackData = activeItems(
+    data?.listFeedback?.filter((item: any) => item?.destination === CHECK_OUT),
+  );
   const hotelEmail = homeCarouselDetails?.getPropertyDetailsByHotelId?.hotel?.information?.find(
     (inforamtion: any) => inforamtion?.field === EMAIL_CAPS,
   )?.value;

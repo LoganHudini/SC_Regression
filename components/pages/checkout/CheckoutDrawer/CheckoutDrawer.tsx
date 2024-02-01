@@ -16,8 +16,8 @@ import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
 import { checkoutTrip } from 'storage/trips.storage';
 import { useConfig } from 'utils/hooks/useConfiguration';
-import { CHECK_IN, ERRORMSG } from 'utils/constants';
-import { activeModule } from 'utils/functions';
+import { CHECK_IN, CHECK_OUT, ERRORMSG } from 'utils/constants';
+import { activeItems, activeModule } from 'utils/functions';
 
 const CheckoutDrawer = (props: any) => {
   const { setErrorToggle } = props;
@@ -51,8 +51,8 @@ const CheckoutDrawer = (props: any) => {
     },
   });
 
-  const feedbackData = feedBackList?.listFeedback?.filter(
-    (item: any) => item?.destination === CHECKOUT,
+  const feedbackData = activeItems(
+    feedBackList?.listFeedback?.filter((item: any) => item?.destination === CHECK_OUT),
   );
 
   const reservationInfo = reservationData?.getReservation?.data;
