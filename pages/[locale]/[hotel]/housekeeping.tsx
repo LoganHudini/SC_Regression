@@ -172,8 +172,25 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
 
   const handleOrder = async () => {
     try {
+      const scheduledDateTimePayload = showSchedules?.scheduleActive
+        ? showSchedules?.schedule?.includes(CUSTOM)
+          ? showSchedules?.customSchedule === DATE
+            ? dayjs(selectedTime, timeFormats.DAY_MONTH).format(timeFormats.DAY_MONTH)
+            : showSchedules?.customSchedule === TIME
+            ? dayjs(selectedTime, timeFormats.HOURS_MINUTES_AM).format(timeFormats.HOURS_MINUTES_AM)
+            : showSchedules?.customSchedule === DATETIME
+            ? dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2).format(
+                timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2,
+              )
+            : dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2).format(
+                timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2,
+              )
+          : dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2).format(
+              timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2,
+            )
+        : '';
       if (serviceType?.type === CMS) {
-        const response = await sendHousekeepingOrder({
+        await sendHousekeepingOrder({
           variables: {
             bookingTime: dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2),
             guestName: checkinData?.name,
@@ -187,22 +204,12 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
                 id: el?.itemId,
                 name: el?.name + ' X ' + el?.quantity,
                 instructions: '',
-                scheduledFor: showSchedules?.scheduleActive
-                  ? showSchedules?.schedule?.includes(CUSTOM)
-                    ? showSchedules?.customSchedule === DATE
-                      ? dayjs(selectedTime).format(timeFormats.DAY_MONTH)
-                      : showSchedules?.customSchedule === TIME
-                      ? dayjs(selectedTime).format(timeFormats.HOURS_MINUTES_AM)
-                      : showSchedules?.customSchedule === DATETIME
-                      ? dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
-                      : dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
-                    : dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
-                  : '',
+                scheduledFor: scheduledDateTimePayload,
               })),
           },
         });
       } else {
-        const response = await sendHousekeepingOrderIntegration({
+        await sendHousekeepingOrderIntegration({
           variables: {
             hotelId: HOTEL_ID,
             roomNo: checkinData?.roomNumber,
@@ -216,17 +223,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
                 priorityId: '11',
                 name: el?.name + ' X ' + el?.quantity,
                 quantity: 1,
-                scheduled: showSchedules?.scheduleActive
-                  ? showSchedules?.schedule?.includes(CUSTOM)
-                    ? showSchedules?.customSchedule === DATE
-                      ? dayjs(selectedTime).format(timeFormats.DAY_MONTH)
-                      : showSchedules?.customSchedule === TIME
-                      ? dayjs(selectedTime).format(timeFormats.HOURS_MINUTES_AM)
-                      : showSchedules?.customSchedule === DATETIME
-                      ? dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
-                      : dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
-                    : dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
-                  : '',
+                scheduled: scheduledDateTimePayload,
               })),
           },
         });
@@ -319,7 +316,9 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
                     </div>
 
                     <div className={styles.calendarDateText}>
-                      {dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)}
+                      {dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2).format(
+                        timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2,
+                      )}
                     </div>
                   </div>
                 </>
