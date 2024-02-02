@@ -137,14 +137,13 @@
   margin: 1rem 0;
 }
 
-.cuisineRowTime,
-.DetailscuisineRowTime {
+.cuisineRowTime {
   display: flex;
   flex-direction: row;
   align-items: center;
   width: 90%;
+  margin: 0 10%;
   text-decoration: none;
-  margin-inline-start: 10%;
   font-family: var(--primary-font-regular);
   font-size: $xsmall;
   text-transform: capitalize;
@@ -152,7 +151,29 @@
   text-align: start;
 
   p {
-    margin-inline-start: 16px;
+    margin-inline-start: 1rem;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    text-transform: capitalize;
+    color: var(--primary-text-color);
+    -webkit-line-clamp: 2;
+    width: 81%;
+  }
+}
+
+.DetailscuisineRowTime {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  text-decoration: none;
+  font-family: var(--primary-font-regular);
+  font-size: $xsmall;
+  text-transform: capitalize;
+  justify-content: flex-start;
+  text-align: start;
+
+  p {
     font-size: 0.75rem;
     line-height: 1.5;
     text-transform: capitalize;
@@ -183,7 +204,6 @@
   gap: 15px;
 
   p {
-    margin-inline-start: 16px;
     font-size: 0.75rem;
     line-height: 1.5;
     text-transform: capitalize;
