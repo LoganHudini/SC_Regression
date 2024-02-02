@@ -90,7 +90,7 @@ const CheckoutDrawer = (props: any) => {
           message: 'Unable to checkout',
           type: feedbackData?.length === 0 ? 'home' : 'feedback',
           description: `${
-            amountDue > 0 && 'There are outstanding payments to settle. '
+            amountDue > 0 ? 'There are outstanding payments to settle. ' : ''
           }Kindly proceed to the front desk to complete the checkout process.`,
         });
       } else {
