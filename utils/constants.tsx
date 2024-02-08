@@ -130,6 +130,7 @@ export const SPA_BOOKING_FLOW = 'SPA Booking Flow';
 export const SPA_TREATMENTS = 'SPA Treatments';
 export const RESTAURANTS_AND_BARS = 'Restaurants & Bars';
 export const SPA_AND_WELLNESS = 'Spa & Wellness';
+export const WEBSITE = 'Website';
 
 // flow constants
 export const DAYS = [

@@ -13,7 +13,7 @@ import Map from '@icons/map.svg';
 import cx from 'classnames';
 import Location from 'components/shared/Location/Location';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
-import { EMAILCAPS, PHONECAPS, URL } from 'utils/constants';
+import { EMAILCAPS, PHONECAPS, URL, WEBSITE } from 'utils/constants';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import {
   hotelInfoStorage,
@@ -21,13 +21,11 @@ import {
   toggleHotelInfoDrawer,
   toggleMapState,
 } from 'storage/home.storage';
-import { useConfig } from 'utils/hooks/useConfiguration';
-import { useLocale } from 'utils/hooks/useLocalizedRouter';
+import { isEmpty } from 'lodash';
+import { groupBy, openLinknewTab } from 'utils/functions';
 
 const HotelInfoDrawer = () => {
   const { t } = useTranslation('common');
-  const locale = useLocale();
-  const hotelId = useConfig()?.hotelId;
   const hotelInfoDetailsDrawerStatus = useReactiveVar(toggleHotelInfoDrawer);
   const checkInDetailsDrawerStatus = useReactiveVar(toggleCheckInDetailsDrawer);
   const showMap = useReactiveVar(toggleMapState);
@@ -37,6 +35,11 @@ const HotelInfoDrawer = () => {
   const phoneData = hotelInfo?.information?.find((x: any) => x?.type === PHONECAPS);
   const mailData = hotelInfo?.information?.find((x: any) => x?.type === EMAILCAPS);
   const webData = hotelInfo?.information?.find((x: any) => x?.type === URL);
+  const webLinkList = hotelInfo?.information.filter(
+    (item: any) => item.type === URL && item.field !== WEBSITE,
+  );
+
+  const groupedwebLinkList: any = webLinkList?.length > 0 && groupBy(webLinkList, 'field');
 
   const handleClose = () => {
     toggleHotelInfoDrawer(false);
@@ -134,6 +137,22 @@ const HotelInfoDrawer = () => {
           <div className={styles.wrapper}>
             <h2 className={styles.title}>{t(`${hotelInfo?.name}`)}</h2>
             <div className={styles.body}>{t(`${hotelInfo?.description}`)}</div>
+            {!isEmpty(groupedwebLinkList) &&
+              Object.keys(groupedwebLinkList)?.map((language, index) => (
+                <div key={index}>
+                  <p className={styles.languageTitle}>{language}</p>
+                  {groupedwebLinkList[language]?.map((item: any, itemIndex: any) => (
+                    <div key={itemIndex + item?.value}>
+                      <p
+                        className={styles.informationList}
+                        onClick={() => openLinknewTab(item?.value)}
+                      >
+                        {`${t(item?.displayTitle)}`}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ))}
           </div>
         </div>
       ) : (

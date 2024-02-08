@@ -59,8 +59,9 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
   const { t } = useTranslation('housekeeping');
   const locale = useLocale();
   const checkinData = useCheckedIn();
-  const hotelId = useConfig()?.hotelId;
   const config = useConfig();
+  const hotelId = config?.hotelId;
+  const hotelName = config?.name;
   const [showServiceRequest, setShowServiceRequest] = useState([]);
   const [showSchedules, setShowSchedules] = useState<any>([]);
   const [showCalendar, setShowCalendar] = useState(false);
@@ -385,7 +386,9 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
   return (
     <>
       <Head>
-        <title>{t('Services')}</title>
+        <title>
+          {hotelName} | {t('Services')}
+        </title>
       </Head>
       <Header displayHome screenTitle={t('Services') as string} />
       <div className={styles.housekeepingWrapper}>

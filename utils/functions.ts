@@ -290,3 +290,13 @@ export const filterHotelCompendiumCategories = (data: any) => {
     );
   });
 };
+
+export const groupBy = (arrayToBeGrouped: any, property: string) => {
+  return arrayToBeGrouped.reduce(function (memo: any, x: any) {
+    if (!memo[x[property]]) {
+      memo[x[property]] = [];
+    }
+    memo[x[property]].push(x);
+    return memo;
+  }, {});
+};
