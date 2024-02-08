@@ -160,13 +160,7 @@ export const Header: React.FC<IHeaderProps> = ({
               <SearchIrd className={styles.searchIcon} />
             </button>
           )}
-          {ordersData?.length > 0 && (
-            <div className={styles.myOrdersIconContainer}>
-              <div className={styles.myOrdersIconWrapper} onClick={openOrdersDrawer}>
-                <MyOrders className={styles.myOrdersIcon} />
-              </div>
-            </div>
-          )}
+
           {lang && (
             <button
               className={styles.closeButton1}

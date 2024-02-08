@@ -27,6 +27,8 @@ export const configuration = [
         code: 'Check-In',
         name: 'Check-In',
         isActive: true,
+        welcomeTitle: '',
+        welcomeBody: '',
         submodules: [
           {
             name: 'information',
@@ -359,6 +361,8 @@ export const configuration = [
       {
         code: 'Check-In',
         name: 'Check-In',
+        welcomeTitle: '',
+        welcomeBody: '',
         isActive: true,
         submodules: [
           {
@@ -677,6 +681,8 @@ export const configuration = [
       {
         code: 'Check-In',
         name: 'Check-In',
+        welcomeTitle: '',
+        welcomeBody: '',
         isActive: true,
         submodules: [
           {
@@ -1026,6 +1032,8 @@ export const configuration = [
       {
         code: 'Check-In',
         name: 'Check-In',
+        welcomeTitle: '',
+        welcomeBody: '',
         isActive: true,
         submodules: [
           {
@@ -1358,6 +1366,9 @@ export const configuration = [
         code: 'Check-In',
         name: 'Check-In',
         isActive: false,
+        welcomeTitle: 'Welcome to Raffles The Palm',
+        welcomeBody:
+          "Welcome to Raffles The Palm - the only Palace of its kind, blending timeless craftmanship with Dubai's vibrant social culture in an ultra-luxury beach resort environment.",
       },
       {
         code: 'In-Room Dining',
@@ -1408,6 +1419,8 @@ export const configuration = [
       {
         code: 'Check-In',
         name: 'Check-In',
+        welcomeTitle: '',
+        welcomeBody: '',
         isActive: true,
         submodules: [
           {
@@ -1717,6 +1730,8 @@ export const configuration = [
       {
         code: 'Check-In',
         name: 'Check-In',
+        welcomeTitle: '',
+        welcomeBody: '',
         isActive: true,
         submodules: [
           {
@@ -2035,6 +2050,8 @@ export const configuration = [
       {
         code: 'Check-In',
         name: 'Check-In',
+        welcomeTitle: '',
+        welcomeBody: '',
         isActive: true,
         submodules: [
           {
@@ -2346,6 +2363,8 @@ export const configuration = [
       {
         code: 'Check-In',
         name: 'Check-In',
+        welcomeTitle: '',
+        welcomeBody: '',
         isActive: true,
         submodules: [
           {

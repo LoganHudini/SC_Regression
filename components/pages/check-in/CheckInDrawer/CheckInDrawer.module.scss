@@ -77,3 +77,33 @@
   background: var(--primary-drawer-notch-color) 0% 0% no-repeat padding-box;
   border-radius: 3px;
 }
+
+.letterTitle {
+  font-family: var(--heading-font-regular);
+  font-size: $header;
+}
+
+.nameTitle {
+  font-family: var(--primary-font-extd-regular);
+  font-size: $small;
+  color: var(--tertiary-text-color);
+  margin-top: 12px;
+}
+
+.letterBody {
+  margin-top: 10px;
+  font-family: var(--primary-font-extd-regular);
+  font-size: $small;
+  text-align: center;
+  color: var(--tertiary-text-color);
+}
+
+.letterWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  padding: 40px 25px 7px 25px;
+  line-height: 1.3;
+}

@@ -28,9 +28,10 @@ import { Notification } from 'components/shared/Notification/Notification';
 import { availablePaths } from 'utils/availablePaths';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { useConfig } from 'utils/hooks/useConfiguration';
-import { FAILURE, SUCCESS } from 'utils/constants';
+import { FAILURE, INHOUSE, SUCCESS } from 'utils/constants';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import dayjs from 'dayjs';
+import { checkoutTrip } from 'storage/trips.storage';
 
 export { getStaticPaths };
 
@@ -55,6 +56,27 @@ const CheckOut = () => {
       context: { clientName: 'rest' },
       variables: {
         confirmationNumber: checkedInData?.reservationId,
+      },
+      onError: (error) => {
+        toggleNotification(true);
+        setErrorToggle({
+          state: true,
+          message: 'Please Try Again!',
+          type: 'home',
+          description: 'Could not fetch reservation details.',
+        });
+      },
+      onCompleted(data) {
+        if (data?.getReservation?.data?.reservationStatus !== INHOUSE) {
+          toggleNotification(true);
+          setErrorToggle({
+            state: true,
+            message: 'Reservation Not Found!',
+            type: 'home',
+            description: 'Please enter valid reservation details.',
+          });
+          checkoutTrip();
+        }
       },
     });
 

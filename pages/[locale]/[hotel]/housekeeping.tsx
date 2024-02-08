@@ -67,6 +67,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
   const [showCalendar, setShowCalendar] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [showText, setShowText] = useState(false);
+  const [placeOrderLoader, setPlaceOrderLoader] = useState(false);
   const [selectedTime, setSelectedTime] = useState(
     dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM),
   );
@@ -172,6 +173,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
   );
 
   const handleOrder = async () => {
+    setPlaceOrderLoader(true);
     try {
       const scheduledDateTimePayload = showSchedules?.scheduleActive
         ? showSchedules?.schedule?.includes(CUSTOM)
@@ -190,6 +192,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
               timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2,
             )
         : '';
+
       if (serviceType?.type === CMS) {
         await sendHousekeepingOrder({
           variables: {
@@ -210,7 +213,17 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
           },
         });
       } else {
-        await sendHousekeepingOrderIntegration({
+        combinedServiceRequestArray?.length === 0
+          ? combinedServiceRequestArray.push({
+              itemId: showSchedules?.code,
+              priorityId: '11',
+              name: showSchedules?.name,
+              quantity: 1,
+              scheduled: scheduledDateTimePayload,
+            })
+          : null;
+
+        const response = await sendHousekeepingOrderIntegration({
           variables: {
             hotelId: HOTEL_ID,
             roomNo: checkinData?.roomNumber,
@@ -222,13 +235,17 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
               ?.map((el: any) => ({
                 code: el?.itemId,
                 priorityId: '11',
-                name: el?.name + ' X ' + el?.quantity,
-                quantity: 1,
+                name: el?.name,
+                quantity: el?.quantity,
                 scheduled: scheduledDateTimePayload,
               })),
           },
         });
+        if (!response?.data?.transactionHK?.status) {
+          throw false;
+        }
       }
+
       toggleDetailsDrawer(false);
       setDisabled(false);
       housekeepingQuantityStorage({ selectedItems: [] });
@@ -251,6 +268,8 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
         type: FAILURE,
       });
     }
+    setPlaceOrderLoader(false);
+
     toggleNotification(true);
   };
 
@@ -372,7 +391,11 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
               )}
 
               {!showCalendar && (
-                <StyledButton disabled={!disabled} onClick={() => handleOrder()}>
+                <StyledButton
+                  disabled={!disabled}
+                  onClick={() => handleOrder()}
+                  loading={placeOrderLoader}
+                >
                   {t('PLACE ORDER')}
                 </StyledButton>
               )}

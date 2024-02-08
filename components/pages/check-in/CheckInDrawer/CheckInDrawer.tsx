@@ -18,7 +18,7 @@ import { client } from 'core/graphql/client';
 import { ApolloError, useReactiveVar } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { availablePaths } from 'utils/availablePaths';
-import { checkinStorage } from 'storage/check-in.storage';
+import { checkinStorage, useCheckedIn } from 'storage/check-in.storage';
 import { toggleCheckInDetailsDrawer, toggleNotification } from 'storage/home.storage';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { saveTrip } from 'storage/trips.storage';
@@ -33,10 +33,11 @@ import {
   NOSHOW,
   SUCCESS,
   NA,
+  INHOUSE,
 } from 'utils/constants';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { Loader } from 'components/shared/Loaders/Loaders';
-import { activeModule } from 'utils/functions';
+import { activeModule, findModule, moduleType } from 'utils/functions';
 import { checkRoomStatus } from 'utils/apis/rest';
 
 const CheckInDrawer = () => {
@@ -52,8 +53,10 @@ const CheckInDrawer = () => {
   const resId = router?.query?.resId ?? '';
   const lastName = router?.query?.lastName ?? '';
   const roomNo = router?.query?.roomNo ?? '';
+  const checkedInData = useCheckedIn();
 
   const checkinModule: boolean = activeModule(config?.modules, CHECK_IN);
+  const checkInModuleDetails: any = findModule(config?.modules, CHECK_IN);
 
   const [loading, setLoading] = useState(false);
   const [errorNotification, setErrorNotification] = useState<{
@@ -110,7 +113,7 @@ const CheckInDrawer = () => {
             toggleNotification(true);
             toggleCheckInDetailsDrawer(false);
             setLoading(false);
-          } else if (data.getReservation.data.reservationStatus === 'INHOUSE') {
+          } else if (data.getReservation.data.reservationStatus === INHOUSE) {
             if (data.getReservation.data?.roomTypes[0]?.roomNumber) {
               const roomStatusData = checkRoomStatus(
                 data.getReservation.data?.roomTypes[0]?.roomNumber,
@@ -118,14 +121,7 @@ const CheckInDrawer = () => {
               );
               roomStatusData.then((roomStatus: any) => {
                 if (roomStatus) {
-                  setErrorNotification({
-                    state: false,
-                    title: 'Hello Again!',
-                    description:
-                      'Reservation validated successfully. You can now explore our in-stay services.',
-                  });
-                  toggleNotification(true);
-                  toggleCheckInDetailsDrawer(false);
+                  toggleCheckInDetailsDrawer(true);
                   saveTrip({
                     reservationId:
                       data?.getReservation?.data?.confirmationId !== NA
@@ -152,8 +148,6 @@ const CheckInDrawer = () => {
                     invoiceId: data?.getReservation?.data?.reservationId as string,
                     currency: data?.getReservation?.data?.details?.holdAmount?.currency,
                   });
-                  navigate(HOME);
-                  toggleCheckInDetailsDrawer(false);
                   setLoading(false);
                 } else {
                   setErrorNotification({
@@ -194,7 +188,7 @@ const CheckInDrawer = () => {
         setErrorNotification({
           state: true,
           title: 'Reservation Not Found',
-          description: 'Please Try Again',
+          description: 'Please Try Again.',
           appoloErrorMessage: error as ApolloError,
         });
         toggleNotification(true);
@@ -248,6 +242,28 @@ const CheckInDrawer = () => {
     toggleCheckInDetailsDrawer(false);
     navigate(HOME);
   }, [HOME, navigate]);
+
+  const pairDeviceWelcomeMessage = () => {
+    return (
+      <>
+        {loading && <Loader />}
+        <PageWrapper className={styles.pageWrapper}>
+          <div className={styles.letterWrapper}>
+            <p className={styles.letterTitle}>{`${t(checkInModuleDetails.welcomeTitle)}`}</p>
+            <p className={styles.nameTitle}>{`${t('Dear ' + checkedInData?.name)},`}</p>
+            <p className={styles.letterBody}>{`${t(checkInModuleDetails.welcomeBody)}`}</p>
+          </div>
+          <StyledButton
+            loading={loading}
+            className={styles.findMyBookingBtn}
+            onClick={() => toggleCheckInDetailsDrawer(false)}
+          >
+            {t('GET STARTED')}
+          </StyledButton>
+        </PageWrapper>
+      </>
+    );
+  };
 
   const checkInDetails = () => {
     return (
@@ -312,7 +328,11 @@ const CheckInDrawer = () => {
       <CustomDrawer
         open={checkInDrawerStatus}
         onClose={closeInputDrawer}
-        content={checkInDetails()}
+        content={
+          !checkinModule && checkedInData?.reservationId
+            ? pairDeviceWelcomeMessage()
+            : checkInDetails()
+        }
       />
       <Notification
         title={errorNotification?.title as string}
