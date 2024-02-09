@@ -182,21 +182,6 @@ export const DINING_OPTIONS = [
   },
 ];
 
-export const SERVICE_REQUEST_OPTIONS = [
-  {
-    id: 'services',
-    title: 'Housekeeping',
-    carouselLabel: 'HouseKeeping',
-    label: 'houseKeeping',
-  },
-  {
-    id: 'concierge',
-    title: 'Maintenance',
-    carouselLabel: 'Concierge',
-    label: 'concierge',
-  },
-];
-
 export const Schedules = ['TODAY', 'TOMORROW'];
 
 export const cardTypes = [

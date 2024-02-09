@@ -29,10 +29,9 @@ import {
   IN_ROOM_DINING,
   RESTAURANT,
   RESTAURANTS,
-  SERVICE_REQUEST_OPTIONS,
 } from 'utils/constants';
 import CheckIcon from '@icons/checkIcon.svg';
-import { housekeepingOptions } from 'storage/housekeeping.storage';
+import { housekeepingOptions, serviceRequestOptionsArray } from 'storage/housekeeping.storage';
 import { spaCategoryList, spaInformationStorage } from 'storage/spa.storage';
 import { offerList, selectedOfferOption } from 'storage/offers.storage';
 import { useTranslation } from 'react-i18next';
@@ -139,12 +138,12 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   const navigate = useLocalizedRouter();
   const isCheckedIn = useCheckedIn();
   const config = useConfig();
-  const [highLightViewBill, setHighLightViewBill] = useState(false);
   const [highLightIRD, setHighLightIRD] = useState(false);
   const [highLightServices, setHighLightServices] = useState(false);
   const diningOptionSelected = useReactiveVar(diningOptions);
   const irdOption = useReactiveVar(diningHeaders);
   const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
+  const serviceRequestOptions: any = useReactiveVar(serviceRequestOptionsArray);
   const drawerStatus = useReactiveVar(toggleModuleOptionsDrawer);
   const compendiumInfo: any = useReactiveVar(getHotelCompendium);
   const selectedCompendiumInfo: any = useReactiveVar(selectedCompendiumCategory);
@@ -263,21 +262,25 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
           <div>
             <p className={styles.title}>{t('Choose your category')} </p>
             <div className={styles.optionsList}>
-              {SERVICE_REQUEST_OPTIONS?.map((request) => (
-                <div key={request?.id} className={cx(styles.optionsListItem)}>
-                  <p
-                    className={cx(styles.inActiveDiningText, {
-                      [styles.activeText]: houseKeepingOptionSelected?.id === request?.id,
-                    })}
-                    onClick={() => {
-                      housekeepingOptions(request);
-                      closeDrawer();
-                    }}
-                  >
-                    {request?.title}{' '}
-                  </p>
-                  {houseKeepingOptionSelected?.id === request?.id && (
-                    <CheckIcon className={styles.icon} />
+              {serviceRequestOptions?.map((request: any, index: number) => (
+                <div key={index} className={cx(styles.optionsListItem)}>
+                  {request?.id && (
+                    <>
+                      <p
+                        className={cx(styles.inActiveDiningText, {
+                          [styles.activeText]: houseKeepingOptionSelected?.id === request?.id,
+                        })}
+                        onClick={() => {
+                          housekeepingOptions(request);
+                          closeDrawer();
+                        }}
+                      >
+                        {request?.title}{' '}
+                      </p>
+                      {houseKeepingOptionSelected?.id === request?.id && (
+                        <CheckIcon className={styles.icon} />
+                      )}
+                    </>
                   )}
                 </div>
               ))}

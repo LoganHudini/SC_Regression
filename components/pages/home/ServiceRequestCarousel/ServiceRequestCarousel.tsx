@@ -5,11 +5,13 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ASSETS_URL } from '../../../../core/graphql/endpoints';
 import styles from './ServiceRequestCarousel.module.scss';
-import { housekeepingOptions } from 'storage/housekeeping.storage';
-import { CAROUSEL_RESPONSIVE, HouseKeeping, SERVICE_REQUEST_OPTIONS } from 'utils/constants';
+import { housekeepingOptions, serviceRequestOptionsArray } from 'storage/housekeeping.storage';
+import { CAROUSEL_RESPONSIVE, HouseKeeping } from 'utils/constants';
 import { availablePaths } from 'utils/availablePaths';
 import cx from 'classnames';
 import { CustomReadMore } from 'components/shared/CustomReadMore/CustomReadMore';
+import { activeItems, serviceRequestArray } from 'utils/functions';
+import { useReactiveVar } from '@apollo/client';
 
 interface ICarouselProps {
   data: any;
@@ -24,9 +26,10 @@ interface ICarouselSlideProps {
 const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle }) => {
   const { t } = useTranslation(['common']);
   const navigate = useLocalizedRouter();
+  const serviceRequestOptions: any = useReactiveVar(serviceRequestOptionsArray);
 
   const handleClick = () => {
-    const selectedData = SERVICE_REQUEST_OPTIONS.find(
+    const selectedData = serviceRequestOptions?.find(
       (data: any) => data.carouselLabel === slide?.__typename,
     );
     housekeepingOptions(selectedData);
@@ -67,8 +70,9 @@ export const ServiceRequestCarousel: React.FC<ICarouselProps> = ({ data, loading
   useEffect(() => {
     if (data) {
       const selectedServiceRequests: any = data?.getServiceRequestDetails;
-      const houseKeeping = selectedServiceRequests?.houseKeeping?.filter((el: any) => el?.isActive);
-      const concierge = selectedServiceRequests?.concierge?.filter((el: any) => el?.isActive);
+      const houseKeeping = activeItems(selectedServiceRequests?.houseKeeping);
+      const concierge = activeItems(selectedServiceRequests?.concierge);
+      serviceRequestArray(data?.getServiceRequestDetails);
       const combinedServiceRequestArray: any = [
         houseKeeping?.length > 0 && houseKeeping[0],
         concierge?.length > 0 && concierge[0],

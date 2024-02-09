@@ -104,7 +104,8 @@
 }
 
 .image svg {
-  width: 50px;
+  max-width: 36px;
+  max-height: 27px;
   path {
     fill: var(--hamburgermenu-icon-color);
   }

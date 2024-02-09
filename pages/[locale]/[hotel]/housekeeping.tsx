@@ -50,7 +50,7 @@ import { Loader } from 'components/shared/Loaders/Loaders';
 import { availablePaths } from 'utils/availablePaths';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { useConfig } from 'utils/hooks/useConfiguration';
-import { activeModule } from 'utils/functions';
+import { activeModule, serviceRequestArray } from 'utils/functions';
 import { HOUSEKEEPING_ORDER_TRANSACTION_HK } from 'core/graphql/queries/HOUSEKEEPING_ORDER_TRANSACTION_HK';
 
 export { getStaticPaths };
@@ -102,10 +102,11 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
   );
 
   useEffect(() => {
+    serviceRequestArray(data?.getServiceRequestDetails, houseKeepingOptionSelected);
     if (!serviceModule || !checkinData?.checkedIn) {
       navigate(availablePaths?.HOME);
     }
-  }, [navigate, t, serviceModule, checkinData]);
+  }, [navigate, t, serviceModule, checkinData, data, houseKeepingOptionSelected]);
 
   useEffect(() => {
     if (!showSchedules?.isItemActive && !showSchedules?.maxQuantityActive) {
@@ -128,13 +129,12 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
   useEffect(() => {
     if (data) {
       const selectedServiceRequests: any = data?.getServiceRequestDetails;
-      const serviceRequest = selectedServiceRequests[houseKeepingOptionSelected?.label]?.filter(
-        (el: any) => el?.isActive,
-      );
-
+      const serviceRequest = selectedServiceRequests[
+        houseKeepingOptionSelected && houseKeepingOptionSelected?.label
+      ]?.filter((el: any) => el?.isActive);
       setShowServiceRequest(serviceRequest);
     }
-  }, [data, houseKeepingOptionSelected?.label]);
+  }, [data, houseKeepingOptionSelected]);
 
   const handleClick = (selectedRequest: any) => {
     toggleDetailsDrawer(true);

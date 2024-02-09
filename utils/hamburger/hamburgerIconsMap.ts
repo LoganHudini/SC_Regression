@@ -6,6 +6,7 @@ import OffersIcon from '@icons/offers.svg';
 import EventsIcon from '@icons/events.svg';
 import HotelCompendiumIcon from '@icons/hotelCompendium.svg';
 import HotelInformationIcon from '@icons/aboutUs.svg';
+import ChatIcon from '@icons/chat.svg';
 
 import Gluten from '@icons/gluten.svg';
 import Nuts from '@icons/nuts.svg';
@@ -34,6 +35,8 @@ export const hamburgerIconsMap = {
   'Hotel Compendium': HotelCompendiumIcon,
   'About Us': HotelInformationIcon,
   'Hotel Information': HotelInformationIcon,
+  Chat: ChatIcon,
+  Help: ChatIcon,
 };
 
 export const iconsMap = {

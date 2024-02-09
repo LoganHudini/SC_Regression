@@ -12,6 +12,7 @@ import {
 } from './constants';
 import * as yup from 'yup';
 import { tableReservationStorage } from 'storage/table-reservation.storage';
+import { housekeepingOptions, serviceRequestOptionsArray } from 'storage/housekeeping.storage';
 
 // Extract data from local storage
 export const guestNameFandB = () =>
@@ -302,4 +303,31 @@ export const groupBy = (arrayToBeGrouped: any, property: string) => {
     memo[x[property]].push(x);
     return memo;
   }, {});
+};
+
+export const serviceRequestArray = (
+  selectedServiceRequests: any,
+  houseKeepingOptionSelected?: any,
+) => {
+  const houseKeeping = activeItems(selectedServiceRequests?.houseKeeping);
+  const concierge = activeItems(selectedServiceRequests?.concierge);
+  const serviceArray: any = [
+    houseKeeping?.length > 0 && {
+      id: 'services',
+      title: 'Housekeeping',
+      carouselLabel: 'HouseKeeping',
+      label: 'houseKeeping',
+    },
+    concierge?.length > 0 && {
+      id: 'concierge',
+      title: 'Maintenance',
+      carouselLabel: 'Concierge',
+      label: 'concierge',
+    },
+  ];
+
+  serviceRequestOptionsArray(serviceArray);
+  if (!houseKeepingOptionSelected) {
+    housekeepingOptions(serviceArray[0]);
+  }
 };
