@@ -112,9 +112,6 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
                 <span>{slide?.primaryCuisine?.toLowerCase()}</span>
               </div>
             )}{' '}
-            {slide.hours[0]?.day && module && (
-              <p className={styles.carouselSlideTimings}>{slide.hours[0]?.day}</p>
-            )}
             {time && (
               <div className={styles.cuisineRowTime}>
                 <ClockIcon className={styles.cuisineIcon} />
@@ -122,6 +119,9 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
               </div>
             )}
           </div>
+          {slide.hours[0]?.day && module && (
+            <p className={styles.carouselSlideTimings}>{slide.hours[0]?.day}</p>
+          )}
           {module ? (
             <CustomReadMore text={'READ MORE'} />
           ) : (

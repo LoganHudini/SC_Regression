@@ -121,7 +121,16 @@ const CheckInDrawer = () => {
               );
               roomStatusData.then((roomStatus: any) => {
                 if (roomStatus) {
-                  toggleCheckInDetailsDrawer(true);
+                  if (checkinModule) {
+                    setErrorNotification({
+                      state: false,
+                      title: 'Hello Again!',
+                      description:
+                        'Reservation validated successfully. You can now explore our in-stay services.',
+                    });
+                    toggleNotification(true);
+                    toggleCheckInDetailsDrawer(false);
+                  } else toggleCheckInDetailsDrawer(true);
                   saveTrip({
                     reservationId:
                       data?.getReservation?.data?.confirmationId !== NA
