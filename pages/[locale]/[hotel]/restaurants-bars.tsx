@@ -243,11 +243,15 @@ const RestaurantAndBars: React.FC = () => {
                   setIframeComponent,
                 );
               }}
-              className={cx(styles.button, {
-                [styles.buttonNone]: timeSelectDrawer,
-                [styles.withoutImageButton]:
-                  queryResultEntity && !queryResultEntity?.images[0]?.ratio16to9,
-              })}
+              className={cx(
+                styles.button,
+                {
+                  [styles.buttonNone]: timeSelectDrawer,
+                  [styles.withoutImageButton]:
+                    queryResultEntity && !queryResultEntity?.images[0]?.ratio16to9,
+                },
+                'globals-actionCtaWrapper',
+              )}
             >
               {queryResultEntity?.cta?.ctaTitle || t('BOOK NOW')}
             </StyledButton>

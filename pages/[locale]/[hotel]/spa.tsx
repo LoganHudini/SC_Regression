@@ -49,6 +49,7 @@ import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput'
 import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 import { useCurrency } from 'utils/hooks/useCurrency';
+import cx from 'classnames';
 
 export { getStaticPaths };
 
@@ -236,7 +237,11 @@ const Spa: React.FC = () => {
           )}
 
           {spaInformation?.cta?.status === ACTIVE && (
-            <StyledButton variant='contained' onClick={onCtaClick} className={styles.button}>
+            <StyledButton
+              variant='contained'
+              onClick={onCtaClick}
+              className={cx(styles.button, 'globals-actionCtaWrapper')}
+            >
               {spaInformation?.cta?.ctaTitle || t('BOOK NOW')}
             </StyledButton>
           )}

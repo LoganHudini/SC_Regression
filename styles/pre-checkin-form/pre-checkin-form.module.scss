@@ -5,24 +5,6 @@
   padding: 64px 20px 100px 20px;
 }
 
-.bottomMenuWrapper {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  flex-direction: row;
-  max-width: 768px;
-  height: 64px;
-  margin: auto;
-  border-top-left-radius: var(--primary-card-border-radius);
-  border-top-right-radius: var(--primary-card-border-radius);
-  box-shadow: 0px -2px 8px var(--primary-box-shadow-color);
-  background: var(--primary-background-color);
-  z-index: 1;
-  animation: fadeIn 0.5s;
-}
-
 .bottomMenuButton {
   width: 100%;
   margin: auto 22px;

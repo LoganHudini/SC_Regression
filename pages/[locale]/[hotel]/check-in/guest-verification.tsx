@@ -438,7 +438,11 @@ const Guest: React.FC<any> = () => {
           {config?.name} | {t('Identity Verification')}
         </title>
       </Head>
-      <Header screenTitle={t(`${guestSubmodule?.label}`) as string} displayBackButton />
+      <Header
+        screenTitle={t(`${guestSubmodule?.label}`) as string}
+        displayBackButton
+        backRoute={availablePaths?.CHECK_IN}
+      />
 
       <PageWrapper className={styles.pageWrapper}>
         <Stepper />

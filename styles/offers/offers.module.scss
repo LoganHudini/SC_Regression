@@ -36,6 +36,7 @@
   width: 93%;
   position: absolute;
   transform: translate(0%, 40%);
+  font-size: $xsmall;
   bottom: 0;
   right: 0;
   left: 0;
@@ -56,10 +57,14 @@
 
 .listComponentTitle {
   font-size: $header;
-  margin: 3rem 0 1rem;
+  margin: 1rem 0 1rem;
   font: $header var(--heading-font-regular);
   line-height: 1.2;
   text-align: center;
+}
+
+.titleWithoutCta {
+  margin: 3rem 0 1rem;
 }
 
 .gapList {

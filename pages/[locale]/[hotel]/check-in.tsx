@@ -139,7 +139,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
           {hotelName} | {t('Stay Details')}
         </title>
       </Head>
-      <Header screenTitle={t('check-In') as string} displayHome />
+      <Header screenTitle={t('check-In') as string} displayHome backRoute={availablePaths?.HOME} />
       <PageWrapper className={styles.pageWrapper}>
         {hotelImageInfo && (
           <StableImage

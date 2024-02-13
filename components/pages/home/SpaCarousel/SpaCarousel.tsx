@@ -67,7 +67,7 @@ export const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle
         >
           {slide?.name && <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>}
           {time && (
-            <div className={styles.cuisineRowTime}>
+            <div className={cx(styles.cuisineRowTime, 'globals-spaTimings')}>
               <ClockIcon className={styles.cuisineIcon} />
               <p>{time?.value}</p>
             </div>
@@ -156,9 +156,13 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
         <StyledButton
           variant='contained'
           onClick={onCtaClick}
-          className={cx(styles.button, {
-            [styles.withoutImageButton]: spaInfoDetails && !spaInfoDetails?.images[0]?.ratio16to9,
-          })}
+          className={cx(
+            styles.button,
+            {
+              [styles.withoutImageButton]: spaInfoDetails && !spaInfoDetails?.images[0]?.ratio16to9,
+            },
+            'globals-actionCtaWrapper',
+          )}
         >
           {spaTreatments?.length > 0
             ? t('View Treatments')
@@ -223,6 +227,7 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
       </div>
     </>
   );
+
   return (
     <>
       {spaInfoList?.length > 0 && (

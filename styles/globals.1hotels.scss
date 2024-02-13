@@ -6,7 +6,7 @@
   --primary-border-color: #bcbcbc;
   --primary-box-shadow-color: none;
   --primary-error-text-color: #f41313;
-  --primary-disabled-color: #bab7b7;
+  --primary-disabled-color: #cdcaca;
 
   // overlays
   --primary-overlay-color: #120e0e79;
@@ -30,7 +30,7 @@
   --primary-image-transition-background-color: #a0a1a3;
 
   // hamburger menu colors
-  --hamburgermenu-drawer-color: #E2DEDC;
+  --hamburgermenu-drawer-color: #e2dedc;
   --hamburgermenu-text-color: #303030;
   --hamburgermenu-icon-color: #303030;
 
@@ -82,15 +82,22 @@
 }
 
 .MuiButton-containedPrimary {
+  border: none;
   border-bottom: 1px solid var(--primary-button-color);
   &:after {
     display: none;
   }
+  &:disabled {
+    background: var(--primary-disabled-color);
+    color: #989797;
+  }
 }
 
 .MuiButton-outlinedPrimary {
-  border: none;
   border-bottom: 1px solid var(--secondary-button-color);
+  &:hover:enabled {
+    border-bottom: 1px solid var(--primary-button-color);
+  }
 }
 
 // dining carousel tab configs
@@ -160,6 +167,10 @@
   height: 310px !important;
 }
 
+.globals-spaTimings {
+  margin: 0 !important;
+}
+
 .globals-contentWrapper {
   position: static !important;
   width: 100% !important;
@@ -184,4 +195,8 @@
 
 .globals-customReadMore {
   margin: 10px 0 !important;
+}
+
+.globals-actionCtaWrapper {
+  background: var(--primary-button-color) !important;
 }

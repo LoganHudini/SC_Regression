@@ -53,6 +53,10 @@ import {
   NONE,
   ITC_GRAND_CHOLA,
   FAIRMONT_THE_PALM_DUBAI,
+  UAT,
+  STAGE,
+  STEPPER_REVIEW,
+  STEPPER_PAYMENT,
 } from 'utils/constants';
 import { GET_E_REG_DETAILS } from 'core/graphql/queries/GET_E_REG_DETAILS';
 import { Notification } from 'components/shared/Notification/Notification';
@@ -298,13 +302,22 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         setErrorNotification(false);
         guestInformationStorage(null);
         accompanyGuestDetails(null);
+        StepperInformationStorage([
+          { value: 60, label: 1, title: STEPPER_REVIEW },
+          { value: 0, label: 2, title: STEPPER_PAYMENT },
+          { value: 0, label: 3, title: STEPPER_CHECK_IN },
+        ]);
       } catch (checkinError) {
         const error = checkinError as ApolloError;
         const networkError = error?.networkError as { result?: { errors?: string } };
         setErrorNotification(true);
+        // valid only for sandbox pointed instances
         if (
           networkError?.result?.errors === 'error pre-checking operation' &&
-          (hotelCode === ITC_GRAND_CHOLA || hotelCode === FAIRMONT_THE_PALM_DUBAI)
+          (hotelCode === ITC_GRAND_CHOLA ||
+            hotelCode === FAIRMONT_THE_PALM_DUBAI ||
+            hotelCode === UAT ||
+            hotelCode === STAGE)
         ) {
           setErrorNotification(false);
         }

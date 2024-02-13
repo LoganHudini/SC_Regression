@@ -9,6 +9,7 @@ import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
 import { useTranslation } from 'react-i18next';
 import { useCurrency } from 'utils/hooks/useCurrency';
+import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 
 export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
   ordersDrawer,
@@ -42,24 +43,9 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
     );
   }, []);
 
-  return (
-    <Drawer
-      variant='temporary'
-      anchor='bottom'
-      open={ordersDrawer}
-      onClose={closeDrawer}
-      PaperProps={{
-        elevation: 0,
-        style: {
-          borderTopLeftRadius: 'var(--primary-drawer-top-left-border-radius)',
-          borderTopRightRadius: 'var(--primary-drawer-top-right-border-radius)',
-          maxWidth: '768px',
-          margin: 'auto',
-          maxHeight: 'var(--primary-drawer-height)',
-        },
-      }}
-    >
-      {myOrders && (
+  const DrawerContent = () => {
+    return (
+      <>
         <div className={styles.myOrdersWrapper}>
           <div className={styles.drawerNotch}></div>
           <h3 className={styles.heading}>{t('My Orders')}</h3>
@@ -107,7 +93,7 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
                                 {item?.count} x {item?.name}{' '}
                               </p>
                               <p className={styles.itemsPrice}>
-                                <span className={styles.currency}>{currency}</span>{' '}
+                                <span className={styles.currency}>{currency} </span>
                                 {itemTotal(item)?.toFixed(2)}
                               </p>
                             </div>
@@ -140,8 +126,7 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
                         <div className={styles.totalContainerBill}>
                           <p className={styles.total}>{t('Total')} </p>
                           <p className={styles.totalPrice}>
-                            {' '}
-                            <span className={styles.currency}>{currency}</span>{' '}
+                            <span className={styles.currency}>{currency} </span>
                             {orderCategory?.totalAmount?.toFixed(2)}
                           </p>
                         </div>
@@ -153,9 +138,7 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
               <div className={styles.orderWrapperTotal}>
                 <p className={styles.totalTitle}>{t('Total to be paid')}</p>
                 <p className={styles.totalTitlePrice}>
-                  {' '}
-                  <span className={styles.currency}>{currency} </span>
-                  {totalToBePaid?.toFixed(2)}
+                  <span className={styles.currency}>{currency} </span> {totalToBePaid?.toFixed(2)}
                 </p>
               </div>
             </div>
@@ -165,21 +148,23 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
             {t('Close')}
           </StyledButton>
         </div>
-      )}
 
-      {thankYou && (
-        <div className={styles.myOrdersWrapper}>
-          <CheckMark className={styles.checkIcon} />
-          <div className={styles.thankyouRow}>
-            <p className={styles.thankyouTitle}>{t('Thank You')}</p>
-            <p className={styles.message}>{t('Bill Requested successfully')}</p>
+        {thankYou && (
+          <div className={styles.myOrdersWrapper}>
+            <CheckMark className={styles.checkIcon} />
+            <div className={styles.thankyouRow}>
+              <p className={styles.thankyouTitle}>{t('Thank You')}</p>
+              <p className={styles.message}>{t('Bill Requested successfully')}</p>
+            </div>
+
+            <StyledButton variant='contained' className={styles.buttonOk} onClick={handleOk}>
+              {t('OK')}
+            </StyledButton>
           </div>
+        )}
+      </>
+    );
+  };
 
-          <StyledButton variant='contained' className={styles.buttonOk} onClick={handleOk}>
-            {t('OK')}
-          </StyledButton>
-        </div>
-      )}
-    </Drawer>
-  );
+  return <CustomDrawer open={ordersDrawer} onClose={closeDrawer} content={<DrawerContent />} />;
 };

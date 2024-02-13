@@ -3,7 +3,6 @@
 import { useLanguage, useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import cx from 'classnames';
 import React, { useCallback, useState } from 'react';
-import MyOrders from '@icons/foodDelivery.svg';
 import MenuDropDown from '@icons/menuDropDown.svg';
 import MenuDropDownSecondary from '@icons/menuDropDownSecondary.svg';
 import LangActive from '@icons/language-active.svg';
@@ -28,7 +27,6 @@ import { useConfig } from 'utils/hooks/useConfiguration';
 import { useCheckedIn } from 'storage/check-in.storage';
 
 export const Header: React.FC<IHeaderProps> = ({
-  screenTitle,
   transparent,
   displayBackButton,
   irdModule,

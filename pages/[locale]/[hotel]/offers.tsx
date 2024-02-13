@@ -146,10 +146,14 @@ const Offers: React.FC = () => {
             <StyledButton
               variant='contained'
               onClick={onCtaClick}
-              className={cx(styles.button, {
-                [styles.withoutImageButton]:
-                  queryResultEntity && !queryResultEntity?.images[0]?.ratio16to9,
-              })}
+              className={cx(
+                styles.button,
+                {
+                  [styles.withoutImageButton]:
+                    queryResultEntity && !queryResultEntity?.images[0]?.ratio16to9,
+                },
+                'globals-actionCtaWrapper',
+              )}
             >
               {queryResultEntity?.CTA?.ctaTitle || t('BOOK NOW')}
             </StyledButton>
@@ -158,7 +162,15 @@ const Offers: React.FC = () => {
       <div className={styles.contentWrapper}>
         <div className={styles.listComponentData}>
           {queryResultEntity?.name && (
-            <h2 className={styles.listComponentTitle}>{t(`${queryResultEntity?.name}`)}</h2>
+            <h2
+              className={cx(styles.listComponentTitle, {
+                [styles.titleWithoutCta]:
+                  queryResultEntity?.CTA &&
+                  (queryResultEntity?.CTA?.redirectTo || queryResultEntity?.CTA?.URL),
+              })}
+            >
+              {t(`${queryResultEntity?.name}`)}
+            </h2>
           )}
         </div>
         <div className={styles.gapList}>

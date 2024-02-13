@@ -77,7 +77,7 @@ const HotelInfoDrawer = () => {
             </div>
 
             {(phoneData || webData || mailData || hotelInfo?.location?.addressLine1) && (
-              <div className={styles.phoneEmailCtaWrapper}>
+              <div className={cx(styles.phoneEmailCtaWrapper, 'globals-actionCtaWrapper')}>
                 {phoneData && (
                   <>
                     <div className={cx(styles.border, styles.align)}>

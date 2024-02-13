@@ -578,7 +578,7 @@ export const configuration = [
             title: 'Check-In',
             buttonLabelCheckIn: 'CONFIRM CHECK-IN',
             // eslint-disable-next-line quotes
-            termsAndCondition: `I have read, understood and agree to the <a href='https://www.sofitelmanila.com/privacy-policy/' target='_blank' rel='noopener noreferrer'>Terms & Conditions</a> and <a href='https://www.sofitelmanila.com/privacy-policy/' target='_blank' rel='noopener noreferrer'>Privacy Laws</a>.`,
+            termsAndCondition: `I have read, understood and agree to the <a href='https://www.1hotels.com/terms-conditions' target='_blank' rel='noopener noreferrer'>Terms & Conditions</a> and <a href='https://www.1hotels.com/privacy-policy' target='_blank' rel='noopener noreferrer'>Privacy Laws</a>.`,
             subTitle:
               'Please review and confirm the below information to complete the Check-In process',
             type: 'cms',
@@ -1368,7 +1368,7 @@ export const configuration = [
         isActive: false,
         welcomeTitle: 'Welcome to Raffles The Palm',
         welcomeBody:
-          "Welcome to Raffles The Palm - the only Palace of its kind, blending timeless craftmanship with Dubai's vibrant social culture in an ultra-luxury beach resort environment.",
+          'Welcome to Raffles The Palm - the only Palace of its kind, blending timeless craftmanship with Dubai\'s vibrant social culture in an ultra-luxury beach resort environment.',
       },
       {
         code: 'In-Room Dining',

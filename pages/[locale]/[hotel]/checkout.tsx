@@ -45,12 +45,6 @@ const CheckOut = () => {
   const checkedInData = useCheckedIn();
   const [emailLoader, setEmailLoader] = useState(false);
 
-  useEffect(() => {
-    if (checkedInData && !checkedInData?.checkedIn) {
-      navigate(availablePaths?.HOME);
-    }
-  }, [checkedInData, navigate]);
-
   const { data: reservationData, loading: reservationLoading } =
     useQuery<IGetReservationApiResponse>(GET_RESERVATION_NO_LAST_NAME, {
       context: { clientName: 'rest' },
@@ -80,13 +74,23 @@ const CheckOut = () => {
       },
     });
 
-  const { data: invoiceData, loading: invoiceLoading } = useQuery<IInvoiceApiResponse>(INVOICE, {
+  const {
+    data: invoiceData,
+    loading: invoiceLoading,
+    error,
+  } = useQuery<IInvoiceApiResponse>(INVOICE, {
     context: { clientName: 'rest' },
     fetchPolicy: 'network-only',
     variables: {
       confirmationNumber: checkedInData?.invoiceId,
     },
   });
+
+  useEffect(() => {
+    if ((checkedInData && !checkedInData?.checkedIn) || error) {
+      navigate(availablePaths?.HOME);
+    }
+  }, [checkedInData, error, navigate]);
 
   const loading = invoiceLoading || reservationLoading;
   const invoiceElements = invoiceData?.invoice?.data?.billItems;
