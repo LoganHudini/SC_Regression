@@ -11,6 +11,7 @@ export const IRD_ORDER_TRANSACTION_POS = gql`
     $items: [TransactionPOSItemInput!]!
     $hotelId: String!
     $additionalNote: String
+    $bookingId: String
   ) {
     transactionPOS(
       input: {
@@ -23,6 +24,7 @@ export const IRD_ORDER_TRANSACTION_POS = gql`
         roomNo: $roomNo
         items: $items
         additionalNote: $additionalNote
+        bookingId: $bookingId
       }
     ) {
       message

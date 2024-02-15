@@ -27,7 +27,7 @@ import Head from 'next/head';
 import { useTranslation } from 'react-i18next';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { IN_ROOM_DINING, IRD, SERVICES } from 'utils/constants';
-import { activeModule } from 'utils/functions';
+import { activeModule, isOfferActive } from 'utils/functions';
 import { getStaticPaths } from 'utils/getStatic';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
@@ -123,6 +123,10 @@ const Home: NextPage = () => {
     fetchPolicy: 'no-cache',
   });
 
+  const activeOffersList = offersList?.getOffersDetails?.data?.filter((item: any) =>
+    isOfferActive(item),
+  );
+
   return (
     <>
       <Head>
@@ -135,9 +139,7 @@ const Home: NextPage = () => {
           restaurantloading ||
           spaloading ||
           offersListLoading) && <LogoLoader />}
-        {offersList?.getOffersDetails?.length > 0 && (
-          <HomeCarousel data={offersList?.getOffersDetails} />
-        )}
+        {activeOffersList?.length > 0 && <HomeCarousel data={activeOffersList} />}
         {!checkInData?.checkedIn && (
           <HotelInformation details={homeCarouselDetails} loading={homeCarouselLoading} />
         )}

@@ -23,13 +23,13 @@ import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import produce from 'immer';
 import dayjs from 'dayjs';
 import { DiningCustomisationDrawer } from 'components/pages/dining/DiningCustomisationDrawer/DiningCustomisationDrawer';
-import { CMS, ERRORMSG, FAILURE, IN_ROOM_DINING, PAYMENT, SUCCESS, VENDOR } from 'utils/constants';
+import { CMS, ERRORMSG, FAILURE, IN_ROOM_DINING, SUCCESS, VENDOR } from 'utils/constants';
 import { InputAdornment, TextField } from '@mui/material';
 import Cookinginstructions from '@icons/cooking_instructions.svg';
 import { IRD_ORDER } from 'core/graphql/queries/IRD_ORDER';
 import { Notification } from 'components/shared/Notification/Notification';
 import { addToCartEvent, irdOrderEvent } from 'utils/gtag';
-import { setScrollPosition } from 'utils/functions';
+import { findModule, setScrollPosition } from 'utils/functions';
 import { diningInformationStorage } from 'storage/dining.storage';
 import DiningDetailsDrawer from 'components/pages/dining/DiningDetailsDrawer/DiningDetailsDrawer';
 import { toggleNotification } from 'storage/home.storage';
@@ -47,20 +47,20 @@ const DiningOrderSummary = () => {
   const navigate = useLocalizedRouter();
   const checkinData = useCheckedIn();
   const renderedItemIds: any = [];
+  const config = useConfig();
+  const hotelId = config?.hotelId;
+  const hotelName = config?.name;
+  const irdOrderType: any = findModule(config?.modules, IN_ROOM_DINING);
   const [customisationDrawer, setCustomisationDrawer] = useState(false);
   const [specialRequests, setSpecialRequests] = useState('');
   const [loading, setLoading] = useState(false);
-  const [paymentType, setpaymentType] = useState<any>(PAYMENT[0]);
+  const [paymentType, setpaymentType] = useState<any>(
+    irdOrderType?.payment?.length > 0 ? irdOrderType?.payment[0] : [],
+  );
   const [guestNumber, setguestNumber] = useState(1);
   const [totalAmount, setTotalAmount] = useState(0);
   const [errorNotification, setErrorNotification] = useState(false);
   const currency = useCurrency();
-  const config = useConfig();
-  const hotelId = config?.hotelId;
-
-  const irdOrderType: any = config?.modules?.find(
-    (module: any) => module?.isActive && module?.code === IN_ROOM_DINING,
-  );
 
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
 
@@ -205,6 +205,7 @@ const DiningOrderSummary = () => {
       hotelId: hotelId,
       date: '',
       deliveryLocation: '',
+      bookingId: checkinData?.reservationId,
       guestName: checkinData?.name,
       guests: guestNumber,
       paymentMethod: paymentType?.name,
@@ -293,7 +294,9 @@ const DiningOrderSummary = () => {
   return (
     <>
       <Head>
-        <title>{t('Order Details')}</title>
+        <title>
+          {hotelName} | {t('Order Details')}
+        </title>
       </Head>
       <Header displayBackButton screenTitle={t('Order Details') as string} />
       <PageWrapper className={styles.pageWrapper}>
@@ -443,21 +446,23 @@ const DiningOrderSummary = () => {
           />
         </div>
 
-        <div className={styles.paymentContainer}>
-          <p className={styles.paymentTitle}>{t('Payment Method')}</p>
-          <div className={styles.buttonPaymentWrapper}>
-            {PAYMENT?.map((item) => (
-              <StyledButton
-                key={item.id}
-                variant={item?.name === paymentType?.name ? 'contained' : 'outlined'}
-                className={styles.buttonPayment}
-                onClick={() => setpaymentType(item)}
-              >
-                {t(`${item?.name}`)}
-              </StyledButton>
-            ))}
+        {irdOrderType?.payment?.length > 1 && (
+          <div className={styles.paymentContainer}>
+            <p className={styles.paymentTitle}>{t('Payment Method')}</p>
+            <div className={styles.buttonPaymentWrapper}>
+              {irdOrderType?.payment?.map((item: any) => (
+                <StyledButton
+                  key={item.id}
+                  variant={item?.name === paymentType?.name ? 'contained' : 'outlined'}
+                  className={styles.buttonPayment}
+                  onClick={() => setpaymentType(item)}
+                >
+                  {t(`${item?.name}`)}
+                </StyledButton>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         <p className={styles.taxText}>
           {' '}
