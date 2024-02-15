@@ -222,6 +222,12 @@ export const cardTypes = [
   },
 ];
 
+export const PAYMENT = [
+  { id: '1', name: 'BILL TO ROOM', message: '' },
+  { id: '2', name: 'CASH', message: '' },
+  { id: '3', name: 'CARD', message: '' },
+];
+
 export const LANGUAGE_LIST_DUBAI = [
   { title: 'English', value: 'en' },
   { title: 'عربي', value: 'ar' },
