@@ -317,6 +317,11 @@ export const configuration = [
         name: 'In-Room Dining',
         isActive: true,
         type: 'CMS',
+        payment: [
+          { id: '1', name: 'BILL TO ROOM', message: '' },
+          { id: '2', name: 'CASH', message: '' },
+          { id: '3', name: 'CARD', message: '' },
+        ],
       },
       {
         code: 'Services',
@@ -637,6 +642,11 @@ export const configuration = [
         name: 'In-Room Dining',
         isActive: true,
         type: 'CMS',
+        payment: [
+          { id: '1', name: 'BILL TO ROOM', message: '' },
+          { id: '2', name: 'CASH', message: '' },
+          { id: '3', name: 'CARD', message: '' },
+        ],
       },
       {
         code: 'Services',
@@ -988,6 +998,11 @@ export const configuration = [
         name: 'In-Room Dining',
         isActive: false,
         type: 'vendor',
+        payment: [
+          { id: '1', name: 'BILL TO ROOM', message: '' },
+          { id: '2', name: 'CASH', message: '' },
+          { id: '3', name: 'CARD', message: '' },
+        ],
       },
       {
         code: 'Services',
@@ -1320,6 +1335,11 @@ export const configuration = [
         name: 'In-Room Dining',
         isActive: true,
         type: 'CMS',
+        payment: [
+          { id: '1', name: 'BILL TO ROOM', message: '' },
+          { id: '2', name: 'CASH', message: '' },
+          { id: '3', name: 'CARD', message: '' },
+        ],
       },
       {
         code: 'Services',
@@ -1368,6 +1388,7 @@ export const configuration = [
         isActive: false,
         welcomeTitle: 'Welcome to Raffles The Palm',
         welcomeBody:
+          // eslint-disable-next-line quotes
           "Welcome to Raffles The Palm - the only Palace of its kind, blending timeless craftmanship with Dubai's vibrant social culture in an ultra-luxury beach resort environment.",
       },
       {
@@ -1375,6 +1396,7 @@ export const configuration = [
         name: 'In-Room Dining',
         isActive: true,
         type: 'VENDOR',
+        payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
       },
       {
         code: 'Services',
@@ -1687,6 +1709,11 @@ export const configuration = [
         code: 'In-Room Dining',
         name: 'In-Room Dining',
         isActive: true,
+        payment: [
+          { id: '1', name: 'BILL TO ROOM', message: '' },
+          { id: '2', name: 'CASH', message: '' },
+          { id: '3', name: 'CARD', message: '' },
+        ],
       },
       {
         code: 'Services',
@@ -2006,6 +2033,11 @@ export const configuration = [
         name: 'In-Room Dining',
         isActive: true,
         type: 'CMS',
+        payment: [
+          { id: '1', name: 'BILL TO ROOM', message: '' },
+          { id: '2', name: 'CASH', message: '' },
+          { id: '3', name: 'CARD', message: '' },
+        ],
       },
       {
         code: 'Services',
@@ -2318,6 +2350,11 @@ export const configuration = [
         name: 'In-Room Dining',
         isActive: true,
         type: 'CMS',
+        payment: [
+          { id: '1', name: 'BILL TO ROOM', message: '' },
+          { id: '2', name: 'CASH', message: '' },
+          { id: '3', name: 'CARD', message: '' },
+        ],
       },
       {
         code: 'Services',
@@ -2639,6 +2676,11 @@ export const configuration = [
         name: 'In-Room Dining',
         isActive: true,
         type: 'CMS',
+        payment: [
+          { id: '1', name: 'BILL TO ROOM', message: '' },
+          { id: '2', name: 'CASH', message: '' },
+          { id: '3', name: 'CARD', message: '' },
+        ],
       },
       {
         code: 'Services',

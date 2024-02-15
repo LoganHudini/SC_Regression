@@ -5,8 +5,6 @@ import Carousel from 'react-material-ui-carousel';
 import { ASSETS_URL } from '../../../../core/graphql/endpoints';
 import styles from './HomeCarousel.module.scss';
 import { useTranslation } from 'react-i18next';
-import { useConfig } from 'utils/hooks/useConfiguration';
-import { isOfferActive } from 'utils/functions';
 
 interface IHomeCarouselProps {
   data: any;
@@ -39,8 +37,6 @@ const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
 };
 
 export const HomeCarousel: React.FC<IHomeCarouselProps> = ({ data }) => {
-  const filteredOffers = data?.filter((item: any) => isOfferActive(item));
-
   return (
     <Carousel
       navButtonsAlwaysInvisible
@@ -51,12 +47,12 @@ export const HomeCarousel: React.FC<IHomeCarouselProps> = ({ data }) => {
       activeIndicatorIconButtonProps={{
         className: styles.activeIndicatorIcon,
       }}
-      indicators={(filteredOffers?.length || 0) > 1}
+      indicators={(data?.length || 0) > 1}
       className={styles.carousel}
       autoPlay={false}
       animation={'slide'}
     >
-      {filteredOffers?.slice(0, 6)?.map((carouselItem: any, i: number) => (
+      {data?.slice(0, 6)?.map((carouselItem: any, i: number) => (
         <HeroBannerItem key={i} carouselItem={carouselItem} />
       ))}
     </Carousel>

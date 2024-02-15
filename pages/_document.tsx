@@ -38,7 +38,12 @@ class MyDocument extends Document {
           <meta key='robots' name='robots' content='noindex,nofollow' />
           <meta key='googlebot' name='googlebot' content='noindex,nofollow' />
           <meta name='description' content='Feel the immersive digital experience with us' />
-          <meta name='image' content={`/images/${BRAND_CODE}/Logo.png`} />
+          <meta name='og:image' content={`/images/${BRAND_CODE}/Logo.png`} />
+          <meta name='og:image:width' content='1920' />
+          <meta name='og:image:height' content='1080' />
+          <meta name='twitter:image' content={`/images/${BRAND_CODE}/Logo.png`} />
+          <meta name='twitter:image:width' content='1920' />
+          <meta name='twitter:image:height' content='1080' />
           <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1' />
         </Head>
         <body>
