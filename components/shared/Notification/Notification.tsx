@@ -33,7 +33,6 @@ export const Notification: React.FC<INotificationProps> = ({
     if (notificationStatus) {
       setTimeout(() => {
         toggleNotification(false);
-        diningMenuStorage({ items: [] });
         redirect && navigate(redirect);
       }, 5000);
     }

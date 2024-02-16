@@ -11,7 +11,7 @@ import {
   GET_HOUSEKEEPING,
   IGetHousekeepingApiResponse,
 } from 'core/graphql/queries/GET_HOUSEKEEPING';
-import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
+import { ApolloError, useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { housekeepingOptions } from 'storage/housekeeping.storage';
 import { useTranslation } from 'react-i18next';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
@@ -32,8 +32,10 @@ import {
   DATE,
   DATETIME,
   ERRORMSG,
+  FAILED_TO_FETCH_BOOKING_DETAILS,
   FAILURE,
   IMMEDIATE,
+  INVALID_BOOKING_STATUS,
   SERVICES,
   SUCCESS,
   TIME,
@@ -52,6 +54,7 @@ import { useCheckedIn } from 'storage/check-in.storage';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { activeModule, serviceRequestArray } from 'utils/functions';
 import { HOUSEKEEPING_ORDER_TRANSACTION_HK } from 'core/graphql/queries/HOUSEKEEPING_ORDER_TRANSACTION_HK';
+import { checkoutTrip } from 'storage/trips.storage';
 
 export { getStaticPaths };
 
@@ -261,12 +264,22 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
       });
     } catch (e) {
       toggleDetailsDrawer(false);
+      const networkError = e as ApolloError;
+      const FailureCheck1 =
+        networkError?.message === FAILED_TO_FETCH_BOOKING_DETAILS ? true : false;
+      const FailureCheck2 = networkError?.message === INVALID_BOOKING_STATUS ? true : false;
       setNotificationState({
-        title: ERRORMSG,
-        description: 'Your request was not confirmed.',
-        redirect: null,
+        title: FailureCheck1 || FailureCheck2 ? 'Invalid Reservation' : ERRORMSG,
+        description:
+          FailureCheck1 || FailureCheck2
+            ? 'Reservation status is invalid. Please try again with a valid reservation details'
+            : 'Your request was not confirmed.',
+        redirect: FailureCheck1 || FailureCheck2 ? availablePaths.HOME : null,
         type: FAILURE,
       });
+      if (FailureCheck1 || FailureCheck2) {
+        checkoutTrip();
+      }
     }
     setPlaceOrderLoader(false);
 
