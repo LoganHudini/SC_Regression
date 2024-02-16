@@ -44,6 +44,7 @@ import {
   RESTAURANTS_AND_BARS,
 } from 'utils/constants';
 import {
+  activeItems,
   activeModule,
   getTimings,
   restaurantCtaNavigation,
@@ -130,7 +131,7 @@ const RestaurantAndBars: React.FC = () => {
     }
   }, [queryResultsData]);
 
-  const filteredList = queryResultsData;
+  const filteredList = activeItems(queryResultsData);
   const uniqueFilteredDiningOptions = uniqueDiningOption(queryResultsData);
 
   useEffect(() => {

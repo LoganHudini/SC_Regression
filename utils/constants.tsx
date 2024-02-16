@@ -132,6 +132,8 @@ export const RESTAURANTS_AND_BARS = 'Restaurants & Bars';
 export const SPA_AND_WELLNESS = 'Spa & Wellness';
 export const INHOUSE = 'INHOUSE';
 export const WEBSITE = 'Website';
+export const FAILED_TO_FETCH_BOOKING_DETAILS = 'failed to fetch booking details';
+export const INVALID_BOOKING_STATUS = 'invalid booking status';
 
 // flow constants
 export const DAYS = [

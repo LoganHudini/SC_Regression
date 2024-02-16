@@ -11,7 +11,7 @@ import { getStaticPaths } from 'utils/getStatic';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { useTranslation } from 'react-i18next';
 import { client } from 'core/graphql/client';
-import { useReactiveVar } from '@apollo/client';
+import { ApolloError, useReactiveVar } from '@apollo/client';
 import {
   IDiningMenuStorageData,
   diningMenuStorage,
@@ -23,7 +23,16 @@ import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import produce from 'immer';
 import dayjs from 'dayjs';
 import { DiningCustomisationDrawer } from 'components/pages/dining/DiningCustomisationDrawer/DiningCustomisationDrawer';
-import { CMS, ERRORMSG, FAILURE, IN_ROOM_DINING, SUCCESS, VENDOR } from 'utils/constants';
+import {
+  CMS,
+  ERRORMSG,
+  FAILED_TO_FETCH_BOOKING_DETAILS,
+  FAILURE,
+  INVALID_BOOKING_STATUS,
+  IN_ROOM_DINING,
+  SUCCESS,
+  VENDOR,
+} from 'utils/constants';
 import { InputAdornment, TextField } from '@mui/material';
 import Cookinginstructions from '@icons/cooking_instructions.svg';
 import { IRD_ORDER } from 'core/graphql/queries/IRD_ORDER';
@@ -39,6 +48,7 @@ import { useConfig } from 'utils/hooks/useConfiguration';
 import { IRD_ORDER_TRANSACTION_POS } from 'core/graphql/queries/IRD_ORDER_TRANSACTION_POS';
 import EditIcon from '@icons/commonEditIcon.svg';
 import { useCurrency } from 'utils/hooks/useCurrency';
+import { checkoutTrip } from 'storage/trips.storage';
 
 export { getStaticPaths };
 
@@ -59,7 +69,7 @@ const DiningOrderSummary = () => {
   );
   const [guestNumber, setguestNumber] = useState(1);
   const [totalAmount, setTotalAmount] = useState(0);
-  const [errorNotification, setErrorNotification] = useState(false);
+  const [errorNotification, setErrorNotification] = useState<any>({});
   const currency = useCurrency();
 
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
@@ -250,21 +260,41 @@ const DiningOrderSummary = () => {
       }
 
       irdOrderEvent(response?.data?.createOrder, currency);
-      setErrorNotification(false);
-
+      diningMenuStorage({ items: [] });
+      setErrorNotification({
+        title: 'Thank You!' as string,
+        type: SUCCESS,
+        description: 'Your order has been confirmed.',
+        redirect: availablePaths?.DINING,
+      });
       toggleNotification(true);
     } catch (getUpdatedReservationError) {
-      setErrorNotification(true);
+      const networkError = getUpdatedReservationError as ApolloError;
+      const FailureCheck1 =
+        networkError?.message === FAILED_TO_FETCH_BOOKING_DETAILS ? true : false;
+      const FailureCheck2 = networkError?.message === INVALID_BOOKING_STATUS ? true : false;
+      setErrorNotification({
+        title: FailureCheck1 || FailureCheck2 ? 'Invalid Reservation' : ERRORMSG,
+        type: FAILURE,
+        description:
+          FailureCheck1 || FailureCheck2
+            ? 'Reservation status is invalid. Please try again with a valid reservation details'
+            : 'Your order was not confirmed.',
+        redirect: FailureCheck1 || FailureCheck2 ? availablePaths.HOME : null,
+      });
+      if (FailureCheck1 || FailureCheck2) {
+        checkoutTrip();
+      }
     }
     toggleNotification(true);
     setLoading(false);
   }, [
-    checkinData?.email,
-    checkinData?.name,
-    checkinData?.reservationId,
-    checkinData?.roomNumber,
+    checkinData,
+    currency,
     diningData.items,
     guestNumber,
+    hotelId,
+    irdOrderType?.type,
     paymentType?.name,
     specialRequests,
     totalAmount,
@@ -505,14 +535,10 @@ const DiningOrderSummary = () => {
           closeCustomisationDrawer={closeCustomisationDrawer}
         />
         <Notification
-          title={errorNotification ? (ERRORMSG as string) : (t('Thank You!') as string)}
-          description={
-            errorNotification
-              ? ('Your order was not confirmed.' as string)
-              : (t('Your order has been confirmed.') as string)
-          }
-          redirect={!errorNotification && availablePaths?.DINING}
-          type={errorNotification ? FAILURE : SUCCESS}
+          title={errorNotification?.title}
+          description={errorNotification?.description}
+          redirect={errorNotification?.redirect}
+          type={errorNotification?.type}
         />
         <DiningDetailsDrawer />
       </PageWrapper>
