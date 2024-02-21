@@ -1,4 +1,4 @@
-import { getHotelId } from 'utils/fetchConfigs';
+import { getFetchFromDb, getHotelId } from 'utils/fetchConfigs';
 
 export const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
 
@@ -50,5 +50,6 @@ export const ONPREM_API_URL = process.env.NEXT_PUBLIC_ONPREM_API_URL;
 // property specific settings
 export const BRAND_CODE = process.env.NEXT_PUBLIC_BRAND_CODE;
 export const HOTEL_ID = getHotelId();
+export const FETCH_FROM_DB = getFetchFromDb();
 export const THEME_COLOR = '#ffffff';
 export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
