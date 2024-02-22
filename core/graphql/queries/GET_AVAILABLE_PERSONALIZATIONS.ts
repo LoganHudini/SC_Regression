@@ -36,10 +36,10 @@ export const GET_AVAILABLE_PERSONALIZATIONS = gql`
 `;
 
 export const GET_AVAILABLE_PERSONALIZATIONS_CMS = gql`
-  query GetAvailablePersonalizations($startDate: String) {
-    getAvailablePersonalizations(startDate: $startDate) @rest(
+  query GetAvailablePersonalizations($startDate: String, $confirmationId: String) {
+    getAvailablePersonalizations(startDate: $startDate, confirmationId: $confirmationId) @rest(
         type: "GetAvailablePersonalizationsPayload"
-        path: "/${ENVIRONMENT}//hotels/${HOTEL_ID}/personalisations?startDate={args.startDate}&lang=en"
+        path: "/${ENVIRONMENT}//hotels/${HOTEL_ID}/personalisations?startDate={args.startDate}&lang=en&confirmationId={args.confirmationId}"
       ) {
       errors
       data

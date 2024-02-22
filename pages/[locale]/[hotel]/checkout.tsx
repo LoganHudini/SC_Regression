@@ -9,12 +9,13 @@ import { useTranslation } from 'react-i18next';
 import { getStaticPaths } from 'utils/getStatic';
 import styles from '@styles/checkout/checkout.module.scss';
 import CheckoutDrawer from 'components/pages/checkout/CheckoutDrawer/CheckoutDrawer';
-import { useQuery, useReactiveVar } from '@apollo/client';
+import { ApolloError, useQuery, useReactiveVar } from '@apollo/client';
 import { toggleOpenCheckOutDrawer } from 'storage/checkout.storage';
 import { toggleDetailsDrawer, toggleNotification } from 'storage/home.storage';
 import { BillSummary } from 'components/pages/bill/BillSummary/BillSummary';
 import { IInvoiceApiResponse, INVOICE } from 'core/graphql/queries/INVOICE';
 import {
+  GET_RESERVATION,
   GET_RESERVATION_NO_LAST_NAME,
   IGetReservationApiResponse,
 } from 'core/graphql/queries/GET_RESERVATION';
@@ -30,6 +31,12 @@ import { Loader } from 'components/shared/Loaders/Loaders';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { FAILURE, INHOUSE, SUCCESS } from 'utils/constants';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
+import {
+  getCheckInToken,
+  handleCheckInAuthenticationFailure,
+} from 'core/api/functions/getCheckInAuthentication';
+import { processStatusCode } from 'utils/processError';
+import { getCheckOutToken } from 'core/api/functions/getCheckOutAuthentication';
 import dayjs from 'dayjs';
 import { checkoutTrip } from 'storage/trips.storage';
 
@@ -47,7 +54,13 @@ const CheckOut = () => {
 
   const { data: reservationData, loading: reservationLoading } =
     useQuery<IGetReservationApiResponse>(GET_RESERVATION_NO_LAST_NAME, {
-      context: { clientName: 'rest' },
+      context: {
+        clientName: 'rest',
+        headers: {
+          Authorization:
+            'Bearer ' + getCheckOutToken(checkedInData?.roomNumber, checkedInData?.name, 403),
+        },
+      },
       variables: {
         confirmationNumber: checkedInData?.reservationId,
       },
@@ -83,6 +96,7 @@ const CheckOut = () => {
     fetchPolicy: 'network-only',
     variables: {
       confirmationNumber: checkedInData?.invoiceId,
+      roomNumber: checkedInData?.roomNumber,
     },
   });
 
@@ -106,6 +120,7 @@ const CheckOut = () => {
   }, [openCheckOutDrawer]);
 
   const handleMail = async () => {
+    const checkInToken = getCheckInToken();
     setEmailLoader(true);
     const emailInvoicePayload = {
       registeredGuest: checkedInData?.name,
@@ -137,7 +152,7 @@ const CheckOut = () => {
     try {
       await client.query({
         query: EMAIL_INVOICE,
-        context: { clientName: 'rest' },
+        context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
         fetchPolicy: 'network-only',
         variables: {
           confirmationNumber: checkedInData?.reservationId,
@@ -147,18 +162,21 @@ const CheckOut = () => {
       setEmailLoader(false);
       setErrorToggle({
         state: false,
-        message: 'Mail sent successfully',
+        message: 'E-mail sent successfully',
         type: 'email',
         description: 'Please check your mailbox.',
       });
     } catch (getUpdatedReservationError) {
-      setErrorToggle({
-        state: true,
-        message: 'Oops!',
-        type: 'email',
-        description: 'Something went wrong',
-      });
-      setEmailLoader(false);
+      const statusCode = processStatusCode(getUpdatedReservationError as ApolloError);
+      statusCode === 403
+        ? handleCheckInAuthenticationFailure(handleMail)
+        : (setErrorToggle({
+            state: true,
+            message: 'Could not send E-mail',
+            type: 'email',
+            description: 'Please try again after some time.',
+          }),
+          setEmailLoader(false));
     }
     toggleNotification(true);
   };

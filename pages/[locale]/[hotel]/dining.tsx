@@ -125,13 +125,14 @@ const Dining = () => {
 
   useEffect(() => {
     if (
-      data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length === 0 ||
-      !irdModule ||
-      !checkInData?.checkedIn
+      data?.getIRDMenuOutputDetails &&
+      (data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length === 0 ||
+        !irdModule ||
+        !checkInData?.checkedIn)
     ) {
       navigate(availablePaths?.HOME);
     }
-  }, [data?.getIRDMenuOutputDetails, navigate, t, irdModule]);
+  }, [data?.getIRDMenuOutputDetails, navigate, t, irdModule, checkInData?.checkedIn]);
 
   useEffect(() => {
     if (header[0]?.name == undefined && header[0].hours == undefined) {

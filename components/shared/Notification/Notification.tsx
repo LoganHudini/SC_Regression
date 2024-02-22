@@ -27,7 +27,7 @@ export const Notification: React.FC<INotificationProps> = ({
   const { t } = useTranslation(['common']);
   const notificationStatus = useReactiveVar(toggleNotification);
   const navigate = useLocalizedRouter();
-  const networkError = apolloError?.networkError as { result?: { errors?: string } };
+  const networkError = apolloError?.networkError as { result?: { errors?: string; code?: number } };
 
   useEffect(() => {
     if (notificationStatus) {

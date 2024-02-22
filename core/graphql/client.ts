@@ -32,7 +32,6 @@ import {
   INTEGRATION_API_KEY_V5,
   INTEGRATION_HOST_V5,
 } from './endpoints';
-import { checkinStorage } from 'storage/check-in.storage';
 
 const retryLink = new RetryLink({
   delay: {

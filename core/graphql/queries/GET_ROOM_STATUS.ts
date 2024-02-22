@@ -18,11 +18,11 @@ export interface IGetRoomStatusApiResponse {
 }
 
 export const GET_ROOM_STATUS = gql`
-  query GetReservationRoomStatus($roomNumber: String, $hotelId: String) {
-    getRoomStatus(roomNumber: $roomNumber, hotelId: $hotelId)
+  query GetReservationRoomStatus($roomNumber: String, $hotelId: String, $confirmationId: String) {
+    getRoomStatus(roomNumber: $roomNumber, hotelId: $hotelId, confirmationId: $confirmationId)
       @rest(
         type: "GetReservationPayload"
-        path: "/${ENVIRONMENT}/booking/hotel/{args.hotelId}/rooms/{args.roomNumber}/status"
+        path: "/${ENVIRONMENT}/booking/hotel/{args.hotelId}/rooms/{args.roomNumber}/status?confirmationId={args.confirmationId}"
       ) {
       errors
       data

@@ -1,5 +1,5 @@
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { StyledInput } from 'components/shared/StyledInput/StyledInput';
@@ -25,14 +25,19 @@ import { saveTrip } from 'storage/trips.storage';
 import { Notification } from 'components/shared/Notification/Notification';
 import { useRouter } from 'next/router';
 import {
+  getCheckInToken,
+  handleCheckInAuthenticationFailure,
+} from 'core/api/functions/getCheckInAuthentication';
+import { processStatusCode } from 'utils/processError';
+import {
   CANCELED,
   CHECKEDOUT,
-  CHECK_IN,
   CHKOUT,
   FAILURE,
   NOSHOW,
   SUCCESS,
   NA,
+  CHECK_IN,
   INHOUSE,
 } from 'utils/constants';
 import { useConfig } from 'utils/hooks/useConfiguration';
@@ -52,6 +57,7 @@ const CheckInDrawer = () => {
   const HOME = `/${hotel}/`;
   const resId = router?.query?.resId ?? '';
   const lastName = router?.query?.lastName ?? '';
+  const checkInToken = useRef<string>('');
   const roomNo = router?.query?.roomNo ?? '';
   const checkedInData = useCheckedIn();
 
@@ -70,9 +76,18 @@ const CheckInDrawer = () => {
     async (values: IGetPrecheckinReservationData) => {
       try {
         setLoading(true);
+
+        checkInToken.current = await getCheckInToken(
+          values?.confirmationNumber?.toString()?.trim(),
+          values?.lastName?.toString()?.trim(),
+        );
+
         const { data } = await client.query({
           query: checkinModule ? GET_RESERVATION : GET_RESERVATION_WITH_ROOM_NUMBER,
-          context: { clientName: 'rest' },
+          context: {
+            clientName: 'rest',
+            headers: { Authorization: 'Bearer ' + checkInToken?.current },
+          },
           variables: checkinModule
             ? {
                 confirmationNumber: values?.confirmationNumber?.toString()?.trim(),
@@ -115,60 +130,43 @@ const CheckInDrawer = () => {
             setLoading(false);
           } else if (data.getReservation.data.reservationStatus === INHOUSE) {
             if (data.getReservation.data?.roomTypes[0]?.roomNumber) {
-              const roomStatusData = checkRoomStatus(
-                data.getReservation.data?.roomTypes[0]?.roomNumber,
-                hotelId,
-              );
-              roomStatusData.then((roomStatus: any) => {
-                if (roomStatus) {
-                  if (checkinModule) {
-                    setErrorNotification({
-                      state: false,
-                      title: 'Hello Again!',
-                      description:
-                        'Reservation validated successfully. You can now explore our in-stay services.',
-                    });
-                    toggleNotification(true);
-                    toggleCheckInDetailsDrawer(false);
-                  } else toggleCheckInDetailsDrawer(true);
-                  saveTrip({
-                    reservationId:
-                      data?.getReservation?.data?.confirmationId !== NA
-                        ? (data?.getReservation?.data?.confirmationId as string)
-                        : (data?.getReservation?.data?.uniqueBookingId as string),
-                    preCheckedIn: !roomNo ? true : false,
-                    checkedIn: roomNo ? true : false,
-                    name: data?.getReservation?.data?.details?.contactPerson?.lastName,
-                    email: data?.getReservation?.data?.details?.contactPerson?.email,
-                    roomNumber: roomNo,
-                    invoiceId: data?.getReservation?.data?.reservationId as string,
-                    hotelId: hotelId,
-                  });
-                  checkinStorage({
-                    reservationId:
-                      data?.getReservation?.data?.confirmationId !== NA
-                        ? (data?.getReservation?.data?.confirmationId as string)
-                        : (data?.getReservation?.data?.uniqueBookingId as string),
-                    preCheckedIn: !roomNo ? true : false,
-                    checkedIn: roomNo ? true : false,
-                    name: data?.getReservation?.data?.details?.contactPerson?.lastName,
-                    email: data?.getReservation?.data?.details?.contactPerson?.email,
-                    roomNumber: roomNo,
-                    invoiceId: data?.getReservation?.data?.reservationId as string,
-                    currency: data?.getReservation?.data?.details?.holdAmount?.currency,
-                  });
-                  setLoading(false);
-                } else {
-                  setErrorNotification({
-                    state: true,
-                    title: 'Room Unavailable',
-                    description: 'Please try after sometime',
-                  });
-                  toggleNotification(true);
-                  toggleCheckInDetailsDrawer(false);
-                  setLoading(false);
-                }
+              if (checkinModule) {
+                setErrorNotification({
+                  state: false,
+                  title: 'Hello Again!',
+                  description:
+                    'Reservation validated successfully. You can now explore our in-stay services.',
+                });
+                toggleNotification(true);
+                toggleCheckInDetailsDrawer(false);
+              } else toggleCheckInDetailsDrawer(true);
+              saveTrip({
+                reservationId:
+                  data?.getReservation?.data?.confirmationId !== NA
+                    ? (data?.getReservation?.data?.confirmationId as string)
+                    : (data?.getReservation?.data?.uniqueBookingId as string),
+                preCheckedIn: !roomNo ? true : false,
+                checkedIn: roomNo ? true : false,
+                name: data?.getReservation?.data?.details?.contactPerson?.lastName,
+                email: data?.getReservation?.data?.details?.contactPerson?.email,
+                roomNumber: roomNo,
+                invoiceId: data?.getReservation?.data?.reservationId as string,
+                hotelId: hotelId,
               });
+              checkinStorage({
+                reservationId:
+                  data?.getReservation?.data?.confirmationId !== NA
+                    ? (data?.getReservation?.data?.confirmationId as string)
+                    : (data?.getReservation?.data?.uniqueBookingId as string),
+                preCheckedIn: !roomNo ? true : false,
+                checkedIn: roomNo ? true : false,
+                name: data?.getReservation?.data?.details?.contactPerson?.lastName,
+                email: data?.getReservation?.data?.details?.contactPerson?.email,
+                roomNumber: roomNo,
+                invoiceId: data?.getReservation?.data?.reservationId as string,
+                currency: data?.getReservation?.data?.details?.holdAmount?.currency,
+              });
+              setLoading(false);
             } else {
               setErrorNotification({
                 state: true,
@@ -194,15 +192,19 @@ const CheckInDrawer = () => {
           }
         }
       } catch (error) {
-        setErrorNotification({
-          state: true,
-          title: 'Reservation Not Found',
-          description: 'Please Try Again.',
-          appoloErrorMessage: error as ApolloError,
-        });
-        toggleNotification(true);
-        toggleCheckInDetailsDrawer(false);
-        setLoading(false);
+        const statusCode = processStatusCode(error as ApolloError);
+
+        statusCode === 403
+          ? handleCheckInAuthenticationFailure(goToTheNextStep, values)
+          : (setErrorNotification({
+              state: true,
+              title: 'Reservation Not Found',
+              description: 'Please Try Again',
+              appoloErrorMessage: error as ApolloError,
+            }),
+            toggleNotification(true),
+            toggleCheckInDetailsDrawer(false),
+            setLoading(false));
       }
     },
     [HOME, checkinModule, hotelId, navigate],
@@ -232,6 +234,7 @@ const CheckInDrawer = () => {
         ['lastName' as string]: lastName,
         ['confirmationNumber' as string]: resId,
       });
+      checkInToken.current = getCheckInToken(resId as string, lastName as string);
       toggleCheckInDetailsDrawer(true);
       goToTheNextStep(values);
     } else if (roomNo && lastName && !checkinModule) {

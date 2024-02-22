@@ -7,25 +7,50 @@
   max-width: 768px;
   border: none;
   display: flex;
+}
 
-  // :global(.btnSubmit) {
-  //   margin: 0 auto !important;
-  //   border: none !important;
-  //   background: var(--primary-theme-color) !important;
-  //   color: var(--secondary-text-color) !important;
-  //   border-radius: 0 !important;
-  //   font-size: 1.25rem !important;
-  //   font-weight: bold !important;
-  //   padding: 11px 0 !important;
-  //   height: auto !important;
-
-  //   &:hover {
-  //     background: #472643;
-  //     border: none;
-  //   }
-  // }
+.paymentWindowCCAvenue {
+  position: fixed;
+  top: 7.5vh;
+  height: 92.5vh;
+  width: 100%;
+  max-width: 768px;
+  border: none;
+  display: flex;
 }
 
 .paymentWindowHidden {
   display: none;
+}
+
+.popUpBlockerContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 5rem;
+}
+
+.titleOops {
+  color: #fe4a69;
+  font: $xlarge var(--heading-font-regular);
+  margin: 1rem 0;
+}
+
+.titlePaymentPopup {
+  font-size: $large;
+  font-family: var(--heading-font-regular);
+  text-align: center;
+  margin-top: 30px;
+}
+
+.descriptionPaymentPopup {
+  font-size: $xsmall;
+  color: var(--tertiary-text-color);
+  text-align: center;
+  width: 65%;
+  line-height: 1.25;
+  margin: 6px auto;
+  margin-top: 20px;
 }

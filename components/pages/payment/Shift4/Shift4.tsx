@@ -9,6 +9,7 @@ import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.
 import { availablePaths } from 'utils/availablePaths';
 import { GET_RESERVATION } from 'core/graphql/queries/GET_RESERVATION';
 import produce from 'immer';
+import { getCheckInToken } from 'core/api/functions/getCheckInAuthentication';
 
 const Shift4 = () => {
   const navigate = useLocalizedRouter();
@@ -25,6 +26,7 @@ const Shift4 = () => {
     backgroundPosition: 'center',
     backgroundSize: 'cover',
   };
+  const checkInToken = getCheckInToken();
 
   const reservationData = client.readQuery({
     query: GET_RESERVATION,
@@ -45,7 +47,7 @@ const Shift4 = () => {
     const { data } = await client.query({
       query: INITIATE_PAYMENT_SHIFT4,
       variables: { body: initiatePaymentPayload },
-      context: { clientName: 'rest' },
+      context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
       fetchPolicy: 'network-only',
     });
 
@@ -122,6 +124,7 @@ const Shift4 = () => {
       });
     });
   };
+
   if (loaded && loaded1) {
     initialize();
   }

@@ -2,11 +2,11 @@ import { gql } from '@apollo/client';
 import { HOTEL_ID } from '../endpoints';
 
 export const GET_YOUVERSE_CONFIG = gql`
-  query GetYoonikConfig($body: any) {
-    getyoonikconfig(body: $body)
+  query GetYoonikConfig($body: any, $confirmationId: string) {
+    getyoonikconfig(body: $body, confirmationId: $confirmationId)
       @rest(
         type: "GetYoonikConfigPayload"
-          path: "/uat/initiatekyc/hotel/${HOTEL_ID}"
+          path: "/uat/initiatekyc/hotel/${HOTEL_ID}?confirmationId={args.confirmationId}"
           method: "POST"
           bodyKey: "body"
         ) {

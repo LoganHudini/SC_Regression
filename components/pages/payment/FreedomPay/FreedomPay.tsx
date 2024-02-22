@@ -227,7 +227,7 @@ const FreedomPay: React.FC = () => {
   if (typeof window !== 'undefined') {
     window.onmessage = function (event) {
       if (event?.data?.data) {
-        console.log(event?.data?.data);
+        // console.log(event?.data?.data);
         // handlePaymentResponse(event?.data);
       }
     };

@@ -5,6 +5,8 @@ import { Player } from '@lottiefiles/react-lottie-player';
 import ItemNotFound from '@jsons/itemsNotFound.json';
 import Carousel from '@jsons/carousel.json';
 import Image from '@jsons/image.json';
+import PaymentStatus from '@jsons/PaymentStatus.json';
+import BlockPopUp from '@jsons/BlockPopUp.json';
 import Failure from '@jsons/failure.json';
 import PageNotFound from '@jsons/pageNotFound.json';
 import { BRAND_CODE } from 'core/graphql/endpoints';
@@ -56,6 +58,14 @@ export const SuccessAnimation = () => (
 
 export const FailureAnimation = () => (
   <Player autoplay loop src={Failure} className={styles.errorAnimation} />
+);
+
+export const PaymentStatusAnimation = () => (
+  <Player autoplay loop src={PaymentStatus} className={styles.paymentStatusAnimation} />
+);
+
+export const BlockPopUpAnimation = () => (
+  <Player autoplay keepLastFrame src={BlockPopUp} className={styles.paymentStatusAnimation} />
 );
 
 export const PageNotFoundAnimation = () => <Player autoplay loop src={PageNotFound} />;

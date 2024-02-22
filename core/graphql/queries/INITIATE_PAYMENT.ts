@@ -74,6 +74,22 @@ query InitiatePayment( $body: InitiatePaymentPayload) {
 }
 `;
 
+export const INITIATE_PAYMENT_CCAVENUE = gql`
+query InitiatePayment( $body: UpdateGuestDetailsPayload) {
+    initiatePayment(body: $body)
+    @rest(
+      type: "InitiatePaymentPayload"
+      path: "/${ENVIRONMENT}/payment/ccAvenue/hotel/${HOTEL_ID}/loadPaymentZone?confirmationId={args.body.bookingId}"
+      method: "POST"
+      bodyKey: "body"
+    ) {
+    errors
+    data
+    status
+  }
+}
+`;
+
 export const INITIATE_PAYMENT_FREEDOMPAY = gql`
 query InitiatePayment( $body: InitiatePaymentPayload) {
     initiatePayment(body: $body)

@@ -27,7 +27,6 @@ export const PreCheckinPaymentInfo: React.FC<IPreCheckinPaymentInfoProps> = ({
     const inputValue = value;
     reservationGuestInfoStorageData({ ...guestReservationInfo, [inputField]: inputValue });
   };
-
   const initialFieldValues = generateInitialFieldValues(creditCardInfoSection, paymentInfo);
 
   const validationSchema = generateValidationSchema(creditCardInfoSection);

@@ -110,6 +110,22 @@ export interface IGetReservationApiResponse {
   };
 }
 
+export const GET_AUTHENTICATION = gql`
+  query GetReservation($body: GetAuthenticationPayload) {
+    getAuthentication(body: $body)
+      @rest(
+        type: "GetAuthenticationPayload"
+        path: "/${ENVIRONMENT}/authenticate"
+        method: "POST"
+        bodyKey: "body"
+      ) {
+      errors
+      data
+      status
+    }
+  }
+`;
+
 export const GET_RESERVATION = gql`
   query GetReservation($confirmationNumber: String, $lastName: String, $hotelId: String) {
     getReservation(confirmationNumber: $confirmationNumber, lastName: $lastName, hotelId: $hotelId)

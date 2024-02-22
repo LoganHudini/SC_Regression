@@ -11,7 +11,7 @@ import { GET_YOUVERSE_RESPONSE } from 'core/graphql/queries/GET_YOUVERSE_RESPONS
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
-import { useReactiveVar } from '@apollo/client';
+import { ApolloError, useReactiveVar } from '@apollo/client';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
 import { useConfig, useDocumentConfig } from 'utils/hooks/useConfiguration';
 import { youverseProfileIDStorage } from 'storage/check-in.storage';
@@ -22,6 +22,11 @@ import { Notification } from 'components/shared/Notification/Notification';
 import { notificationDetails, toggleNotification } from 'storage/home.storage';
 import { timeFormats } from 'utils/timeFormats';
 import dayjs from 'dayjs';
+import {
+  getCheckInToken,
+  handleCheckInAuthenticationFailure,
+} from 'core/api/functions/getCheckInAuthentication';
+import { processStatusCode } from 'utils/processError';
 
 export { getStaticPaths };
 
@@ -42,8 +47,10 @@ const Youverse: React.FC = () => {
     query: GET_RESERVATION,
   });
 
-  const reservationId = reservationData?.getReservation?.data?.confirmationId;
+  const confirmationId = reservationData?.getReservation?.data?.confirmationId;
   const lastName = reservationData?.getReservation?.data?.guests[0]?.lastName;
+  const checkInDate = reservationData?.getReservation?.data?.details?.checkInDate;
+  const checkOutDate = reservationData?.getReservation?.data?.details?.checkOutDate;
 
   const reservationDataSelected = reservationData?.getReservation?.data?.guests?.find(
     (item) => item?.id === youverseProfileIDState?.id,
@@ -52,23 +59,33 @@ const Youverse: React.FC = () => {
   const docScanId = 'docScanId_' + reservationDataSelected?.id;
 
   useEffect(() => {
-    const payload = {
-      userId: docScanId,
-      expireDate: dayjs()?.add(10, 'minute').format(timeFormats?.YOUVERSE_EXPIRE_DATE),
-      documentOptions: ['PASSPORT', 'IDENTITY_CARD', 'DRIVING_LICENSE'],
+    const getYouverseConfig = () => {
+      const checkInToken = getCheckInToken();
+      const payload = {
+        userId: docScanId,
+        expireDate: dayjs()?.add(30, 'minute').format(timeFormats?.YOUVERSE_EXPIRE_DATE),
+        documentOptions: ['PASSPORT', 'IDENTITY_CARD', 'DRIVING_LICENSE'],
+      };
+
+      client
+        .query({
+          query: GET_YOUVERSE_CONFIG,
+          context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
+          fetchPolicy: 'no-cache',
+          variables: {
+            body: payload,
+            confirmationId: confirmationId,
+          },
+        })
+        .then((res: any) => {
+          setSrc(res?.data?.getyoonikconfig?.data?.redirectUrl);
+        })
+        .catch((error: any) => {
+          const statusCode = processStatusCode(error as ApolloError);
+          statusCode === 403 && handleCheckInAuthenticationFailure(getYouverseConfig);
+        });
     };
-    client
-      .query({
-        query: GET_YOUVERSE_CONFIG,
-        context: { clientName: 'rest' },
-        fetchPolicy: 'no-cache',
-        variables: {
-          body: payload,
-        },
-      })
-      .then(async (res: any) => {
-        setSrc(res?.data?.getyoonikconfig?.data?.redirectUrl);
-      });
+    getYouverseConfig();
 
     const interval = setInterval(() => getData(), 10000);
 
@@ -76,31 +93,22 @@ const Youverse: React.FC = () => {
       client
         .query({
           query: GET_YOUVERSE_RESPONSE,
-          context: { clientName: 'rest' },
+          context: {
+            clientName: 'rest',
+            headers: { Authorization: 'Bearer ' + getCheckInToken() },
+          },
           fetchPolicy: 'no-cache',
           variables: {
             docId: docScanId,
+            confirmationId: confirmationId,
           },
         })
-        .then(async (res: any) => {
+        .then((res: any) => {
           if (
             res?.data?.getyoonikresponse?.data?.status === 'Failed' ||
             res?.data?.getyoonikresponse?.data?.status === 'Success'
           ) {
             if (res?.data?.getyoonikresponse?.data?.status === 'Success') {
-              try {
-                await client.mutate({
-                  mutation: STORE_RESERVATION,
-                  context: { clientName: 'integration_v5' },
-                  variables: {
-                    profileId: reservationDataSelected?.id,
-                    reservationId: reservationId,
-                    lastName: lastName,
-                  },
-                });
-              } catch (e) {
-                console.error(e);
-              }
               if (
                 res?.data?.getyoonikresponse?.data?.firstName &&
                 res?.data?.getyoonikresponse?.data?.lastName &&
@@ -145,6 +153,21 @@ const Youverse: React.FC = () => {
                   type: FAILURE,
                 });
               } else {
+                try {
+                  client.mutate({
+                    mutation: STORE_RESERVATION,
+                    context: { clientName: 'integration_v5' },
+                    variables: {
+                      profileId: docScanId,
+                      reservationId: confirmationId,
+                      lastName: lastName,
+                      checkInDate: checkInDate,
+                      checkOutDate: checkOutDate,
+                    },
+                  });
+                } catch (e) {
+                  console.error(e);
+                }
                 if (youverseProfileIDState?.guestType === PRIMARY) {
                   reservationGuestInfoStorageData({
                     ...guestReservationInfo,
@@ -188,9 +211,22 @@ const Youverse: React.FC = () => {
                 }
               }
             }
+            if (res?.data?.getyoonikresponse?.data?.status === 'Failed') {
+              toggleNotification(true);
+              notificationDetails({
+                title: 'Please Try Again!',
+                description: 'Verfication process failed.',
+                redirect: availablePaths?.GUEST_VERIFICATION,
+                type: FAILURE,
+              });
+            }
             navigate(availablePaths?.GUEST_VERIFICATION);
             clearInterval(interval);
           }
+        })
+        .catch((error: any) => {
+          const statusCode = processStatusCode(error as ApolloError);
+          statusCode === 403 && handleCheckInAuthenticationFailure(getData);
         });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -205,7 +241,7 @@ const Youverse: React.FC = () => {
       </Head>
 
       <div>
-        <iframe src={src} allow='camera' style={{ width: '100%', height: '100vh' }} />
+        <iframe src={src} allow='camera' style={{ width: '100%', height: '100svh' }} />
       </div>
       <Notification
         title={notificationInfo?.title}

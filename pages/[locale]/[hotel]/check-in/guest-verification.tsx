@@ -51,6 +51,11 @@ import Camera from '@icons/cameraIcon.svg';
 import { accompanyGuestDetails } from 'storage/accompany-guest-details';
 import { Notification } from 'components/shared/Notification/Notification';
 import { notificationDetails, toggleNotification } from 'storage/home.storage';
+import {
+  getCheckInToken,
+  handleCheckInAuthenticationFailure,
+} from 'core/api/functions/getCheckInAuthentication';
+import { processStatusCode } from 'utils/processError';
 import { usePersonalisation } from 'utils/hooks/usePersonalisation';
 
 export { getStaticPaths };
@@ -119,16 +124,18 @@ const Guest: React.FC<any> = () => {
           ? (source = '')
           : (source = source[inputFieldName]);
       } else {
-        source = paymentAttributes ? paymentAttributes[inputFieldName] : '';
+        source = '';
       }
 
       if (Array.isArray(source)) {
         source = source.join(', ');
       }
+
       return source;
     },
     [guestInformationSection?.type, reservationInfo?.guests, reservationInfo?.reservePayments],
   );
+
   useEffect(() => {
     if (reservationInfo?.guests) {
       const initialGuestReservationInfo = activeSections?.reduce((values: any, section: any) => {
@@ -136,7 +143,6 @@ const Guest: React.FC<any> = () => {
           const { name } = field;
           values[name] = extractDataForField(name);
         });
-
         return values;
       }, {});
 
@@ -318,18 +324,26 @@ const Guest: React.FC<any> = () => {
           },
         },
       };
-      try {
-        await client.query({
-          query: UPDATE_GUEST_DETAILS,
-          context: { clientName: 'rest' },
-          variables: {
-            confirmationNumber: reservationInfo?.confirmationId as string,
-            body: updateGuestDetailsPayload,
-          },
-        });
-      } catch (error) {
-        successFlag = false;
-      }
+
+      const updatePrimaryGuest = () => {
+        const checkInToken = getCheckInToken();
+        try {
+          client.query({
+            query: UPDATE_GUEST_DETAILS,
+            context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
+            variables: {
+              confirmationNumber: reservationInfo?.confirmationId as string,
+              body: updateGuestDetailsPayload,
+            },
+          });
+        } catch (error) {
+          const statusCode = processStatusCode(error as ApolloError);
+          statusCode === 403
+            ? handleCheckInAuthenticationFailure(updatePrimaryGuest)
+            : (successFlag = false);
+        }
+      };
+      updatePrimaryGuest();
 
       if (accompanyGuestData.length > 0) {
         for (let i = 0; i < accompanyGuestData.length; i++) {
@@ -366,18 +380,28 @@ const Guest: React.FC<any> = () => {
               },
             };
 
-            try {
-              await client.query({
-                query: UPDATE_GUEST_DETAILS,
-                context: { clientName: 'rest' },
-                variables: {
-                  confirmationNumber: reservationInfo?.confirmationId as string,
-                  body: updateAccompanyGuestDetailsPayload,
-                },
-              });
-            } catch (error) {
-              successFlag = false;
-            }
+            const updateAccompanyGuests = () => {
+              const checkInToken = getCheckInToken();
+              try {
+                client.query({
+                  query: UPDATE_GUEST_DETAILS,
+                  context: {
+                    clientName: 'rest',
+                    headers: { Authorization: 'Bearer ' + checkInToken },
+                  },
+                  variables: {
+                    confirmationNumber: reservationInfo?.confirmationId as string,
+                    body: updateAccompanyGuestDetailsPayload,
+                  },
+                });
+              } catch (error) {
+                const statusCode = processStatusCode(error as ApolloError);
+                statusCode === 403
+                  ? handleCheckInAuthenticationFailure(updateAccompanyGuests)
+                  : (successFlag = false);
+              }
+            };
+            updateAccompanyGuests();
           }
         }
       }
@@ -428,8 +452,6 @@ const Guest: React.FC<any> = () => {
     paymentConfig?.type,
     navigate,
   ]);
-
-  // console.log(guestValidation, accompanyGuestData, accompanyGuestValidation);
 
   return (
     <>
@@ -605,7 +627,7 @@ const Guest: React.FC<any> = () => {
           <StyledButton
             variant='contained'
             loading={loading}
-            disabled={!guestValidation || !reservationData || !accompanyGuestValidation}
+            // disabled={!guestValidation || !reservationData || !accompanyGuestValidation}
             onClick={goToTheNextStep}
             className={styles.bottomMenuButton}
           >
@@ -616,6 +638,7 @@ const Guest: React.FC<any> = () => {
 
       <Notification
         title={notificationInfo?.title}
+        description={notificationInfo?.description}
         apolloError={notificationInfo?.apolloError}
         redirect={notificationInfo?.redirect}
         type={notificationInfo?.type}

@@ -47,14 +47,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  min-width: 60px;
   max-width: 60px;
   margin: 0 0.5rem;
-}
-
-.icon {
-  margin: 16px;
-  height: 52px;
-  width: 52px;
 }
 
 .contentWrapper {

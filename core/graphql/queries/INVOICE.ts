@@ -35,11 +35,11 @@ export interface IInvoiceApiResponse {
 }
 
 export const INVOICE = gql`
-  query Invoice($confirmationNumber: String) {
-    invoice(confirmationNumber: $confirmationNumber)
+  query Invoice($confirmationNumber: String, $roomNumber: roomNumber) {
+    invoice(confirmationNumber: $confirmationNumber, roomNumber: $roomNumber)
       @rest(
         type: "InvoicePayload"
-        path: "/${ENVIRONMENT}/invoice/booking/{args.confirmationNumber}/hotel/${HOTEL_ID}"
+        path: "/${ENVIRONMENT}/invoice/booking/{args.confirmationNumber}/hotel/${HOTEL_ID}?roomNumber={args.roomNumber}"
       ) {
       errors
       data

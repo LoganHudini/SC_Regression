@@ -26,6 +26,7 @@ export const INFOR = 'INFOR';
 // payment type constants
 export const SHIFT4 = 'SHIFT4';
 export const CYBERSOURCE = 'CYBERSOURCE';
+export const CCAVENUE = 'CCAVENUE';
 export const FREEDOMPAY = 'FREEDOMPAY';
 
 // key constants

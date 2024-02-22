@@ -1,21 +1,21 @@
 :root {
   // theme colors
-  --primary-theme-color: #d0a968;
+  --primary-theme-color: #000000;
   --primary-background-color: #f7f7f7;
   --primary-icon-color: #ffffff;
   --primary-border-color: #e0e0e0;
   --primary-box-shadow-color: #0000001a;
   --primary-error-text-color: #f41313;
-  --primary-disabled-color: #e0e0e0;
+  --primary-disabled-color: #DBDBDB;
 
   // overlays
   --primary-overlay-color: #120e0e79;
   --secondary-overlay-color: #120e0eb1;
 
   // text colors
-  --primary-text-color: #4a4a4a;
+  --primary-text-color: #000000;
   --secondary-text-color: #ffffff;
-  --tertiary-text-color: #868686;
+  --tertiary-text-color: #4a4a4a;
 
   // drawer colors
   --primary-drawer-color: #ffffff;
@@ -30,45 +30,45 @@
   --primary-image-transition-background-color: #a0a1a3;
 
   // hamburger menu colors
-  --hamburgermenu-drawer-color: #333333;
+  --hamburgermenu-drawer-color: #000000;
   --hamburgermenu-text-color: #ffffff;
   --hamburgermenu-icon-color: #ffffff;
 
   // font-families
-  --primary-font-regular: 'Arial';
-  --primary-font-medium: 'Arial Bold';
+  --primary-font-regular: 'Helvetica Neue';
+  --primary-font-medium: 'Helvetica Neue Medium';
   --primary-font-semibold: '';
   --primary-font-bold: '';
-  --primary-font-heading: 'ITC Modern No 216';
+  --primary-font-heading: 'Helvetica Neue Medium';
 
-  --primary-font-extd-regular: 'Arial';
+  --primary-font-extd-regular: 'Helvetica Neue';
 
   // headings
-  --heading-font-regular: 'Trajan Pro Bold';
+  --heading-font-regular: 'Helvetica Neue Bold';
 
   // banner configs
-  --primary-title-font-family: 'Trajan Pro Bold';
-  --secondary-title-font-family: 'Arial Bold';
+  --primary-title-font-family: 'Helvetica Neue Bold';
+  --secondary-title-font-family: 'Helvetica Neue Medium';
   --primary-indicator-color: #ffffff;
 
   // card component configs
-  --primary-card-title-font-family: 'ITC Modern No 216';
-  --primary-card-desc-font-family: 'Arial';
-  --primary-card-cta-font-family: 'Arial';
-  --primary-card-background-color: #ffffff;
-  --primary-card-border-radius: 6px;
+  --primary-card-title-font-family: 'Helvetica Neue Medium';
+  --primary-card-desc-font-family: 'Helvetica Neue';
+  --primary-card-cta-font-family: 'Helvetica Neue Medium';
+  --primary-card-background-color: #FFFFFF;
+  --primary-card-border-radius: 15px;
   --primary-card-shadow-color: #00000010;
 
   // button configs
   --primary-button-color: #ffffff;
-  --primary-button-background-color: #d0a968;
+  --primary-button-background-color: #000000;
   --primary-button-border-radius: 48px;
-  --primary-button-font-family: 'Arial Bold';
+  --primary-button-font-family: 'Helvetica Neue Medium';
 
-  --secondary-button-color: #d0a968;
+  --secondary-button-color: #000000;
   --secondary-button-background-color: #ffffff;
   --secondary-button-border-radius: 48px;
-  --secondary-button-font-family: 'Arial Bold';
+  --secondary-button-font-family: 'Helvetica Neue Medium';
 
   // Bottom menu arrow configs
   --bottom-menu-arrow-color: #fff;

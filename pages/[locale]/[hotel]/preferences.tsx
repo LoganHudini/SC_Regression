@@ -20,12 +20,16 @@ import { ASSETS_URL } from 'core/graphql/endpoints';
 import { client } from 'core/graphql/client';
 import { POST_REQUEST } from 'core/graphql/queries/POST_REQUEST';
 import { availablePaths } from 'utils/availablePaths';
-import { processError } from 'utils/processError';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import Head from 'next/head';
 import { toggleNotification } from 'storage/home.storage';
 import { Notification } from 'components/shared/Notification/Notification';
+import {
+  getCheckInToken,
+  handleCheckInAuthenticationFailure,
+} from 'core/api/functions/getCheckInAuthentication';
+import { processStatusCode } from 'utils/processError';
 
 export { getStaticPaths };
 
@@ -39,6 +43,7 @@ const Preferences = () => {
   const navigate = useLocalizedRouter();
   const [selectedOptions, setSelectedOptions] = useState<any>({});
   const [loading, setLoading] = useState<any>(false);
+
   const homeModule: any = config?.modules?.find((module) => module?.code === PREFERENCES);
   const imageDetails = homeModule?.submodules?.find(
     (submodule: any) => submodule?.code === HEADERSCONFIG && submodule.isActive,
@@ -102,6 +107,7 @@ const Preferences = () => {
   };
 
   const submit = async () => {
+    const checkInToken = getCheckInToken();
     const commentStrings = [];
     for (const categoryTitle in selectedOptions) {
       const comment = `${categoryTitle}: ${selectedOptions[categoryTitle].join(', ')}`;
@@ -119,7 +125,7 @@ const Preferences = () => {
       setLoading(true);
       const uploadSignatureResponse = await client.mutate({
         mutation: POST_REQUEST,
-        context: { clientName: 'rest' },
+        context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
         variables: {
           body: preferencesPayload,
         },
@@ -127,17 +133,20 @@ const Preferences = () => {
       navigate(availablePaths?.HOME);
       setLoading(false);
     } catch (uploadSignatureError) {
-      setNotificationState({
-        title: ERRORMSG,
-        redirect: null,
-        type: FAILURE,
-        apolloError: uploadSignatureError as ApolloError,
-      });
-      toggleNotification(true);
-      // processError(t, uploadSignatureError as ApolloError);
-      setLoading(false);
+      const statusCode = processStatusCode(uploadSignatureError as ApolloError);
+      statusCode === 403
+        ? handleCheckInAuthenticationFailure(submit)
+        : (setNotificationState({
+            title: ERRORMSG,
+            redirect: null,
+            type: FAILURE,
+            apolloError: uploadSignatureError as ApolloError,
+          }),
+          toggleNotification(true),
+          setLoading(false));
     }
   };
+
   return (
     <>
       <Head>

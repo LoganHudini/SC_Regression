@@ -8,6 +8,7 @@ import { useQuery } from '@apollo/client';
 import { client } from 'core/graphql/client';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
 import { activeItems } from 'utils/functions';
+import { getCheckInToken } from 'core/api/functions/getCheckInAuthentication';
 
 export const usePersonalisation = () => {
   const reservationData = client.readQuery<IGetReservationApiResponse>({
@@ -20,10 +21,14 @@ export const usePersonalisation = () => {
 
   const { loading: personalisationDataloadingStatus, data: personalisationData } =
     useQuery<IPersonalizeYourRoomApiResponse>(GET_AVAILABLE_PERSONALIZATIONS_CMS, {
-      context: { clientName: 'rest' },
+      context: {
+        clientName: 'rest',
+        headers: { Authorization: 'Bearer ' + getCheckInToken() },
+      },
       variables: {
         startDate: startDate,
         endDate: endDate,
+        confirmationId: reservationInfo?.confirmationId,
       },
     });
 

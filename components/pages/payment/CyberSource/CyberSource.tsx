@@ -1,11 +1,7 @@
-import { useReactiveVar } from '@apollo/client';
+import { ApolloError, useReactiveVar } from '@apollo/client';
 import cx from 'classnames';
 import { client } from 'core/graphql/client';
-import {
-  IGetReservationApiResponse,
-  GET_RESERVATION,
-  GET_RESERVATION_NO_LAST_NAME,
-} from 'core/graphql/queries/GET_RESERVATION';
+import { IGetReservationApiResponse, GET_RESERVATION } from 'core/graphql/queries/GET_RESERVATION';
 import {
   IInitiatePaymentApiRequest,
   IInitiatePaymentApiResponse,
@@ -25,19 +21,20 @@ import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.
 import { Notification } from 'components/shared/Notification/Notification';
 import { FAILURE, SUCCESS } from 'utils/constants';
 import { toggleNotification } from 'storage/home.storage';
+import {
+  getCheckInToken,
+  handleCheckInAuthenticationFailure,
+} from 'core/api/functions/getCheckInAuthentication';
+import { processStatusCode } from 'utils/processError';
 
 const CyberSource: React.FC = () => {
   const transactionId = useRef('');
   const navigate = useLocalizedRouter();
   const [errorNotification, setErrorNotification] = useState(false);
-
   const [loading, setLoading] = useState(true);
-
   const { t } = useTranslation(['check-in-payment', 'common']);
-
-  const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
-
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
@@ -50,26 +47,13 @@ const CyberSource: React.FC = () => {
   }, [navigate]);
 
   const preparePayment = useCallback(async () => {
-    let updatedReservationData: IGetReservationApiResponse | null = null;
+    const checkInToken = getCheckInToken();
 
-    try {
-      const { data } = await client.query<IGetReservationApiResponse>({
-        query: GET_RESERVATION_NO_LAST_NAME,
-        context: { clientName: 'rest' },
-        fetchPolicy: 'network-only',
-        variables: {
-          confirmationNumber: reservationInfo?.confirmationId,
-        },
-      });
-      updatedReservationData = data;
-    } catch (getUpdatedReservationError) {
-      // processError(t, getUpdatedReservationError as ApolloError);
-      setErrorNotification(true);
-      toggleNotification(true);
-      onPaymentDone();
-    }
+    const data = client.readQuery<IGetReservationApiResponse>({
+      query: GET_RESERVATION,
+    });
 
-    if (updatedReservationData) {
+    if (data) {
       const initiatePaymentPayload: IInitiatePaymentApiRequest = {
         currency: reservationInfo?.details?.holdAmount?.currency as string,
         amount: 1,
@@ -83,15 +67,15 @@ const CyberSource: React.FC = () => {
         const { data } = await client.query<IInitiatePaymentApiResponse>({
           query: INITIATE_PAYMENT_CYBERSOURCE,
           variables: { body: initiatePaymentPayload },
-          context: { clientName: 'rest' },
+          context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
           fetchPolicy: 'network-only',
         });
-
         paymentData = data;
       } catch (initiatePaymentError) {
-        setErrorNotification(true);
-        toggleNotification(true);
-        onPaymentDone();
+        const statusCode = processStatusCode(initiatePaymentError as ApolloError);
+        statusCode === 403
+          ? handleCheckInAuthenticationFailure(preparePayment)
+          : (setErrorNotification(true), toggleNotification(true), onPaymentDone());
       }
 
       if (paymentData) {
@@ -121,12 +105,16 @@ const CyberSource: React.FC = () => {
           { code: 'VS', value: 'Visa' },
           { code: 'AX', value: 'Americanexpress' },
         ];
+        const checkInToken = getCheckInToken();
         try {
           const { data: paymentStatusData } = await client.query<IGetPaymentStatusApiResponse>({
             query: GET_PAYMENT_STATUS,
-            context: { clientName: 'rest' },
+            context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
             fetchPolicy: 'network-only',
-            variables: { paymentId: transactionId?.current },
+            variables: {
+              paymentId: transactionId?.current,
+              confirmationId: reservationInfo?.confirmationId,
+            },
           });
 
           const status = paymentStatusData?.getPaymentStatus.data['status '];
@@ -154,14 +142,14 @@ const CyberSource: React.FC = () => {
             onPaymentDone();
           }
         } catch (paymentStatusError) {
-          // processError(t, paymentStatusError as ApolloError);
-          setErrorNotification(true);
-          toggleNotification(true);
-          onPaymentDone();
+          const statusCode = processStatusCode(paymentStatusError as ApolloError);
+          statusCode === 403
+            ? handleCheckInAuthenticationFailure(handleIframeChange)
+            : (setErrorNotification(true), toggleNotification(true), onPaymentDone());
         }
       }
     }, 1500);
-  }, [guestReservationInfo, onPaymentDone]);
+  }, [guestReservationInfo, onPaymentDone, reservationInfo?.confirmationId]);
 
   useEffect(() => {
     if (!reservationInfo?.confirmationId) {

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
 import { Header } from 'components/shared/Header/Header';
 import styles from '@styles/pre-checkin-form/pre-checkin-form.module.scss';
@@ -10,15 +10,14 @@ import { client } from 'core/graphql/client';
 import cx from 'classnames';
 import { GetStaticProps } from 'next';
 import { AboutYourStayProps } from 'types/about-your-stay.types';
-import { useReactiveVar } from '@apollo/client';
+import { ApolloError, useReactiveVar } from '@apollo/client';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'react-i18next';
 import { getStaticPaths } from 'utils/getStatic';
 import i18nConfig from 'next-i18next.config';
 import { availablePaths } from 'utils/availablePaths';
-import { PreCheckinPaymentInfo } from 'components/pages/check-in/PreCheckinPaymentInfo/PreCheckinPaymentInfo';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
-import { useConfig } from 'utils/hooks/useConfiguration';
+import { useConfig, usePaymentConfig } from 'utils/hooks/useConfiguration';
 import {
   CHECK_IN,
   CREDIT_CARD_INFO,
@@ -28,13 +27,35 @@ import {
   PHONE_REGEX,
   EMAILS,
   STEPPER_PAYMENT,
+  FAILURE,
+  SUCCESS,
+  CCAVENUE,
 } from 'utils/constants';
 import { Stepper } from 'components/shared/Stepper/Stepper';
 import { StepperInformationStorage } from 'storage/check-in.storage';
 import produce from 'immer';
-import EditIcon from '@icons/commonEditIcon.svg';
-import CardIcon from '@icons/cardIcon.svg';
+import {
+  PaymentLoaderPopUp,
+  PaymentStatusCard,
+} from 'components/pages/check-in/PreCheckinPaymentInfo/card-payment';
 import { usePersonalisation } from 'utils/hooks/usePersonalisation';
+import { openLinknewTab } from 'utils/functions';
+import {
+  IInitiatePaymentApiRequest,
+  IInitiatePaymentApiResponse,
+  INITIATE_PAYMENT_CCAVENUE,
+} from 'core/graphql/queries/INITIATE_PAYMENT';
+import {
+  getCheckInToken,
+  handleCheckInAuthenticationFailure,
+} from 'core/api/functions/getCheckInAuthentication';
+import {
+  GET_PAYMENT_STATUS,
+  IGetPaymentStatusApiResponse,
+} from 'core/graphql/queries/GET_PAYMENT_STATUS';
+import { toggleNotification } from 'storage/home.storage';
+import { Notification } from 'components/shared/Notification/Notification';
+import { processStatusCode } from 'utils/processError';
 
 export { getStaticPaths };
 
@@ -42,12 +63,19 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
   const navigate = useLocalizedRouter();
   const config = useConfig();
   const [availablePersonalizations] = usePersonalisation();
-
   const { t } = useTranslation('about-your-stay');
+  const transactionId = useRef('');
+  const [errorNotification, setErrorNotification] = useState(false);
+  const [popUpStatus, setPopUpStatus] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [url, setUrl] = useState('');
+  const paymentConfig: any = usePaymentConfig();
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
   });
+
+  const reservationInfo = reservationData?.getReservation?.data;
 
   const checkinModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
   const accompanyingGuestSubmodule = checkinModule?.submodules?.find(
@@ -60,15 +88,7 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
     (section: any) => section?.name === CREDIT_CARD_INFO,
   );
 
-  const paymentType = creditCardInfoSection?.type;
-
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
-
-  useEffect(() => {
-    if (!reservationData) {
-      navigate(availablePaths.HOME);
-    }
-  }, [reservationData, navigate]);
 
   const goToTheNextStep = useCallback(() => {
     availablePersonalizations?.length > 0
@@ -114,11 +134,124 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
     );
   }, [validButton, availablePersonalizations]);
 
+  const onPaymentDone = useCallback(async () => {
+    navigate(availablePaths?.CARD_AUTHORISATION);
+    setPopUpStatus(false);
+  }, [navigate]);
+
+  const handleProceedToPayment = useCallback(async () => {
+    const checkInToken = getCheckInToken();
+    const orderId =
+      Math.floor(Math.random() * 9000000000) + 1000000000 + '-' + reservationInfo?.confirmationId;
+
+    const data = client.readQuery<IGetReservationApiResponse>({
+      query: GET_RESERVATION,
+    });
+
+    if (data) {
+      const initiatePaymentPayload: IInitiatePaymentApiRequest = {
+        // currency: reservationInfo?.details?.holdAmount?.currency as string,
+        currency: 'INR',
+        amount: 1,
+        bookingId: reservationInfo?.confirmationId as string,
+        orderId: orderId,
+      };
+
+      try {
+        const { data } = await client.query<IInitiatePaymentApiResponse>({
+          query: INITIATE_PAYMENT_CCAVENUE,
+          variables: {
+            body: initiatePaymentPayload,
+          },
+          context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
+          fetchPolicy: 'network-only',
+        });
+        setUrl(data?.initiatePayment?.data?.answer?.payment_zone_data);
+        transactionId.current = orderId;
+      } catch (initiatePaymentError) {
+        // console.log(initiatePaymentError);
+      }
+    }
+  }, [reservationInfo?.confirmationId]);
+
+  const paymentResponse = useCallback(async () => {
+    if (transactionId.current) {
+      const checkInToken = getCheckInToken();
+      const cardOptions = [
+        { code: 'MC', value: 'Mastercard' },
+        { code: 'VS', value: 'Visa' },
+        { code: 'AX', value: 'Americanexpress' },
+      ];
+
+      try {
+        const { data: paymentStatusData } = await client.query<IGetPaymentStatusApiResponse>({
+          query: GET_PAYMENT_STATUS,
+          context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
+          fetchPolicy: 'network-only',
+          variables: {
+            paymentId: transactionId?.current,
+            confirmationId: reservationInfo?.confirmationId,
+          },
+        });
+
+        const status = paymentStatusData?.getPaymentStatus.data['status '];
+
+        if (status === 'Success') {
+          reservationGuestInfoStorageData({
+            ...guestReservationInfo,
+            token: paymentStatusData?.getPaymentStatus?.data['token'],
+            cardNumber: paymentStatusData?.getPaymentStatus?.data['cardNumber '],
+            cardHolderName: paymentStatusData?.getPaymentStatus?.data['cardHolderName '],
+            cardType: cardOptions?.find(
+              (option: any) =>
+                option?.value === paymentStatusData?.getPaymentStatus?.data['cardType '],
+            )?.code,
+            cardExpiryDate: paymentStatusData?.getPaymentStatus?.data['cardExpiry'],
+            paymentType: paymentStatusData?.getPaymentStatus?.data['paymentMethod '],
+          });
+          setErrorNotification(false);
+          toggleNotification(true);
+          onPaymentDone();
+        }
+        if (status === 'Failed') {
+          setErrorNotification(true);
+          toggleNotification(true);
+          onPaymentDone();
+        }
+      } catch (paymentStatusError) {
+        const statusCode = processStatusCode(paymentStatusError as ApolloError);
+        statusCode === 403
+          ? handleCheckInAuthenticationFailure(paymentResponse)
+          : (setErrorNotification(true), toggleNotification(true), onPaymentDone());
+      }
+    }
+  }, [guestReservationInfo, onPaymentDone, reservationInfo?.confirmationId]);
+
+  useEffect(() => {
+    if (!reservationData) {
+      navigate(availablePaths.HOME);
+    }
+    if (paymentConfig?.type === CCAVENUE) {
+      handleProceedToPayment();
+
+      const interval = setInterval(() => {
+        if (!guestReservationInfo?.paymentType) {
+          paymentResponse();
+        }
+      }, 6000);
+
+      return () => {
+        clearInterval(interval);
+      };
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <Head>
         <title>
-          {config?.name} | {t('Card Confirmation')}
+          {config?.name} | {t('Payment Method')}
         </title>
       </Head>
       <Header
@@ -128,44 +261,26 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
       />
       <PageWrapper className={styles.pageWrapper}>
         <Stepper />
-        <div className={styles.cardAuthorisationTitleWrapper}>
-          <p className={styles.title}>{t('Card Confirmation')}</p>
-          <p className={styles.description}>
-            {t(
-              'Your card used during booking will be authorised for incidentals and real-time bill payments.',
-            )}
-          </p>
-        </div>
-
-        <div className={styles.box}>
-          <div className={styles.titleRow}>
-            <p className={styles.cardTitle}>Card Details</p>
-            {guestReservationInfo?.cardNumber && (
-              <EditIcon onClick={() => navigate(availablePaths?.PAYMENT)} />
-            )}
+        {!guestReservationInfo?.paymentType && (
+          <div className={styles.cardAuthorisationTitleWrapper}>
+            <p className={styles.title}>{t('Choose Payment Method')}</p>
+            <p className={styles.description}>
+              {t('Click ‘Proceed to Payment’ to begin your payment process.')}
+            </p>
           </div>
-          {creditCardInfoSection &&
-            guestReservationInfo &&
-            (!guestReservationInfo?.cardNumber ? (
-              <StyledButton
-                variant='contained'
-                className={styles.scanDocWrapper}
-                onClick={() => {
-                  navigate(availablePaths?.PAYMENT);
-                }}
-              >
-                <CardIcon />
-                <span className={styles.scanDocText}>{t('ADD CARD')}</span>
-              </StyledButton>
-            ) : (
-              <PreCheckinPaymentInfo
-                paymentInfo={guestReservationInfo}
-                creditCardInfoSection={creditCardInfoSection?.details}
-                paymentType={paymentType}
-              ></PreCheckinPaymentInfo>
-            ))}
-        </div>
-
+        )}
+        {creditCardInfoSection &&
+          guestReservationInfo &&
+          (!guestReservationInfo?.paymentType ? (
+            <PaymentStatusCard
+              paymentStatus={true}
+              paymentConfig={paymentConfig?.type === CCAVENUE}
+              setLoader={setPopUpStatus}
+              src={url}
+            />
+          ) : (
+            <PaymentStatusCard paymentStatus={false} />
+          ))}
         <div className={cx(styles.bottomMenuWrapper)}>
           <StyledButton
             variant='contained'
@@ -176,6 +291,17 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
             {t('Next')}
           </StyledButton>
         </div>
+        <PaymentLoaderPopUp paymentLoader={popUpStatus} />
+        <Notification
+          title={errorNotification ? ('Payment Failed!' as string) : (t('Thank You!') as string)}
+          description={
+            errorNotification
+              ? ('Card Authentication Failed!' as string)
+              : (t('Card Authentication Completed') as string)
+          }
+          redirect={availablePaths?.CARD_AUTHORISATION}
+          type={errorNotification ? FAILURE : SUCCESS}
+        />
       </PageWrapper>
     </>
   );

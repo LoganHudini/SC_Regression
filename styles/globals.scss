@@ -108,6 +108,21 @@
 }
 
 @font-face {
+  font-family: 'Helvetica Neue';
+  src: url('/fonts/Helvetica/Helvetica.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Helvetica Neue Medium';
+  src: url('/fonts/Helvetica/Helvetica-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Helvetica Neue Bold';
+  src: url('/fonts/Helvetica/Helvetica-Bold.ttf') format('truetype');
+}
+
+@font-face {
   font-family: 'Brown Std';
   src: url('/fonts/BrownStd/BrownStd-Regular.otf') format('opentype');
 }

@@ -269,7 +269,7 @@ export const configuration = [
               },
             ],
             creditCardDetails: {
-              title: 'Credit Card Info',
+              title: 'Payment Information',
               details: [
                 {
                   name: 'cardNumber',
@@ -957,7 +957,7 @@ export const configuration = [
               },
             ],
             creditCardDetails: {
-              title: 'Credit Card Info',
+              title: 'Payment Information',
               details: [
                 {
                   name: 'cardNumber',
@@ -1156,35 +1156,12 @@ export const configuration = [
               {
                 name: 'Credit Card Info',
                 isActive: true,
-                type: 'SHIFT4',
+                type: 'CCAVENUE',
+                // type: 'SHIFT4',
                 details: [
                   {
-                    name: 'cardNumber',
-                    label: 'Card Number',
-                    type: 'Text',
-                    required: true,
-                    isDisabled: true,
-                    isActive: true,
-                  },
-                  {
-                    name: 'cardHolderName',
-                    label: 'Card Holder Name',
-                    type: 'Text',
-                    required: false,
-                    isDisabled: true,
-                    isActive: false,
-                  },
-                  {
-                    name: 'cardType',
-                    label: 'Card Type',
-                    type: 'Text',
-                    required: true,
-                    isDisabled: true,
-                    isActive: true,
-                  },
-                  {
-                    name: 'cardExpiryDate',
-                    label: 'Expiry Date',
+                    name: 'paymentType',
+                    label: 'Payment Method',
                     type: 'Text',
                     required: true,
                     isDisabled: true,
@@ -1290,19 +1267,11 @@ export const configuration = [
               },
             ],
             creditCardDetails: {
-              title: 'Credit Card Info',
+              title: 'Payment Information',
               details: [
                 {
-                  name: 'cardNumber',
-                  label: 'Card Number',
-                },
-                {
-                  name: 'cardType',
-                  label: 'Card Type',
-                },
-                {
-                  name: 'cardExpiryDate',
-                  label: 'Expiry Date',
+                  name: 'paymentType',
+                  label: 'Payment Method',
                 },
               ],
             },
@@ -1672,7 +1641,7 @@ export const configuration = [
               },
             ],
             creditCardDetails: {
-              title: 'Credit Card Info',
+              title: 'Payment Information',
               details: [
                 {
                   name: 'cardNumber',
@@ -1996,7 +1965,7 @@ export const configuration = [
               },
             ],
             creditCardDetails: {
-              title: 'Credit Card Info',
+              title: 'Payment Information',
               details: [
                 {
                   name: 'cardNumber',
@@ -2641,7 +2610,7 @@ export const configuration = [
               },
             ],
             creditCardDetails: {
-              title: 'Credit Card Info',
+              title: 'Payment Information',
               details: [
                 {
                   name: 'cardNumber',

@@ -4,7 +4,7 @@ import { Header } from 'components/shared/Header/Header';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import styles from '@styles/personalize-your-room-v2/personalize-your-room-v2.module.scss';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
-import { useQuery, useReactiveVar } from '@apollo/client';
+import { ApolloError, useQuery, useReactiveVar } from '@apollo/client';
 import {
   GET_AVAILABLE_PERSONALIZATIONS_CMS,
   IPersonalizeYourRoomApiResponse,
@@ -37,6 +37,12 @@ import { useConfig } from 'utils/hooks/useConfiguration';
 import { StepperInformationStorage } from 'storage/check-in.storage';
 import { Stepper } from 'components/shared/Stepper/Stepper';
 import produce from 'immer';
+import {
+  getCheckInToken,
+  handleCheckInAuthenticationFailure,
+} from 'core/api/functions/getCheckInAuthentication';
+import { processStatusCode } from 'utils/processError';
+import { usePersonalisation } from 'utils/hooks/usePersonalisation';
 
 export { getStaticPaths };
 
@@ -45,6 +51,7 @@ const PersonalizeYourRoom: React.FC = () => {
   const config = useConfig();
   const { t } = useTranslation('personalize-your-room');
   const [loadingButton, setLoadingButton] = useState(false);
+
   const [notificationState, setNotificationState] = useState<any>(false);
   const personalizationStorageInfo = useReactiveVar(personalizeYourRoomStorage);
 
@@ -76,29 +83,7 @@ const PersonalizeYourRoom: React.FC = () => {
 
   const reservationInfo = reservationData?.getReservation.data;
 
-  const startDate = dayjs(reservationInfo?.details.checkInDate).format(timeFormats.YEAR_MONTH_DAY);
-  const endDate = dayjs(reservationInfo?.details.checkOutDate).format(timeFormats.YEAR_MONTH_DAY);
-
-  const { loading, data } = useQuery<IPersonalizeYourRoomApiResponse>(
-    GET_AVAILABLE_PERSONALIZATIONS_CMS,
-    {
-      context: { clientName: 'rest' },
-      variables: {
-        startDate: startDate,
-        endDate: endDate,
-      },
-    },
-  );
-
-  useEffect(() => {
-    if (data?.getAvailablePersonalizations?.data?.length === 0) {
-      navigate(availablePaths?.REVIEW);
-    }
-  }, [data?.getAvailablePersonalizations?.data?.length, navigate]);
-
-  const availablePersonalizations = data?.getAvailablePersonalizations?.data?.filter(
-    (el) => el?.isActive,
-  );
+  const [availablePersonalizations, loading] = usePersonalisation();
 
   const goToNextStep = useCallback(async () => {
     setLoadingButton(true);
@@ -122,25 +107,31 @@ const PersonalizeYourRoom: React.FC = () => {
         comments: personalizationStorageInfo?.map((a: any) => a?.title + ' X ' + a?.quantity),
       };
 
-      try {
-        await client.query({
-          query: UPDATE_BOOKING_DETAILS,
-          context: { clientName: 'rest' },
-          variables: {
-            confirmationNumber: reservationInfo?.confirmationId as string,
-            body: updateBookingDetailsPayload,
-          },
-        });
-        navigate(availablePaths?.REVIEW);
-      } catch (e) {
-        toggleNotification(true);
-        setNotificationState({
-          title: 'Please Try Again!',
-          description: 'Your order was not confirmed',
-          redirect: null,
-          type: FAILURE,
-        });
-      }
+      const updateBookingDetails = async () => {
+        const checkInToken = getCheckInToken();
+        try {
+          await client.query({
+            query: UPDATE_BOOKING_DETAILS,
+            context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
+            variables: {
+              confirmationNumber: reservationInfo?.confirmationId as string,
+              body: updateBookingDetailsPayload,
+            },
+          });
+          navigate(availablePaths?.REVIEW);
+        } catch (e) {
+          const statusCode = processStatusCode(e as ApolloError);
+          statusCode === 403 && handleCheckInAuthenticationFailure(updateBookingDetails);
+          toggleNotification(true);
+          setNotificationState({
+            title: 'Please Try Again!',
+            description: 'Your order was not confirmed',
+            redirect: null,
+            type: FAILURE,
+          });
+        }
+      };
+      updateBookingDetails();
     }
     setLoadingButton(false);
   }, [
@@ -178,7 +169,11 @@ const PersonalizeYourRoom: React.FC = () => {
           {config?.name} | {t('Customisation')}
         </title>
       </Head>
-      <Header displayBackButton screenTitle={t(`${personalisationConfig?.label}`) as string} />
+      <Header
+        displayBackButton
+        screenTitle={t(`${personalisationConfig?.label}`) as string}
+        backRoute={availablePaths?.CARD_AUTHORISATION}
+      />
       <PageWrapper className={styles.pageWrapper}>
         <Stepper />
         <div className={styles.titleWrapper}>
@@ -193,7 +188,7 @@ const PersonalizeYourRoom: React.FC = () => {
               <Loader />
             </>
           ) : (
-            availablePersonalizations?.map((el) => (
+            availablePersonalizations?.map((el: any) => (
               <RoomPersonalizationEntityV2
                 key={el.id}
                 id={el.id}

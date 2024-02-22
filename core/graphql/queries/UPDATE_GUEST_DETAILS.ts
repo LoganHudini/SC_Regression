@@ -55,7 +55,7 @@ query UpdateGuestDetails($confirmationNumber: String, $body: UpdateGuestDetailsP
   updateGuestDetails(confirmationNumber: $confirmationNumber, body: $body)
     @rest(
       type: "UpdateGuestDetailsPayload"
-      path: "/${ENVIRONMENT}/v5/booking/hotel/${HOTEL_ID}/bookings/{args.confirmationNumber}/document"
+      path: "/${ENVIRONMENT}/v5/booking/hotel/${HOTEL_ID}/bookings/{args.confirmationNumber}/document?confirmationId={args.confirmationNumber}"
       method: "POST"
       bodyKey: "body"
     ) {

@@ -277,9 +277,10 @@
 }
 
 .scanDocText {
-  font-family: var(--primary-font-regular);
-  font-size: $xsmall;
+  font-size: $small;
   color: var(--primary-button-color);
+  text-decoration: none;
+  font-family: var(--primary-font-regular);
 }
 
 .cardTitleWrapper {
@@ -298,4 +299,76 @@
   &:not(:first-child) {
     margin-top: 10px;
   }
+}
+
+.scanPaymentButton {
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  padding: 10px 40px;
+  background-color: var(--secondary-button-color);
+  margin-top: 10px;
+  margin: 0 auto;
+  &:after {
+    display: none;
+  }
+}
+
+.descriptionPayment {
+  font-size: $xsmall;
+  color: var(--tertiary-text-color);
+  text-align: center;
+  width: 80%;
+  line-height: 1.25;
+  margin: 4px auto;
+}
+
+.boxPayment {
+  background-color: var(--primary-card-background-color);
+  display: flex;
+  flex-direction: row;
+  padding: 50px 26px;
+  gap: 20px;
+  border: var(--primary-card-border);
+  border-radius: var(--primary-card-border-radius);
+  justify-content: center;
+  align-items: center;
+}
+
+.descriptionPaymentStatus {
+  font-size: $xsmall;
+  color: var(--tertiary-text-color);
+  text-align: center;
+  width: 60%;
+  line-height: 1.25;
+  margin: 30px auto;
+}
+
+.popupWrapper {
+  top: 50%;
+  background-color: var(--primary-background-color);
+  padding: 35px 20px;
+  width: 70%;
+  border-radius: 20px;
+  padding-top: 50px;
+}
+
+.descriptionPaymentPopup {
+  font-size: $xsmall;
+  color: var(--tertiary-text-color);
+  text-align: center;
+  width: 70%;
+  line-height: 1.25;
+  margin: 6px auto;
+  margin-top: 20px;
+}
+
+.titlePaymentPopup {
+  font-size: $large;
+  font-family: var(--heading-font-regular);
+  text-align: center;
+  margin: auto;
+  margin-top: 30px;
 }

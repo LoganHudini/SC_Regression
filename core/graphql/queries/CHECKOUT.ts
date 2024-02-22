@@ -9,11 +9,11 @@ export interface ICheckoutApiRequest {
 }
 
 export const CHECKOUT = gql`
-query Checkout($body: ICheckoutApiRequest) {
-    checkout(body: $body)
+query Checkout($body: ICheckoutApiRequest, $roomNumber: roomNumber) {
+    checkout(body: $body, roomNumber: $roomNumber)
     @rest(
       type: "CheckoutPayload"
-      path: "/${ENVIRONMENT}/hotel/${HOTEL_ID}/booking/checkout"
+      path: "/${ENVIRONMENT}/hotel/${HOTEL_ID}/booking/checkout?roomNumber={args.roomNumber}"
       method: "POST"
       bodyKey: "body"
     ) {

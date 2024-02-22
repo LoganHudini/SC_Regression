@@ -7,17 +7,11 @@ import { useTranslation } from 'react-i18next';
 import { getStaticPaths } from 'utils/getStatic';
 import i18nConfig from 'next-i18next.config';
 import Shift4 from 'components/pages/payment/Shift4/Shift4';
-import { useConfig } from 'utils/hooks/useConfiguration';
-import {
-  CHECK_IN,
-  CREDIT_CARD_INFO,
-  CYBERSOURCE,
-  FREEDOMPAY,
-  INFORMATION,
-  SHIFT4,
-} from 'utils/constants';
+import { useConfig, usePaymentConfig } from 'utils/hooks/useConfiguration';
+import { CYBERSOURCE, SHIFT4, CCAVENUE, FREEDOMPAY } from 'utils/constants';
 import CyberSource from 'components/pages/payment/CyberSource/CyberSource';
 import { availablePaths } from 'utils/availablePaths';
+import CCAvenue from 'components/pages/payment/CCAvenue/CCAvenue';
 import FreedomPay from 'components/pages/payment/FreedomPay/FreedomPay';
 
 export { getStaticPaths };
@@ -26,10 +20,7 @@ const Payment: React.FC = () => {
   const { t } = useTranslation(['check-in-payment', 'common']);
   const config = useConfig();
   const hotelName = config?.name;
-  const paymentConfig: any = config?.modules
-    ?.find((module: any) => module?.isActive && module?.code === CHECK_IN)
-    ?.submodules?.find((submodule: any) => submodule?.isActive && submodule?.name === INFORMATION)
-    ?.details?.find((detail: any) => detail?.isActive && detail?.name === CREDIT_CARD_INFO);
+  const paymentConfig: any = usePaymentConfig();
 
   const redirectPayment = () => {
     switch (paymentConfig?.type) {
@@ -37,6 +28,8 @@ const Payment: React.FC = () => {
         return <CyberSource />;
       case SHIFT4:
         return <Shift4 />;
+      case CCAVENUE:
+        return <CCAvenue />;
       case FREEDOMPAY:
         return <FreedomPay />;
       default:

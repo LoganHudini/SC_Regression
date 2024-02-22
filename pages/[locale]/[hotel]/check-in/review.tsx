@@ -57,6 +57,7 @@ import {
   STAGE,
   STEPPER_REVIEW,
   STEPPER_PAYMENT,
+  FAIRMONT_ROYAL_PALM_MARRAKECH,
 } from 'utils/constants';
 import { GET_E_REG_DETAILS } from 'core/graphql/queries/GET_E_REG_DETAILS';
 import { Notification } from 'components/shared/Notification/Notification';
@@ -65,6 +66,12 @@ import { useConfig, usePaymentConfig } from 'utils/hooks/useConfiguration';
 import { Stepper } from 'components/shared/Stepper/Stepper';
 import produce from 'immer';
 import { accompanyGuestDetails } from 'storage/accompany-guest-details';
+import {
+  getCheckInToken,
+  handleCheckInAuthenticationFailure,
+} from 'core/api/functions/getCheckInAuthentication';
+import { processStatusCode } from 'utils/processError';
+import { GET_ROOM_STATUS } from 'core/graphql/queries/GET_ROOM_STATUS';
 import { checkRoomStatus } from 'utils/apis/rest';
 
 export { getStaticPaths };
@@ -176,62 +183,61 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
   const goToCheckIn = useCallback(async () => {
     setLoading(true);
-    const roomStatusData: any = checkRoomStatus(roomNo, hotelId);
-    roomStatusData.then(async (roomStatus: any) => {
-      setRoomStatus(roomStatus);
-      const checkInPayload: ICheckInApiRequest = {
-        reservationType: reservationInfo?.confirmationType as string,
-        reservationId: reservationInfo?.reservationId as string,
-        bookingId: reservationInfo?.confirmationId as string,
-        checkinDate: reservationInfo?.details?.checkInDate as string,
-        checkoutDate: reservationInfo?.details?.checkOutDate as string,
-        roomNo: roomNo as string,
-        roomType: reservationInfo?.roomTypes[0]?.shortName as string,
-        primaryGuestEmail: guestReservationInfo?.emails as string,
-        primaryGuestFirstName: guestReservationInfo?.firstName as string,
-        primaryGuestLastName: guestReservationInfo?.lastName as string,
-        primaryGuestMobileNumber: guestReservationInfo?.phone as string,
-        guestCount: {
-          adult: adult,
-          children: children,
-        },
-        paymentType: paymentConfig?.paymentMethod ?? guestReservationInfo?.paymentType,
-        expirationDate: guestReservationInfo?.cardExpiryDate as string,
-        creditCardType: guestReservationInfo?.cardType,
-        lastFourDigits: guestReservationInfo?.cardNumber?.substr(
-          guestReservationInfo?.cardNumber?.length - 4,
-        ),
-        vaultedCardID: guestReservationInfo?.token,
-        settlement: 'Web',
-        documentType: guestReservationInfo?.docType as string,
-        documentNumber: guestReservationInfo?.docNo as string,
-        channel: 'PWA',
-        upsell: personalizationEntities?.map((personalization) => ({
-          upsellName: personalization?.title,
-          revenue: Number(Number(personalization?.price).toFixed(2)),
-        })),
-        guestSignature: '',
-      };
+    const checkInPayload: ICheckInApiRequest = {
+      reservationType: reservationInfo?.confirmationType as string,
+      reservationId: reservationInfo?.reservationId as string,
+      bookingId: reservationInfo?.confirmationId as string,
+      checkinDate: reservationInfo?.details?.checkInDate as string,
+      checkoutDate: reservationInfo?.details?.checkOutDate as string,
+      roomNo: roomNo as string,
+      roomType: reservationInfo?.roomTypes[0]?.shortName as string,
+      primaryGuestEmail: guestReservationInfo?.emails as string,
+      primaryGuestFirstName: guestReservationInfo?.firstName as string,
+      primaryGuestLastName: guestReservationInfo?.lastName as string,
+      primaryGuestMobileNumber: guestReservationInfo?.phone as string,
+      guestCount: {
+        adult: adult,
+        children: children,
+      },
+      paymentType: paymentConfig?.paymentMethod ?? guestReservationInfo?.paymentType,
+      expirationDate: guestReservationInfo?.cardExpiryDate as string,
+      creditCardType: guestReservationInfo?.cardType,
+      lastFourDigits: guestReservationInfo?.cardNumber?.substr(
+        guestReservationInfo?.cardNumber?.length - 4,
+      ),
+      vaultedCardID: guestReservationInfo?.token,
+      settlement: 'Web',
+      documentType: guestReservationInfo?.docType as string,
+      documentNumber: guestReservationInfo?.docNo as string,
+      channel: 'PWA',
+      upsell: personalizationEntities?.map((personalization) => ({
+        upsellName: personalization?.title,
+        revenue: Number(Number(personalization?.price).toFixed(2)),
+      })),
+      guestSignature: '',
+    };
 
-      const uploadSignaturePayload: IPreSignDocUploadApiRequest = {
-        groupId: 'e8030f49-afb1-43fc-80f6-c0515b62d5f6',
-        type: 'reservation_docs',
-        propertyType: 'hotels',
-        confirmationId: reservationInfo?.confirmationId ?? '',
-        filename: `${guests ? guests[0]?.firstName : ''}_${
-          guests ? guests[0].lastName : ''
-        }_signature.png`,
-        contentType: 'image/png',
-        contentLength: 8196,
-        body: null,
-        contents: (sigCanvas.current?.toDataURL() as string).replace('data:image/png;base64,', ''),
-        isDocUpload: true,
-      };
+    const uploadSignaturePayload: IPreSignDocUploadApiRequest = {
+      groupId: 'e8030f49-afb1-43fc-80f6-c0515b62d5f6',
+      type: 'reservation_docs',
+      propertyType: 'hotels',
+      confirmationId: reservationInfo?.confirmationId ?? '',
+      filename: `${guests ? guests[0]?.firstName : ''}_${
+        guests ? guests[0].lastName : ''
+      }_signature.png`,
+      contentType: 'image/png',
+      contentLength: 8196,
+      body: null,
+      contents: (sigCanvas.current?.toDataURL() as string).replace('data:image/png;base64,', ''),
+      isDocUpload: true,
+    };
 
+    const uploadSignature = async () => {
+      const checkInToken = getCheckInToken();
       try {
         const uploadSignatureResponse = await client.query<IPreSignDocUploadApiResponse>({
           query: PRE_SIGN_DOC_UPLOAD,
-          context: { clientName: 'rest' },
+          context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
           variables: {
             confirmationNumber: reservationInfo?.confirmationId as string,
             body: uploadSignaturePayload,
@@ -239,9 +245,18 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         });
         checkInPayload.guestSignature = uploadSignatureResponse.data.preSignDocUpload.data.key;
       } catch (uploadSignatureError) {
-        setErrorNotification(true);
+        const statusCode = processStatusCode(uploadSignatureError as ApolloError);
+        statusCode === 403
+          ? handleCheckInAuthenticationFailure(uploadSignature)
+          : setErrorNotification(true);
         // processError(t, uploadSignatureError as ApolloError);
       }
+    };
+    uploadSignature();
+
+    const checkIn = async () => {
+      const checkInToken = getCheckInToken();
+      const roomStatus = await checkRoomStatus(roomNo, hotelId, reservationInfo?.confirmationId);
 
       try {
         await client.query({
@@ -251,7 +266,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               : roomNo && roomStatus && paymentConfig?.type !== NONE
               ? CHECKIN
               : PRECHECKIN,
-          context: { clientName: 'rest' },
+          context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
           variables: {
             confirmationNumber: reservationInfo?.confirmationId as string,
             body: checkInPayload,
@@ -308,27 +323,34 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           { value: 0, label: 3, title: STEPPER_CHECK_IN },
         ]);
       } catch (checkinError) {
-        const error = checkinError as ApolloError;
-        const networkError = error?.networkError as { result?: { errors?: string } };
-        setErrorNotification(true);
-        // valid only for sandbox pointed instances
-        if (
-          networkError?.result?.errors === 'error pre-checking operation' &&
-          (hotelCode === ITC_GRAND_CHOLA ||
-            hotelCode === FAIRMONT_THE_PALM_DUBAI ||
-            hotelCode === UAT ||
-            hotelCode === STAGE)
-        ) {
-          setErrorNotification(false);
-        }
-        if (networkError?.result?.errors === PRE_CHECKIN_ERROR_MSG) {
+        const statusCode = processStatusCode(checkinError as ApolloError);
+        if (statusCode === 403) {
+          handleCheckInAuthenticationFailure(checkIn);
+        } else {
+          const error = checkinError as ApolloError;
+          const networkError = error?.networkError as { result?: { errors?: string } };
           setErrorNotification(true);
-          setErrorText('You have already completed the pre check-in process.');
+          if (
+            networkError?.result?.errors === 'error pre-checking operation' &&
+            (hotelCode === ITC_GRAND_CHOLA ||
+              hotelCode === FAIRMONT_THE_PALM_DUBAI ||
+              hotelCode === FAIRMONT_ROYAL_PALM_MARRAKECH ||
+              hotelCode === UAT ||
+              hotelCode === STAGE)
+          ) {
+            setErrorNotification(false);
+          }
+          if (networkError?.result?.errors === PRE_CHECKIN_ERROR_MSG) {
+            setErrorNotification(true);
+            setErrorText('You have already completed the pre check-in process.');
+          }
         }
       }
+
       toggleNotification(true);
       setLoading(false);
-    });
+    };
+    checkIn();
   }, [
     roomNo,
     hotelId,
@@ -434,7 +456,11 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           {config?.name} | {t('Review & Sign')}
         </title>
       </Head>
-      <Header displayBackButton screenTitle={t('Review & Sign') as string} />
+      <Header
+        displayBackButton
+        screenTitle={t('Review & Sign') as string}
+        backRoute={availablePaths?.PERSONALIZE}
+      />
       <PageWrapper className={styles.pageWrapper}>
         <Stepper />
         <div className={styles.titleWrapper}>

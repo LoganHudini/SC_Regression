@@ -7,10 +7,15 @@ import { useTranslation } from 'react-i18next';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { CHECKOUT, ICheckoutApiRequest } from 'core/graphql/queries/CHECKOUT';
 import { client } from 'core/graphql/client';
+import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
 import { checkoutTrip } from 'storage/trips.storage';
 import { useConfig } from 'utils/hooks/useConfiguration';
+import { getCheckOutToken } from 'core/api/functions/getCheckOutAuthentication';
+import { useCheckedIn } from 'storage/check-in.storage';
+import { processStatusCode } from 'utils/processError';
+import { handleCheckInAuthenticationFailure } from 'core/api/functions/getCheckInAuthentication';
 import { CHECK_IN, CHECK_OUT, ERRORMSG } from 'utils/constants';
 import { activeItems, activeModule } from 'utils/functions';
 
@@ -22,6 +27,7 @@ const CheckoutDrawer = (props: any) => {
   const { t } = useTranslation(['common']);
   const [checkoutLoader, setCheckoutLoader] = useState(false);
   const detailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
+  const checkedInData = useCheckedIn();
 
   const checkinModule: boolean = activeModule(config?.modules, CHECK_IN);
 
@@ -59,9 +65,13 @@ const CheckoutDrawer = (props: any) => {
     try {
       await client.query({
         query: CHECKOUT,
-        context: { clientName: 'rest' },
+        context: {
+          clientName: 'rest',
+          headers: { Authorization: 'Bearer ' + getCheckOutToken() },
+        },
         variables: {
           body: checkoutPayload,
+          roomNumber: checkedInData?.roomNumber,
         },
       });
       toggleDetailsDrawer(false);
@@ -75,34 +85,40 @@ const CheckoutDrawer = (props: any) => {
           'Hope you had a pleasant stay with us. We look forward to your next visit.\n Thank You.',
       });
     } catch (error) {
-      const errorMsg = error as ApolloError;
-      const networkError = errorMsg?.networkError as { result?: { errors?: string } };
-      if (
-        networkError?.result?.errors ===
-        'Please proceed to the front desk to complete your checkout'
-      ) {
-        toggleNotification(true);
-        setTimeout(() => {
-          checkoutTrip();
-        }, 5000);
-        setErrorToggle({
-          state: false,
-          message: 'Unable to checkout',
-          type: feedbackData?.length === 0 ? 'home' : 'feedback',
-          description: `${
-            amountDue > 0 ? 'There are outstanding payments to settle. ' : ''
-          }Kindly proceed to the front desk to complete the checkout process.`,
-        });
+      const statusCode = processStatusCode(error as ApolloError);
+
+      if (statusCode === 403) {
+        handleCheckInAuthenticationFailure(handleCheckout);
       } else {
-        toggleNotification(true);
-        setErrorToggle({
-          state: true,
-          message: ERRORMSG,
-          type: 'checkout',
-          description: 'Please Try Again.',
-        });
+        const errorMsg = error as ApolloError;
+        const networkError = errorMsg?.networkError as { result?: { errors?: string } };
+        if (
+          networkError?.result?.errors ===
+          'Please proceed to the front desk to complete your checkout'
+        ) {
+          toggleNotification(true);
+          setTimeout(() => {
+            checkoutTrip();
+          }, 5000);
+          setErrorToggle({
+            state: false,
+            message: 'Unable to checkout',
+            type: feedbackData?.length === 0 ? 'home' : 'feedback',
+            description: `${
+              amountDue > 0 ? 'There are outstanding payments to settle. ' : ''
+            }Kindly proceed to the front desk to complete the checkout process.`,
+          });
+        } else {
+          toggleNotification(true);
+          setErrorToggle({
+            state: true,
+            message: ERRORMSG,
+            type: 'checkout',
+            description: 'Please Try Again.',
+          });
+        }
+        toggleDetailsDrawer(false);
       }
-      toggleDetailsDrawer(false);
     }
     setCheckoutLoader(false);
   };
