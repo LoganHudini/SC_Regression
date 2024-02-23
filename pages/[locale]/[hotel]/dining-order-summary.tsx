@@ -260,7 +260,9 @@ const DiningOrderSummary = () => {
       }
 
       irdOrderEvent(response?.data?.createOrder, currency);
-      diningMenuStorage({ items: [] });
+      setTimeout(() => {
+        diningMenuStorage({ items: [] });
+      }, 5000);
       setErrorNotification({
         title: 'Thank You!' as string,
         type: SUCCESS,
