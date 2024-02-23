@@ -186,23 +186,19 @@ const Youverse: React.FC = () => {
                 } else {
                   // console.log('accompany', guestReservationInfo);
                   const updatedData = accompanyGuestData?.map((guest: any) => {
-                    if (guest?.formData?.id === reservationDataSelected?.id) {
+                    if (guest?.id === reservationDataSelected?.id) {
                       return {
                         ...guest,
-                        formData: {
-                          ...guest.formData,
-                          docNo: res?.data?.getyoonikresponse?.data?.documentNumber,
-                          docType: docTypes?.find(
-                            (document: any) =>
-                              document?.youverse ===
-                              res?.data?.getyoonikresponse?.data?.youverseType,
-                          )?.name,
-                          effectiveDate: res?.data?.getyoonikresponse?.data?.issueDate,
-                          expiryDate: res?.data?.getyoonikresponse?.data?.expiryDate,
-                          issueCountry:
-                            res?.data?.getyoonikresponse?.data?.country ||
-                            res?.data?.getyoonikresponse?.data?.state,
-                        },
+                        docNo: res?.data?.getyoonikresponse?.data?.documentNumber,
+                        docType: docTypes?.find(
+                          (document: any) =>
+                            document?.youverse === res?.data?.getyoonikresponse?.data?.youverseType,
+                        )?.name,
+                        effectiveDate: res?.data?.getyoonikresponse?.data?.issueDate,
+                        expiryDate: res?.data?.getyoonikresponse?.data?.expiryDate,
+                        issueCountry:
+                          res?.data?.getyoonikresponse?.data?.country ||
+                          res?.data?.getyoonikresponse?.data?.state,
                       };
                     }
                     return guest;
