@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { ENVIRONMENT, HOTEL_ID } from '../endpoints';
+import { ENVIRONMENT, FETCH_FROM_DB, HOTEL_ID, SAVE_TO_DB } from '../endpoints';
 
 export interface IGetReservationApiResponse {
   getReservation: {
@@ -115,7 +115,7 @@ export const GET_RESERVATION = gql`
     getReservation(confirmationNumber: $confirmationNumber, lastName: $lastName, hotelId: $hotelId)
       @rest(
         type: "GetReservationPayload"
-        path: "/${ENVIRONMENT}/booking/hotel/{args.hotelId}/details/{args.confirmationNumber}?lastName={args.lastName}&arrivalDateRequired=no&fetchFromDb=no"
+        path: "/${ENVIRONMENT}/booking/hotel/{args.hotelId}/details/{args.confirmationNumber}?lastName={args.lastName}&arrivalDateRequired=no&fetchFromDb=${FETCH_FROM_DB}&saveToDb=${SAVE_TO_DB}"
       ) {
       errors
       data
@@ -129,7 +129,7 @@ export const GET_RESERVATION_NO_LAST_NAME = gql`
     getReservation(confirmationNumber: $confirmationNumber)
       @rest(
         type: "GetReservationPayload"
-        path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/details/{args.confirmationNumber}?lastNameRequired=no&arrivalDateRequired=no&fetchFromDb=no"
+        path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/details/{args.confirmationNumber}?lastNameRequired=no&arrivalDateRequired=no&fetchFromDb=${FETCH_FROM_DB}&saveToDb=${SAVE_TO_DB}"
       ) {
       errors
       data
@@ -143,7 +143,7 @@ export const GET_RESERVATION_NO_ARRIVAL_DATE = gql`
     getReservation(confirmationNumber: $confirmationNumber, lastName: $lastName)
       @rest(
         type: "GetReservationPayload"
-        path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/details/{args.confirmationNumber}?lastName={args.lastName}&arrivalDateRequired=no&fetchFromDb=no"
+        path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/details/{args.confirmationNumber}?lastName={args.lastName}&arrivalDateRequired=no&fetchFromDb=${FETCH_FROM_DB}&saveToDb=${SAVE_TO_DB}"
       ) {
       errors
       data
@@ -157,7 +157,7 @@ export const GET_RESERVATION_WITH_ROOM_NUMBER = gql`
     getReservation(roomNo: $roomNo, lastName: $lastName)
       @rest(
         type: "GetReservationPayload"
-        path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/details/na?lastName={args.lastName}&roomNo={args.roomNo}&arrivalDateRequired=no&fetchFromDb=no"
+        path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/details/na?lastName={args.lastName}&roomNo={args.roomNo}&arrivalDateRequired=no&fetchFromDb=${FETCH_FROM_DB}&saveToDb=${SAVE_TO_DB}"
       ) {
       errors
       data

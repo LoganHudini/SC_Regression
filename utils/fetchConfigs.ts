@@ -13,6 +13,16 @@ export const getHotelId = () => {
     ?.hotelId;
 };
 
+export const getFetchFromDb = () => {
+  return configuration?.find((configuration: any) => configuration?.code === getHotelCode())
+    ?.fetchFromDb;
+};
+
+export const getSaveToDb = () => {
+  return configuration?.find((configuration: any) => configuration?.code === getHotelCode())
+    ?.saveToDb;
+};
+
 export const getHotelName = () => {
   return configuration?.find((configuration: any) => configuration?.code === getHotelCode())?.name;
 };
