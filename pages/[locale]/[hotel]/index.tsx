@@ -123,9 +123,7 @@ const Home: NextPage = () => {
     fetchPolicy: 'no-cache',
   });
 
-  const activeOffersList = offersList?.getOffersDetails?.data?.filter((item: any) =>
-    isOfferActive(item),
-  );
+  const activeOffersList = offersList?.getOffersDetails?.filter((item: any) => isOfferActive(item));
 
   return (
     <>
