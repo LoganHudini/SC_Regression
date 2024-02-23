@@ -7,6 +7,7 @@ export const configuration = [
     hotelId: '989814e5-2fda-4ab8-b795-33f4d76f1866',
     pms: 'OPERA',
     fetchFromDb: 'yes',
+    saveToDb: 'no',
     modules: [
       {
         code: 'Preferences',
@@ -348,6 +349,7 @@ export const configuration = [
     hotelId: '78402815-a21e-486f-992b-91104e0cb887',
     pms: 'OPERA',
     fetchFromDb: 'yes',
+    saveToDb: 'no',
     modules: [
       {
         code: 'Preferences',
@@ -674,6 +676,7 @@ export const configuration = [
     hotelId: '259034ee-3f5c-43b0-9332-dffd85ccba65',
     pms: 'OPERA',
     fetchFromDb: 'no',
+    saveToDb: 'no',
     modules: [
       {
         code: 'Preferences',
@@ -1031,6 +1034,7 @@ export const configuration = [
     hotelId: 'ad0fd522-5f0e-4d2c-9f51-c3a43f546a7a',
     pms: 'OPERA',
     fetchFromDb: 'yes',
+    saveToDb: 'no',
     modules: [
       {
         code: 'Preferences',
@@ -1338,7 +1342,8 @@ export const configuration = [
     name: 'Raffles The Palm Dubai',
     hotelId: '4e67ef89-b1d7-42fd-9cf0-70001cae54fc',
     pms: 'OPERA',
-    fetchFromDb: 'yes',
+    fetchFromDb: 'no',
+    saveToDb: 'yes',
     modules: [
       {
         code: 'Preferences',
@@ -1396,6 +1401,7 @@ export const configuration = [
     hotelId: 'cadcb011-3655-47c8-a016-e79bb59b5d1e',
     pms: 'OPERA',
     fetchFromDb: 'yes',
+    saveToDb: 'no',
     modules: [
       {
         code: 'Preferences',
@@ -1713,6 +1719,7 @@ export const configuration = [
     hotelId: 'dc9849bf-bef7-4ba9-a288-cea18f493173',
     pms: 'OPERA',
     fetchFromDb: 'yes',
+    saveToDb: 'no',
     modules: [
       {
         code: 'Preferences',
@@ -2039,6 +2046,7 @@ export const configuration = [
     hotelId: '003a8b2c-3c06-4afd-9b44-c8ecf66395a4',
     pms: 'INFOR',
     fetchFromDb: 'yes',
+    saveToDb: 'no',
     modules: [
       {
         code: 'Preferences',
@@ -2358,6 +2366,7 @@ export const configuration = [
     hotelId: '78402815-a21e-486f-992b-91104e0cb887',
     pms: 'OPERA',
     fetchFromDb: 'yes',
+    saveToDb: 'no',
     modules: [
       {
         code: 'Preferences',

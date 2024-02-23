@@ -18,6 +18,11 @@ export const getFetchFromDb = () => {
     ?.fetchFromDb;
 };
 
+export const getSaveToDb = () => {
+  return configuration?.find((configuration: any) => configuration?.code === getHotelCode())
+    ?.saveToDb;
+};
+
 export const getHotelName = () => {
   return configuration?.find((configuration: any) => configuration?.code === getHotelCode())?.name;
 };
