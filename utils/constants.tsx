@@ -81,6 +81,7 @@ export const BARS = 'Bars';
 export const EXTERNAL_URL = 'External URL';
 export const S3 = 'S3';
 export const WEBURL = 'WEB_URL}';
+export const WEBURL2 = 'WEB_URL';
 export const IRD = 'ird';
 export const ACTIVE = 'Active';
 export const OK = 'OK';
@@ -257,6 +258,14 @@ export const STATUS = [
   { key: 'PREPARING', value: 'Preparing' },
   { key: 'DELIVERED', value: 'Delivered' },
   { key: 'ACCEPTED', value: 'Accepted' },
+];
+
+export const DOCUMENT_LIST = [
+  { code: 'cancellationPolicy', name: 'Cancellation Policy' },
+  { code: 'covid19Regulations', name: 'Covid19 Regulations' },
+  { code: 'dataProtection', name: 'Data Protection' },
+  { code: 'privacyLaws', name: 'Privacy Laws' },
+  { code: 'termsAndConditions', name: 'Terms and Conditions' },
 ];
 
 export const TimeFormatArray = ['AM', 'PM'];

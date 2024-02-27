@@ -30,7 +30,7 @@ import { useConfig, usePaymentConfig } from 'utils/hooks/useConfiguration';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { ASSETS_URL, BRAND_CODE } from 'core/graphql/endpoints';
 import { useReactiveVar } from '@apollo/client';
-import { hotelImage } from 'storage/home.storage';
+import { hotelInformation } from 'storage/home.storage';
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { getWelcomeDrawer } from 'utils/functions';
 import { StepperInformationStorage } from 'storage/check-in.storage';
@@ -53,7 +53,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
   const hotelName = config?.name;
   const hotel = config?.code;
   const pms = config?.pms;
-  const hotelImageInfo = useReactiveVar(hotelImage);
+  const hotelImageInfo = useReactiveVar(hotelInformation);
   const [welcomeDrawer, setWelcomeDrawer] = useState(getWelcomeDrawer());
   const paymentConfig: any = usePaymentConfig();
   const [availablePersonalizations, personalisationDataloading] = usePersonalisation();
@@ -141,10 +141,10 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
       </Head>
       <Header screenTitle={t('check-In') as string} displayHome backRoute={availablePaths?.HOME} />
       <PageWrapper className={styles.pageWrapper}>
-        {hotelImageInfo && (
+        {hotelImageInfo && hotelImageInfo?.images?.length > 0 && (
           <StableImage
             className={styles.image}
-            src={`${ASSETS_URL}/${hotelImageInfo?.ratio16to9}`}
+            src={`${ASSETS_URL}/${hotelImageInfo?.images[0]?.ratio16to9}`}
           />
         )}
         <div className={styles.cardWrapper}>

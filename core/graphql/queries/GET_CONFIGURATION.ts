@@ -255,7 +255,8 @@ export const configuration = [
             title: 'Check-In',
             buttonLabelCheckIn: 'CONFIRM CHECK-IN',
             // eslint-disable-next-line quotes
-            termsAndCondition: `I have read, understood and agree to the <a href='https://www.sofitelmanila.com/privacy-policy/' target='_blank' rel='noopener noreferrer'>Terms & Conditions</a> and <a href='https://www.sofitelmanila.com/privacy-policy/' target='_blank' rel='noopener noreferrer'>Privacy Laws</a>.`,
+            termsAndCondition:
+              'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',
             subTitle:
               'Please review and confirm the below information to complete the Check-In process',
             type: 'cms',
@@ -587,7 +588,8 @@ export const configuration = [
             title: 'Check-In',
             buttonLabelCheckIn: 'CONFIRM CHECK-IN',
             // eslint-disable-next-line quotes
-            termsAndCondition: `I have read, understood and agree to the <a href='https://www.1hotels.com/terms-conditions' target='_blank' rel='noopener noreferrer'>Terms & Conditions</a> and <a href='https://www.1hotels.com/privacy-policy' target='_blank' rel='noopener noreferrer'>Privacy Laws</a>.`,
+            termsAndCondition:
+              'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',
             subTitle:
               'Please review and confirm the below information to complete the Check-In process',
             type: 'cms',
@@ -945,7 +947,8 @@ export const configuration = [
             title: 'Check-In',
             buttonLabelCheckIn: 'CONFIRM CHECK-IN',
             // eslint-disable-next-line quotes
-            termsAndCondition: `I have read, understood and agree to the <a href='https://www.sofitelmanila.com/privacy-policy/' target='_blank' rel='noopener noreferrer'>Terms & Conditions</a> and <a href='https://www.sofitelmanila.com/privacy-policy/' target='_blank' rel='noopener noreferrer'>Privacy Laws</a>.`,
+            termsAndCondition:
+              'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',
             subTitle:
               'Please review and confirm the below information to complete the Check-In process',
             type: 'cms',
@@ -1256,7 +1259,8 @@ export const configuration = [
             title: 'Check-In',
             buttonLabelCheckIn: 'CONFIRM CHECK-IN',
             // eslint-disable-next-line quotes
-            termsAndCondition: `I have read, understood and agree to the <a href='https://www.itchotels.com/in/en/terms' target='_blank' rel='noopener noreferrer'>Terms & Conditions</a> and <a href='https://www.itchotels.com/in/en/terms' target='_blank' rel='noopener noreferrer'>Privacy Laws</a>.`,
+            termsAndCondition:
+              'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',
             subTitle:
               'Please review and confirm the below information to complete the Check-In process',
             type: 'cms',
@@ -1632,7 +1636,8 @@ export const configuration = [
             title: 'Check-In',
             buttonLabelCheckIn: 'CONFIRM CHECK-IN',
             // eslint-disable-next-line quotes
-            termsAndCondition: `I have read, understood and agree to the <a href='https://www.fairmont.com/terms-and-conditions/' target='_blank' rel='noopener noreferrer'>Terms & Conditions</a> and <a href='https://all.accor.com/information/legal/data-protection.en.shtml?merchantid=MS-MULTI-FAIRMONT&sourceid=UTM_gclid&gacid=807341428.1704366251&otConsentId=f6a0c919-fe6f-465c-aceb-1ddd1dab6a8f&otConsentString=,C0001,C0003,C0007,C0002,C0004,&partner_id=fairmont&_ga=2.13984114.474450766.1704366252-807341428.1704366251&_gac=1.127310591.1704366252.Cj0KCQiAy9msBhD0ARIsANbk0A9D1XlscxGHpwAkDa6mJT2sBaFCZ4ibkRuePtHHQ6EkhERDZ_mBDp8aAj1GEALw_wcB&_gl=1*j9eppi*_ga*ODA3MzQxNDI4LjE3MDQzNjYyNTE.*_ga_WPLEEQEV59*MTcwNDM2NjI1MS4xLjEuMTcwNDM2NjMwMC4wLjAuMA..*_fplc*N3dGYm95ajc1OUhaeFo5emoyNllscDBIaUpENHc5RkhHdHJuWDF4UGpjZHAyNlZDR3NnTlFGJTJGWjQ3WnQ4TWV0MCUyQmhZemFJeVVpRXowbkZlNnloT05TN0VXNm54YjdQYkNaJTJCRkVnY2pUSGNEVkxHWlV0VTFBZlplaTRTelZBJTNEJTNE' target='_blank' rel='noopener noreferrer'>Privacy Laws</a>.`,
+            termsAndCondition:
+              'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',
             subTitle:
               'Please review and confirm the below information to complete the Check-In process',
             type: 'cms',
@@ -1957,7 +1962,8 @@ export const configuration = [
             title: 'Check-In',
             buttonLabelCheckIn: ' CONFIRM CHECK-IN',
             // eslint-disable-next-line quotes
-            termsAndCondition: `I have read, understood and agree to the <a href='https://www.fairmont.com/terms-and-conditions/' target='_blank' rel='noopener noreferrer'>Terms & Conditions</a> and <a href='https://all.accor.com/information/legal/data-protection.en.shtml?merchantid=MS-MULTI-FAIRMONT&sourceid=UTM_gclid&gacid=807341428.1704366251&otConsentId=f6a0c919-fe6f-465c-aceb-1ddd1dab6a8f&otConsentString=,C0001,C0003,C0007,C0002,C0004,&partner_id=fairmont&_ga=2.13984114.474450766.1704366252-807341428.1704366251&_gac=1.127310591.1704366252.Cj0KCQiAy9msBhD0ARIsANbk0A9D1XlscxGHpwAkDa6mJT2sBaFCZ4ibkRuePtHHQ6EkhERDZ_mBDp8aAj1GEALw_wcB&_gl=1*j9eppi*_ga*ODA3MzQxNDI4LjE3MDQzNjYyNTE.*_ga_WPLEEQEV59*MTcwNDM2NjI1MS4xLjEuMTcwNDM2NjMwMC4wLjAuMA..*_fplc*N3dGYm95ajc1OUhaeFo5emoyNllscDBIaUpENHc5RkhHdHJuWDF4UGpjZHAyNlZDR3NnTlFGJTJGWjQ3WnQ4TWV0MCUyQmhZemFJeVVpRXowbkZlNnloT05TN0VXNm54YjdQYkNaJTJCRkVnY2pUSGNEVkxHWlV0VTFBZlplaTRTelZBJTNEJTNE' target='_blank' rel='noopener noreferrer'>Privacy Laws</a>.`,
+            termsAndCondition:
+              'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',
             subTitle:
               'Please review and confirm the below information to complete the Check-In process',
             type: 'cms',
@@ -2276,7 +2282,8 @@ export const configuration = [
             title: 'Check-In',
             buttonLabelCheckIn: 'CONFIRM CHECK-IN',
             // eslint-disable-next-line quotes
-            termsAndCondition: `I have read, understood and agree to the <a href='https://www.1hotels.com/terms-conditions' target='_blank' rel='noopener noreferrer'>Terms & Conditions</a> and <a href='https://www.1hotels.com/privacy-policy' target='_blank' rel='noopener noreferrer'>Privacy Laws</a>.`,
+            termsAndCondition:
+              'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',
             subTitle:
               'Please review and confirm the below information to complete the Check-In process',
             type: 'cms',
@@ -2604,7 +2611,8 @@ export const configuration = [
             title: 'Check-In',
             buttonLabelCheckIn: 'CONFIRM CHECK-IN',
             // eslint-disable-next-line quotes
-            termsAndCondition: `I have read, understood and agree to the <a href='https://www.sofitelmanila.com/privacy-policy/' target='_blank' rel='noopener noreferrer'>Terms & Conditions</a> and <a href='https://www.sofitelmanila.com/privacy-policy/' target='_blank' rel='noopener noreferrer'>Privacy Laws</a>.`,
+            termsAndCondition:
+              'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',
             subTitle:
               'Please review and confirm the below information to complete the Check-In process',
             type: 'cms',

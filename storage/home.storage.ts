@@ -39,7 +39,7 @@ export const getHotelCompendium = makeVar([]);
 
 export const selectedCompendiumCategory = makeVar([]);
 
-export const hotelImage = makeVar<any>({});
+export const hotelInformation = makeVar<any>({});
 
 export const hotelInfoStorage = makeVar<any>([]);
 

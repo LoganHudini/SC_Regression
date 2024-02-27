@@ -245,7 +245,7 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [guestReservationInfo?.paymentType]);
 
   return (
     <>

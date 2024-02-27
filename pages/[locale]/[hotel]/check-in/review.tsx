@@ -58,10 +58,12 @@ import {
   STEPPER_REVIEW,
   STEPPER_PAYMENT,
   FAIRMONT_ROYAL_PALM_MARRAKECH,
+  WEBURL2,
+  DOCUMENT_LIST,
 } from 'utils/constants';
 import { GET_E_REG_DETAILS } from 'core/graphql/queries/GET_E_REG_DETAILS';
 import { Notification } from 'components/shared/Notification/Notification';
-import { toggleNotification } from 'storage/home.storage';
+import { hotelInformation, toggleNotification } from 'storage/home.storage';
 import { useConfig, usePaymentConfig } from 'utils/hooks/useConfiguration';
 import { Stepper } from 'components/shared/Stepper/Stepper';
 import produce from 'immer';
@@ -73,6 +75,8 @@ import {
 import { processStatusCode } from 'utils/processError';
 import { GET_ROOM_STATUS } from 'core/graphql/queries/GET_ROOM_STATUS';
 import { checkRoomStatus } from 'utils/apis/rest';
+import { ASSETS_URL } from 'core/graphql/endpoints';
+import Link from 'next/link';
 
 export { getStaticPaths };
 
@@ -86,6 +90,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const guests = useReactiveVar(guestInformationStorage);
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const accompanyGuestInfo = useReactiveVar(accompanyGuestDetails);
+  const hotelInfo = useReactiveVar(hotelInformation);
 
   const [accompanyGuestInformationState, setAcccompanyGuestInformation] = useState(
     new Array(accompanyGuestInfo?.length)?.fill(false),
@@ -685,10 +690,33 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           <div className={styles.checkBoxAlign}>
             <StyledCheckBox onClick={toggleConditionsAccepted} value={conditionsAccepted} />
           </div>
-          <p
-            className={styles.agrementText}
-            dangerouslySetInnerHTML={{ __html: reviewConfig?.termsAndCondition }}
-          ></p>
+
+          <p className={styles.agrementText}>
+            {DOCUMENT_LIST.some((document) => hotelInfo?.[document.code]?.type) &&
+              t('I have read, understood and agree to the')}{' '}
+            {DOCUMENT_LIST.map((document, index) => {
+              if (hotelInfo?.[document.code]?.type) {
+                return (
+                  <>
+                    <Link
+                      href={
+                        hotelInfo?.[document.code]?.type === WEBURL2
+                          ? hotelInfo?.[document.code]?.url
+                          : `${ASSETS_URL}/${hotelInfo?.[document.code]?.url}`
+                      }
+                      target='_blank'
+                      rel='noopener noreferrer'
+                    >
+                      {`${document.name}`}
+                    </Link>
+                    {index !== DOCUMENT_LIST.length - 2 && ` ${t('and')} `}
+                  </>
+                );
+              }
+            })}
+            {DOCUMENT_LIST.every((document) => !hotelInfo?.[document.code]?.type) &&
+              t(`${reviewConfig?.termsAndCondition}`)}
+          </p>
         </div>
         <div className={styles.guestSignatureWrapper}>
           <p className={styles.guestSignature}>{t('Guest Signature')}</p>

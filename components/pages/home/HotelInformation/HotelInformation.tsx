@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './HotelInformation.module.scss';
 import { ASSETS_URL } from 'core/graphql/endpoints';
 import { useTranslation } from 'react-i18next';
-import { hotelImage, toggleHotelInfoDrawer, toggleMapState } from 'storage/home.storage';
+import { hotelInformation, toggleHotelInfoDrawer, toggleMapState } from 'storage/home.storage';
 import { CustomReadMore } from 'components/shared/CustomReadMore/CustomReadMore';
 import { WithScrollbar } from 'components/shared/WithScrollbar/WithScrollbar';
 import { CAROUSEL_RESPONSIVE } from 'utils/constants';
@@ -13,7 +13,7 @@ const HotelInformation = (props: any) => {
   const { details } = props;
   const { t } = useTranslation(['common']);
   const hotelInfo = details && details?.getPropertyDetailsByHotelId?.hotel;
-  hotelImage(hotelInfo?.images[0]);
+  hotelInformation(hotelInfo);
 
   return (
     <>
