@@ -70,6 +70,7 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
   const [loading, setLoading] = useState(true);
   const [url, setUrl] = useState('');
   const paymentConfig: any = usePaymentConfig();
+  const paymentWindow = useRef<Window | null>(null);
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
@@ -134,10 +135,10 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
     );
   }, [validButton, availablePersonalizations]);
 
-  const onPaymentDone = useCallback(async () => {
-    navigate(availablePaths?.CARD_AUTHORISATION);
+  const onPaymentDone = useCallback(() => {
+    paymentWindow.current && paymentWindow.current.close();
     setPopUpStatus(false);
-  }, [navigate]);
+  }, []);
 
   const handleProceedToPayment = useCallback(async () => {
     const checkInToken = getCheckInToken();
@@ -277,6 +278,7 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
               paymentConfig={paymentConfig?.type === CCAVENUE}
               setLoader={setPopUpStatus}
               src={url}
+              paymentWindow={paymentWindow}
             />
           ) : (
             <PaymentStatusCard paymentStatus={false} />

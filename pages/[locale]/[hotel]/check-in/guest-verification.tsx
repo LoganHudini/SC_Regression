@@ -627,7 +627,7 @@ const Guest: React.FC<any> = () => {
           <StyledButton
             variant='contained'
             loading={loading}
-            // disabled={!guestValidation || !reservationData || !accompanyGuestValidation}
+            disabled={!guestValidation || !reservationData || !accompanyGuestValidation}
             onClick={goToTheNextStep}
             className={styles.bottomMenuButton}
           >

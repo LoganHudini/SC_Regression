@@ -129,7 +129,7 @@ const CheckInDrawer = () => {
             toggleCheckInDetailsDrawer(false);
             setLoading(false);
           } else if (data.getReservation.data.reservationStatus === INHOUSE) {
-            if (data.getReservation.data?.roomTypes[0]?.roomNumber) {
+            if (data?.getReservation?.data?.roomTypes[0]?.roomNumber) {
               if (checkinModule) {
                 setErrorNotification({
                   state: false,
@@ -207,7 +207,7 @@ const CheckInDrawer = () => {
             setLoading(false));
       }
     },
-    [HOME, checkinModule, hotelId, navigate],
+    [checkinModule, hotelId, navigate],
   );
 
   const formik = useFormik({

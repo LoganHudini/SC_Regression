@@ -20,47 +20,42 @@ export const PaymentStatusCard: React.FC<any> = ({
   paymentConfig,
   src,
   setLoader,
+  paymentWindow,
 }) => {
   const navigate = useLocalizedRouter();
   const { t } = useTranslation('about-your-stay');
-
+  const width = 600;
+  const height = 600;
+  const left = (screen.width - width) / 2;
+  const top = (screen.height - height) / 2;
   return (
     <>
-      {/* {paymentStatus && (
-          <>
-            <PaymentFailure />
-            <p> {t('Payment Failed')}</p>{' '}
-          </>
-      )} */}
-
-      {/* {!paymentStatus && (
-        <p className={styles.descriptionPaymentStatus}>
-          {t("Your payment didn't go through. Please check your details and try again.")}
-        </p>
-      )} */}
-
       {paymentStatus ? (
-        paymentConfig ? (
-          <Link
-            href={src}
-            target='_blank'
-            rel='noopener, noreferrer'
-            className={styles.scanDocText}
-            onClick={() => setLoader(true)}
-          >
-            <StyledButton variant='contained' className={styles.scanPaymentButton}>
-              <span className={styles.scanDocText}> {t('PROCEED TO PAYMENT')} </span>
-            </StyledButton>
-          </Link>
-        ) : (
-          <StyledButton
-            variant='contained'
-            className={styles.scanPaymentButton}
-            onClick={() => navigate(availablePaths?.PAYMENT)}
-          >
-            <span className={styles.scanDocText}> {t('PROCEED TO PAYMENT')} </span>
-          </StyledButton>
-        )
+        <StyledButton
+          variant='contained'
+          className={styles.scanPaymentButton}
+          onClick={() => {
+            if (paymentConfig && src) {
+              setLoader(true);
+              paymentWindow.current = window.open(
+                src,
+                '_blank',
+                'resizable=yes, width=' +
+                  width +
+                  ', height=' +
+                  height +
+                  ', top=' +
+                  top +
+                  ', left=' +
+                  left,
+              );
+            } else {
+              navigate(availablePaths?.PAYMENT);
+            }
+          }}
+        >
+          <span className={styles.scanDocText}> {t('PROCEED TO PAYMENT')} </span>
+        </StyledButton>
       ) : (
         <div className={styles.boxPayment}>
           <>

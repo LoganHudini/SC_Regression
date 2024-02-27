@@ -1314,7 +1314,7 @@ export const configuration = [
       {
         code: 'In-Room Dining',
         name: 'In-Room Dining',
-        isActive: true,
+        isActive: false,
         type: 'CMS',
         payment: [
           { id: '1', name: 'BILL TO ROOM', message: '' },
@@ -1325,19 +1325,18 @@ export const configuration = [
       {
         code: 'Services',
         name: 'Services',
-
-        isActive: true,
+        isActive: false,
         type: 'CMS',
       },
       {
         code: 'view-bill',
         name: 'View Bill',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: true,
+        isActive: false,
       },
     ],
   },

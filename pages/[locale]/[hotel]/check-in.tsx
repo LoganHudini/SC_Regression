@@ -75,7 +75,9 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
       <div className={styles.drawerWrapper}>
         <h3 className={styles.welcomeTitle}>
           Welcome to{' '}
-          <span className={styles.capitalise}>{BRAND_CODE === '1hotels' ? '1' : BRAND_CODE}</span>{' '}
+          <span className={cx(styles.capitalise, 'globals-brandCaps')}>
+            {BRAND_CODE === '1hotels' ? '1' : BRAND_CODE}
+          </span>{' '}
           Hotels!
         </h3>
         <p className={styles.welcomeDescription}>Check-In now to save time when you arrive.</p>
