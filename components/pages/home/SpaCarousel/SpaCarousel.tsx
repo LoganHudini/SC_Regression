@@ -90,11 +90,7 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
 
   const closeDrawer = () => {
     toggleDetailsDrawer(false);
-    spaInformationStorage(
-      produce(spaInformationStorage(), (draft) => {
-        null;
-      }),
-    );
+    spaInformationStorage({});
   };
 
   const closespaBooking = () => {

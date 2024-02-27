@@ -21,12 +21,6 @@
   font-size: $small;
 }
 
-.bannerImage {
-  height: 250px;
-  width: 100%;
-  object-fit: cover;
-}
-
 .indicatorIcon {
   width: 6px;
   height: 6px;
@@ -83,11 +77,32 @@
   background-color: #ccc;
 }
 
+.bannerImage {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  max-height: 430px;
+}
+
+.contentWrapper {
+  position: relative;
+  max-height: 430px;
+  height: 100%;
+  z-index: 100;
+}
+
+.carousel {
+  position: relative;
+  height: 100%;
+  max-height: 430px;
+}
+
 .phoneEmailCtaWrapper {
   position: absolute;
-  top: 224px;
+  transform: translate(0%, 40%);
   left: 0;
   right: 0;
+  bottom: 0;
   z-index: 200;
   display: flex;
   justify-content: space-evenly;
@@ -95,8 +110,9 @@
   height: 60px;
   background: var(--primary-button-background-color);
   width: 90%;
-  margin: 0 auto;
+  margin: auto;
   border-radius: var(--primary-button-border-radius);
+  max-width: 390px;
 }
 
 .highlights {
@@ -138,6 +154,7 @@
 .border {
   padding: 1% 8% 0% 8%;
   text-align: center;
+  cursor: pointer;
 }
 
 .mailWrapper {
@@ -146,11 +163,6 @@
 
 .align {
   padding: 1% 8% 0% 8%;
-}
-
-.contentWrapper {
-  position: relative;
-  z-index: 100;
 }
 
 .locationWrapper {
