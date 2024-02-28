@@ -288,7 +288,7 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
             variant='contained'
             disabled={!validButton || !reservationData}
             onClick={goToTheNextStep}
-            className={styles.bottomMenuButton}
+            className={cx(styles.bottomMenuButton)}
           >
             {t('Next')}
           </StyledButton>

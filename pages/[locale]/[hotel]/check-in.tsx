@@ -102,7 +102,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
         </p>
       </div>
       <StyledButton className={styles.beginCheckIn} onClick={closeWelcomeDrawer}>
-        {t('BEGIN CHECK-IN')}
+        {t('Begin Check-In')}
       </StyledButton>
     </>
   );
@@ -268,7 +268,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
             <StyledButton
               variant='contained'
               onClick={() => navigate(availablePaths?.GUEST_VERIFICATION)}
-              className={styles.bottomMenuButton}
+              className={cx(styles.bottomMenuButton)}
             >
               {t('continue')}
             </StyledButton>

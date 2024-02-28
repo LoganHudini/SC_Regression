@@ -743,10 +743,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         <div className={styles.btnWrapper}>
           <StyledButton
             disabled={!btnStatus}
-            className={styles.checkInButton}
             onClick={goToCheckIn}
             loading={loading}
             variant='contained'
+            className={cx(styles.checkInButton)}
           >
             {t(`${reviewConfig?.buttonLabelCheckIn}`)}
           </StyledButton>

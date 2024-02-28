@@ -54,7 +54,7 @@ export const PaymentStatusCard: React.FC<any> = ({
             }
           }}
         >
-          <span className={styles.scanDocText}> {t('PROCEED TO PAYMENT')} </span>
+          <span className={styles.scanDocText}> {t('Proceed to Payment')} </span>
         </StyledButton>
       ) : (
         <div className={styles.boxPayment}>

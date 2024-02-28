@@ -43,6 +43,7 @@ import {
 } from 'core/api/functions/getCheckInAuthentication';
 import { processStatusCode } from 'utils/processError';
 import { usePersonalisation } from 'utils/hooks/usePersonalisation';
+import cx from 'classnames';
 
 export { getStaticPaths };
 
@@ -206,7 +207,7 @@ const PersonalizeYourRoom: React.FC = () => {
 
         <div className={styles.confirmButtonWrapper}>
           <StyledButton
-            className={styles.confirmButton}
+            className={cx(styles.confirmButton)}
             variant='contained'
             onClick={goToNextStep}
             loading={loadingButton}

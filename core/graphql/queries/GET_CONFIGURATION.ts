@@ -253,7 +253,7 @@ export const configuration = [
             name: 'review',
             label: 'Review & Sign',
             title: 'Check-In',
-            buttonLabelCheckIn: 'CONFIRM CHECK-IN',
+            buttonLabelCheckIn: 'Confirm Check-In',
             // eslint-disable-next-line quotes
             termsAndCondition:
               'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',
@@ -586,7 +586,7 @@ export const configuration = [
             name: 'review',
             label: 'Review & Sign',
             title: 'Check-In',
-            buttonLabelCheckIn: 'CONFIRM CHECK-IN',
+            buttonLabelCheckIn: 'Confirm Check-In',
             // eslint-disable-next-line quotes
             termsAndCondition:
               'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',
@@ -945,7 +945,7 @@ export const configuration = [
             name: 'review',
             label: 'Review & Sign',
             title: 'Check-In',
-            buttonLabelCheckIn: 'CONFIRM CHECK-IN',
+            buttonLabelCheckIn: 'Confirm Check-In',
             // eslint-disable-next-line quotes
             termsAndCondition:
               'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',
@@ -1257,7 +1257,7 @@ export const configuration = [
             name: 'review',
             label: 'Review & Sign',
             title: 'Check-In',
-            buttonLabelCheckIn: 'CONFIRM CHECK-IN',
+            buttonLabelCheckIn: 'Confirm Check-In',
             // eslint-disable-next-line quotes
             termsAndCondition:
               'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',
@@ -1633,7 +1633,7 @@ export const configuration = [
             name: 'review',
             label: 'Review & Sign',
             title: 'Check-In',
-            buttonLabelCheckIn: 'CONFIRM CHECK-IN',
+            buttonLabelCheckIn: 'Confirm Check-In',
             // eslint-disable-next-line quotes
             termsAndCondition:
               'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',
@@ -1959,7 +1959,7 @@ export const configuration = [
             name: 'review',
             label: 'Review & Sign',
             title: 'Check-In',
-            buttonLabelCheckIn: ' CONFIRM CHECK-IN',
+            buttonLabelCheckIn: 'Confirm Check-In',
             // eslint-disable-next-line quotes
             termsAndCondition:
               'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',

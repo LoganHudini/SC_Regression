@@ -153,8 +153,8 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
                 (isCheckedIn?.checkedIn
                   ? `Room ${isCheckedIn?.roomNumber}`
                   : checkinModule
-                  ? t('CHECK-IN')
-                  : t('CONNECT TO ROOM'))}
+                  ? t('Check-In')
+                  : t('Connect To Room'))}
               {irdActive && t(diningOptionList(diningOptionSelected?.type))}
               {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
               {spaActive && t(`${spaInformation?.selectedSpaCategoryName}`)}
@@ -163,9 +163,9 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
               {checkOutActive &&
                 (checkinModule
                   ? amountDue
-                    ? t('CHECKOUT')
-                    : t('PAY & CHECKOUT')
-                  : t('DISCONNECT FROM ROOM'))}
+                    ? t('Checkout')
+                    : t('Pay & Checkout')
+                  : t('Disconnect From Room'))}
             </span>
 
             {homeActive

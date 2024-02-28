@@ -629,7 +629,7 @@ const Guest: React.FC<any> = () => {
             loading={loading}
             disabled={!guestValidation || !reservationData || !accompanyGuestValidation}
             onClick={goToTheNextStep}
-            className={styles.bottomMenuButton}
+            className={cx(styles.bottomMenuButton)}
           >
             {t('Next')}
           </StyledButton>

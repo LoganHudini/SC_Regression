@@ -119,7 +119,7 @@ export const RoomPersonalizationEntityV2: React.FC<IRoomPersonalizationEntityPro
               className={styles.addButton}
               onClick={handleToggle}
             >
-              {quantity === 0 ? t('SELECT') : t('SELECTED')}
+              {quantity === 0 ? t('Select') : t('Selected')}
             </StyledButton>
           )}
         </div>
