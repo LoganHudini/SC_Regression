@@ -248,7 +248,6 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
           throw false;
         }
       }
-
       toggleDetailsDrawer(false);
       setDisabled(false);
       housekeepingQuantityStorage({ selectedItems: [] });
@@ -263,7 +262,6 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
         type: SUCCESS,
       });
     } catch (e) {
-      toggleDetailsDrawer(false);
       const networkError = e as ApolloError;
       const FailureCheck1 =
         networkError?.message === FAILED_TO_FETCH_BOOKING_DETAILS ? true : false;

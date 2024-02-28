@@ -35,7 +35,7 @@
   transition: all 0.5s;
   transform: translateY(100%);
   margin: 0 auto;
-  z-index: 10;
+  z-index: 1201;
   padding: 1rem 0;
 }
 
@@ -61,9 +61,11 @@
 
 .title {
   font: $header var(--heading-font-regular);
+  width: 95%;
 }
 
 .description {
   font: $small var(--primary-font-regular);
   line-height: 1.5;
+  width: 95%;
 }
