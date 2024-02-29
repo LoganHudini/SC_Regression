@@ -50,7 +50,7 @@ export const CustomDrawer: React.FC<IDetailPageProps> = ({
         const newMaxHeight = Math.min(scrollHeight, clientHeight);
         const newHeight = (newMaxHeight / window.innerHeight) * 100;
         if (Math.floor(newHeight) <= 90) {
-          setDrawerMaxHeight(isIframe ? '100dvh' : '90vh');
+          setDrawerMaxHeight(isIframe ? '100dvh' : '90dvh');
         }
       }
     };
