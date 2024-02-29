@@ -8,7 +8,7 @@ export const TotalBill: React.FC<ITotalBillProps> = ({
   totalBillAmount,
   currency,
 }) => {
-  const { t } = useTranslation(['common']);
+  const { t } = useTranslation(['bill']);
 
   return (
     <>

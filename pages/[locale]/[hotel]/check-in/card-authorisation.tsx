@@ -63,7 +63,7 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
   const navigate = useLocalizedRouter();
   const config = useConfig();
   const [availablePersonalizations] = usePersonalisation();
-  const { t } = useTranslation('about-your-stay');
+  const { t } = useTranslation(['about-your-stay', 'check-in']);
   const transactionId = useRef('');
   const [errorNotification, setErrorNotification] = useState(false);
   const [popUpStatus, setPopUpStatus] = useState(false);
@@ -295,10 +295,10 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
         </div>
         <PaymentLoaderPopUp paymentLoader={popUpStatus} />
         <Notification
-          title={errorNotification ? ('Payment Failed!' as string) : (t('Thank You!') as string)}
+          title={errorNotification ? (t('Payment Failed!') as string) : (t('Thank You!') as string)}
           description={
             errorNotification
-              ? ('Card Authentication Failed!' as string)
+              ? (t('Card Authentication Failed!') as string)
               : (t('Card Authentication Completed') as string)
           }
           redirect={availablePaths?.CARD_AUTHORISATION}
@@ -313,7 +313,11 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const locale = ctx?.params?.locale;
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ['about-your-stay'], i18nConfig)),
+      ...(await serverSideTranslations(
+        locale as string,
+        ['about-your-stay', 'check-in'],
+        i18nConfig,
+      )),
     },
   };
 };

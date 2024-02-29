@@ -26,5 +26,20 @@
   "Your order has been confirmed.": "Your order has been confirmed.",
   "BILL TO ROOM": "BILL TO ROOM",
   "CASH": "CASH",
-  "CARD": "CARD"
+  "CARD": "CARD",
+  "Your order was not confirmed.": "Your order was not confirmed.",
+  "Thank You!": "Thank You!",
+  "* Rates are inclusive of applicable government taxes and subject to 10% service charge.": "* Rates are inclusive of applicable government taxes and subject to 10% service charge.",
+  "Ingredients": "Ingredients",
+  "Required": "Required",
+  "Add-Ons": "Add-Ons",
+  "Limit exceeded": "Limit exceeded",
+  "Select up to": "Select up to",
+  "option(s)": "option(s)",
+  "Add instructions": "Add instructions",
+  "total item price": "total item price",
+  "Update cart": "Update cart",
+  "Reservation status is invalid. Please try again with a valid reservation details": "Reservation status is invalid. Please try again with a valid reservation details",
+  "Confirm": "Confirm",
+  "ITEMS": "ITEMS"
 }

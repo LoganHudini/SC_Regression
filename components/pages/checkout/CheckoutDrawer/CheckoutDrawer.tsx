@@ -24,7 +24,7 @@ const CheckoutDrawer = (props: any) => {
   const locale = useLocale();
   const config = useConfig();
   const hotelId = useConfig()?.hotelId;
-  const { t } = useTranslation(['common']);
+  const { t } = useTranslation(['bill']);
   const [checkoutLoader, setCheckoutLoader] = useState(false);
   const detailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
   const checkedInData = useCheckedIn();
@@ -79,10 +79,13 @@ const CheckoutDrawer = (props: any) => {
       toggleNotification(true);
       setErrorToggle({
         state: false,
-        message: 'You’ve Checked-out',
+        message: t('You’ve Checked-out'),
         type: feedbackData?.length === 0 ? 'home' : 'feedback',
-        description:
-          'Hope you had a pleasant stay with us. We look forward to your next visit.\n Thank You.',
+        description: t(
+          t(
+            'Hope you had a pleasant stay with us. We look forward to your next visit.\n Thank You.',
+          ),
+        ),
       });
     } catch (error) {
       const statusCode = processStatusCode(error as ApolloError);
@@ -94,7 +97,7 @@ const CheckoutDrawer = (props: any) => {
         const networkError = errorMsg?.networkError as { result?: { errors?: string } };
         if (
           networkError?.result?.errors ===
-          'Please proceed to the front desk to complete your checkout'
+          t('Please proceed to the front desk to complete your checkout')
         ) {
           toggleNotification(true);
           setTimeout(() => {
@@ -102,19 +105,19 @@ const CheckoutDrawer = (props: any) => {
           }, 5000);
           setErrorToggle({
             state: false,
-            message: 'Unable to checkout',
+            message: t('Unable to checkout'),
             type: feedbackData?.length === 0 ? 'home' : 'feedback',
             description: `${
-              amountDue > 0 ? 'There are outstanding payments to settle. ' : ''
-            }Kindly proceed to the front desk to complete the checkout process.`,
+              amountDue > 0 ? t('There are outstanding payments to settle. ') : ''
+            }${t('Kindly proceed to the front desk to complete the checkout process.')}`,
           });
         } else {
           toggleNotification(true);
           setErrorToggle({
             state: true,
-            message: ERRORMSG,
+            message: t(ERRORMSG),
             type: 'checkout',
-            description: 'Please Try Again.',
+            description: t('Please Try Again.'),
           });
         }
         toggleDetailsDrawer(false);
@@ -129,10 +132,11 @@ const CheckoutDrawer = (props: any) => {
     toggleNotification(true);
     setErrorToggle({
       state: false,
-      message: 'Phone Disconnected!',
+      message: t('Phone Disconnected!'),
       type: feedbackData?.length === 0 ? 'home' : 'feedback',
-      description:
+      description: t(
         'Hope you had a pleasant stay with us. We look forward to your next visit.\n Thank You.',
+      ),
     });
   };
 

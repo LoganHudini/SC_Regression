@@ -42,7 +42,7 @@ import {
 } from 'utils/constants';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { Loader } from 'components/shared/Loaders/Loaders';
-import { activeModule, findModule, moduleType } from 'utils/functions';
+import { activeModule, findModule } from 'utils/functions';
 import { checkRoomStatus } from 'utils/apis/rest';
 
 const CheckInDrawer = () => {
@@ -52,7 +52,7 @@ const CheckInDrawer = () => {
   const hotel = config?.code;
 
   const checkInDrawerStatus = useReactiveVar(toggleCheckInDetailsDrawer);
-  const { t } = useTranslation(['get-reservation', 'common']);
+  const { t } = useTranslation(['common']);
   const router = useRouter();
   const HOME = `/${hotel}/`;
   const resId = router?.query?.resId ?? '';
@@ -117,8 +117,8 @@ const CheckInDrawer = () => {
           ) {
             setErrorNotification({
               state: true,
-              title: 'Reservation Not Found',
-              description: 'Please proceed to the front desk for further assistance.',
+              title: t('Reservation Not Found'),
+              description: t('Please proceed to the front desk for further assistance.'),
             });
             checkinStorage({
               reservationId: data.getReservation.data.confirmationId as string,
@@ -306,7 +306,11 @@ const CheckInDrawer = () => {
               helperText={
                 checkinModule
                   ? formik.touched?.confirmationNumber && formik.errors.confirmationNumber
+                    ? t(formik.errors.confirmationNumber)
+                    : null
                   : formik.touched?.roomNo && formik.errors.roomNo
+                  ? t(formik.errors.roomNo)
+                  : null
               }
             />
             <StyledInput
@@ -320,7 +324,11 @@ const CheckInDrawer = () => {
               value={formik.values.lastName}
               onChange={formik.handleChange}
               error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-              helperText={formik.touched?.lastName && formik.errors.lastName}
+              helperText={
+                formik.touched?.lastName && formik.errors.lastName
+                  ? t(formik.errors.lastName)
+                  : null
+              }
             />
           </div>
           <StyledButton

@@ -74,7 +74,7 @@ import { IframeComponent } from 'components/shared/IframeComponent/IframeCompone
 export { getStaticPaths };
 
 const RestaurantAndBars: React.FC = () => {
-  const { t } = useTranslation(['ui-builder']);
+  const { t } = useTranslation(['restaurants', 'common']);
   const isCheckedIn = useCheckedIn();
   const locale = useLocale();
   const hotelId = useConfig()?.hotelId;
@@ -451,7 +451,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ['dining', 'common'], i18nConfig)),
+      ...(await serverSideTranslations(locale as string, ['restaurants', 'common'], i18nConfig)),
     },
   };
 };

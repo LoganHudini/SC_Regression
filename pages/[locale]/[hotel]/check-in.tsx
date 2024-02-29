@@ -74,31 +74,33 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
     <>
       <div className={styles.drawerWrapper}>
         <h3 className={styles.welcomeTitle}>
-          Welcome to{' '}
+          {t('Welcome to')}{' '}
           <span className={cx(styles.capitalise, 'globals-brandCaps')}>
             {BRAND_CODE === '1hotels' ? '1' : BRAND_CODE}
           </span>{' '}
-          Hotels!
+          {t('Hotels!')}
         </h3>
-        <p className={styles.welcomeDescription}>Check-In now to save time when you arrive.</p>
+        <p className={styles.welcomeDescription}>
+          {t('Check-In now to save time when you arrive.')}
+        </p>
         <StableImage
           src={`/images/${BRAND_CODE}/Divider.png`}
           alt='Divider'
           className={styles.dividerImage}
         />
         <p className={styles.welcomeDescription}>
-          You will need the following documents handy to finish online Check-In:
+          {t('You will need the following documents handy to finish online Check-In:')}
         </p>
         <p className={styles.documentsList}>
           <DocIcon />
           <span className={styles.space}>
-            Passport {BRAND_CODE === 'itc' && '/ Aadhaar '}/ Driving License
+            {t('Passport')} {BRAND_CODE === 'itc' && '/ Aadhaar '}/ {t('Driving License')}
           </span>
         </p>
         <div className={styles.verticalLine}></div>
         <p className={styles.documentsList}>
           <DocIcon />
-          <span className={styles.space}>Credit Card</span>
+          <span className={styles.space}>{t('Credit Card')}</span>
         </p>
       </div>
       <StyledButton className={styles.beginCheckIn} onClick={closeWelcomeDrawer}>
@@ -181,7 +183,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
                 </p>
               </div>
               <p className={styles.detailCheckinTitle}>
-                From{' '}
+                {t('From')}{' '}
                 {pms === OPERA
                   ? dayjs(
                       `${reservationInfo?.details?.checkInDate?.split('T')[0]}${
@@ -211,7 +213,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
                 </p>
               </div>
               <p className={styles.detailCheckinTitle}>
-                Till{' '}
+                {t('Till')}{' '}
                 {pms === OPERA
                   ? dayjs(
                       `${reservationInfo?.details?.checkOutDate?.split('T')[0]}${
@@ -240,7 +242,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
                   <NightIcon />
                 </span>
                 {reservationInfo?.details?.nightCount}{' '}
-                {reservationInfo?.details?.nightCount === 1 ? 'Night' : 'Nights'}
+                {reservationInfo?.details?.nightCount === 1 ? t('Night') : t('Nights')}
               </div>
             )}
             {(reservationInfo?.details?.adultGuestCount !== 0 ||
@@ -252,13 +254,13 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
                 {reservationInfo?.details?.adultGuestCount !== 0 && (
                   <>
                     {reservationInfo?.details?.adultGuestCount}{' '}
-                    {reservationInfo?.details?.adultGuestCount === 1 ? 'Adult' : 'Adults'}{' '}
+                    {reservationInfo?.details?.adultGuestCount === 1 ? t('Adult') : t('Adults')}{' '}
                   </>
                 )}
                 {reservationInfo?.details?.childGuestCount !== 0 && (
                   <>
                     {reservationInfo?.details?.childGuestCount}{' '}
-                    {reservationInfo?.details?.childGuestCount === 1 ? 'Child' : 'Children'}
+                    {reservationInfo?.details?.childGuestCount === 1 ? t('Child') : t('Children')}
                   </>
                 )}
               </div>

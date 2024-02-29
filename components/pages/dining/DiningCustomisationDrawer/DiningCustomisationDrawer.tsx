@@ -18,7 +18,7 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
   customisationDrawer,
   closeCustomisationDrawer,
 }) => {
-  const { t } = useTranslation(['common', 'dining']);
+  const { t } = useTranslation('dining');
   const [totalAddons, settotalAddons] = useState<number>(0);
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
   const selectedItemId = diningData?.selectedItemId;

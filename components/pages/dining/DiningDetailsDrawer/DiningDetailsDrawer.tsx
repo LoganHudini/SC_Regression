@@ -467,7 +467,7 @@ const DiningDetailsDrawer = () => {
                   ) : (
                     <p className={styles.optionalText}>
                       {/* {t('Select up to option(s)', { value: selectedItem?.addOnValue })} */}
-                      Select up to {selectedItem?.addOnValue} option(s)
+                      {t('Select up to')} {selectedItem?.addOnValue} {t('option(s)')}
                     </p>
                   )}
                 </div>

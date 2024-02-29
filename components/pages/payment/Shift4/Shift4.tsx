@@ -84,6 +84,7 @@ const Shift4 = () => {
               draft.cardNumber = response.otn.cardnumber;
               draft.cardHolderName = response.i4go_cardholdername;
               draft.cardType = response.i4go_cardtype;
+              draft.paymentType = response?.i4go_cardtype;
               draft.cardExpiryDate =
                 response.i4go_expirationmonth + '/' + response.i4go_expirationyear;
             }),

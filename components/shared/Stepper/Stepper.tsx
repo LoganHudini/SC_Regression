@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styles from './Stepper.module.scss';
 import CircularProgress, { CircularProgressProps } from '@mui/material/CircularProgress';
 import Arrow from '@icons/stepperArrow.svg';
 import cx from 'classnames';
 import { useReactiveVar } from '@apollo/client';
 import { StepperInformationStorage } from 'storage/check-in.storage';
+import { useTranslation } from 'react-i18next';
 
 export const Stepper: React.FC = () => {
+  const { t } = useTranslation(['check-in']);
   const stepperInformation = useReactiveVar(StepperInformationStorage);
 
   function CircularProgressWithLabel(
@@ -38,7 +40,7 @@ export const Stepper: React.FC = () => {
               </span>
             </div>
           </div>
-          <span className={styles.title}>{title}</span>
+          <span className={styles.title}>{t(`${title}`)}</span>
         </div>
       </>
     );

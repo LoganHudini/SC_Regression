@@ -3,8 +3,11 @@ import React from 'react';
 import { timeFormats } from 'utils/timeFormats';
 import styles from './BillElement.module.scss';
 import { IBIllElementProps } from './BillElement.types';
+import { useTranslation } from 'react-i18next';
 
 export const BillElement: React.FC<IBIllElementProps> = ({ date, title, chequeNo, price }) => {
+  const { t } = useTranslation(['bill']);
+
   return (
     <div className={styles.billElement}>
       <div className={styles.infoColumn}>
@@ -12,7 +15,7 @@ export const BillElement: React.FC<IBIllElementProps> = ({ date, title, chequeNo
         <div className={styles.title}>{title}</div>
       </div>
       <div className={chequeNo ? styles.infoColumn : styles?.infoColumnWithoutCheque}>
-        {chequeNo && <div className={styles.chequeNo}>{`CHEQUE NO: ${chequeNo}`}</div>}
+        {chequeNo && <div className={styles.chequeNo}>{`${t('CHEQUE NO:')} ${chequeNo}`}</div>}
         <div className={styles.price}>
           <span className={styles.billAmountCurrency}>{price?.split(' ')[0]} </span>
           {Number(price?.split(' ')[1])?.toLocaleString('en-US', {

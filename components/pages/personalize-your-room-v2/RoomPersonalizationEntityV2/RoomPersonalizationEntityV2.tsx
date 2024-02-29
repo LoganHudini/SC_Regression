@@ -48,13 +48,22 @@ export const RoomPersonalizationEntityV2: React.FC<IRoomPersonalizationEntityPro
     } else {
       toggleNotification(true);
       setNotificationState({
-        title: 'Limit Exceeded!',
-        description: 'Maximum limit reached for the selected item',
+        title: t('Limit Exceeded!'),
+        description: t('Maximum limit reached for the selected item'),
         redirect: null,
         type: FAILURE,
       });
     }
-  }, [currency, id, maxQuantity?.maxQuantityValue, price, quantity, setNotificationState, title]);
+  }, [
+    t,
+    currency,
+    id,
+    maxQuantity?.maxQuantityValue,
+    price,
+    quantity,
+    setNotificationState,
+    title,
+  ]);
 
   const handleRemove = useCallback(() => {
     personalizeYourRoomStorage(

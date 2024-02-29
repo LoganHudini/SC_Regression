@@ -56,8 +56,13 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
   const spaInformation = useReactiveVar(spaInformationStorage);
   const hotelCompendiumSelected: any = useReactiveVar(selectedCompendiumCategory);
   const checkinModule: boolean = activeModule(config?.modules, CHECK_IN);
+  const homeActiveRef = useRef<boolean>();
+  const homeActive: boolean | undefined = homeActiveRef.current;
 
-  const homeActive = router?.pathname === '/[locale]/[hotel]';
+  useEffect(() => {
+    homeActiveRef.current = router?.pathname === '/[locale]/[hotel]';
+  }, [router?.pathname]);
+
   const irdActive =
     router?.asPath?.includes(availablePaths?.DINING) ||
     router?.asPath?.includes(availablePaths?.RESTAURANTS_BARS);
@@ -151,7 +156,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
             <span className={styles.btnText}>
               {homeActive &&
                 (isCheckedIn?.checkedIn
-                  ? `Room ${isCheckedIn?.roomNumber}`
+                  ? `${t('Room')} ${isCheckedIn?.roomNumber}`
                   : checkinModule
                   ? t('Check-In')
                   : t('Connect To Room'))}

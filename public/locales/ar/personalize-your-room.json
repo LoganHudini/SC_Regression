@@ -1,9 +1,11 @@
 {
-  "Personalize Your Room": "Personalize Your Room",
-  "Special Request": "Special Request",
-  "Do you have any special requests?": "Do you have any special requests?",
-  "Confirm": "Confirm",
-  "Per day": "Per day",
-  "Per stay": "Per stay",
-  "Add": "Add"
+  "Personalize Your Room": "تخصيص غرفتك",
+  "Customisation": "تخصيص",
+  "Customise My Stay": "تخصيص إقامتي",
+  "Personalize every aspect of your stay – tailor your experience to perfection.": "قم بتخصيص كل جانب من جوانب إقامتك - اجعل تجربتك مثالية.",
+  "Next": "التالي",
+  "Limit Exceeded!": "تم تجاوز الحد الأقصى!",
+  "Maximum limit reached for the selected item": "تم الوصول إلى الحد الأقصى للعنصر المحدد",
+  "SELECT": "اختر",
+  "SELECTED": "مُختار"
 }

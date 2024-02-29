@@ -17,7 +17,7 @@ import FreedomPay from 'components/pages/payment/FreedomPay/FreedomPay';
 export { getStaticPaths };
 
 const Payment: React.FC = () => {
-  const { t } = useTranslation(['check-in-payment', 'common']);
+  const { t } = useTranslation(['check-in-payment', 'common', 'check-in']);
   const config = useConfig();
   const hotelName = config?.name;
   const paymentConfig: any = usePaymentConfig();
@@ -56,7 +56,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     props: {
       ...(await serverSideTranslations(
         locale as string,
-        ['check-in-payment', 'common'],
+        ['check-in-payment', 'common', 'check-in'],
         i18nConfig,
       )),
     },

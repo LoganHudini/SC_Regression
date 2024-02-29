@@ -25,5 +25,12 @@
   "Your order has been confirmed.": "تم تأكيد طلبك.",
   "BILL TO ROOM": "فاتورة الغرفة",
   "CASH": "نقدًا",
-  "CARD": "بطاقة"
+  "CARD": "بطاقة",
+  "Thank You!": "شكرًا لك!",
+  "Reservation status is invalid. Please try again with valid reservation details.": "حالة الحجز غير صالحة. يرجى المحاولة مرة أخرى مع تفاصيل الحجز الصحيحة.",
+  "Your order was not confirmed.": "لم يتم تأكيد طلبك.",
+  "* Rates are inclusive of applicable government taxes and subject to 10% service charge.": "* تشمل الأسعار الضرائب الحكومية القابلة للتطبيق وتخضع لرسم خدمة بنسبة 10%.",
+  "Reservation status is invalid. Please try again with a valid reservation details.": "حالة الحجز غير صالحة. يرجى المحاولة مرة أخرى مع تفاصيل الحجز الصحيحة.",
+  "Confirm": "تأكيد",
+  "ITEMS": "العناصر"
 }

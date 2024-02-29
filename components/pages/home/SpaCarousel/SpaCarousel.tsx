@@ -36,6 +36,7 @@ interface ICarouselSlideProps {
 }
 
 export const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle }) => {
+  const { t } = useTranslation(['common']);
   const handleClick = () => {
     spaInformationStorage({
       selectedSpaInfoName: slide?.name,
@@ -72,7 +73,7 @@ export const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle
               <p>{time?.value}</p>
             </div>
           )}
-          <CustomReadMore text={'VIEW MORE'} />
+          <CustomReadMore text={t('VIEW MORE') as string} />
         </div>
       </div>
     </>

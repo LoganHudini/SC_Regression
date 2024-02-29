@@ -1,9 +1,11 @@
 {
   "Personalize Your Room": "Personalize Your Room",
-  "Special Request": "Special Request",
-  "Do you have any special requests?": "Do you have any special requests?",
-  "Confirm": "Confirm",
-  "Per day": "Per day",
-  "Per stay": "Per stay",
-  "Add": "Add"
+  "Customisation": "Customisation",
+  "Customise My Stay": "Customise My Stay",
+  "Personalize every aspect of your stay – tailor your experience to perfection.": "Personalize every aspect of your stay – tailor your experience to perfection.",
+  "Next": "Next",
+  "Limit Exceeded!": "Limit Exceeded!",
+  "Maximum limit reached for the selected item": "Maximum limit reached for the selected item",
+  "SELECT": "SELECT",
+  "SELECTED": "SELECTED"
 }

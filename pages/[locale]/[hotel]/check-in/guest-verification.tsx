@@ -61,12 +61,12 @@ import { usePersonalisation } from 'utils/hooks/usePersonalisation';
 export { getStaticPaths };
 
 const Guest: React.FC<any> = () => {
+  const { t } = useTranslation(['about-your-stay', 'check-in']);
   const navigate = useLocalizedRouter();
   const [loading, setLoading] = useState(false);
   const notificationInfo = useReactiveVar(notificationDetails);
   const config = useConfig();
   const paymentConfig: any = usePaymentConfig();
-  const { t } = useTranslation('about-your-stay');
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
   const [personalisationData] = usePersonalisation();
@@ -411,8 +411,8 @@ const Guest: React.FC<any> = () => {
       } else {
         toggleNotification(true);
         notificationDetails({
-          title: 'Please Try Again!',
-          description: 'Failed to update your details.',
+          title: t('Please Try Again!') as string,
+          description: t('Failed to update your details.') as string,
           redirect: null,
           type: FAILURE,
         });
@@ -430,6 +430,7 @@ const Guest: React.FC<any> = () => {
 
     setLoading(false);
   }, [
+    t,
     documentTypes,
     guestReservationInfo?.docNo,
     guestReservationInfo?.firstName,
@@ -651,7 +652,11 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const locale = ctx?.params?.locale;
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ['about-your-stay'], i18nConfig)),
+      ...(await serverSideTranslations(
+        locale as string,
+        ['about-your-stay', 'check-in'],
+        i18nConfig,
+      )),
     },
   };
 };

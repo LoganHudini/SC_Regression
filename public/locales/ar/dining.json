@@ -66,5 +66,11 @@
   "Required": "مطلوب",
   "Limit exceeded": "تَمَّ تجاوُز الحد المسموح به",
   "Select up to option(s)": "اِختَر حتى {{value}} خيار",
-  "Add instructions": "أَضِف تعليمات الطهي"
+  "Add instructions": "أَضِف تعليمات الطهي",
+  "Select up to": "حدد حتى",
+  "option(s)": "خيار(ات)",
+  "View Order": "عرض الطلب",
+  "Total Item Price :": "ا لسعر الإجمالي للعناصر:",
+  "Update cart": "تحديث السلة",
+  "Repeat last used customization?": "هل ترغب في تكرار التخصيص الذي استخدمته آخر مرة؟"
 }

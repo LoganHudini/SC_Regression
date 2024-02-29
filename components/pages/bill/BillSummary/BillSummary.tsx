@@ -12,7 +12,7 @@ export const BillSummary: React.FC<IBillSummaryProps> = ({
   checkOutDate,
   roomNumber,
 }) => {
-  const { t } = useTranslation(['common']);
+  const { t } = useTranslation(['bill']);
 
   return (
     <div className={styles.staySummary}>

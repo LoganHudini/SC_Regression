@@ -71,10 +71,10 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                     variant='standard'
                     sx={{ m: 1, minWidth: '100%' }}
                   >
-                    <InputLabel>{field?.label}</InputLabel>
+                    <InputLabel>{t(field?.label)}</InputLabel>
                     <Select
                       className={styles.guestDataInput}
-                      label={field?.label}
+                      label={t(field?.label)}
                       variant='standard'
                       name={field?.name}
                       id={field?.name}
@@ -89,7 +89,7 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                       {field?.options.map((item: any) => {
                         return (
                           <MenuItem value={item?.value} key={item?.value}>
-                            <em>{item?.name}</em>
+                            <em>{t(item?.name)}</em>
                           </MenuItem>
                         );
                       })}

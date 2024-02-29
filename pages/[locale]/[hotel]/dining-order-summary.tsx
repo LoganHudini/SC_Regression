@@ -53,7 +53,7 @@ import { checkoutTrip } from 'storage/trips.storage';
 export { getStaticPaths };
 
 const DiningOrderSummary = () => {
-  const { t } = useTranslation(['dining-order-summary', 'common']);
+  const { t } = useTranslation(['dining-order-summary', 'dining']);
   const navigate = useLocalizedRouter();
   const checkinData = useCheckedIn();
   const renderedItemIds: any = [];
@@ -264,9 +264,9 @@ const DiningOrderSummary = () => {
         diningMenuStorage({ items: [] });
       }, 5000);
       setErrorNotification({
-        title: 'Thank You!' as string,
+        title: t('Thank You!'),
         type: SUCCESS,
-        description: 'Your order has been confirmed.',
+        description: t('Your order has been confirmed.'),
         redirect: availablePaths?.DINING,
       });
       toggleNotification(true);
@@ -280,8 +280,8 @@ const DiningOrderSummary = () => {
         type: FAILURE,
         description:
           FailureCheck1 || FailureCheck2
-            ? 'Reservation status is invalid. Please try again with a valid reservation details'
-            : 'Your order was not confirmed.',
+            ? t('Reservation status is invalid. Please try again with a valid reservation details')
+            : t('Your order was not confirmed.'),
         redirect: FailureCheck1 || FailureCheck2 ? availablePaths.HOME : null,
       });
       if (FailureCheck1 || FailureCheck2) {
@@ -291,6 +291,7 @@ const DiningOrderSummary = () => {
     toggleNotification(true);
     setLoading(false);
   }, [
+    t,
     checkinData,
     currency,
     diningData.items,
@@ -555,7 +556,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     props: {
       ...(await serverSideTranslations(
         locale as string,
-        ['dining-order-summary', 'common'],
+        ['dining-order-summary', 'dining'],
         i18nConfig,
       )),
     },

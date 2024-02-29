@@ -73,7 +73,6 @@ import {
   handleCheckInAuthenticationFailure,
 } from 'core/api/functions/getCheckInAuthentication';
 import { processStatusCode } from 'utils/processError';
-import { GET_ROOM_STATUS } from 'core/graphql/queries/GET_ROOM_STATUS';
 import { checkRoomStatus } from 'utils/apis/rest';
 import { ASSETS_URL } from 'core/graphql/endpoints';
 import Link from 'next/link';
@@ -81,12 +80,12 @@ import Link from 'next/link';
 export { getStaticPaths };
 
 const CheckIn: React.FC<ICheckinProps> = () => {
+  const { t } = useTranslation(['check-in', 'common']);
   const navigate = useLocalizedRouter();
   const config = useConfig();
   const paymentConfig: any = usePaymentConfig();
   const hotelCode = config?.code;
   const hotelId = config?.hotelId;
-  const { t } = useTranslation(['check-in', 'common']);
   const guests = useReactiveVar(guestInformationStorage);
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const accompanyGuestInfo = useReactiveVar(accompanyGuestDetails);
@@ -102,7 +101,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
   const [conditionsAccepted, setConditionsAccepted] = useState(false);
   const [btnStatus, setBtnStatus] = useState(false);
-  const [errorText, setErrorText] = useState('Please proceed to the front desk!');
+  const [errorText, setErrorText] = useState(t('Please proceed to the front desk!'));
   const [signature, setSignature] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
@@ -347,7 +346,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           }
           if (networkError?.result?.errors === PRE_CHECKIN_ERROR_MSG) {
             setErrorNotification(true);
-            setErrorText('You have already completed the pre check-in process.');
+            setErrorText(t('You have already completed the pre check-in process.'));
           }
         }
       }
@@ -357,6 +356,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     };
     checkIn();
   }, [
+    t,
     roomNo,
     hotelId,
     reservationInfo?.confirmationType,
@@ -479,19 +479,19 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             <DetailsCard title={t('Stay Information')} icon>
               <div className={styles.stayInformation}>
                 <Item
-                  title={'Check-In Date'}
+                  title={t('Check-In Date')}
                   value={dayjs(reservationInfo?.details?.checkInDate).format(
                     timeFormats.DAY_MONTH_YEAR,
                   )}
                 />
                 <Item
-                  title={'Checkout Date'}
+                  title={t('Checkout Date')}
                   value={dayjs(reservationInfo?.details?.checkOutDate).format(
                     timeFormats.DAY_MONTH_YEAR,
                   )}
                 />
-                <Item title={'Booking Id'} value={reservationInfo?.confirmationId} />
-                <Item title={'Room Number'} value={reservationInfo?.roomTypes[0]?.roomNumber} />
+                <Item title={t('Booking Id')} value={reservationInfo?.confirmationId} />
+                <Item title={t('Room Number')} value={reservationInfo?.roomTypes[0]?.roomNumber} />
 
                 {(reservationInfo?.details?.adultGuestCount ||
                   reservationInfo?.details?.childGuestCount) && (
@@ -501,13 +501,17 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                       {reservationInfo?.details?.adultGuestCount > 0 && (
                         <>
                           {reservationInfo?.details?.adultGuestCount}{' '}
-                          {reservationInfo?.details?.adultGuestCount === 1 ? 'Adult' : 'Adults'}{' '}
+                          {reservationInfo?.details?.adultGuestCount === 1
+                            ? t('Adult')
+                            : t('Adults')}{' '}
                         </>
                       )}{' '}
                       {reservationInfo?.details?.childGuestCount > 0 && (
                         <>
                           {reservationInfo?.details?.childGuestCount}{' '}
-                          {reservationInfo?.details?.childGuestCount === 1 ? 'Child' : 'Children'}
+                          {reservationInfo?.details?.childGuestCount === 1
+                            ? t('Child')
+                            : t('Children')}
                         </>
                       )}
                     </p>
@@ -515,7 +519,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                 )}
 
                 <Item
-                  title={'Rate'}
+                  title={t('Rate')}
                   value={`${reservationInfo?.details?.holdAmount?.currency} ${Number(
                     reservationInfo?.roomTypes[0]?.totalCharge,
                   )?.toLocaleString('en-US', {
@@ -524,14 +528,17 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                 />
 
                 <ItemFullWidth
-                  title={'Room Type'}
+                  title={t('Room Type')}
                   value={reservationInfo?.roomTypes[0]?.shortName}
                 />
               </div>
             </DetailsCard>
           ) : (
             <DetailsCardShrinked title={t('Stay Information')}>
-              <ShrinkedItem title={'Room No:'} value={reservationInfo?.roomTypes[0]?.roomNumber} />
+              <ShrinkedItem
+                title={t('Room No:')}
+                value={reservationInfo?.roomTypes[0]?.roomNumber}
+              />
               <ShrinkedItem value={reservationInfo?.roomTypes[0]?.shortName} />
             </DetailsCardShrinked>
           )}
@@ -541,14 +548,20 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           {primaryGuestInformation ? (
             <DetailsCard title={t('Primary Guest Information')} icon>
               <div className={styles.guestInformation}>
-                <ItemFullWidth title={'First Name'} value={reservationInfo?.guests[0]?.firstName} />
-                <ItemFullWidth title={'Last Name'} value={reservationInfo?.guests[0]?.lastName} />
                 <ItemFullWidth
-                  title={'Email'}
+                  title={t('First Name')}
+                  value={reservationInfo?.guests[0]?.firstName}
+                />
+                <ItemFullWidth
+                  title={t('Last Name')}
+                  value={reservationInfo?.guests[0]?.lastName}
+                />
+                <ItemFullWidth
+                  title={t('Email')}
                   value={guestReservationInfo?.emails ?? reservationInfo?.guests[0]?.emails}
                 />
                 <ItemFullWidth
-                  title={'Phone Number'}
+                  title={t('Phone Number')}
                   value={guestReservationInfo?.phone ?? reservationInfo?.guests[0]?.phone}
                 />
 
@@ -593,10 +606,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                 <div>
                   <DetailsCard title={`Guest ${index + 1}`} icon>
                     <div className={styles.guestInformation}>
-                      <ItemFullWidth title={'First Name'} value={accompanyGuest?.firstName} />
-                      <ItemFullWidth title={'Last Name'} value={accompanyGuest?.lastName} />
-                      <ItemFullWidth title={'Email'} value={accompanyGuest?.emails} />
-                      <ItemFullWidth title={'Phone Number'} value={accompanyGuest?.phone} />
+                      <ItemFullWidth title={t('First Name')} value={accompanyGuest?.firstName} />
+                      <ItemFullWidth title={t('Last Name')} value={accompanyGuest?.lastName} />
+                      <ItemFullWidth title={t('Email')} value={accompanyGuest?.emails} />
+                      <ItemFullWidth title={t('Phone Number')} value={accompanyGuest?.phone} />
                       {reviewConfig?.identityVerificationDetails?.map(
                         (configData: any, index: number) => (
                           <Item
@@ -626,7 +639,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                 <div>
                   {reviewConfig?.creditCardDetails?.details?.map((detail: any, index: number) => (
                     <div key={index} className={styles.checkDatesColumn}>
-                      <p className={styles.checkDatesText}>{detail?.label}</p>
+                      <p className={styles.checkDatesText}>{t(`${detail?.label}`)}</p>
                       <p className={cx(styles.checkDatesDetails, styles.left)}>
                         {detail?.name === CARD_TYPE
                           ? cardType

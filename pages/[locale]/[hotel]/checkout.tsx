@@ -43,7 +43,7 @@ import { checkoutTrip } from 'storage/trips.storage';
 export { getStaticPaths };
 
 const CheckOut = () => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation(['bill', 'common']);
   const hotelName = useConfig()?.name;
   const navigate = useLocalizedRouter();
   const [errorToggle, setErrorToggle] = useState<any>();
@@ -162,9 +162,9 @@ const CheckOut = () => {
       setEmailLoader(false);
       setErrorToggle({
         state: false,
-        message: 'E-mail sent successfully',
+        message: t('E-mail sent successfully'),
         type: 'email',
-        description: 'Please check your mailbox.',
+        description: t('Please check your mailbox.'),
       });
     } catch (getUpdatedReservationError) {
       const statusCode = processStatusCode(getUpdatedReservationError as ApolloError);
@@ -172,9 +172,9 @@ const CheckOut = () => {
         ? handleCheckInAuthenticationFailure(handleMail)
         : (setErrorToggle({
             state: true,
-            message: 'Could not send E-mail',
+            message: t('Could not send E-mail'),
             type: 'email',
-            description: 'Please try again after some time.',
+            description: t('Please try again after some time.'),
           }),
           setEmailLoader(false));
     }

@@ -17,7 +17,7 @@ export interface IMenuItemProps {
 }
 
 export interface IModuleOptionsDrawerProps {
-  homeActive: boolean;
+  homeActive: boolean | undefined;
   irdActive: boolean;
   housekeepingActive: boolean;
   hotelCompendiumActive: boolean;

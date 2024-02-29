@@ -59,7 +59,7 @@ import { checkoutTrip } from 'storage/trips.storage';
 export { getStaticPaths };
 
 const HouseKeeping: React.FC<IHousekeepingProps> = () => {
-  const { t } = useTranslation('housekeeping');
+  const { t } = useTranslation(['housekeeping', 'common']);
   const locale = useLocale();
   const checkinData = useCheckedIn();
   const config = useConfig();
@@ -467,7 +467,6 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const locale = ctx?.params?.locale;
-
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ['housekeeping', 'common'], i18nConfig)),

@@ -4,12 +4,7 @@ import { Header } from 'components/shared/Header/Header';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import styles from '@styles/personalize-your-room-v2/personalize-your-room-v2.module.scss';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
-import { ApolloError, useQuery, useReactiveVar } from '@apollo/client';
-import {
-  GET_AVAILABLE_PERSONALIZATIONS_CMS,
-  IPersonalizeYourRoomApiResponse,
-} from 'core/graphql/queries/GET_AVAILABLE_PERSONALIZATIONS';
-import dayjs from 'dayjs';
+import { ApolloError, useReactiveVar } from '@apollo/client';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { personalizeYourRoomStorage } from 'storage/personalize-your-room.storage';
 import { client } from 'core/graphql/client';
@@ -20,7 +15,6 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { getStaticPaths } from 'utils/getStatic';
 import i18nConfig from 'next-i18next.config';
 import { availablePaths } from 'utils/availablePaths';
-import { timeFormats } from 'utils/timeFormats';
 import { RoomPersonalizationEntityV2 } from 'components/pages/personalize-your-room-v2/RoomPersonalizationEntityV2/RoomPersonalizationEntityV2';
 import { UPDATE_BOOKING_DETAILS } from 'core/graphql/queries/UPDATE_BOOKING_DETAILS';
 import {
@@ -48,9 +42,9 @@ import cx from 'classnames';
 export { getStaticPaths };
 
 const PersonalizeYourRoom: React.FC = () => {
+  const { t } = useTranslation(['personalize-your-room', 'check-in']);
   const navigate = useLocalizedRouter();
   const config = useConfig();
-  const { t } = useTranslation('personalize-your-room');
   const [loadingButton, setLoadingButton] = useState(false);
 
   const [notificationState, setNotificationState] = useState<any>(false);
@@ -125,8 +119,8 @@ const PersonalizeYourRoom: React.FC = () => {
           statusCode === 403 && handleCheckInAuthenticationFailure(updateBookingDetails);
           toggleNotification(true);
           setNotificationState({
-            title: 'Please Try Again!',
-            description: 'Your order was not confirmed',
+            title: t('Please Try Again!'),
+            description: t('Your order was not confirmed'),
             redirect: null,
             type: FAILURE,
           });
@@ -136,6 +130,7 @@ const PersonalizeYourRoom: React.FC = () => {
     }
     setLoadingButton(false);
   }, [
+    t,
     navigate,
     personalizationStorageInfo,
     reservationInfo?.accountId,
@@ -230,7 +225,11 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const locale = ctx?.params?.locale;
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ['personalize-your-room'], i18nConfig)),
+      ...(await serverSideTranslations(
+        locale as string,
+        ['personalize-your-room', 'check-in'],
+        i18nConfig,
+      )),
     },
   };
 };

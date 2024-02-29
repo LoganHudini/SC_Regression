@@ -34,7 +34,7 @@ import { IframeComponent } from 'components/shared/IframeComponent/IframeCompone
 export { getStaticPaths };
 
 const Offers: React.FC = () => {
-  const { t } = useTranslation(['ui-builder']);
+  const { t } = useTranslation(['offers', 'common']);
   const hotelId = useConfig()?.hotelId;
   const hotelName = useConfig()?.name;
   const locale = useLocale();
@@ -128,7 +128,7 @@ const Offers: React.FC = () => {
   const timeDisplayed =
     queryResultEntity &&
     !queryResultEntity?.duration.alwaysActive &&
-    `${displayStartDate} until ${displayEndDate}`;
+    `${displayStartDate} ${t('until')} ${displayEndDate}`;
 
   const offerDetails = () => (
     <div className={styles.listComponent}>

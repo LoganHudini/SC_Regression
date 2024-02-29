@@ -20,7 +20,7 @@ export const HousekeepingQuantityItem: React.FC<IHousekeepingQuantityItemProps> 
   changeAlignment,
   setNotificationState,
 }) => {
-  const { t } = useTranslation('housekeeping-quantity');
+  const { t } = useTranslation('housekeeping');
 
   const housekeepingInfo = useReactiveVar(housekeepingQuantityStorage);
   const currentItem = housekeepingInfo?.selectedItems.find((el) => el.itemId === id);
@@ -41,8 +41,8 @@ export const HousekeepingQuantityItem: React.FC<IHousekeepingQuantityItemProps> 
       );
     } else {
       setNotificationState({
-        title: 'Max limit exceeded!',
-        description: 'Max limit reached for the selected item',
+        title: t('Max limit exceeded!'),
+        description: t('Max limit reached for the selected item'),
         redirect: null,
         type: FAILURE,
       });
@@ -94,7 +94,7 @@ export const HousekeepingQuantityItem: React.FC<IHousekeepingQuantityItemProps> 
         >
           {changeAlignment ? title : t('Quantity')}
           <div className={styles.CountInner}>
-            {changeAlignment ? `(Max Count: ${maxQuantity})` : ''}
+            {changeAlignment ? `(${t('Max Count:')} ${maxQuantity})` : ''}
           </div>
         </p>
         <p

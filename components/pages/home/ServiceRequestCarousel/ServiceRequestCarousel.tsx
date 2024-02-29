@@ -54,9 +54,9 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle }) => 
         <h3 className={cx(styles.carouselSlideTitle, 'globals-carouselSlideTitle')}>
           {slide?.__typename === HouseKeeping
             ? t('Housekeeping')
-            : slide?.__typename === 'Concierge' && 'Maintenance'}
+            : slide?.__typename === 'Concierge' && t('Maintenance')}
         </h3>
-        <CustomReadMore text={'READ MORE'} />
+        <CustomReadMore text={t('READ MORE') as string} />
       </div>
     </div>
   );

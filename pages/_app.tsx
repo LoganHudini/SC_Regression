@@ -17,6 +17,7 @@ import '@styles/globals.scss';
 import { ToastIcon } from 'react-toastify/dist/types';
 import { pageView } from 'utils/gtag';
 import { useRouter } from 'next/router';
+import dayjs from 'dayjs';
 
 const toastIconMap = {
   success: <SuccessIcon />,
@@ -38,6 +39,21 @@ function App({ Component, pageProps }: AppProps) {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, []);
+
+  const locales: any = {
+    en: import('dayjs/locale/en'),
+    ar: import('dayjs/locale/ar'),
+  };
+
+  useEffect(() => {
+    (async () => {
+      const route: any = router?.query?.locale || 'en';
+      if (route && locales[route]) {
+        await locales[route];
+        dayjs.locale(route);
+      }
+    })();
+  }, [router]);
 
   return (
     <StyledEngineProvider injectFirst>

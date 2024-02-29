@@ -133,11 +133,9 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   spaActive,
   offersActive,
 }) => {
-  const hotel = getHotelCode();
-
+  const { t } = useTranslation(['common']);
   const navigate = useLocalizedRouter();
   const isCheckedIn = useCheckedIn();
-  const config = useConfig();
   const [highLightIRD, setHighLightIRD] = useState(false);
   const [highLightServices, setHighLightServices] = useState(false);
   const diningOptionSelected = useReactiveVar(diningOptions);
@@ -152,9 +150,6 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   const offersOptionSelected: any = useReactiveVar(selectedOfferOption);
   const offersList = useReactiveVar(offerList);
   const highLightCheckOut = useReactiveVar(setHighLightCheckOut);
-
-  const { t } = useTranslation(['common']);
-  const checkinModule: boolean = activeModule(config?.modules, CHECK_IN);
 
   const filteredDetails = compendiumInfo?.categories?.filter((category: any) => {
     return compendiumInfo?.amenities?.find(
@@ -179,7 +174,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
         {homeActive && (
           <div>
             {isCheckedIn?.roomNumber && (
-              <p className={styles.title}>Room {isCheckedIn?.roomNumber}</p>
+              <p className={styles.title}>{`${t('Room')} ${isCheckedIn?.roomNumber}`}</p>
             )}
             <div className={styles.optionsList}>
               <>
@@ -248,7 +243,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                         : navigate(availablePaths.RESTAURANTS_BARS);
                     }}
                   >
-                    {diningOptionList(dining?.type)}{' '}
+                    {t(`${diningOptionList(dining?.type)}`)}{' '}
                   </p>
                   {(diningOptionSelected?.type === dining?.type || irdOption?.length === 1) && (
                     <CheckIcon className={styles.icon} />
@@ -275,7 +270,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                           closeDrawer();
                         }}
                       >
-                        {request?.title}{' '}
+                        {`${t(request?.title)}`}{' '}
                       </p>
                       {houseKeepingOptionSelected?.id === request?.id && (
                         <CheckIcon className={styles.icon} />
