@@ -66,8 +66,7 @@ const CCAvenue: React.FC = () => {
 
     if (data) {
       const initiatePaymentPayload: IInitiatePaymentApiRequest = {
-        // currency: reservationInfo?.details?.holdAmount?.currency as string,
-        currency: 'INR',
+        currency: reservationInfo?.details?.holdAmount?.currency as string,
         amount: 1,
         bookingId: reservationInfo?.confirmationId as string,
         orderId: orderId,

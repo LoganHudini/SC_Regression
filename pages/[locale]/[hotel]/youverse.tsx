@@ -63,7 +63,7 @@ const Youverse: React.FC = () => {
       const checkInToken = getCheckInToken();
       const payload = {
         userId: docScanId,
-        expireDate: dayjs()?.add(30, 'minute').format(timeFormats?.YOUVERSE_EXPIRE_DATE),
+        expireDate: dayjs()?.add(1, 'day').format(timeFormats?.YOUVERSE_EXPIRE_DATE),
         documentOptions: ['PASSPORT', 'IDENTITY_CARD', 'DRIVING_LICENSE'],
       };
 

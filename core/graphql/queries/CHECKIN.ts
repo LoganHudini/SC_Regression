@@ -25,6 +25,7 @@ export interface ICheckInApiRequest {
   channel: string;
   upsell: any;
   guestSignature: string;
+  comment: string;
 }
 
 export const CHECKIN = gql`

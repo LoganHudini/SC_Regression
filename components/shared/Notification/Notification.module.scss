@@ -61,9 +61,11 @@
 
 .title {
   font: $header var(--heading-font-regular);
+  width: 95%;
 }
 
 .description {
   font: $small var(--primary-font-regular);
   line-height: 1.5;
+  width: 95%;
 }

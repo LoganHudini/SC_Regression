@@ -25,6 +25,7 @@ export interface IPreCheckInApiRequest {
   channel: string;
   upsell: any;
   guestSignature: string;
+  comment: string;
 }
 
 export const PRECHECKIN = gql`

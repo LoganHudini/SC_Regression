@@ -145,34 +145,28 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
     const orderId =
       Math.floor(Math.random() * 9000000000) + 1000000000 + '-' + reservationInfo?.confirmationId;
 
-    const data = client.readQuery<IGetReservationApiResponse>({
-      query: GET_RESERVATION,
-    });
+    const initiatePaymentPayload: IInitiatePaymentApiRequest = {
+      currency: reservationInfo?.details?.holdAmount?.currency as string,
+      amount: Number(reservationInfo?.roomTypes[0]?.totalCharge) ?? 1,
+      bookingId: reservationInfo?.confirmationId as string,
+      orderId: orderId,
+    };
 
-    if (data) {
-      const initiatePaymentPayload: IInitiatePaymentApiRequest = {
-        // currency: reservationInfo?.details?.holdAmount?.currency as string,
-        currency: 'INR',
-        amount: 1,
-        bookingId: reservationInfo?.confirmationId as string,
-        orderId: orderId,
-      };
-
-      try {
-        const { data } = await client.query<IInitiatePaymentApiResponse>({
-          query: INITIATE_PAYMENT_CCAVENUE,
-          variables: {
-            body: initiatePaymentPayload,
-          },
-          context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
-          fetchPolicy: 'network-only',
-        });
-        setUrl(data?.initiatePayment?.data?.answer?.payment_zone_data);
-        transactionId.current = orderId;
-      } catch (initiatePaymentError) {
-        // console.log(initiatePaymentError);
-      }
+    try {
+      const { data } = await client.query<IInitiatePaymentApiResponse>({
+        query: INITIATE_PAYMENT_CCAVENUE,
+        variables: {
+          body: initiatePaymentPayload,
+        },
+        context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
+        fetchPolicy: 'network-only',
+      });
+      setUrl(data?.initiatePayment?.data?.answer?.payment_zone_data);
+      transactionId.current = orderId;
+    } catch (initiatePaymentError) {
+      // console.log(initiatePaymentError);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reservationInfo?.confirmationId]);
 
   const paymentResponse = useCallback(async () => {
@@ -209,6 +203,7 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
             )?.code,
             cardExpiryDate: paymentStatusData?.getPaymentStatus?.data['cardExpiry'],
             paymentType: paymentStatusData?.getPaymentStatus?.data['paymentMethod '],
+            transactionId: transactionId.current,
           });
           setErrorNotification(false);
           toggleNotification(true);
@@ -233,8 +228,9 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
       navigate(availablePaths.HOME);
     }
     if (paymentConfig?.type === CCAVENUE) {
-      handleProceedToPayment();
-
+      if (!guestReservationInfo?.paymentType) {
+        handleProceedToPayment();
+      }
       const interval = setInterval(() => {
         if (!guestReservationInfo?.paymentType) {
           paymentResponse();

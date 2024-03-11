@@ -159,7 +159,7 @@ export const filterRestaurantList = (queryResultsData: any, diningOptionSelected
 
 // Return active items
 export const activeItems = (list: any) =>
-  list && list?.length > 0 && list?.filter((item: any) => item?.isActive);
+  list && list?.length > 0 ? list?.filter((item: any) => item?.isActive) : [];
 
 // Timings
 export const getTimings = (data: any) => data && data?.find((item: any) => item?.key === TIMINGS);

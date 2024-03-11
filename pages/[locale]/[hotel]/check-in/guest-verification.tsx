@@ -262,17 +262,28 @@ const Guest: React.FC<any> = () => {
     );
   }, [paymentConfig?.type]);
 
-  const nextStep = () => {
-    if (paymentConfig?.type === NONE && personalisationData?.length === 0) {
+  const nextStep = useCallback(() => {
+    if (
+      (paymentConfig?.type === NONE || Number(reservationInfo?.roomTypes[0]?.totalCharge) === 0) &&
+      personalisationData?.length === 0
+    ) {
       navigate(availablePaths?.REVIEW);
     } else if (paymentConfig?.type === NONE && personalisationData?.length !== 0) {
       navigate(availablePaths?.PERSONALIZE);
-    } else if (paymentConfig?.type !== NONE && personalisationData?.length !== 0) {
+    } else if (
+      paymentConfig?.type !== NONE &&
+      Number(reservationInfo?.roomTypes[0]?.totalCharge) > 0 &&
+      personalisationData?.length !== 0
+    ) {
       navigate(availablePaths?.CARD_AUTHORISATION);
-    } else if (paymentConfig?.type !== NONE && personalisationData?.length === 0) {
+    } else if (
+      paymentConfig?.type !== NONE &&
+      Number(reservationInfo?.roomTypes[0]?.totalCharge) > 0 &&
+      personalisationData?.length === 0
+    ) {
       navigate(availablePaths?.CARD_AUTHORISATION);
     }
-  };
+  }, [navigate, paymentConfig?.type, personalisationData?.length, reservationInfo?.roomTypes]);
 
   // document update
   const goToTheNextStep = useCallback(async () => {
@@ -449,8 +460,7 @@ const Guest: React.FC<any> = () => {
     reservationInfo?.guests,
     reservationInfo?.reservationId,
     accompanyGuestData,
-    paymentConfig?.type,
-    navigate,
+    nextStep,
   ]);
 
   return (
@@ -522,7 +532,7 @@ const Guest: React.FC<any> = () => {
                       }}
                     >
                       <Camera />
-                      <span className={styles.scanDocText}>{t('SCAN DOCUMENT')}</span>
+                      <span className={styles.scanDocText}>{t('Scan Document')}</span>
                     </StyledButton>
                   ) : (
                     guestReservationInfo &&
@@ -595,7 +605,7 @@ const Guest: React.FC<any> = () => {
                         }}
                       >
                         <Camera />
-                        <span className={styles.scanDocText}>{t('SCAN DOCUMENT')}</span>
+                        <span className={styles.scanDocText}>{t('Scan Document')}</span>
                       </StyledButton>
                     ) : (
                       selectedAccompanyGuest &&
