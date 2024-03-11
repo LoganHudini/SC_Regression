@@ -116,7 +116,10 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
 
   useEffect(() => {
     if (!personalisationDataloading) {
-      if (paymentConfig?.type === NONE) {
+      if (
+        paymentConfig?.type === NONE ||
+        Number(reservationInfo?.roomTypes[0]?.totalCharge) === 0
+      ) {
         if (availablePersonalizations?.length === 0) {
           StepperInformationStorage([
             { value: 60, label: 1, title: STEPPER_REVIEW },
@@ -134,7 +137,12 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
         }
       }
     }
-  }, [personalisationDataloading, availablePersonalizations, paymentConfig?.type]);
+  }, [
+    personalisationDataloading,
+    availablePersonalizations,
+    paymentConfig?.type,
+    reservationInfo?.roomTypes,
+  ]);
 
   return (
     <>
@@ -182,19 +190,9 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
                   {dayjs(reservationInfo?.details?.checkInDate).format(timeFormats.MONTH_YEAR)}
                 </p>
               </div>
-              <p className={styles.detailCheckinTitle}>
-                {t('From')}{' '}
-                {pms === OPERA
-                  ? dayjs(
-                      `${reservationInfo?.details?.checkInDate?.split('T')[0]}${
-                        reservationInfo?.details?.contactPerson?.eta?.split('.')[0]
-                      }`,
-                    )?.format(timeFormats.HOURS_MINUTES_AM_2)
-                  : dayjs(
-                      reservationInfo?.details?.contactPerson?.eta ||
-                        reservationInfo?.details?.checkInDate,
-                    )?.format(timeFormats.HOURS_MINUTES_AM_2)}
-              </p>
+              {hotelImageInfo?.checkInTime && (
+                <p className={styles.detailCheckinTitle}>From {hotelImageInfo?.checkInTime}</p>
+              )}
             </div>
             <div className={styles.arrow}>
               <DropDown />
@@ -212,19 +210,9 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
                   {dayjs(reservationInfo?.details?.checkOutDate).format(timeFormats.MONTH_YEAR)}
                 </p>
               </div>
-              <p className={styles.detailCheckinTitle}>
-                {t('Till')}{' '}
-                {pms === OPERA
-                  ? dayjs(
-                      `${reservationInfo?.details?.checkOutDate?.split('T')[0]}${
-                        reservationInfo?.details?.contactPerson?.etd?.split('.')[0]
-                      }`,
-                    )?.format(timeFormats.HOURS_MINUTES_AM_2)
-                  : dayjs(
-                      reservationInfo?.details?.contactPerson?.etd ||
-                        reservationInfo?.details?.checkOutDate,
-                    )?.format(timeFormats.HOURS_MINUTES_AM_2)}
-              </p>
+              {hotelImageInfo?.checkOutTime && (
+                <p className={styles.detailCheckinTitle}>Till {hotelImageInfo?.checkOutTime}</p>
+              )}
             </div>
           </div>
           <div className={styles.stayWrapper}>

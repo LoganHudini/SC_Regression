@@ -51,13 +51,8 @@ import {
   NOSHOW,
   ERRORMSG,
   NONE,
-  ITC_GRAND_CHOLA,
-  FAIRMONT_THE_PALM_DUBAI,
-  UAT,
-  STAGE,
   STEPPER_REVIEW,
   STEPPER_PAYMENT,
-  FAIRMONT_ROYAL_PALM_MARRAKECH,
   WEBURL2,
   DOCUMENT_LIST,
 } from 'utils/constants';
@@ -84,21 +79,17 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const navigate = useLocalizedRouter();
   const config = useConfig();
   const paymentConfig: any = usePaymentConfig();
-  const hotelCode = config?.code;
   const hotelId = config?.hotelId;
   const guests = useReactiveVar(guestInformationStorage);
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const accompanyGuestInfo = useReactiveVar(accompanyGuestDetails);
   const hotelInfo = useReactiveVar(hotelInformation);
-
   const [accompanyGuestInformationState, setAcccompanyGuestInformation] = useState(
     new Array(accompanyGuestInfo?.length)?.fill(false),
   );
-
   const personalizationEntities = useReactiveVar(personalizeYourRoomStorage);
   const [errorNotification, setErrorNotification] = useState(false);
   const [roomStatus, setRoomStatus] = useState(false);
-
   const [conditionsAccepted, setConditionsAccepted] = useState(false);
   const [btnStatus, setBtnStatus] = useState(false);
   const [errorText, setErrorText] = useState(t('Please proceed to the front desk!'));
@@ -117,6 +108,12 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const adult = reservationInfo?.details.adultGuestCount.toString();
   const children = reservationInfo?.details.childGuestCount.toString();
   const roomNo = reservationInfo?.roomTypes[0]?.roomNumber;
+
+  const preCheckInStatus = config?.preCheckInOnly
+    ? true
+    : !(roomNo && roomStatus && paymentConfig?.type !== NONE)
+    ? true
+    : false;
 
   const cardType = cardTypes
     ?.find((item) => item?.code === guestReservationInfo?.cardType)
@@ -138,10 +135,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
   const eRegistration =
     getEregDetails?.data?.getHotelSystemsDigitalCheckinConfig?.eRegistrationForm;
-
-  const eRegDocumentInformationDetails = eRegistration?.documentInformation?.filter(
-    (showData: any) => showData?.required,
-  );
 
   const eRegPersonalization = eRegistration?.roomDetails?.filter(
     (showData: any) => showData?.name === PERSONALISATION,
@@ -219,6 +212,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         revenue: Number(Number(personalization?.price).toFixed(2)),
       })),
       guestSignature: '',
+      comment: guestReservationInfo?.transactionId ?? '',
     };
 
     const uploadSignaturePayload: IPreSignDocUploadApiRequest = {
@@ -260,16 +254,11 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
     const checkIn = async () => {
       const checkInToken = getCheckInToken();
-      const roomStatus = await checkRoomStatus(roomNo, hotelId, reservationInfo?.confirmationId);
+      setRoomStatus(await checkRoomStatus(roomNo, hotelId, reservationInfo?.confirmationId));
 
       try {
         await client.query({
-          query:
-            hotelCode === ITC_GRAND_CHOLA
-              ? PRECHECKIN
-              : roomNo && roomStatus && paymentConfig?.type !== NONE
-              ? CHECKIN
-              : PRECHECKIN,
+          query: preCheckInStatus ? PRECHECKIN : CHECKIN,
           context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
           variables: {
             confirmationNumber: reservationInfo?.confirmationId as string,
@@ -279,18 +268,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
         saveTrip({
           reservationId: reservationInfo?.confirmationId as string,
-          preCheckedIn:
-            hotelCode === ITC_GRAND_CHOLA
-              ? true
-              : !(roomNo && roomStatus && paymentConfig?.type !== NONE)
-              ? true
-              : false,
-          checkedIn:
-            hotelCode === ITC_GRAND_CHOLA
-              ? false
-              : roomNo && roomStatus && paymentConfig?.type !== NONE
-              ? true
-              : false,
+          preCheckedIn: preCheckInStatus ? true : false,
+          checkedIn: preCheckInStatus ? false : true,
           name: guestReservationInfo?.lastName,
           email: guestReservationInfo?.emails,
           roomNumber: roomNo,
@@ -300,18 +279,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
         checkinStorage({
           reservationId: reservationInfo?.confirmationId as string,
-          preCheckedIn:
-            hotelCode === ITC_GRAND_CHOLA
-              ? true
-              : !(roomNo && roomStatus && paymentConfig?.type !== NONE)
-              ? true
-              : false,
-          checkedIn:
-            hotelCode === ITC_GRAND_CHOLA
-              ? false
-              : roomNo && roomStatus && paymentConfig?.type !== NONE
-              ? true
-              : false,
+          preCheckedIn: preCheckInStatus ? true : false,
+          checkedIn: preCheckInStatus ? false : true,
           name: guestReservationInfo?.lastName,
           email: guestReservationInfo?.emails,
           roomNumber: roomNo,
@@ -334,16 +303,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           const error = checkinError as ApolloError;
           const networkError = error?.networkError as { result?: { errors?: string } };
           setErrorNotification(true);
-          if (
-            networkError?.result?.errors === 'error pre-checking operation' &&
-            (hotelCode === ITC_GRAND_CHOLA ||
-              hotelCode === FAIRMONT_THE_PALM_DUBAI ||
-              hotelCode === FAIRMONT_ROYAL_PALM_MARRAKECH ||
-              hotelCode === UAT ||
-              hotelCode === STAGE)
-          ) {
-            setErrorNotification(false);
-          }
           if (networkError?.result?.errors === PRE_CHECKIN_ERROR_MSG) {
             setErrorNotification(true);
             setErrorText(t('You have already completed the pre check-in process.'));
@@ -377,13 +336,13 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     guestReservationInfo?.token,
     guestReservationInfo?.docType,
     guestReservationInfo?.docNo,
+    guestReservationInfo?.transactionId,
     adult,
     children,
     paymentConfig?.paymentMethod,
-    paymentConfig?.type,
     personalizationEntities,
     guests,
-    hotelCode,
+    preCheckInStatus,
   ]);
 
   useEffect(() => {
@@ -632,7 +591,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             </div>
           ))}
 
-        {paymentConfig?.type !== NONE && (
+        {paymentConfig?.type !== NONE && Number(reservationInfo?.roomTypes[0]?.totalCharge) > 0 && (
           <div onClick={toggleCreditCardInformation}>
             {creditCardInformation ? (
               <DetailsCard title={t(`${reviewConfig?.creditCardDetails?.title}`)} icon>
@@ -770,16 +729,12 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           description={
             errorNotification
               ? (errorText as string)
-              : hotelCode === ITC_GRAND_CHOLA
+              : preCheckInStatus
               ? (t(
                   'You have pre checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
-                ) as string)
-              : roomNo && roomStatus && paymentConfig?.type !== NONE
-              ? (t(
-                  'You have checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
                 ) as string)
               : (t(
-                  'You have pre checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
+                  'You have checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
                 ) as string)
           }
           redirect={!errorNotification && availablePaths?.HOME}

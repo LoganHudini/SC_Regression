@@ -13,6 +13,7 @@ export const STAGE = 'stage';
 export const UAT = 'uat';
 export const SOFITEL_MANILA = 'sofitel-manila';
 export const ITC_GRAND_CHOLA = 'itc-grand-chola';
+export const ITC_WELCOMHOTEL_CHENNAI = 'itc-welcomhotel-chennai';
 export const RAFFLES_THE_PALM_DUBAI = 'raffles-the-palm-dubai';
 export const FAIRMONT_ROYAL_PALM_MARRAKECH = 'fairmont-royal-palm-marrakech';
 export const FAIRMONT_THE_PALM_DUBAI = 'fairmont-the-palm-dubai';

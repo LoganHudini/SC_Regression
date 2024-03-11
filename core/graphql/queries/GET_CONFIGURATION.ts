@@ -1038,6 +1038,7 @@ export const configuration = [
     pms: 'OPERA',
     fetchFromDb: 'yes',
     saveToDb: 'no',
+    preCheckInOnly: true,
     modules: [
       {
         code: 'Preferences',
@@ -1164,7 +1165,315 @@ export const configuration = [
                 name: 'Credit Card Info',
                 isActive: true,
                 type: 'CCAVENUE',
-                // type: 'SHIFT4',
+                details: [
+                  {
+                    name: 'paymentType',
+                    label: 'Payment Method',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'accompanyingGuest',
+            label: 'Secondary Guest',
+            title: '',
+            type: 'youverse',
+            isActive: true,
+            cardIcon: 'guest',
+            details: [
+              {
+                name: 'firstName',
+                label: 'First Name',
+                type: 'Text',
+                required: true,
+                isDisabled: true,
+                isActive: true,
+              },
+              {
+                name: 'lastName',
+                label: 'Last Name',
+                type: 'Text',
+                required: true,
+                isDisabled: true,
+                isActive: true,
+              },
+              {
+                name: 'emails',
+                label: 'Email',
+                type: 'Text',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'phone',
+                label: 'Phone Number',
+                type: 'tel',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'docType',
+                label: 'Document Type',
+                type: 'Text',
+                required: true,
+                isDisabled: true,
+                isActive: true,
+              },
+
+              {
+                name: 'docNo',
+                label: 'Document Number',
+                type: 'Text',
+                required: true,
+                isDisabled: true,
+                isActive: true,
+              },
+              {
+                name: 'condition',
+                label:
+                  'I agree to receive an invitation email to validate and sign up for a complimentary ACCOR Membership.',
+                type: 'CheckBox',
+                required: true,
+                isDisabled: false,
+                isActive: false,
+              },
+            ],
+          },
+          {
+            name: 'personalisation',
+            label: 'Customize My Stay',
+            title: 'Check-In',
+            type: 'cms',
+            isActive: true,
+          },
+          {
+            name: 'review',
+            label: 'Review & Sign',
+            title: 'Check-In',
+            buttonLabelCheckIn: 'Confirm Check-In',
+            // eslint-disable-next-line quotes
+            termsAndCondition:
+              'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',
+            subTitle:
+              'Please review and confirm the below information to complete the Check-In process',
+            type: 'cms',
+            isActive: true,
+            guestInformationDetails: [
+              {
+                title: 'Guest Information',
+              },
+              {
+                checkIn: 'Check-In',
+                checkOut: 'Checkout',
+              },
+            ],
+            creditCardDetails: {
+              title: 'Payment Information',
+              details: [
+                {
+                  name: 'paymentType',
+                  label: 'Payment Method',
+                },
+              ],
+            },
+            identityVerificationDetails: [
+              {
+                title: 'Identity Verification',
+              },
+              {
+                name: 'docType',
+                cmsName: 'DOCUMENT_TYPE',
+                label: 'Document Type',
+              },
+              {
+                name: 'docNo',
+                cmsName: 'DOCUMENT_NUMBER',
+                label: 'Document Number',
+              },
+              {
+                name: 'issueCountry',
+                cmsName: 'COUNTRY_OF_ISSUE',
+                label: 'Document Issuing Authority',
+              },
+            ],
+            personalizationDetails: [
+              {
+                title: 'Add-Ons',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        code: 'In-Room Dining',
+        name: 'In-Room Dining',
+        isActive: false,
+        type: 'CMS',
+        payment: [
+          { id: '1', name: 'BILL TO ROOM', message: '' },
+          { id: '2', name: 'CASH', message: '' },
+          { id: '3', name: 'CARD', message: '' },
+        ],
+      },
+      {
+        code: 'Services',
+        name: 'Services',
+        isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'view-bill',
+        name: 'View Bill',
+        isActive: false,
+      },
+      {
+        code: 'checkout',
+        name: 'Checkout',
+        isActive: false,
+      },
+    ],
+  },
+  {
+    code: 'itc-welcomhotel-chennai',
+    name: 'ITC WelcomHotel Chennai',
+    hotelId: 'd9a0e344-a5aa-4186-8095-49200ea7bbbe',
+    pms: 'OPERA',
+    fetchFromDb: 'yes',
+    saveToDb: 'no',
+    preCheckInOnly: true,
+    modules: [
+      {
+        code: 'Preferences',
+        name: 'Preferences',
+        isActive: true,
+        submodules: [
+          {
+            code: 'Headers',
+            isActive: true,
+            details: [
+              {
+                title: 'ENHANCE YOUR STAY! SHARE YOUR DESIRES BELOW',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        code: 'Check-In',
+        name: 'Check-In',
+        welcomeTitle: '',
+        welcomeBody: '',
+        isActive: true,
+        submodules: [
+          {
+            name: 'information',
+            label: 'Check-In',
+            title: 'Please Complete Your Check-In Process',
+            isActive: true,
+            details: [
+              {
+                name: 'Guest Information',
+                isActive: true,
+                type: 'youverse',
+                details: [
+                  {
+                    name: 'firstName',
+                    label: 'First Name',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'lastName',
+                    label: 'Last Name',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'emails',
+                    label: 'Email',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
+                    name: 'phone',
+                    label: 'Phone Number',
+                    type: 'tel',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
+                    name: 'countryCode',
+                    label: 'Country',
+                    type: 'Select',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    options: Countries,
+                  },
+                  {
+                    name: 'docType',
+                    label: 'Document Type',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                    options: [
+                      {
+                        name: 'Passport',
+                        value: 'Passport',
+                        code: 'PASSPORT',
+                        youverse: 'PASSPORT',
+                      },
+                      {
+                        name: 'Aadhaar Card',
+                        value: 'PSUC',
+                        code: 'PSUC',
+                        youverse: 'IDENTITY_CARD',
+                      },
+                      {
+                        name: 'Driving License',
+                        value: 'DRIV',
+                        code: 'DRIV',
+                        youverse: 'DRIVING_LICENSE',
+                      },
+                    ],
+                  },
+                  {
+                    name: 'docNo',
+                    label: 'Document Number',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'issueCountry',
+                    label: 'Document Issuing Authority',
+                    type: 'text',
+                    required: false,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                ],
+              },
+              {
+                name: 'Credit Card Info',
+                isActive: true,
+                type: 'CCAVENUE',
                 details: [
                   {
                     name: 'paymentType',

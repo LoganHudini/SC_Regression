@@ -22,7 +22,7 @@ export interface IGetPaymentStatusApiResponse {
       'merchantOrderId ': string;
       'paymentDate ': string;
       encryptedPayment: string;
-      reference: string;
+      reference: any;
       'cardNumber ': string;
       'cardType ': string;
       'cardHolderName ': string;
