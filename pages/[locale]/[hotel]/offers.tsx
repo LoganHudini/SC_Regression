@@ -21,7 +21,12 @@ import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import dayjs from 'dayjs';
 import { Notification } from 'components/shared/Notification/Notification';
 import { GET_OFFERS } from 'core/graphql/queries/GET_OFFERS';
-import { offerDetailDrawerStatus, offerList, selectedOfferOption } from 'storage/offers.storage';
+import {
+  offerDetailDrawerStatus,
+  offerList,
+  selectedOfferDetails,
+  selectedOfferOption,
+} from 'storage/offers.storage';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { isEmpty } from 'lodash';
 import { useConfig } from 'utils/hooks/useConfiguration';
@@ -38,9 +43,10 @@ const Offers: React.FC = () => {
   const hotelId = useConfig()?.hotelId;
   const hotelName = useConfig()?.name;
   const locale = useLocale();
-  const [selectedOfferData, setSelectedOfferData] = useState<any>();
   const offersOptionSelected: any = useReactiveVar(selectedOfferOption);
   const offerDetailStatus: any = useReactiveVar(offerDetailDrawerStatus);
+  const selectedOffer: any = useReactiveVar(selectedOfferDetails);
+
   const router = useRouter();
   const navigate = useLocalizedRouter();
   const [offerBooking, setofferBooking] = useState(false);
@@ -75,30 +81,27 @@ const Offers: React.FC = () => {
   });
 
   const selectedListItem = (selectedOffer: any) => {
-    setSelectedOfferData(
-      filteredOffersWthCategory?.filter((item: any) => item?.id === selectedOffer?.id),
+    selectedOfferDetails(
+      filteredOffersWthCategory?.find((item: any) => item?.id === selectedOffer?.id),
     );
     offerDetailDrawerStatus(true);
   };
 
-  const queryResultEntity = selectedOfferData ? selectedOfferData[0] : '';
-
   const onCtaClick = useCallback(() => {
-    if (queryResultEntity?.CTA?.redirectTo === EXTERNAL_URL) {
+    if (selectedOffer?.CTA?.redirectTo === EXTERNAL_URL) {
       setofferBooking(true);
     }
-    if (queryResultEntity?.CTA?.redirectTo === RESTAURANT_BOOKING_FLOW) {
+    if (selectedOffer?.CTA?.redirectTo === RESTAURANT_BOOKING_FLOW) {
       tableReservationStorage({
-        restaurantName: queryResultEntity?.name,
-        id: queryResultEntity?.id,
+        restaurantName: selectedOffer?.name,
+        id: selectedOffer?.id,
         venueId:
-          (queryResultEntity?.customAttributes && queryResultEntity?.customAttributes[0]?.value) ??
-          '',
+          (selectedOffer?.customAttributes && selectedOffer?.customAttributes[0]?.value) ?? '',
       });
     }
-    if (queryResultEntity?.CTA?.redirectTo !== EXTERNAL_URL) {
+    if (selectedOffer?.CTA?.redirectTo !== EXTERNAL_URL) {
       const redirectUrl =
-        flowPathMap[queryResultEntity?.CTA?.redirectTo.toUpperCase() as keyof typeof flowPathMap];
+        flowPathMap[selectedOffer?.CTA?.redirectTo.toUpperCase() as keyof typeof flowPathMap];
 
       if (redirectUrl) {
         navigate(redirectUrl);
@@ -107,16 +110,14 @@ const Offers: React.FC = () => {
     closeDrawer();
   }, [
     navigate,
-    queryResultEntity?.CTA?.URL,
-    queryResultEntity?.CTA?.redirectTo,
-    queryResultEntity?.customAttributes,
-    queryResultEntity?.id,
-    queryResultEntity?.name,
-    router,
+    selectedOffer?.CTA?.redirectTo,
+    selectedOffer?.customAttributes,
+    selectedOffer?.id,
+    selectedOffer?.name,
   ]);
 
-  const startDate = dayjs(queryResultEntity?.duration?.startDate, 'DD-MM-YYYY');
-  const endDate = dayjs(queryResultEntity?.duration?.endDate, 'DD-MM-YYYY');
+  const startDate = dayjs(selectedOffer?.duration?.startDate, 'DD-MM-YYYY');
+  const endDate = dayjs(selectedOffer?.duration?.endDate, 'DD-MM-YYYY');
 
   const displayStartDate =
     startDate?.year() === endDate?.year()
@@ -126,68 +127,52 @@ const Offers: React.FC = () => {
   const displayEndDate = endDate.format('MMMM D, YYYY');
 
   const timeDisplayed =
-    queryResultEntity &&
-    !queryResultEntity?.duration.alwaysActive &&
-    `${displayStartDate} ${t('until')} ${displayEndDate}`;
+    selectedOffer &&
+    !selectedOffer?.duration?.alwaysActive &&
+    `${displayStartDate} until ${displayEndDate}`;
 
   const offerDetails = () => (
     <div className={styles.listComponent}>
       <div className={styles.imageWrapper}>
-        {queryResultEntity?.images?.length > 0 ? (
+        {selectedOffer?.images?.length > 0 ? (
           <StableImage
             className={styles.bannerImage}
-            src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.ratio16to9}`}
+            src={`${ASSETS_URL}/${selectedOffer?.images[0]?.ratio16to9}`}
           />
         ) : (
           <PlaceholderImage />
         )}
-        {queryResultEntity?.CTA &&
-          (queryResultEntity?.CTA?.redirectTo || queryResultEntity?.CTA?.URL) && (
-            <StyledButton
-              variant='contained'
-              onClick={onCtaClick}
-              className={cx(
-                styles.button,
-                {
-                  [styles.withoutImageButton]:
-                    queryResultEntity && !queryResultEntity?.images[0]?.ratio16to9,
-                },
-                'globals-actionCtaWrapper',
-              )}
-            >
-              {queryResultEntity?.CTA?.ctaTitle || t('BOOK NOW')}
-            </StyledButton>
-          )}
+        {selectedOffer?.CTA && (selectedOffer?.CTA?.redirectTo || selectedOffer?.CTA?.URL) && (
+          <StyledButton
+            variant='contained'
+            onClick={onCtaClick}
+            className={cx(styles.button, {
+              [styles.withoutImageButton]: selectedOffer && !selectedOffer?.images[0]?.ratio16to9,
+            })}
+          >
+            {selectedOffer?.CTA?.ctaTitle || t('BOOK NOW')}
+          </StyledButton>
+        )}
       </div>
       <div className={styles.contentWrapper}>
         <div className={styles.listComponentData}>
-          {queryResultEntity?.name && (
-            <h2
-              className={cx(styles.listComponentTitle, {
-                [styles.titleWithoutCta]:
-                  queryResultEntity?.CTA &&
-                  (queryResultEntity?.CTA?.redirectTo || queryResultEntity?.CTA?.URL),
-              })}
-            >
-              {t(`${queryResultEntity?.name}`)}
-            </h2>
+          {selectedOffer?.name && (
+            <h2 className={styles.listComponentTitle}>{t(`${selectedOffer?.name}`)}</h2>
           )}
         </div>
         <div className={styles.gapList}>
-          {queryResultEntity?.description && (
+          {selectedOffer?.description && (
             <>
               <p className={styles.listComponentDataTitle}>{t('Offer Includes')}</p>
-              <p className={styles.listComponentDataText}>
-                {t(`${queryResultEntity?.description}`)}
-              </p>
+              <p className={styles.listComponentDataText}>{t(`${selectedOffer?.description}`)}</p>
             </>
           )}
-          {queryResultEntity?.duration && (
+          {selectedOffer?.duration && (
             <>
               <p className={styles.listComponentDataTitle}>{t('Availability')}</p>
               <p className={styles.listComponentDataText}>
                 {/* {time()} */}
-                {queryResultEntity?.duration.alwaysActive ? t('EveryDay') : timeDisplayed}
+                {selectedOffer?.duration?.alwaysActive ? t('EveryDay') : timeDisplayed}
               </p>
             </>
           )}
@@ -210,7 +195,7 @@ const Offers: React.FC = () => {
 
   const closeDrawer = () => {
     offerDetailDrawerStatus(false);
-    setSelectedOfferData('');
+    selectedOfferDetails('');
   };
 
   const closeofferBooking = () => {
@@ -246,7 +231,7 @@ const Offers: React.FC = () => {
           onClose={closeofferBooking}
           content={
             <IframeComponent
-              src={queryResultEntity?.CTA?.URL}
+              src={selectedOffer?.CTA?.URL}
               handledrawerState={setofferBooking}
               name={OFFERS}
             />
