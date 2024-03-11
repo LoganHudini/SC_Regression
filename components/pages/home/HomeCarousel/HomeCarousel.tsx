@@ -5,6 +5,9 @@ import Carousel from 'react-material-ui-carousel';
 import { ASSETS_URL } from '../../../../core/graphql/endpoints';
 import styles from './HomeCarousel.module.scss';
 import { useTranslation } from 'react-i18next';
+import { offerDetailDrawerStatus, selectedOfferDetails } from 'storage/offers.storage';
+import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
+import { availablePaths } from 'utils/availablePaths';
 
 interface IHomeCarouselProps {
   data: any;
@@ -16,10 +19,19 @@ interface IHomeCarouselItemProps {
 
 const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
   const { t } = useTranslation('common');
+  const navigate = useLocalizedRouter();
+
+  const handleSelect = () => {
+    selectedOfferDetails(carouselItem);
+    navigate(availablePaths?.OFFERS);
+    setTimeout(() => {
+      offerDetailDrawerStatus(true);
+    }, 1000);
+  };
 
   return (
     <>
-      <div className={styles.imgGradient}>
+      <div className={styles.imgGradient} onClick={() => handleSelect()}>
         <StableImage
           className={styles.bannerImage}
           src={`${ASSETS_URL}/${carouselItem?.images[0]?.master}`}

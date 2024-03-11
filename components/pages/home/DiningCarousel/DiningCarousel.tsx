@@ -25,8 +25,6 @@ import {
 import cx from 'classnames';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { availablePaths } from 'utils/availablePaths';
-import ClockIcon from '@icons/clockIcon.svg';
-import DishIcon from '@icons/dishIcon.svg';
 import { diningOptions } from 'storage/home.storage';
 import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
 import { useCheckedIn } from 'storage/check-in.storage';
@@ -108,17 +106,16 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
           <div className={cx(styles.content, 'globals-content')}>
             {slide?.primaryCuisine && (
               <div className={styles.cuisineRow}>
-                <DishIcon className={styles.cuisineIcon} />
                 <span>{slide?.primaryCuisine?.toLowerCase()}</span>
               </div>
             )}{' '}
             {time && (
               <div className={styles.cuisineRowTime}>
-                <ClockIcon className={styles.cuisineIcon} />
                 <p>{time?.value}</p>
               </div>
             )}
           </div>
+
           {slide.hours[0]?.day && module && (
             <p className={styles.carouselSlideTimings}>{slide.hours[0]?.day}</p>
           )}
