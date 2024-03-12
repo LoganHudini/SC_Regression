@@ -55,7 +55,6 @@
   flex: 1;
   line-height: 1.4;
   color: var(--tertiary-text-color);
-  font-family: var(--primary-font-book);
   a {
     color: var(--primary-theme-color);
     text-decoration: none;
@@ -120,7 +119,6 @@
   font-size: $extraSmall;
   text-align: start;
   color: var(--tertiary-text-color);
-  font-family: var(--primary-font-book);
   padding-bottom: 5px;
   text-transform: uppercase;
 }
@@ -155,7 +153,6 @@
   padding: 25px 10px;
   line-height: 1.5;
   text-align: center;
-  font-family: var(--primary-font-book);
   color: var(--tertiary-text-color);
 }
 

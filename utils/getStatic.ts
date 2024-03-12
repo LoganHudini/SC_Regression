@@ -9,6 +9,7 @@ import {
   SOFITEL_MANILA,
   STAGE,
   ONE_HOTELS_SOUTH_BEACH,
+  PROPER_DOWNTOWN_LA,
   ITC_WELCOMHOTEL_CHENNAI,
 } from './constants';
 
@@ -23,6 +24,7 @@ const propertyList = [
   RAFFLES_THE_PALM_DUBAI,
   ONE_HOTELS_SOUTH_BEACH,
   ATLANTIS,
+  PROPER_DOWNTOWN_LA,
 ];
 
 export const getI18nPaths = () =>

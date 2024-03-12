@@ -19,6 +19,7 @@ export const FAIRMONT_ROYAL_PALM_MARRAKECH = 'fairmont-royal-palm-marrakech';
 export const FAIRMONT_THE_PALM_DUBAI = 'fairmont-the-palm-dubai';
 export const ONE_HOTELS_SOUTH_BEACH = '1-hotel-south-beach';
 export const ATLANTIS = 'atlantis';
+export const PROPER_DOWNTOWN_LA = 'proper-downtown-la';
 
 // configuration constants
 export const OPERA = 'OPERA';

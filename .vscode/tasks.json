@@ -175,6 +175,28 @@
       "problemMatcher": [],
       "label": "Start: ATLANTIS",
       "detail": "env-cmd -f .env.atlantis next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:proper",
+      "problemMatcher": [],
+      "label": "Dev: PROPER",
+      "detail": "env-cmd -f .env.proper yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:proper",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: PROPER",
+      "detail": "env-cmd -f .env.proper yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:atlantis",
+      "problemMatcher": [],
+      "label": "Start: PROPER",
+      "detail": "env-cmd -f .env.proper next start"
     }
   ]
 }

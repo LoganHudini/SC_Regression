@@ -1,0 +1,22 @@
+{
+  "theme_color": "#F2EDE7",
+  "background_color": "#ffffff",
+  "display": "fullscreen",
+  "scope": "/",
+  "start_url": "/",
+  "name": "Proper",
+  "short_name": "Proper",
+  "icons": [
+    {
+      "src": "/images/proper/Logo.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/proper/Logo.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

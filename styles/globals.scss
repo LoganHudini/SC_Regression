@@ -127,6 +127,16 @@
   src: url('/fonts/BrownStd/BrownStd-Regular.otf') format('opentype');
 }
 
+@font-face {
+  font-family: 'GT Walsheim Regular';
+  src: url('/fonts/GT-Walsheim/GT-Walsheim-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'GT Walsheim Medium';
+  src: url('/fonts/GT-Walsheim/GTWalsheimMedium.ttf') format('truetype');
+}
+
 // header font-families
 @font-face {
   font-family: 'Garamond';
@@ -167,6 +177,11 @@
 @font-face {
   font-family: 'Brown Std Alternate';
   src: url('/fonts/BrownStd/BrownStd-BoldAlt.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'GT Sectra Fine';
+  src: url('/fonts/GT-Walsheim/GT-Sectra-Fine-Book.ttf') format('truetype');
 }
 
 :root {
