@@ -8,6 +8,7 @@ import { toggleNotification } from 'storage/home.storage';
 import { diningMenuStorage } from 'storage/dining-menu.storage';
 import { FailureAnimation, SuccessAnimation } from '../Loaders/Loaders';
 import { SUCCESS, FAILURE } from 'utils/constants';
+import { useConfig } from 'utils/hooks/useConfiguration';
 
 interface INotificationProps {
   title: any;
@@ -28,6 +29,7 @@ export const Notification: React.FC<INotificationProps> = ({
   const notificationStatus = useReactiveVar(toggleNotification);
   const navigate = useLocalizedRouter();
   const networkError = apolloError?.networkError as { result?: { errors?: string } };
+  const config = useConfig();
 
   useEffect(() => {
     if (notificationStatus) {
@@ -47,12 +49,13 @@ export const Notification: React.FC<INotificationProps> = ({
       ></div>
       {notificationStatus && title && (
         <div className={cx(styles.wrapper, { [styles.wrapperOpened]: notificationStatus })}>
-          {
+          {config?.isAnimationActive === undefined && (
             <div className={styles.iconWrapper}>
               {type === SUCCESS && <SuccessAnimation />}
               {type === FAILURE && <FailureAnimation />}
             </div>
-          }
+          )}
+
           <div className={styles.contentWrapper}>
             <p className={styles.title}>{title}</p>
             <p className={styles.description}>

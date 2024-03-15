@@ -49,6 +49,7 @@ import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput'
 import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 import { useCurrency } from 'utils/hooks/useCurrency';
+import cx from 'classnames';
 
 export { getStaticPaths };
 
@@ -225,20 +226,16 @@ const Spa: React.FC = () => {
   const spaDetails = () => (
     <div>
       {detailContent && (
-        <>
-          {selectedSpaItem?.images?.length > 0 ? (
+        <div
+          className={cx({
+            [styles.listComponentMargin]: spaInformation?.cta?.status === ACTIVE,
+          })}
+        >
+          {selectedSpaItem?.images?.length > 0 && (
             <StableImage
               className={styles.image}
               src={`${ASSETS_URL}/${selectedSpaItem?.images[0]?.ratio16to9}`}
             />
-          ) : (
-            <PlaceholderImage />
-          )}
-
-          {spaInformation?.cta?.status === ACTIVE && (
-            <StyledButton variant='contained' onClick={onCtaClick} className={styles.button}>
-              {spaInformation?.cta?.ctaTitle || t('BOOK NOW')}
-            </StyledButton>
           )}
 
           <div className={styles.wrapper}>
@@ -261,7 +258,12 @@ const Spa: React.FC = () => {
               </p>
             )}
           </div>
-        </>
+          {spaInformation?.cta?.status === ACTIVE && (
+            <StyledButton variant='contained' onClick={onCtaClick} className={styles.button}>
+              {spaInformation?.cta?.ctaTitle || t('BOOK NOW')}
+            </StyledButton>
+          )}
+        </div>
       )}
 
       {timeSelectDrawer && (

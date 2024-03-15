@@ -554,7 +554,7 @@ const DiningDetailsDrawer = () => {
                   addonsWarning
                 }
               >
-                {editControlStatus ? t('Update cart') : t('Add to cart')}
+                {editControlStatus ? t('Update cart') : t('Add to Order')}
               </StyledButton>
             </div>
           </div>

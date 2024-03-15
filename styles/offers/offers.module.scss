@@ -33,9 +33,9 @@
 }
 
 .button {
-  width: 93%;
-  position: absolute;
-  transform: translate(0%, 40%);
+  width: inherit;
+  max-width: 768px;
+  position: fixed;
   bottom: 0;
   right: 0;
   left: 0;
@@ -44,6 +44,10 @@
   height: 60px;
   color: var(--secondary-text-color);
   background: var(--primary-button-background-color);
+}
+
+.listComponentMargin {
+  margin-bottom: 75px !important;
 }
 
 .listComponentData {
