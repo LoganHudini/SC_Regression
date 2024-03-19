@@ -222,46 +222,23 @@ const RestaurantAndBars: React.FC = () => {
   const restaurantTiming = getTimings(queryResultEntity?.customAttributes);
 
   const restaurantDetail = () => (
-    <div className={styles.listComponent}>
+    <div
+      className={cx(styles.listComponent, {
+        [styles.listComponentMargin]: queryResultEntity?.cta?.status === ACTIVE,
+      })}
+    >
       {!availableSlots && (
         <div className={styles.imageWrapper}>
-          {queryResultEntity?.images?.length > 0 ? (
+          {queryResultEntity?.images?.length > 0 && (
             <StableImage
               className={styles.bannerImage}
               src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.ratio16to9}`}
             />
-          ) : (
-            <PlaceholderImage />
-          )}
-          {queryResultEntity?.cta?.status === ACTIVE && (
-            <StyledButton
-              variant='contained'
-              onClick={() => {
-                restaurantCtaNavigation(
-                  queryResultEntity,
-                  setDetailContent,
-                  setTimeSelectDrawer,
-                  setIframeComponent,
-                );
-              }}
-              className={cx(
-                styles.button,
-                {
-                  [styles.buttonNone]: timeSelectDrawer,
-                  [styles.withoutImageButton]:
-                    queryResultEntity && !queryResultEntity?.images[0]?.ratio16to9,
-                },
-                'globals-actionCtaWrapper',
-              )}
-            >
-              {queryResultEntity?.cta?.ctaTitle || t('BOOK NOW')}
-            </StyledButton>
           )}
         </div>
       )}
       {detailContent && (
         <>
-          {' '}
           <div className={styles.listComponentData}>
             {queryResultEntity?.name && (
               <h2
@@ -327,6 +304,26 @@ const RestaurantAndBars: React.FC = () => {
               </>
             </div>
           </div>
+          {queryResultEntity?.cta?.status === ACTIVE && (
+            <StyledButton
+              variant='contained'
+              onClick={() => {
+                restaurantCtaNavigation(
+                  queryResultEntity,
+                  setDetailContent,
+                  setTimeSelectDrawer,
+                  setIframeComponent,
+                );
+              }}
+              className={cx(styles.button, {
+                [styles.buttonNone]: timeSelectDrawer,
+                [styles.withoutImageButton]:
+                  queryResultEntity && !queryResultEntity?.images[0]?.ratio16to9,
+              })}
+            >
+              {queryResultEntity?.cta?.ctaTitle || t('BOOK NOW')}
+            </StyledButton>
+          )}
         </>
       )}
       {timeSelectDrawer && (

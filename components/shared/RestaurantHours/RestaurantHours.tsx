@@ -82,7 +82,7 @@ export const RestaurantHours = ({ restaurantHours }: { restaurantHours: any }) =
         <>
           <div className='row mt-4 mb-2 mx-4'>
             <div className='col-md-6'>
-              <div className='details-label'>Available On EveryDay</div>
+              <div className='details-label'>Available On Everyday</div>
             </div>
           </div>
           <div className='row mt-4 mb-2  mx-4'>

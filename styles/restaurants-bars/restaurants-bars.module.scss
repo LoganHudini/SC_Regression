@@ -87,7 +87,8 @@
 }
 
 .cuisineIcon {
-  height: auto;
+  height: 26px;
+  width: 36px;
 }
 
 .restaurantIcon {
@@ -193,6 +194,10 @@
   flex-direction: column;
   align-items: center;
   align-content: center;
+}
+
+.listComponentMargin {
+  margin-bottom: 75px !important;
 }
 
 .listComponentTitle {
@@ -324,13 +329,13 @@
 }
 
 .button {
-  width: 80%;
-  position: absolute;
-  transform: translate(0%, 40%);
+  width: inherit;
+  max-width: 768px;
+  position: fixed;
   bottom: 0;
   right: 0;
   left: 0;
-  margin: auto;
+  margin: 0 auto;
   height: 60px;
   font-size: $xsmall;
   color: var(--secondary-text-color);
@@ -406,7 +411,7 @@
   align-items: center;
   span {
     font-size: $small;
-    color: var(--primary-text-color);
+    color: var(--tertiary-text-color);
     width: fit-content;
   }
 }
@@ -465,9 +470,7 @@
 .icon_contact {
   color: var(--primary-theme-color) !important;
   font-size: $small !important;
-  padding-top: 1px;
   text-transform: uppercase;
-  padding-top: 5px;
 }
 
 .icon {
@@ -493,4 +496,9 @@
 .withoutImageButton {
   position: relative;
   margin-bottom: 15px;
+}
+
+.timeIcon {
+  height: 23px;
+  width: 36px;
 }

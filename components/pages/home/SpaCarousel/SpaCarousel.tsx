@@ -21,8 +21,6 @@ import LocationIcon from '@icons/location.svg';
 import { ACTIVE, EXTERNAL_URL, SPA_AND_WELLNESS } from 'utils/constants';
 import Phone from '@icons/telephone.svg';
 import Mail from '@icons/email.svg';
-import { downloadFile } from 'utils/downloadFile';
-import DishIcon from '@icons/dishIcon.svg';
 import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 

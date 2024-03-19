@@ -5,8 +5,10 @@ import { HotelCompendiumContainer } from 'components/pages/home/HotelCompendium/
 import HotelInformation from 'components/pages/home/HotelInformation/HotelInformation';
 import { ServiceRequestCarousel } from 'components/pages/home/ServiceRequestCarousel/ServiceRequestCarousel';
 import { SpaCarousel } from 'components/pages/home/SpaCarousel/SpaCarousel';
-import { LogoLoader } from 'components/shared/Loaders/Loaders';
+import { Header } from 'components/shared/Header/Header';
+import { Loader, LogoLoader } from 'components/shared/Loaders/Loaders';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
+import { BRAND_CODE } from 'core/graphql/endpoints';
 import { GET_HOTEL_COMPENDIUM } from 'core/graphql/queries/GET_HOTEL_COMPENDIUM_DETIALS';
 import { GET_HOTEL_INFORMATION } from 'core/graphql/queries/GET_HOTEL_INFORMATION';
 import {
@@ -26,7 +28,14 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { useTranslation } from 'react-i18next';
 import { useCheckedIn } from 'storage/check-in.storage';
-import { IN_ROOM_DINING, IRD, SERVICES } from 'utils/constants';
+import {
+  FAIRMONT,
+  IN_ROOM_DINING,
+  IRD,
+  RAFFLES,
+  RAFFLES_THE_PALM_DUBAI,
+  SERVICES,
+} from 'utils/constants';
 import { activeModule, isOfferActive } from 'utils/functions';
 import { getStaticPaths } from 'utils/getStatic';
 import { useConfig } from 'utils/hooks/useConfiguration';
@@ -130,13 +139,15 @@ const Home: NextPage = () => {
       <Head>
         <title>{hotelName}</title>
       </Head>
+      {BRAND_CODE === (FAIRMONT || RAFFLES) && <Header screenTitle={t('Home') as string} />}
       <PageWrapper displayBottomMenu>
         {(homeCarouselLoading ||
           serviceCarouselLoading ||
           irdloading ||
           restaurantloading ||
           spaloading ||
-          offersListLoading) && <LogoLoader />}
+          offersListLoading) &&
+          (config?.isLogoLoaderActive === false ? <Loader /> : <LogoLoader />)}
         {activeOffersList?.length > 0 && <HomeCarousel data={activeOffersList} />}
         {!checkInData?.checkedIn && (
           <HotelInformation details={homeCarouselDetails} loading={homeCarouselLoading} />

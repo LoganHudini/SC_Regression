@@ -407,7 +407,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
                   onClick={() => handleOrder()}
                   loading={placeOrderLoader}
                 >
-                  {t('PLACE ORDER')}
+                  {t('PLACE REQUEST')}
                 </StyledButton>
               )}
             </div>

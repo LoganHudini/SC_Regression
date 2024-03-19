@@ -40,7 +40,7 @@
 .listComponentTitle {
   font: $header var(--heading-font-regular);
   text-align: center;
-  margin: 8px 0;
+  margin: 0 0 8px 0;
 }
 
 .currency {
@@ -105,7 +105,8 @@
 }
 
 .cuisineIcon {
-  height: auto;
+  height: 24px;
+  width: 32px;
 }
 
 .restaurantIcon {

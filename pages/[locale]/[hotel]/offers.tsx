@@ -132,26 +132,18 @@ const Offers: React.FC = () => {
     `${displayStartDate} until ${displayEndDate}`;
 
   const offerDetails = () => (
-    <div className={styles.listComponent}>
+    <div
+      className={cx(styles.listComponent, {
+        [styles.listComponentMargin]:
+          selectedOffer?.CTA && (selectedOffer?.CTA?.redirectTo || selectedOffer?.CTA?.URL),
+      })}
+    >
       <div className={styles.imageWrapper}>
-        {selectedOffer?.images?.length > 0 ? (
+        {selectedOffer?.images?.length > 0 && (
           <StableImage
             className={styles.bannerImage}
             src={`${ASSETS_URL}/${selectedOffer?.images[0]?.ratio16to9}`}
           />
-        ) : (
-          <PlaceholderImage />
-        )}
-        {selectedOffer?.CTA && (selectedOffer?.CTA?.redirectTo || selectedOffer?.CTA?.URL) && (
-          <StyledButton
-            variant='contained'
-            onClick={onCtaClick}
-            className={cx(styles.button, {
-              [styles.withoutImageButton]: selectedOffer && !selectedOffer?.images[0]?.ratio16to9,
-            })}
-          >
-            {selectedOffer?.CTA?.ctaTitle || t('BOOK NOW')}
-          </StyledButton>
         )}
       </div>
       <div className={styles.contentWrapper}>
@@ -172,12 +164,23 @@ const Offers: React.FC = () => {
               <p className={styles.listComponentDataTitle}>{t('Availability')}</p>
               <p className={styles.listComponentDataText}>
                 {/* {time()} */}
-                {selectedOffer?.duration?.alwaysActive ? t('EveryDay') : timeDisplayed}
+                {selectedOffer?.duration?.alwaysActive ? t('Everyday') : timeDisplayed}
               </p>
             </>
           )}
         </div>
       </div>
+      {selectedOffer?.CTA && (selectedOffer?.CTA?.redirectTo || selectedOffer?.CTA?.URL) && (
+        <StyledButton
+          variant='contained'
+          onClick={onCtaClick}
+          className={cx(styles.button, {
+            [styles.withoutImageButton]: selectedOffer && !selectedOffer?.images[0]?.ratio16to9,
+          })}
+        >
+          {selectedOffer?.CTA?.ctaTitle || t('BOOK NOW')}
+        </StyledButton>
+      )}
       <>
         <Notification
           title={t('Thank You!') as string}

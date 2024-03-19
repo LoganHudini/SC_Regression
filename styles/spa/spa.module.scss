@@ -17,14 +17,20 @@
 }
 
 .button {
-  width: 80%;
+  width: 100%;
+  max-width: 768px;
+  position: fixed;
+  bottom: 0;
   height: 60px;
   font-size: $xsmall;
-  margin: auto;
   margin-top: -2rem;
   color: var(--secondary-text-color);
   background: var(--primary-button-background-color);
   max-width: 390px;
+}
+
+.listComponentMargin {
+  margin-bottom: 35px !important;
 }
 
 .detailComponentTitle {
