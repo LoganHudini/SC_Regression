@@ -53,10 +53,12 @@ export const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle
         })}
         onClick={handleClick}
       >
-        <StableImage
-          className={cx(styles.carouselSlideImage, 'globals-carouselSlideImage')}
-          src={`${ASSETS_URL}/${slide?.images[0]?.master}`}
-        />
+        {slide?.images?.length > 0 && (
+          <StableImage
+            className={cx(styles.carouselSlideImage, 'globals-carouselSlideImage')}
+            src={`${ASSETS_URL}/${slide?.images[0]?.master}`}
+          />
+        )}
         <div
           className={cx(
             styles.carouselSlideDetailsWrapper,
@@ -137,33 +139,17 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
   const time = getTimings(spaInfoDetails?.customAttributes);
 
   const spaDetails = () => (
-    <>
-      {spaInfoDetails?.images?.length > 0 ? (
+    <div
+      className={cx({
+        [styles.listComponentMargin]:
+          spaTreatments?.length > 0 || spaInfoDetails?.cta?.status === ACTIVE,
+      })}
+    >
+      {spaInfoDetails?.images?.length > 0 && (
         <StableImage
           className={styles.image}
           src={`${ASSETS_URL}/${spaInfoDetails?.images[0]?.ratio16to9}`}
         />
-      ) : (
-        <PlaceholderImage />
-      )}
-
-      {(spaTreatments?.length > 0 || spaInfoDetails?.cta?.status === ACTIVE) && (
-        <StyledButton
-          variant='contained'
-          onClick={onCtaClick}
-          className={cx(
-            styles.button,
-            {
-              [styles.withoutImageButton]: spaInfoDetails && !spaInfoDetails?.images[0]?.ratio16to9,
-            },
-            'globals-actionCtaWrapper',
-          )}
-        >
-          {spaTreatments?.length > 0
-            ? t('View Treatments')
-            : spaInfoDetails?.cta?.status === ACTIVE &&
-              (spaInfoDetails?.cta?.ctaTitle || t('BOOK NOW'))}
-        </StyledButton>
       )}
 
       <div className={styles.wrapper}>
@@ -220,7 +206,15 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
           )}
         </div>
       </div>
-    </>
+      {(spaTreatments?.length > 0 || spaInfoDetails?.cta?.status === ACTIVE) && (
+        <StyledButton variant='contained' onClick={onCtaClick} className={cx(styles.button)}>
+          {spaTreatments?.length > 0
+            ? t('View Treatments')
+            : spaInfoDetails?.cta?.status === ACTIVE &&
+              (spaInfoDetails?.cta?.ctaTitle || t('BOOK NOW'))}
+        </StyledButton>
+      )}
+    </div>
   );
 
   return (

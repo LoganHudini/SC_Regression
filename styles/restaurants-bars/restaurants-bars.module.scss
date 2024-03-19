@@ -87,8 +87,10 @@
 }
 
 .cuisineIcon {
-  height: 26px;
-  width: 36px;
+  height: 20px;
+  path {
+    fill: var(--primary-icon-color);
+  }
 }
 
 .restaurantIcon {
@@ -202,13 +204,9 @@
 
 .listComponentTitle {
   font-size: $header;
-  margin: 3rem 0 1rem;
+  margin: 1.5rem 0 1rem;
   font: $header var(--heading-font-regular);
   line-height: 1.2;
-}
-
-.titleWithoutCTA {
-  margin: 1.5rem 0 1rem;
 }
 
 .listComponentData {
@@ -498,7 +496,3 @@
   margin-bottom: 15px;
 }
 
-.timeIcon {
-  height: 23px;
-  width: 36px;
-}
