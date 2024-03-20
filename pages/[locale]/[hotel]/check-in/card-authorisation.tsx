@@ -78,8 +78,8 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
 
   const reservationInfo = reservationData?.getReservation?.data;
 
-  const checkinModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
-  const accompanyingGuestSubmodule = checkinModule?.submodules?.find(
+  const checkInModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
+  const accompanyingGuestSubmodule = checkInModule?.submodules?.find(
     (submodule: any) => submodule?.name === INFORMATION && submodule.isActive,
   );
   const activeSections = accompanyingGuestSubmodule?.details?.filter(

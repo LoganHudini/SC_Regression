@@ -12,6 +12,7 @@
     font-size: $small;
     color: var(--primary-text-color);
     font-family: var(--primary-font-heading);
+    padding-top: 2px;
   }
 
   :global(.MuiTouchRipple-root) {

@@ -87,7 +87,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
   }, [id]);
 
   return (
-    <div className={cx(styles.card, { [styles.disable]: !menuAvailability })}>
+    <div className={cx(styles.card)}>
       <div className={styles.contentWrapper} onClick={handleDiningDetails}>
         <h4 className={cx(styles.title, { [styles.titleWithImage]: image })}>{title}</h4>
         {description && (
@@ -106,8 +106,9 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
         {totalQuantity == 0 ? (
           <StyledButton
             onClick={handleDiningDetails}
-            className={cx(styles.addCta, { [styles.menuUnavailable]: !menuAvailability })}
+            className={cx(styles.addCta)}
             variant='contained'
+            disabled={!menuAvailability}
           >
             {t('Add')}
           </StyledButton>

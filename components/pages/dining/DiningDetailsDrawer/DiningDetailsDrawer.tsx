@@ -21,7 +21,7 @@ import { InputAdornment } from '@mui/material';
 import { sortBy } from 'lodash';
 import TextField from '@mui/material/TextField';
 import { iconsMap } from 'utils/hamburger/hamburgerIconsMap';
-import { irdActiveMenuList } from 'utils/functions';
+import { filterLiveMenu, irdActiveMenuList } from 'utils/functions';
 import { addToCartEvent } from 'utils/gtag';
 import cx from 'classnames';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
@@ -363,6 +363,14 @@ const DiningDetailsDrawer = () => {
       customisationItem?.customisations?.filter((item: any) => item?.status),
     );
 
+    const data = client.readQuery({
+      query: IRD_MENU,
+    });
+
+    const filteredList = data?.getIRDMenuOutputDetails?.filter(
+      (item: any) => item?.isActive && filterLiveMenu(item?.hours),
+    );
+
     return (
       <>
         <>
@@ -549,7 +557,8 @@ const DiningDetailsDrawer = () => {
                   count === 0 ||
                   (selectedItem?.customisation?.length > 0 &&
                     filteredCustomisation?.length !== customisation?.length) ||
-                  addonsWarning
+                  addonsWarning ||
+                  filteredList?.length === 0
                 }
               >
                 {editControlStatus ? t('Update cart') : t('Add to Order')}

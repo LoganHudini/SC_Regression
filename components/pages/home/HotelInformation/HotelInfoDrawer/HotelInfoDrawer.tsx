@@ -35,8 +35,8 @@ const HotelInfoDrawer = () => {
   const phoneData = hotelInfo?.information?.find((x: any) => x?.type === PHONECAPS);
   const mailData = hotelInfo?.information?.find((x: any) => x?.type === EMAILCAPS);
   const webData = hotelInfo?.information?.find((x: any) => x?.type === URL);
-  const webLinkList = hotelInfo?.information.filter(
-    (item: any) => item.type === URL && item.field !== WEBSITE,
+  const webLinkList = hotelInfo?.information?.filter(
+    (item: any) => item?.type === URL && item?.field?.trim() !== WEBSITE,
   );
 
   const groupedwebLinkList: any = webLinkList?.length > 0 && groupBy(webLinkList, 'field');
@@ -125,7 +125,7 @@ const HotelInfoDrawer = () => {
             {!isEmpty(groupedwebLinkList) &&
               Object.keys(groupedwebLinkList)?.map((language, index) => (
                 <div key={index}>
-                  <p className={styles.languageTitle}>{language}</p>
+                  {language && <p className={styles.languageTitle}>{language}</p>}
                   {groupedwebLinkList[language]?.map((item: any, itemIndex: any) => (
                     <div key={itemIndex + item?.value}>
                       <p

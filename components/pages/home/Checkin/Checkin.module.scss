@@ -1,0 +1,45 @@
+.PairtoRoomWrapper {
+  width: 90%;
+  height: auto;
+  margin: 8px auto;
+  border-radius: var(--primary-card-border-radius);
+  background: $secondaryCardcolor;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  box-shadow: var(--primary-box-shadow);
+}
+
+.pairRoomTitle {
+  font-family: var(--heading-font-regular);
+  font-size: $xlarge;
+  text-align: center;
+  align-self: center;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.pairRoomdesc {
+  font-family: var(--primary-font-regular);
+  font-size: $small;
+  text-align: center;
+  align-self: center;
+  line-height: 1.6;
+  width: 83%;
+}
+
+.buttonWrapper {
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  width: 45%;
+  font-size: $xsmall;
+  height: 43px;
+  text-transform: uppercase;
+  background-color: transparent;
+  margin: 1rem 0;
+}

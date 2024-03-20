@@ -128,8 +128,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     },
   });
 
-  const checkinModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
-  const reviewConfig = checkinModule?.submodules?.find(
+  const checkInModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
+  const reviewConfig = checkInModule?.submodules?.find(
     (submodule: any) => submodule?.name === REVIEW && submodule.isActive,
   );
 

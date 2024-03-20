@@ -11,9 +11,11 @@ export interface IMenuItemProps {
     path: string;
     id: string;
   }[];
-  status: string;
+  status: any;
   toggleOption: () => void;
   hotelName?: string;
+  iconStyle?: any;
+  afterCheckinBottomArray?: any;
 }
 
 export interface IModuleOptionsDrawerProps {
@@ -23,6 +25,13 @@ export interface IModuleOptionsDrawerProps {
   hotelCompendiumActive: boolean;
   spaActive: boolean;
   offersActive: boolean;
+  restaurantAndBarsActive: boolean;
+  diningCategoryOptions?: any;
+  hamburger?: any;
+  path?: {
+    path: string;
+    id: string;
+  }[];
 }
 
 export interface IHamburgerMenuDrawerProps {

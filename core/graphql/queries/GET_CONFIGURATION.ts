@@ -3,11 +3,21 @@ import { Countries } from 'utils/countryList';
 export const configuration = [
   {
     code: 'stage',
+    logo: '',
     name: 'Stage',
     hotelId: '989814e5-2fda-4ab8-b795-33f4d76f1866',
     pms: 'OPERA',
     fetchFromDb: 'yes',
     saveToDb: 'no',
+    orderOfModules: [
+      'hotel-info',
+      'check-in',
+      'offers',
+      'services',
+      'dining',
+      'spa',
+      'hotel-compendium',
+    ],
     modules: [
       {
         code: 'Preferences',
@@ -29,8 +39,6 @@ export const configuration = [
         code: 'Check-In',
         name: 'Check-In',
         isActive: true,
-        welcomeTitle: '',
-        welcomeBody: '',
         submodules: [
           {
             name: 'information',
@@ -346,11 +354,21 @@ export const configuration = [
   },
   {
     code: 'uat',
+    logo: '',
     name: 'UAT',
     hotelId: '78402815-a21e-486f-992b-91104e0cb887',
     pms: 'OPERA',
     fetchFromDb: 'yes',
     saveToDb: 'no',
+    orderOfModules: [
+      'hotel-info',
+      'check-in',
+      'offers',
+      'services',
+      'dining',
+      'spa',
+      'hotel-compendium',
+    ],
     modules: [
       {
         code: 'Preferences',
@@ -371,8 +389,6 @@ export const configuration = [
       {
         code: 'Check-In',
         name: 'Check-In',
-        welcomeTitle: '',
-        welcomeBody: '',
         isActive: true,
         submodules: [
           {
@@ -674,11 +690,21 @@ export const configuration = [
   },
   {
     code: 'sofitel-manila',
+    logo: '',
     name: 'Sofitel Manila',
     hotelId: '259034ee-3f5c-43b0-9332-dffd85ccba65',
     pms: 'OPERA',
     fetchFromDb: 'no',
     saveToDb: 'no',
+    orderOfModules: [
+      'hotel-info',
+      'check-in',
+      'offers',
+      'services',
+      'dining',
+      'spa',
+      'hotel-compendium',
+    ],
     modules: [
       {
         code: 'Preferences',
@@ -699,8 +725,6 @@ export const configuration = [
       {
         code: 'Check-In',
         name: 'Check-In',
-        welcomeTitle: '',
-        welcomeBody: '',
         isActive: true,
         submodules: [
           {
@@ -1033,11 +1057,21 @@ export const configuration = [
   },
   {
     code: 'itc-grand-chola',
+    logo: '',
     name: 'ITC Grand Chola',
     hotelId: 'ad0fd522-5f0e-4d2c-9f51-c3a43f546a7a',
     pms: 'OPERA',
     fetchFromDb: 'yes',
     saveToDb: 'no',
+    orderOfModules: [
+      'hotel-info',
+      'check-in',
+      'offers',
+      'services',
+      'dining',
+      'spa',
+      'hotel-compendium',
+    ],
     preCheckInOnly: true,
     modules: [
       {
@@ -1059,8 +1093,6 @@ export const configuration = [
       {
         code: 'Check-In',
         name: 'Check-In',
-        welcomeTitle: '',
-        welcomeBody: '',
         isActive: true,
         submodules: [
           {
@@ -1651,11 +1683,21 @@ export const configuration = [
   },
   {
     code: 'raffles-the-palm-dubai',
+    logo: '',
     name: 'Raffles The Palm Dubai',
     hotelId: '4e67ef89-b1d7-42fd-9cf0-70001cae54fc',
     pms: 'OPERA',
     fetchFromDb: 'no',
     saveToDb: 'yes',
+    orderOfModules: [
+      'hotel-info',
+      'check-in',
+      'offers',
+      'services',
+      'dining',
+      'spa',
+      'hotel-compendium',
+    ],
     isAnimationActive: false,
     isLogoLoaderActive: false,
     modules: [
@@ -1679,6 +1721,11 @@ export const configuration = [
         code: 'Check-In',
         name: 'Check-In',
         isActive: false,
+      },
+      {
+        code: 'Pair-To-Room',
+        name: 'Pair to Room',
+        isActive: true,
         welcomeTitle: 'Welcome to Raffles The Palm',
         welcomeBody:
           // eslint-disable-next-line quotes
@@ -1711,11 +1758,21 @@ export const configuration = [
   },
   {
     code: 'fairmont-royal-palm-marrakech',
+    logo: 'royal palm marrakech',
     name: 'Fairmont Royal Palm Marrakech',
     hotelId: 'cadcb011-3655-47c8-a016-e79bb59b5d1e',
     pms: 'OPERA',
     fetchFromDb: 'yes',
     saveToDb: 'no',
+    orderOfModules: [
+      'hotel-info',
+      'check-in',
+      'offers',
+      'services',
+      'dining',
+      'spa',
+      'hotel-compendium',
+    ],
     modules: [
       {
         code: 'Preferences',
@@ -1736,8 +1793,6 @@ export const configuration = [
       {
         code: 'Check-In',
         name: 'Check-In',
-        welcomeTitle: '',
-        welcomeBody: '',
         isActive: true,
         submodules: [
           {
@@ -1827,7 +1882,7 @@ export const configuration = [
               {
                 name: 'Credit Card Info',
                 isActive: true,
-                type: 'SHIFT4',
+                type: 'NONE',
                 details: [
                   {
                     name: 'cardNumber',
@@ -2002,9 +2057,18 @@ export const configuration = [
         ],
       },
       {
+        code: 'Pair-To-Room',
+        name: 'Pair to Room',
+        isActive: true,
+        welcomeTitle: 'Welcome to Fairmont Royal Palm Marrakech',
+        welcomeBody:
+          'Backed by the snowy peaks of the Atlas Mountains and wrapped in landscaped water gardens, Fairmont Marrakech Royal Palm is a luxury Marrakech hotel welcoming business and leisure travelers alike',
+      },
+      {
         code: 'In-Room Dining',
         name: 'In-Room Dining',
         isActive: true,
+        type: 'VENDOR',
         payment: [
           { id: '1', name: 'BILL TO ROOM', message: '' },
           { id: '2', name: 'CASH', message: '' },
@@ -2015,6 +2079,7 @@ export const configuration = [
         code: 'Services',
         name: 'Services',
         isActive: true,
+        type: 'VENDOR',
       },
       {
         code: 'view-bill',
@@ -2030,11 +2095,21 @@ export const configuration = [
   },
   {
     code: 'fairmont-the-palm-dubai',
+    logo: 'the palm',
     name: 'Fairmont The Palm Dubai',
     hotelId: 'dc9849bf-bef7-4ba9-a288-cea18f493173',
     pms: 'OPERA',
     fetchFromDb: 'yes',
     saveToDb: 'no',
+    orderOfModules: [
+      'hotel-info',
+      'check-in',
+      'offers',
+      'services',
+      'dining',
+      'spa',
+      'hotel-compendium',
+    ],
     modules: [
       {
         code: 'Preferences',
@@ -2055,288 +2130,23 @@ export const configuration = [
       {
         code: 'Check-In',
         name: 'Check-In',
-        welcomeTitle: '',
-        welcomeBody: '',
+        isActive: false,
+      },
+      {
+        code: 'Pair-To-Room',
+        name: 'Pair to Room',
         isActive: true,
-        submodules: [
-          {
-            name: 'information',
-            label: 'Check-In',
-            title: 'Please Complete Your Check-In Process',
-            isActive: true,
-            details: [
-              {
-                name: 'Guest Information',
-                isActive: true,
-                type: 'manual',
-                details: [
-                  {
-                    name: 'firstName',
-                    label: 'First Name',
-                    type: 'Text',
-                    required: true,
-                    isDisabled: true,
-                    isActive: true,
-                  },
-                  {
-                    name: 'lastName',
-                    label: 'Last Name',
-                    type: 'Text',
-                    required: true,
-                    isDisabled: true,
-                    isActive: true,
-                  },
-                  {
-                    name: 'emails',
-                    label: 'Email',
-                    type: 'Text',
-                    required: true,
-                    isDisabled: false,
-                    isActive: true,
-                  },
-                  {
-                    name: 'phone',
-                    label: 'Phone Number',
-                    type: 'Tel',
-                    required: true,
-                    isDisabled: false,
-                    isActive: true,
-                  },
-                  {
-                    name: 'countryCode',
-                    label: 'Country',
-                    type: 'Select',
-                    required: true,
-                    isDisabled: false,
-                    isActive: true,
-                    options: Countries,
-                  },
-                  {
-                    name: 'docType',
-                    label: 'Document Type',
-                    type: 'Select',
-                    required: true,
-                    isDisabled: false,
-                    isActive: true,
-                    options: [
-                      {
-                        name: 'Passport',
-                        value: 'Passport',
-                        code: 'PASSPORT',
-                        youverse: 'PASSPORT',
-                      },
-                      {
-                        name: 'Driving License',
-                        value: 'DL',
-                        code: 'DL',
-                        youverse: 'DRIVING_LICENSE',
-                      },
-                    ],
-                  },
-                  {
-                    name: 'docNo',
-                    label: 'Document Number',
-                    type: 'Text',
-                    required: true,
-                    isDisabled: false,
-                    isActive: true,
-                  },
-                  {
-                    name: 'issueCountry',
-                    label: 'Document Issuing Authority',
-                    type: 'Text',
-                    required: false,
-                    isDisabled: true,
-                    isActive: false,
-                  },
-                ],
-              },
-              {
-                name: 'Credit Card Info',
-                isActive: true,
-                type: 'NONE',
-                details: [
-                  {
-                    name: 'cardNumber',
-                    label: 'Card Number',
-                    type: 'Text',
-                    required: true,
-                    isDisabled: true,
-                    isActive: true,
-                  },
-                  {
-                    name: 'cardHolderName',
-                    label: 'Card Holder Name',
-                    type: 'Text',
-                    required: false,
-                    isDisabled: true,
-                    isActive: false,
-                  },
-                  {
-                    name: 'cardType',
-                    label: 'Card Type',
-                    type: 'Text',
-                    required: true,
-                    isDisabled: true,
-                    isActive: true,
-                  },
-                  {
-                    name: 'cardExpiryDate',
-                    label: 'Expiry Date',
-                    type: 'Text',
-                    required: true,
-                    isDisabled: true,
-                    isActive: true,
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            name: 'accompanyingGuest',
-            label: 'Secondary Guest',
-            title: '',
-            type: 'manual',
-            isActive: true,
-            cardIcon: 'guest',
-            details: [
-              {
-                name: 'firstName',
-                label: 'First Name',
-                type: 'Text',
-                required: true,
-                isDisabled: true,
-                isActive: true,
-              },
-              {
-                name: 'lastName',
-                label: 'Last Name',
-                type: 'Text',
-                required: true,
-                isDisabled: true,
-                isActive: true,
-              },
-              {
-                name: 'emails',
-                label: 'Email',
-                type: 'Text',
-                required: true,
-                isDisabled: false,
-                isActive: true,
-              },
-              {
-                name: 'phone',
-                label: 'Phone Number',
-                type: 'Tel',
-                required: true,
-                isDisabled: false,
-                isActive: true,
-              },
-              {
-                name: 'docType',
-                label: 'Document Type',
-                type: 'Select',
-                required: true,
-                isDisabled: false,
-                isActive: true,
-              },
-              {
-                name: 'docNo',
-                label: 'Document Number',
-                type: 'Text',
-                required: true,
-                isDisabled: false,
-                isActive: true,
-              },
-              {
-                name: 'condition',
-                label:
-                  'I agree to receive an invitation email to validate and sign up for a complimentary ACCOR Membership.',
-                type: 'CheckBox',
-                required: true,
-                isDisabled: false,
-                isActive: false,
-              },
-            ],
-          },
-          {
-            name: 'personalisation',
-            label: 'Customize My Stay',
-            title: 'Check-In',
-            type: 'cms',
-            isActive: true,
-          },
-          {
-            name: 'review',
-            label: 'Review & Sign',
-            title: 'Check-In',
-            buttonLabelCheckIn: 'Confirm Check-In',
-            // eslint-disable-next-line quotes
-            termsAndCondition:
-              'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',
-            subTitle:
-              'Please review and confirm the below information to complete the Check-In process',
-            type: 'cms',
-            isActive: true,
-            guestInformationDetails: [
-              {
-                title: 'Guest Information',
-              },
-              {
-                checkIn: 'Check-In',
-                checkOut: 'Checkout',
-              },
-            ],
-            creditCardDetails: {
-              title: 'Payment Information',
-              details: [
-                {
-                  name: 'cardNumber',
-                  label: 'Card Number',
-                },
-                {
-                  name: 'cardType',
-                  label: 'Card Type',
-                },
-                {
-                  name: 'cardExpiryDate',
-                  label: 'Expiry Date',
-                },
-              ],
-            },
-            identityVerificationDetails: [
-              {
-                title: 'Identity Verification',
-              },
-              {
-                name: 'docType',
-                cmsName: 'DOCUMENT_TYPE',
-                label: 'Document Type',
-              },
-              {
-                name: 'docNo',
-                cmsName: 'DOCUMENT_NUMBER',
-                label: 'Document Number',
-              },
-            ],
-            personalizationDetails: [
-              {
-                title: 'Add-Ons',
-              },
-            ],
-          },
-        ],
+        welcomeTitle: 'Welcome to Fairmont The Palm',
+        welcomeBody:
+          // eslint-disable-next-line quotes
+          "Escape to Dubai's Fairmont The Palm, an Arabian-style sanctuary that combines heartfelt hospitality with elegant sophistication.",
       },
       {
         code: 'In-Room Dining',
         name: 'In-Room Dining',
         isActive: true,
         type: 'CMS',
-        payment: [
-          { id: '1', name: 'BILL TO ROOM', message: '' },
-          { id: '2', name: 'CASH', message: '' },
-          { id: '3', name: 'CARD', message: '' },
-        ],
+        payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
       },
       {
         code: 'Services',
@@ -2358,11 +2168,21 @@ export const configuration = [
   },
   {
     code: '1-hotel-south-beach',
+    logo: '',
     name: '1 Hotel South Beach',
     hotelId: '003a8b2c-3c06-4afd-9b44-c8ecf66395a4',
     pms: 'INFOR',
     fetchFromDb: 'yes',
     saveToDb: 'no',
+    orderOfModules: [
+      'hotel-info',
+      'check-in',
+      'offers',
+      'services',
+      'dining',
+      'spa',
+      'hotel-compendium',
+    ],
     modules: [
       {
         code: 'Preferences',
@@ -2383,8 +2203,6 @@ export const configuration = [
       {
         code: 'Check-In',
         name: 'Check-In',
-        welcomeTitle: '',
-        welcomeBody: '',
         isActive: true,
         submodules: [
           {
@@ -2678,12 +2496,22 @@ export const configuration = [
   },
   {
     code: 'atlantis',
+    logo: '',
     name: 'Atlantis',
     // demo instance
     hotelId: '78402815-a21e-486f-992b-91104e0cb887',
     pms: 'OPERA',
     fetchFromDb: 'yes',
     saveToDb: 'no',
+    orderOfModules: [
+      'hotel-info',
+      'check-in',
+      'offers',
+      'services',
+      'dining',
+      'spa',
+      'hotel-compendium',
+    ],
     modules: [
       {
         code: 'Preferences',
@@ -2704,8 +2532,6 @@ export const configuration = [
       {
         code: 'Check-In',
         name: 'Check-In',
-        welcomeTitle: '',
-        welcomeBody: '',
         isActive: true,
         submodules: [
           {

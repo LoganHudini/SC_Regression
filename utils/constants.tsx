@@ -8,6 +8,10 @@ export const TABLE_RESERVATION_FLOW_VERSION =
 export const HOUSEKEEPING_FLOW_VERSION = process.env.NEXT_PUBLIC_HOUSEKEEPING_FLOW_VERSION;
 export const ROOM_CONTROLS_FLOW_VERSION = process.env.NEXT_PUBLIC_ROOM_CONTROLS_FLOW_VERSION;
 
+// brand constants
+export const RAFFLES = 'raffles';
+export const FAIRMONT = 'fairmont';
+
 // hotel constants
 export const STAGE = 'stage';
 export const UAT = 'uat';
@@ -15,10 +19,8 @@ export const SOFITEL_MANILA = 'sofitel-manila';
 export const ITC_GRAND_CHOLA = 'itc-grand-chola';
 export const ITC_WELCOMHOTEL_CHENNAI = 'itc-welcomhotel-chennai';
 export const RAFFLES_THE_PALM_DUBAI = 'raffles-the-palm-dubai';
-export const RAFFLES = 'raffles';
 export const FAIRMONT_ROYAL_PALM_MARRAKECH = 'fairmont-royal-palm-marrakech';
 export const FAIRMONT_THE_PALM_DUBAI = 'fairmont-the-palm-dubai';
-export const FAIRMONT = 'fairmont';
 export const ONE_HOTELS_SOUTH_BEACH = '1-hotel-south-beach';
 export const ATLANTIS = 'atlantis';
 export const PROPER_DOWNTOWN_LA = 'proper-downtown-la';
@@ -53,6 +55,7 @@ export const ALL_DAY = 'all day';
 export const RESTAURANT_BOOKING_FLOW = 'Restaurant Booking Flow';
 export const PRE_CHECKIN_ERROR_MSG = 'Booking is already checked in with type:PreCheckIn';
 export const CHECK_IN = 'Check-In';
+export const PAIR_TO_ROOM = 'Pair-To-Room';
 export const REVIEW = 'review';
 export const CANCELED = 'CANCELED';
 export const CHECKEDOUT = 'CHECKEDOUT';
@@ -140,7 +143,37 @@ export const INHOUSE = 'INHOUSE';
 export const WEBSITE = 'Website';
 export const FAILED_TO_FETCH_BOOKING_DETAILS = 'failed to fetch booking details';
 export const INVALID_BOOKING_STATUS = 'invalid booking status';
+export const POST = 'post';
+export const PRE = 'pre';
+export const SETTINGS = 'settings';
+export const HOME = 'home';
+export const LANGUAGE = 'language';
+export const CHECKIN_NOW = 'Check-In Now';
 
+export const hamburgerMenuset = [
+  {
+    category: 'both',
+    externalLink: '',
+    flow: 'HOME',
+    menuIconUrl: '',
+    isActive: true,
+    name: 'home',
+    pages: [''],
+    redirectOptions: 'FLOW',
+    __typename: 'UiBuilderHamburgerMenu',
+  },
+  {
+    category: 'both',
+    externalLink: '',
+    flow: '',
+    menuIconUrl: '',
+    isActive: true,
+    name: 'language',
+    pages: [''],
+    redirectOptions: 'FLOW',
+    __typename: 'UiBuilderHamburgerMenu',
+  },
+];
 // flow constants
 export const DAYS = [
   { id: 1, ischecked: false, name: 'Monday', from: null, to: null },
@@ -301,6 +334,11 @@ export const CAROUSEL_RESPONSIVE = {
     items: 1,
   },
 };
+
+export const LANGUAGES = [
+  { code: 'en', name: 'English' },
+  { code: 'ar', name: 'عربي' },
+];
 
 // path constants
 export const HOUSEKEEPING = 'HOUSEKEEPING';

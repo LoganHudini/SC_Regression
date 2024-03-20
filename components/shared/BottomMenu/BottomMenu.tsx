@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import styles from './BottomMenu.module.scss';
 import HamburgerIcon from '@icons/hamburger.svg';
 import DownArrowIcon from '@icons/downArrow.svg';
@@ -34,10 +34,18 @@ import { CustomDrawer } from '../CustomDrawer/CustomDrawer';
 import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
 import { ASSETS_URL } from 'core/graphql/endpoints';
 import { useConfig } from 'utils/hooks/useConfiguration';
-import { useLocale } from 'utils/hooks/useLocalizedRouter';
+import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { activeModule, diningOptionList } from 'utils/functions';
-import { CHECK_IN } from 'utils/constants';
+import { CHECK_IN, POST, PRE, hamburgerMenuset } from 'utils/constants';
 import { IBottomMenuProps } from './BottomMenu.types';
+import {
+  IDiningMenuStorageData,
+  diningCategoryStorage,
+  diningMenuStorage,
+} from 'storage/dining-menu.storage';
+import { diningInformationStorage } from 'storage/dining.storage';
+import MyOrders from '@icons/orderDish.svg';
+import PoweredByHudiniIcon from '@icons/hudini.svg';
 
 export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) => {
   const wrapperRef = useRef(null);
@@ -55,22 +63,24 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
   const { t } = useTranslation(['common']);
   const spaInformation = useReactiveVar(spaInformationStorage);
   const hotelCompendiumSelected: any = useReactiveVar(selectedCompendiumCategory);
-  const checkinModule: boolean = activeModule(config?.modules, CHECK_IN);
+  const checkInModule: boolean = activeModule(config?.modules, CHECK_IN);
+  const diningCategoryOptions = useReactiveVar(diningCategoryStorage);
+  const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
+  const navigate = useLocalizedRouter();
   const homeActiveRef = useRef<boolean>();
   const homeActive: boolean | undefined = homeActiveRef.current;
-
-  useEffect(() => {
-    homeActiveRef.current = router?.pathname === '/[locale]/[hotel]';
-  }, [router?.pathname]);
-
-  const irdActive =
-    router?.asPath?.includes(availablePaths?.DINING) ||
-    router?.asPath?.includes(availablePaths?.RESTAURANTS_BARS);
+  const restaurantAndBarsActive = router?.asPath?.includes(availablePaths?.RESTAURANTS_BARS);
+  const irdActive = router?.asPath?.includes(availablePaths?.DINING);
   const housekeepingActive = router?.asPath?.includes(availablePaths.HOUSEKEEPING);
   const spaActive = router?.asPath?.includes(availablePaths?.SPA);
   const offersActive = router?.asPath?.includes(availablePaths?.OFFERS);
   const hotelCompendiumActive = router?.asPath?.includes(availablePaths?.HOTEL_COMPENDIUM);
   const checkOutActive = router?.asPath?.includes(availablePaths.BILL);
+  const selectedDiningCategory = useReactiveVar(diningInformationStorage);
+
+  useEffect(() => {
+    homeActiveRef.current = router?.pathname === '/[locale]/[hotel]';
+  }, [router?.pathname]);
 
   const { data } = useQuery<IGetHamburgerMenuDetailsApiResponse>(GET_HAMBURGER_MENU, {
     skip: !hotelId,
@@ -85,12 +95,10 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
   const hamburger = data?.getUiBuilderHamburgerMenuDetails;
 
   const openModuleOptionsDrawer = () => {
-    if (homeActive && !isCheckedIn?.checkedIn) {
-      toggleCheckInDetailsDrawer(true);
+    if (checkOutActive && isCheckedIn?.checkedIn) {
+      toggleDetailsDrawer(true);
     } else {
-      if (checkOutActive && isCheckedIn?.checkedIn) {
-        toggleDetailsDrawer(true);
-      } else {
+      if (!restaurantAndBarsActive) {
         toggleModuleOptionsDrawer(true);
         toggleHamburgerMenuDrawer(false);
       }
@@ -107,85 +115,152 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
 
   useOutsideAlerter(wrapperRef);
 
+  const hamburgerMenuIcons =
+    hamburger && (!isCheckedIn?.checkedIn ? hamburger[PRE] : hamburger[POST]);
+
+  const afterCheckinBottomArray = hamburgerMenuset;
+
   const hamburgerMenuRender = () => {
     return (
-      <div ref={wrapperRef} className={cx(styles.hamburgerMenuContainer)}>
-        {hamburger &&
-          hamburger[isCheckedIn?.checkedIn ? 'post' : 'pre'].map((hamburgerMenuElement) => (
-            <MenuItem
-              Icon={
-                (hamburgerMenuElement?.menuIconUrl &&
-                  `${ASSETS_URL}/${hamburgerMenuElement?.menuIconUrl}`) ||
-                hamburgerIconsMap[hamburgerMenuElement.name as keyof typeof hamburgerIconsMap] ||
-                HamburgerIcon
-              }
-              title={hamburgerMenuElement.name}
-              key={hamburgerMenuElement.id}
-              externalLink={hamburgerMenuElement.externalLink}
-              flow={hamburgerMenuElement.flow}
-              pages={hamburgerMenuElement.pages}
-              redirectOptions={hamburgerMenuElement.redirectOptions}
-              status={hamburgerMenuElement.isActive}
-              toggleOption={closeHamburgerMenuDrawer}
-              hotelName={hotelName}
-            />
-          ))}
+      <div ref={wrapperRef} className={cx(styles.hamburgerMenuWrapper)}>
+        {!homeActive &&
+          [hamburgerMenuIcons].map(
+            (menuArray, index) =>
+              menuArray &&
+              menuArray.length > 0 && (
+                <div
+                  key={index}
+                  className={cx(styles.hamburgerMenuContainer, {
+                    [styles.divider]: index === 1 || index === 2,
+                  })}
+                >
+                  {menuArray.map((hamburgerMenuElement) => (
+                    <MenuItem
+                      Icon={
+                        (hamburgerMenuElement?.menuIconUrl &&
+                          `${ASSETS_URL}/${hamburgerMenuElement?.menuIconUrl}`) ||
+                        hamburgerIconsMap[
+                          hamburgerMenuElement?.name as keyof typeof hamburgerIconsMap
+                        ] ||
+                        HamburgerIcon
+                      }
+                      title={hamburgerMenuElement?.name}
+                      key={hamburgerMenuElement?.id}
+                      externalLink={hamburgerMenuElement?.externalLink}
+                      flow={hamburgerMenuElement?.flow}
+                      pages={hamburgerMenuElement?.pages}
+                      redirectOptions={hamburgerMenuElement?.redirectOptions}
+                      status={hamburgerMenuElement?.isActive}
+                      toggleOption={closeHamburgerMenuDrawer}
+                      hotelName={hotelName}
+                      afterCheckinBottomArray={
+                        afterCheckinBottomArray && afterCheckinBottomArray?.length > 0
+                      }
+                    />
+                  ))}
+                </div>
+              ),
+          )}
+        {[afterCheckinBottomArray].map(
+          (menuArray, index) =>
+            menuArray &&
+            menuArray.length > 0 && (
+              <div
+                key={index}
+                className={cx(styles.afterCheckinBottomArrayContainer, {
+                  [styles.divider]: index === 1 || index === 2,
+                })}
+              >
+                {menuArray?.map((hamburgerMenuElement) => (
+                  <MenuItem
+                    Icon={
+                      (hamburgerMenuElement?.menuIconUrl &&
+                        `${ASSETS_URL}/${hamburgerMenuElement?.menuIconUrl}`) ||
+                      hamburgerIconsMap[
+                        hamburgerMenuElement?.name as keyof typeof hamburgerIconsMap
+                      ] ||
+                      HamburgerIcon
+                    }
+                    title={hamburgerMenuElement?.name}
+                    key={hamburgerMenuElement?.name}
+                    externalLink={hamburgerMenuElement?.externalLink}
+                    flow={hamburgerMenuElement?.flow}
+                    pages={hamburgerMenuElement?.pages}
+                    redirectOptions={hamburgerMenuElement?.redirectOptions}
+                    status={hamburgerMenuElement?.isActive}
+                    toggleOption={closeHamburgerMenuDrawer}
+                    hotelName={hotelName}
+                    iconStyle={styles.iconStyle}
+                  />
+                ))}
+              </div>
+            ),
+        )}
+        <div className={styles.poweredByHudini}>
+          <PoweredByHudiniIcon />
+        </div>
       </div>
     );
   };
 
+  const confirmOrder = useCallback(() => {
+    navigate(availablePaths.DINING_ORDER_SUMMARY);
+  }, [navigate]);
+
   return (
     <>
       {(homeActive ||
-        (irdActive && diningOptionSelected?.type) ||
+        (restaurantAndBarsActive && diningOptionSelected?.type) ||
         (housekeepingActive && houseKeepingOptionSelected?.title) ||
         (spaActive && spaInformation?.selectedSpaCategoryName) ||
         (offersActive && offersOptionSelected?.type) ||
         (hotelCompendiumActive && hotelCompendiumSelected?.name) ||
-        checkOutActive) && (
+        checkOutActive ||
+        irdActive) && (
         <div className={cx(styles.bottomMenuWrapper, { [styles.hideOnScroll]: hideOnScroll })}>
           <StyledButton
             disabled={disabled}
             variant='contained'
             className={cx(styles.bottomMenuButton, 'globals-bottomMenuButton', {
-              [styles.bottomMenuButtonWithoutArrow]:
-                (homeActive && isCheckedIn?.checkedIn) || !(checkOutActive || homeActive),
+              [styles.bottomMenuButtonWithoutArrow]: homeActive || !(checkOutActive || homeActive),
             })}
             onClick={openModuleOptionsDrawer}
           >
             <span className={styles.btnText}>
               {homeActive &&
-                (isCheckedIn?.checkedIn
-                  ? `${t('Room')} ${isCheckedIn?.roomNumber}`
-                  : checkinModule
-                  ? t('Check-In')
-                  : t('Connect To Room'))}
-              {irdActive && t(diningOptionList(diningOptionSelected?.type))}
+                (isCheckedIn?.checkedIn ? `${t('Room')} ${isCheckedIn?.roomNumber}` : t('Explore'))}
+              {restaurantAndBarsActive && t(diningOptionList(diningOptionSelected?.type))}
+              {irdActive && t(`${selectedDiningCategory?.menuName}`)}
               {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
               {spaActive && t(`${spaInformation?.selectedSpaCategoryName}`)}
               {offersActive && t(`${offersOptionSelected?.type}`)}
               {hotelCompendiumActive && hotelCompendiumSelected?.name}
               {checkOutActive &&
-                (checkinModule
+                (checkInModule
                   ? amountDue
                     ? t('Checkout')
                     : t('Pay & Checkout')
-                  : t('Disconnect From Room'))}
+                  : t('Unpair My Room'))}
             </span>
 
-            {homeActive
-              ? isCheckedIn?.checkedIn &&
-                isCheckedIn?.roomNumber && (
-                  <span className={styles.expandArrow}>
-                    <DownArrowIcon />
-                  </span>
-                )
-              : !checkOutActive && (
-                  <span className={styles.expandArrow}>
-                    <DownArrowIcon />
-                  </span>
-                )}
+            {(homeActive ||
+              irdActive ||
+              housekeepingActive ||
+              offersActive ||
+              spaActive ||
+              hotelCompendiumActive) && (
+              <span className={styles.expandArrow}>
+                <DownArrowIcon />
+              </span>
+            )}
           </StyledButton>
+
+          {irdActive && diningData?.items?.length > 0 && (
+            <div className={styles.orderIconWrapper} onClick={confirmOrder}>
+              <MyOrders className={styles.myOrdersIcon} />
+              <p className={styles.myOrdersLength}>{diningData?.items?.length}</p>
+            </div>
+          )}
 
           <div className={styles.hamburgerIcon}>
             <Hamburger
@@ -214,6 +289,9 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
           hotelCompendiumActive,
           spaActive,
           offersActive,
+          restaurantAndBarsActive,
+          diningCategoryOptions,
+          hamburger,
         }}
       />
 

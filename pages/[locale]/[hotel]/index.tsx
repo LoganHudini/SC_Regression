@@ -1,10 +1,9 @@
 import { useQuery } from '@apollo/client';
 import { DiningCarousel } from 'components/pages/home/DiningCarousel/DiningCarousel';
-import { HomeCarousel } from 'components/pages/home/HomeCarousel/HomeCarousel';
 import { HotelCompendiumContainer } from 'components/pages/home/HotelCompendium/HotelCompendium';
-import HotelInformation from 'components/pages/home/HotelInformation/HotelInformation';
 import { ServiceRequestCarousel } from 'components/pages/home/ServiceRequestCarousel/ServiceRequestCarousel';
 import { SpaCarousel } from 'components/pages/home/SpaCarousel/SpaCarousel';
+import { OffersCarousel } from 'components/pages/home/OffersCarousel/OffersCarousel';
 import { Header } from 'components/shared/Header/Header';
 import { Loader, LogoLoader } from 'components/shared/Loaders/Loaders';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
@@ -29,26 +28,32 @@ import Head from 'next/head';
 import { useTranslation } from 'react-i18next';
 import { useCheckedIn } from 'storage/check-in.storage';
 import {
+  CHECK_IN,
   FAIRMONT,
   IN_ROOM_DINING,
-  IRD,
+  PAIR_TO_ROOM,
   RAFFLES,
-  RAFFLES_THE_PALM_DUBAI,
   SERVICES,
 } from 'utils/constants';
 import { activeModule, isOfferActive } from 'utils/functions';
 import { getStaticPaths } from 'utils/getStatic';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
+import { Checkin } from 'components/pages/home/Checkin/Checkin';
+import React from 'react';
+import { HotelInfoCarousel } from 'components/pages/home/HotelInfoCarousel/HotelInfoCarousel';
 
 export { getStaticPaths };
 
 const Home: NextPage = () => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation(['common']);
   const locale = useLocale();
   const config = useConfig();
   const hotelId = config?.hotelId;
   const hotelName = config?.name;
+
+  const checkInModule = activeModule(config?.modules, CHECK_IN);
+  const pairToRoomModule: boolean = activeModule(config?.modules, PAIR_TO_ROOM);
   const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
   const serviceModule: any = activeModule(config?.modules, SERVICES);
 
@@ -134,35 +139,98 @@ const Home: NextPage = () => {
 
   const activeOffersList = offersList?.getOffersDetails?.filter((item: any) => isOfferActive(item));
 
-  return (
-    <>
-      <Head>
-        <title>{hotelName}</title>
-      </Head>
-      {BRAND_CODE === (FAIRMONT || RAFFLES) && <Header screenTitle={t('Home') as string} />}
-      <PageWrapper displayBottomMenu>
-        {(homeCarouselLoading ||
-          serviceCarouselLoading ||
-          irdloading ||
-          restaurantloading ||
-          spaloading ||
-          offersListLoading) &&
-          (config?.isLogoLoaderActive === false ? <Loader /> : <LogoLoader />)}
-        {activeOffersList?.length > 0 && <HomeCarousel data={activeOffersList} />}
-        {!checkInData?.checkedIn && (
-          <HotelInformation details={homeCarouselDetails} loading={homeCarouselLoading} />
+  const homeModules: any = {
+    'hotel-info': () => (
+      <>
+        {homeCarouselDetails?.getPropertyDetailsByHotelId?.hotel && (
+          <HotelInfoCarousel data={homeCarouselDetails?.getPropertyDetailsByHotelId?.hotel} />
         )}
+      </>
+    ),
+    offers: () => (
+      <>
+        <OffersCarousel data={activeOffersList} loading={offersListLoading} />
+      </>
+    ),
+    services: () => (
+      <>
         {checkInData?.checkedIn && serviceModule && (
           <ServiceRequestCarousel data={serviceCarouselDetails} loading={serviceCarouselLoading} />
         )}
+      </>
+    ),
+    'check-in': () => (
+      <>
+        {!checkInData?.checkedIn && checkInModule && (
+          <Checkin
+            title={t('Check-in?')}
+            description={t(
+              'To begin your check-in process, please tap the ‘Check-In’ button below',
+            )}
+            buttonTitle={t('Check-In Now')}
+          />
+        )}
+        {!checkInData?.checkedIn && pairToRoomModule && (
+          <Checkin
+            title={t('Checked in already?')}
+            description={t(
+              'To pair your device with your room, please press the ‘Pair to Room’ button below. This will enable you to access room controls and services conveniently from your device. Enjoy your stay with us!',
+            )}
+            buttonTitle={t('Pair to Room')}
+          />
+        )}
+      </>
+    ),
+    dining: () => (
+      <>
         <DiningCarousel
           ird={irdMenu}
           restaurants={restaurantList}
           loading={irdloading || restaurantloading}
           irdModule={irdModule}
         />
+      </>
+    ),
+    spa: () => (
+      <>
         <SpaCarousel data={spaList} loading={spaloading} />
+      </>
+    ),
+    'hotel-compendium': () => (
+      <>
         <HotelCompendiumContainer data={hotelCompendiumList} loading={hotelCompendiumloading} />
+      </>
+    ),
+  };
+
+  return (
+    <>
+      <Head>
+        <title>{hotelName}</title>
+      </Head>
+      {BRAND_CODE === (FAIRMONT || RAFFLES) && <Header screenTitle={t('Home') as string} />}
+
+      <PageWrapper displayBottomMenu className={'globals-landingPageContainer'}>
+        {homeCarouselLoading ||
+        serviceCarouselLoading ||
+        irdloading ||
+        restaurantloading ||
+        spaloading ||
+        offersListLoading ? (
+          config?.isLogoLoaderActive === false ? (
+            <Loader />
+          ) : (
+            <LogoLoader />
+          )
+        ) : (
+          config?.orderOfModules?.map((moduleCode: any, index: number) => {
+            return (
+              <React.Fragment key={moduleCode || index}>
+                {homeModules[moduleCode]?.()}
+              </React.Fragment>
+            );
+          })
+        )}
       </PageWrapper>
     </>
   );

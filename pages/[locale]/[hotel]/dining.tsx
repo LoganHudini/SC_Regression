@@ -13,7 +13,11 @@ import { diningInformationStorage } from 'storage/dining.storage';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { DiningCategorySkeleton } from 'components/pages/dining/DiningCategorySkeleton/DiningCategorySkeleton';
 import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
-import { IDiningMenuStorageData, diningMenuStorage } from 'storage/dining-menu.storage';
+import {
+  IDiningMenuStorageData,
+  diningCategoryStorage,
+  diningMenuStorage,
+} from 'storage/dining-menu.storage';
 import cx from 'classnames';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import {
@@ -124,6 +128,12 @@ const Dining = () => {
   const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
 
   useEffect(() => {
+    if (irdActiveMenu?.length > 0 && !irdMenuLoading) {
+      diningCategoryStorage(irdActiveMenu);
+    }
+  }, [irdActiveMenu]);
+
+  useEffect(() => {
     if (
       data?.getIRDMenuOutputDetails &&
       (data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length === 0 ||
@@ -201,7 +211,6 @@ const Dining = () => {
         displaySearchButton
         openCategory={openCategory}
         header={header}
-        irdModule
         setOpencategory={setOpencategory}
         onSearchBtnClick={openSearch}
         search

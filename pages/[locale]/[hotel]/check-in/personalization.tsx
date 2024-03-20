@@ -50,8 +50,8 @@ const PersonalizeYourRoom: React.FC = () => {
   const [notificationState, setNotificationState] = useState<any>(false);
   const personalizationStorageInfo = useReactiveVar(personalizeYourRoomStorage);
 
-  const checkinModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
-  const personalisationConfig = checkinModule?.submodules?.find(
+  const checkInModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
+  const personalisationConfig = checkInModule?.submodules?.find(
     (submodule: any) => submodule?.name === personalisation && submodule.isActive,
   );
 

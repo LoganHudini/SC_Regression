@@ -131,12 +131,6 @@
   }
 }
 
-.callRow,
-.emailRow {
-  text-decoration: none;
-  color: var(--primary-theme-color);
-}
-
 .backToTop {
   width: 140px;
   height: 36px;
@@ -231,8 +225,7 @@
 .emailRow,
 .cuisineRow,
 .locationRow,
-.timeRow,
-.thirdRow {
+.timeRow {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -463,12 +456,6 @@
 
 .additionalTimeWrapperOpened {
   display: block;
-}
-
-.icon_contact {
-  color: var(--primary-theme-color) !important;
-  font-size: $small !important;
-  text-transform: uppercase;
 }
 
 .icon {

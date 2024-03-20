@@ -13,6 +13,7 @@ import {
 import * as yup from 'yup';
 import { tableReservationStorage } from 'storage/table-reservation.storage';
 import { housekeepingOptions, serviceRequestOptionsArray } from 'storage/housekeeping.storage';
+import { toggleRestaurantDetailsDrawer } from 'storage/home.storage';
 
 // Extract data from local storage
 export const guestNameFandB = () =>
@@ -249,7 +250,6 @@ export const restaurantCtaNavigation = (
 ) => {
   if (object?.cta?.redirectOption === EXTERNAL_URL) {
     object?.cta?.redirectUrl && setIframeComponent(true);
-    setDetailContent(true);
   }
   if (object?.cta?.redirectOption === RESTAURANT_BOOKING_FLOW) {
     tableReservationStorage({
@@ -258,8 +258,10 @@ export const restaurantCtaNavigation = (
       venueId: (object?.customAttributes && object?.customAttributes[0]?.value) ?? '',
     });
     navigate;
-    setTimeSelectDrawer(false);
-    setIframeComponent(false);
+    toggleRestaurantDetailsDrawer(true);
+    setTimeSelectDrawer(true);
+    setDetailContent && setDetailContent(false);
+    setIframeComponent && setIframeComponent(false);
   }
 };
 
@@ -297,13 +299,16 @@ export const findModule = (moduleList: any, moduleActive: any) =>
   moduleList.find((module: any) => module?.code === moduleActive);
 
 export const groupBy = (arrayToBeGrouped: any, property: string) => {
-  return arrayToBeGrouped.reduce(function (memo: any, x: any) {
-    if (!memo[x[property]]) {
-      memo[x[property]] = [];
-    }
-    memo[x[property]].push(x);
-    return memo;
-  }, {});
+  return (
+    arrayToBeGrouped?.length > 0 &&
+    arrayToBeGrouped?.reduce(function (memo: any, x: any) {
+      if (!memo[x[property]]) {
+        memo[x[property]] = [];
+      }
+      memo[x[property]].push(x);
+      return memo;
+    }, {})
+  );
 };
 
 export const serviceRequestArray = (

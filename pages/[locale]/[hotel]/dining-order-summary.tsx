@@ -259,7 +259,7 @@ const DiningOrderSummary = () => {
         });
       }
 
-      irdOrderEvent(response?.data?.createOrder, currency);
+      // irdOrderEvent(response?.data?.createOrder, currency);
       setTimeout(() => {
         diningMenuStorage({ items: [] });
       }, 5000);
@@ -288,7 +288,6 @@ const DiningOrderSummary = () => {
         checkoutTrip();
       }
     }
-    toggleNotification(true);
     setLoading(false);
   }, [
     t,

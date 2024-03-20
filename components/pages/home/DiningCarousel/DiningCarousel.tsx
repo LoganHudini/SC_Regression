@@ -10,32 +10,34 @@ import {
   irdActiveMenuList,
   getTimings,
   diningOptionList,
-  restaurantCtaNavigation,
   activeItems,
   filterIRDMenuItems,
 } from 'utils/functions';
 import {
   CAROUSEL_RESPONSIVE,
   IN_ROOM_DINING,
-  EXTERNAL_URL,
   RESTAURANTS_AND_BARS,
   RESTAURANT,
-  ACTIVE,
 } from 'utils/constants';
 import cx from 'classnames';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { availablePaths } from 'utils/availablePaths';
-import { diningOptions } from 'storage/home.storage';
+import {
+  diningOptions,
+  toggleDetailsDrawer,
+  toggleRestaurantDetailsDrawer,
+} from 'storage/home.storage';
 import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { CustomReadMore } from 'components/shared/CustomReadMore/CustomReadMore';
 import { getHotelCode } from 'utils/fetchConfigs';
-import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { useRouter } from 'next/router';
 import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 import { IRDMenuApiResponse } from 'core/graphql/queries/IRD_MENU';
+import { useReactiveVar } from '@apollo/client';
+import { RestaurantDetail } from 'components/pages/dining/RestaurantDetail/RestaurantDetail';
 
 interface ICarouselProps {
   ird: any;
@@ -52,141 +54,117 @@ interface ICarouselSlideProps {
   slideStyle?: any;
 }
 
-const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOptionsCarousal }) => {
-  const hotel = getHotelCode();
-
-  const { t } = useTranslation(['common']);
-  const navigate = useLocalizedRouter();
-  const router = useRouter();
-  const [iframeComponent, setIframeComponent] = useState<boolean>(false);
-
-  const handleMenu = () => {
-    diningInformationStorage({
-      selectedMenu: slide?.id,
-      menuName: slide?.name,
-      selectedCategory: slide?.categories[0]?.id,
-      categoryName: slide?.categories[0]?.name,
-    });
-    navigate(availablePaths?.DINING);
-  };
-  const redirect = () => {
-    diningOptions(diningOptionsCarousal);
-    selectedRestaurantStorage(slide);
-    navigate(`/${hotel}/${module ? 'dining' : 'restaurants-bars'}`);
-  };
-
-  const time = getTimings(slide?.customAttributes);
-
-  const closeBooking = () => {
-    setIframeComponent(false);
-  };
-
-  return (
-    <>
-      <div
-        className={cx(styles.carouselSlideWrapper, 'globals-carouselSlideWrapper')}
-        onClick={module ? handleMenu : redirect}
-      >
-        {slide?.images[0]?.master ? (
-          <StableImage
-            className={cx(styles.carouselSlideImage, 'globals-carouselSlideImage')}
-            src={`${ASSETS_URL}/${slide?.images[0]?.master}`}
-          />
-        ) : (
-          <PlaceholderImage />
-        )}
-        <div
-          className={cx(
-            styles.carouselSlideDetailsWrapperRestaurantsAndBars,
-            { [styles.carouselSlideDetailsWrapperIrd]: module },
-            'globals-carouselSlideDetailsWrapperRestaurantsAndBars',
-          )}
-        >
-          <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>
-          <div className={cx(styles.content, 'globals-content')}>
-            {slide?.primaryCuisine && (
-              <div className={styles.cuisineRow}>
-                <span>{slide?.primaryCuisine?.toLowerCase()}</span>
-              </div>
-            )}{' '}
-            {time && (
-              <div className={styles.cuisineRowTime}>
-                <p>{time?.value}</p>
-              </div>
-            )}
-          </div>
-
-          {slide.hours[0]?.day && module && (
-            <p className={styles.carouselSlideTimings}>{slide.hours[0]?.day}</p>
-          )}
-          {module ? (
-            <CustomReadMore text={'READ MORE'} />
-          ) : (
-            slide?.cta?.status === ACTIVE && (
-              <div className={cx(styles.buttonWrapper, 'globals-buttonWrapper')}>
-                <StyledButton
-                  variant='outlined'
-                  className={styles.button}
-                  onClick={() => {
-                    slide?.cta?.redirectOption === EXTERNAL_URL
-                      ? setIframeComponent(true)
-                      : restaurantCtaNavigation(
-                          slide,
-                          router,
-                          navigate(availablePaths.RESTAURANTS_BARS),
-                        );
-                  }}
-                >
-                  {slide?.cta?.ctaTitle || t('BOOK NOW')}
-                </StyledButton>
-              </div>
-            )
-          )}
-        </div>
-      </div>
-      {iframeComponent && (
-        <CustomDrawer
-          open={iframeComponent}
-          onClose={closeBooking}
-          content={
-            <IframeComponent
-              src={slide?.cta?.redirectUrl}
-              handledrawerState={setIframeComponent}
-              name={RESTAURANTS_AND_BARS}
-            />
-          }
-          isIframe={true}
-        />
-      )}
-    </>
-  );
-};
-
 export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, irdModule }) => {
   const { t } = useTranslation(['common']);
   const isCheckedIn = useCheckedIn();
 
   const [diningOptionsState, setDiningOption] = useState<any>();
+  const [timeSelectDrawer, setTimeSelectDrawer] = useState(false);
 
   const irdMenuActive: IRDMenuApiResponse = irdActiveMenuList(ird);
   const irdActiveMenu = filterIRDMenuItems(irdMenuActive);
   const queryResultsData: any = restaurants?.getRestaurantDetails?.restaurant;
-  const filteredList = filterRestaurantList(queryResultsData, diningOptionsState);
-
   const activeRestaurants = activeItems(restaurants?.getRestaurantDetails?.restaurant);
+
   const filteredOptionFunction = () => {
     const value = activeRestaurants?.length > 0 ? [{ type: RESTAURANT }] : [];
     if (isCheckedIn?.checkedIn && irdModule && irdActiveMenu) {
       value?.unshift({ type: IN_ROOM_DINING });
     }
-
     return value;
   };
 
+  const restaurantDetailsDrawerStatus = useReactiveVar(toggleRestaurantDetailsDrawer);
+  const selectedRestaurant = useReactiveVar(selectedRestaurantStorage);
   const irdMenu = irdActiveMenu?.map((option: any) => ({
     ...option,
     type: IN_ROOM_DINING,
   }));
+
+  const CarouselSlide: React.FC<ICarouselSlideProps> = ({
+    slide,
+    module,
+    diningOptionsCarousal,
+  }) => {
+    const navigate = useLocalizedRouter();
+    const [iframeComponent, setIframeComponent] = useState<boolean>(false);
+
+    const handleMenu = () => {
+      diningInformationStorage({
+        selectedMenu: slide?.id,
+        menuName: slide?.name,
+        selectedCategory: slide?.categories[0]?.id,
+        categoryName: slide?.categories[0]?.name,
+      });
+      navigate(availablePaths?.DINING);
+    };
+
+    const redirect = (buttonClick?: any) => {
+      diningOptions(diningOptionsCarousal);
+      selectedRestaurantStorage(slide);
+      !buttonClick && toggleRestaurantDetailsDrawer(true);
+    };
+
+    const time = getTimings(slide?.customAttributes);
+
+    const closeBooking = () => {
+      setIframeComponent(false);
+    };
+
+    return (
+      <>
+        <div
+          className={cx(styles.carouselSlideWrapper, 'globals-carouselSlideWrapper')}
+          onClick={() => (module ? handleMenu() : redirect(''))}
+        >
+          {slide?.images[0]?.master ? (
+            <StableImage
+              className={cx(styles.carouselSlideImage, 'globals-carouselSlideImage')}
+              src={`${ASSETS_URL}/${slide?.images[0]?.master}`}
+            />
+          ) : (
+            <PlaceholderImage />
+          )}
+          <div
+            className={cx(
+              styles.carouselSlideDetailsWrapperRestaurantsAndBars,
+              { [styles.carouselSlideDetailsWrapperIrd]: module },
+              'globals-carouselSlideDetailsWrapperRestaurantsAndBars',
+            )}
+          >
+            <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>
+            <div className={cx(styles.content, 'globals-content')}>
+              {time && (
+                <div className={styles.cuisineRowTime}>
+                  {/* <ClockIcon className={styles.cuisineIcon} /> */}
+                  <p>{time?.value}</p>
+                </div>
+              )}
+            </div>
+            {slide.hours[0]?.day && module && (
+              <p className={styles.carouselSlideTimings}>{slide.hours[0]?.day}</p>
+            )}
+
+            <CustomReadMore text={'READ MORE'} />
+          </div>
+        </div>
+        {iframeComponent && (
+          <CustomDrawer
+            open={iframeComponent}
+            onClose={closeBooking}
+            content={
+              <IframeComponent
+                src={slide?.cta?.redirectUrl}
+                handledrawerState={setIframeComponent}
+                name={RESTAURANTS_AND_BARS}
+              />
+            }
+            isIframe={true}
+          />
+        )}
+      </>
+    );
+  };
 
   const renderSlides = (slides: any, module: boolean) =>
     slides?.length > 0 &&
@@ -201,12 +179,13 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, ird
     ));
 
   const uniqueFilteredDiningOptions = filteredOptionFunction();
-
   const slides = diningOptionsState?.type === IN_ROOM_DINING ? irdMenu : activeRestaurants;
+
   useEffect(() => {
     if (uniqueFilteredDiningOptions?.length > 0) {
       setDiningOption(uniqueFilteredDiningOptions[0]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCheckedIn?.checkedIn, irdModule, ird, queryResultsData]);
 
   return (
@@ -244,6 +223,22 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, ird
         >
           {renderSlides(slides, diningOptionsState?.type === IN_ROOM_DINING)}
         </WithScrollbar>
+        <CustomDrawer
+          open={restaurantDetailsDrawerStatus}
+          onClose={() => {
+            toggleDetailsDrawer(false);
+            setTimeSelectDrawer(false);
+            toggleRestaurantDetailsDrawer(false);
+            diningOptions({});
+            selectedRestaurantStorage({});
+          }}
+          content={
+            <RestaurantDetail
+              selectedRestaurant={selectedRestaurant && selectedRestaurant}
+              timeSelectProps={timeSelectDrawer}
+            />
+          }
+        />
       </div>
     )
   );

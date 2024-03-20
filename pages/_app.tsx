@@ -53,6 +53,7 @@ function App({ Component, pageProps }: AppProps) {
         dayjs.locale(route);
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   return (

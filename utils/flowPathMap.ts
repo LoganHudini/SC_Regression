@@ -10,10 +10,9 @@ export const flowPathMap = {
   OFFERS_FLOW: availablePaths?.OFFERS,
   VIEW_BILL_CHECKOUT_FLOW: availablePaths?.BILL,
   ROOM_BOOKING: null,
-  FEEDBACK_FLOW: null,
+  FEEDBACK_FLOW: availablePaths?.FEEDBACK,
   DIGITAL_KEY_FLOW: null,
-
-  // offer
+  HOME: availablePaths?.HOME,
   SPA: availablePaths?.SPA,
   IRD: availablePaths?.DINING,
   RESTAURANT: availablePaths?.RESTAURANTS_BARS,

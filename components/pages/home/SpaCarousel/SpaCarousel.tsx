@@ -23,6 +23,7 @@ import Phone from '@icons/telephone.svg';
 import Mail from '@icons/email.svg';
 import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
+import { PhoneEmail } from 'components/shared/PhoneEmail/PhoneEmail';
 
 interface ICarouselProps {
   data: any;
@@ -35,7 +36,8 @@ interface ICarouselSlideProps {
 
 export const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle }) => {
   const { t } = useTranslation(['common']);
-  const handleClick = () => {
+
+  const handleSpaInfo = () => {
     spaInformationStorage({
       selectedSpaInfoName: slide?.name,
       selectedSpaInfoId: slide?.id,
@@ -51,7 +53,7 @@ export const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle
         className={cx(styles.carouselSlideWrapperSpa, 'globals-carouselSlideWrapperSpa', {
           [styles.carouselWrapperSingleImage]: slideStyle,
         })}
-        onClick={handleClick}
+        onClick={handleSpaInfo}
       >
         {slide?.images?.length > 0 && (
           <StableImage
@@ -109,9 +111,11 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
     (info: any) => info?.id === spaInfo?.selectedSpaInfoId,
   );
 
-  const spaTreatments = activeItems(data?.getSpaDetails?.treatments)?.filter(
-    (item: any) => item?.spaId === spaInfoDetails?.id,
-  );
+  const spaTreatments =
+    data?.getSpaDetails?.treatments?.length > 0 &&
+    activeItems(data?.getSpaDetails?.treatments)?.filter(
+      (item: any) => item?.spaId === spaInfoDetails?.id,
+    );
 
   const onCtaClick = () => {
     toggleDetailsDrawer(false);
@@ -138,7 +142,7 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
 
   const time = getTimings(spaInfoDetails?.customAttributes);
 
-  const spaDetails = () => (
+  const SpaDetails = () => (
     <div
       className={cx({
         [styles.listComponentMargin]:
@@ -156,19 +160,23 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
         {spaInfoDetails?.name && (
           <h2 className={styles.detailComponentTitle}>{t(`${spaInfoDetails?.name}`)}</h2>
         )}
+
         {spaInfoDetails?.location.addressLine1 && (
           <div className={styles.location}>
             <LocationIcon className={styles.locationicon} />
             <p>{spaInfoDetails?.location.addressLine1}</p>
           </div>
         )}
+
         {time?.value && (
           <div className={styles.DetailscuisineRowTime}>
             <ClockIcon className={styles.cuisineIcon} />
             <p>{time?.value}</p>
           </div>
         )}
-        {spaInfoDetails?.treatmentsMenu !== '{}' &&
+
+        {spaInfoDetails?.treatmentsMenu &&
+          spaInfoDetails?.treatmentsMenu !== '{}' &&
           spaInfoDetails?.treatmentsMenu?.split('=')[1].split(',')[0] && (
             <StyledButton variant='outlined' onClick={onViewMenu} className={styles.buttonView}>
               {t('VIEW MENU')}
@@ -179,32 +187,12 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
           <p className={styles.detailComponentDescription}>{t(`${spaInfoDetails?.description}`)}</p>
         )}
 
-        <div className={styles.informationWrapper}>
-          {spaInfoDetails?.contact?.phone && (
-            <a
-              aria-label={`${t('Phone')}`}
-              href={`tel:${spaInfoDetails?.contact?.phone}`}
-              target='_blank'
-              rel='noreferrer'
-              className={styles.infoText}
-            >
-              <Phone className={styles.telephoneIcon} />
-              <span className={styles.text}>{t('Call')}</span>
-            </a>
-          )}
-          {spaInfoDetails?.contact?.email && (
-            <a
-              href={`mailto:${spaInfoDetails?.contact?.email}`}
-              aria-label={`${t('Email')}`}
-              target='_blank'
-              rel='noreferrer'
-              className={styles.infoText}
-            >
-              <Mail className={styles.mailIcon} />
-              <span className={styles.text}>{t('Email')}</span>
-            </a>
-          )}
-        </div>
+        {(spaInfoDetails?.contact?.phone || spaInfoDetails?.contact?.email) && (
+          <PhoneEmail
+            phone={spaInfoDetails?.contact?.phone}
+            email={spaInfoDetails?.contact?.email}
+          />
+        )}
       </div>
       {(spaTreatments?.length > 0 || spaInfoDetails?.cta?.status === ACTIVE) && (
         <StyledButton variant='contained' onClick={onCtaClick} className={cx(styles.button)}>
@@ -251,7 +239,11 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
           isIframe={true}
         />
       ) : (
-        <CustomDrawer open={spaDetailsDrawerStatus} onClose={closeDrawer} content={spaDetails()} />
+        <CustomDrawer
+          open={spaDetailsDrawerStatus}
+          onClose={closeDrawer}
+          content={<SpaDetails />}
+        />
       )}
     </>
   );

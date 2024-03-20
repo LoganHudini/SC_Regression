@@ -237,7 +237,7 @@ const Youverse: React.FC = () => {
       </Head>
 
       <div>
-        <iframe src={src} allow='camera' style={{ width: '100%', height: '100svh' }} />
+        <iframe src={src} allow='camera' style={{ width: '100%', height: '100dvh' }} />
       </div>
       <Notification
         title={notificationInfo?.title}

@@ -113,12 +113,6 @@ const Spa: React.FC = () => {
   );
 
   useEffect(() => {
-    if (spaTreatmentsList?.length === 0) {
-      navigate(availablePaths?.HOME);
-    }
-  }, []);
-
-  useEffect(() => {
     data?.getSpaDetails?.spa &&
       spaInformationStorage({
         selectedSpaInfoName:

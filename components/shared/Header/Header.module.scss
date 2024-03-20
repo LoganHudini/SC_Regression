@@ -29,22 +29,11 @@
   cursor: pointer;
   position: absolute;
   left: 20px;
-  top: 1.15rem;
-  margin-left: 0px;
+  display: flex;
+  align-items: center;
 }
 
 .backIcon {
-  height: 26px;
-  width: 27px;
-  path {
-    fill: var(--primary-theme-color);
-  }
-}
-
-.backIconIrd {
-  height: 26px;
-  width: 27px;
-  margin-top: 4px;
   path {
     fill: var(--primary-theme-color);
   }
@@ -82,6 +71,13 @@
 .headerLogo {
   cursor: pointer;
   max-height: 2rem;
+}
+
+.propertyName {
+  position: absolute;
+  bottom: 5px;
+  font: 9px var(--primary-font-regular);
+  text-transform: uppercase;
 }
 
 .closeButton {

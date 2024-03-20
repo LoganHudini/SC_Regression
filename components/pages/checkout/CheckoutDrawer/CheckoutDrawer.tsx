@@ -29,7 +29,7 @@ const CheckoutDrawer = (props: any) => {
   const detailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
   const checkedInData = useCheckedIn();
 
-  const checkinModule: boolean = activeModule(config?.modules, CHECK_IN);
+  const checkInModule: boolean = activeModule(config?.modules, CHECK_IN);
 
   const { data: feedBackList } = useQuery(GET_FEEDBACK, {
     skip: !hotelId,
@@ -83,7 +83,7 @@ const CheckoutDrawer = (props: any) => {
         type: feedbackData?.length === 0 ? 'home' : 'feedback',
         description: t(
           t(
-            'Hope you had a pleasant stay with us. We look forward to your next visit.\n Thank You.',
+            'Hope you had a pleasant stay with us. We look forward to your next visit.\nThank You.',
           ),
         ),
       });
@@ -127,29 +127,29 @@ const CheckoutDrawer = (props: any) => {
   };
 
   const handleDeviceDeactivate = () => {
-    toggleDetailsDrawer(false);
-    checkoutTrip();
-    toggleNotification(true);
+    setTimeout(() => {
+      checkoutTrip();
+    }, 5000);
     setErrorToggle({
       state: false,
-      message: t('Phone Disconnected!'),
+      message: t('Device Disconnected!'),
       type: feedbackData?.length === 0 ? 'home' : 'feedback',
       description: t(
-        'Hope you had a pleasant stay with us. We look forward to your next visit.\n Thank You.',
+        'Hope you had a pleasant stay with us. We look forward to your next visit.\nThank You.',
       ),
     });
+    toggleNotification(true);
+    toggleDetailsDrawer(false);
   };
 
   const checkoutDrawerDetails = () => (
     <div className={styles.wrapper}>
-      <p className={styles.title}>
-        {checkinModule ? t('Confirm Checkout') : t('Disconnect Phone')}
-      </p>
+      <p className={styles.title}>{checkInModule ? t('Confirm Checkout') : t('Unpair My Room')}</p>
       <p className={styles.content}>
-        {checkinModule
+        {checkInModule
           ? t('This action cannot be reversed. Your room access will be disabled after Checkout.')
           : t(
-              'This action is irreversible. Your phone will no longer have access to in-room features, including In-Room Dining, Services, and others',
+              'This action is irreversible.Your device will no longer have access to in-room features, including In-Room Dining, Services, and others',
             )}
       </p>
       <div className={styles.buttonWrapper}>
@@ -160,7 +160,7 @@ const CheckoutDrawer = (props: any) => {
           loading={checkoutLoader}
           className={styles.buttonYes}
           variant='contained'
-          onClick={() => (checkinModule ? handleCheckout() : handleDeviceDeactivate())}
+          onClick={() => (checkInModule ? handleCheckout() : handleDeviceDeactivate())}
         >
           {t('YES')}
         </StyledButton>

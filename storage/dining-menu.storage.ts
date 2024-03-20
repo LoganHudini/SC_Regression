@@ -46,6 +46,8 @@ export type IDiningMenuStorageData = {
 
 export const diningMenuStorage = makeVar<IDiningMenuStorageData>({ items: [] });
 
+export const diningCategoryStorage = makeVar<any>([]);
+
 export type IScrollPosition = {
   scrollX: number;
   scrollY: number;

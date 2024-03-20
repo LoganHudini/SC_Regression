@@ -1,25 +1,17 @@
 import { useQuery, useReactiveVar } from '@apollo/client';
-import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React, { useCallback, useEffect, useState } from 'react';
-import { tableReservationStorage } from 'storage/table-reservation.storage';
 import { getStaticPaths } from 'utils/getStatic';
 import styles from '@styles/offers/offers.module.scss';
-import { useRouter } from 'next/router';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { useTranslation } from 'react-i18next';
-import { flowPathMap } from 'utils/flowPathMap';
-import { StableImage } from 'components/shared/StableImage/StableImage';
-import { ASSETS_URL } from 'core/graphql/endpoints';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { Header } from 'components/shared/Header/Header';
-import { EXTERNAL_URL, OFFERS, RESTAURANTS_BARS, RESTAURANT_BOOKING_FLOW } from 'utils/constants';
+import { OFFERS } from 'utils/constants';
 import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
-import dayjs from 'dayjs';
-import { Notification } from 'components/shared/Notification/Notification';
 import { GET_OFFERS } from 'core/graphql/queries/GET_OFFERS';
 import {
   offerDetailDrawerStatus,
@@ -31,11 +23,13 @@ import { Loader } from 'components/shared/Loaders/Loaders';
 import { isEmpty } from 'lodash';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { isOfferActive } from 'utils/functions';
-import cx from 'classnames';
 import Head from 'next/head';
-import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
-
+import {
+  offerDetails,
+  handleCtaClick,
+  timeDisplayed,
+} from 'components/pages/home/OffersCarousel/OffersCarousel';
 export { getStaticPaths };
 
 const Offers: React.FC = () => {
@@ -46,8 +40,6 @@ const Offers: React.FC = () => {
   const offersOptionSelected: any = useReactiveVar(selectedOfferOption);
   const offerDetailStatus: any = useReactiveVar(offerDetailDrawerStatus);
   const selectedOffer: any = useReactiveVar(selectedOfferDetails);
-
-  const router = useRouter();
   const navigate = useLocalizedRouter();
   const [offerBooking, setofferBooking] = useState(false);
 
@@ -88,113 +80,8 @@ const Offers: React.FC = () => {
   };
 
   const onCtaClick = useCallback(() => {
-    if (selectedOffer?.CTA?.redirectTo === EXTERNAL_URL) {
-      setofferBooking(true);
-    }
-    if (selectedOffer?.CTA?.redirectTo === RESTAURANT_BOOKING_FLOW) {
-      tableReservationStorage({
-        restaurantName: selectedOffer?.name,
-        id: selectedOffer?.id,
-        venueId:
-          (selectedOffer?.customAttributes && selectedOffer?.customAttributes[0]?.value) ?? '',
-      });
-    }
-    if (selectedOffer?.CTA?.redirectTo !== EXTERNAL_URL) {
-      const redirectUrl =
-        flowPathMap[selectedOffer?.CTA?.redirectTo.toUpperCase() as keyof typeof flowPathMap];
-
-      if (redirectUrl) {
-        navigate(redirectUrl);
-      }
-    }
-    closeDrawer();
-  }, [
-    navigate,
-    selectedOffer?.CTA?.redirectTo,
-    selectedOffer?.customAttributes,
-    selectedOffer?.id,
-    selectedOffer?.name,
-  ]);
-
-  const startDate = dayjs(selectedOffer?.duration?.startDate, 'DD-MM-YYYY');
-  const endDate = dayjs(selectedOffer?.duration?.endDate, 'DD-MM-YYYY');
-
-  const displayStartDate =
-    startDate?.year() === endDate?.year()
-      ? startDate.format('MMMM D')
-      : startDate.format('MMMM D, YYYY');
-
-  const displayEndDate = endDate.format('MMMM D, YYYY');
-
-  const timeDisplayed =
-    selectedOffer &&
-    !selectedOffer?.duration?.alwaysActive &&
-    `${displayStartDate} until ${displayEndDate}`;
-
-  const offerDetails = () => (
-    <div
-      className={cx(styles.listComponent, {
-        [styles.listComponentMargin]:
-          selectedOffer?.CTA && (selectedOffer?.CTA?.redirectTo || selectedOffer?.CTA?.URL),
-      })}
-    >
-      <div className={styles.imageWrapper}>
-        {selectedOffer?.images?.length > 0 && (
-          <StableImage
-            className={styles.bannerImage}
-            src={`${ASSETS_URL}/${selectedOffer?.images[0]?.ratio16to9}`}
-          />
-        )}
-      </div>
-      <div className={styles.contentWrapper}>
-        <div className={styles.listComponentData}>
-          {selectedOffer?.name && (
-            <h2 className={styles.listComponentTitle}>{t(`${selectedOffer?.name}`)}</h2>
-          )}
-        </div>
-        <div className={styles.gapList}>
-          {selectedOffer?.description && (
-            <>
-              <p className={styles.listComponentDataTitle}>{t('Offer Includes')}</p>
-              <p className={styles.listComponentDataText}>{t(`${selectedOffer?.description}`)}</p>
-            </>
-          )}
-          {selectedOffer?.duration && (
-            <>
-              <p className={styles.listComponentDataTitle}>{t('Availability')}</p>
-              <p className={styles.listComponentDataText}>
-                {/* {time()} */}
-                {selectedOffer?.duration?.alwaysActive ? t('Everyday') : timeDisplayed}
-              </p>
-            </>
-          )}
-        </div>
-      </div>
-      {selectedOffer?.CTA && (selectedOffer?.CTA?.redirectTo || selectedOffer?.CTA?.URL) && (
-        <StyledButton
-          variant='contained'
-          onClick={onCtaClick}
-          className={cx(styles.button, {
-            [styles.withoutImageButton]: selectedOffer && !selectedOffer?.images[0]?.ratio16to9,
-          })}
-        >
-          {selectedOffer?.CTA?.ctaTitle || t('BOOK NOW')}
-        </StyledButton>
-      )}
-      <>
-        <Notification
-          title={t('Thank You!') as string}
-          description={
-            t(
-              'Your booking has been received. Our reservation team will get in touch with you soon',
-            ) as string
-          }
-          redirect={RESTAURANTS_BARS}
-          type='success'
-        />
-      </>
-    </div>
-  );
+    handleCtaClick(selectedOffer, setofferBooking, navigate, closeDrawer);
+  }, [navigate, selectedOffer]);
 
   const closeDrawer = () => {
     offerDetailDrawerStatus(false);
@@ -227,7 +114,6 @@ const Offers: React.FC = () => {
           ))}
         </PageWrapper>
       )}
-      {/* <CustomDrawer open={offerDetailStatus} onClose={closeDrawer} content={offerDetails()} /> */}
       {offerBooking ? (
         <CustomDrawer
           open={offerBooking}
@@ -242,7 +128,11 @@ const Offers: React.FC = () => {
           isIframe={true}
         />
       ) : (
-        <CustomDrawer open={offerDetailStatus} onClose={closeDrawer} content={offerDetails()} />
+        <CustomDrawer
+          open={offerDetailStatus}
+          onClose={closeDrawer}
+          content={offerDetails(selectedOffer, timeDisplayed, onCtaClick, t)}
+        />
       )}
     </>
   );

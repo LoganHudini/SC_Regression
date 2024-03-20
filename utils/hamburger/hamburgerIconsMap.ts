@@ -19,6 +19,12 @@ import Peanut from '@icons/Peanuts.svg';
 import Shrimp from '@icons/shrimp.svg';
 import WheatBag from '@icons/wheat_Bag.svg';
 
+import Settings from '@icons/settings.svg';
+import HomeIcon from '@icons/homeicon.svg';
+import Language from '@icons/language.svg';
+import StaySummary from '@icons/Stay_Summary.svg';
+import Checkout from '@icons/Checkout.svg';
+
 export const hamburgerIconsMap = {
   'In-Room Dining': InRoomDiningIcon,
   Dining: InRoomDiningIcon,
@@ -35,6 +41,12 @@ export const hamburgerIconsMap = {
   'Hotel Compendium': HotelCompendiumIcon,
   'About Us': HotelInformationIcon,
   'Hotel Information': HotelInformationIcon,
+  settings: Settings,
+  home: HomeIcon,
+  language: Language,
+  'Stay Summary': StaySummary,
+  checkout: Checkout,
+  'View Bill & Checkout': Checkout,
   Chat: ChatIcon,
   Help: ChatIcon,
 };

@@ -33,6 +33,8 @@ export const toggleLoader = makeVar(false);
 
 export const toggleDetailsDrawer = makeVar(false);
 
+export const toggleRestaurantDetailsDrawer = makeVar(false);
+
 export const toggleCheckInDetailsDrawer = makeVar(false);
 
 export const getHotelCompendium = makeVar([]);

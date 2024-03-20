@@ -77,10 +77,10 @@ const Guest: React.FC<any> = () => {
 
   const reservationInfo = reservationData?.getReservation?.data;
 
-  const checkinModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
+  const checkInModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
 
   // primary guest configuration
-  const guestSubmodule = checkinModule?.submodules?.find(
+  const guestSubmodule = checkInModule?.submodules?.find(
     (submodule: any) => submodule?.name === INFORMATION && submodule?.isActive,
   );
   const activeSections = guestSubmodule?.details?.filter((section: any) => section?.isActive);
@@ -92,7 +92,7 @@ const Guest: React.FC<any> = () => {
   )?.options;
 
   // accompanyguest configuration
-  const accompanyingGuestSubmodule = checkinModule?.submodules?.find(
+  const accompanyingGuestSubmodule = checkInModule?.submodules?.find(
     (submodule: any) => submodule?.name === ACCOMPANYINGGUEST && submodule.isActive,
   );
   const accompanyGuestInformationSection = updateDocTypeOptions(

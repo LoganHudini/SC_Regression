@@ -17,6 +17,7 @@ import { IInvoiceApiResponse, INVOICE } from 'core/graphql/queries/INVOICE';
 import {
   GET_RESERVATION,
   GET_RESERVATION_NO_LAST_NAME,
+  GET_RESERVATION_WITH_ROOM_NUMBER,
   IGetReservationApiResponse,
 } from 'core/graphql/queries/GET_RESERVATION';
 import { useCheckedIn } from 'storage/check-in.storage';
@@ -53,16 +54,17 @@ const CheckOut = () => {
   const [emailLoader, setEmailLoader] = useState(false);
 
   const { data: reservationData, loading: reservationLoading } =
-    useQuery<IGetReservationApiResponse>(GET_RESERVATION_NO_LAST_NAME, {
+    useQuery<IGetReservationApiResponse>(GET_RESERVATION_WITH_ROOM_NUMBER, {
       context: {
         clientName: 'rest',
         headers: {
           Authorization:
-            'Bearer ' + getCheckOutToken(checkedInData?.roomNumber, checkedInData?.name, 403),
+            'Bearer ' + getCheckOutToken(checkedInData?.roomNumber, checkedInData?.name),
         },
       },
       variables: {
-        confirmationNumber: checkedInData?.reservationId,
+        roomNo: checkedInData?.roomNumber?.toString()?.trim(),
+        lastName: checkedInData?.name?.toString()?.trim(),
       },
       onError: (error) => {
         toggleNotification(true);
