@@ -201,8 +201,7 @@
 
 .searchDiv {
   overflow: scroll;
-  padding: 1.6rem 1rem 1.4rem;
-  background-color: var(--primary-background-color);
+  padding: 1.6rem 1rem 0;
   width: 91%;
   max-width: 768px;
   margin: auto;
@@ -252,4 +251,97 @@
   justify-content: space-between;
   align-items: center;
   padding-left: 14%;
+}
+
+.buttonWrapper {
+  display: flex;
+  margin: 15px 0;
+  overflow: scroll;
+  max-width: 768px;
+  width: 100%;
+  @media (pointer: coarse) {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.indredient {
+  font: $medium var(--primary-font-heading);
+  color: var(--primary-text-color);
+}
+
+.FilterButtonActive {
+  height: 30px;
+  font: $medium var(--primary-font-heading);
+  padding: 0 10px;
+  text-transform: capitalize;
+  color: var(--secondary-text-color) !important;
+  background: var(--primary-theme-color) !important;
+  border: none;
+  width: auto;
+  white-space: nowrap;
+  box-sizing: content-box;
+
+  &:hover:enabled {
+    border: none;
+  }
+
+  &:after {
+    display: none;
+  }
+}
+
+.FilterButtonActiveAllergen {
+  height: 30px;
+  font: $medium var(--primary-font-heading);
+  padding: 0 10px;
+  text-transform: capitalize;
+  color: var(--secondary-text-color) !important;
+  background: var(--primary-theme-color) !important;
+  border: none;
+  width: auto;
+  white-space: nowrap;
+  box-sizing: content-box;
+  path {
+    fill: var(--primary-button-color);
+    stroke: var(--primary-button-color);
+  }
+
+  &:hover:enabled {
+    border: none;
+  }
+
+  &:after {
+    display: none;
+  }
+}
+
+.FilterButtonInActive {
+  height: 30px;
+  background: var(--primary-background-color);
+  font: $medium var(--primary-font-heading);
+  padding: 0 10px;
+  text-transform: capitalize;
+  box-shadow: none;
+  width: auto;
+  white-space: nowrap;
+  color: var(--primary-theme-color);
+  border: 1px solid var(--primary-border-color);
+  box-sizing: content-box;
+  gap: 10px;
+
+  &:hover:enabled {
+    color: var(--primary-theme-color);
+    background: var(--primary-background-color);
+    box-shadow: none;
+  }
+
+  &:after {
+    display: none;
+  }
+}
+
+.wrapper {
+  margin: 0 5px;
 }

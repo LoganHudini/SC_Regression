@@ -216,7 +216,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
         (offersActive && offersOptionSelected?.type) ||
         (hotelCompendiumActive && hotelCompendiumSelected?.name) ||
         checkOutActive ||
-        irdActive) && (
+        (irdActive && selectedDiningCategory?.menuName)) && (
         <div className={cx(styles.bottomMenuWrapper, { [styles.hideOnScroll]: hideOnScroll })}>
           <StyledButton
             disabled={disabled}

@@ -18,6 +18,8 @@ import Fish from '@icons/fish.svg';
 import Peanut from '@icons/Peanuts.svg';
 import Shrimp from '@icons/shrimp.svg';
 import WheatBag from '@icons/wheat_Bag.svg';
+import NonVeg from '@icons/NonVeg.svg';
+import Veg from '@icons/Veg.svg';
 
 import Settings from '@icons/settings.svg';
 import HomeIcon from '@icons/homeicon.svg';
@@ -62,4 +64,6 @@ export const iconsMap = {
   peanut: Peanut,
   shrimp: Shrimp,
   wheatBag: WheatBag,
+  'non-veg': NonVeg,
+  veg: Veg,
 };

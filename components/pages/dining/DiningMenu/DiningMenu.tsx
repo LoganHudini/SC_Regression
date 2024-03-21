@@ -32,6 +32,8 @@ import { useHideOnScroll } from 'utils/hooks/useHideOnScroll';
 import { client } from 'core/graphql/client';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useCurrency } from 'utils/hooks/useCurrency';
+import { ALLERGENS, TAGS } from 'utils/constants';
+import { iconsMap } from 'utils/hamburger/hamburgerIconsMap';
 
 export { getStaticPaths };
 interface DiningMenuProps {
@@ -62,6 +64,10 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   const [scrollSearch, setScrollSearch] = useState(false);
   const [totalAmount, setTotalAmount] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
+  const [filteredOptions, setFilteredOptions] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
+  const [allergens, setAllergens] = useState<string[]>([]);
+  const [irdItemsList, setIrdItemsList] = useState<any[]>([]);
   const [orderDrawer, setOrderDrawer] = useState(false);
   const [scrollHide, setScrollHide] = useState(true);
   const [scrollPosition] = useState(scrollData);
@@ -82,6 +88,59 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
 
   const irdMenu = irdActiveMenuList(data);
 
+  useLayoutEffect(() => {
+    const tags: string[] = [];
+    const allergens: string[] = [];
+    irdMenu?.forEach((irdItem: any) => {
+      if (irdItem?.name === selectedFilter?.menuName) {
+        irdItem?.categories?.forEach((category: any) =>
+          category?.items?.forEach((item: any) => {
+            [TAGS, ALLERGENS].forEach((filterOption: string) => {
+              if (item?.[filterOption]?.length > 0) {
+                item[filterOption].forEach((option: any) => {
+                  if (filterOption === TAGS) {
+                    tags.push(option?.name);
+                  } else {
+                    allergens.push(option?.name);
+                  }
+                });
+              }
+            });
+          }),
+        );
+        irdItem?.categories?.forEach((categoryItem: any) => {
+          if (categoryItem?.items?.length > 0) {
+            setIrdItemsList((prevItemsList) => [...prevItemsList, ...categoryItem.items]);
+          }
+          categoryItem?.subCategories?.forEach((subCategoryItem: any) => {
+            if (subCategoryItem?.items?.length > 0) {
+              setIrdItemsList((prevItemsList) => [...prevItemsList, ...subCategoryItem.items]);
+            }
+          });
+        });
+      }
+    });
+
+    setTags([...new Set(tags)]);
+    setAllergens([...new Set(allergens)]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedFilter]);
+
+  const filterItems = (items: any) => {
+    return items?.filter((item: any) => {
+      return (
+        item?.price > 0 &&
+        item?.isActive &&
+        item?.name?.toLowerCase().includes(searchQuery.toLowerCase()) &&
+        (filteredOptions?.length === 0 ||
+          item?.allergens?.some((allergen: any) => filteredOptions?.includes(allergen?.name)) ||
+          item?.tags?.some((tag: any) => filteredOptions?.includes(tag?.name)))
+      );
+    });
+  };
+
+  const filteredIrdItemsList = irdItemsList?.length > 0 && filterItems(irdItemsList);
+
   const currentTime = new Date().getHours();
   const hoursDifference =
     irdMenu &&
@@ -95,17 +154,6 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     convertTo12HourFormat(
       irdMenu[hoursDifference?.indexOf(Math.min(...hoursDifference))]?.hours[0]?.open || '00:00',
     );
-
-  let irdItemsList: any = [];
-  irdMenu?.forEach((irdItem: any) =>
-    irdItem?.categories?.forEach((categoryItem: any) => {
-      categoryItem?.items?.length > 0 && (irdItemsList = [...irdItemsList, ...categoryItem.items]);
-      categoryItem?.subCategories?.forEach((subCategoryItem: any) => {
-        subCategoryItem?.items?.length > 0 &&
-          (irdItemsList = [...irdItemsList, ...subCategoryItem.items]);
-      });
-    }),
-  );
 
   const initialFilter = irdMenu && irdMenu[0];
 
@@ -212,17 +260,6 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     }
   }, [search, openCategory]);
 
-  const filterItems = (items: any) => {
-    return items?.filter(
-      (item: any) =>
-        item?.price > 0 &&
-        item?.isActive &&
-        item?.name.toLowerCase().includes(searchQuery.toLowerCase()),
-    );
-  };
-
-  irdItemsList = filterItems(irdItemsList);
-
   const renderMenuElements = (items: any[]) => {
     return (
       <>
@@ -291,9 +328,38 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     document.body.style.overflow = '';
   }
 
-  const confirmOrder = useCallback(() => {
-    navigate(availablePaths.DINING_ORDER_SUMMARY);
-  }, [navigate]);
+  const renderFilterOptions = (items: string[], allergenCheck: boolean) => {
+    return items.map((itemName, index) => {
+      const IconComponent = iconsMap[itemName.toLowerCase() as keyof typeof iconsMap];
+      return (
+        <div key={index} className={styles.wrapper}>
+          <StyledButton
+            className={cx(
+              styles.FilterButtonInActive,
+              {
+                [styles.FilterButtonActive]: filteredOptions.includes(itemName) && !allergenCheck,
+              },
+              styles.FilterButtonInActive,
+              {
+                [styles.FilterButtonActiveAllergen]:
+                  filteredOptions.includes(itemName) && allergenCheck,
+              },
+            )}
+            onClick={() =>
+              setFilteredOptions((prev) =>
+                filteredOptions.includes(itemName)
+                  ? prev.filter((item) => item !== itemName)
+                  : [...prev, itemName],
+              )
+            }
+          >
+            {IconComponent && <IconComponent />}
+            {itemName}
+          </StyledButton>
+        </div>
+      );
+    });
+  };
 
   return (
     <>
@@ -325,6 +391,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                   className={styles.searchIcon}
                   onClick={() => {
                     setSearchQuery('');
+                    setFilteredOptions([]);
                     setsearch(false);
                   }}
                 >
@@ -349,7 +416,12 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                   endAdornment: (
                     <InputAdornment position='start'>
                       {searchQuery && (
-                        <IconButton onClick={() => setSearchQuery('')}>
+                        <IconButton
+                          onClick={() => {
+                            setSearchQuery('');
+                            setFilteredOptions([]);
+                          }}
+                        >
                           <SearchText />
                         </IconButton>
                       )}
@@ -357,6 +429,15 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                   ),
                 }}
               />
+              {tags?.length > 0 && (
+                <div className={styles.buttonWrapper}>{renderFilterOptions(tags, false)}</div>
+              )}
+              {allergens?.length > 0 && (
+                <>
+                  <p className={styles.indredient}>Allergens</p>
+                  <div className={styles.buttonWrapper}>{renderFilterOptions(allergens, true)}</div>
+                </>
+              )}
             </div>
           ) : (
             <DiningCategoryOptions
@@ -393,7 +474,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                 </div>
               </div>
             )}
-            {irdItemsList?.length === 0 &&
+            {filteredIrdItemsList?.length === 0 &&
               data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length !==
                 0 && (
                 <div className={styles.noItems}>
