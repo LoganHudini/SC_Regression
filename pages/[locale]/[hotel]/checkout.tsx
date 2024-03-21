@@ -15,8 +15,6 @@ import { toggleDetailsDrawer, toggleNotification } from 'storage/home.storage';
 import { BillSummary } from 'components/pages/bill/BillSummary/BillSummary';
 import { IInvoiceApiResponse, INVOICE } from 'core/graphql/queries/INVOICE';
 import {
-  GET_RESERVATION,
-  GET_RESERVATION_NO_LAST_NAME,
   GET_RESERVATION_WITH_ROOM_NUMBER,
   IGetReservationApiResponse,
 } from 'core/graphql/queries/GET_RESERVATION';
@@ -36,7 +34,7 @@ import {
   getCheckInToken,
   handleCheckInAuthenticationFailure,
 } from 'core/api/functions/getCheckInAuthentication';
-import { processStatusCode } from 'utils/processError';
+import { processError, processStatusCode } from 'utils/processError';
 import { getCheckOutToken } from 'core/api/functions/getCheckOutAuthentication';
 import dayjs from 'dayjs';
 import { checkoutTrip } from 'storage/trips.storage';
@@ -89,24 +87,29 @@ const CheckOut = () => {
       },
     });
 
-  const {
-    data: invoiceData,
-    loading: invoiceLoading,
-    error,
-  } = useQuery<IInvoiceApiResponse>(INVOICE, {
+  const { data: invoiceData, loading: invoiceLoading } = useQuery<IInvoiceApiResponse>(INVOICE, {
     context: { clientName: 'rest' },
     fetchPolicy: 'network-only',
     variables: {
       confirmationNumber: checkedInData?.invoiceId,
       roomNumber: checkedInData?.roomNumber,
     },
+    onError: (error) => {
+      toggleNotification(true);
+      setErrorToggle({
+        state: true,
+        message: processError(error),
+        type: 'home',
+        description: 'Please try again after sometime.',
+      });
+    },
   });
 
   useEffect(() => {
-    if ((checkedInData && !checkedInData?.checkedIn) || error) {
+    if (checkedInData && !checkedInData?.checkedIn) {
       navigate(availablePaths?.HOME);
     }
-  }, [checkedInData, error, navigate]);
+  }, [checkedInData, navigate]);
 
   const loading = invoiceLoading || reservationLoading;
   const invoiceElements = invoiceData?.invoice?.data?.billItems;

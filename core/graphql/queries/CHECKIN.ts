@@ -16,10 +16,11 @@ export interface ICheckInApiRequest {
   guestCount: any;
   paymentType: string;
   expirationDate: string;
+  cardHolderName: string;
   creditCardType?: string;
   lastFourDigits?: string;
   vaultedCardID?: string;
-  settlement: string;
+  settlementType: string;
   documentType: string;
   documentNumber: string;
   channel: string;

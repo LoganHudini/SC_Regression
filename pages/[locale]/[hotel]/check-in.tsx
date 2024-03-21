@@ -41,7 +41,6 @@ import {
   STEPPER_CHECK_IN,
   STEPPER_REVIEW,
   NONE,
-  OPERA,
 } from 'utils/constants';
 import { usePersonalisation } from 'utils/hooks/usePersonalisation';
 
@@ -52,12 +51,10 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
   const config = useConfig();
   const hotelName = config?.name;
   const hotel = config?.code;
-  const pms = config?.pms;
   const hotelImageInfo = useReactiveVar(hotelInformation);
   const [welcomeDrawer, setWelcomeDrawer] = useState(getWelcomeDrawer());
   const paymentConfig: any = usePaymentConfig();
   const [availablePersonalizations, personalisationDataloading] = usePersonalisation();
-
   const { t } = useTranslation('about-your-stay');
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
@@ -118,7 +115,8 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
     if (!personalisationDataloading) {
       if (
         paymentConfig?.type === NONE ||
-        Number(reservationInfo?.roomTypes[0]?.totalCharge) === 0
+        (paymentConfig?.isTotalChargeActive &&
+          Number(reservationInfo?.roomTypes[0]?.totalCharge) === 0)
       ) {
         if (availablePersonalizations?.length === 0) {
           StepperInformationStorage([
@@ -142,6 +140,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
     availablePersonalizations,
     paymentConfig?.type,
     reservationInfo?.roomTypes,
+    paymentConfig?.isTotalChargeActive,
   ]);
 
   return (

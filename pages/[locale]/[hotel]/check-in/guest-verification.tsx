@@ -264,26 +264,24 @@ const Guest: React.FC<any> = () => {
 
   const nextStep = useCallback(() => {
     if (
-      (paymentConfig?.type === NONE || Number(reservationInfo?.roomTypes[0]?.totalCharge) === 0) &&
+      (paymentConfig?.type === NONE ||
+        (paymentConfig?.isTotalChargeActive &&
+          Number(reservationInfo?.roomTypes[0]?.totalCharge) === 0)) &&
       personalisationData?.length === 0
     ) {
       navigate(availablePaths?.REVIEW);
     } else if (paymentConfig?.type === NONE && personalisationData?.length !== 0) {
       navigate(availablePaths?.PERSONALIZE);
-    } else if (
-      paymentConfig?.type !== NONE &&
-      Number(reservationInfo?.roomTypes[0]?.totalCharge) > 0 &&
-      personalisationData?.length !== 0
-    ) {
-      navigate(availablePaths?.CARD_AUTHORISATION);
-    } else if (
-      paymentConfig?.type !== NONE &&
-      Number(reservationInfo?.roomTypes[0]?.totalCharge) > 0 &&
-      personalisationData?.length === 0
-    ) {
+    } else {
       navigate(availablePaths?.CARD_AUTHORISATION);
     }
-  }, [navigate, paymentConfig?.type, personalisationData?.length, reservationInfo?.roomTypes]);
+  }, [
+    navigate,
+    paymentConfig?.isTotalChargeActive,
+    paymentConfig?.type,
+    personalisationData?.length,
+    reservationInfo?.roomTypes,
+  ]);
 
   // document update
   const goToTheNextStep = useCallback(async () => {
@@ -495,21 +493,6 @@ const Guest: React.FC<any> = () => {
                 <p
                   className={styles.cardTitle}
                 >{`${reservationInfo?.details?.contactPerson?.firstName} ${reservationInfo?.details?.contactPerson?.lastName}`}</p>
-                {/* {guestReservationInfo?.docNo &&
-                  guestReservationInfo?.docType &&
-                  guestInformationSection?.type === YOUVERSE && (
-                    <div
-                      onClick={() => {
-                        youverseProfileIDStorage({
-                          id: reservationInfo?.guests[0]?.id,
-                          guestType: PRIMARY,
-                        });
-                        navigate(availablePaths?.YOUVERSE);
-                      }}
-                    >
-                      <EditIcon />
-                    </div>
-                  )} */}
               </div>
               <div>
                 {guestInformationSection?.type === YOUVERSE ||
@@ -575,21 +558,6 @@ const Guest: React.FC<any> = () => {
                     <p className={styles.cardTitleAccompany}>
                       {`${selectedAccompanyGuest?.firstName} ${selectedAccompanyGuest?.lastName}`}
                     </p>
-                    {/* {accompanyingGuestSubmodule?.type === YOUVERSE &&
-                      selectedAccompanyGuest?.docNo &&
-                      selectedAccompanyGuest?.docType && (
-                        <div
-                          onClick={() => {
-                            youverseProfileIDStorage({
-                              id: selectedAccompanyGuest?.id,
-                              guestType: ACCOMPANYINGGUEST,
-                            });
-                            navigate(availablePaths?.YOUVERSE);
-                          }}
-                        >
-                          <EditIcon />
-                        </div>
-                      )} */}
                   </div>
 
                   {accompanyingGuestSubmodule?.type === YOUVERSE ? (

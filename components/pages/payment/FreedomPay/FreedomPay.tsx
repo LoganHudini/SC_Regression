@@ -33,8 +33,6 @@ const FreedomPay: React.FC = () => {
 
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
 
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
   });
@@ -69,19 +67,8 @@ const FreedomPay: React.FC = () => {
         });
 
         if (data) {
-          const html = data.initiatePayment.data.answer.payment_zone_data;
-          const doc = iframeRef.current?.contentWindow?.document;
-
           setPaymentIntent(data?.initiatePayment?.data?.answer?.intent);
           transactionId.current = data?.initiatePayment?.data?.answer?.transaction_id as string;
-
-          if (doc) {
-            doc.open();
-            doc.write(html as string);
-            doc.getElementById('hpc--card-frame')?.setAttribute('height', '100%');
-            doc.getElementById('hpc--card-frame')?.setAttribute('width', '100%');
-            doc.close();
-          }
         }
       } catch (initiatePaymentError) {
         setErrorNotification(true);
@@ -95,106 +82,42 @@ const FreedomPay: React.FC = () => {
 
   const handlePaymentResponse = useCallback(
     async (data: any) => {
-      if (transactionId.current) {
+      if (transactionId.current && data?.data?.paymentKeys?.length > 0) {
         const cardOptions = [
           { code: 'MC', value: 'Mastercard' },
           { code: 'VS', value: 'Visa' },
+          { code: 'VS', value: 'VS' },
           { code: 'AX', value: 'Americanexpress' },
         ];
-
-        const getPaymentStatusPayload = {
-          paymentIntent: data?.data?.paymentKeys && data?.data?.paymentKeys[0],
-          token: [paymentIntent],
-        };
 
         try {
           const { data: paymentStatusData } = await client.query<IGetPaymentStatusApiResponse>({
             query: GET_FREEDOMPAY_STATUS,
             context: { clientName: 'rest_v3' },
             fetchPolicy: 'network-only',
-            variables: { body: getPaymentStatusPayload },
+            variables: {
+              body: {
+                paymentIntent: data?.data?.paymentKeys[0],
+                token: paymentIntent,
+                amount: 0.0,
+              },
+            },
           });
 
-          const status = paymentStatusData?.getPaymentStatus.data['status '];
-
-          // const response = {
-          //   status: 'ok',
-          //   data: {
-          //     amount: 0,
-          //     floatAmount: 0,
-          //     currency: 'USD',
-          //     status: 'Failed',
-          //     checksum: '',
-          //     id_order: '80c608e6-078d-486a-ab6e-b18444ea30bc',
-          //     transaction_id: '',
-          //     reference: null,
-          //     type: '',
-          //     additional_param: '',
-          //     payment_method: 'Card',
-          //     merchant_id_order: '80c608e6-078d-486a-ab6e-b18444ea30bc',
-          //     payment_date: '0001-01-01T00:00:00Z',
-          //     cardNumber: '',
-          //     cardType: '',
-          //     cardTypeCode: '',
-          //     cardHolderName: '',
-          //     cardExpiry: '20--01',
-          //     referenceNumber: '',
-          //     token: {},
-          //     email: '',
-          //     country: '',
-          //     expiresAt: '0001-01-01T00:00:00Z',
-          //     updatedAt: '0001-01-01T00:00:00Z',
-          //     referenceId: '',
-          //     linkId: '',
-          //   },
-          // };
-
-          // const sucess = {
-          //   status: 'ok',
-          //   data: {
-          //     amount: 0,
-          //     floatAmount: 0,
-          //     currency: 'USD',
-          //     status: 'Success',
-          //     checksum: '',
-          //     id_order: 'e7d2b213-1a56-4420-86dc-0ec7d6c5fb7c',
-          //     transaction_id: '404040512785818',
-          //     reference: null,
-          //     type: '',
-          //     additional_param: '',
-          //     payment_method: 'Card',
-          //     merchant_id_order: 'e7d2b213-1a56-4420-86dc-0ec7d6c5fb7c',
-          //     payment_date: '2024-02-09T14:14:40Z',
-          //     cardNumber: '421389xxxxxx9025',
-          //     cardType: 'VS',
-          //     cardTypeCode: '',
-          //     cardHolderName: '',
-          //     cardExpiry: '2027-5-01',
-          //     referenceNumber: '',
-          //     token: {
-          //       id_token: '4213890A1009G192OS8VHSSC9025',
-          //     },
-          //     email: '',
-          //     country: '',
-          //     expiresAt: '0001-01-01T00:00:00Z',
-          //     updatedAt: '0001-01-01T00:00:00Z',
-          //     referenceId: '',
-          //     linkId: '',
-          //   },
-          // };
+          const status = paymentStatusData?.getPaymentStatus.data['status'];
 
           if (status === 'Success') {
             reservationGuestInfoStorageData({
               ...guestReservationInfo,
-              token: paymentStatusData?.getPaymentStatus?.data['token'],
-              cardNumber: paymentStatusData?.getPaymentStatus?.data['cardNumber '],
-              cardHolderName: paymentStatusData?.getPaymentStatus?.data['cardHolderName '],
+              token: paymentStatusData?.getPaymentStatus?.data['token']?.id_token,
+              cardNumber: paymentStatusData?.getPaymentStatus?.data['cardNumber'],
+              cardHolderName: paymentStatusData?.getPaymentStatus?.data['cardHolderName'],
               cardType: cardOptions?.find(
                 (option: any) =>
-                  option?.value === paymentStatusData?.getPaymentStatus?.data['cardType '],
+                  option?.value === paymentStatusData?.getPaymentStatus?.data['cardType'],
               )?.code,
               cardExpiryDate: paymentStatusData?.getPaymentStatus?.data['cardExpiry'],
-              paymentType: paymentStatusData?.getPaymentStatus?.data['paymentMethod '],
+              paymentType: paymentStatusData?.getPaymentStatus?.data['payment_method'],
             });
             setErrorNotification(false);
             toggleNotification(true);
@@ -227,8 +150,7 @@ const FreedomPay: React.FC = () => {
   if (typeof window !== 'undefined') {
     window.onmessage = function (event) {
       if (event?.data?.data) {
-        // console.log(event?.data?.data);
-        // handlePaymentResponse(event?.data);
+        handlePaymentResponse(event?.data);
       }
     };
   }
@@ -237,19 +159,14 @@ const FreedomPay: React.FC = () => {
     <>
       {loading && <PaymentLoader />}
 
-      <iframe
-        ref={iframeRef}
-        className={cx(styles.paymentWindow, { [styles.paymentWindowHidden]: loading })}
-      ></iframe>
-      {/* 
-      <iframe
-        className={cx(styles.paymentWindow, { [styles.paymentWindowHidden]: loading })}
-        src={
-          'https://hpc.uat.freedompay.com/api/v1.5/controls?sessionKey=' + paymentIntent
-            ? paymentIntent
-            : ''
-        }
-      ></iframe> */}
+      {paymentIntent && (
+        <iframe
+          id={'#hpc--card-frame'}
+          className={cx(styles.paymentWindow, { [styles.paymentWindowHidden]: loading })}
+          src={'https://hpc.freedompay.com/api/v1.5/controls?sessionKey=' + paymentIntent}
+        ></iframe>
+      )}
+
       <Notification
         title={errorNotification ? ('Payment Failed!' as string) : (t('Thank You!') as string)}
         description={

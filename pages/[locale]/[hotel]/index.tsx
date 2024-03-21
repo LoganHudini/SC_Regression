@@ -142,7 +142,7 @@ const Home: NextPage = () => {
   const homeModules: any = {
     'hotel-info': () => (
       <>
-        {homeCarouselDetails?.getPropertyDetailsByHotelId?.hotel && (
+        {homeCarouselDetails?.getPropertyDetailsByHotelId?.hotel?.images?.length > 0 && (
           <HotelInfoCarousel data={homeCarouselDetails?.getPropertyDetailsByHotelId?.hotel} />
         )}
       </>

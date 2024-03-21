@@ -62,6 +62,7 @@
 .title {
   font: $header var(--heading-font-regular);
   width: 95%;
+  text-transform: capitalize;
   margin: 2px 0;
 }
 

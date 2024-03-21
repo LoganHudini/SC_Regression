@@ -335,7 +335,7 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'EVWTWAI09GH00'
-    deployToProperGuestUAT:
+    deployToProperUAT:
       - step:
           caches:
             - node
@@ -347,7 +347,7 @@ pipelines:
             - rm -rf yarn.lock
             - rm -rf node_modules
             - yarn
-            - CI='' yarn build:uat
+            - CI='' yarn build:proper
             - CI='' yarn export
             - cd out
             - pipe: atlassian/aws-s3-deploy:0.4.1

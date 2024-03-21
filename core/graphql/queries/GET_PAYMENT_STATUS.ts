@@ -13,22 +13,26 @@ export interface IGetPaymentStatusApiResponse {
       floatAmount: number;
       'currency ': string;
       'status ': string;
+      status: string;
       'checksum ': string;
       'orderId ': string;
       'transactionId ': string;
       'type ': string;
       'additionalParam ': string;
       'paymentMethod ': string;
+      payment_method: string;
       'merchantOrderId ': string;
       'paymentDate ': string;
       encryptedPayment: string;
       reference: any;
       'cardNumber ': string;
+      cardNumber: string;
       'cardType ': string;
+      cardType: string;
       'cardHolderName ': string;
+      cardHolderName: string;
       cardExpiry: string;
-      token: string;
-      createdBy: string;
+      token: any;
       createdAt: number;
       updatedBy: string;
       updatedAt: number;
@@ -57,6 +61,8 @@ query GetPaymentStatus($body: GetPaymentStatusPayload) {
     @rest(
       type: "GetPaymentStatusPayload"
       path: "/${ENVIRONMENT}/v3/getpaymentstatus/freedompay/hotel/${HOTEL_ID}"
+      method: "POST"
+      bodyKey: "body"
     ) {
     errors
     data

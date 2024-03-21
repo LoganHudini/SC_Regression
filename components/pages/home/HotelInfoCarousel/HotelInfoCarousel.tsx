@@ -6,7 +6,7 @@ import { ASSETS_URL } from '../../../../core/graphql/endpoints';
 import styles from './HotelInfoCarousel.module.scss';
 import { useTranslation } from 'react-i18next';
 import { CustomReadMore } from 'components/shared/CustomReadMore/CustomReadMore';
-import { toggleHotelInfoDrawer, toggleMapState } from 'storage/home.storage';
+import { hotelInformation, toggleHotelInfoDrawer, toggleMapState } from 'storage/home.storage';
 
 interface IHomeCarouselProps {
   data: any;
@@ -40,6 +40,7 @@ const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ title, description, 
 };
 
 export const HotelInfoCarousel: React.FC<IHomeCarouselProps> = ({ data }) => {
+  hotelInformation(data);
   return (
     <Carousel
       navButtonsAlwaysInvisible
