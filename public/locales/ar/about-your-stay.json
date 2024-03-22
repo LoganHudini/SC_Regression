@@ -26,7 +26,7 @@
   "Driving License": "رخصة القيادة",
   "Passport": "جواز السفر",
   "Credit Card": "بطاقة الائتمان",
-  "BEGIN CHECK-IN": "بدء عملية تسجيل الوصول",
+  "Begin Check-In": "بدء عملية تسجيل الوصول",
   "Stay Details": "تفاصيل الإقامة",
   "check-In": "تسجيل الوصول",
   "Check-In": "تسجيل الوصول",
@@ -53,6 +53,6 @@
   "Thank You!": "شكرًا لك!",
   "Card Authentication Failed!": "فشل التحقق من البطاقة!",
   "Card Authentication Completed": "تم التحقق من البطاقة",
-  "PROCEED TO PAYMENT": "المتابعة للدفع",
+  "Proceed to Payment": "المتابعة للدفع",
   "Payment Successful": "تم الدفع بنجاح"
 }

@@ -26,7 +26,7 @@
   "Driving License": "Driving License",
   "Passport": "Passport",
   "Credit Card": "Credit Card",
-  "BEGIN CHECK-IN": "BEGIN CHECK-IN",
+  "Begin Check-In": "Begin Check-In",
   "Stay Details": "Stay Details",
   "check-In": "check-In",
   "Check-In": "Check-In",
@@ -53,6 +53,6 @@
   "Thank You!": "Thank You!",
   "Card Authentication Failed!": "Card Authentication Failed!",
   "Card Authentication Completed": "Card Authentication Completed",
-  "PROCEED TO PAYMENT": "PROCEED TO PAYMENT",
+  "Proceed to Payment": "PROCEED TO PAYMENT",
   "Payment Successful": "Payment Successful"
 }

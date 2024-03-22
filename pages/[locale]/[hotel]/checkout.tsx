@@ -68,9 +68,9 @@ const CheckOut = () => {
         toggleNotification(true);
         setErrorToggle({
           state: true,
-          message: 'Please Try Again!',
+          message: t('Please Try Again!'),
           type: 'home',
-          description: 'Could not fetch reservation details.',
+          description: t('Could not fetch reservation details.'),
         });
       },
       onCompleted(data) {
@@ -78,9 +78,9 @@ const CheckOut = () => {
           toggleNotification(true);
           setErrorToggle({
             state: true,
-            message: 'Reservation Not Found!',
+            message: t('Reservation Not Found!'),
             type: 'home',
-            description: 'Please enter valid reservation details.',
+            description: t('Please enter valid reservation details.'),
           });
           checkoutTrip();
         }

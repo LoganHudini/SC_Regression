@@ -1,9 +1,11 @@
 {
-  "Personalize Your Room": "Personalize Your Room",
-  "Special Request": "Special Request",
-  "Do you have any special requests?": "Do you have any special requests?",
-  "Confirm": "Confirm",
-  "Per day": "Per day",
-  "Per stay": "Per stay",
-  "Add": "Add"
+  "Personalize Your Room": "Personnaliser Votre Chambre",
+  "Customisation": "Personnalisation",
+  "Customise My Stay": "Personnaliser Mon Séjour",
+  "Personalize every aspect of your stay – tailor your experience to perfection.": "Personnalisez chaque aspect de votre séjour – adaptez votre expérience à la perfection.",
+  "Next": "Suivant",
+  "Limit Exceeded!": "Limite dépassée !",
+  "Maximum limit reached for the selected item": "Limite maximale atteinte pour l'article sélectionné",
+  "Select": "Sélectionner",
+  "Selected": "Sélectionné"
 }

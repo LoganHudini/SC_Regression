@@ -1,6 +1,5 @@
 import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
-import React, { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { useCallback } from 'react';
 import styles from './DiningMenuElementUpsell.module.scss';
 import { IDiningMenuElementProps } from './DiningMenuElementUpsell.types';
 import { diningMenuStorage } from 'storage/dining-menu.storage';
@@ -16,7 +15,6 @@ export const DiningMenuElementUpsell: React.FC<IDiningMenuElementProps> = ({
   image,
   code,
 }) => {
-  const { t } = useTranslation('dining-menu');
   const diningData = useReactiveVar(diningMenuStorage);
   const totalQuantity = diningData?.items
     ?.filter((el) => el.itemId === id && el.quantity > 0)

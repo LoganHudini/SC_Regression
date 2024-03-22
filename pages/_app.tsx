@@ -43,6 +43,7 @@ function App({ Component, pageProps }: AppProps) {
   const locales: any = {
     en: import('dayjs/locale/en'),
     ar: import('dayjs/locale/ar'),
+    fr: import('dayjs/locale/fr'),
   };
 
   useEffect(() => {

@@ -145,7 +145,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, ird
               <p className={styles.carouselSlideTimings}>{slide.hours[0]?.day}</p>
             )}
 
-            <CustomReadMore text={'READ MORE'} />
+            <CustomReadMore text={t('READ MORE') as string} />
           </div>
         </div>
         {iframeComponent && (
