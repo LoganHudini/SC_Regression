@@ -149,7 +149,9 @@ const Home: NextPage = () => {
     ),
     offers: () => (
       <>
-        <OffersCarousel data={activeOffersList} loading={offersListLoading} />
+        {activeOffersList?.length > 0 && (
+          <OffersCarousel data={activeOffersList} loading={offersListLoading} />
+        )}
       </>
     ),
     services: () => (
@@ -208,7 +210,9 @@ const Home: NextPage = () => {
       <Head>
         <title>{hotelName}</title>
       </Head>
-      {BRAND_CODE === (FAIRMONT || RAFFLES) && <Header screenTitle={t('Home') as string} />}
+      {(BRAND_CODE === FAIRMONT || BRAND_CODE == RAFFLES) && (
+        <Header screenTitle={t('Home') as string} />
+      )}
 
       <PageWrapper displayBottomMenu className={'globals-landingPageContainer'}>
         {homeCarouselLoading ||

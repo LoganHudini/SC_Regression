@@ -48,7 +48,12 @@ export const Notification: React.FC<INotificationProps> = ({
         })}
       ></div>
       {notificationStatus && title && (
-        <div className={cx(styles.wrapper, { [styles.wrapperOpened]: notificationStatus })}>
+        <div
+          className={cx(styles.wrapper, {
+            [styles.wrapperOpened]: notificationStatus,
+            [styles.wrapperWithSpacing]: config?.isAnimationActive !== undefined,
+          })}
+        >
           {config?.isAnimationActive === undefined && (
             <div className={styles.iconWrapper}>
               {type === SUCCESS && <SuccessAnimation />}
@@ -56,7 +61,11 @@ export const Notification: React.FC<INotificationProps> = ({
             </div>
           )}
 
-          <div className={styles.contentWrapper}>
+          <div
+            className={cx(styles.contentWrapper, {
+              [styles.contentWrapperWithoutAnimation]: config?.isAnimationActive !== undefined,
+            })}
+          >
             <p className={styles.title}>{title}</p>
             <p className={styles.description}>
               {networkError && apolloError ? networkError?.result?.errors : description}
