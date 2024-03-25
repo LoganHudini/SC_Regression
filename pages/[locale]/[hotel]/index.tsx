@@ -139,8 +139,10 @@ const Home: NextPage = () => {
       <Head>
         <title>{hotelName}</title>
       </Head>
-      {BRAND_CODE === (FAIRMONT || RAFFLES) && <Header screenTitle={t('Home') as string} />}
-      <PageWrapper displayBottomMenu>
+      {(BRAND_CODE === FAIRMONT || BRAND_CODE == RAFFLES) && (
+        <Header screenTitle={t('Home') as string} />
+      )}
+      <PageWrapper displayBottomMenu className={'globals-landingPageContainer'}>
         {(homeCarouselLoading ||
           serviceCarouselLoading ||
           irdloading ||
