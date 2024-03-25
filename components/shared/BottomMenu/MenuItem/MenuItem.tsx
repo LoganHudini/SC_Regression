@@ -160,7 +160,7 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
             )}
           </div>
           <p className={cx(styles.menuItemTitle, { [styles.fixedMenutitle]: iconStyle })}>
-            {title}
+            {t(`${title}`)}
           </p>
         </div>
       )}

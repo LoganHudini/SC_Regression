@@ -118,9 +118,9 @@
   "Offer Includes": "Offer Includes",
   "Your booking has been received. Our reservation team will get in touch with you soon": "Your booking has been received. Our reservation team will get in touch with you soon",
   "Choose Your Language": "Choose Your Language",
-  "English": "English",
-  "Arabic": "Arabic",
   "Device Disconnected!": "Device Disconnected!",
   "Hope you had a pleasant stay with us. We look forward to your next visit.\nThank You.": "Hope you had a pleasant stay with us. We look forward to your next visit.\nThank You.",
-  "Disconnect From Room": "Disconnect From Room"
+  "Disconnect From Room": "Disconnect From Room",
+  "home": "home",
+  "language": "language"
 }

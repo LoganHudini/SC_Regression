@@ -44,6 +44,8 @@ function App({ Component, pageProps }: AppProps) {
     en: import('dayjs/locale/en'),
     ar: import('dayjs/locale/ar'),
     fr: import('dayjs/locale/fr'),
+    es: import('dayjs/locale/es-us'),
+    ct: import('dayjs/locale/ca'),
   };
 
   useEffect(() => {

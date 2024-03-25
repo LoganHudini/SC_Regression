@@ -115,5 +115,7 @@
   "Choose Your Language": "اختر لغتك",
   "Device Disconnected!": "تم قطع اتصال الجهاز!",
   "Hope you had a pleasant stay with us. We look forward to your next visit.\nThank You.": "أتمنى أن تكون قد قضيت إقامة ممتعة معنا. نحن نتطلع إلى زيارتك القادمة.\nشكرًا لك.",
-  "Disconnect From Room": "قطع الاتصال بالغرفة"
+  "Disconnect From Room": "قطع الاتصال بالغرفة",
+  "home": "بيت",
+  "language": "لغة"
 }

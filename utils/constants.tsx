@@ -341,6 +341,8 @@ export const LANGUAGES = [
   { code: 'en', name: 'English' },
   { code: 'ar', name: 'عربي' },
   { code: 'fr', name: 'Français' },
+  { code: 'es', name: 'Español' },
+  { code: 'ct', name: 'Català' },
 ];
 
 // path constants

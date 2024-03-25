@@ -4,7 +4,7 @@
   "Housekeeping": "Entretien ménager",
   "Services": "Services",
   "In Room Dining": "Service en chambre",
-  "Restaurants & Bars": "Restaurants & Bars",
+  "Restaurants & Bars": "Restaurants et bars",
   "We have received your order!": "Nous avons bien reçu votre commande !",
   "Order number:": "Numéro de commande :",
   "No of Guest(s)": "Nombre de convives",
@@ -118,5 +118,7 @@
   "Offer Includes": "L'offre inclut",
   "Your booking has been received. Our reservation team will get in touch with you soon": "Votre réservation a bien été reçue. Notre équipe de réservation prendra bientôt contact avec vous.",
   "Choose Your Language": "Choisissez Votre Langue",
-  "Device Disconnected!": "Appareil déconnecté !"
+  "Device Disconnected!": "Appareil déconnecté !",
+  "home": "maison",
+  "language": "langue"
 }
