@@ -21,7 +21,6 @@ import {
 } from 'storage/home.storage';
 import cx from 'classnames';
 import {
-  ABOUT_US,
   CHAT_FLOW,
   CHECK_IN,
   EXTERNAL,
@@ -93,10 +92,16 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
       if (redirectUrl) {
         toggleOption();
         navigate(redirectUrl);
-      } else if (title === ABOUT_US) {
+      } else if (flow === HOTEL_INFORMATION_FLOW) {
         toggleOption();
         toggleMapState(true);
         toggleHotelInfoDrawer(true);
+      } else if (flow === CHAT_FLOW) {
+        if ((window as any).MessageBirdChatWidget) {
+          (window as any).MessageBirdChatWidget.toggleChat(true);
+        }
+        toggleMessageBirdChat(true);
+        toggleOption();
       } else if (title === LANGUAGE) {
         toggleOption();
         setOpenLanguage(true);
