@@ -17,14 +17,17 @@ import {
   toggleCheckInDetailsDrawer,
   toggleDetailsDrawer,
   toggleNotification,
+  toggleMessageBirdChat,
 } from 'storage/home.storage';
 import cx from 'classnames';
 import {
   ABOUT_US,
+  CHAT_FLOW,
   CHECK_IN,
   EXTERNAL,
   FAILURE,
   FLOW,
+  HOTEL_INFORMATION_FLOW,
   IN_APP,
   IN_ROOM_DINING,
   LANGUAGE,
@@ -248,10 +251,16 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
       if (redirectUrl) {
         closeDrawer();
         navigate(redirectUrl);
-      } else if (module.name === ABOUT_US) {
+      } else if (module?.flow === HOTEL_INFORMATION_FLOW) {
         closeDrawer();
         toggleMapState(true);
         toggleHotelInfoDrawer(true);
+      } else if (module?.flow === CHAT_FLOW) {
+        if ((window as any).MessageBirdChatWidget) {
+          (window as any).MessageBirdChatWidget.toggleChat(true);
+        }
+        toggleMessageBirdChat(true);
+        closeDrawer();
       }
     }
   };

@@ -9,9 +9,9 @@ import { useQuery, useReactiveVar } from '@apollo/client';
 import {
   diningOptions,
   selectedCompendiumCategory,
-  toggleCheckInDetailsDrawer,
   toggleDetailsDrawer,
   toggleHamburgerMenuDrawer,
+  toggleMessageBirdChat,
   toggleModuleOptionsDrawer,
 } from 'storage/home.storage';
 import {
@@ -46,6 +46,7 @@ import {
 import { diningInformationStorage } from 'storage/dining.storage';
 import MyOrders from '@icons/orderDish.svg';
 import PoweredByHudiniIcon from '@icons/hudini.svg';
+import CloseIcon from '@icons/closeIcon.svg';
 
 export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) => {
   const wrapperRef = useRef(null);
@@ -204,6 +205,8 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
     navigate(availablePaths.DINING_ORDER_SUMMARY);
   }, [navigate]);
 
+  const widgetStatus = useReactiveVar(toggleMessageBirdChat);
+
   return (
     <>
       {(homeActive ||
@@ -276,6 +279,18 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
             />
           </div>
         </div>
+      )}
+
+      {widgetStatus && (
+        <CloseIcon
+          className={styles.closeWidgetIcon}
+          onClick={() => {
+            if ((window as any).MessageBirdChatWidget) {
+              (window as any).MessageBirdChatWidget.toggleChat(false);
+            }
+            toggleMessageBirdChat(false);
+          }}
+        />
       )}
 
       <ModuleOptionsDrawer

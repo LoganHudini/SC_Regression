@@ -358,9 +358,11 @@ img {
     background: var(--primary-disabled-color) !important;
     color: var(--primary-button-color);
   }
+
   &:hover:enabled {
     background-color: var(--primary-button-background-color);
   }
+
   &:after {
     content: url('/images/sofitel/ArrowCta.png');
     padding-bottom: 6px;
@@ -398,6 +400,7 @@ img {
   padding: 11px 0;
   border-radius: 5px;
   overflow: hidden;
+
   &:hover:enabled {
     background: none;
     border: none;
@@ -497,6 +500,7 @@ img {
   min-height: 210px;
   object-fit: cover;
   max-width: 768px;
+
   &::before {
     content: '';
     display: block;
@@ -514,9 +518,11 @@ img {
   0% {
     left: -150px;
   }
+
   50% {
     left: 100%;
   }
+
   100% {
     left: 100%;
   }
@@ -548,15 +554,18 @@ img {
   text-align: start;
   min-height: auto;
   padding: 0;
+
   .Toastify__toast__close svg path {
     fill: #2daa5c;
   }
 }
+
 .Toastify__toast-body {
   margin: 0;
   padding: 15px 0px 15px 37px;
   max-width: 70%;
 }
+
 .Toastify__toast__close {
   width: 17px;
   height: 17px;
@@ -564,11 +573,13 @@ img {
   top: 58%;
   right: 20px;
   transform: translateY(-50%);
+
   svg {
     width: 17px;
     height: 17px;
   }
 }
+
 .Toastify__toast-icon {
   svg {
     width: 15px;

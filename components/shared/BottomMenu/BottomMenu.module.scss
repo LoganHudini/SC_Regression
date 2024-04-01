@@ -24,6 +24,7 @@
   0% {
     opacity: 0.75;
   }
+
   100% {
     opacity: 1;
   }
@@ -52,6 +53,7 @@
 
 .expandArrow {
   padding-bottom: 4px;
+
   path {
     fill: var(--bottom-menu-arrow-color);
   }
@@ -85,6 +87,7 @@
   flex-direction: column;
   width: 90%;
   margin: 0 auto;
+
   &:not(:last-child) {
     margin-bottom: 37px;
   }
@@ -222,4 +225,12 @@
   display: flex;
   justify-content: end;
   margin: 0.5rem 1rem 0 0;
+}
+
+.closeWidgetIcon {
+  position: absolute;
+  top: 27.55px;
+  right: 11.5px;
+  z-index: 10001;
+  cursor: pointer;
 }

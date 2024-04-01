@@ -50,6 +50,7 @@ export const hamburgerIconsMap = {
   checkout: Checkout,
   'View Bill & Checkout': Checkout,
   Chat: ChatIcon,
+  'Chat with us': ChatIcon,
   Help: ChatIcon,
 };
 
