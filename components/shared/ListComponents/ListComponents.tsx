@@ -88,7 +88,7 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
               <p>{time?.value}</p>
             </div>
           )}
-          <CustomReadMore text={t('READ MORE') as string} />
+          <CustomReadMore text={t('Read More') as string} />
         </div>
       </div>
     </div>

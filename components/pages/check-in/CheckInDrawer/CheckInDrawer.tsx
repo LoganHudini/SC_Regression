@@ -235,6 +235,7 @@ const CheckInDrawer = () => {
       ? getReservationForCheckinValidation
       : getReservationForConnectToRoomValidation,
     onSubmit: goToTheNextStep,
+    enableReinitialize: true,
   });
 
   useEffect(() => {

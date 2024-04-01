@@ -3,7 +3,7 @@
   --primary-theme-color: #595959;
   --primary-background-color: #ffffff;
   --primary-icon-color: #595959;
-  --primary-border-color: #bcbcbc;
+  --primary-border-color: #e0e0e0;
   --primary-box-shadow-color: none;
   --primary-error-text-color: #f41313;
   --primary-disabled-color: #b5b5b5;
@@ -75,7 +75,7 @@
   --readmore-arrowwithtext: none;
   --readmore-arrow: none;
   --readmore-arrowhead: none;
-  --readmore-underline: 1px solid var(--primary-theme-color);
+  --readmore-underline: 1px solid #000000;
 
   // Bottom menu arrow configs
   --bottom-menu-arrow-color: #fff;
@@ -188,4 +188,9 @@
 
 .globals-customReadMore {
   margin: 10px 0 !important;
+  color: #000000 !important;
+}
+
+.globals-titleWrapper {
+  background-color: #eff2ef !important;
 }

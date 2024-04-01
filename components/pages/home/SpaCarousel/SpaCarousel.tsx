@@ -75,7 +75,7 @@ export const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle
               <p>{time?.value}</p>
             </div>
           )}
-          <CustomReadMore text={t('VIEW MORE') as string} />
+          <CustomReadMore text='View More' />
         </div>
       </div>
     </>

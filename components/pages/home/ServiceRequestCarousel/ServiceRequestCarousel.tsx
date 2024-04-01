@@ -56,7 +56,7 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle }) => 
             ? t('Housekeeping')
             : slide?.__typename === 'Concierge' && t('Maintenance')}
         </h3>
-        <CustomReadMore text={t('READ MORE') as string} />
+        <CustomReadMore text={t('Read More') as string} />
       </div>
     </div>
   );
