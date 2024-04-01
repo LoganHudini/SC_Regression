@@ -352,7 +352,7 @@ const CheckInDrawer = () => {
             className={styles.findMyBookingBtn}
             onClick={formik.submitForm}
           >
-            {activeCheckInFlowInfo ? t('NEXT') : t('CONNECT TO ROOM')}
+            {activeCheckInFlowInfo ? t('NEXT') : t('Pair To Room')}
           </StyledButton>
         </PageWrapper>
       </>

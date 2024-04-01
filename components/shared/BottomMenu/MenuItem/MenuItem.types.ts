@@ -15,7 +15,6 @@ export interface IMenuItemProps {
   toggleOption: () => void;
   hotelName?: string;
   iconStyle?: any;
-  afterCheckinBottomArray?: any;
 }
 
 export interface IModuleOptionsDrawerProps {

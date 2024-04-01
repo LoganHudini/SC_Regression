@@ -83,9 +83,11 @@
 
 .MuiButton-containedPrimary {
   padding-top: 8px;
+
   &:disabled {
     background: var(--primary-disabled-color);
   }
+
   &:after {
     display: none;
   }
@@ -97,4 +99,8 @@
 
 .globals-landingPageContainer {
   margin-top: 64px;
+}
+
+.globals-menuItemWrapper {
+  border-bottom: 1px solid #3e3b3b !important;
 }

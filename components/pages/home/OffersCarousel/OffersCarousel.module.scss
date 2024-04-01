@@ -380,6 +380,7 @@
   &:first-child {
     margin-top: 36px;
   }
+
   &:last-child {
     margin-bottom: 20px !important;
   }
@@ -394,7 +395,7 @@
   width: 93%;
   position: absolute;
   transform: translate(0%, 40%);
-  font-size: $xsmall;
+  font-size: $medium;
   bottom: 0;
   right: 0;
   left: 0;
@@ -433,7 +434,7 @@
 }
 
 .listComponentDataText {
-  line-height: 1.25;
+  line-height: 1.5;
   white-space: pre-wrap;
   text-align: left;
   font-family: var(--primary-font-regular) !important;

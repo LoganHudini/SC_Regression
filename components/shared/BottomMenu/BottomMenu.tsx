@@ -153,9 +153,6 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
                       status={hamburgerMenuElement?.isActive}
                       toggleOption={closeHamburgerMenuDrawer}
                       hotelName={hotelName}
-                      afterCheckinBottomArray={
-                        afterCheckinBottomArray && afterCheckinBottomArray?.length > 0
-                      }
                     />
                   ))}
                 </div>

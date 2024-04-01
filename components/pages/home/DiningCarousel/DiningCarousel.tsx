@@ -117,13 +117,11 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, ird
           className={cx(styles.carouselSlideWrapper, 'globals-carouselSlideWrapper')}
           onClick={() => (module ? handleMenu() : redirect(''))}
         >
-          {slide?.images[0]?.master ? (
+          {slide?.images[0]?.master && (
             <StableImage
               className={cx(styles.carouselSlideImage, 'globals-carouselSlideImage')}
               src={`${ASSETS_URL}/${slide?.images[0]?.master}`}
             />
-          ) : (
-            <PlaceholderImage />
           )}
           <div
             className={cx(
@@ -136,7 +134,6 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, ird
             <div className={cx(styles.content, 'globals-content')}>
               {time && (
                 <div className={styles.cuisineRowTime}>
-                  {/* <ClockIcon className={styles.cuisineIcon} /> */}
                   <p>{time?.value}</p>
                 </div>
               )}

@@ -1803,7 +1803,7 @@ export const configuration = [
               {
                 name: 'Guest Information',
                 isActive: true,
-                type: 'youverse',
+                type: 'manual',
                 details: [
                   {
                     name: 'firstName',
@@ -1849,22 +1849,34 @@ export const configuration = [
                   {
                     name: 'docType',
                     label: 'Document Type',
-                    type: 'Text',
+                    type: 'Select',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
                         name: 'Passport',
-                        value: 'Passport',
-                        code: 'PASSPORT',
+                        value: 'PAS',
+                        code: 'PAS',
                         youverse: 'PASSPORT',
                       },
                       {
                         name: 'Driving License',
-                        value: 'DL',
-                        code: 'DL',
+                        value: 'DRL',
+                        code: 'DRL',
                         youverse: 'DRIVING_LICENSE',
+                      },
+                      {
+                        name: 'ID',
+                        value: 'ID',
+                        code: 'ID',
+                        youverse: 'IDENTITY_CARD',
+                      },
+                      {
+                        name: 'Military ID',
+                        value: 'MID',
+                        code: 'MID',
+                        youverse: 'IDENTITY_CARD',
                       },
                     ],
                   },
@@ -1873,7 +1885,7 @@ export const configuration = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                 ],

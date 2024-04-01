@@ -72,17 +72,17 @@ const HotelCompendium: React.FC = () => {
     setShowSelectedAmenity('');
   };
 
+  console.log(showSelectedAmenity?.images);
+
   const hotelCompendiumDrawerDetails = () => (
     <>
       {showSelectedAmenity && (
         <>
-          {showSelectedAmenity?.images?.length > 0 ? (
+          {showSelectedAmenity?.images?.length > 0 && (
             <StableImage
               className={styles.image}
               src={`${ASSETS_URL}/${showSelectedAmenity?.images[0]?.ratio16to9}`}
             />
-          ) : (
-            <PlaceholderImage />
           )}
 
           <div className={styles.wrapper}>

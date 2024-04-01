@@ -48,7 +48,6 @@ import { activeModule, diningOptionList } from 'utils/functions';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 import { diningInformationStorage } from 'storage/dining.storage';
-import CheckInDrawer from 'components/pages/check-in/CheckInDrawer/CheckInDrawer';
 import { useRouter } from 'next/router';
 import { checkoutTrip } from 'storage/trips.storage';
 import { Notification } from 'components/shared/Notification/Notification';
@@ -65,7 +64,6 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
   hotelName,
   toggleOption,
   iconStyle,
-  afterCheckinBottomArray,
 }) => {
   const navigate = useLocalizedRouter();
   const { t } = useTranslation(['common']);
@@ -147,10 +145,14 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
       {status && (
         <div
           onClick={onClick}
-          className={cx(styles.menuItemWrapper, iconStyle, {
-            [styles.afterCheckinBottom]: afterCheckinBottomArray,
-            [styles.itemWidth]: !iconStyle,
-          })}
+          className={cx(
+            styles.menuItemWrapper,
+            iconStyle,
+            {
+              [styles.itemWidth]: !iconStyle,
+            },
+            'globals-menuItemWrapper',
+          )}
         >
           <div className={styles.menuItemIconWrapper}>
             {Icon && isFunction(Icon) ? (

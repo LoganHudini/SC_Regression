@@ -78,13 +78,13 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
           )}
           {queryResultEntity?.primaryCuisine && (
             <div className={styles.cuisineRow}>
-              <DishIcon className={styles.cuisineIcon} />
+              <DishIcon />
               <span>{queryResultEntity?.primaryCuisine.toLowerCase()}</span>
             </div>
-          )}{' '}
+          )}
           {time && (
             <div className={styles.cuisineRowTime}>
-              <ClockIcon className={styles.cuisineIcon} />
+              <ClockIcon />
               <p>{time?.value}</p>
             </div>
           )}
