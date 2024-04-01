@@ -24,6 +24,7 @@
   0% {
     opacity: 0.75;
   }
+
   100% {
     opacity: 1;
   }
@@ -52,6 +53,7 @@
 
 .expandArrow {
   padding-bottom: 4px;
+
   path {
     fill: var(--bottom-menu-arrow-color);
   }
@@ -98,6 +100,7 @@
   flex-direction: column;
   width: 90%;
   margin: 0 auto;
+
   &:not(:last-child) {
     margin-bottom: 37px;
   }
@@ -158,4 +161,89 @@
   height: 6px;
   background: var(--primary-drawer-notch-color) 0% 0% no-repeat padding-box;
   border-radius: 3px;
+}
+
+.hamburgerMenuWrapper {
+  background-color: var(--hamburgermenu-drawer-color) !important;
+  // width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 0 2rem 0rem;
+}
+
+.divider {
+  border-top: 1px solid white;
+  width: 100%;
+  margin-block: 10px;
+}
+
+.iconStyle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin: 4px;
+  border-bottom: 0px solid !important;
+}
+
+.hamburgerMenuContainer {
+  display: flex;
+  max-width: 768px;
+  overflow: auto;
+  z-index: 1;
+  transform-origin: bottom;
+  flex-direction: column;
+  max-height: 40dvh;
+}
+
+.afterCheckinBottomArrayContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  max-width: 768px;
+  z-index: 1;
+  transform-origin: bottom;
+  gap: 12px;
+  margin: 1rem 0;
+}
+
+.orderIconWrapper {
+  position: relative;
+  padding: 15px 16px 15px 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.myOrdersLength {
+  border-radius: 50%;
+  background-color: #ff0000;
+  color: var(--primary-button-color);
+  font-size: $extraSmall;
+  width: 16px;
+  height: 16px;
+  padding: 2px;
+  padding-top: 0.5px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  align-self: baseline;
+  margin-left: -13px;
+  font-family: var(--primary-order-button-font-family);
+}
+
+.poweredByHudini {
+  display: flex;
+  justify-content: end;
+  margin: 0.5rem 1rem 0 0;
+}
+
+.closeWidgetIcon {
+  position: absolute;
+  top: 27.55px;
+  right: 11.5px;
+  z-index: 10001;
+  cursor: pointer;
 }

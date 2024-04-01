@@ -44,3 +44,5 @@ export const hotelImage = makeVar<any>({});
 export const hotelInfoStorage = makeVar<any>([]);
 
 export const diningHeaders = makeVar<any>([]);
+
+export const toggleMessageBirdChat = makeVar(false);

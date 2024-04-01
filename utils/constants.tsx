@@ -30,6 +30,10 @@ export const SHIFT4 = 'SHIFT4';
 export const CYBERSOURCE = 'CYBERSOURCE';
 export const FREEDOMPAY = 'FREEDOMPAY';
 
+// flow constants
+export const CHAT_FLOW = 'CHAT_FLOW';
+export const HOTEL_INFORMATION_FLOW = 'HOTEL_INFORMATION_FLOW';
+
 // key constants
 export const HouseKeeping = 'HouseKeeping';
 export const OFFERS = 'offers';

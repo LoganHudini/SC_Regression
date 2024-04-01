@@ -54,3 +54,4 @@ export const FETCH_FROM_DB = getFetchFromDb();
 export const SAVE_TO_DB = getSaveToDb();
 export const THEME_COLOR = '#ffffff';
 export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+export const MESSAGE_BIRD_WIDGET_ID = process.env.NEXT_PUBLIC_MESSAGE_BIRD_WIDGET_ID;
