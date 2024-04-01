@@ -373,7 +373,7 @@ const DiningDetailsDrawer = () => {
             />
           )}
           {selectedItem?.name && (
-            <div className={styles.titleWrapper}>
+            <div className={cx(styles.titleWrapper, 'globals-titleWrapper')}>
               <h3
                 className={cx(styles.title, {
                   [styles.titleWithImage]: selectedItem?.images?.length > 0,

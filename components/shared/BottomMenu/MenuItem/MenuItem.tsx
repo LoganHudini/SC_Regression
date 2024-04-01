@@ -230,7 +230,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
         )}
         {irdActive && (
           <div>
-            <p className={styles.title}>{t('Choose your category')}</p>
+            <p className={styles.title}>{t('In-Room Dining')}</p>
             <div className={styles.optionsList}>
               {irdOption?.map((dining: any, index: any) => (
                 <div key={index} className={cx(styles.optionsListItem)}>
@@ -260,7 +260,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
         )}
         {housekeepingActive && (
           <div>
-            <p className={styles.title}>{t('Choose your category')} </p>
+            <p className={styles.title}>{t('Services')} </p>
             <div className={styles.optionsList}>
               {serviceRequestOptions?.map((request: any, index: number) => (
                 <div key={index} className={cx(styles.optionsListItem)}>
@@ -289,7 +289,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
         )}
         {hotelCompendiumActive && (
           <div>
-            <p className={styles.title}>{t('Choose your category')}</p>
+            <p className={styles.title}>{t('Things To Do')}</p>
             <div className={styles.optionsList}>
               {filteredDetails?.map((category: any, index: any) => (
                 <div key={index} className={cx(styles.optionsListItem)}>
@@ -311,7 +311,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
         )}
         {spaActive && (
           <div>
-            <p className={styles.title}>{t('Choose your category')}</p>
+            <p className={styles.title}>{t('Spa & Wellness')}</p>
             <div className={styles.optionsList}>
               {spaCategories?.map((category: any, index: number) => (
                 <div key={index} className={cx(styles.optionsListItem)}>
@@ -340,7 +340,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
         )}
         {offersActive && (
           <div>
-            <p className={styles.title}>{t('Choose your category')}</p>
+            <p className={styles.title}>{t('Offers')}</p>
             <div className={styles.optionsList}>
               {Array.from(new Set(offersList?.map((item: any) => item?.type))).map((type) => {
                 return (

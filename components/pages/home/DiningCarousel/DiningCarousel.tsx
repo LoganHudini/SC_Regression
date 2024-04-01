@@ -120,7 +120,7 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
             <p className={styles.carouselSlideTimings}>{slide.hours[0]?.day}</p>
           )}
           {module ? (
-            <CustomReadMore text={'READ MORE'} />
+            <CustomReadMore text={t('Read More') as string} />
           ) : (
             slide?.cta?.status === ACTIVE && (
               <div className={cx(styles.buttonWrapper, 'globals-buttonWrapper')}>
