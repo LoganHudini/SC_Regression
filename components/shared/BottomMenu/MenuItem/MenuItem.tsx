@@ -14,21 +14,17 @@ import {
   toggleHotelInfoDrawer,
   toggleMapState,
   diningHeaders,
+  toggleMessageBirdChat,
 } from 'storage/home.storage';
 import cx from 'classnames';
 import {
-  ABOUT_US,
-  BAR,
-  BARS_CAPS,
+  CHAT_FLOW,
   CHECK_IN,
-  DINING_OPTIONS,
-  DINING_OPTIONS_PRE_CHECK_IN,
   EXTERNAL,
   FLOW,
+  HOTEL_INFORMATION_FLOW,
   IN_APP,
   IN_ROOM_DINING,
-  RESTAURANT,
-  RESTAURANTS,
 } from 'utils/constants';
 import CheckIcon from '@icons/checkIcon.svg';
 import { housekeepingOptions, serviceRequestOptionsArray } from 'storage/housekeeping.storage';
@@ -38,7 +34,6 @@ import { useTranslation } from 'react-i18next';
 import HotelInfoDrawer from 'components/pages/home/HotelInformation/HotelInfoDrawer/HotelInfoDrawer';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { availablePaths } from 'utils/availablePaths';
-import { toggleOpenCheckOutDrawer } from 'storage/checkout.storage';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { ReactSVG } from 'react-svg';
 import { isFunction } from 'lodash';
@@ -83,13 +78,19 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
       if (redirectUrl) {
         toggleOption();
         navigate(redirectUrl);
-      } else if (title === ABOUT_US) {
+      } else if (flow === HOTEL_INFORMATION_FLOW) {
         toggleOption();
         toggleMapState(true);
         toggleHotelInfoDrawer(true);
+      } else if (flow === CHAT_FLOW) {
+        if ((window as any).MessageBirdChatWidget) {
+          (window as any).MessageBirdChatWidget.toggleChat(true);
+        }
+        toggleMessageBirdChat(true);
+        toggleOption();
       }
     }
-  }, [externalLink, flow, navigate, pages, paths, redirectOptions, title, toggleOption]);
+  }, [flow, navigate, pages, paths, redirectOptions, toggleOption]);
 
   return (
     <>

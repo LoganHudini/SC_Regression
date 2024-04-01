@@ -12,6 +12,7 @@ import {
   toggleCheckInDetailsDrawer,
   toggleDetailsDrawer,
   toggleHamburgerMenuDrawer,
+  toggleMessageBirdChat,
   toggleModuleOptionsDrawer,
 } from 'storage/home.storage';
 import {
@@ -38,6 +39,7 @@ import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { activeModule, diningOptionList } from 'utils/functions';
 import { CHECK_IN } from 'utils/constants';
 import { IBottomMenuProps } from './BottomMenu.types';
+import CloseIcon from '@icons/closeIcon.svg';
 
 export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) => {
   const wrapperRef = useRef(null);
@@ -129,6 +131,8 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
     );
   };
 
+  const widgetStatus = useReactiveVar(toggleMessageBirdChat);
+
   return (
     <>
       {(homeActive ||
@@ -199,6 +203,18 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
             />
           </div>
         </div>
+      )}
+
+      {widgetStatus && (
+        <CloseIcon
+          className={styles.closeWidgetIcon}
+          onClick={() => {
+            if ((window as any).MessageBirdChatWidget) {
+              (window as any).MessageBirdChatWidget.toggleChat(false);
+            }
+            toggleMessageBirdChat(false);
+          }}
+        />
       )}
 
       <ModuleOptionsDrawer

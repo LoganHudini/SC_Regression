@@ -24,6 +24,7 @@
   0% {
     opacity: 0.75;
   }
+
   100% {
     opacity: 1;
   }
@@ -52,6 +53,7 @@
 
 .expandArrow {
   padding-bottom: 4px;
+
   path {
     fill: var(--bottom-menu-arrow-color);
   }
@@ -98,6 +100,7 @@
   flex-direction: column;
   width: 90%;
   margin: 0 auto;
+
   &:not(:last-child) {
     margin-bottom: 37px;
   }
@@ -158,4 +161,12 @@
   height: 6px;
   background: var(--primary-drawer-notch-color) 0% 0% no-repeat padding-box;
   border-radius: 3px;
+}
+
+.closeWidgetIcon {
+  position: absolute;
+  top: 27.55px;
+  right: 11.5px;
+  z-index: 10001;
+  cursor: pointer;
 }

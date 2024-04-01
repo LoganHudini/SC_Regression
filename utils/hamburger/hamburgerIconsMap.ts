@@ -36,6 +36,7 @@ export const hamburgerIconsMap = {
   'About Us': HotelInformationIcon,
   'Hotel Information': HotelInformationIcon,
   Chat: ChatIcon,
+  'Chat with us': ChatIcon,
   Help: ChatIcon,
 };
 
