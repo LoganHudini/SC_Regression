@@ -99,6 +99,7 @@ const Dining = () => {
   );
 
   useEffect(() => {
+    diningOptions({ type: IN_ROOM_DINING });
     if (
       uniqueFilteredDiningOptions?.length > 0 &&
       irdOption?.length === 0 &&
@@ -109,7 +110,6 @@ const Dining = () => {
           ? [...uniqueFilteredDiningOptions, { type: IN_ROOM_DINING }]
           : uniqueFilteredDiningOptions,
       );
-      diningOptions({ type: IN_ROOM_DINING });
     }
   }, [queryResultsData]);
 

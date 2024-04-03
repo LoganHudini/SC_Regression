@@ -59,7 +59,6 @@ export const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle
           className={cx(styles.carouselSlideImage, 'globals-carouselSlideImage')}
           src={`${ASSETS_URL}/${slide?.images[0]?.master}`}
         />
-
         <div
           className={cx(
             styles.carouselSlideDetailsWrapper,
