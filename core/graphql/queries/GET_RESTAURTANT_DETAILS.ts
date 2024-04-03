@@ -4,7 +4,6 @@ export interface IHours {
   close: string;
   day: string;
   open: string;
-  opensIn: string;
 }
 
 export interface IContact {
@@ -121,7 +120,6 @@ export const GET_RESTAURANT_DETAILS = gql`
           close
           day
           open
-          opensIn
         }
         id
         images {

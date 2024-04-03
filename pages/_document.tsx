@@ -53,6 +53,16 @@ class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
+          <style>
+            {`
+              #live-chat-widget {
+                margin-bottom: -24px !important;
+                position: fixed !important;
+                right: 0 !important;
+                bottom: 0 !important;
+              }
+            `}
+          </style>
           <script
             type='text/javascript'
             src={`https://livechat.messagebird.com/bootstrap.js?${MESSAGE_BIRD_WIDGET_ID}`}
