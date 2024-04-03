@@ -370,7 +370,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
       ) : (
         <>
           <>
-            {ordersData?.length > 0 && (
+            {ordersData?.length > 0 && !search && (
               <>
                 <DiningOrders openOrdersDrawer={openOrdersDrawer} ordersData={ordersData} />
                 <DiningOrdersDrawer

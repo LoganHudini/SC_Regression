@@ -505,22 +505,6 @@ const DiningOrderSummary = () => {
 
         {items?.length > 0 && (
           <div className={styles.confirmOrderButtonWrapper}>
-            <div className={styles.totalCostRow}>
-              {totalAmount && (
-                <div className={styles.totalCostWrapper}>
-                  <div className={styles.titleCostWrapper}>
-                    <span className={styles.currency}>{t('TOTAL')} </span>{' '}
-                    <span className={styles.currency}>
-                      {t('ITEMS')} - {items && items?.length}
-                    </span>
-                  </div>
-                  <span className={styles.currencyTitle}>
-                    {currency}
-                    <span className={styles.currencyValueTitle}>{totalAmount?.toFixed(2)}</span>
-                  </span>
-                </div>
-              )}
-            </div>
             <StyledButton
               disabled={items?.length === 0 || paymentType?.length === 0}
               loading={loading}
@@ -528,7 +512,16 @@ const DiningOrderSummary = () => {
               onClick={handleOrder}
               variant='contained'
             >
-              {t('Confirm')}
+              <div className={styles.buttonContentWrapper}>
+                <div className={styles.buttonWrapper}>
+                  <span className={styles.items}>{items && items?.length}</span>
+                  <span className={styles.currency}>
+                    <span className={styles.currencyTitle}> {currency} </span>
+                    {totalAmount?.toFixed(2)}
+                  </span>
+                </div>
+                <div>{t('Confirm')}</div>
+              </div>
             </StyledButton>
           </div>
         )}

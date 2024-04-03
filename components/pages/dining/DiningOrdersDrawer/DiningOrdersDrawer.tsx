@@ -50,7 +50,6 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
           <div className={styles.drawerNotch}></div>
           <h3 className={styles.heading}>{t('My Orders')}</h3>
           <div className={styles.container}>
-            <p className={styles.title}>{t('In-Room Dining')}</p>{' '}
             <div className={styles.scroll}>
               {ordersData?.map((orderCategory: any) => {
                 const isCardExpanded = expandedCardId === orderCategory.id;
@@ -86,49 +85,63 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
                     </div>
                     {isCardExpanded && (
                       <div className={styles.expandCard}>
-                        {orderCategory?.items?.map((item: any, index: number) => (
-                          <>
-                            <div className={styles.itemsContainerBill} key={index}>
-                              <p className={styles.items}>
-                                {item?.count} x {item?.name}{' '}
-                              </p>
-                              <p className={styles.itemsPrice}>
-                                <span className={styles.currency}>{currency} </span>
-                                {itemTotal(item)?.toFixed(2)}
-                              </p>
-                            </div>
-                            <div className={styles.itemRow}>
-                              {item?.customisations?.map((item: any, index: number) => (
-                                <p key={index} className={styles.itemDescription}>
-                                  {t('Customisations')}:{' '}
-                                  <span className={styles.grayText}>{item?.name}</span>
-                                </p>
-                              ))}
-                              {(item?.addOns ?? [])?.length > 0 && (
-                                <p className={styles.itemDescription}>
-                                  {t('Add-ons :')}{' '}
-                                  {item?.addOns?.map((item: any, index: number) => (
-                                    <span key={index} className={styles.grayText}>
-                                      {item?.name} ({currency} {item?.price})
-                                    </span>
-                                  ))}
-                                </p>
+                        <div className={styles.orderCardInner}>
+                          <div className={styles.orderWrapper}>
+                            <p className={styles.orderHeading}>{t('Order ID')}</p>{' '}
+                            <span className={styles.status}>{t(`${status?.value}`)}</span>
+                          </div>
+                          <div
+                            className={`${styles.orderWrapper} ${
+                              isCardExpanded ? styles.expanded : ''
+                            }`}
+                          >
+                            <p className={styles.dateTime}>{orderCategory?.id.substring(6, 0)}</p>
+                            <p className={styles.dateTime}>
+                              {dayjs(orderCategory.startTime).format(
+                                timeFormats.DAY_MONTH_YEAR_HOUR_MINUTE_AM,
                               )}
-                              {item?.cookingInstructions && (
-                                <p className={styles.itemDescription}>
-                                  {t('Instructions')}: {item?.cookingInstructions}
+                            </p>
+                          </div>
+                        </div>
+                        <div className={styles.billWrapper}>
+                          {orderCategory?.items?.map((item: any, index: number) => (
+                            <>
+                              <div className={styles.itemsContainerBill} key={index}>
+                                <p className={styles.items}>
+                                  {item?.count} x {item?.name}{' '}
                                 </p>
-                              )}
-                            </div>
-                          </>
-                        ))}
+                              </div>
+                              <div className={styles.itemRow}>
+                                {item?.customisations?.map((item: any, index: number) => (
+                                  <p key={index} className={styles.itemDescription}>
+                                    <span className={styles.grayText}>{item?.name}</span>
+                                  </p>
+                                ))}
+                                {(item?.addOns ?? [])?.length > 0 && (
+                                  <p className={styles.itemDescription}>
+                                    {item?.addOns?.map((item: any, index: number) => (
+                                      <span key={index} className={styles.grayText}>
+                                        {item?.name} ({currency} {item?.price})
+                                      </span>
+                                    ))}
+                                  </p>
+                                )}
+                                {item?.cookingInstructions && (
+                                  <p className={styles.itemDescription}>
+                                    {t('Instructions')}: {item?.cookingInstructions}
+                                  </p>
+                                )}
+                              </div>
+                            </>
+                          ))}
 
-                        <div className={styles.totalContainerBill}>
-                          <p className={styles.total}>{t('Total')} </p>
-                          <p className={styles.totalPrice}>
-                            <span className={styles.currency}>{currency} </span>
-                            {orderCategory?.totalAmount?.toFixed(2)}
-                          </p>
+                          <div className={styles.totalContainerBill}>
+                            <p className={styles.total}>{t('Total')} </p>
+                            <p className={styles.totalPrice}>
+                              <span className={styles.currency}>{currency} </span>
+                              {orderCategory?.totalAmount?.toFixed(2)}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     )}

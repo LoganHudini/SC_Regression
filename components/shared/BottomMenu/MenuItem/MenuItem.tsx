@@ -353,7 +353,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
         )}
         {restaurantAndBarsActive && (
           <div>
-            <p className={styles.title}>{t('In-Room Dining')}</p>
+            <p className={styles.title}>{t('Restaurants')}</p>
             <div className={styles.optionsList}>
               {irdOption?.map((dining: any, index: any) => (
                 <div key={index} className={cx(styles.optionsListItem)}>
@@ -383,7 +383,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
         )}
         {irdActive && (
           <div>
-            <p className={styles.title}>{t('Choose your category')}</p>
+            <p className={styles.title}>{t('In-Room Dining')}</p>
             <div className={styles.optionsList}>
               {diningCategoryOptions?.map((dining: any, index: any) => (
                 <div key={index} className={cx(styles.optionsListItem)}>

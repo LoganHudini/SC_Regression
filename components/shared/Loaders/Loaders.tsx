@@ -53,11 +53,11 @@ export const ImageLoader: React.FC<unknown> = (props) => {
 };
 
 export const SuccessAnimation = () => (
-  <Player autoplay loop src={`/jsons/${BRAND_CODE}/success.json`} />
+  <Player autoplay keepLastFrame={true} src={`/jsons/${BRAND_CODE}/success.json`} />
 );
 
 export const FailureAnimation = () => (
-  <Player autoplay loop src={Failure} className={styles.errorAnimation} />
+  <Player autoplay keepLastFrame={true} src={Failure} className={styles.errorAnimation} />
 );
 
 export const PaymentStatusAnimation = () => (

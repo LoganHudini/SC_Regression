@@ -5,8 +5,8 @@
 }
 
 .itemsAddedText {
-  height: 60px;
-  margin: 0 8px 1rem;
+  margin: 1rem 8px 1rem;
+  padding-bottom: 8px;
   align-items: center;
   display: flex;
   border-bottom: 1px dashed var(--primary-border-color);
@@ -76,7 +76,7 @@
 }
 
 .itemPrice {
-  font: $medium var(--primary-font-heading);
+  font: $medium var(--primary-font-medium);
   padding: 0.5rem;
 }
 
@@ -151,7 +151,7 @@
 }
 
 .noOfGuestsTitle {
-  font: $medium var(--primary-font-heading);
+  font: $medium var(--primary-font-medium);
   padding: 4px 0;
 }
 
@@ -252,9 +252,7 @@
 
 .currencyTitle {
   font: $xsmall var(--primary-font-medium);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  color: var(--primary-button-color);
 }
 
 .currencyValueTitle {
@@ -264,6 +262,10 @@
 
 .confirmButton {
   height: 54px !important;
+
+  &:after {
+    display: none;
+  }
 }
 
 .addonsWrapperCol {
@@ -278,4 +280,33 @@
 
 .itemsCurrency {
   font-size: $extraSmall;
+}
+
+.buttonContentWrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.currency {
+  font-size: $small;
+  color: var(--primary-button-color);
+}
+
+.items {
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: $small;
+  color: var(--primary-button-background-color);
+  background: var(--primary-button-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-inline-end: 10px;
+}
+
+.buttonWrapper {
+  display: flex;
+  align-items: center;
 }

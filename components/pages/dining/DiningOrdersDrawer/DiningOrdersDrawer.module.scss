@@ -1,5 +1,5 @@
 .myOrdersWrapper {
-  padding: 0 2rem;
+  padding: 0 1rem;
   padding-top: 2rem;
 }
 
@@ -22,8 +22,6 @@
 
 .container {
   margin-top: 1rem;
-  padding: 8px;
-  background: var(--primary-card-background-color);
   border-radius: var(--primary-card-border-radius);
 }
 
@@ -43,17 +41,24 @@
 .scroll {
   overflow: scroll;
   max-height: 260px;
-  padding-right: 2px;
+  padding-right: 20px;
 }
 
 .orderCard {
   padding: 5px 10px;
+  margin: 0 20px;
   margin-top: 8px;
-  background-color: var(--primary-background-color);
+  background-color: var(--primary-card-background-color);
   border-radius: var(--primary-card-border-radius);
   &:first-child {
     margin-top: 0px;
   }
+}
+
+.orderCardInner {
+  padding: 5px 10px;
+  margin-top: 8px;
+  background-color: var(--primary-card-background-color);
 }
 
 .orderWrapper {
@@ -96,7 +101,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0 0;
+  padding: 5px 0 0;
 }
 
 .itemsPrice {
@@ -277,11 +282,14 @@
   margin: 5px;
 }
 
+.billWrapper {
+  padding: 5px 10px;
+}
+
 .expandCard {
   background-color: var(--primary-background-color);
-  border-radius: var(--primary-card-border-radius);
-  margin-top: 5px;
-  padding: 0px 10px 4px 10px;
+  box-shadow: 0 0 5px var(--primary-box-shadow-color);
+  margin: 10px 0 0 5px;
 }
 
 .totalWrapper {

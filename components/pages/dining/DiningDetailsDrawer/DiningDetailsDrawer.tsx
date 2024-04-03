@@ -518,7 +518,7 @@ const DiningDetailsDrawer = () => {
                 inputProps: {
                   maxLength: 30,
                   style: {
-                    font: '14px var(--primary-font-heading)',
+                    font: '14px var(--primary-font-regular)',
                     color: 'var(--tertiary-text-color)',
                     marginInlineStart: '0.5rem',
                   },

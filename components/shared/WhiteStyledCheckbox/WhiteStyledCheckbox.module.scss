@@ -9,9 +9,9 @@
   }
 
   :global(.MuiFormControlLabel-label) {
-    font-size: $small;
+    font-size: $medium;
     color: var(--primary-text-color);
-    font-family: var(--primary-font-heading);
+    font-family: var(--primary-font-medium);
     padding-top: 2px;
   }
 
