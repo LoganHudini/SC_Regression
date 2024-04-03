@@ -210,7 +210,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, ird
   }, [isCheckedIn?.checkedIn, irdModule, ird, queryResultsData]);
 
   return (
-    (irdActiveMenu?.length > 0 || activeRestaurants?.length > 0) && (
+    slides?.length > 0 && (
       <div className={styles.diningCarouselWrapper}>
         <p
           className={cx(styles.diningCarouselTitle, {
