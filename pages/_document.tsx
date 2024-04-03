@@ -57,11 +57,10 @@ class MyDocument extends Document {
           <style>
             {`
               #live-chat-widget {
-                margin-bottom: -24px !important;
+                margin-bottom: 64px !important;
                 position: fixed !important;
                 right: 0 !important;
                 bottom: 0 !important;
-                z-index: 2 !important;
               }
             `}
           </style>
