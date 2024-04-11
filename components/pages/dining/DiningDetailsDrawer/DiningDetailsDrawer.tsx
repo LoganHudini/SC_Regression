@@ -28,6 +28,7 @@ import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { client } from 'core/graphql/client';
 import { useCurrency } from 'utils/hooks/useCurrency';
 import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
+import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 
 const DiningDetailsDrawer = () => {
   const { t } = useTranslation(['dining', 'common']);
@@ -366,12 +367,7 @@ const DiningDetailsDrawer = () => {
     return (
       <>
         <>
-          {selectedItem?.images?.length > 0 && (
-            <StableImage
-              className={styles.image}
-              src={`${ASSETS_URL}/${selectedItem?.images[0]?.ratio16to9}`}
-            />
-          )}
+          {selectedItem?.images?.length > 0 && <CustomCarousel imageData={selectedItem} />}
           {selectedItem?.name && (
             <div className={cx(styles.titleWrapper, 'globals-titleWrapper')}>
               <h3

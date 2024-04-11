@@ -61,6 +61,7 @@ class MyDocument extends Document {
                 position: fixed !important;
                 right: 0 !important;
                 bottom: 0 !important;
+                z-index: 10 !important;
               }
             `}
           </style>

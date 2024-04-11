@@ -70,6 +70,7 @@ import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
+import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 
 export { getStaticPaths };
 
@@ -230,10 +231,7 @@ const RestaurantAndBars: React.FC = () => {
       {!availableSlots && (
         <div className={styles.imageWrapper}>
           {queryResultEntity?.images?.length > 0 && (
-            <StableImage
-              className={styles.bannerImage}
-              src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.ratio16to9}`}
-            />
+            <CustomCarousel imageData={queryResultEntity} />
           )}
         </div>
       )}

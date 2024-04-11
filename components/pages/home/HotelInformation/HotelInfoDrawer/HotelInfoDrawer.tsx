@@ -23,6 +23,7 @@ import {
 } from 'storage/home.storage';
 import { isEmpty } from 'lodash';
 import { groupBy, openLinknewTab } from 'utils/functions';
+import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 
 const HotelInfoDrawer = () => {
   const { t } = useTranslation('common');
@@ -55,25 +56,7 @@ const HotelInfoDrawer = () => {
         <div className={styles.serviceDetailWrapper}>
           <div className={styles.carouselWrapper}>
             <div className={styles.contentWrapper}>
-              <Carousel
-                navButtonsAlwaysInvisible
-                indicatorContainerProps={{ className: styles.indicatorIconContainer }}
-                indicatorIconButtonProps={{ style: { opacity: 0.5 } }}
-                activeIndicatorIconButtonProps={{
-                  className: styles.activeIndicatorIcon,
-                }}
-                IndicatorIcon={<div className={styles.indicatorIcon} />}
-                indicators={(hotelInfo?.images?.length || 0) > 1}
-                height={'250px'}
-              >
-                {hotelInfo?.images?.map((image: any, i: any) => (
-                  <StableImage
-                    className={styles.bannerImage}
-                    key={i}
-                    src={`${ASSETS_URL}/${image?.master}`}
-                  />
-                ))}
-              </Carousel>
+              {hotelInfo?.images?.length > 0 && <CustomCarousel imageData={hotelInfo} />}
             </div>
 
             {(phoneData || webData || mailData || hotelInfo?.location?.addressLine1) && (

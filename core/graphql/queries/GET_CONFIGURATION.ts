@@ -677,6 +677,7 @@ export const configuration = [
     pms: 'OPERA',
     fetchFromDb: 'no',
     saveToDb: 'no',
+    isLogoLoaderActive: false,
     modules: [
       {
         code: 'Preferences',

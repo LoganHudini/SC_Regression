@@ -35,6 +35,7 @@ import cx from 'classnames';
 import Head from 'next/head';
 import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
+import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 
 export { getStaticPaths };
 
@@ -139,12 +140,7 @@ const Offers: React.FC = () => {
       })}
     >
       <div className={styles.imageWrapper}>
-        {selectedOffer?.images?.length > 0 && (
-          <StableImage
-            className={styles.bannerImage}
-            src={`${ASSETS_URL}/${selectedOffer?.images[0]?.ratio16to9}`}
-          />
-        )}
+        {selectedOffer?.images?.length > 0 && <CustomCarousel imageData={selectedOffer} />}
       </div>
       <div className={styles.contentWrapper}>
         <div className={styles.listComponentData}>
