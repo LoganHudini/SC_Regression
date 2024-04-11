@@ -946,7 +946,7 @@ export const configuration = [
             title: 'Check-In',
             buttonLabelCheckIn: 'CONFIRM CHECK-IN',
             // eslint-disable-next-line quotes
-            termsAndCondition: `I have read, understood and agree to the <a href='https://www.sofitelmanila.com/privacy-policy/' target='_blank' rel='noopener noreferrer'>Terms & Conditions</a> and <a href='https://www.sofitelmanila.com/privacy-policy/' target='_blank' rel='noopener noreferrer'>Privacy Laws</a>.`,
+            termsAndCondition: `I have read, understood and agree to the <a href='https://www.sofitelmanila.com/privacy-policy/' target='_blank' rel='noopener noreferrer'>Privacy Laws</a>.`,
             subTitle:
               'Please review and confirm the below information to complete the Check-In process',
             type: 'cms',
