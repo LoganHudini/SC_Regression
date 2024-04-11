@@ -119,6 +119,7 @@ const PersonalizeYourRoom: React.FC = () => {
         roomCategory: reservationInfo?.roomTypes[0].name,
         roomCharge: reservationInfo?.roomTypes[0].totalCharge,
         personalisation: [],
+        specialRequest: [''],
         comments: personalizationStorageInfo?.map((a: any) => a?.title + ' X ' + a?.quantity),
       };
 
