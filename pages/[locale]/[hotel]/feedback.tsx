@@ -12,7 +12,7 @@ import { ApolloError, useQuery } from '@apollo/client';
 import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import cx from 'classnames';
-import { CHECK_OUT, EMAIL_CAPS, ERRORMSG, FAILURE, RATING5STARS } from 'utils/constants';
+import { CHECK_OUT, EMAIL_CAPS, ERRORMSG, FAILURE, RATING5STARS, SUCCESS } from 'utils/constants';
 import Okay from '@icons/okayFeedback.svg';
 import Good from '@icons/goodFeedback.svg';
 import Great from '@icons/greatFeedback.svg';
@@ -34,7 +34,7 @@ import { activeItems } from 'utils/functions';
 export { getStaticPaths };
 
 const Feedback = () => {
-  const { t } = useTranslation('dining');
+  const { t } = useTranslation(['feedback']);
   const [feedbackText, setFeedbackText] = useState<any>();
   const [selectedFeedback, setSelectedFeedback] = useState<any>({});
   const [loading, setLoading] = useState(false);
@@ -102,25 +102,30 @@ const Feedback = () => {
   const submit = async () => {
     try {
       setLoading(true);
-      const uploadSignatureResponse = await client.mutate({
+      await client.mutate({
         mutation: PostFeedback,
         context: { clientName: 'rest_v3' },
         variables: {
           body: feedbackPayload,
         },
       });
-      navigate(availablePaths.HOME);
+      toggleNotification(true);
+      setNotificationState({
+        title: t('Thank You!'),
+        description: t('Feedback submitted successfully'),
+        redirect: navigate(availablePaths.HOME),
+        type: SUCCESS,
+        apolloError: null,
+      });
       setLoading(false);
     } catch (uploadSignatureError) {
       setNotificationState({
-        title: ERRORMSG,
+        title: t(ERRORMSG),
         redirect: null,
         type: FAILURE,
         apolloError: uploadSignatureError as ApolloError,
       });
       toggleNotification(true);
-
-      // processError(t, uploadSignatureError as ApolloError);
       setLoading(false);
     }
   };
@@ -220,10 +225,16 @@ const Feedback = () => {
               <StyledButton
                 variant='contained'
                 className={styles.bottomMenuButton}
-                onClick={submit}
+                onClick={() => {
+                  feedbackText || Object.keys(selectedFeedback).length > 0
+                    ? submit()
+                    : navigate(availablePaths.HOME);
+                }}
                 loading={loading}
               >
-                {t('submit')}
+                {feedbackText || Object.keys(selectedFeedback).length > 0
+                  ? t('Submit Feedback')
+                  : t('Back To Home')}
               </StyledButton>
             </div>
           </div>
@@ -234,6 +245,7 @@ const Feedback = () => {
         apolloError={notificationState?.apolloError}
         redirect={notificationState?.redirect}
         type={notificationState?.type}
+        description={notificationState?.description}
       />
     </>
   );
@@ -244,7 +256,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ['common'], i18nConfig)),
+      ...(await serverSideTranslations(locale as string, ['feedback'], i18nConfig)),
     },
   };
 };
