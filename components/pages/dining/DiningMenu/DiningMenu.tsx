@@ -149,8 +149,8 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     if (scrollHide) {
       const observer = new IntersectionObserver(handleIntersection, {
         root: null,
-        rootMargin: '-13%',
-        threshold: 0.1,
+        rootMargin: '-15%',
+        threshold: 1,
       });
 
       const categoryElements = document.querySelectorAll('.category-element');
