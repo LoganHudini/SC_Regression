@@ -208,7 +208,7 @@ const CheckOut = () => {
                   />
                 )}
             </div>
-            {reservationInfo && invoiceElements && (
+            {reservationInfo && invoiceElements && checkedInData?.email && (
               <StyledButton
                 loading={emailLoader}
                 className={styles.button}
