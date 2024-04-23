@@ -11,13 +11,15 @@ import ChatIcon from '@icons/chat.svg';
 import Gluten from '@icons/gluten.svg';
 import Nuts from '@icons/nuts.svg';
 import Egg from '@icons/egg.svg';
-import Diary from '@icons/diary.svg';
+import Dairy from '@icons/dairy.svg';
 import Sesame from '@icons/sesame.svg';
 import Almond from '@icons/almond.svg';
 import Fish from '@icons/fish.svg';
 import Peanut from '@icons/Peanuts.svg';
 import Shrimp from '@icons/shrimp.svg';
 import WheatBag from '@icons/wheat_Bag.svg';
+import ShellFish from '@icons/shellfish.svg';
+import Vegan from '@icons/vegan.svg';
 
 export const hamburgerIconsMap = {
   'In-Room Dining': InRoomDiningIcon,
@@ -44,11 +46,13 @@ export const iconsMap = {
   gluten: Gluten,
   nuts: Nuts,
   egg: Egg,
-  diary: Diary,
+  dairy: Dairy,
   sesame: Sesame,
   almond: Almond,
   fish: Fish,
   peanut: Peanut,
   shrimp: Shrimp,
   wheatBag: WheatBag,
+  shellfish: ShellFish,
+  vegan: Vegan,
 };
