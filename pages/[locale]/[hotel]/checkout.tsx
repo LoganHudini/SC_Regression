@@ -148,7 +148,7 @@ const CheckOut = () => {
         )?.format('HH:mm'),
       totalBillAmount: invoiceData?.invoice?.data?.totalBillAmount,
       billItems: invoiceElements,
-      totalDueAmount: invoiceData?.invoice?.data?.totalDueAmount,
+      totalDueAmount: invoiceData?.invoice?.data?.currentBalance,
       roomNumber:
         checkedInData?.roomNumber || (reservationInfo?.roomTypes[0]?.roomNumber as string),
       currencyCode: currency,
@@ -197,7 +197,7 @@ const CheckOut = () => {
       <PageWrapper
         displayBottomMenu
         amountDue={
-          invoiceData && (invoiceData?.invoice?.data?.totalDueAmount as any) > 0 ? false : true
+          invoiceData && (invoiceData?.invoice?.data?.currentBalance as any) > 0 ? false : true
         }
         disabled={reservationData && invoiceData ? false : true}
         className={styles.pageWrapper}
@@ -226,16 +226,16 @@ const CheckOut = () => {
               ) : (
                 <div className={styles.empty}></div>
               )}
-              {invoiceData?.invoice?.data?.totalDueAmount &&
+              {invoiceData?.invoice?.data?.currentBalance &&
                 invoiceData?.invoice?.data?.totalBillAmount && (
                   <TotalBill
-                    totalAmountDue={invoiceData?.invoice?.data?.totalDueAmount as string}
+                    totalAmountDue={invoiceData?.invoice?.data?.currentBalance as string}
                     totalBillAmount={invoiceData?.invoice?.data?.totalBillAmount as string}
                     currency={currency}
                   />
                 )}
             </div>
-            {reservationInfo && invoiceElements && (
+            {reservationInfo && invoiceElements && checkedInData?.email && (
               <StyledButton
                 loading={emailLoader}
                 className={styles.button}
@@ -250,7 +250,7 @@ const CheckOut = () => {
       <CheckoutDrawer
         setErrorToggle={setErrorToggle}
         reservationData={reservationData}
-        amountDue={invoiceData?.invoice?.data?.totalDueAmount}
+        amountDue={invoiceData?.invoice?.data?.currentBalance}
       />
       <Notification
         title={errorToggle?.message}

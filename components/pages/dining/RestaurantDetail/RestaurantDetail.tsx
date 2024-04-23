@@ -42,6 +42,7 @@ import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 import { useReactiveVar } from '@apollo/client';
 import { PhoneEmail } from 'components/shared/PhoneEmail/PhoneEmail';
+import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 
 export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
   selectedRestaurant,
@@ -167,10 +168,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
       {!availableSlots && (
         <div className={styles.imageWrapper}>
           {queryResultEntity?.images?.length > 0 && (
-            <StableImage
-              className={styles.bannerImage}
-              src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.ratio16to9}`}
-            />
+            <CustomCarousel imageData={queryResultEntity} />
           )}
         </div>
       )}

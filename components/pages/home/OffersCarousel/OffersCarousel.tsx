@@ -20,6 +20,7 @@ import { flowPathMap } from 'utils/flowPathMap';
 import dayjs from 'dayjs';
 import { tableReservationStorage } from 'storage/table-reservation.storage';
 import { PhoneEmail } from 'components/shared/PhoneEmail/PhoneEmail';
+import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 
 interface ICarouselProps {
   data: any;
@@ -160,12 +161,7 @@ export const offerDetails = (
     })}
   >
     <div className={styles.imageWrapper}>
-      {offerInfoDetails?.images?.length > 0 && (
-        <StableImage
-          className={styles.bannerImage}
-          src={`${ASSETS_URL}/${offerInfoDetails?.images[0]?.ratio16to9}`}
-        />
-      )}
+      {offerInfoDetails?.images?.length > 0 && <CustomCarousel imageData={offerInfoDetails} />}
     </div>
     <div className={styles.contentWrapper}>
       <div className={styles.listComponentData}>

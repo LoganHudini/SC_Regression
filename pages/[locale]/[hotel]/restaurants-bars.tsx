@@ -63,6 +63,7 @@ import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 import { RestaurantDetail } from 'components/pages/dining/RestaurantDetail/RestaurantDetail';
+import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 
 export { getStaticPaths };
 

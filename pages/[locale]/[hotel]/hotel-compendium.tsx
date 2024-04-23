@@ -25,6 +25,7 @@ import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 import { filterHotelCompendiumCategories } from 'utils/functions';
+import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 
 export { getStaticPaths };
 
@@ -79,12 +80,8 @@ const HotelCompendium: React.FC = () => {
       {showSelectedAmenity && (
         <>
           {showSelectedAmenity?.images?.length > 0 && (
-            <StableImage
-              className={styles.image}
-              src={`${ASSETS_URL}/${showSelectedAmenity?.images[0]?.ratio16to9}`}
-            />
+            <CustomCarousel imageData={showSelectedAmenity} />
           )}
-
           <div className={styles.wrapper}>
             {showSelectedAmenity?.name && (
               <p className={styles.title}>{showSelectedAmenity?.name}</p>

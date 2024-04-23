@@ -23,6 +23,7 @@ import {
 } from 'storage/home.storage';
 import { isEmpty } from 'lodash';
 import { groupBy, openLinknewTab } from 'utils/functions';
+import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 
 const HotelInfoDrawer = () => {
   const { t } = useTranslation('common');
@@ -54,12 +55,9 @@ const HotelInfoDrawer = () => {
       {showMap ? (
         <div className={styles.serviceDetailWrapper}>
           <div className={styles.carouselWrapper}>
-            {hotelInfo?.images?.length > 0 && (
-              <StableImage
-                className={styles.bannerImage}
-                src={`${ASSETS_URL}/${hotelInfo?.images[0]?.ratio16to9}`}
-              />
-            )}
+            <div className={styles.contentWrapper}>
+              {hotelInfo?.images?.length > 0 && <CustomCarousel imageData={hotelInfo} />}
+            </div>
 
             {(phoneData || webData || mailData || hotelInfo?.location?.addressLine1) && (
               <div className={cx(styles.phoneEmailCtaWrapper, 'globals-actionCtaWrapper')}>

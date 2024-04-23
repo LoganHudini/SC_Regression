@@ -705,6 +705,7 @@ export const configuration = [
       'spa',
       'hotel-compendium',
     ],
+    isLogoLoaderActive: false,
     modules: [
       {
         code: 'Preferences',

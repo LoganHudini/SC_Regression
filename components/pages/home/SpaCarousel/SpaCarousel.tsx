@@ -24,6 +24,7 @@ import Mail from '@icons/email.svg';
 import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 import { PhoneEmail } from 'components/shared/PhoneEmail/PhoneEmail';
+import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 
 interface ICarouselProps {
   data: any;
@@ -147,12 +148,7 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
           spaTreatments?.length > 0 || spaInfoDetails?.cta?.status === ACTIVE,
       })}
     >
-      {spaInfoDetails?.images?.length > 0 && (
-        <StableImage
-          className={styles.image}
-          src={`${ASSETS_URL}/${spaInfoDetails?.images[0]?.ratio16to9}`}
-        />
-      )}
+      {spaInfoDetails?.images?.length > 0 && <CustomCarousel imageData={spaInfoDetails} />}
 
       <div className={styles.wrapper}>
         {spaInfoDetails?.name && (

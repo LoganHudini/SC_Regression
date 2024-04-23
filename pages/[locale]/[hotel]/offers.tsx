@@ -30,6 +30,7 @@ import {
   handleCtaClick,
   timeDisplayed,
 } from 'components/pages/home/OffersCarousel/OffersCarousel';
+
 export { getStaticPaths };
 
 const Offers: React.FC = () => {
