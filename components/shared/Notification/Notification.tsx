@@ -1,11 +1,10 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import cx from 'classnames';
 import styles from './Notification.module.scss';
 import { useTranslation } from 'react-i18next';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { useReactiveVar } from '@apollo/client';
 import { toggleNotification } from 'storage/home.storage';
-import { diningMenuStorage } from 'storage/dining-menu.storage';
 import { FailureAnimation, SuccessAnimation } from '../Loaders/Loaders';
 import { SUCCESS, FAILURE } from 'utils/constants';
 import { useConfig } from 'utils/hooks/useConfiguration';

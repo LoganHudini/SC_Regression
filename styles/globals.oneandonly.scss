@@ -1,0 +1,89 @@
+:root {
+  // theme colors
+  --primary-theme-color: #000000;
+  --primary-background-color: #ffffff;
+  --primary-icon-color: #ffffff;
+  --primary-border-color: #201e1e;
+
+  --primary-box-shadow-color: #0000001a;
+  --primary-error-text-color: #f41313;
+  --primary-disabled-color: #bab9b9;
+
+  // overlays
+  --primary-overlay-color: #120e0e79;
+  --secondary-overlay-color: #120e0eb1;
+
+  // text colors
+  --primary-text-color: #000000;
+  --secondary-text-color: #ffffff;
+  --tertiary-text-color: #393939;
+
+  // drawer colors
+  --primary-drawer-color: #ffffff;
+  --primary-drawer-notch-color: #a0a1a3;
+  --primary-drawer-top-left-border-radius: 0px;
+  --primary-drawer-top-right-border-radius: 0px;
+  --primary-drawer-height: 70dvh;
+  --primary-drawer-background-opacity: 0.75;
+  --primary-drawer-background-color: #000000;
+
+  //image transition background color
+  --primary-image-transition-background-color: #a0a1a3;
+
+  // hamburger menu colors
+  --hamburgermenu-drawer-color: #ffffff;
+  --hamburgermenu-text-color: #000000;
+  --hamburgermenu-icon-color: #000000;
+
+  // font-families
+  --primary-font-regular: 'Arial';
+  --primary-font-medium: 'Arial';
+  --primary-font-semibold: '';
+  --primary-font-bold: '';
+  --primary-font-heading: 'Times New Roman';
+
+  --primary-font-extd-regular: 'Arial';
+
+  // headings
+  --heading-font-regular: 'Times New Roman';
+
+  // banner configs
+  --primary-title-font-family: 'Times New Roman';
+  --secondary-title-font-family: 'Arial';
+  --primary-indicator-color: #ffffff;
+
+  // card component configs
+  --primary-card-title-font-family: 'Times New Roman';
+  --primary-card-desc-font-family: 'Arial';
+  --primary-card-cta-font-family: 'Arial';
+  --primary-card-background-color: #fFFFFF;
+  --primary-card-border-radius: 0px;
+  --primary-card-shadow-color: #00000010;
+
+  // button configs
+  --primary-button-color: #ffffff;
+  --primary-button-background-color: #000000;
+  --primary-button-border-radius: 0px;
+  --primary-button-font-family: 'Arial';
+
+  --secondary-button-color: #000000;
+  --secondary-button-background-color: #ffffff;
+  --secondary-button-border-radius: 0px;
+  --secondary-button-font-family: 'Arial';
+
+  // read more cta configs
+  --readmore-text: flex;
+  --readmore-arrowwithtext: none;
+  --readmore-arrow: none;
+  --readmore-arrowhead: none;
+  --readmore-underline: 1px solid var(--primary-text-color);
+
+  // Bottom menu arrow configs
+  --bottom-menu-arrow-color: #fff;
+}
+
+.MuiButton-containedPrimary {
+  &:after {
+    display: none;
+  }
+}

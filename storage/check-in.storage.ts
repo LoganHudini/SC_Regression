@@ -30,13 +30,13 @@ export const useCheckedIn = () => {
 
     if (reservations?.checkedIn && reservations?.hotelId === hotelId) {
       checkinStorage({
-        reservationId: reservations?.reservationId,
+        reservationId: reservations?.reservationId, // confirmationId or uniqueBookingId
         preCheckedIn: reservations?.preCheckedIn,
         checkedIn: reservations?.checkedIn ?? false,
         name: reservations?.name,
         email: reservations?.email,
         roomNumber: reservations?.roomNumber,
-        invoiceId: reservations?.invoiceId,
+        invoiceId: reservations?.invoiceId, // reservationId
       });
     }
   }, []);
@@ -52,4 +52,4 @@ export const StepperInformationStorage = makeVar<any>([
 
 export const youverseProfileIDStorage = makeVar<any>({ id: '', guestType: '' });
 
-export const activeCheckInFlow = makeVar<boolean>(true); // true for check-in flow, false for pair to room flow
+export const activeCheckInFlow = makeVar<boolean>(true); // true for check-in flow, false for Connect to Room flow

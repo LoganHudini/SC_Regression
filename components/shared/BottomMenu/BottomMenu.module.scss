@@ -32,7 +32,8 @@
 
 .bottomMenuButton {
   width: 80%;
-  margin: auto 5px auto 15px !important;
+  margin: auto 5px;
+  margin-inline-start: 15px;
   height: 44px;
   background-color: var(--primary-button-background-color) !important;
   font-family: var(--primary-button-font-family) !important;
@@ -202,6 +203,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .myOrdersLength {
@@ -224,7 +226,7 @@
 .poweredByHudini {
   display: flex;
   justify-content: end;
-  margin: 0.5rem 1rem 0 0;
+  margin: 0.25rem 1rem;
 }
 
 .closeWidgetIcon {

@@ -41,6 +41,9 @@ import {
   DOCTYPE,
   ERRORMSG,
   NONE,
+  UPGRADE_ROOM,
+  CMS,
+  ROOM,
 } from 'utils/constants';
 import { updateDocTypeOptions } from 'utils/functions';
 import { docTypeStorage } from 'storage/guest-information.storage';
@@ -56,7 +59,7 @@ import {
   handleCheckInAuthenticationFailure,
 } from 'core/api/functions/getCheckInAuthentication';
 import { processStatusCode } from 'utils/processError';
-import { usePersonalisation } from 'utils/hooks/usePersonalisation';
+import { personalizationStorage } from 'storage/personalize-your-room.storage';
 
 export { getStaticPaths };
 
@@ -69,7 +72,7 @@ const Guest: React.FC<any> = () => {
   const paymentConfig: any = usePaymentConfig();
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
-  const [personalisationData] = usePersonalisation();
+  const availablePersonalizations = useReactiveVar(personalizationStorage);
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
@@ -98,6 +101,10 @@ const Guest: React.FC<any> = () => {
   const accompanyGuestInformationSection = updateDocTypeOptions(
     accompanyingGuestSubmodule?.details,
     documentTypes,
+  );
+
+  const upgradeRoomConfig = checkInModule?.submodules?.find(
+    (submodule: any) => submodule?.name === UPGRADE_ROOM && submodule.isActive,
   );
 
   useEffect(() => {
@@ -267,20 +274,28 @@ const Guest: React.FC<any> = () => {
       (paymentConfig?.type === NONE ||
         (paymentConfig?.isTotalChargeActive &&
           Number(reservationInfo?.roomTypes[0]?.totalCharge) === 0)) &&
-      personalisationData?.length === 0
+      availablePersonalizations?.length === 0
     ) {
       navigate(availablePaths?.REVIEW);
-    } else if (paymentConfig?.type === NONE && personalisationData?.length !== 0) {
+    } else if (paymentConfig?.type === NONE && availablePersonalizations?.length !== 0) {
       navigate(availablePaths?.PERSONALIZE);
     } else {
-      navigate(availablePaths?.CARD_AUTHORISATION);
+      const filteredRoomList: any =
+        availablePersonalizations?.length > 0 &&
+        availablePersonalizations?.filter((item: any) => item?.isActive && item?.type === ROOM);
+      if (upgradeRoomConfig?.type !== CMS && filteredRoomList?.length > 0) {
+        navigate(availablePaths?.UPGRADE_ROOM);
+      } else {
+        navigate(availablePaths?.CARD_AUTHORISATION);
+      }
     }
   }, [
-    navigate,
-    paymentConfig?.isTotalChargeActive,
     paymentConfig?.type,
-    personalisationData?.length,
+    paymentConfig?.isTotalChargeActive,
     reservationInfo?.roomTypes,
+    availablePersonalizations,
+    navigate,
+    upgradeRoomConfig?.type,
   ]);
 
   // document update
@@ -308,7 +323,7 @@ const Guest: React.FC<any> = () => {
             firstName: guestReservationInfo?.firstName,
             lastName: guestReservationInfo?.lastName,
             nationality: guestReservationInfo?.nationality,
-            dob: guestReservationInfo?.dob,
+            dob: guestReservationInfo?.dateOfBirth,
           },
           address: {
             id: reservationInfo?.guests[0]?.addressOperaId as string,
@@ -376,7 +391,7 @@ const Guest: React.FC<any> = () => {
                   firstName: data?.firstName,
                   lastName: data?.lastName,
                   nationality: '',
-                  dob: '',
+                  dob: data?.dateOfBirth,
                 },
                 phone: {
                   phoneType: 'HOME',

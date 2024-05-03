@@ -1,10 +1,11 @@
 export interface IRoomPersonalizationEntityProps {
   title: string;
   description: string;
-  type: 'PER_DAY' | 'PER_STAY';
   price: string;
+  type: string;
   currency: string;
-  id: string;
+  id: any;
   maxQuantity: any;
   setNotificationState: any;
+  code?: string;
 }

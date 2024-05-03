@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import styles from './BottomMenu.module.scss';
-import HamburgerIcon from '@icons/hamburger.svg';
 import DownArrowIcon from '@icons/downArrow.svg';
 import { MenuItem, ModuleOptionsDrawer } from 'components/shared/BottomMenu/MenuItem/MenuItem';
 import { useTranslation } from 'react-i18next';
@@ -8,6 +7,7 @@ import { StyledButton } from '../StyledButton/StyledButton';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import {
   diningOptions,
+  getHotelCompendium,
   selectedCompendiumCategory,
   toggleDetailsDrawer,
   toggleHamburgerMenuDrawer,
@@ -21,15 +21,15 @@ import {
 import { hamburgerIconsMap } from 'utils/hamburger/hamburgerIconsMap';
 import { availablePaths } from 'utils/availablePaths';
 import { useRouter } from 'next/router';
-import { housekeepingOptions } from 'storage/housekeeping.storage';
+import { housekeepingOptions, serviceRequestOptionsArray } from 'storage/housekeeping.storage';
 import { useCheckedIn } from 'storage/check-in.storage';
-import { spaInformationStorage } from 'storage/spa.storage';
+import { spaCategoryList, spaInformationStorage } from 'storage/spa.storage';
 import { Fade as Hamburger } from 'hamburger-react';
 import CheckInDrawer from 'components/pages/check-in/CheckInDrawer/CheckInDrawer';
 import cx from 'classnames';
 import { useHideOnScroll } from 'utils/hooks/useHideOnScroll';
 import useOutsideAlerter from 'utils/hooks/useOutsideAlerter';
-import { selectedOfferOption } from 'storage/offers.storage';
+import { offerList, selectedOfferOption } from 'storage/offers.storage';
 import { CustomDrawer } from '../CustomDrawer/CustomDrawer';
 import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
 import { ASSETS_URL } from 'core/graphql/endpoints';
@@ -66,6 +66,10 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
   const hotelCompendiumSelected: any = useReactiveVar(selectedCompendiumCategory);
   const checkInModule: boolean = activeModule(config?.modules, CHECK_IN);
   const diningCategoryOptions = useReactiveVar(diningCategoryStorage);
+  const hotelCompendiumInfo: any = useReactiveVar(getHotelCompendium);
+  const spaCategories = useReactiveVar(spaCategoryList);
+  const offersList = useReactiveVar(offerList);
+  const serviceRequestOptions: any = useReactiveVar(serviceRequestOptionsArray);
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
   const navigate = useLocalizedRouter();
   const homeActiveRef = useRef<boolean>();
@@ -95,6 +99,14 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
 
   const hamburger = data?.getUiBuilderHamburgerMenuDetails;
 
+  const filteredOffersListInfo = Array.from(new Set(offersList?.map((item: any) => item?.type)));
+
+  const filteredhotelCompendiumInfo = hotelCompendiumInfo?.categories?.filter((category: any) => {
+    return hotelCompendiumInfo?.amenities?.find(
+      (amenity: any) => amenity?.categoryIds.includes(category?.id) && amenity?.isActive,
+    );
+  });
+
   const openModuleOptionsDrawer = () => {
     if (checkOutActive && isCheckedIn?.checkedIn) {
       toggleDetailsDrawer(true);
@@ -117,7 +129,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
   useOutsideAlerter(wrapperRef);
 
   const hamburgerMenuIcons =
-    hamburger && (!isCheckedIn?.checkedIn ? hamburger[PRE] : hamburger[POST]);
+    hamburger && (isCheckedIn?.checkedIn ? hamburger[POST] : hamburger[PRE]);
 
   const afterCheckinBottomArray = hamburgerMenuset;
 
@@ -142,8 +154,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
                           `${ASSETS_URL}/${hamburgerMenuElement?.menuIconUrl}`) ||
                         hamburgerIconsMap[
                           hamburgerMenuElement?.name as keyof typeof hamburgerIconsMap
-                        ] ||
-                        HamburgerIcon
+                        ]
                       }
                       title={hamburgerMenuElement?.name}
                       key={hamburgerMenuElement?.id}
@@ -176,8 +187,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
                         `${ASSETS_URL}/${hamburgerMenuElement?.menuIconUrl}`) ||
                       hamburgerIconsMap[
                         hamburgerMenuElement?.name as keyof typeof hamburgerIconsMap
-                      ] ||
-                      HamburgerIcon
+                      ]
                     }
                     title={hamburgerMenuElement?.name}
                     key={hamburgerMenuElement?.name}
@@ -207,6 +217,14 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
 
   const widgetStatus = useReactiveVar(toggleMessageBirdChat);
 
+  const availableItems =
+    homeActive ||
+    (housekeepingActive && serviceRequestOptions?.length > 1) ||
+    (offersActive && filteredOffersListInfo?.length > 1) ||
+    (spaActive && spaCategories?.length > 1) ||
+    (hotelCompendiumActive && filteredhotelCompendiumInfo?.length > 1) ||
+    (irdActive && diningCategoryOptions?.length > 1);
+
   return (
     <>
       {(homeActive ||
@@ -217,14 +235,21 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
         (hotelCompendiumActive && hotelCompendiumSelected?.name) ||
         checkOutActive ||
         (irdActive && selectedDiningCategory?.menuName)) && (
-        <div className={cx(styles.bottomMenuWrapper, { [styles.hideOnScroll]: hideOnScroll })}>
+        <div
+          className={cx(styles.bottomMenuWrapper, {
+            [styles.hideOnScroll]:
+              hideOnScroll && (irdActive ? diningData?.items?.length === 0 : true),
+          })}
+        >
           <StyledButton
             disabled={disabled}
             variant='contained'
             className={cx(styles.bottomMenuButton, 'globals-bottomMenuButton', {
               [styles.bottomMenuButtonWithoutArrow]: homeActive || !(checkOutActive || homeActive),
             })}
-            onClick={openModuleOptionsDrawer}
+            onClick={() => {
+              availableItems && openModuleOptionsDrawer();
+            }}
           >
             <span className={styles.btnText}>
               {homeActive &&
@@ -240,15 +265,10 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
                   ? amountDue
                     ? t('Checkout')
                     : t('Pay & Checkout')
-                  : t('Unpair My Room'))}
+                  : t('Disconnect Room'))}
             </span>
 
-            {(homeActive ||
-              irdActive ||
-              housekeepingActive ||
-              offersActive ||
-              spaActive ||
-              hotelCompendiumActive) && (
+            {availableItems && (
               <span className={styles.expandArrow}>
                 <DownArrowIcon />
               </span>
@@ -304,6 +324,10 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
           restaurantAndBarsActive,
           diningCategoryOptions,
           hamburger,
+          filteredhotelCompendiumInfo,
+          spaCategories,
+          offersList,
+          serviceRequestOptions,
         }}
       />
 

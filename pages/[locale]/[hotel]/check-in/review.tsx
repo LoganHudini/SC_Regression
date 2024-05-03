@@ -10,8 +10,11 @@ import { StyledCheckBox } from 'components/shared/StyledCheckBox/StyledCheckBox'
 import styles from '@styles/check-in-v2/check-in-v2.module.scss';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { guestInformationStorage } from 'storage/guest-information.storage';
-import { ApolloError, useQuery, useReactiveVar } from '@apollo/client';
-import { personalizeYourRoomStorage } from 'storage/personalize-your-room.storage';
+import { ApolloError, useReactiveVar } from '@apollo/client';
+import {
+  personalizeYourRoomStorage,
+  upgradeYourRoomStorage,
+} from 'storage/personalize-your-room.storage';
 import { client } from 'core/graphql/client';
 import { IGetReservationApiResponse, GET_RESERVATION } from 'core/graphql/queries/GET_RESERVATION';
 import { CHECKIN, ICheckInApiRequest } from 'core/graphql/queries/CHECKIN';
@@ -41,9 +44,7 @@ import {
   CHECK_IN,
   REVIEW,
   CHKOUT,
-  CHECKEDOUT,
   CANCELED,
-  PERSONALISATION,
   STEPPER_CHECK_IN,
   SUCCESS,
   FAILURE,
@@ -55,8 +56,8 @@ import {
   STEPPER_PAYMENT,
   WEBURL2,
   DOCUMENT_LIST,
+  CHECKEDOUT,
 } from 'utils/constants';
-import { GET_E_REG_DETAILS } from 'core/graphql/queries/GET_E_REG_DETAILS';
 import { Notification } from 'components/shared/Notification/Notification';
 import { hotelInformation, toggleNotification } from 'storage/home.storage';
 import { useConfig, usePaymentConfig } from 'utils/hooks/useConfiguration';
@@ -88,6 +89,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     new Array(accompanyGuestInfo?.length)?.fill(false),
   );
   const personalizationEntities = useReactiveVar(personalizeYourRoomStorage);
+  const upgradeRoomEntities = useReactiveVar(upgradeYourRoomStorage);
   const [errorNotification, setErrorNotification] = useState(false);
   const [roomStatus, setRoomStatus] = useState(false);
   const [conditionsAccepted, setConditionsAccepted] = useState(false);
@@ -113,25 +115,9 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     ?.find((item) => item?.code === guestReservationInfo?.cardType)
     ?.name?.toUpperCase();
 
-  const getEregDetails = useQuery(GET_E_REG_DETAILS, {
-    skip: !hotelId,
-    context: { clientName: 'host_v6' },
-    fetchPolicy: 'no-cache',
-    variables: {
-      hotelId: hotelId,
-    },
-  });
-
   const checkInModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
   const reviewConfig = checkInModule?.submodules?.find(
     (submodule: any) => submodule?.name === REVIEW && submodule.isActive,
-  );
-
-  const eRegistration =
-    getEregDetails?.data?.getHotelSystemsDigitalCheckinConfig?.eRegistrationForm;
-
-  const eRegPersonalization = eRegistration?.roomDetails?.filter(
-    (showData: any) => showData?.name === PERSONALISATION,
   );
 
   useEffect(() => {
@@ -206,14 +192,14 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       paymentType: paymentConfig?.paymentMethod ?? guestReservationInfo?.paymentType,
       expirationDate: guestReservationInfo?.cardExpiryDate as string,
       cardHolderName:
-        guestReservationInfo?.cardHolderName ??
+        guestReservationInfo?.cardHolderName ||
         guestReservationInfo?.firstName + guestReservationInfo?.lastName,
       creditCardType: guestReservationInfo?.cardType,
       lastFourDigits: guestReservationInfo?.cardNumber?.substr(
         guestReservationInfo?.cardNumber?.length - 4,
       ),
       vaultedCardID: guestReservationInfo?.token,
-      settlementType: guestReservationInfo?.cardType,
+      settlementType: paymentConfig?.settlementType ?? guestReservationInfo?.cardType,
       documentType: guestReservationInfo?.docType as string,
       documentNumber: guestReservationInfo?.docNo as string,
       channel: 'PWA',
@@ -223,6 +209,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       })),
       guestSignature: '',
       comment: guestReservationInfo?.transactionId ?? '',
+      isDoNotMove: true,
     };
 
     const uploadSignaturePayload: IPreSignDocUploadApiRequest = {
@@ -343,10 +330,11 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     adult,
     children,
     paymentConfig?.paymentMethod,
+    paymentConfig?.settlementType,
     personalizationEntities,
     guests,
-    hotelId,
     preCheckInStatus,
+    hotelId,
     t,
   ]);
 
@@ -538,6 +526,14 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                     />
                   ),
                 )}
+                {guestReservationInfo?.dateOfBirth && (
+                  <ItemFullWidth
+                    title={t('Date of Birth')}
+                    value={dayjs(guestReservationInfo?.dateOfBirth).format(
+                      timeFormats.DAY_MONTH_YEAR_2,
+                    )}
+                  />
+                )}
               </div>
             </DetailsCard>
           ) : (
@@ -578,6 +574,14 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                             value={accompanyGuest?.[configData?.name] ?? ''}
                           />
                         ),
+                      )}
+                      {guestReservationInfo?.dateOfBirth && (
+                        <ItemFullWidth
+                          title={t('Date of Birth')}
+                          value={dayjs(guestReservationInfo?.dateOfBirth).format(
+                            timeFormats.DAY_MONTH_YEAR_2,
+                          )}
+                        />
                       )}
                     </div>
                   </DetailsCard>
@@ -634,33 +638,54 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             </div>
           )}
 
-        {eRegPersonalization &&
-          eRegPersonalization[0]?.required &&
-          personalizationEntities?.length > 0 && (
-            <div className={styles.cardWrapper}>
-              <DetailsCard title={t(`${reviewConfig?.personalizationDetails[0]?.title}`)}>
-                <div className={styles.personalzizationWrapper}>
-                  <div className={styles.border}></div>
-                  {personalizationEntities?.map((personalizationEntity) => (
-                    <div key={personalizationEntity?.id} className={styles.personalizationData}>
-                      <p className={styles.personalizationText}>
-                        {personalizationEntity?.quantity} x {personalizationEntity?.title}
-                      </p>
-                      <p className={styles.personalizationQuantity}>
-                        {personalizationEntity?.currency}{' '}
-                        <span className={styles.price}>
-                          {Number(
-                            Number(personalizationEntity?.price) *
-                              Number(personalizationEntity?.quantity),
-                          )?.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                        </span>
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </DetailsCard>
-            </div>
-          )}
+        {personalizationEntities?.length > 0 && (
+          <div className={styles.cardWrapper}>
+            <DetailsCard title={t(`${reviewConfig?.personalizationDetails[0]?.title}`)}>
+              <div className={styles.personalzizationWrapper}>
+                <div className={styles.border}></div>
+                {personalizationEntities?.map((personalizationEntity) => (
+                  <div key={personalizationEntity?.id} className={styles.personalizationData}>
+                    <p className={styles.personalizationText}>
+                      {personalizationEntity?.quantity} x {personalizationEntity?.title}
+                    </p>
+                    <p className={styles.personalizationQuantity}>
+                      {personalizationEntity?.currency}{' '}
+                      <span className={styles.price}>
+                        {Number(
+                          Number(personalizationEntity?.price) *
+                            Number(personalizationEntity?.quantity),
+                        )?.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      </span>
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </DetailsCard>
+          </div>
+        )}
+
+        {upgradeRoomEntities?.length > 0 && (
+          <div className={styles.cardWrapper}>
+            <DetailsCard title={t(`${reviewConfig?.RoomUpgradeDetails[0]?.title}`)}>
+              <div className={styles.personalzizationWrapper}>
+                <div className={styles.border}></div>
+                {upgradeRoomEntities?.map((personalizationEntity) => (
+                  <div key={personalizationEntity?.id} className={styles.personalizationData}>
+                    <p className={styles.personalizationText}>{personalizationEntity?.title}</p>
+                    <p className={styles.personalizationQuantity}>
+                      {personalizationEntity?.currency}{' '}
+                      <span className={styles.price}>
+                        {Number(Number(personalizationEntity?.price))?.toLocaleString('en-US', {
+                          minimumFractionDigits: 2,
+                        })}
+                      </span>
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </DetailsCard>
+          </div>
+        )}
 
         <div className={styles.agrementWrapper}>
           <div className={styles.checkBoxAlign}>

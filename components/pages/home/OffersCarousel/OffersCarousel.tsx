@@ -11,14 +11,12 @@ import { CustomReadMore } from 'components/shared/CustomReadMore/CustomReadMore'
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { useReactiveVar } from '@apollo/client';
 import ClockIcon from '@icons/clockIcon.svg';
-import { EXTERNAL_URL, OFFERS, RESTAURANT_BOOKING_FLOW } from 'utils/constants';
-import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
+import { ACTIVE, EXTERNAL_URL_CAPS, FLOW, OFFERS } from 'utils/constants';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 import { getTimings } from 'utils/functions';
 import { offerInformationStorage } from 'storage/offers-carousel.storage';
 import { flowPathMap } from 'utils/flowPathMap';
 import dayjs from 'dayjs';
-import { tableReservationStorage } from 'storage/table-reservation.storage';
 import { PhoneEmail } from 'components/shared/PhoneEmail/PhoneEmail';
 import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 
@@ -92,7 +90,6 @@ export const OffersCarousel: React.FC<ICarouselProps> = ({ data, loading }) => {
   const offerInfoDetails = data?.find((info: any) => info?.id === offersInfo?.selectedOfferInfoId);
   const closeDrawer = () => {
     setDrawerState(false);
-    offerInformationStorage({});
   };
   const closeOfferBooking = () => {
     setOfferBooking(false);
@@ -130,7 +127,7 @@ export const OffersCarousel: React.FC<ICarouselProps> = ({ data, loading }) => {
             onClose={closeOfferBooking}
             content={
               <IframeComponent
-                src={offerInfoDetails?.cta?.redirectUrl}
+                src={offerInfoDetails?.CTA?.URL}
                 handledrawerState={setOfferBooking}
                 name={OFFERS}
               />
@@ -156,8 +153,7 @@ export const offerDetails = (
 ) => (
   <div
     className={cx(styles.listComponent, {
-      [styles.listComponentMargin]:
-        offerInfoDetails?.CTA && (offerInfoDetails?.CTA?.redirectTo || offerInfoDetails?.CTA?.URL),
+      [styles.listComponentMargin]: offerInfoDetails?.CTA?.status === ACTIVE,
     })}
   >
     <div className={styles.imageWrapper}>
@@ -166,15 +162,7 @@ export const offerDetails = (
     <div className={styles.contentWrapper}>
       <div className={styles.listComponentData}>
         {offerInfoDetails?.name && (
-          <h2
-            className={cx(styles.listComponentTitle, {
-              [styles.titleWithoutCta]:
-                offerInfoDetails?.CTA &&
-                (offerInfoDetails?.CTA?.redirectTo || offerInfoDetails?.CTA?.URL),
-            })}
-          >
-            {t(`${offerInfoDetails?.name}`)}
-          </h2>
+          <h2 className={cx(styles.listComponentTitle)}>{t(`${offerInfoDetails?.name}`)}</h2>
         )}
       </div>
       <div className={styles.gapList}>
@@ -201,19 +189,18 @@ export const offerDetails = (
             email={offerInfoDetails?.contact?.email as string}
           />
         )}
-        {offerInfoDetails?.CTA &&
-          (offerInfoDetails?.CTA?.redirectTo || offerInfoDetails?.CTA?.URL) && (
-            <StyledButton
-              variant='contained'
-              onClick={onCtaClick}
-              className={cx(styles.button, {
-                [styles.withoutImageButton]:
-                  offerInfoDetails && !offerInfoDetails?.images[0]?.ratio16to9,
-              })}
-            >
-              {offerInfoDetails?.CTA?.ctaTitle || t('BOOK NOW')}
-            </StyledButton>
-          )}
+        {offerInfoDetails?.CTA?.status === ACTIVE && (
+          <StyledButton
+            variant='contained'
+            onClick={onCtaClick}
+            className={cx(styles.button, 'globals-actionCtaWrapper', {
+              [styles.withoutImageButton]:
+                offerInfoDetails && !offerInfoDetails?.images[0]?.ratio16to9,
+            })}
+          >
+            {offerInfoDetails?.CTA?.displayCTATitle || t('BOOK NOW')}
+          </StyledButton>
+        )}
       </div>
     </div>
   </div>
@@ -225,20 +212,12 @@ export const handleCtaClick = (
   navigate: any,
   closeDrawer: any,
 ) => {
-  if (offerInfoDetails?.CTA?.redirectTo === EXTERNAL_URL) {
+  if (offerInfoDetails?.CTA?.redirectTo === EXTERNAL_URL_CAPS) {
     setOfferBooking(true);
   }
-  if (offerInfoDetails?.CTA?.redirectTo === RESTAURANT_BOOKING_FLOW) {
-    tableReservationStorage({
-      restaurantName: offerInfoDetails?.name,
-      id: offerInfoDetails?.id,
-      venueId:
-        (offerInfoDetails?.customAttributes && offerInfoDetails?.customAttributes[0]?.value) ?? '',
-    });
-  }
-  if (offerInfoDetails?.CTA?.redirectTo !== EXTERNAL_URL) {
+  if (offerInfoDetails?.CTA?.redirectTo === FLOW) {
     const redirectUrl =
-      flowPathMap[offerInfoDetails?.CTA?.redirectTo.toUpperCase() as keyof typeof flowPathMap];
+      flowPathMap[offerInfoDetails?.CTA?.redirectData as keyof typeof flowPathMap];
 
     if (redirectUrl) {
       navigate(redirectUrl);

@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ASSETS_URL } from '../../../../core/graphql/endpoints';
 import styles from './SpaCarousel.module.scss';
-import { activeItems, convertTo12HourFormat, getTimings } from 'utils/functions';
+import { activeItems, getTimings } from 'utils/functions';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { spaInformationStorage } from 'storage/spa.storage';
 import { availablePaths } from 'utils/availablePaths';
@@ -15,13 +15,9 @@ import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { toggleDetailsDrawer } from 'storage/home.storage';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
-import produce from 'immer';
 import ClockIcon from '@icons/clockIcon.svg';
 import LocationIcon from '@icons/location.svg';
 import { ACTIVE, EXTERNAL_URL, SPA_AND_WELLNESS } from 'utils/constants';
-import Phone from '@icons/telephone.svg';
-import Mail from '@icons/email.svg';
-import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 import { PhoneEmail } from 'components/shared/PhoneEmail/PhoneEmail';
 import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
@@ -74,7 +70,7 @@ export const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle
               <p>{time?.value}</p>
             </div>
           )}
-          <CustomReadMore text='View More' />
+          <CustomReadMore text={t('View More') as string} />
         </div>
       </div>
     </>
@@ -128,13 +124,16 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
   const onViewMenu = () => {
     setMenu(true);
     let link = null;
-    const menuType = spaInfoDetails?.treatmentsMenu?.split('type=')[1].split('}')[0].split(',')[0];
+    const menuType = spaInfoDetails?.treatmentsMenu
+      ?.split('type=')[1]
+      ?.split('}')[0]
+      ?.split(',')[0];
     if (menuType === 'WEB_URL') {
-      link = spaInfoDetails?.treatmentsMenu?.split('=')[1].split(',')[0];
+      link = spaInfoDetails?.treatmentsMenu?.split('=')[1]?.split(',')[0];
     }
 
     if (menuType === 'S3') {
-      link = `${ASSETS_URL}/${spaInfoDetails?.treatmentsMenu?.split('=')[1].split(',')[0]}`;
+      link = `${ASSETS_URL}/${spaInfoDetails?.treatmentsMenu?.split('=')[1]?.split(',')[0]}`;
     }
     setmenuLink(link);
   };
@@ -189,7 +188,11 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
         )}
       </div>
       {(spaTreatments?.length > 0 || spaInfoDetails?.cta?.status === ACTIVE) && (
-        <StyledButton variant='contained' onClick={onCtaClick} className={cx(styles.button)}>
+        <StyledButton
+          variant='contained'
+          onClick={onCtaClick}
+          className={cx(styles.button, 'globals-actionCtaWrapper')}
+        >
           {spaTreatments?.length > 0
             ? t('View Treatments')
             : spaInfoDetails?.cta?.status === ACTIVE &&

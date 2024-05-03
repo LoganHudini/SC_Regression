@@ -5,7 +5,7 @@ import styles from './PageWrapper.module.scss';
 import { IPageWrapperProps } from './PageWrapper.types';
 import { useHideOnScroll } from 'utils/hooks/useHideOnScroll';
 import { GET_HOTEL_INFORMATION } from 'core/graphql/queries/GET_HOTEL_INFORMATION';
-import { useLazyQuery, useQuery, useReactiveVar } from '@apollo/client';
+import { useLazyQuery, useReactiveVar } from '@apollo/client';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { hotelInfoStorage } from 'storage/home.storage';

@@ -30,6 +30,10 @@ import {
   FAILURE,
   SUCCESS,
   CCAVENUE,
+  CMS,
+  personalisation,
+  ROOM,
+  ADDON,
 } from 'utils/constants';
 import { Stepper } from 'components/shared/Stepper/Stepper';
 import { StepperInformationStorage } from 'storage/check-in.storage';
@@ -38,8 +42,6 @@ import {
   PaymentLoaderPopUp,
   PaymentStatusCard,
 } from 'components/pages/check-in/PreCheckinPaymentInfo/card-payment';
-import { usePersonalisation } from 'utils/hooks/usePersonalisation';
-import { openLinknewTab } from 'utils/functions';
 import {
   IInitiatePaymentApiRequest,
   IInitiatePaymentApiResponse,
@@ -56,18 +58,18 @@ import {
 import { toggleNotification } from 'storage/home.storage';
 import { Notification } from 'components/shared/Notification/Notification';
 import { processStatusCode } from 'utils/processError';
+import { personalizationStorage } from 'storage/personalize-your-room.storage';
 
 export { getStaticPaths };
 
 const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
   const navigate = useLocalizedRouter();
   const config = useConfig();
-  const [availablePersonalizations] = usePersonalisation();
+  const availablePersonalizations = useReactiveVar(personalizationStorage);
   const { t } = useTranslation(['about-your-stay', 'check-in']);
   const transactionId = useRef('');
   const [errorNotification, setErrorNotification] = useState(false);
   const [popUpStatus, setPopUpStatus] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [url, setUrl] = useState('');
   const paymentConfig: any = usePaymentConfig();
   const paymentWindow = useRef<Window | null>(null);
@@ -79,6 +81,9 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
   const reservationInfo = reservationData?.getReservation?.data;
 
   const checkInModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
+  const personalisationConfig = checkInModule?.submodules?.find(
+    (submodule: any) => submodule?.name === personalisation && submodule.isActive,
+  );
   const accompanyingGuestSubmodule = checkInModule?.submodules?.find(
     (submodule: any) => submodule?.name === INFORMATION && submodule.isActive,
   );
@@ -89,13 +94,27 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
     (section: any) => section?.name === CREDIT_CARD_INFO,
   );
 
+  const filteredRoomList: any =
+    personalisationConfig?.type !== CMS
+      ? availablePersonalizations?.length > 0
+        ? availablePersonalizations?.filter((item: any) => item?.isActive && item?.type === ADDON)
+        : []
+      : availablePersonalizations;
+
+  const filteredUpgradeRoomList: any =
+    personalisationConfig?.type !== CMS
+      ? availablePersonalizations?.length > 0
+        ? availablePersonalizations?.filter((item: any) => item?.isActive && item?.type === ROOM)
+        : []
+      : availablePersonalizations;
+
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
 
   const goToTheNextStep = useCallback(() => {
-    availablePersonalizations?.length > 0
+    filteredRoomList?.length > 0
       ? navigate(availablePaths?.PERSONALIZE)
       : navigate(availablePaths?.REVIEW);
-  }, [navigate, availablePersonalizations]);
+  }, [filteredRoomList?.length, navigate]);
 
   const validateGuestReservation = (field: any) => {
     if (!guestReservationInfo) {
@@ -254,7 +273,11 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
       <Header
         screenTitle={t(`${accompanyingGuestSubmodule?.label}`) as string}
         displayBackButton
-        backRoute={availablePaths?.GUEST_VERIFICATION}
+        backRoute={
+          filteredUpgradeRoomList?.length > 0 && personalisationConfig?.type !== CMS
+            ? availablePaths.UPGRADE_ROOM
+            : availablePaths?.GUEST_VERIFICATION
+        }
       />
       <PageWrapper className={styles.pageWrapper}>
         <Stepper />

@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { StyledButton } from '../../../shared/StyledButton/StyledButton';
 import styles from './DiningOrdersDrawer.module.scss';
-import Drawer from '@mui/material/Drawer';
 import { IDiningOrdersDrawerProps } from './DiningOrdersDrawer.types';
 import { STATUS } from 'utils/constants';
 import CheckMark from '@icons/thinCheckMark.svg';

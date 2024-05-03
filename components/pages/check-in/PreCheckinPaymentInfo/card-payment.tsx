@@ -3,7 +3,6 @@ import React from 'react';
 import { availablePaths } from 'utils/availablePaths';
 import styles from '@styles/pre-checkin-form/pre-checkin-form.module.scss';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
-import PaymentFailure from '@icons/paymentFailureCheckin.svg';
 import PaymentSuccess from '@icons/paymentSuccessCheckin.svg';
 import { CustomPopup } from 'components/shared/CustomPopup/CustomPopup';
 import { PaymentStatusAnimation } from 'components/shared/Loaders/Loaders';
@@ -11,7 +10,6 @@ import { PaymentStatusAnimation } from 'components/shared/Loaders/Loaders';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { useTranslation } from 'react-i18next';
 import { getStaticPaths } from 'utils/getStatic';
-import Link from 'next/link';
 
 export { getStaticPaths };
 

@@ -30,7 +30,7 @@
   "Something Went Wrong!": "حدث خطأ ما!",
   "Device Disconnected!": "تم قطع اتصال الجهاز!",
   "Confirm Checkout": "تأكيد الخروج",
-  "Unpair My Room": "إلغاء إقران غرفتي",
+  "Disconnect Room": "غرفة الانفصال",
   "This action cannot be reversed. Your room access will be disabled after Checkout.": "لا يمكن عكس هذا الإجراء. سيتم تعطيل الوصول إلى غرفتك بعد الخروج.",
   "This action is irreversible.Your device will no longer have access to in-room features, including In-Room Dining, Services, and others": "لا يمكن التراجع عن هذا الإجراء. لن يتمكن جهازك بعد الآن من الوصول إلى الميزات الموجودة في الغرفة، بما في ذلك تناول الطعام داخل الغرفة والخدمات وغيرها",
   "NO": "لا",

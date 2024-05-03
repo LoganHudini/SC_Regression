@@ -75,7 +75,7 @@
   --readmore-arrowwithtext: none;
   --readmore-arrow: none;
   --readmore-arrowhead: none;
-  --readmore-underline: 1px solid #000000;
+  --readmore-underline: 1px solid var(--primary-text-color);
 
   // Bottom menu arrow configs
   --bottom-menu-arrow-color: #fff;
@@ -85,6 +85,7 @@
   &:disabled {
     background: var(--primary-disabled-color);
   }
+
   &:after {
     display: none;
   }
@@ -188,9 +189,12 @@
 
 .globals-customReadMore {
   margin: 10px 0 !important;
-  color: #000000 !important;
 }
 
 .globals-titleWrapper {
   background-color: #eff2ef !important;
+}
+
+.globals-propertyName {
+  font: 5px 'Akzidenz Grotesk Pro Regular Extended' !important;
 }

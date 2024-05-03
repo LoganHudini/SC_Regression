@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useQuery, useReactiveVar } from '@apollo/client';
+import { useLazyQuery, useQuery, useReactiveVar } from '@apollo/client';
 import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -14,7 +14,7 @@ import {
   toggleHamburgerMenuDrawer,
   toggleNotification,
 } from 'storage/home.storage';
-import { activeItems, restaurantId } from 'utils/functions';
+import { activeItems, moduleType, restaurantId, timeExtract } from 'utils/functions';
 import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { GET_SPA_DETAILS } from 'core/graphql/queries/GET_SPA_DETAILS';
@@ -23,7 +23,6 @@ import { spaCategoryList, spaInformationStorage } from 'storage/spa.storage';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import produce from 'immer';
 import { Notification } from 'components/shared/Notification/Notification';
-import { availablePaths } from 'utils/availablePaths';
 import { ASSETS_URL, HOTEL_ID } from 'core/graphql/endpoints';
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
@@ -33,10 +32,11 @@ import {
   ACTIVE,
   ERRORMSG,
   EXTERNAL_URL,
-  FAILURE,
   SPA_BOOKING_FLOW,
-  SUCCESS,
   SPA_TREATMENTS,
+  SPA,
+  CMS,
+  GenderOptions,
 } from 'utils/constants';
 import DateTimeSelect from 'components/shared/DateTimeSelect/DateTimeSelect';
 import { client } from 'core/graphql/client';
@@ -46,16 +46,22 @@ import { useCheckedIn } from 'storage/check-in.storage';
 import { ListCounter } from 'components/shared/ListCounter/ListCounter';
 import { CREATE_SPA_ORDER } from 'core/graphql/queries/CREATE_SPA_RESERVATION';
 import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
-import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 import { useCurrency } from 'utils/hooks/useCurrency';
 import cx from 'classnames';
+import { GET_SLOT_DETAILS } from 'core/graphql/queries/GET_AVAILABLE_SPA_SLOTS';
+import { isEmpty } from 'lodash';
+import { CREATE_SPA_BOOKING } from 'core/graphql/queries/CREATE_SPA_REQUEST';
+import { StyledFormControl } from 'components/shared/StyledFormControl/StyledFormControl';
+import { InputLabel, MenuItem, Select } from '@mui/material';
+import DropDown from '@icons/dropDownIcon.svg';
 
 export { getStaticPaths };
 
 const Spa: React.FC = () => {
   const { t } = useTranslation(['spa']);
   const navigate = useLocalizedRouter();
+  const config = useConfig();
   const hotelId = useConfig()?.hotelId;
   const hotelName = useConfig()?.name;
   const locale = useLocale();
@@ -71,8 +77,13 @@ const Spa: React.FC = () => {
   const currentYear = new Date().getFullYear();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [guestCount, setGuestCount] = useState(1);
-  const [errorNotification, setErrorNotification] = useState(false);
+  const [errorNotification, setErrorNotification] = useState<any>({});
   const [spaBooking, setspaBooking] = useState(false);
+  const spaModule: any = moduleType(config?.modules, SPA);
+  const [availableSlots, setAvailableSlots] = useState(false);
+  const [selectedSpaSlots, setSelectedSpaSlots] = useState<any>({});
+  const [selectedGender, setSelectedGender] = useState<any>({});
+  const [spaBookingLoading, setSpaBookingLoading] = useState<any>(false);
 
   const { data, loading } = useQuery(GET_SPA_DETAILS, {
     skip: !hotelId,
@@ -145,6 +156,9 @@ const Spa: React.FC = () => {
 
   const closeDrawer = () => {
     toggleDetailsDrawer(false);
+    setAvailableSlots(false);
+    setSelectedSpaSlots({});
+    setSelectedGender({});
     spaInformationStorage(
       produce(spaInformationStorage(), (draft) => {
         null;
@@ -162,52 +176,77 @@ const Spa: React.FC = () => {
       setspaBooking(true);
     }
     if (spaInformation?.cta?.redirectOption === SPA_BOOKING_FLOW) {
-      setDetailContent(false);
-      setTimeSelectDrawer(true);
+      if (!isCheckedIn?.checkedIn) {
+        setErrorNotification({
+          type: true,
+          title: t('Access Denied.'),
+          message: t('Please connect to room to reserve spa treatments.') as string,
+        });
+        toggleNotification(true);
+      } else {
+        setDetailContent(false);
+        setTimeSelectDrawer(true);
+      }
     }
   };
 
   const handleSpaReservation = useCallback(async () => {
-    const DetailsReservationPayload = {
-      bookingId: isCheckedIn?.reservationId,
-      hotelId: HOTEL_ID,
-      bookingTime: dayjs().format(timeFormats.DATE_TIME),
-      roomNo: isCheckedIn?.roomNumber,
-      guestName: isCheckedIn?.name,
-      guestType: isCheckedIn?.roomNumber ? 'resident' : 'nonresident',
-      numberOfGuest: guestCount,
-      pax: '',
-      scheduledDate: dayjs(selectedTime).year(currentYear).format(timeFormats.YEAR_MONTH_DAY),
-      scheduledTime: dayjs(selectedTime).format(timeFormats.RAILWAY_TIME),
-      treatmentDuration: selectedSpaItem?.duration[currentIndex]?.duration as string,
-      totalAmount: selectedSpaItem?.duration[currentIndex]?.price,
-      spaId: selectedSpaItem?.spaId,
-      items: [
-        {
-          name: selectedSpaItem?.name,
-          treatmentDuration: selectedSpaItem?.duration[currentIndex]?.duration,
-          amount: selectedSpaItem?.duration[currentIndex]?.price,
-          description: '',
-        },
-      ],
-      spaName: selectedSpaItem?.name,
-    };
+    if (spaModule?.type === CMS) {
+      const DetailsReservationPayload = {
+        bookingId: isCheckedIn?.reservationId,
+        hotelId: HOTEL_ID,
+        bookingTime: dayjs().format(timeFormats.DATE_TIME),
+        roomNo: isCheckedIn?.roomNumber,
+        guestName: isCheckedIn?.name,
+        guestType: isCheckedIn?.roomNumber ? 'resident' : 'nonresident',
+        numberOfGuest: guestCount,
+        pax: '',
+        scheduledDate: dayjs(selectedTime).year(currentYear).format(timeFormats.YEAR_MONTH_DAY),
+        scheduledTime: dayjs(selectedTime).format(timeFormats.RAILWAY_TIME),
+        treatmentDuration: selectedSpaItem?.duration[currentIndex]?.duration as string,
+        totalAmount: selectedSpaItem?.duration[currentIndex]?.price,
+        spaId: selectedSpaItem?.spaId,
+        items: [
+          {
+            name: selectedSpaItem?.name,
+            treatmentDuration: selectedSpaItem?.duration[currentIndex]?.duration,
+            amount: selectedSpaItem?.duration[currentIndex]?.price,
+            description: '',
+          },
+        ],
+        spaName: selectedSpaItem?.name,
+      };
 
-    try {
-      await client.mutate({
-        mutation: CREATE_SPA_ORDER,
-        context: { clientName: 'host_v3' },
-        fetchPolicy: 'network-only',
-        variables: DetailsReservationPayload,
-      });
-      setTimeout(() => {
-        closeDrawer();
-      }, 4000);
-      setErrorNotification(false);
-    } catch (err) {
-      setErrorNotification(true);
+      try {
+        await client.mutate({
+          mutation: CREATE_SPA_ORDER,
+          context: { clientName: 'host_v3' },
+          fetchPolicy: 'network-only',
+          variables: DetailsReservationPayload,
+        });
+        setTimeout(() => {
+          closeDrawer();
+        }, 5000);
+        setErrorNotification({
+          type: false,
+          title: t('Thank You!') as string,
+          message: t(
+            'Your booking has been received. Our reservation team will get in touch with you soon',
+          ) as string,
+        });
+      } catch (err) {
+        setErrorNotification({
+          type: true,
+          title: ERRORMSG as string,
+          message: t('Your booking was not received.') as string,
+        });
+      }
+      toggleNotification(true);
+    } else {
+      await getSlots();
+      setAvailableSlots(true);
+      setTimeSelectDrawer(false);
     }
-    toggleNotification(true);
   }, [
     selectedTime,
     currentYear,
@@ -216,6 +255,67 @@ const Spa: React.FC = () => {
     isCheckedIn?.roomNumber,
     guestCount,
   ]);
+
+  const [getSlots, { data: spaSlot, loading: spaLoading }] = useLazyQuery(GET_SLOT_DETAILS, {
+    context: { clientName: 'messages' },
+    variables: {
+      date: dayjs(selectedTime).year(currentYear).format(timeFormats.YEAR_MONTH_DAY),
+      hotelId: hotelId,
+      requestType: '601',
+      treatmentId: selectedSpaItem?.code,
+    },
+    fetchPolicy: 'no-cache',
+  });
+
+  const timeExtractedArray: any =
+    spaSlot?.getSpaSlotAvailability?.length > 0 ? timeExtract(spaSlot?.getSpaSlotAvailability) : [];
+
+  const slotBookingHandler = async () => {
+    setSpaBookingLoading(true);
+    const spaPayload = {
+      customerNotes: '',
+      duration: selectedSpaItem?.duration[currentIndex]?.duration ?? '',
+      hotelId: hotelId,
+      requestType: '601',
+      date: dayjs(selectedTime).year(currentYear).format(timeFormats.YEAR_MONTH_DAY),
+      treatmentId: selectedSpaItem?.code,
+      startTime: selectedSpaSlots?.startTime,
+      technicianId: parseInt(selectedSpaSlots.technicianId),
+      firstName: isCheckedIn?.checkedIn ? isCheckedIn?.name : '',
+      lastName: isCheckedIn?.checkedIn ? isCheckedIn?.name : '',
+      emailAddress: isCheckedIn?.checkedIn && isCheckedIn?.email ? isCheckedIn?.email : '',
+      roomNo: isCheckedIn?.checkedIn ? isCheckedIn?.roomNumber : '',
+      genderPreference: selectedGender?.value || '',
+    };
+
+    try {
+      await client.mutate({
+        mutation: CREATE_SPA_BOOKING,
+        context: { clientName: 'messages' },
+        fetchPolicy: 'network-only',
+        variables: spaPayload,
+      });
+      setTimeout(() => {
+        closeDrawer();
+      }, 5000);
+      setErrorNotification({
+        type: false,
+        title: t('Thank You!') as string,
+        message: t(
+          'Your booking has been received. Our reservation team will get in touch with you soon',
+        ) as string,
+      });
+    } catch (err) {
+      setErrorNotification({
+        type: true,
+        title: ERRORMSG as string,
+        message: t('Your booking was not received.') as string,
+      });
+      setSpaBookingLoading(false);
+    }
+    toggleNotification(true);
+    setSpaBookingLoading(false);
+  };
 
   const spaDetails = () => (
     <div>
@@ -231,7 +331,6 @@ const Spa: React.FC = () => {
               src={`${ASSETS_URL}/${selectedSpaItem?.images[0]?.ratio16to9}`}
             />
           )}
-
           <div className={styles.wrapper}>
             {selectedSpaItem?.name && (
               <h2 className={styles.detailComponentTitle}>{t(`${selectedSpaItem?.name}`)}</h2>
@@ -252,8 +351,13 @@ const Spa: React.FC = () => {
               </p>
             )}
           </div>
+
           {spaInformation?.cta?.status === ACTIVE && (
-            <StyledButton variant='contained' onClick={onCtaClick} className={styles.button}>
+            <StyledButton
+              variant='contained'
+              onClick={onCtaClick}
+              className={cx(styles.button, 'globals-actionCtaWrapper')}
+            >
               {spaInformation?.cta?.ctaTitle || t('BOOK NOW')}
             </StyledButton>
           )}
@@ -290,23 +394,73 @@ const Spa: React.FC = () => {
               selectedTime={selectedTime}
               handleSave={handleSpaReservation}
               showSchedules={undefined}
-              buttonTitle={t('FIND A TABLE')}
+              buttonTitle={t('Find available slots')}
               buttonStyle={styles.buttonPicker}
             />
           </div>
         </div>
       )}
+      {availableSlots && (
+        <div className={styles.slotswrapper}>
+          <div>
+            <StyledFormControl
+              required={true}
+              className={styles.guestDataInput}
+              variant='standard'
+              sx={{ m: 1, minWidth: '100%' }}
+            >
+              <InputLabel>{t('Gender')}</InputLabel>
+              <Select
+                className={styles.guestDataInput}
+                label={t(selectedGender?.label)}
+                variant='standard'
+                name={selectedGender?.label}
+                id={selectedGender?.value}
+                value={selectedGender?.value || ''}
+                onChange={(e: any) => {
+                  setSelectedGender({ value: e.target.value, label: e.target.label });
+                }}
+                IconComponent={DropDown}
+              >
+                {GenderOptions?.map((item: any) => {
+                  return (
+                    <MenuItem value={item?.value} key={item?.value}>
+                      <em>{t(item?.label)}</em>
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </StyledFormControl>
+          </div>
+          <div className={styles.slotsButtonwrapper}>
+            {timeExtractedArray?.length > 0 &&
+              timeExtractedArray?.map((timeExt: any, index: any) => (
+                <StyledButton
+                  key={index}
+                  className={styles.sloteButton}
+                  onClick={() => setSelectedSpaSlots(timeExt)}
+                  variant={selectedSpaSlots?.index === timeExt?.index ? 'contained' : 'outlined'}
+                >
+                  {timeExt?.displayTime}
+                </StyledButton>
+              ))}
+          </div>
+          <StyledButton
+            className={styles.slotBookingButton}
+            disabled={!selectedGender?.value || isEmpty(selectedSpaSlots)}
+            onClick={slotBookingHandler}
+            loading={spaBookingLoading}
+          >
+            {t('Book Slot')}
+          </StyledButton>
+        </div>
+      )}
+
       <Notification
-        title={errorNotification ? (ERRORMSG as string) : (t('Thank You!') as string)}
-        description={
-          errorNotification
-            ? ('Your booking was not received.' as string)
-            : (t(
-                'Your booking has been received. Our reservation team will get in touch with you soon',
-              ) as string)
-        }
+        title={errorNotification?.title as string}
+        description={errorNotification?.message}
         redirect={null}
-        type={errorNotification ? FAILURE : SUCCESS}
+        type={errorNotification?.type}
       />
     </div>
   );
@@ -319,7 +473,7 @@ const Spa: React.FC = () => {
         </title>
       </Head>
       <Header screenTitle={t('Spa') as string} displayHome />
-      {loading ? (
+      {loading || spaLoading ? (
         <Loader />
       ) : (
         <PageWrapper

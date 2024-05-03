@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import cx from 'classnames';
 import styles from './ListCounter.module.scss';
 import RemoveOutlinedIcon from '@icons/LeftArrow.svg';

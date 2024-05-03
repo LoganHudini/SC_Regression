@@ -27,6 +27,7 @@ export interface ICheckInApiRequest {
   upsell: any;
   guestSignature: string;
   comment: string;
+  isDoNotMove: boolean;
 }
 
 export const CHECKIN = gql`

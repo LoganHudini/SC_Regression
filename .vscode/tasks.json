@@ -193,10 +193,32 @@
     },
     {
       "type": "npm",
-      "script": "start:atlantis",
+      "script": "start:proper",
       "problemMatcher": [],
       "label": "Start: PROPER",
       "detail": "env-cmd -f .env.proper next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:oneandonly",
+      "problemMatcher": [],
+      "label": "Dev: ONE&ONLY",
+      "detail": "env-cmd -f .env.oneandonly yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:oneandonly",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: ONE&ONLY",
+      "detail": "env-cmd -f .env.oneandonly yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:oneandonly",
+      "problemMatcher": [],
+      "label": "Start: ONE&ONLY",
+      "detail": "env-cmd -f .env.oneandonly next start"
     }
   ]
 }

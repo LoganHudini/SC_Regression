@@ -7,7 +7,6 @@ import { flowPathMap } from 'utils/flowPathMap';
 import { useReactiveVar } from '@apollo/client';
 import {
   diningOptions,
-  getHotelCompendium,
   selectedCompendiumCategory,
   toggleHamburgerMenuDrawer,
   toggleModuleOptionsDrawer,
@@ -30,14 +29,15 @@ import {
   IN_APP,
   IN_ROOM_DINING,
   LANGUAGE,
-  LANGUAGES,
   PAIR_TO_ROOM,
+  POST,
+  PRE,
   SUCCESS,
 } from 'utils/constants';
 import CheckIcon from '@icons/checkIcon.svg';
-import { housekeepingOptions, serviceRequestOptionsArray } from 'storage/housekeeping.storage';
-import { spaCategoryList, spaInformationStorage } from 'storage/spa.storage';
-import { offerList, selectedOfferOption } from 'storage/offers.storage';
+import { housekeepingOptions } from 'storage/housekeeping.storage';
+import { spaInformationStorage } from 'storage/spa.storage';
+import { selectedOfferOption } from 'storage/offers.storage';
 import { useTranslation } from 'react-i18next';
 import HotelInfoDrawer from 'components/pages/home/HotelInformation/HotelInfoDrawer/HotelInfoDrawer';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
@@ -70,6 +70,7 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
   const navigate = useLocalizedRouter();
   const { t } = useTranslation(['common']);
   const router = useRouter();
+  const config = useConfig();
   const [externalURL, setExternalURL] = useState<boolean>(false);
   const [openLanguage, setOpenLanguage] = useState<boolean>(false);
   const closeBooking = () => {
@@ -113,7 +114,7 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
     <div className={styles.wrapper}>
       <p className={styles.title}>{t('Choose Your Language')}</p>
       <div className={styles.optionsList}>
-        {LANGUAGES?.map((language, index) => (
+        {config?.languages?.map((language, index) => (
           <div key={index} className={cx(styles.optionsListItem)}>
             <p
               className={cx(styles.inActiveDiningText, {
@@ -194,6 +195,10 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   diningCategoryOptions,
   hamburger,
   path,
+  filteredhotelCompendiumInfo,
+  spaCategories,
+  offersList,
+  serviceRequestOptions,
 }) => {
   const { t } = useTranslation(['common']);
   const navigate = useLocalizedRouter();
@@ -202,15 +207,11 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   const diningOptionSelected = useReactiveVar(diningOptions);
   const irdOption = useReactiveVar(diningHeaders);
   const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
-  const serviceRequestOptions: any = useReactiveVar(serviceRequestOptionsArray);
   const drawerStatus = useReactiveVar(toggleModuleOptionsDrawer);
-  const compendiumInfo: any = useReactiveVar(getHotelCompendium);
   const selectedCompendiumInfo: any = useReactiveVar(selectedCompendiumCategory);
   const spaInformation = useReactiveVar(spaInformationStorage);
-  const spaCategories = useReactiveVar(spaCategoryList);
   const selectedCategoryList = useReactiveVar(diningInformationStorage);
   const offersOptionSelected: any = useReactiveVar(selectedOfferOption);
-  const offersList = useReactiveVar(offerList);
   const [externalURL, setExternalURL] = useState<boolean>(false);
   const [externalLink, setExternalLink] = useState<any>();
   const [moduleTitle, setModuleTitle] = useState<any>();
@@ -220,12 +221,6 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
 
   const checkInModule: boolean = activeModule(config?.modules, CHECK_IN);
   const pairToRoomModule: boolean = activeModule(config?.modules, PAIR_TO_ROOM);
-
-  const filteredDetails = compendiumInfo?.categories?.filter((category: any) => {
-    return compendiumInfo?.amenities?.find(
-      (amenity: any) => amenity?.categoryIds.includes(category?.id) && amenity?.isActive,
-    );
-  });
 
   const closeDrawer = () => {
     toggleModuleOptionsDrawer(false);
@@ -303,12 +298,12 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                       activeCheckInFlow(false);
                     }}
                   >
-                    {t('Pair to Room')}
+                    {t('Connect to Room')}
                   </p>
                 )}
 
                 {hamburger &&
-                  hamburger[isCheckedIn?.checkedIn ? 'post' : 'pre']?.map(
+                  hamburger[isCheckedIn?.checkedIn ? POST : PRE]?.map(
                     (moduleItem: any, index: any) => (
                       <p
                         className={cx(styles.inActiveText, {
@@ -344,7 +339,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                       toggleDetailsDrawer(false);
                     }}
                   >
-                    {t('Unpair My Room')}
+                    {t('Disconnect Room')}
                   </p>
                 )}
               </>
@@ -415,9 +410,9 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
             <p className={styles.title}>{t('Services')} </p>
             <div className={styles.optionsList}>
               {serviceRequestOptions?.map((request: any, index: number) => (
-                <div key={index} className={cx(styles.optionsListItem)}>
+                <div key={index}>
                   {request?.id && (
-                    <>
+                    <div className={cx(styles.optionsListItem)}>
                       <p
                         className={cx(styles.inActiveDiningText, {
                           [styles.activeText]: houseKeepingOptionSelected?.id === request?.id,
@@ -432,7 +427,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                       {houseKeepingOptionSelected?.id === request?.id && (
                         <CheckIcon className={styles.icon} />
                       )}
-                    </>
+                    </div>
                   )}
                 </div>
               ))}
@@ -443,7 +438,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
           <div>
             <p className={styles.title}>{t('Things To Do')}</p>
             <div className={styles.optionsList}>
-              {filteredDetails?.map((category: any, index: any) => (
+              {filteredhotelCompendiumInfo?.map((category: any, index: any) => (
                 <div key={index} className={cx(styles.optionsListItem)}>
                   <p
                     className={cx(styles.inActiveDiningText, {
@@ -494,7 +489,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
           <div>
             <p className={styles.title}>{t('Offers')}</p>
             <div className={styles.optionsList}>
-              {Array.from(new Set(offersList?.map((item: any) => item?.type))).map((type) => {
+              {Array.from(new Set(offersList?.map((item: any) => item?.type))).map((type: any) => {
                 return (
                   <div key={type} className={cx(styles.optionsListItem)}>
                     <p

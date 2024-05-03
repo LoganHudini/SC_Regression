@@ -3,7 +3,6 @@ import React from 'react';
 import styles from './HousekeepingItem.module.scss';
 import { IHousekeepingItemProps } from './HousekeepingItem.types';
 import { serviceRequestIcons } from 'utils/serviceRequestIcons';
-import cx from 'classnames';
 
 export const HousekeepingItem: React.FC<IHousekeepingItemProps> = ({
   housekeepingItem,

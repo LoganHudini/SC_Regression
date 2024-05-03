@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import cx from 'classnames';
 import { IThankYouDrawerProps } from './ThankYouDrawer.types';
 import styles from './ThankYouDrawer.module.scss';

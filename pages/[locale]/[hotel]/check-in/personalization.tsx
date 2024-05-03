@@ -6,7 +6,10 @@ import styles from '@styles/personalize-your-room-v2/personalize-your-room-v2.mo
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { ApolloError, useReactiveVar } from '@apollo/client';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { personalizeYourRoomStorage } from 'storage/personalize-your-room.storage';
+import {
+  personalizationStorage,
+  personalizeYourRoomStorage,
+} from 'storage/personalize-your-room.storage';
 import { client } from 'core/graphql/client';
 import { IGetReservationApiResponse, GET_RESERVATION } from 'core/graphql/queries/GET_RESERVATION';
 import { useTranslation } from 'react-i18next';
@@ -23,11 +26,14 @@ import {
   STEPPER_PAYMENT,
   STEPPER_CUSTOMISATION,
   personalisation,
+  CMS,
+  ADDON,
+  NONE,
+  ROOM,
 } from 'utils/constants';
-import { Loader } from 'components/shared/Loaders/Loaders';
 import { Notification } from 'components/shared/Notification/Notification';
 import { toggleNotification } from 'storage/home.storage';
-import { useConfig } from 'utils/hooks/useConfiguration';
+import { useConfig, usePaymentConfig } from 'utils/hooks/useConfiguration';
 import { StepperInformationStorage } from 'storage/check-in.storage';
 import { Stepper } from 'components/shared/Stepper/Stepper';
 import produce from 'immer';
@@ -36,7 +42,6 @@ import {
   handleCheckInAuthenticationFailure,
 } from 'core/api/functions/getCheckInAuthentication';
 import { processStatusCode } from 'utils/processError';
-import { usePersonalisation } from 'utils/hooks/usePersonalisation';
 import cx from 'classnames';
 
 export { getStaticPaths };
@@ -45,6 +50,7 @@ const PersonalizeYourRoom: React.FC = () => {
   const { t } = useTranslation(['personalize-your-room', 'check-in']);
   const navigate = useLocalizedRouter();
   const config = useConfig();
+  const paymentConfig: any = usePaymentConfig();
   const [loadingButton, setLoadingButton] = useState(false);
 
   const [notificationState, setNotificationState] = useState<any>(false);
@@ -78,7 +84,20 @@ const PersonalizeYourRoom: React.FC = () => {
 
   const reservationInfo = reservationData?.getReservation.data;
 
-  const [availablePersonalizations, loading] = usePersonalisation();
+  const availablePersonalizations = useReactiveVar(personalizationStorage);
+
+  const filteredAddonsList: any =
+    personalisationConfig?.type !== CMS
+      ? availablePersonalizations?.length > 0 &&
+        availablePersonalizations?.filter((item: any) => item?.isActive && item?.type === ADDON)
+      : availablePersonalizations;
+
+  const filteredUpgradeRoomList: any =
+    personalisationConfig?.type !== CMS
+      ? availablePersonalizations?.length > 0
+        ? availablePersonalizations?.filter((item: any) => item?.isActive && item?.type === ROOM)
+        : []
+      : availablePersonalizations;
 
   const goToNextStep = useCallback(async () => {
     setLoadingButton(true);
@@ -98,9 +117,12 @@ const PersonalizeYourRoom: React.FC = () => {
         noOfGuest: reservationInfo?.details.totalGuestCount,
         roomCategory: reservationInfo?.roomTypes[0].name,
         roomCharge: reservationInfo?.roomTypes[0].totalCharge,
-        personalisation: [],
+        personalisation: personalizationStorageInfo?.map((el: any) => ({
+          code: el?.id,
+          quantity: el?.quantity.toString(),
+        })),
         specialRequest: [''],
-        comments: personalizationStorageInfo?.map((a: any) => a?.title + ' X ' + a?.quantity),
+        comments: [],
       };
 
       const updateBookingDetails = async () => {
@@ -169,7 +191,13 @@ const PersonalizeYourRoom: React.FC = () => {
       <Header
         displayBackButton
         screenTitle={t(`${personalisationConfig?.label}`) as string}
-        backRoute={availablePaths?.CARD_AUTHORISATION}
+        backRoute={
+          paymentConfig?.type !== NONE
+            ? availablePaths?.CARD_AUTHORISATION
+            : filteredUpgradeRoomList?.length > 0 && personalisationConfig?.type !== CMS
+            ? availablePaths.UPGRADE_ROOM
+            : availablePaths.GUEST_VERIFICATION
+        }
       />
       <PageWrapper className={styles.pageWrapper}>
         <Stepper />
@@ -180,25 +208,20 @@ const PersonalizeYourRoom: React.FC = () => {
           </p>
         </div>
         <div className={styles.personalizationEntitiesWrapper}>
-          {loading ? (
-            <>
-              <Loader />
-            </>
-          ) : (
-            availablePersonalizations?.map((el: any) => (
+          {filteredAddonsList?.length > 0 &&
+            filteredAddonsList?.map((el: any, index: number) => (
               <RoomPersonalizationEntityV2
-                key={el.id}
-                id={el.id}
-                title={el.name}
-                description={el.description}
+                key={index}
+                id={el?.code}
+                title={el?.name}
+                description={el?.description}
                 type='PER_DAY'
-                price={el.cost}
-                currency={el.currency}
-                maxQuantity={el.maxQuantity}
+                price={el?.cost}
+                currency={el?.currency}
+                maxQuantity={el?.maxQuantity}
                 setNotificationState={setNotificationState}
               />
-            ))
-          )}
+            ))}
         </div>
 
         <div className={styles.confirmButtonWrapper}>

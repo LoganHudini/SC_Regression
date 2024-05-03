@@ -19,7 +19,11 @@ import { ApolloError, useReactiveVar } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { availablePaths } from 'utils/availablePaths';
 import { activeCheckInFlow, checkinStorage, useCheckedIn } from 'storage/check-in.storage';
-import { toggleCheckInDetailsDrawer, toggleNotification } from 'storage/home.storage';
+import {
+  hotelInfoStorage,
+  toggleCheckInDetailsDrawer,
+  toggleNotification,
+} from 'storage/home.storage';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { saveTrip } from 'storage/trips.storage';
 import { Notification } from 'components/shared/Notification/Notification';
@@ -31,7 +35,6 @@ import {
 import { processStatusCode } from 'utils/processError';
 import {
   CANCELED,
-  CHECKEDOUT,
   CHKOUT,
   FAILURE,
   NOSHOW,
@@ -39,9 +42,9 @@ import {
   NA,
   INHOUSE,
   PAIR_TO_ROOM,
+  CHECKEDOUT,
 } from 'utils/constants';
 import { useConfig } from 'utils/hooks/useConfiguration';
-import { Loader } from 'components/shared/Loaders/Loaders';
 import { findModule } from 'utils/functions';
 import { getCheckOutToken } from 'core/api/functions/getCheckOutAuthentication';
 
@@ -50,6 +53,7 @@ const CheckInDrawer = () => {
   const config = useConfig();
   const hotelId = config?.hotelId;
   const hotel = config?.code;
+  const hotelInformation = useReactiveVar(hotelInfoStorage);
 
   const checkInDrawerStatus = useReactiveVar(toggleCheckInDetailsDrawer);
   const { t } = useTranslation(['common']);
@@ -71,8 +75,7 @@ const CheckInDrawer = () => {
     state: boolean;
     title: string;
     description: string;
-    appoloErrorMessage?: any;
-  }>({ state: false, title: '', description: '', appoloErrorMessage: '' });
+  }>({ state: false, title: '', description: '' });
 
   const goToTheNextStep = useCallback(
     async (values: IGetPrecheckinReservationData) => {
@@ -95,7 +98,7 @@ const CheckInDrawer = () => {
             clientName: 'rest',
             headers: {
               Authorization:
-                'Bearer ' + activeCheckInFlowInfo ? checkInToken?.current : checkOutToken.current,
+                'Bearer ' + (activeCheckInFlowInfo ? checkInToken?.current : checkOutToken.current),
             },
           },
           variables: activeCheckInFlowInfo
@@ -144,9 +147,10 @@ const CheckInDrawer = () => {
               if (activeCheckInFlowInfo) {
                 setErrorNotification({
                   state: false,
-                  title: 'Hello Again!',
-                  description:
+                  title: t('Hello Again!'),
+                  description: t(
                     'Reservation validated successfully. You can now explore our in-stay services.',
+                  ),
                 });
                 toggleNotification(true);
                 toggleCheckInDetailsDrawer(false);
@@ -181,8 +185,8 @@ const CheckInDrawer = () => {
             } else {
               setErrorNotification({
                 state: true,
-                title: 'Room Unavailable',
-                description: 'Please try after sometime',
+                title: t('Room Unavailable'),
+                description: t('Please try after sometime'),
               });
               toggleNotification(true);
               toggleCheckInDetailsDrawer(false);
@@ -193,9 +197,10 @@ const CheckInDrawer = () => {
             !activeCheckInFlowInfo &&
               (setErrorNotification({
                 state: true,
-                title: 'Oops! Check-In Incomplete!',
-                description:
+                title: t('Oops! Check-In Incomplete!'),
+                description: t(
                   'Please complete your check-in at our front desk to connect your phone with the room.',
+                ),
               }),
               toggleNotification(true));
             toggleCheckInDetailsDrawer(false);
@@ -209,9 +214,8 @@ const CheckInDrawer = () => {
           ? handleCheckInAuthenticationFailure(goToTheNextStep, values)
           : (setErrorNotification({
               state: true,
-              title: 'Reservation Not Found',
-              description: 'Please Try Again',
-              appoloErrorMessage: error as ApolloError,
+              title: t('Reservation Not Found'),
+              description: t('Please proceed to the front desk for further assistance.'),
             }),
             toggleNotification(true),
             toggleCheckInDetailsDrawer(false),
@@ -271,14 +275,15 @@ const CheckInDrawer = () => {
   const pairDeviceWelcomeMessage = () => {
     return (
       <>
-        {loading && <Loader />}
         <PageWrapper className={styles.pageWrapper}>
           <div className={styles.letterWrapper}>
-            <p className={styles.letterTitle}>{`${t(pairToRoomDetails?.welcomeTitle)}`}</p>
-            {guestFirstName && (
-              <p className={styles.nameTitle}>{`${t('Dear ' + guestFirstName?.toLowerCase())},`}</p>
+            <p className={styles.letterTitle}>{`${t(pairToRoomDetails.welcomeTitle)}`}</p>
+            <p className={styles.nameTitle}>{`${t('Dear ' + checkedInData?.name)},`}</p>
+            {hotelInformation?.getPropertyDetailsByHotelId?.hotel?.wcMessage?.messageText && (
+              <p className={styles.letterBody}>
+                {hotelInformation?.getPropertyDetailsByHotelId?.hotel?.wcMessage?.messageText}
+              </p>
             )}
-            <p className={styles.letterBody}>{`${t(pairToRoomDetails?.welcomeBody)}`}</p>
           </div>
           <StyledButton
             loading={loading}
@@ -295,7 +300,6 @@ const CheckInDrawer = () => {
   const checkInDetails = () => {
     return (
       <>
-        {loading && <Loader />}
         <PageWrapper className={styles.pageWrapper}>
           <p className={styles.pageTitle}>
             {activeCheckInFlowInfo
@@ -353,7 +357,7 @@ const CheckInDrawer = () => {
             className={styles.findMyBookingBtn}
             onClick={formik.submitForm}
           >
-            {activeCheckInFlowInfo ? t('NEXT') : t('Pair To Room')}
+            {activeCheckInFlowInfo ? t('NEXT') : t('Connect to Room')}
           </StyledButton>
         </PageWrapper>
       </>
@@ -376,7 +380,6 @@ const CheckInDrawer = () => {
         description={errorNotification?.description as string}
         redirect={errorNotification.state && availablePaths?.HOME}
         type={errorNotification.state ? FAILURE : SUCCESS}
-        apolloError={errorNotification?.state && errorNotification?.appoloErrorMessage}
       />
     </>
   );

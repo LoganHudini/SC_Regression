@@ -4,13 +4,11 @@ import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { IDiningOrdersProps } from './RestaurantDetail.types';
 import { useTranslation } from 'react-i18next';
 import TimeIcon from '@icons/clockIcon.svg';
-
 import DishIcon from '@icons/dishIcon.svg';
 import { getTimings, restaurantCtaNavigation } from 'utils/functions';
 import { ASSETS_URL, HOTEL_ID } from 'core/graphql/endpoints';
 import DateTimeSelect from 'components/shared/DateTimeSelect/DateTimeSelect';
 import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
-import { StableImage } from 'components/shared/StableImage/StableImage';
 import router from 'next/router';
 import { availablePaths } from 'utils/availablePaths';
 import {
@@ -246,7 +244,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
                   setIframeComponent,
                 );
               }}
-              className={cx(styles.button, {
+              className={cx(styles.button, 'globals-actionCtaWrapper', {
                 [styles.buttonNone]: timeSelectDrawer,
                 [styles.withoutImageButton]:
                   queryResultEntity && !queryResultEntity?.images[0]?.ratio16to9,

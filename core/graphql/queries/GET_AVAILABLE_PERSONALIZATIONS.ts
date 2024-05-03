@@ -22,11 +22,11 @@ export interface IPersonalizeYourRoomApiResponse {
   };
 }
 
-export const GET_AVAILABLE_PERSONALIZATIONS = gql`
-  query GetAvailablePersonalizations($startDate: String, $endDate: String) {
-    getAvailablePersonalizations(startDate: $startDate, endDate: $endDate) @rest(
+export const GET_AVAILABLE_PERSONALIZATIONS_PMS = gql`
+  query GetAvailablePersonalizations($confirmationId: String, $startDate: String, $endDate: String) {
+    getAvailablePersonalizations(confirmationId: $confirmationId, startDate: $startDate, endDate: $endDate) @rest(
         type: "GetAvailablePersonalizationsPayload"
-        path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/personalisations?startDate={args.startDate}&endDate={args.endDate}"
+        path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/personalisations?confirmationId={args.confirmationId}&endDate={args.endDate}&startDate={args.startDate}"
       ) {
       errors
       data

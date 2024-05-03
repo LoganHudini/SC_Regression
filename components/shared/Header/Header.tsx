@@ -155,7 +155,7 @@ export const Header: React.FC<IHeaderProps> = ({
                 src={`/images/${BRAND_CODE}/Logo.svg`}
                 onClick={goHome}
               />
-              {logo && <p className={styles.propertyName}>{logo}</p>}
+              {logo && <p className={cx(styles.propertyName, 'globals-propertyName')}>{logo}</p>}
             </>
           )}
 

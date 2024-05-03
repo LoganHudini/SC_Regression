@@ -391,8 +391,6 @@
   box-shadow: 0px -2px 10px var(--primary-box-shadow-color);
   height: 60px;
   font-size: $medium;
-  color: var(--secondary-text-color);
-  background: var(--primary-button-background-color);
 }
 
 .listComponentData {
@@ -409,10 +407,6 @@
   font: $header var(--heading-font-regular);
   line-height: 1.2;
   text-align: center;
-}
-
-.titleWithoutCta {
-  margin: 3rem 0 1rem;
 }
 
 .gapList {

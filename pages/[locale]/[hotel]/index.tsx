@@ -176,9 +176,9 @@ const Home: NextPage = () => {
           <Checkin
             title={t('Checked in already?')}
             description={t(
-              'To pair your device with your room, please press the ‘Pair to Room’ button below. This will enable you to access room controls and services conveniently from your device. Enjoy your stay with us!',
+              'To pair your device with your room, please press the ‘Connect to Room’ button below. This will enable you to access in-room services conveniently from your device. Enjoy your stay with us!',
             )}
-            buttonTitle={t('Pair to Room')}
+            buttonTitle={t('Connect to Room')}
           />
         )}
       </>

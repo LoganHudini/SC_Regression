@@ -12,18 +12,14 @@ import {
 } from 'storage/home.storage';
 import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
-import { StableImage } from 'components/shared/StableImage/StableImage';
-import { ASSETS_URL } from 'core/graphql/endpoints';
 import { GET_HOTEL_COMPENDIUM } from 'core/graphql/queries/GET_HOTEL_COMPENDIUM_DETIALS';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { getStaticPaths } from 'utils/getStatic';
-import cx from 'classnames';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { useConfig } from 'utils/hooks/useConfiguration';
-import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 import { filterHotelCompendiumCategories } from 'utils/functions';
 import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 
@@ -72,8 +68,6 @@ const HotelCompendium: React.FC = () => {
     toggleDetailsDrawer(false);
     setShowSelectedAmenity('');
   };
-
-  console.log(showSelectedAmenity?.images);
 
   const hotelCompendiumDrawerDetails = () => (
     <>

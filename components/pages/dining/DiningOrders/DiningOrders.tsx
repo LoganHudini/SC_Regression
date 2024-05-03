@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './DiningOrders.module.scss';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { IDiningOrdersProps } from './DiningOrders.types';

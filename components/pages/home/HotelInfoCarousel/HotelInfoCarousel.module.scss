@@ -14,8 +14,8 @@
   top: 0;
   width: 100%;
   height: 100%;
-  background: transparent linear-gradient(180deg, #00000000 0%, #000000 100%) 0% 0% no-repeat
-    padding-box;
+  background: transparent linear-gradient(180deg, #00000000 0%, #000000 100%) 0% 0% no-repeat padding-box;
+  cursor: pointer;
 }
 
 .bannerImage {
@@ -30,6 +30,7 @@
   left: 0;
   right: 0;
   text-align: center;
+  cursor: pointer;
 }
 
 .title {
@@ -64,6 +65,7 @@
   height: 6px;
   background: var(--primary-indicator-color);
   opacity: 0.5;
+
   &:not(:last-child) {
     margin-right: 6px;
   }
@@ -73,9 +75,11 @@
   width: 6px;
   height: 6px;
   transform: scale(1.3);
+
   &:not(:last-child) {
     margin-right: 6px;
   }
+
   border-radius: 0;
   background: var(--primary-indicator-color) !important;
 }
@@ -83,4 +87,9 @@
 .readMore {
   margin: auto !important;
   color: var(--secondary-text-color);
+  border-bottom: 1px solid var(--secondary-text-color);
+
+  path {
+    fill: var(--secondary-text-color);
+  }
 }

@@ -24,6 +24,9 @@ export const GET_OFFERS = gql`
         phoneNumber
         redirectTo
         type
+        status
+        displayCTATitle
+        redirectData
       }
       duration {
         alwaysActive

@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { toggleHamburgerMenuDrawer } from 'storage/home.storage';
 
 const useOutsideAlerter = (ref: any) => {
   useEffect(() => {

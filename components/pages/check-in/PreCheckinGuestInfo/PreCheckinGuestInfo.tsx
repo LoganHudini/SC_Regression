@@ -23,6 +23,7 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
 }) => {
   const { t } = useTranslation('check-in');
   const [cardOpened, setCardOpened] = useState(true);
+  const [onOpen, setOnOpen] = useState(false);
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
 
   const handleInputChange = () => {
@@ -99,17 +100,24 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
               ) : field?.type === DATEPICKER ? (
                 <div className={styles.col_100}>
                   <DatePicker
+                    open={onOpen}
+                    onOpen={() => setOnOpen(true)}
+                    onClose={() => setOnOpen(false)}
                     className={styles.guestDataInput}
-                    label={field?.label}
+                    label={t(field?.label)}
                     value={formik.values[field?.name] || null}
                     onChange={(date) => {
                       const expiryDate = dayjs(date).format(timeFormats.YEAR_MONTH_DAY);
                       formik.setFieldValue(field?.name, expiryDate);
                       updateGuestDetails(field?.name, expiryDate);
+                      setOnOpen(false);
                     }}
                     disabled={field?.isDisabled}
                     disableFuture={field?.isDisableFuture}
                     disablePast={field?.isDisablePast}
+                    componentsProps={{
+                      actionBar: { actions: [] },
+                    }}
                     renderInput={(params) => (
                       <StyledInput
                         required={field?.required}

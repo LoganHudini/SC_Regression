@@ -1,5 +1,4 @@
 import { ApolloError, useReactiveVar } from '@apollo/client';
-import cx from 'classnames';
 import { client } from 'core/graphql/client';
 import { IGetReservationApiResponse, GET_RESERVATION } from 'core/graphql/queries/GET_RESERVATION';
 import {
@@ -7,7 +6,6 @@ import {
   IInitiatePaymentApiResponse,
   INITIATE_PAYMENT_CCAVENUE,
 } from 'core/graphql/queries/INITIATE_PAYMENT';
-import styles from '@styles/check-in-payment/check-in-payment.module.scss';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   IGetPaymentStatusApiResponse,
@@ -27,7 +25,6 @@ import {
 } from 'core/api/functions/getCheckInAuthentication';
 import { processStatusCode } from 'utils/processError';
 import { PaymentLoaderPopUp } from 'components/pages/check-in/PreCheckinPaymentInfo/card-payment';
-import PopUpBlocker from '@icons/popUpBlocker.svg';
 
 const CCAvenue: React.FC = () => {
   const transactionId = useRef('');

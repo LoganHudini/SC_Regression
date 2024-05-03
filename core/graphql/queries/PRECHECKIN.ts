@@ -27,6 +27,7 @@ export interface IPreCheckInApiRequest {
   upsell: any;
   guestSignature: string;
   comment: string;
+  isDoNotMove: boolean;
 }
 
 export const PRECHECKIN = gql`

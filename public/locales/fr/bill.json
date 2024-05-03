@@ -30,7 +30,6 @@
   "Something Went Wrong!": "Quelque chose s'est mal passé !",
   "Device Disconnected!": "Appareil déconnecté !",
   "Confirm Checkout": "Confirmer le départ",
-  "Disconnect From Room": "Déconnexion de la chambre",
   "This action cannot be reversed. Your room access will be disabled after Checkout.": "Cette action est irréversible. Votre accès à la chambre sera désactivé après le départ.",
   "This action is irreversible.Your device will no longer have access to in-room features, including In-Room Dining, Services, and others": "Cette action est irréversible. Votre appareil n'aura plus accès aux fonctionnalités de la chambre, y compris le service en chambre, les services et autres.",
   "NO": "NON",
@@ -42,5 +41,5 @@
   "EMAIL": "E-MAIL",
   "Total Bill Amount": "Montant total de la facture",
   "Total Amount Due": "Montant total dû",
-  "Unpair My Room": "Dissocier ma chambre"
+  "Disconnect Room": "Déconnecter la chambre"
 }

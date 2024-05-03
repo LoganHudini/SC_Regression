@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './RoomPersonalizationEntitySkeletonV2.module.scss';
 import cx from 'classnames';
-import { StyledButton } from '../../../shared/StyledButton/StyledButton';
 
 export const RoomPersonalizationEntitySkeletonV2: React.FC = () => {
   return (

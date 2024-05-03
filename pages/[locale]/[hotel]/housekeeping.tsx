@@ -238,9 +238,12 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
               ?.map((el: any) => ({
                 code: el?.itemId,
                 priorityId: '11',
-                name: el?.name,
+                name: el?.name?.includes('|') ? el?.name?.split('|')[1] : el?.name,
                 quantity: el?.quantity,
                 scheduled: scheduledDateTimePayload,
+                categoryCode: showSchedules?.code,
+                serviceId: el?.name?.includes('|') ? el?.name?.split('|')[0] : '',
+                operaReservationId: checkinData?.invoiceId,
               })),
           },
         });

@@ -318,22 +318,39 @@ export const serviceRequestArray = (
   const houseKeeping = activeItems(selectedServiceRequests?.houseKeeping);
   const concierge = activeItems(selectedServiceRequests?.concierge);
   const serviceArray: any = [
-    houseKeeping?.length > 0 && {
+    {
       id: 'services',
       title: 'Housekeeping',
       carouselLabel: 'HouseKeeping',
       label: 'houseKeeping',
+      isActive: houseKeeping?.length > 0 && true,
     },
-    concierge?.length > 0 && {
+    {
       id: 'concierge',
       title: 'Maintenance',
       carouselLabel: 'Concierge',
       label: 'concierge',
+      isActive: concierge?.length > 0 && true,
     },
-  ];
+  ].filter((item) => item?.isActive);
 
   serviceRequestOptionsArray(serviceArray);
   if (!houseKeepingOptionSelected) {
     housekeepingOptions(serviceArray[0]);
   }
+};
+
+export const timeExtract = (time: any) => {
+  const data =
+    time?.length > 0 &&
+    time.map(function (appointment: any, index: any) {
+      const totalMinutes = appointment?.startTime;
+      const hours = Math.floor(totalMinutes / 60);
+      const minutes = totalMinutes % 60;
+      const formattedTime = hours + ':' + (minutes < 10 ? '0' : '') + minutes;
+      appointment.displayTime = formattedTime;
+      appointment.index = index;
+      return appointment;
+    });
+  return data;
 };

@@ -36,7 +36,12 @@ export const HousekeepingCheckboxItem: React.FC<IHousekeepingCheckboxItemProps> 
 
   return (
     <div className={styles.housekeepingCheckboxItemWrapper}>
-      <WhiteStyledCheckbox checked={checked} onChange={toggleRequested} value={id} label={title} />
+      <WhiteStyledCheckbox
+        checked={checked}
+        onChange={toggleRequested}
+        value={id}
+        label={title?.includes('|') ? title?.split('|')[1] : title}
+      />
     </div>
   );
 };

@@ -1,5 +1,4 @@
-import { makeVar, useReactiveVar } from '@apollo/client';
-import { DINING_OPTIONS } from 'utils/constants';
+import { makeVar } from '@apollo/client';
 
 export type IdiningOptionsProps = {
   id: string;

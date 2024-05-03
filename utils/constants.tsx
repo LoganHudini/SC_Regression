@@ -24,6 +24,7 @@ export const FAIRMONT_THE_PALM_DUBAI = 'fairmont-the-palm-dubai';
 export const ONE_HOTELS_SOUTH_BEACH = '1-hotel-south-beach';
 export const ATLANTIS = 'atlantis';
 export const PROPER_DOWNTOWN_LA = 'proper-downtown-la';
+export const ONE_AND_ONLY_ROYAL_MIRAGE = 'one-and-only-royal-mirage';
 
 // configuration constants
 export const OPERA = 'OPERA';
@@ -66,6 +67,7 @@ export const CHECKEDOUT = 'CHECKEDOUT';
 export const CHKOUT = 'CHKOUT';
 export const NOSHOW = 'NOSHOW';
 export const personalisation = 'personalisation';
+export const UPGRADE_ROOM = 'upgrade-room';
 export const PERSONALISATION = 'PERSONALISATION';
 export const BANNER_CAROUSEL = 'bannerCarousel';
 export const DRIVERSLICENCE = 'DRL';
@@ -90,6 +92,7 @@ export const IN_ROOM_DINING = 'In-Room Dining';
 export const RESTAURANTS = 'restaurants';
 export const BARS = 'Bars';
 export const EXTERNAL_URL = 'External URL';
+export const EXTERNAL_URL_CAPS = 'EXTERNAL URL';
 export const S3 = 'S3';
 export const WEBURL = 'WEB_URL}';
 export const WEBURL2 = 'WEB_URL';
@@ -153,8 +156,11 @@ export const POST = 'post';
 export const PRE = 'pre';
 export const SETTINGS = 'settings';
 export const HOME = 'home';
-export const LANGUAGE = 'language';
+export const LANGUAGE = 'Language';
 export const CHECKIN_NOW = 'Check-In Now';
+export const ADDON = 'Addon';
+export const ROOM = 'Room';
+export const SPA = 'spa';
 
 export const hamburgerMenuset = [
   {
@@ -163,7 +169,7 @@ export const hamburgerMenuset = [
     flow: 'HOME',
     menuIconUrl: '',
     isActive: true,
-    name: 'home',
+    name: 'Home',
     pages: [''],
     redirectOptions: 'FLOW',
     __typename: 'UiBuilderHamburgerMenu',
@@ -174,7 +180,7 @@ export const hamburgerMenuset = [
     flow: '',
     menuIconUrl: '',
     isActive: true,
-    name: 'language',
+    name: 'Language',
     pages: [''],
     redirectOptions: 'FLOW',
     __typename: 'UiBuilderHamburgerMenu',
@@ -189,6 +195,13 @@ export const DAYS = [
   { id: 5, ischecked: false, name: 'Friday', from: null, to: null },
   { id: 6, ischecked: false, name: 'Saturday', from: null, to: null },
   { id: 7, ischecked: false, name: 'Sunday', from: null, to: null },
+];
+
+// spa
+export const GenderOptions = [
+  { label: 'No preference', value: '601' },
+  { label: 'Male', value: '604' },
+  { label: 'Female', value: '603' },
 ];
 
 // ird to be removed later
@@ -340,14 +353,6 @@ export const CAROUSEL_RESPONSIVE = {
     items: 1,
   },
 };
-
-export const LANGUAGES = [
-  { code: 'en', name: 'English' },
-  { code: 'ar', name: 'عربي' },
-  { code: 'fr', name: 'Français' },
-  { code: 'es', name: 'Español' },
-  { code: 'ct', name: 'Català' },
-];
 
 // path constants
 export const HOUSEKEEPING = 'HOUSEKEEPING';

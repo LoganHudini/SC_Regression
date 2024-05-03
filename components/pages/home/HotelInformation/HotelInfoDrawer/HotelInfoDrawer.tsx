@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styles from './HotelInfoDrawer.module.scss';
-import { useQuery, useReactiveVar } from '@apollo/client';
-import { GET_HOTEL_INFORMATION } from 'core/graphql/queries/GET_HOTEL_INFORMATION';
-import Carousel from 'react-material-ui-carousel';
-import { StableImage } from 'components/shared/StableImage/StableImage';
-import { ASSETS_URL } from 'core/graphql/endpoints';
+import { useReactiveVar } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import Phone from '@icons/telephone.svg';
 import Mail from '@icons/mail.svg';

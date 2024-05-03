@@ -24,10 +24,24 @@
   font-size: $small;
   color: var(--tertiary-text-color);
   min-height: 2rem;
-  max-height: 3.25rem;
-  -webkit-line-clamp: 2;
   line-height: 1.5;
   margin: 0.5rem 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.roomPersonalizationTextReadMore {
+  font-family: var(--primary-card-desc-font-family);
+  font-size: $small;
+  color: var(--tertiary-text-color);
+  min-height: 1.9rem;
+  line-height: 1.5;
+  margin: 0.5rem 0;
+  -webkit-line-clamp: 20;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .roomPersonalizationControls {
@@ -139,4 +153,9 @@
   display: flex;
   justify-content: space-between;
   height: 33px;
+}
+
+.readMore {
+  font-size: $xsmall;
+  text-transform: uppercase;
 }

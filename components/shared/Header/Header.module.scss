@@ -121,6 +121,7 @@
 .logo {
   width: 104px;
   height: 30px;
+
   path {
     fill: var(--primary-theme-color);
   }
@@ -146,7 +147,7 @@
 .searchIcon {
   height: 18px;
 
-  & > path {
+  &>path {
     fill: var(--primary-theme-color);
   }
 }
@@ -206,11 +207,12 @@
   width: 300px;
   font-size: 1rem;
   color: var(--tertiary-text-color);
-  background: linear-gradient(to right, #00000029 0%, #00000029 60%, transparent 10%) repeat-x left
-    bottom;
+  background: linear-gradient(to right, #00000029 0%, #00000029 60%, transparent 10%) repeat-x left bottom;
+
   &:last-child {
     background: none;
   }
+
   background-size: 15px 1px;
   padding: 12px 0;
 }

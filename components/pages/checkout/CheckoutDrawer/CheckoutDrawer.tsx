@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { CHECKOUT, ICheckoutApiRequest } from 'core/graphql/queries/CHECKOUT';
 import { client } from 'core/graphql/client';
-import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
 import { checkoutTrip } from 'storage/trips.storage';
@@ -144,7 +143,7 @@ const CheckoutDrawer = (props: any) => {
 
   const checkoutDrawerDetails = () => (
     <div className={styles.wrapper}>
-      <p className={styles.title}>{checkInModule ? t('Confirm Checkout') : t('Unpair My Room')}</p>
+      <p className={styles.title}>{checkInModule ? t('Confirm Checkout') : t('Disconnect Room')}</p>
       <p className={styles.content}>
         {checkInModule
           ? t('This action cannot be reversed. Your room access will be disabled after Checkout.')

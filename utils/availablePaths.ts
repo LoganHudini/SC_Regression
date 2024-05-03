@@ -16,6 +16,7 @@ export const availablePaths = {
   PAYMENT: `/${hotel}/check-in/payment`,
   PERSONALIZE: `/${hotel}/check-in/personalization`,
   REVIEW: `/${hotel}/check-in/review`,
+  UPGRADE_ROOM: `/${hotel}/check-in/upgrade-room`,
 
   // Youverse
   YOUVERSE: `/${hotel}/youverse`,

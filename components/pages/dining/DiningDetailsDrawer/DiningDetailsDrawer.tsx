@@ -12,8 +12,6 @@ import {
   toggleDiningDetailsDrawer,
 } from 'storage/dining-menu.storage';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { StableImage } from 'components/shared/StableImage/StableImage';
-import { ASSETS_URL } from 'core/graphql/endpoints';
 import produce from 'immer';
 import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
 import { DiningCheckboxItem } from 'components/pages/dining/DiningCheckboxItem/DiningCheckboxItem';
@@ -27,7 +25,6 @@ import cx from 'classnames';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { client } from 'core/graphql/client';
 import { useCurrency } from 'utils/hooks/useCurrency';
-import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 
 const DiningDetailsDrawer = () => {
@@ -557,7 +554,7 @@ const DiningDetailsDrawer = () => {
                   filteredList?.length === 0
                 }
               >
-                {editControlStatus ? t('Update cart') : t('Add to Order')}
+                {editControlStatus ? t('Update Order') : t('Add to Order')}
               </StyledButton>
             </div>
           </div>

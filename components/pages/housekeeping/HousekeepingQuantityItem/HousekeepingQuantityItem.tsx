@@ -4,7 +4,6 @@ import styles from './HousekeepingQuantityItem.module.scss';
 import { IHousekeepingQuantityItemProps } from './HousekeepingQuantityItem.types';
 import { useReactiveVar } from '@apollo/client';
 import produce from 'immer';
-import { toast } from 'react-toastify';
 import { housekeepingQuantityStorage } from 'storage/housekeeping-quantity.storage';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { useTranslation } from 'react-i18next';
@@ -48,7 +47,7 @@ export const HousekeepingQuantityItem: React.FC<IHousekeepingQuantityItemProps> 
       });
       toggleNotification(true);
     }
-  }, [id, maxQuantity, quantity, t, title]);
+  }, [id, maxQuantity, quantity, setNotificationState, t, title]);
 
   const toggleRequested = useCallback(() => {
     housekeepingQuantityStorage(
@@ -92,7 +91,7 @@ export const HousekeepingQuantityItem: React.FC<IHousekeepingQuantityItemProps> 
             [styles.housekeepingQuantityItemTitleInner]: changeAlignment,
           })}
         >
-          {changeAlignment ? title : t('Quantity')}
+          {changeAlignment ? (title?.includes('|') ? title?.split('|')[1] : title) : t('Quantity')}
           <div className={styles.CountInner}>
             {changeAlignment ? `(${t('Max Count:')} ${maxQuantity})` : ''}
           </div>

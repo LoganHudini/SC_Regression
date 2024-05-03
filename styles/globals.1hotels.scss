@@ -75,7 +75,7 @@
   --readmore-arrowwithtext: none;
   --readmore-arrow: none;
   --readmore-arrowhead: none;
-  --readmore-underline: 1px solid var(--primary-theme-color);
+  --readmore-underline: 1px solid var(--primary-text-color);
 
   // Bottom menu arrow configs
   --bottom-menu-arrow-color: #546758;
@@ -84,9 +84,11 @@
 .MuiButton-containedPrimary {
   border: none;
   border-bottom: 1px solid var(--primary-button-color);
+
   &:after {
     display: none;
   }
+
   &:disabled {
     background: var(--primary-disabled-color);
     color: #989797;
@@ -95,6 +97,7 @@
 
 .MuiButton-outlinedPrimary {
   border-bottom: 1px solid var(--secondary-button-color);
+
   &:hover:enabled {
     border-bottom: 1px solid var(--primary-button-color);
   }
@@ -200,4 +203,5 @@
 
 .globals-actionCtaWrapper {
   background: var(--primary-button-color) !important;
+  color: var(--primary-button-background-color) !important;
 }

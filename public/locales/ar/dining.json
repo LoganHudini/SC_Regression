@@ -36,7 +36,6 @@
   "Servings": "حصص الطعام",
   "Order": "الطلب",
   "Search": "بحث",
-  "cart": "السلة",
   "customizable": "قابل للتخصيص",
   "Add": "أَضِف",
   "dining-menu": "قائمة تناول الطعام",
@@ -71,6 +70,7 @@
   "option(s)": "خيار(ات)",
   "View Order": "عرض الطلب",
   "Total Item Price :": "ا لسعر الإجمالي للعناصر:",
-  "Update cart": "تحديث السلة",
+  "Update Order": "أجل التحديث",
+  "Add to Order": "اضافة للأمر",
   "Repeat last used customization?": "هل ترغب في تكرار التخصيص الذي استخدمته آخر مرة؟"
 }

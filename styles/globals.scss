@@ -56,17 +56,12 @@
 
 @font-face {
   font-family: 'Arial';
-  src: url('/fonts/Arial/Arial.otf') format('opentype'),
-    url('/fonts/Arial/Arial.ttf') format('truetype'), url('/fonts/Arial/Arial.woff') format('woff'),
-    url('/fonts/Arial/Arial.woff2') format('woff2');
+  src: url('/fonts/Arial/Arial.otf') format('opentype');
 }
 
 @font-face {
   font-family: 'Arial Bold';
-  src: url('/fonts/Arial/Arial-Bold.otf') format('opentype'),
-    url('/fonts/Arial/Arial-Bold.ttf') format('truetype'),
-    url('/fonts/Arial/Arial-Bold.woff') format('woff'),
-    url('/fonts/Arial/Arial-Bold.woff2') format('woff2');
+  src: url('/fonts/Arial/Arial-Bold.otf') format('opentype');
 }
 
 @font-face {
@@ -135,6 +130,12 @@
 @font-face {
   font-family: 'GT Walsheim Medium';
   src: url('/fonts/GT-Walsheim/GTWalsheimMedium.ttf') format('truetype');
+
+}
+
+@font-face {
+  font-family: 'Akzidenz Grotesk Pro Regular Extended';
+  src: url('/fonts/AkzidenzGroteskPro/AkzidGrtskProExt.otf') format('opentype');
 }
 
 // header font-families
@@ -182,6 +183,11 @@
 @font-face {
   font-family: 'GT Sectra Fine';
   src: url('/fonts/GT-Walsheim/GT-Sectra-Fine-Book.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Times New Roman';
+  src: url('/fonts/TimesNewRoman/TimesNewRoman.ttf') format('truetype');
 }
 
 :root {
@@ -355,7 +361,7 @@ img {
   text-align: center;
 
   &:disabled {
-    background: var(--primary-disabled-color) !important;
+    background: var(--primary-disabled-color);
     color: var(--primary-button-color);
   }
 
@@ -609,4 +615,8 @@ img {
 
 .globals-customReadMore {
   text-transform: uppercase;
+}
+
+.MuiPickersDay-root.Mui-selected {
+  background-color: var(--primary-theme-color) !important;
 }

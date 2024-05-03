@@ -16,6 +16,7 @@ export type IReservationGuestInfoStorageData = {
   expiryDate: string;
   issueCountry: string;
   isComplete: boolean;
+  dateOfBirth?: string;
 };
 
 export const reservationGuestInfoStorageData = makeVar<IReservationGuestInfoStorageData | any>(

@@ -1,6 +1,6 @@
 .customReadMore {
   display: flex;
-  color: var(--primary-theme-color);
+  color: var(--primary-text-color);
   font-family: var(--primary-font-extd-regular);
   text-align: center;
   margin: 10px auto;
@@ -19,14 +19,16 @@
 
 .readMoreArrow {
   display: var(--readmore-arrowwithtext);
-  padding-bottom: 1px;
 }
 
 .arrow {
   display: var(--readmore-arrow);
-  padding-bottom: 1px;
 }
 
 .arrowHead {
   display: var(--readmore-arrowhead);
+}
+
+.transform {
+  transform: rotate(180deg);
 }

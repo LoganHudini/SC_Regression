@@ -11,6 +11,7 @@ import {
   ONE_HOTELS_SOUTH_BEACH,
   PROPER_DOWNTOWN_LA,
   ITC_WELCOMHOTEL_CHENNAI,
+  ONE_AND_ONLY_ROYAL_MIRAGE,
 } from './constants';
 
 const propertyList = [
@@ -25,6 +26,7 @@ const propertyList = [
   ONE_HOTELS_SOUTH_BEACH,
   ATLANTIS,
   PROPER_DOWNTOWN_LA,
+  ONE_AND_ONLY_ROYAL_MIRAGE,
 ];
 
 export const getI18nPaths = () =>

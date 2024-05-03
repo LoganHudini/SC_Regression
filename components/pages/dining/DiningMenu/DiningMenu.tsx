@@ -1,5 +1,5 @@
 import { DiningMenuElement } from 'components/pages/dining/DiningMenuElement/DiningMenuElement';
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from '@styles/dining-menu/dining-menu.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
@@ -7,7 +7,6 @@ import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { availablePaths } from 'utils/availablePaths';
 import cx from 'classnames';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import {

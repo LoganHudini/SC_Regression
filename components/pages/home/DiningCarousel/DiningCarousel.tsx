@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { ASSETS_URL } from '../../../../core/graphql/endpoints';
 import styles from './DiningCarousel.module.scss';
 import {
-  filterRestaurantList,
   irdActiveMenuList,
   getTimings,
   diningOptionList,
@@ -18,6 +17,7 @@ import {
   IN_ROOM_DINING,
   RESTAURANTS_AND_BARS,
   RESTAURANT,
+  EVERYDAY,
 } from 'utils/constants';
 import cx from 'classnames';
 import { diningInformationStorage } from 'storage/dining.storage';
@@ -30,9 +30,6 @@ import {
 import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { CustomReadMore } from 'components/shared/CustomReadMore/CustomReadMore';
-import { getHotelCode } from 'utils/fetchConfigs';
-import { useRouter } from 'next/router';
-import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 import { IRDMenuApiResponse } from 'core/graphql/queries/IRD_MENU';
@@ -73,9 +70,10 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, ird
     }
     return value;
   };
-
   const restaurantDetailsDrawerStatus = useReactiveVar(toggleRestaurantDetailsDrawer);
+
   const selectedRestaurant = useReactiveVar(selectedRestaurantStorage);
+
   const irdMenu = irdActiveMenu?.map((option: any) => ({
     ...option,
     type: IN_ROOM_DINING,
@@ -137,9 +135,10 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, ird
               )}
             </div>
             {slide.hours[0]?.day && module && (
-              <p className={styles.carouselSlideTimings}>{slide.hours[0]?.day}</p>
+              <p className={styles.carouselSlideTimings}>
+                {slide.hours[0]?.day === EVERYDAY ? t('Open 24x7') : slide.hours[0]?.day}
+              </p>
             )}
-
             <CustomReadMore text={t('READ MORE') as string} />
           </div>
         </div>

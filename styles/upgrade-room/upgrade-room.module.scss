@@ -1,0 +1,90 @@
+.personalizationEntitiesWrapper {
+  margin-bottom: 80px;
+}
+
+.confirmButtonWrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+  max-width: 768px;
+  height: 64px;
+  margin: auto;
+  border-top-left-radius: var(--primary-card-border-radius);
+  border-top-right-radius: var(--primary-card-border-radius);
+  box-shadow: 0px -2px 8px $shadow;
+  background: var(--primary-background-color);
+  z-index: 1;
+  animation: fadeIn 0.5s;
+}
+
+.confirmButton {
+  width: 100%;
+  margin: auto 10px;
+  height: 44px;
+}
+
+.specialRequestsTitle {
+  font-size: $medium;
+  line-height: 1.25;
+  margin-top: 32px;
+  margin-bottom: 11px;
+  text-align: start;
+  font-weight: normal;
+}
+
+.specialRequestsSubtitle {
+  font-size: $xsmall;
+  line-height: 1.25;
+  margin-bottom: 9px;
+}
+
+.specialRequestsInput {
+  width: 100%;
+  height: 97px;
+  border: 1px solid var(--primary-text-color);
+  outline: none;
+  resize: none;
+}
+
+.titleWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.title {
+  font-size: $large;
+  font-family: var(--heading-font-regular);
+  text-align: center;
+  margin: auto;
+}
+
+.description {
+  font-size: $xsmall;
+  color: var(--tertiary-text-color);
+  text-align: center;
+  width: 80%;
+  line-height: 1.25;
+  margin: 4px auto;
+}
+
+.pageWrapper {
+  padding: 0px 20px;
+  padding-top: 64px;
+}
+
+.info {
+  font-size: $xsmall;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  width: 14px;
+  margin-inline-end: 10px;
+}

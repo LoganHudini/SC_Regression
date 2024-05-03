@@ -37,7 +37,7 @@ import { InputAdornment, TextField } from '@mui/material';
 import Cookinginstructions from '@icons/cooking_instructions.svg';
 import { IRD_ORDER } from 'core/graphql/queries/IRD_ORDER';
 import { Notification } from 'components/shared/Notification/Notification';
-import { addToCartEvent, irdOrderEvent } from 'utils/gtag';
+import { addToCartEvent } from 'utils/gtag';
 import { findModule, setScrollPosition } from 'utils/functions';
 import { diningInformationStorage } from 'storage/dining.storage';
 import DiningDetailsDrawer from 'components/pages/dining/DiningDetailsDrawer/DiningDetailsDrawer';

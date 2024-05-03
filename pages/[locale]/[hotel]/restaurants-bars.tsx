@@ -1,5 +1,4 @@
 import { useQuery, useReactiveVar } from '@apollo/client';
-import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import {
   GET_RESTAURANT_DETAILS,
   IGetRestaurantDetailsResponse,
@@ -7,7 +6,7 @@ import {
 import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   restaurantListStorage,
   selectedRestaurantStorage,
@@ -17,53 +16,21 @@ import styles from '@styles/restaurants-bars/restaurants-bars.module.scss';
 import { useRouter } from 'next/router';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { useTranslation } from 'react-i18next';
-import { availablePaths } from 'utils/availablePaths';
-import { StableImage } from 'components/shared/StableImage/StableImage';
-import { ASSETS_URL, HOTEL_ID } from 'core/graphql/endpoints';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
-import DishIcon from '@icons/dishIcon.svg';
 import { Header } from 'components/shared/Header/Header';
-import {
-  diningOptions,
-  diningHeaders,
-  toggleDetailsDrawer,
-  toggleNotification,
-} from 'storage/home.storage';
-import {
-  ACTIVE,
-  EMAIL,
-  ENQUIRE,
-  ERRORMSG,
-  FAILURE,
-  IN_ROOM_DINING,
-  OK,
-  PHONE,
-  S3,
-  SUCCESS,
-  WEBURL,
-  RESTAURANTS_AND_BARS,
-} from 'utils/constants';
-import { activeItems, activeModule, getTimings, uniqueDiningOption } from 'utils/functions';
+import { diningOptions, diningHeaders, toggleDetailsDrawer } from 'storage/home.storage';
+import { IN_ROOM_DINING } from 'utils/constants';
+import { activeItems, activeModule, uniqueDiningOption } from 'utils/functions';
 import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
-import { CREATE_RESTAURANT_RESERVATION } from 'core/graphql/queries/GET_RESTAURANT_RESERVATION_DETAILS';
-import { client } from 'core/graphql/client';
 import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
-import DateTimeSelect from 'components/shared/DateTimeSelect/DateTimeSelect';
-import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
-import { Notification } from 'components/shared/Notification/Notification';
-import TimeIcon from '@icons/clockIcon.svg';
-import cx from 'classnames';
 import Head from 'next/head';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { isEmpty } from 'lodash';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
-import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
-import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 import { RestaurantDetail } from 'components/pages/dining/RestaurantDetail/RestaurantDetail';
-import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 
 export { getStaticPaths };
 

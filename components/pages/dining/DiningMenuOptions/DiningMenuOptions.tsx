@@ -1,5 +1,5 @@
 import styles from './DiningMenuOptions.module.scss';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { IDiningMenuOptionsProps } from './DiningMenuOptions.types';
 import { diningInformationStorage } from 'storage/dining.storage';
 import cx from 'classnames';

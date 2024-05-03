@@ -85,9 +85,11 @@ const FreedomPay: React.FC = () => {
       if (transactionId.current && data?.data?.paymentKeys?.length > 0) {
         const cardOptions = [
           { code: 'MC', value: 'Mastercard' },
+          { code: 'MC', value: 'MC' },
           { code: 'VS', value: 'Visa' },
           { code: 'VS', value: 'VS' },
           { code: 'AX', value: 'Americanexpress' },
+          { code: 'AX', value: 'AX' },
         ];
 
         try {

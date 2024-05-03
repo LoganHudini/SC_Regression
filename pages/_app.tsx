@@ -83,6 +83,7 @@ function App({ Component, pageProps }: AppProps) {
               )}
             />
             <Component {...pageProps} />
+            {router?.query?.locale === 'ar' && <style>{':root {direction :rtl'}</style>}
           </React.StrictMode>
         </ApolloProvider>
       </LocalizationProvider>

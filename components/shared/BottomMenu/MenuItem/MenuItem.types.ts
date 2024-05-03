@@ -1,5 +1,3 @@
-import React from 'react';
-
 export interface IMenuItemProps {
   title: string;
   Icon: any;
@@ -26,6 +24,10 @@ export interface IModuleOptionsDrawerProps {
   offersActive: boolean;
   restaurantAndBarsActive: boolean;
   diningCategoryOptions?: any;
+  filteredhotelCompendiumInfo: any;
+  spaCategories: any;
+  serviceRequestOptions: any;
+  offersList: any;
   hamburger?: any;
   path?: {
     path: string;

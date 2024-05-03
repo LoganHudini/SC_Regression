@@ -43,10 +43,12 @@ import {
   NONE,
 } from 'utils/constants';
 import { usePersonalisation } from 'utils/hooks/usePersonalisation';
+import { personalizationStorage } from 'storage/personalize-your-room.storage';
 
 export { getStaticPaths };
 
 const GuestDetail: React.FC<AboutYourStayProps> = () => {
+  const { t } = useTranslation('about-your-stay');
   const navigate = useLocalizedRouter();
   const config = useConfig();
   const hotelName = config?.name;
@@ -54,8 +56,8 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
   const hotelImageInfo = useReactiveVar(hotelInformation);
   const [welcomeDrawer, setWelcomeDrawer] = useState(getWelcomeDrawer());
   const paymentConfig: any = usePaymentConfig();
-  const [availablePersonalizations, personalisationDataloading] = usePersonalisation();
-  const { t } = useTranslation('about-your-stay');
+  const personalisationDataloading = usePersonalisation();
+  const availablePersonalizations = useReactiveVar(personalizationStorage);
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
@@ -158,7 +160,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
             src={`${ASSETS_URL}/${hotelImageInfo?.images[0]?.ratio16to9}`}
           />
         )}
-        <div className={styles.cardWrapper}>
+        <div className={cx(styles.cardWrapper, 'globals-cardWrapper')}>
           <p className={styles.title}>{t('Your Stay Details')}</p>
           <StableImage src={`/images/${BRAND_CODE}/Divider.png`} alt='Divider' />
           <div className={styles.nameBox}>
@@ -178,7 +180,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
           <div className={styles.dateWrapper}>
             <div className={styles.checkInWrapper}>
               <p className={styles.detailCheckinTitleCaps}>{t('Check-In')}</p>
-              <div className={styles.checkContainer}>
+              <div className={cx(styles.checkContainer, 'globals-checkContainer')}>
                 <p className={styles.detailCheckinTitle}>
                   {dayjs(reservationInfo?.details?.checkInDate).format(timeFormats.DAY)}
                 </p>
@@ -198,7 +200,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
             </div>
             <div className={styles.checkOutWrapper}>
               <p className={styles.detailCheckinTitleCaps}>{t('Checkout')}</p>
-              <div className={styles.checkContainer}>
+              <div className={cx(styles.checkContainer, 'globals-checkContainer')}>
                 <p className={styles.detailCheckinTitle}>
                   {dayjs(reservationInfo?.details?.checkOutDate).format(timeFormats.DAY)}
                 </p>
