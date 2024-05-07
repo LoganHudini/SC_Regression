@@ -108,7 +108,9 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
                               </p>
                               <p className={styles.itemsPrice}>
                                 <span className={styles.currency}>{currency}</span>{' '}
-                                {itemTotal(item)?.toFixed(2)}
+                                {Number(itemTotal(item))?.toLocaleString('en-US', {
+                                  minimumFractionDigits: 2,
+                                })}
                               </p>
                             </div>
                             <div className={styles.itemRow}>
@@ -142,7 +144,9 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
                           <p className={styles.totalPrice}>
                             {' '}
                             <span className={styles.currency}>{currency}</span>{' '}
-                            {orderCategory?.totalAmount?.toFixed(2)}
+                            {Number(orderCategory?.totalAmount)?.toLocaleString('en-US', {
+                              minimumFractionDigits: 2,
+                            })}
                           </p>
                         </div>
                       </div>
@@ -155,7 +159,7 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
                 <p className={styles.totalTitlePrice}>
                   {' '}
                   <span className={styles.currency}>{currency} </span>
-                  {totalToBePaid?.toFixed(2)}
+                  {Number(totalToBePaid)?.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                 </p>
               </div>
             </div>

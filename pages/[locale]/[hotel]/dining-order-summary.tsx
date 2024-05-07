@@ -379,7 +379,10 @@ const DiningOrderSummary = () => {
                               <span key={index} className={styles.itemsCurrency}>
                                 {currency}{' '}
                               </span>
-                              {items?.price} {index !== item?.addons?.length - 1 ? ',' : ''}{' '}
+                              {Number(items?.price)?.toLocaleString('en-US', {
+                                minimumFractionDigits: 2,
+                              })}{' '}
+                              {index !== item?.addons?.length - 1 ? ',' : ''}{' '}
                             </span>
                           </div>
                         ))}
@@ -399,10 +402,9 @@ const DiningOrderSummary = () => {
                     />
                     <p className={styles.itemPrice}>
                       <span className={styles.itemCurrency}>{currency} </span>
-                      {(isNaN(totalPrice)
-                        ? item.quantity * item.price
-                        : item.quantity * totalPrice
-                      )?.toFixed(2)}
+                      {Number(
+                        isNaN(totalPrice) ? item.quantity * item.price : item.quantity * totalPrice,
+                      )?.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                     </p>
                     {/* <p className={styles.edit}>{`${t('edit')}`}</p> */}
                   </div>
@@ -516,7 +518,10 @@ const DiningOrderSummary = () => {
                   </div>
                   <span className={styles.currencyTitle}>
                     {currency}
-                    <span className={styles.currencyValueTitle}>{totalAmount?.toFixed(2)}</span>
+                    <span className={styles.currencyValueTitle}>
+                      {' '}
+                      {Number(totalAmount)?.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                    </span>
                   </span>
                 </div>
               )}

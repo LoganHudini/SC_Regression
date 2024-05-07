@@ -51,7 +51,7 @@ export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
       <>
         <p className={styles.price}>
           <span className={styles.currency}>{currency}</span>
-          {element?.price?.toFixed(2)}
+          {Number(element?.price)?.toLocaleString('en-US', { minimumFractionDigits: 2 })}
         </p>
       </>
     );

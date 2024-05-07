@@ -104,7 +104,8 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
                 {item?.name}
                 {' - '}
                 <span className={styles.currencyItems}>
-                  {currency} {item?.price}
+                  {currency}{' '}
+                  {Number(item?.price)?.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                 </span>
               </span>
             ))}
@@ -117,7 +118,9 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
               <div>
                 <span className={styles.currency}>{currency} </span>{' '}
                 <span className={styles.currencyValue}>
-                  {(selectedItem?.price + totalAddons)?.toFixed(2)}
+                  {Number(selectedItem?.price + totalAddons)?.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                  })}
                 </span>
               </div>
             </p>

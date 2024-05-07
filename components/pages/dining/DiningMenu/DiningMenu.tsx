@@ -414,7 +414,10 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
           <StyledButton count={diningData.items.length} onClick={confirmOrder}>
             <div className={styles.spaceValue}>
               <p className={styles.totalPrice}>
-                {currency} <span className={styles.currencyValue}>{totalAmount?.toFixed(2)}</span>
+                {currency}{' '}
+                <span className={styles.currencyValue}>
+                  {Number(totalAmount)?.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                </span>
               </p>
               {t('View Order')}
             </div>

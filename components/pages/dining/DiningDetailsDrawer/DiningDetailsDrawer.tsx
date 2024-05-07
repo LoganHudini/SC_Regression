@@ -522,7 +522,9 @@ const DiningDetailsDrawer = () => {
                   {currency}{' '}
                   <span className={styles.price}>
                     {' '}
-                    {(selectedItem?.price + totalAddons)?.toFixed(2)}
+                    {Number(selectedItem?.price + totalAddons)?.toLocaleString('en-US', {
+                      minimumFractionDigits: 2,
+                    })}
                   </span>
                 </p>
               </>

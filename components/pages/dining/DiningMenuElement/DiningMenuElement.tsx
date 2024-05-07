@@ -96,7 +96,10 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
           </p>
         )}
         <p className={styles.currency}>
-          {currency} <span className={styles.price}>{price?.toFixed(2)}</span>
+          {currency}{' '}
+          <span className={styles.price}>
+            {Number(price)?.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+          </span>
         </p>
       </div>
       <div className={styles.imageWrapper}>
