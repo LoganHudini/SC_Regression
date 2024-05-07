@@ -29,8 +29,6 @@ export const configuration = [
         code: 'Check-In',
         name: 'Check-In',
         isActive: true,
-        welcomeTitle: '',
-        welcomeBody: '',
         submodules: [
           {
             name: 'information',
@@ -370,8 +368,6 @@ export const configuration = [
       {
         code: 'Check-In',
         name: 'Check-In',
-        welcomeTitle: '',
-        welcomeBody: '',
         isActive: true,
         submodules: [
           {
@@ -698,8 +694,6 @@ export const configuration = [
       {
         code: 'Check-In',
         name: 'Check-In',
-        welcomeTitle: '',
-        welcomeBody: '',
         isActive: true,
         submodules: [
           {
@@ -1056,8 +1050,6 @@ export const configuration = [
       {
         code: 'Check-In',
         name: 'Check-In',
-        welcomeTitle: '',
-        welcomeBody: '',
         isActive: true,
         submodules: [
           {
@@ -1371,6 +1363,7 @@ export const configuration = [
   },
   {
     code: 'raffles-the-palm-dubai',
+    logo: 'the palm dubai',
     name: 'Raffles The Palm Dubai',
     hotelId: '4e67ef89-b1d7-42fd-9cf0-70001cae54fc',
     pms: 'OPERA',
@@ -1399,10 +1392,6 @@ export const configuration = [
         code: 'Check-In',
         name: 'Check-In',
         isActive: false,
-        welcomeTitle: 'Welcome to Raffles The Palm',
-        welcomeBody:
-          // eslint-disable-next-line quotes
-          "Welcome to Raffles The Palm - the only Palace of its kind, blending timeless craftmanship with Dubai's vibrant social culture in an ultra-luxury beach resort environment.",
       },
       {
         code: 'In-Room Dining',
@@ -1456,8 +1445,6 @@ export const configuration = [
       {
         code: 'Check-In',
         name: 'Check-In',
-        welcomeTitle: '',
-        welcomeBody: '',
         isActive: true,
         submodules: [
           {
@@ -1774,8 +1761,6 @@ export const configuration = [
       {
         code: 'Check-In',
         name: 'Check-In',
-        welcomeTitle: '',
-        welcomeBody: '',
         isActive: true,
         submodules: [
           {
@@ -2101,8 +2086,6 @@ export const configuration = [
       {
         code: 'Check-In',
         name: 'Check-In',
-        welcomeTitle: '',
-        welcomeBody: '',
         isActive: true,
         submodules: [
           {
@@ -2421,8 +2404,6 @@ export const configuration = [
       {
         code: 'Check-In',
         name: 'Check-In',
-        welcomeTitle: '',
-        welcomeBody: '',
         isActive: true,
         submodules: [
           {

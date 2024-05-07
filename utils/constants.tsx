@@ -84,6 +84,7 @@ export const IN_ROOM_DINING = 'In-Room Dining';
 export const RESTAURANTS = 'restaurants';
 export const BARS = 'Bars';
 export const EXTERNAL_URL = 'External URL';
+export const EXTERNAL_URL_CAPS = 'EXTERNAL URL';
 export const S3 = 'S3';
 export const WEBURL = 'WEB_URL}';
 export const IRD = 'ird';

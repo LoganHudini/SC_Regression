@@ -21,6 +21,7 @@ import {
   RESTAURANTS_AND_BARS,
   RESTAURANT,
   ACTIVE,
+  EVERYDAY,
 } from 'utils/constants';
 import cx from 'classnames';
 import { diningInformationStorage } from 'storage/dining.storage';
@@ -104,11 +105,6 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
         >
           <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>
           <div className={cx(styles.content, 'globals-content')}>
-            {slide?.primaryCuisine && (
-              <div className={styles.cuisineRow}>
-                <span>{slide?.primaryCuisine?.toLowerCase()}</span>
-              </div>
-            )}{' '}
             {time && (
               <div className={styles.cuisineRowTime}>
                 <p>{time?.value}</p>
@@ -117,7 +113,9 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, module, diningOpt
           </div>
 
           {slide.hours[0]?.day && module && (
-            <p className={styles.carouselSlideTimings}>{slide.hours[0]?.day}</p>
+            <p className={styles.carouselSlideTimings}>
+              {slide.hours[0]?.day === EVERYDAY ? 'Open 24x7' : slide.hours[0]?.day}
+            </p>
           )}
           {module ? (
             <CustomReadMore text={t('Read More') as string} />

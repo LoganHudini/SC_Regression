@@ -85,6 +85,7 @@
   &:disabled {
     background: var(--primary-disabled-color);
   }
+
   &:after {
     display: none;
   }
@@ -123,7 +124,7 @@
 // details card configs
 
 .globals-carouselSlideWrapper {
-  height: 348px !important;
+  height: 298px !important;
 }
 
 .globals-carouselSlideImage {
@@ -134,6 +135,7 @@
   position: static !important;
   width: 100% !important;
   text-align: start !important;
+  height: 110px !important
 }
 
 .globals-content {
@@ -160,7 +162,7 @@
 }
 
 .globals-carouselSlideWrapperSpa {
-  height: 310px !important;
+  height: 298px !important;
 }
 
 .globals-contentWrapper {
@@ -192,4 +194,8 @@
 
 .globals-titleWrapper {
   background-color: #eff2ef !important;
+}
+
+.globals-propertyName {
+  font: 5px 'Akzidenz Grotesk Pro Regular Extended' !important;
 }

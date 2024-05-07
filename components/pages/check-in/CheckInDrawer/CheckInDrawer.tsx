@@ -19,7 +19,11 @@ import { ApolloError, useReactiveVar } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { availablePaths } from 'utils/availablePaths';
 import { checkinStorage, useCheckedIn } from 'storage/check-in.storage';
-import { toggleCheckInDetailsDrawer, toggleNotification } from 'storage/home.storage';
+import {
+  hotelInfoStorage,
+  toggleCheckInDetailsDrawer,
+  toggleNotification,
+} from 'storage/home.storage';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { saveTrip } from 'storage/trips.storage';
 import { Notification } from 'components/shared/Notification/Notification';
@@ -45,6 +49,7 @@ const CheckInDrawer = () => {
   const config = useConfig();
   const hotelId = config?.hotelId;
   const hotel = config?.code;
+  const hotelInformation = useReactiveVar(hotelInfoStorage);
 
   const checkInDrawerStatus = useReactiveVar(toggleCheckInDetailsDrawer);
   const { t } = useTranslation(['get-reservation', 'common']);
@@ -56,7 +61,6 @@ const CheckInDrawer = () => {
   const checkedInData = useCheckedIn();
 
   const checkinModule: boolean = activeModule(config?.modules, CHECK_IN);
-  const checkInModuleDetails: any = findModule(config?.modules, CHECK_IN);
 
   const [loading, setLoading] = useState(false);
   const [errorNotification, setErrorNotification] = useState<{
@@ -242,9 +246,11 @@ const CheckInDrawer = () => {
         {loading && <Loader />}
         <PageWrapper className={styles.pageWrapper}>
           <div className={styles.letterWrapper}>
-            <p className={styles.letterTitle}>{`${t(checkInModuleDetails.welcomeTitle)}`}</p>
-            <p className={styles.nameTitle}>{`${t('Dear ' + checkedInData?.name)},`}</p>
-            <p className={styles.letterBody}>{`${t(checkInModuleDetails.welcomeBody)}`}</p>
+            {hotelInformation?.getPropertyDetailsByHotelId?.hotel?.wcMessage?.messageText && (
+              <p className={styles.letterBody}>
+                {hotelInformation?.getPropertyDetailsByHotelId?.hotel?.wcMessage?.messageText}
+              </p>
+            )}
           </div>
           <StyledButton
             loading={loading}

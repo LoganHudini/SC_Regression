@@ -48,8 +48,10 @@ export const Header: React.FC<IHeaderProps> = ({
   const navigate = useLocalizedRouter();
   const router = useRouter();
   const locale = useLocale();
-  const hotelId = useConfig()?.hotelId;
-  const hotel = useConfig()?.code;
+  const config = useConfig();
+  const hotelId = config?.hotelId;
+  const hotel = config?.code;
+  const logo = config?.logo;
   const checkinData = useCheckedIn();
   const filter = useReactiveVar(diningInformationStorage);
   const irdMenu = filter?.menuName || (header && header[0]?.name);
@@ -148,11 +150,14 @@ export const Header: React.FC<IHeaderProps> = ({
             </div>
           ) : (
             // screenTitle && <p className={styles.screenHeader}>{t(`${screenTitle}`)}</p>
-            <img
-              className={styles.headerLogo}
-              src={`/images/${BRAND_CODE}/Logo.svg`}
-              onClick={goHome}
-            />
+            <>
+              <img
+                className={styles.headerLogo}
+                src={`/images/${BRAND_CODE}/Logo.svg`}
+                onClick={goHome}
+              />
+              {logo && <p className={cx(styles.propertyName, 'globals-propertyName')}>{logo}</p>}
+            </>
           )}
 
           {displaySearchButton && search && (

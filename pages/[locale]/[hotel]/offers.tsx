@@ -15,7 +15,15 @@ import { StableImage } from 'components/shared/StableImage/StableImage';
 import { ASSETS_URL } from 'core/graphql/endpoints';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { Header } from 'components/shared/Header/Header';
-import { EXTERNAL_URL, OFFERS, RESTAURANTS_BARS, RESTAURANT_BOOKING_FLOW } from 'utils/constants';
+import {
+  ACTIVE,
+  EXTERNAL_URL,
+  EXTERNAL_URL_CAPS,
+  FLOW,
+  OFFERS,
+  RESTAURANTS_BARS,
+  RESTAURANT_BOOKING_FLOW,
+} from 'utils/constants';
 import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import dayjs from 'dayjs';
@@ -89,33 +97,18 @@ const Offers: React.FC = () => {
   };
 
   const onCtaClick = useCallback(() => {
-    if (selectedOffer?.CTA?.redirectTo === EXTERNAL_URL) {
+    if (selectedOffer?.CTA?.redirectTo === EXTERNAL_URL_CAPS) {
       setofferBooking(true);
     }
-    if (selectedOffer?.CTA?.redirectTo === RESTAURANT_BOOKING_FLOW) {
-      tableReservationStorage({
-        restaurantName: selectedOffer?.name,
-        id: selectedOffer?.id,
-        venueId:
-          (selectedOffer?.customAttributes && selectedOffer?.customAttributes[0]?.value) ?? '',
-      });
-    }
-    if (selectedOffer?.CTA?.redirectTo !== EXTERNAL_URL) {
-      const redirectUrl =
-        flowPathMap[selectedOffer?.CTA?.redirectTo.toUpperCase() as keyof typeof flowPathMap];
+    if (selectedOffer?.CTA?.redirectTo === FLOW) {
+      const redirectUrl = flowPathMap[selectedOffer?.CTA?.redirectData as keyof typeof flowPathMap];
 
       if (redirectUrl) {
         navigate(redirectUrl);
       }
     }
     closeDrawer();
-  }, [
-    navigate,
-    selectedOffer?.CTA?.redirectTo,
-    selectedOffer?.customAttributes,
-    selectedOffer?.id,
-    selectedOffer?.name,
-  ]);
+  }, [navigate, selectedOffer?.CTA?.redirectData, selectedOffer?.CTA?.redirectTo]);
 
   const startDate = dayjs(selectedOffer?.duration?.startDate, 'DD-MM-YYYY');
   const endDate = dayjs(selectedOffer?.duration?.endDate, 'DD-MM-YYYY');
@@ -135,8 +128,7 @@ const Offers: React.FC = () => {
   const offerDetails = () => (
     <div
       className={cx(styles.listComponent, {
-        [styles.listComponentMargin]:
-          selectedOffer?.CTA && (selectedOffer?.CTA?.redirectTo || selectedOffer?.CTA?.URL),
+        [styles.listComponentMargin]: selectedOffer?.CTA?.status === ACTIVE,
       })}
     >
       <div className={styles.imageWrapper}>
@@ -166,7 +158,7 @@ const Offers: React.FC = () => {
           )}
         </div>
       </div>
-      {selectedOffer?.CTA && (selectedOffer?.CTA?.redirectTo || selectedOffer?.CTA?.URL) && (
+      {selectedOffer?.CTA?.status === ACTIVE && (
         <StyledButton
           variant='contained'
           onClick={onCtaClick}
@@ -174,7 +166,7 @@ const Offers: React.FC = () => {
             [styles.withoutImageButton]: selectedOffer && !selectedOffer?.images[0]?.ratio16to9,
           })}
         >
-          {selectedOffer?.CTA?.ctaTitle || t('BOOK NOW')}
+          {selectedOffer?.CTA?.displayCTATitle || t('BOOK NOW')}
         </StyledButton>
       )}
       <>
