@@ -231,7 +231,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
         )}
         {irdActive && (
           <div>
-            <p className={styles.title}>{t('In-Room Dining')}</p>
+            <p className={styles.title}>{t(diningOptionList(diningOptionSelected?.type))}</p>
             <div className={styles.optionsList}>
               {irdOption?.map((dining: any, index: any) => (
                 <div key={index} className={cx(styles.optionsListItem)}>
