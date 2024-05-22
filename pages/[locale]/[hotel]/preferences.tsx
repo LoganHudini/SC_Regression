@@ -12,7 +12,19 @@ import { ApolloError, useQuery } from '@apollo/client';
 import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import cx from 'classnames';
-import { CHECKIN, ERRORMSG, FAILURE, HEADERSCONFIG, PREFERENCES, YESNO } from 'utils/constants';
+import {
+  CANCELED,
+  CHECKEDOUT,
+  CHECKIN,
+  CHKOUT,
+  ERRORMSG,
+  FAILURE,
+  HEADERSCONFIG,
+  HOME,
+  NOSHOW,
+  PREFERENCES,
+  YESNO,
+} from 'utils/constants';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { GET_HOTEL_INFORMATION } from 'core/graphql/queries/GET_HOTEL_INFORMATION';
@@ -30,11 +42,13 @@ import {
   handleCheckInAuthenticationFailure,
 } from 'core/api/functions/getCheckInAuthentication';
 import { processStatusCode } from 'utils/processError';
+import { useRouter } from 'next/router';
+import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
 
 export { getStaticPaths };
 
 const Preferences = () => {
-  const { t } = useTranslation('dining');
+  const { t } = useTranslation(['common']);
   const isCheckedIn = useCheckedIn();
   const config = useConfig();
   const locale = useLocale();
@@ -43,6 +57,71 @@ const Preferences = () => {
   const navigate = useLocalizedRouter();
   const [selectedOptions, setSelectedOptions] = useState<any>({});
   const [loading, setLoading] = useState<any>(false);
+  const router = useRouter();
+  const resId = router?.query?.resId ?? '';
+  const lastName = router?.query?.lastName ?? '';
+
+  const reservationData = client.readQuery<IGetReservationApiResponse>({
+    query: GET_RESERVATION,
+  });
+
+  const reservationInfo = reservationData?.getReservation?.data;
+
+  const getReservation = async () => {
+    try {
+      const token = await getCheckInToken(resId?.toString()?.trim(), lastName?.toString()?.trim());
+      const { data } = await client.query({
+        query: GET_RESERVATION,
+        context: {
+          clientName: 'rest',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        },
+        variables: {
+          confirmationNumber: resId?.toString()?.trim(),
+          lastName: lastName?.toString()?.trim(),
+          hotelId: hotelId,
+        },
+        fetchPolicy: 'no-cache',
+      });
+      if (
+        data.getReservation.data.reservationStatus === CANCELED ||
+        data.getReservation.data.reservationStatus === CHKOUT ||
+        data.getReservation.data.reservationStatus === CHECKEDOUT ||
+        data.getReservation.data.reservationStatus === NOSHOW
+      ) {
+        setNotificationState({
+          title: t('Reservation Not Found'),
+          redirect: HOME,
+          type: FAILURE,
+          description: t('Please proceed to the front desk for further assistance.'),
+        });
+        toggleNotification(true);
+      } else if (data) {
+        client.writeQuery({
+          query: GET_RESERVATION,
+          data,
+        });
+      }
+    } catch (error) {
+      const statusCode = processStatusCode(error as ApolloError);
+      statusCode === 403
+        ? handleCheckInAuthenticationFailure(getReservation)
+        : (setNotificationState({
+            title: t('Reservation Not Found'),
+            redirect: HOME,
+            type: FAILURE,
+          }),
+          toggleNotification(true));
+    }
+  };
+
+  useEffect(() => {
+    if (resId && lastName) {
+      getReservation();
+    }
+  }, [lastName, resId]);
 
   const homeModule: any = config?.modules?.find((module) => module?.code === PREFERENCES);
   const imageDetails = homeModule?.submodules?.find(
@@ -79,7 +158,7 @@ const Preferences = () => {
 
   useEffect(() => {
     preferencesData?.length === 0 && navigate(availablePaths.HOME);
-  }, [navigate, preferencesData]);
+  }, [navigate, preferencesData, resId]);
 
   const handleOptionSelect = (categoryTitle: any, option: any) => {
     setSelectedOptions((prevSelectedOptions: any) => {
@@ -116,7 +195,7 @@ const Preferences = () => {
     const comments = commentStrings.join(' | ');
 
     const preferencesPayload = {
-      bookingId: isCheckedIn?.invoiceId,
+      bookingId: reservationInfo?.reservationId,
       commentId: '',
       comments: comments,
     };
@@ -202,7 +281,7 @@ const Preferences = () => {
                 loading={loading}
                 disabled={Object.keys(selectedOptions)?.length === 0}
               >
-                {t('submit')}
+                {t('Submit')}
               </StyledButton>
             </div>
           </div>
@@ -223,7 +302,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ['preferences', 'common'], i18nConfig)),
+      ...(await serverSideTranslations(locale as string, ['common'], i18nConfig)),
     },
   };
 };

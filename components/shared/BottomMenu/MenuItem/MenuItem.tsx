@@ -13,7 +13,6 @@ import {
   toggleHotelInfoDrawer,
   toggleMapState,
   diningHeaders,
-  toggleCheckInDetailsDrawer,
   toggleDetailsDrawer,
   toggleNotification,
   toggleMessageBirdChat,
@@ -30,9 +29,9 @@ import {
   IN_ROOM_DINING,
   LANGUAGE,
   PAIR_TO_ROOM,
-  POST,
-  PRE,
+  SERVICES,
   SUCCESS,
+  VIEW_BILL,
 } from 'utils/constants';
 import CheckIcon from '@icons/checkIcon.svg';
 import { housekeepingOptions } from 'storage/housekeeping.storage';
@@ -42,7 +41,7 @@ import { useTranslation } from 'react-i18next';
 import HotelInfoDrawer from 'components/pages/home/HotelInformation/HotelInfoDrawer/HotelInfoDrawer';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { availablePaths } from 'utils/availablePaths';
-import { activeCheckInFlow, useCheckedIn } from 'storage/check-in.storage';
+import { useCheckedIn } from 'storage/check-in.storage';
 import { ReactSVG } from 'react-svg';
 import { isFunction } from 'lodash';
 import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
@@ -53,6 +52,7 @@ import { diningInformationStorage } from 'storage/dining.storage';
 import { useRouter } from 'next/router';
 import { checkoutTrip } from 'storage/trips.storage';
 import { Notification } from 'components/shared/Notification/Notification';
+import { setHighLightCheckOut } from 'storage/menu-item';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
   title,
@@ -152,27 +152,17 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
         />
       )}
       {status && (
-        <div
-          onClick={onClick}
-          className={cx(
-            styles.menuItemWrapper,
-            iconStyle,
-            {
-              [styles.itemWidth]: !iconStyle,
-            },
-            'globals-menuItemWrapper',
-          )}
-        >
+        <div onClick={onClick} className={styles.menuItemWrapper}>
           <div className={styles.menuItemIconWrapper}>
-            {Icon && isFunction(Icon) ? (
-              <Icon className={styles.imageIcon} />
-            ) : (
-              <ReactSVG src={Icon} className={styles.image} />
-            )}
+            <div>
+              {Icon && isFunction(Icon) ? (
+                <Icon className={styles.imageIcon} />
+              ) : (
+                <ReactSVG src={Icon} className={styles.image} />
+              )}
+            </div>
           </div>
-          <p className={cx(styles.menuItemTitle, { [styles.fixedMenutitle]: iconStyle })}>
-            {t(`${title}`)}
-          </p>
+          <p className={styles.menuItemTitle}> {t(`${title}`)}</p>
         </div>
       )}
       <CustomDrawer
@@ -203,6 +193,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   const { t } = useTranslation(['common']);
   const navigate = useLocalizedRouter();
   const isCheckedIn = useCheckedIn();
+  const [highLightIRD, setHighLightIRD] = useState(false);
   const [highLightServices, setHighLightServices] = useState(false);
   const diningOptionSelected = useReactiveVar(diningOptions);
   const irdOption = useReactiveVar(diningHeaders);
@@ -212,6 +203,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   const spaInformation = useReactiveVar(spaInformationStorage);
   const selectedCategoryList = useReactiveVar(diningInformationStorage);
   const offersOptionSelected: any = useReactiveVar(selectedOfferOption);
+  const highLightCheckOut = useReactiveVar(setHighLightCheckOut);
   const [externalURL, setExternalURL] = useState<boolean>(false);
   const [externalLink, setExternalLink] = useState<any>();
   const [moduleTitle, setModuleTitle] = useState<any>();
@@ -221,6 +213,9 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
 
   const checkInModule: boolean = activeModule(config?.modules, CHECK_IN);
   const pairToRoomModule: boolean = activeModule(config?.modules, PAIR_TO_ROOM);
+  const serviceModule: any = activeModule(config?.modules, SERVICES);
+  const checkOutModule: any = activeModule(config?.modules, VIEW_BILL);
+  const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
 
   const closeDrawer = () => {
     toggleModuleOptionsDrawer(false);
@@ -272,52 +267,56 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
         {homeActive && (
           <div>
             {isCheckedIn?.roomNumber && (
-              <p className={styles.title}>{`${t('Room')} ${isCheckedIn?.roomNumber}`}</p>
+              <p className={styles.title}>Room {isCheckedIn?.roomNumber}</p>
             )}
             <div className={styles.optionsList}>
               <>
-                {checkInModule && !isCheckedIn?.checkedIn && (
+                {irdModule && (
                   <p
-                    className={cx(styles.inActiveText)}
+                    className={cx(styles.inActiveText, {
+                      [styles.activeText]: highLightIRD,
+                    })}
                     onClick={() => {
-                      toggleCheckInDetailsDrawer(true);
+                      setHighLightIRD(true);
+                      setHighLightCheckOut(false);
+                      navigate(availablePaths.DINING);
                       closeDrawer();
-                      activeCheckInFlow(true);
                     }}
                   >
-                    {t('Check-In')}
+                    {t('In-Room Dining')}
                   </p>
                 )}
-
-                {pairToRoomModule && !isCheckedIn?.checkedIn && (
+                {serviceModule && (
                   <p
-                    className={cx(styles.inActiveText)}
+                    className={cx(styles.inActiveText, {
+                      [styles.activeText]: highLightServices,
+                    })}
                     onClick={() => {
-                      toggleCheckInDetailsDrawer(true);
+                      setHighLightServices(true);
+                      setHighLightCheckOut(false);
+                      navigate(availablePaths.HOUSEKEEPING);
                       closeDrawer();
-                      activeCheckInFlow(false);
                     }}
                   >
-                    {t('Connect to Room')}
+                    {t('Services')}
                   </p>
                 )}
-
-                {hamburger &&
-                  hamburger[isCheckedIn?.checkedIn ? POST : PRE]?.map(
-                    (moduleItem: any, index: any) => (
-                      <p
-                        className={cx(styles.inActiveText, {
-                          [styles.activeText]: highLightServices,
-                        })}
-                        onClick={() => {
-                          moduleHandler(moduleItem);
-                        }}
-                        key={index}
-                      >
-                        {t(moduleItem?.name)}
-                      </p>
-                    ),
-                  )}
+                {checkOutModule && (
+                  <div className={styles.optionsListItem}>
+                    <p
+                      className={cx(styles.inActiveDiningText, {
+                        [styles.activeText]: highLightCheckOut,
+                      })}
+                      onClick={() => {
+                        setHighLightCheckOut(true);
+                        navigate(availablePaths.BILL);
+                        closeDrawer();
+                      }}
+                    >
+                      {t('Stay Summary')}
+                    </p>
+                  </div>
+                )}
 
                 {pairToRoomModule && isCheckedIn?.checkedIn && (
                   <p
@@ -348,7 +347,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
         )}
         {restaurantAndBarsActive && (
           <div>
-            <p className={styles.title}>{t('Restaurants')}</p>
+            <p className={styles.title}>{t(diningOptionList(diningOptionSelected?.type))}</p>
             <div className={styles.optionsList}>
               {irdOption?.map((dining: any, index: any) => (
                 <div key={index} className={cx(styles.optionsListItem)}>

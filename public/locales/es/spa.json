@@ -10,5 +10,7 @@
   "Find available slots": "ENCONTRAR HORARIOS DISPONIBLES",
   "Gender": "Género",
   "Spa": "Spa",
-  "Book Slot": "Reservar Horario"
+  "Book Slot": "Reservar Horario",
+  "Min": "Min",
+  "Email": "Correo electrónico"
 }

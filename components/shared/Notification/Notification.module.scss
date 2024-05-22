@@ -36,11 +36,11 @@
   transform: translateY(100%);
   margin: 0 auto;
   z-index: 1201;
-  padding: 0.5rem;
+  padding: 1rem 0.5rem;
 }
 
 .wrapperWithSpacing {
-  padding: 0.5rem 1rem;
+  padding: 1rem 0;
 }
 
 .wrapperOpened {
@@ -53,7 +53,6 @@
   align-items: center;
   min-width: 60px;
   max-width: 60px;
-  margin: 0 0.5rem 0 0;
 }
 
 .contentWrapper {
@@ -61,10 +60,12 @@
   flex-direction: column;
   justify-content: center;
   width: 85%;
+  margin-inline-start: 0.5rem;
 }
 
 .contentWrapperWithoutAnimation {
   width: 100%;
+  margin: 0 1.25rem;
 }
 
 .title {
@@ -77,5 +78,13 @@
 .description {
   font: $small var(--primary-font-regular);
   line-height: 1.5;
+  margin: 0.25rem 0;
   width: 95%;
+}
+
+.close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  cursor: pointer;
 }

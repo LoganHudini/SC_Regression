@@ -1,4 +1,9 @@
-import { getFetchFromDb, getHotelId, getSaveToDb } from 'utils/fetchConfigs';
+import {
+  getFetchFromDb,
+  getHotelId,
+  getMessageBirdWidgetId,
+  getSaveToDb,
+} from 'utils/fetchConfigs';
 
 export const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
 
@@ -54,4 +59,4 @@ export const FETCH_FROM_DB = getFetchFromDb();
 export const SAVE_TO_DB = getSaveToDb();
 export const THEME_COLOR = '#ffffff';
 export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
-export const MESSAGE_BIRD_WIDGET_ID = process.env.NEXT_PUBLIC_MESSAGE_BIRD_WIDGET_ID;
+export const MESSAGE_BIRD_WIDGET_ID = getMessageBirdWidgetId();

@@ -7,6 +7,7 @@ import produce from 'immer';
 import { useReactiveVar } from '@apollo/client';
 import cx from 'classnames';
 import { useCurrency } from 'utils/hooks/useCurrency';
+import { formatPrice } from 'utils/functions';
 
 export const DiningMenuElementUpsell: React.FC<IDiningMenuElementProps> = ({
   title,
@@ -88,7 +89,7 @@ export const DiningMenuElementUpsell: React.FC<IDiningMenuElementProps> = ({
       <div className={styles.contentWrapper} onClick={onClickPlus}>
         <h4 className={cx(styles.title, { [styles.titleWithImage]: image })}>{title}</h4>
         <p className={styles.currency}>
-          {currency} <span className={styles.price}>{price?.toFixed(2)}</span>
+          {currency} <span className={styles.price}>{formatPrice(price)}</span>
         </p>
       </div>
       <div className={styles.imageWrapper}>

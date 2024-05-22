@@ -124,7 +124,7 @@
 // details card configs
 
 .globals-carouselSlideWrapper {
-  height: 348px !important;
+  height: 300px !important;
 }
 
 .globals-carouselSlideImage {
@@ -136,6 +136,7 @@
   width: 100% !important;
   text-align: start !important;
   align-items: flex-start !important;
+  height: 110px !important
 }
 
 .globals-content {
@@ -162,7 +163,7 @@
 }
 
 .globals-carouselSlideWrapperSpa {
-  height: 310px !important;
+  height: 300px !important;
 }
 
 .globals-contentWrapper {
@@ -189,10 +190,6 @@
 
 .globals-customReadMore {
   margin: 10px 0 !important;
-}
-
-.globals-titleWrapper {
-  background-color: #eff2ef !important;
 }
 
 .globals-propertyName {

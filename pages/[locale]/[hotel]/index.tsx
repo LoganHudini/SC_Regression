@@ -3,7 +3,6 @@ import { DiningCarousel } from 'components/pages/home/DiningCarousel/DiningCarou
 import { HotelCompendiumContainer } from 'components/pages/home/HotelCompendium/HotelCompendium';
 import { ServiceRequestCarousel } from 'components/pages/home/ServiceRequestCarousel/ServiceRequestCarousel';
 import { SpaCarousel } from 'components/pages/home/SpaCarousel/SpaCarousel';
-import { OffersCarousel } from 'components/pages/home/OffersCarousel/OffersCarousel';
 import { Header } from 'components/shared/Header/Header';
 import { Loader, LogoLoader } from 'components/shared/Loaders/Loaders';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
@@ -41,7 +40,8 @@ import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { Checkin } from 'components/pages/home/Checkin/Checkin';
 import React from 'react';
-import { HotelInfoCarousel } from 'components/pages/home/HotelInfoCarousel/HotelInfoCarousel';
+import HotelInformation from 'components/pages/home/HotelInformation/HotelInformation';
+import { HomeCarousel } from 'components/pages/home/HomeCarousel/HomeCarousel';
 
 export { getStaticPaths };
 
@@ -142,18 +142,12 @@ const Home: NextPage = () => {
   const homeModules: any = {
     'hotel-info': () => (
       <>
-        {homeCarouselDetails?.getPropertyDetailsByHotelId?.hotel?.images?.length > 0 && (
-          <HotelInfoCarousel data={homeCarouselDetails?.getPropertyDetailsByHotelId?.hotel} />
+        {homeCarouselDetails && !checkInData?.checkedIn && (
+          <HotelInformation details={homeCarouselDetails} loading={homeCarouselLoading} />
         )}
       </>
     ),
-    offers: () => (
-      <>
-        {activeOffersList?.length > 0 && (
-          <OffersCarousel data={activeOffersList} loading={offersListLoading} />
-        )}
-      </>
-    ),
+    offers: () => <>{activeOffersList?.length > 0 && <HomeCarousel data={activeOffersList} />}</>,
     services: () => (
       <>
         {checkInData?.checkedIn && serviceModule && (

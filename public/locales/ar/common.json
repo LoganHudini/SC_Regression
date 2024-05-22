@@ -2,6 +2,7 @@
   "Dining": "تناول الطعام",
   "In-Room Dining": "تناول الطعام بالغرفة",
   "Housekeeping": "خدمة تنظيف الغرف",
+  "Concierge": "خدمات الاستقبال والإرشاد",
   "Services": "الخدمات",
   "In Room Dining": "تناول الطعام في الغرفة",
   "Restaurants & Bars": "المطاعم والحانات",
@@ -62,7 +63,6 @@
   "View Bill": "عرض الفاتورة",
   "GET HERE": "الحصول هنا",
   "Welcome to": "مرحبًا في",
-  "Read More": "اقرأ المزيد",
   "Maintenance": "الصيانة",
   "View Treatments": "عرض العلاج",
   "Spa": "منتجع صحي",
@@ -73,7 +73,6 @@
   "VIEW MENU": "عرض القائمة",
   "Call": "اتصال",
   "Email": "البريد الإلكتروني",
-  "VIEW MORE": "عرض المزيد",
   "Things To Do": "الأشياء التي يمكن القيام بها",
   "Everyday": "كل يوم",
   "Room": "غرفة",
@@ -119,5 +118,11 @@
   "Language": "لغة",
   "Chat With Us": "دردش معنا",
   "View More": "عرض المزيد",
-  "Open 24x7": "مفتوح 24×7"
+  "Open 24x7": "مفتوح 24×7",
+  "Discover": "يكتشف",
+  "Min": "دقيقة",
+  "Starts from": "يبدأ من",
+  "Preferences": "التفضيلات",
+  "Submit": "تقديم",
+  "Invalid Room Type": "نوع الغرفة غير صالح"
 }

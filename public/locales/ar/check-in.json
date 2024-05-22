@@ -68,5 +68,16 @@
   "Terms and conditions": "الشروط والأحكام",
   "Privacy laws": "قوانين الخصوصية",
   "Guests": "ضيوف",
-  "Date of Birth": "تاريخ الميلاد"
+  "Date of Birth": "تاريخ الميلاد",
+  "Save": "حفظ",
+  "Add Guest": "إضافة ضيف",
+  "Invalid email format": "صيغة البريد الإلكتروني غير صالحة",
+  "Email is required": "البريد الإلكتروني مطلوب",
+  "Invalid phone number": "رقم الهاتف غير صالح",
+  "First Name is required": "الاسم الأول مطلوب",
+  "Last Name is required": "الاسم الأخير مطلوب",
+  "Document Type is required": "نوع المستند مطلوب",
+  "Document Number is required": "رقم المستند مطلوب",
+  "Date of Birth is required": "تاريخ الميلاد مطلوب",
+  "Phone Number is required": "رقم الهاتف مطلوب"
 }

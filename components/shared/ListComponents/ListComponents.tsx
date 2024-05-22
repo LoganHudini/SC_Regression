@@ -4,13 +4,14 @@ import { useCallback } from 'react';
 import ClockIcon from '@icons/clockIcon.svg';
 import DishIcon from '@icons/dishIcon.svg';
 import styles from './ListComponents.module.scss';
-import { ASSETS_URL } from 'core/graphql/endpoints';
+import { ASSETS_URL, BRAND_CODE } from 'core/graphql/endpoints';
 import { OFFERSDURATION } from 'utils/constants';
 import dayjs from 'dayjs';
 import { getTimings } from 'utils/functions';
 import { CustomReadMore } from '../CustomReadMore/CustomReadMore';
 import { useCurrency } from 'utils/hooks/useCurrency';
 import cx from 'classnames';
+import { useConfig } from 'utils/hooks/useConfiguration';
 
 interface ListComponentEntityProps {
   queryResultEntity: any;
@@ -24,6 +25,7 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
 }) => {
   const { t } = useTranslation(['common']);
   const currency = useCurrency();
+  const config = useConfig();
 
   const onCtaClick = useCallback(() => {
     selectedListItem(queryResultEntity);
@@ -33,10 +35,12 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
 
   return (
     <div className={styles.listComponent} onClick={onCtaClick}>
-      <StableImage
-        className={styles.bannerImage}
-        src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.ratio16to9}`}
-      />
+      {(config?.hideImagePlaceholder ? queryResultEntity?.images?.length > 0 : true) && (
+        <StableImage
+          className={styles.bannerImage}
+          src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.ratio16to9}`}
+        />
+      )}
       <div className={cx(styles.contentWrapper, 'globals-contentWrapper')}>
         <div className={cx(styles.imageContent, 'globals-imageContent')}>
           {queryResultEntity?.name && (
@@ -46,10 +50,19 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
           )}
           {queryResultEntity?.duration && queryResultEntity?.duration[0]?.price && (
             <p className={cx(styles.listDurationPrice, 'globals-text-align')}>
-              <span className={styles.currency}>{currency} </span>
-              {queryResultEntity?.duration[0]?.price}
+              <span className={styles.currency}>
+                {queryResultEntity?.duration?.length > 1 && (
+                  <>
+                    {t('Starts from')}
+                    {'  '}
+                  </>
+                )}
+                {currency}
+                {'  '}
+              </span>
+              {Number(queryResultEntity?.duration[0]?.price)?.toLocaleString('en-US')}
               {'   '}|{'   '}
-              {queryResultEntity?.duration[0]?.duration} Min
+              {queryResultEntity?.duration[0]?.duration} {t('Min')}
             </p>
           )}
           {queryResultEntity?.duration &&
@@ -88,7 +101,9 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
               <p>{time?.value}</p>
             </div>
           )}
-          <CustomReadMore text={t('Read More') as string} />
+          <CustomReadMore
+            text={t(BRAND_CODE === 'fairmont' ? 'Discover' : 'View More') as string}
+          />
         </div>
       </div>
     </div>

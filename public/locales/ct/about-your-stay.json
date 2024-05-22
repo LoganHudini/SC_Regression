@@ -54,5 +54,10 @@
   "Card Authentication Failed!": "Autenticació de targeta fallida!",
   "Card Authentication Completed": "Autenticació de targeta completada",
   "Proceed to Payment": "PROCEDIR AL PAGAMENT",
-  "Payment Successful": "Pagament amb èxit"
+  "Payment Successful": "Pagament amb èxit",
+  "Guest Information": "Informació de l'hoste",
+  "Guest": "Hoste",
+  "Guest Added": "S'ha afegit convidat",
+  "Guest information added successfully.": "Informació de l'hoste afegida amb èxit.",
+  "Failed to add guest details.": "Error en afegir els detalls de l'hoste."
 }

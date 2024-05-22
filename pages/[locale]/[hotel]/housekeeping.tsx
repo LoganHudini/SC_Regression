@@ -259,8 +259,8 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
       setShowText(false);
       setSelectedTime(dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM));
       setNotificationState({
-        title: 'Thank You!',
-        description: 'Your request has been confirmed.',
+        title: t('Thank You!'),
+        description: t('Your request has been confirmed.'),
         redirect: null,
         type: SUCCESS,
       });
@@ -273,13 +273,14 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
         title: FailureCheck1 || FailureCheck2 ? 'Invalid Reservation' : ERRORMSG,
         description:
           FailureCheck1 || FailureCheck2
-            ? 'Reservation status is invalid. Please try again with a valid reservation details'
-            : 'Your request was not confirmed.',
-        redirect: FailureCheck1 || FailureCheck2 ? availablePaths.HOME : null,
+            ? t('Reservation status is invalid. Please try again with a valid reservation details')
+            : t('Your request was not confirmed.'),
+        redirect: FailureCheck1 || FailureCheck2 ? availablePaths?.HOME : null,
         type: FAILURE,
       });
       if (FailureCheck1 || FailureCheck2) {
         checkoutTrip();
+        toggleDetailsDrawer(false);
       }
     }
     setPlaceOrderLoader(false);

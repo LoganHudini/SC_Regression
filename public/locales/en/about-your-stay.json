@@ -54,5 +54,10 @@
   "Card Authentication Failed!": "Card Authentication Failed!",
   "Card Authentication Completed": "Card Authentication Completed",
   "Proceed to Payment": "PROCEED TO PAYMENT",
-  "Payment Successful": "Payment Successful"
+  "Payment Successful": "Payment Successful",
+  "Guest Information": "Guest Information",
+  "Guest": "Guest",
+  "Guest Added": "Guest Added",
+  "Guest information added successfully.": "Guest information added successfully.",
+  "Failed to add guest details.": "Failed to add guest details."
 }

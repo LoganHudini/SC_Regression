@@ -3,7 +3,7 @@ import { WithScrollbar } from 'components/shared/WithScrollbar/WithScrollbar';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ASSETS_URL } from '../../../../core/graphql/endpoints';
+import { ASSETS_URL, BRAND_CODE } from '../../../../core/graphql/endpoints';
 import styles from './DiningCarousel.module.scss';
 import {
   irdActiveMenuList,
@@ -139,7 +139,9 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, ird
                 {slide.hours[0]?.day === EVERYDAY ? t('Open 24x7') : slide.hours[0]?.day}
               </p>
             )}
-            <CustomReadMore text={t('READ MORE') as string} />
+            <CustomReadMore
+              text={t(BRAND_CODE === 'fairmont' ? 'Discover' : 'View More') as string}
+            />
           </div>
         </div>
         {iframeComponent && (

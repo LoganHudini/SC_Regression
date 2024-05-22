@@ -14,7 +14,7 @@ import {
   toggleHamburgerMenuDrawer,
   toggleNotification,
 } from 'storage/home.storage';
-import { activeItems, moduleType, restaurantId, timeExtract } from 'utils/functions';
+import { activeItems, emptyFunction, moduleType, restaurantId, timeExtract } from 'utils/functions';
 import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { GET_SPA_DETAILS } from 'core/graphql/queries/GET_SPA_DETAILS';
@@ -55,6 +55,9 @@ import { CREATE_SPA_BOOKING } from 'core/graphql/queries/CREATE_SPA_REQUEST';
 import { StyledFormControl } from 'components/shared/StyledFormControl/StyledFormControl';
 import { InputLabel, MenuItem, Select } from '@mui/material';
 import DropDown from '@icons/dropDownIcon.svg';
+import { StyledInput } from 'components/shared/StyledInput/StyledInput';
+import { useFormik } from 'formik';
+import { getEmailRoomValidation } from 'validation/get-reservation.validation';
 
 export { getStaticPaths };
 
@@ -283,7 +286,8 @@ const Spa: React.FC = () => {
       technicianId: parseInt(selectedSpaSlots.technicianId),
       firstName: isCheckedIn?.checkedIn ? isCheckedIn?.name : '',
       lastName: isCheckedIn?.checkedIn ? isCheckedIn?.name : '',
-      emailAddress: isCheckedIn?.checkedIn && isCheckedIn?.email ? isCheckedIn?.email : '',
+      emailAddress:
+        isCheckedIn?.checkedIn && isCheckedIn?.email ? isCheckedIn?.email : formik.values.email,
       roomNo: isCheckedIn?.checkedIn ? isCheckedIn?.roomNumber : '',
       genderPreference: selectedGender?.value || '',
     };
@@ -317,153 +321,199 @@ const Spa: React.FC = () => {
     setSpaBookingLoading(false);
   };
 
-  const spaDetails = () => (
-    <div>
-      {detailContent && (
-        <div
-          className={cx({
-            [styles.listComponentMargin]: spaInformation?.cta?.status === ACTIVE,
-          })}
-        >
-          {selectedSpaItem?.images?.length > 0 && (
-            <StableImage
-              className={styles.image}
-              src={`${ASSETS_URL}/${selectedSpaItem?.images[0]?.ratio16to9}`}
-            />
-          )}
-          <div className={styles.wrapper}>
-            {selectedSpaItem?.name && (
-              <h2 className={styles.detailComponentTitle}>{t(`${selectedSpaItem?.name}`)}</h2>
-            )}
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+    },
+    validationSchema: getEmailRoomValidation,
+    onSubmit: emptyFunction,
+    enableReinitialize: true,
+  });
 
-            {selectedSpaItem?.duration && selectedSpaItem?.duration[0]?.price && (
-              <p className={styles.detailComponentDuration}>
-                <span className={styles.currency}>{currency} </span>
-                {selectedSpaItem?.duration[0]?.price}
-                {'   '}|{'   '}
-                {selectedSpaItem?.duration[0]?.duration} Min
-              </p>
-            )}
-
-            {selectedSpaItem?.description && (
-              <p className={styles.detailComponentDescription}>
-                {t(`${selectedSpaItem?.description}`)}
-              </p>
-            )}
-          </div>
-
-          {spaInformation?.cta?.status === ACTIVE && (
-            <StyledButton
-              variant='contained'
-              onClick={onCtaClick}
-              className={cx(styles.button, 'globals-actionCtaWrapper')}
-            >
-              {spaInformation?.cta?.ctaTitle || t('BOOK NOW')}
-            </StyledButton>
-          )}
-        </div>
-      )}
-
-      {timeSelectDrawer && (
-        <div className={styles.timeSelectDrawerWrapper}>
-          <div className={styles.counterWrapper}>
-            <p className={styles.counterTitle}>{t('No. of people')}</p>
-            <PlusMinusInput
-              value={guestCount}
-              className={styles.plusMinusInput}
-              onClickMinus={() => setGuestCount((count) => count - 1)}
-              onClickPlus={() => setGuestCount((count) => count + 1)}
-              minQuantity={1}
-              valueClassName={styles.value}
-            />
-          </div>
-          <div className={styles.counterWrapper}>
-            <p className={styles.counterTitle}>{t('Duration')}</p>
-            <ListCounter
-              values={selectedSpaItem?.duration}
-              className={styles.plusMinusInput}
-              valueClassName={styles.value}
-              setCurrentIndex={setCurrentIndex}
-              currentIndex={currentIndex}
-            />
-          </div>
-          <div className={styles.timeWrapper}>
-            <p className={styles.preferredTitle}>{t('Preferred Date & Time')}</p>
-            <DateTimeSelect
-              setSelectedTime={setSelectedTime}
-              selectedTime={selectedTime}
-              handleSave={handleSpaReservation}
-              showSchedules={undefined}
-              buttonTitle={t('Find available slots')}
-              buttonStyle={styles.buttonPicker}
-            />
-          </div>
-        </div>
-      )}
-      {availableSlots && (
-        <div className={styles.slotswrapper}>
-          <div>
-            <StyledFormControl
-              required={true}
-              className={styles.guestDataInput}
-              variant='standard'
-              sx={{ m: 1, minWidth: '100%' }}
-            >
-              <InputLabel>{t('Gender')}</InputLabel>
-              <Select
-                className={styles.guestDataInput}
-                label={t(selectedGender?.label)}
-                variant='standard'
-                name={selectedGender?.label}
-                id={selectedGender?.value}
-                value={selectedGender?.value || ''}
-                onChange={(e: any) => {
-                  setSelectedGender({ value: e.target.value, label: e.target.label });
-                }}
-                IconComponent={DropDown}
-              >
-                {GenderOptions?.map((item: any) => {
-                  return (
-                    <MenuItem value={item?.value} key={item?.value}>
-                      <em>{t(item?.label)}</em>
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </StyledFormControl>
-          </div>
-          <div className={styles.slotsButtonwrapper}>
-            {timeExtractedArray?.length > 0 &&
-              timeExtractedArray?.map((timeExt: any, index: any) => (
-                <StyledButton
-                  key={index}
-                  className={styles.sloteButton}
-                  onClick={() => setSelectedSpaSlots(timeExt)}
-                  variant={selectedSpaSlots?.index === timeExt?.index ? 'contained' : 'outlined'}
-                >
-                  {timeExt?.displayTime}
-                </StyledButton>
-              ))}
-          </div>
-          <StyledButton
-            className={styles.slotBookingButton}
-            disabled={!selectedGender?.value || isEmpty(selectedSpaSlots)}
-            onClick={slotBookingHandler}
-            loading={spaBookingLoading}
+  const SpaDetails = () => {
+    return (
+      <div>
+        {detailContent && (
+          <div
+            className={cx({
+              [styles.listComponentMargin]: spaInformation?.cta?.status === ACTIVE,
+            })}
           >
-            {t('Book Slot')}
-          </StyledButton>
-        </div>
-      )}
+            {selectedSpaItem?.images?.length > 0 && (
+              <StableImage
+                className={styles.image}
+                src={`${ASSETS_URL}/${selectedSpaItem?.images[0]?.ratio16to9}`}
+              />
+            )}
+            <div className={styles.wrapper}>
+              {selectedSpaItem?.name && (
+                <h2 className={styles.detailComponentTitle}>{t(`${selectedSpaItem?.name}`)}</h2>
+              )}
 
-      <Notification
-        title={errorNotification?.title as string}
-        description={errorNotification?.message}
-        redirect={null}
-        type={errorNotification?.type}
-      />
-    </div>
-  );
+              {selectedSpaItem?.duration?.length > 0 && (
+                <>
+                  {selectedSpaItem?.duration?.map((duration: any, index: number) => (
+                    <p key={index + duration?.duration} className={styles.detailComponentDuration}>
+                      <span className={styles.currency}>
+                        {currency}
+                        {'  '}
+                      </span>
+                      {Number(duration?.price)?.toLocaleString('en-US')}
+                      {'   '}|{'   '}
+                      {duration?.duration} {t('Min')}
+                    </p>
+                  ))}
+                </>
+              )}
+
+              {selectedSpaItem?.description && (
+                <p className={styles.detailComponentDescription}>
+                  {t(`${selectedSpaItem?.description}`)}
+                </p>
+              )}
+            </div>
+            {spaInformation?.cta?.status === ACTIVE && (
+              <div style={{ position: 'fixed' }}>
+                <StyledButton
+                  variant='contained'
+                  onClick={onCtaClick}
+                  className={cx(styles.button, 'globals-actionCtaWrapper')}
+                >
+                  {spaInformation?.cta?.ctaTitle || t('BOOK NOW')}
+                </StyledButton>
+              </div>
+            )}
+          </div>
+        )}
+
+        {timeSelectDrawer && (
+          <div className={styles.timeSelectDrawerWrapper}>
+            <div className={styles.counterWrapper}>
+              <p className={styles.counterTitle}>{t('No. of people')}</p>
+              <PlusMinusInput
+                value={guestCount}
+                className={styles.plusMinusInput}
+                onClickMinus={() => setGuestCount((count) => count - 1)}
+                onClickPlus={() => setGuestCount((count) => count + 1)}
+                minQuantity={1}
+                valueClassName={styles.value}
+              />
+            </div>
+            <div className={styles.counterWrapper}>
+              <p className={styles.counterTitle}>{t('Duration')}</p>
+              <ListCounter
+                values={selectedSpaItem?.duration}
+                className={styles.plusMinusInput}
+                valueClassName={styles.value}
+                setCurrentIndex={setCurrentIndex}
+                currentIndex={currentIndex}
+              />
+            </div>
+            <div className={styles.timeWrapper}>
+              <p className={styles.preferredTitle}>{t('Preferred Date & Time')}</p>
+              <DateTimeSelect
+                setSelectedTime={setSelectedTime}
+                selectedTime={selectedTime}
+                handleSave={handleSpaReservation}
+                showSchedules={undefined}
+                buttonTitle={t('Find available slots')}
+                buttonStyle={styles.buttonPicker}
+              />
+            </div>
+          </div>
+        )}
+        {availableSlots && (
+          <div className={styles.slotswrapper}>
+            <div>
+              <StyledFormControl
+                required={true}
+                className={styles.guestDataInput}
+                variant='standard'
+                sx={{ m: 1, minWidth: '100%' }}
+              >
+                <InputLabel>{t('Gender')}</InputLabel>
+                <Select
+                  className={styles.guestDataInput}
+                  label={t(selectedGender?.label)}
+                  variant='standard'
+                  name={selectedGender?.label}
+                  id={selectedGender?.value}
+                  value={selectedGender?.value || ''}
+                  onChange={(e: any) => {
+                    setSelectedGender({ value: e.target.value, label: e.target.label });
+                  }}
+                  IconComponent={DropDown}
+                >
+                  {GenderOptions?.map((item: any) => {
+                    return (
+                      <MenuItem value={item?.value} key={item?.value}>
+                        <em>{t(item?.label)}</em>
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </StyledFormControl>
+            </div>
+            {!isCheckedIn?.email && (
+              <StyledInput
+                autoComplete='off'
+                required
+                className={styles.reservationInput}
+                label={t('Email')}
+                variant='standard'
+                name='email'
+                id='email'
+                value={formik.values.email}
+                onChange={(e) => {
+                  formik.handleChange(e);
+                  formik.submitForm();
+                }}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={
+                  formik.touched?.email && formik.errors.email ? t(formik.errors.email) : null
+                }
+              />
+            )}
+            <div className={styles.slotsButtonwrapper}>
+              {timeExtractedArray?.length > 0 &&
+                timeExtractedArray?.map((timeExt: any, index: any) => (
+                  <StyledButton
+                    key={index}
+                    className={styles.sloteButton}
+                    onClick={() => setSelectedSpaSlots(timeExt)}
+                    variant={selectedSpaSlots?.index === timeExt?.index ? 'contained' : 'outlined'}
+                  >
+                    {timeExt?.displayTime}
+                  </StyledButton>
+                ))}
+            </div>
+            <StyledButton
+              className={styles.slotBookingButton}
+              disabled={
+                !selectedGender?.value ||
+                isEmpty(selectedSpaSlots) ||
+                (!isCheckedIn?.email &&
+                  (!formik.values.email ||
+                    Boolean(formik.errors.email) ||
+                    (formik.values.email ? !isEmpty(formik.errors.email) : false)))
+              }
+              onClick={slotBookingHandler}
+              loading={spaBookingLoading}
+            >
+              {t('Book Slot')}
+            </StyledButton>
+          </div>
+        )}
+
+        <Notification
+          title={errorNotification?.title as string}
+          description={errorNotification?.message}
+          redirect={null}
+          type={errorNotification?.type}
+        />
+      </div>
+    );
+  };
 
   return (
     <>
@@ -512,7 +562,7 @@ const Spa: React.FC = () => {
           isIframe={true}
         />
       ) : (
-        <CustomDrawer open={spaDetailsDrawerStatus} onClose={closeDrawer} content={spaDetails()} />
+        <CustomDrawer open={spaDetailsDrawerStatus} onClose={closeDrawer} content={SpaDetails()} />
       )}
     </>
   );

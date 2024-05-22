@@ -3,7 +3,7 @@ import { WithScrollbar } from 'components/shared/WithScrollbar/WithScrollbar';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ASSETS_URL } from '../../../../core/graphql/endpoints';
+import { ASSETS_URL, BRAND_CODE } from '../../../../core/graphql/endpoints';
 import styles from './ServiceRequestCarousel.module.scss';
 import { housekeepingOptions, serviceRequestOptionsArray } from 'storage/housekeeping.storage';
 import { CAROUSEL_RESPONSIVE, HouseKeeping } from 'utils/constants';
@@ -52,11 +52,9 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle }) => 
         })}
       >
         <h3 className={cx(styles.carouselSlideTitle, 'globals-carouselSlideTitle')}>
-          {slide?.__typename === HouseKeeping
-            ? t('Housekeeping')
-            : slide?.__typename === 'Concierge' && t('Maintenance')}
+          {slide?.__typename === HouseKeeping ? t('Housekeeping') : t(slide?.__typename)}
         </h3>
-        <CustomReadMore text={t('Read More') as string} />
+        <CustomReadMore text={t(BRAND_CODE === 'fairmont' ? 'Discover' : 'View More') as string} />
       </div>
     </div>
   );

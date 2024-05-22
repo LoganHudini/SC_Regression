@@ -54,5 +54,10 @@
   "Card Authentication Failed!": "¡Fallo en la Autenticación de la Tarjeta!",
   "Card Authentication Completed": "Autenticación de Tarjeta Completada",
   "Proceed to Payment": "CONTINUAR AL PAGO",
-  "Payment Successful": "Pago Exitoso"
+  "Payment Successful": "Pago Exitoso",
+  "Guest Information": "Información del invitado",
+  "Guest": "Invitado",
+  "Guest Added": "Invitado añadido",
+  "Guest information added successfully.": "Información del invitado añadida correctamente.",
+  "Failed to add guest details.": "Error al agregar los detalles del invitado."
 }

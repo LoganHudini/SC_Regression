@@ -5,6 +5,7 @@ import { IDiningCheckboxItemProps } from './DiningCheckboxItem.types';
 import { useReactiveVar } from '@apollo/client';
 import { editControl } from 'storage/dining-menu.storage';
 import { useCurrency } from 'utils/hooks/useCurrency';
+import { formatPrice } from 'utils/functions';
 
 export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
   element,
@@ -44,14 +45,14 @@ export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
         setAddons([...(addons ?? []), element]);
       }
     }
-  }, [addons, element, setAddons, setupdateAddons, updateAddons]);
+  }, [addons, editControlStatus, element, setAddons, setupdateAddons, updateAddons]);
 
   const showCurrency = () => {
     return (
       <>
         <p className={styles.price}>
           <span className={styles.currency}>{currency}</span>
-          {element?.price?.toFixed(2)}
+          {formatPrice(element?.price)}
         </p>
       </>
     );

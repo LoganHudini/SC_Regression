@@ -38,7 +38,7 @@ import Cookinginstructions from '@icons/cooking_instructions.svg';
 import { IRD_ORDER } from 'core/graphql/queries/IRD_ORDER';
 import { Notification } from 'components/shared/Notification/Notification';
 import { addToCartEvent } from 'utils/gtag';
-import { findModule, setScrollPosition } from 'utils/functions';
+import { findModule, formatPrice, setScrollPosition } from 'utils/functions';
 import { diningInformationStorage } from 'storage/dining.storage';
 import DiningDetailsDrawer from 'components/pages/dining/DiningDetailsDrawer/DiningDetailsDrawer';
 import { toggleNotification } from 'storage/home.storage';
@@ -379,7 +379,8 @@ const DiningOrderSummary = () => {
                               <span key={index} className={styles.itemsCurrency}>
                                 {currency}{' '}
                               </span>
-                              {items?.price} {index !== item?.addons?.length - 1 ? ',' : ''}{' '}
+                              {formatPrice(items?.price)}{' '}
+                              {index !== item?.addons?.length - 1 ? ',' : ''}{' '}
                             </span>
                           </div>
                         ))}
@@ -399,12 +400,10 @@ const DiningOrderSummary = () => {
                     />
                     <p className={styles.itemPrice}>
                       <span className={styles.itemCurrency}>{currency} </span>
-                      {(isNaN(totalPrice)
-                        ? item.quantity * item.price
-                        : item.quantity * totalPrice
-                      )?.toFixed(2)}
+                      {formatPrice(
+                        isNaN(totalPrice) ? item.quantity * item.price : item.quantity * totalPrice,
+                      )}
                     </p>
-                    {/* <p className={styles.edit}>{`${t('edit')}`}</p> */}
                   </div>
                 </div>
               )
@@ -517,7 +516,7 @@ const DiningOrderSummary = () => {
                   <span className={styles.items}>{items && items?.length}</span>
                   <span className={styles.currency}>
                     <span className={styles.currencyTitle}> {currency} </span>
-                    {totalAmount?.toFixed(2)}
+                    {formatPrice(totalAmount)}
                   </span>
                 </div>
                 <div>{t('Confirm')}</div>

@@ -45,6 +45,7 @@
 
 .currency {
   font-size: $xsmall;
+  color: var(--tertiary-text-color);
 }
 
 .listDurationPrice {
@@ -133,6 +134,7 @@
     line-height: 1.5;
     text-transform: capitalize;
     color: var(--tertiary-text-color);
+    padding-top: 2px;
   }
 }
 
@@ -216,6 +218,7 @@
     line-height: 1.5;
     text-transform: capitalize;
     color: var(--tertiary-text-color);
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
+    padding-top: 2px;
   }
 }

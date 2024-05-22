@@ -177,12 +177,15 @@
 
 .hamburgerMenuContainer {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   max-width: 768px;
-  overflow: auto;
+  overflow-y: scroll;
+  background-color: var(--hamburgermenu-drawer-color) !important;
+  padding: 2rem 1.5rem;
   z-index: 1;
   transform-origin: bottom;
-  flex-direction: column;
-  max-height: 40dvh;
 }
 
 .afterCheckinBottomArrayContainer {

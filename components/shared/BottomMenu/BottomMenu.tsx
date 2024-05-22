@@ -9,6 +9,7 @@ import {
   diningOptions,
   getHotelCompendium,
   selectedCompendiumCategory,
+  toggleCheckInDetailsDrawer,
   toggleDetailsDrawer,
   toggleHamburgerMenuDrawer,
   toggleMessageBirdChat,
@@ -22,7 +23,7 @@ import { hamburgerIconsMap } from 'utils/hamburger/hamburgerIconsMap';
 import { availablePaths } from 'utils/availablePaths';
 import { useRouter } from 'next/router';
 import { housekeepingOptions, serviceRequestOptionsArray } from 'storage/housekeeping.storage';
-import { useCheckedIn } from 'storage/check-in.storage';
+import { activeCheckInFlow, useCheckedIn } from 'storage/check-in.storage';
 import { spaCategoryList, spaInformationStorage } from 'storage/spa.storage';
 import { Fade as Hamburger } from 'hamburger-react';
 import CheckInDrawer from 'components/pages/check-in/CheckInDrawer/CheckInDrawer';
@@ -35,8 +36,8 @@ import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
 import { ASSETS_URL } from 'core/graphql/endpoints';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { activeModule, diningOptionList } from 'utils/functions';
-import { CHECK_IN, POST, PRE, hamburgerMenuset } from 'utils/constants';
+import { activeModule, diningOptionList, getHamburgerIcons } from 'utils/functions';
+import { CHECK_IN, PAIR_TO_ROOM } from 'utils/constants';
 import { IBottomMenuProps } from './BottomMenu.types';
 import {
   IDiningMenuStorageData,
@@ -45,8 +46,8 @@ import {
 } from 'storage/dining-menu.storage';
 import { diningInformationStorage } from 'storage/dining.storage';
 import MyOrders from '@icons/orderDish.svg';
-import PoweredByHudiniIcon from '@icons/hudini.svg';
 import CloseIcon from '@icons/closeIcon.svg';
+import HamburgerIcon from '@icons/hamburger.svg';
 
 export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) => {
   const wrapperRef = useRef(null);
@@ -65,6 +66,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
   const spaInformation = useReactiveVar(spaInformationStorage);
   const hotelCompendiumSelected: any = useReactiveVar(selectedCompendiumCategory);
   const checkInModule: boolean = activeModule(config?.modules, CHECK_IN);
+  const pairToRoom: boolean = activeModule(config?.modules, PAIR_TO_ROOM);
   const diningCategoryOptions = useReactiveVar(diningCategoryStorage);
   const hotelCompendiumInfo: any = useReactiveVar(getHotelCompendium);
   const spaCategories = useReactiveVar(spaCategoryList);
@@ -128,85 +130,38 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
 
   useOutsideAlerter(wrapperRef);
 
-  const hamburgerMenuIcons =
-    hamburger && (isCheckedIn?.checkedIn ? hamburger[POST] : hamburger[PRE]);
-
-  const afterCheckinBottomArray = hamburgerMenuset;
-
   const hamburgerMenuRender = () => {
+    let hamburgerMenuItems: any = [];
+    const HamburgerIconItems =
+      config?.languages && config?.languages?.length > 1 ? getHamburgerIcons() : [];
+
+    if (isCheckedIn?.checkedIn) {
+      hamburgerMenuItems = hamburger && hamburger?.post?.concat(HamburgerIconItems);
+    } else {
+      hamburgerMenuItems = hamburger && hamburger?.pre?.concat(HamburgerIconItems);
+    }
+
     return (
-      <div ref={wrapperRef} className={cx(styles.hamburgerMenuWrapper)}>
-        {!homeActive &&
-          [hamburgerMenuIcons].map(
-            (menuArray, index) =>
-              menuArray &&
-              menuArray.length > 0 && (
-                <div
-                  key={index}
-                  className={cx(styles.hamburgerMenuContainer, {
-                    [styles.divider]: index === 1 || index === 2,
-                  })}
-                >
-                  {menuArray.map((hamburgerMenuElement) => (
-                    <MenuItem
-                      Icon={
-                        (hamburgerMenuElement?.menuIconUrl &&
-                          `${ASSETS_URL}/${hamburgerMenuElement?.menuIconUrl}`) ||
-                        hamburgerIconsMap[
-                          hamburgerMenuElement?.name as keyof typeof hamburgerIconsMap
-                        ]
-                      }
-                      title={hamburgerMenuElement?.name}
-                      key={hamburgerMenuElement?.id}
-                      externalLink={hamburgerMenuElement?.externalLink}
-                      flow={hamburgerMenuElement?.flow}
-                      pages={hamburgerMenuElement?.pages}
-                      redirectOptions={hamburgerMenuElement?.redirectOptions}
-                      status={hamburgerMenuElement?.isActive}
-                      toggleOption={closeHamburgerMenuDrawer}
-                      hotelName={hotelName}
-                    />
-                  ))}
-                </div>
-              ),
-          )}
-        {[afterCheckinBottomArray].map(
-          (menuArray, index) =>
-            menuArray &&
-            menuArray.length > 0 && (
-              <div
-                key={index}
-                className={cx(styles.afterCheckinBottomArrayContainer, {
-                  [styles.divider]: index === 1 || index === 2,
-                })}
-              >
-                {menuArray?.map((hamburgerMenuElement) => (
-                  <MenuItem
-                    Icon={
-                      (hamburgerMenuElement?.menuIconUrl &&
-                        `${ASSETS_URL}/${hamburgerMenuElement?.menuIconUrl}`) ||
-                      hamburgerIconsMap[
-                        hamburgerMenuElement?.name as keyof typeof hamburgerIconsMap
-                      ]
-                    }
-                    title={hamburgerMenuElement?.name}
-                    key={hamburgerMenuElement?.name}
-                    externalLink={hamburgerMenuElement?.externalLink}
-                    flow={hamburgerMenuElement?.flow}
-                    pages={hamburgerMenuElement?.pages}
-                    redirectOptions={hamburgerMenuElement?.redirectOptions}
-                    status={hamburgerMenuElement?.isActive}
-                    toggleOption={closeHamburgerMenuDrawer}
-                    hotelName={hotelName}
-                    iconStyle={styles.iconStyle}
-                  />
-                ))}
-              </div>
-            ),
-        )}
-        <div className={styles.poweredByHudini}>
-          <PoweredByHudiniIcon />
-        </div>
+      <div ref={wrapperRef} className={cx(styles.hamburgerMenuContainer)}>
+        {hamburgerMenuItems?.map((hamburgerMenuElement: any, index: number) => (
+          <MenuItem
+            Icon={
+              (hamburgerMenuElement?.menuIconUrl &&
+                `${ASSETS_URL}/${hamburgerMenuElement?.menuIconUrl}`) ||
+              hamburgerIconsMap[hamburgerMenuElement.name as keyof typeof hamburgerIconsMap] ||
+              HamburgerIcon
+            }
+            title={hamburgerMenuElement.name}
+            key={hamburgerMenuElement.id + index}
+            externalLink={hamburgerMenuElement.externalLink}
+            flow={hamburgerMenuElement.flow}
+            pages={hamburgerMenuElement.pages}
+            redirectOptions={hamburgerMenuElement.redirectOptions}
+            status={hamburgerMenuElement.isActive}
+            toggleOption={closeHamburgerMenuDrawer}
+            hotelName={hotelName}
+          />
+        ))}
       </div>
     );
   };
@@ -218,7 +173,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
   const widgetStatus = useReactiveVar(toggleMessageBirdChat);
 
   const availableItems =
-    homeActive ||
+    (homeActive && isCheckedIn?.checkedIn) ||
     (housekeepingActive && serviceRequestOptions?.length > 1) ||
     (offersActive && filteredOffersListInfo?.length > 1) ||
     (spaActive && spaCategories?.length > 1) ||
@@ -248,12 +203,22 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
               [styles.bottomMenuButtonWithoutArrow]: homeActive || !(checkOutActive || homeActive),
             })}
             onClick={() => {
-              availableItems && openModuleOptionsDrawer();
+              availableItems
+                ? openModuleOptionsDrawer()
+                : homeActive
+                ? checkInModule
+                  ? (toggleCheckInDetailsDrawer(true), activeCheckInFlow(true))
+                  : (toggleCheckInDetailsDrawer(true), activeCheckInFlow(false))
+                : null;
             }}
           >
             <span className={styles.btnText}>
               {homeActive &&
-                (isCheckedIn?.checkedIn ? `${t('Room')} ${isCheckedIn?.roomNumber}` : t('Explore'))}
+                (isCheckedIn?.checkedIn
+                  ? `Room ${isCheckedIn?.roomNumber}`
+                  : checkInModule
+                  ? t('CHECK-IN')
+                  : t('CONNECT TO ROOM'))}
               {restaurantAndBarsActive && t(diningOptionList(diningOptionSelected?.type))}
               {irdActive && t(`${selectedDiningCategory?.menuName}`)}
               {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}

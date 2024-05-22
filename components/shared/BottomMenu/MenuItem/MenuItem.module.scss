@@ -1,38 +1,24 @@
 .menuItemWrapper {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   cursor: pointer;
-  padding: 8px 0;
-
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--primary-border-color);
-  }
+  margin: 8px;
 }
 
 .menuItemIconWrapper {
+  width: 65px;
+  height: 65px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-decoration: none;
-  padding: 10px 0;
   cursor: pointer;
-  width: 36px;
-  height: 27px;
-
-  &>svg>path {
+  & > svg > path {
     fill: var(--hamburgermenu-icon-color);
   }
-}
-
-.menuItemTitle {
-  display: flex;
-  color: var(--hamburgermenu-text-color);
-  height: 28px;
-  font-size: $xsmall;
-  text-align: center;
-  align-items: center;
-  margin-inline-start: 1rem;
-  text-transform: capitalize;
 }
 
 .fixedMenutitle {
@@ -117,8 +103,8 @@
 }
 
 .image svg {
-  width: 36px;
-  height: 27px;
+  max-width: 36px;
+  max-height: 27px;
 
   path {
     stroke: var(--hamburgermenu-icon-color);
@@ -127,4 +113,20 @@
 
 .itemWidth {
   margin-inline-start: 2.5rem;
+}
+
+.imageIcon {
+  path {
+    fill: var(--hamburgermenu-icon-color);
+  }
+}
+
+.menuItemTitle {
+  display: flex;
+  color: var(--hamburgermenu-text-color);
+  max-width: 65px;
+  height: 25px;
+  font-size: $extraSmall;
+  line-height: 1.25;
+  text-align: center;
 }

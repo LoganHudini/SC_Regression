@@ -234,24 +234,26 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
             )}
           </div>
           {queryResultEntity?.cta?.status === ACTIVE && (
-            <StyledButton
-              variant='contained'
-              onClick={() => {
-                restaurantCtaNavigation(
-                  queryResultEntity,
-                  setDetailContent,
-                  setTimeSelectDrawer,
-                  setIframeComponent,
-                );
-              }}
-              className={cx(styles.button, 'globals-actionCtaWrapper', {
-                [styles.buttonNone]: timeSelectDrawer,
-                [styles.withoutImageButton]:
-                  queryResultEntity && !queryResultEntity?.images[0]?.ratio16to9,
-              })}
-            >
-              {queryResultEntity?.cta?.ctaTitle || t('BOOK NOW')}
-            </StyledButton>
+            <div style={{ position: 'fixed' }}>
+              <StyledButton
+                variant='contained'
+                onClick={() => {
+                  restaurantCtaNavigation(
+                    queryResultEntity,
+                    setDetailContent,
+                    setTimeSelectDrawer,
+                    setIframeComponent,
+                  );
+                }}
+                className={cx(styles.button, 'globals-actionCtaWrapper', {
+                  [styles.buttonNone]: timeSelectDrawer,
+                  [styles.withoutImageButton]:
+                    queryResultEntity && !queryResultEntity?.images[0]?.ratio16to9,
+                })}
+              >
+                {queryResultEntity?.cta?.ctaTitle || t('BOOK NOW')}
+              </StyledButton>
+            </div>
           )}
         </>
       )}

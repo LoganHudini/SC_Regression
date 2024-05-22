@@ -13,6 +13,7 @@ import { DiningCustomisationDrawer } from 'components/pages/dining/DiningCustomi
 import cx from 'classnames';
 import { addToCartEvent, viewItemEvent } from 'utils/gtag';
 import { useCurrency } from 'utils/hooks/useCurrency';
+import { formatPrice } from 'utils/functions';
 
 export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
   title,
@@ -41,7 +42,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
     const item = { id: id, name: title, price: price, currency: currency };
     viewItemEvent(item);
     toggleDiningDetailsDrawer(true);
-  }, [id, price, title]);
+  }, [currency, id, price, title]);
 
   const onClickPlus = useCallback(() => {
     const selectedItem = diningData?.items?.find((item) => item?.itemId === id);
@@ -66,7 +67,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
         }
       }),
     );
-  }, [customisation, diningData?.items, id]);
+  }, [currency, customisation, diningData?.items, id]);
 
   const closeCustomisationDrawer = useCallback(() => {
     setCustomisationDrawer((state) => !state);
@@ -96,7 +97,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
           </p>
         )}
         <p className={styles.currency}>
-          {currency} <span className={styles.price}>{price?.toFixed(2)}</span>
+          {currency} <span className={styles.price}>{formatPrice(price)}</span>
         </p>
       </div>
       <div className={styles.imageWrapper}>

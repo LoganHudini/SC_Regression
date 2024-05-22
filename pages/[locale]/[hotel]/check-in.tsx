@@ -180,7 +180,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
           <div className={styles.dateWrapper}>
             <div className={styles.checkInWrapper}>
               <p className={styles.detailCheckinTitleCaps}>{t('Check-In')}</p>
-              <div className={cx(styles.checkContainer, 'globals-checkContainer')}>
+              <div className={cx(styles.checkContainer)}>
                 <p className={styles.detailCheckinTitle}>
                   {dayjs(reservationInfo?.details?.checkInDate).format(timeFormats.DAY)}
                 </p>
@@ -200,7 +200,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
             </div>
             <div className={styles.checkOutWrapper}>
               <p className={styles.detailCheckinTitleCaps}>{t('Checkout')}</p>
-              <div className={cx(styles.checkContainer, 'globals-checkContainer')}>
+              <div className={cx(styles.checkContainer)}>
                 <p className={styles.detailCheckinTitle}>
                   {dayjs(reservationInfo?.details?.checkOutDate).format(timeFormats.DAY)}
                 </p>

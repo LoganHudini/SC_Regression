@@ -4,9 +4,16 @@ import styles from './PreCheckinGuestInfo.module.scss';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { useState } from 'react';
-import { DATEPICKER, SELECTDROPDOWN } from 'utils/constants';
-import { generateInitialFieldValues, generateValidationSchema } from 'utils/functions';
-import { InputLabel, Select, MenuItem } from '@mui/material';
+import {
+  DATEPICKER,
+  NEWGUEST,
+  NEWGUESTFORM,
+  PRIMARY,
+  SECONDARY,
+  SELECTDROPDOWN,
+} from 'utils/constants';
+import { generateInitialFieldValues } from 'utils/functions';
+import { InputLabel, Select, MenuItem, FormHelperText } from '@mui/material';
 import { StyledFormControl } from 'components/shared/StyledFormControl/StyledFormControl';
 import DropDown from '@icons/dropDownIcon.svg';
 import { DatePicker } from '@mui/x-date-pickers';
@@ -14,6 +21,7 @@ import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
 import { useReactiveVar } from '@apollo/client';
 import { accompanyGuestDetails } from 'storage/accompany-guest-details';
+import useValidate from 'utils/hooks/useValidate';
 
 export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
   selectedGuest,
@@ -42,19 +50,25 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
         [inputField]: inputValue,
       });
 
-    type === 'primary'
+    type === PRIMARY
       ? updateSelectedGuestInformation({ ...selectedGuest, [inputField]: inputValue })
-      : updateSelectedGuestInformation([...accompanyGuestData]);
+      : type === SECONDARY
+      ? updateSelectedGuestInformation([...accompanyGuestData])
+      : updateSelectedGuestInformation({
+          ...selectedGuest,
+          [inputField]: inputValue,
+        });
   };
 
   const initialFieldValues = generateInitialFieldValues(guestInformationSection, selectedGuest);
 
-  const validationSchema = generateValidationSchema(guestInformationSection);
+  const validationSchema = useValidate(guestInformationSection);
 
   const formik = useFormik({
     initialValues: initialFieldValues,
     validationSchema: validationSchema,
     onSubmit: handleInputChange,
+    validateOnMount: true,
   });
 
   return (
@@ -66,14 +80,20 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
               {field?.type == SELECTDROPDOWN ? (
                 <div className={styles.col_100}>
                   <StyledFormControl
+                    error={
+                      (formik?.validateOnMount || formik.touched[field?.name]) &&
+                      Boolean(formik.errors[field?.name])
+                    }
                     required={field?.required}
-                    disabled={field?.isDisabled}
                     className={styles.guestDataInput}
                     variant='standard'
                     sx={{ m: 1, minWidth: '100%' }}
                   >
                     <InputLabel>{t(field?.label)}</InputLabel>
                     <Select
+                      disabled={
+                        type === NEWGUESTFORM ? false : type === NEWGUEST ? true : field?.isDisabled
+                      }
                       className={styles.guestDataInput}
                       label={t(field?.label)}
                       variant='standard'
@@ -84,8 +104,11 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                         formik.handleChange(e);
                         updateGuestDetails(e.target.name, e.target.value);
                       }}
-                      disabled={field?.isDisabled}
                       IconComponent={DropDown}
+                      error={
+                        (formik?.validateOnMount || formik.touched[field?.name]) &&
+                        Boolean(formik.errors[field?.name])
+                      }
                     >
                       {field?.options.map((item: any) => {
                         return (
@@ -95,6 +118,11 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                         );
                       })}
                     </Select>
+                    <FormHelperText>
+                      {(formik?.validateOnMount || formik.touched[field?.name]) &&
+                        formik.errors[field?.name] &&
+                        t(String(formik.errors[field?.name]))}
+                    </FormHelperText>
                   </StyledFormControl>
                 </div>
               ) : field?.type === DATEPICKER ? (
@@ -112,7 +140,9 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                       updateGuestDetails(field?.name, expiryDate);
                       setOnOpen(false);
                     }}
-                    disabled={field?.isDisabled}
+                    disabled={
+                      type === NEWGUESTFORM ? false : type === NEWGUEST ? true : field?.isDisabled
+                    }
                     disableFuture={field?.isDisableFuture}
                     disablePast={field?.isDisablePast}
                     componentsProps={{
@@ -128,11 +158,14 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                         id={field?.name}
                         onFocus={() => formik.setFieldTouched(field?.name, true)}
                         {...params}
-                        error={formik.touched[field?.name] && Boolean(formik.errors[field?.name])}
+                        error={
+                          (formik?.validateOnMount || formik.touched[field?.name]) &&
+                          Boolean(formik.errors[field?.name])
+                        }
                         helperText={
-                          formik.touched[field?.name] &&
+                          (formik?.validateOnMount || formik.touched[field?.name]) &&
                           formik.errors[field?.name] &&
-                          `${formik.errors[field?.name]}`
+                          t(String(formik.errors[field?.name]))
                         }
                       />
                     )}
@@ -150,19 +183,22 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                     name={field?.name}
                     id={field?.name}
                     value={formik.values[field?.name]}
-                    disabled={field?.isDisabled}
+                    disabled={
+                      type === NEWGUESTFORM ? false : type === NEWGUEST ? true : field?.isDisabled
+                    }
                     onChange={(e) => {
                       formik.handleChange(e);
                       updateGuestDetails(e.target.id, e.target.value);
                     }}
                     onFocus={() => formik.setFieldTouched(field?.name, true)}
                     error={
-                      Boolean(formik.touched[field?.name]) && Boolean(formik.errors[field?.name])
+                      (formik?.validateOnMount || Boolean(formik.touched[field?.name])) &&
+                      Boolean(formik.errors[field?.name])
                     }
                     helperText={
-                      formik.touched[field?.name] &&
+                      (formik?.validateOnMount || formik.touched[field?.name]) &&
                       formik.errors[field?.name] &&
-                      `${formik.errors[field?.name]}`
+                      t(String(formik.errors[field?.name]))
                     }
                   />
                 </div>

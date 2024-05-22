@@ -6,8 +6,9 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { useReactiveVar } from '@apollo/client';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
-import { generateInitialFieldValues, generateValidationSchema } from 'utils/functions';
+import { generateInitialFieldValues } from 'utils/functions';
 import { CARD_TYPE, cardTypes } from 'utils/constants';
+import useValidate from 'utils/hooks/useValidate';
 
 export const PreCheckinPaymentInfo: React.FC<IPreCheckinPaymentInfoProps> = ({
   paymentInfo,
@@ -29,7 +30,7 @@ export const PreCheckinPaymentInfo: React.FC<IPreCheckinPaymentInfoProps> = ({
   };
   const initialFieldValues = generateInitialFieldValues(creditCardInfoSection, paymentInfo);
 
-  const validationSchema = generateValidationSchema(creditCardInfoSection);
+  const validationSchema = useValidate(creditCardInfoSection);
 
   const formik = useFormik({
     initialValues: initialFieldValues,

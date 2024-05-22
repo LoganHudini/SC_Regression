@@ -21,6 +21,7 @@ export const ITC_WELCOMHOTEL_CHENNAI = 'itc-welcomhotel-chennai';
 export const RAFFLES_THE_PALM_DUBAI = 'raffles-the-palm-dubai';
 export const FAIRMONT_ROYAL_PALM_MARRAKECH = 'fairmont-royal-palm-marrakech';
 export const FAIRMONT_THE_PALM_DUBAI = 'fairmont-the-palm-dubai';
+export const FAIRMONT_MAKKAH_CLOCK_ROYAL_TOWER = 'fairmont-makkah-clock-royal-tower';
 export const ONE_HOTELS_SOUTH_BEACH = '1-hotel-south-beach';
 export const ATLANTIS = 'atlantis';
 export const PROPER_DOWNTOWN_LA = 'proper-downtown-la';
@@ -126,12 +127,16 @@ export const YOUVERSE = 'youverse';
 export const INCODE = 'incode';
 export const MANUAL_ENTRY = 'manual_entry';
 export const PRIMARY = 'primary';
+export const SECONDARY = 'secondary';
+export const NEWGUEST = 'newGuest';
+export const NEWGUESTFORM = 'newGuestForm';
 export const DATEPICKER = 'datePicker';
 export const SUCCESS = 'success';
 export const FAILURE = 'failure';
 export const CARD_TYPE = 'cardType';
 export const INACTIVE = 'Inactive';
 export const SERVICES = 'Services';
+export const VIEW_BILL = 'view-bill';
 export const ERRORMSG = 'Something Went Wrong!';
 export const RESTAURANT = 'restaurant';
 export const BAR = 'bar';
@@ -162,30 +167,6 @@ export const ADDON = 'Addon';
 export const ROOM = 'Room';
 export const SPA = 'spa';
 
-export const hamburgerMenuset = [
-  {
-    category: 'both',
-    externalLink: '',
-    flow: 'HOME',
-    menuIconUrl: '',
-    isActive: true,
-    name: 'Home',
-    pages: [''],
-    redirectOptions: 'FLOW',
-    __typename: 'UiBuilderHamburgerMenu',
-  },
-  {
-    category: 'both',
-    externalLink: '',
-    flow: '',
-    menuIconUrl: '',
-    isActive: true,
-    name: 'Language',
-    pages: [''],
-    redirectOptions: 'FLOW',
-    __typename: 'UiBuilderHamburgerMenu',
-  },
-];
 // flow constants
 export const DAYS = [
   { id: 1, ischecked: false, name: 'Monday', from: null, to: null },

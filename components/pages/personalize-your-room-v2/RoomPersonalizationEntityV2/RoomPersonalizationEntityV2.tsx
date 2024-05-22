@@ -21,6 +21,7 @@ import { UPDATE_BOOKING_DETAILS } from 'core/graphql/queries/UPDATE_BOOKING_DETA
 import { client } from 'core/graphql/client';
 import { processStatusCode } from 'utils/processError';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
+import { formatPrice } from 'utils/functions';
 
 export const RoomPersonalizationEntityV2: React.FC<IRoomPersonalizationEntityProps> = ({
   title,
@@ -238,10 +239,7 @@ export const RoomPersonalizationEntityV2: React.FC<IRoomPersonalizationEntityPro
 
         <div className={styles.bottomSec}>
           <div className={cx(styles.price, { [styles.priceActive]: isActive })}>
-            {currency}{' '}
-            <span className={styles.priceNo}>
-              {Number(price)?.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-            </span>
+            {currency} <span className={styles.priceNo}>{formatPrice(price)}</span>
           </div>
           {maxQuantity?.status === 'active' ? (
             <>

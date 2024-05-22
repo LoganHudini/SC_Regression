@@ -19,7 +19,7 @@ import { InputAdornment } from '@mui/material';
 import { sortBy } from 'lodash';
 import TextField from '@mui/material/TextField';
 import { iconsMap } from 'utils/hamburger/hamburgerIconsMap';
-import { filterLiveMenu, irdActiveMenuList } from 'utils/functions';
+import { filterLiveMenu, formatPrice, irdActiveMenuList } from 'utils/functions';
 import { addToCartEvent } from 'utils/gtag';
 import cx from 'classnames';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
@@ -347,6 +347,7 @@ const DiningDetailsDrawer = () => {
     count,
     currency,
     customisation,
+    editControlStatus,
     instruction,
     selectedItem?.code,
     selectedItem?.id,
@@ -354,6 +355,7 @@ const DiningDetailsDrawer = () => {
     selectedItem?.price,
     selectedItem?.upsell,
     selectedItemId,
+    selectedItemIndex,
   ]);
 
   const diningDetails = () => {
@@ -374,7 +376,7 @@ const DiningDetailsDrawer = () => {
         <>
           {selectedItem?.images?.length > 0 && <CustomCarousel imageData={selectedItem} />}
           {selectedItem?.name && (
-            <div className={cx(styles.titleWrapper, 'globals-titleWrapper')}>
+            <div className={cx(styles.titleWrapper)}>
               <h3
                 className={cx(styles.title, {
                   [styles.titleWithImage]: selectedItem?.images?.length > 0,
@@ -526,8 +528,7 @@ const DiningDetailsDrawer = () => {
                 <p className={styles.totalItemPrice}>
                   {currency}{' '}
                   <span className={styles.price}>
-                    {' '}
-                    {(selectedItem?.price + totalAddons)?.toFixed(2)}
+                    {formatPrice(selectedItem?.price + totalAddons)}
                   </span>
                 </p>
               </>

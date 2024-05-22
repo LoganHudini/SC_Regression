@@ -227,9 +227,8 @@
 }
 
 .currency {
-  font-size: $extraSmall;
-  color: var(--primary-text-color);
-  font-family: var(--secondary-title-font-family);
+  font-size: $small;
+  color: var(--primary-button-color);
 }
 
 .divider {

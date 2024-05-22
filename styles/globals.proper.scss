@@ -55,7 +55,7 @@
   --primary-card-title-font-family: 'GT Walsheim Medium';
   --primary-card-desc-font-family: 'GT Walsheim Regular';
   --primary-card-cta-font-family: 'GT Walsheim Regular';
-  --primary-card-background-color: #e2dace;
+  --primary-card-background-color: #f2ede7;
   --primary-card-border-radius: 0px;
   --primary-card-shadow-color: #00000010;
 
@@ -66,7 +66,7 @@
   --primary-button-font-family: 'GT Walsheim Regular';
 
   --secondary-button-color: #000000;
-  --secondary-button-background-color: #e2dace;
+  --secondary-button-background-color: #ffffff;
   --secondary-button-border-radius: 0px;
   --secondary-button-font-family: 'GT Walsheim Medium';
 
@@ -126,7 +126,6 @@
   width: 100% !important;
   text-align: start !important;
   height: 100px !important;
-  background: var(--primary-background-color) !important;
 }
 
 .globals-carouselSlideWrapper {
@@ -138,7 +137,6 @@
   width: 100% !important;
   text-align: start !important;
   align-items: flex-start !important;
-  background: var(--primary-background-color) !important;
 }
 
 .globals-content {
@@ -155,14 +153,6 @@
 
 .globals-carouselSlideWrapperSpa {
   height: 310px !important;
-}
-
-.globals-cardWrapper {
-  background-color: var(--primary-background-color) !important;
-}
-
-.globals-checkContainer {
-  background-color: #e2dace !important;
 }
 
 .globals-carouselCard {

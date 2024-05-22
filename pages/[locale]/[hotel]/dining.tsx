@@ -39,7 +39,6 @@ import {
   GET_RESTAURANT_DETAILS,
 } from 'core/graphql/queries/GET_RESTAURTANT_DETAILS';
 import { diningOptions, diningHeaders } from 'storage/home.storage';
-import { isEmpty } from 'lodash';
 
 export { getStaticPaths };
 
@@ -98,13 +97,11 @@ const Dining = () => {
     (item: any) => item?.isActive && filterLiveMenu(item?.hours),
   );
 
+  const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
+
   useEffect(() => {
     diningOptions({ type: IN_ROOM_DINING });
-    if (
-      uniqueFilteredDiningOptions?.length > 0 &&
-      irdOption?.length === 0 &&
-      isEmpty(diningOptionSelected)
-    ) {
+    if (uniqueFilteredDiningOptions?.length > 0 && irdOption?.length === 0) {
       diningHeaders(
         checkInData?.checkedIn && irdModule
           ? [...uniqueFilteredDiningOptions, { type: IN_ROOM_DINING }]
@@ -125,7 +122,6 @@ const Dining = () => {
   ]);
 
   const [search, setsearch] = useState(false);
-  const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
 
   useEffect(() => {
     if (irdActiveMenu?.length > 0 && !irdMenuLoading) {

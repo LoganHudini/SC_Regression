@@ -4,6 +4,7 @@ import { timeFormats } from 'utils/timeFormats';
 import styles from './BillElement.module.scss';
 import { IBIllElementProps } from './BillElement.types';
 import { useTranslation } from 'react-i18next';
+import { formatPrice } from 'utils/functions';
 
 export const BillElement: React.FC<IBIllElementProps> = ({ date, title, chequeNo, price }) => {
   const { t } = useTranslation(['bill']);
@@ -18,9 +19,7 @@ export const BillElement: React.FC<IBIllElementProps> = ({ date, title, chequeNo
         {chequeNo && <div className={styles.chequeNo}>{`${t('CHEQUE NO:')} ${chequeNo}`}</div>}
         <div className={styles.price}>
           <span className={styles.billAmountCurrency}>{price?.split(' ')[0]} </span>
-          {Number(price?.split(' ')[1])?.toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-          })}
+          {formatPrice(price?.split(' ')[1])}
         </div>
       </div>
     </div>

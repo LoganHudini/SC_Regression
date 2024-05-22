@@ -68,5 +68,16 @@
   "Terms and conditions": "Términos y condiciones",
   "Privacy laws": "Leyes de privacidad",
   "Guests": "Huéspedes",
-  "Date of Birth": "Fecha de Nacimiento"
+  "Date of Birth": "Fecha de Nacimiento",
+  "Save": "Guardar",
+  "Add Guest": "Agregar Invitado",
+  "Invalid email format": "Formato de correo electrónico inválido",
+  "Email is required": "El correo electrónico es obligatorio",
+  "Invalid phone number": "Número de teléfono inválido",
+  "First Name is required": "Se requiere el nombre",
+  "Last Name is required": "Se requiere el apellido",
+  "Document Type is required": "Se requiere el tipo de documento",
+  "Document Number is required": "Se requiere el número de documento",
+  "Date of Birth is required": "Se requiere la fecha de nacimiento",
+  "Phone Number is required": "El número de teléfono es obligatorio"
 }

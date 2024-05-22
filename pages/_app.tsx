@@ -18,6 +18,9 @@ import { ToastIcon } from 'react-toastify/dist/types';
 import { pageView } from 'utils/gtag';
 import { useRouter } from 'next/router';
 import dayjs from 'dayjs';
+import { useConfig } from 'utils/hooks/useConfiguration';
+import { BRAND_CODE } from 'core/graphql/endpoints';
+import Head from 'next/head';
 
 const toastIconMap = {
   success: <SuccessIcon />,
@@ -30,6 +33,7 @@ const ToastErrorIcon: ToastIcon = (props) => {
 
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
+  const widgetId = useConfig()?.widgetId;
   useEffect(() => {
     const handleRouteChange = (url: any) => {
       pageView(url, window?.document?.title || 'Home');
@@ -59,35 +63,98 @@ function App({ Component, pageProps }: AppProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
+  useEffect(() => {
+    const manifestMeta: any = document.querySelector('link[rel="manifest"]');
+    if (manifestMeta && window.location.pathname) {
+      manifestMeta.href = `/manifest.${BRAND_CODE}.json?start_url=${window.location.pathname}`;
+      // console.log(manifestMeta.href);
+    }
+  }, []);
+
   return (
-    <StyledEngineProvider injectFirst>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <ApolloProvider client={client}>
-          <React.StrictMode>
-            <ToastContainer
-              autoClose={5000}
-              hideProgressBar
-              className='notification'
-              position='top-center'
-              draggable
-              pauseOnHover
-              closeOnClick={false}
-              pauseOnFocusLoss
-              limit={2}
-              transition={Zoom}
-              icon={ToastErrorIcon}
-              closeButton={({ closeToast }) => (
-                <button className='Toastify__toast__close' onClick={closeToast}>
-                  <CloseToastIcon />
-                </button>
+    <>
+      <Head>
+        <link rel='manifest' href={`/manifest.${BRAND_CODE}.json`} />
+      </Head>
+      <StyledEngineProvider injectFirst>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <ApolloProvider client={client}>
+            <React.StrictMode>
+              <ToastContainer
+                autoClose={5000}
+                hideProgressBar
+                className='notification'
+                position='top-center'
+                draggable
+                pauseOnHover
+                closeOnClick={false}
+                pauseOnFocusLoss
+                limit={2}
+                transition={Zoom}
+                icon={ToastErrorIcon}
+                closeButton={({ closeToast }) => (
+                  <button className='Toastify__toast__close' onClick={closeToast}>
+                    <CloseToastIcon />
+                  </button>
+                )}
+              />
+              <Component {...pageProps} />
+              {router?.query?.locale === 'ar' && <style>{':root {direction :rtl'}</style>}
+              {widgetId && (
+                <script
+                  dangerouslySetInnerHTML={{
+                    __html: `
+              var MessageBirdChatWidgetSettings = {
+                widgetId: '${widgetId}',
+                initializeOnLoad: true,
+            };
+            
+            !function () {
+              "use strict";
+              if (Boolean(document.getElementById("live-chat-widget-script"))) {
+                console.error("MessageBirdChatWidget: Snippet loaded twice on page");
+              } else {
+                var e, t;
+                window.MessageBirdChatWidget = {};
+                window.MessageBirdChatWidget.queue = [];
+                for (var i = ["init", "setConfig", "toggleChat", "identify", "hide", "on", "shutdown"], n = function () {
+                    var e = i[d];
+                    window.MessageBirdChatWidget[e] = function () {
+                        for (var t = arguments.length, i = new Array(t), n = 0; n < t; n++) i[n] = arguments[n];
+                        window.MessageBirdChatWidget.queue.push([[e, i]]);
+                    }
+                }, d = 0; d < i.length; d++) n();
+        
+                var a = (null === (e = window) || void 0 === e || null === (t = e.MessageBirdChatWidgetSettings) || void 0 === t ? void 0 : t.widgetId) || "";
+        
+                var o = function () {
+                    var e, t = document.createElement("script");
+                    t.type = "text/javascript";
+                    t.src = "https://livechat.messagebird.com/bootstrap.js?widgetId=".concat(a);
+                    t.async = !0;
+                    t.id = "live-chat-widget-script";
+                    var i = document.getElementsByTagName("script")[0];
+                    null == i || null === (e = i.parentNode) || void 0 === e || e.insertBefore(t, i);
+                };
+        
+                if ("complete" === document.readyState) {
+                    o();
+                } else if (window.attachEvent) {
+                    window.attachEvent("onload", o);
+                } else {
+                    window.addEventListener("load", o, !1);
+                }
+              }
+            }();
+              `,
+                  }}
+                />
               )}
-            />
-            <Component {...pageProps} />
-            {router?.query?.locale === 'ar' && <style>{':root {direction :rtl'}</style>}
-          </React.StrictMode>
-        </ApolloProvider>
-      </LocalizationProvider>
-    </StyledEngineProvider>
+            </React.StrictMode>
+          </ApolloProvider>
+        </LocalizationProvider>
+      </StyledEngineProvider>
+    </>
   );
 }
 

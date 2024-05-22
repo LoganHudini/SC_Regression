@@ -3,7 +3,7 @@ import { WithScrollbar } from 'components/shared/WithScrollbar/WithScrollbar';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ASSETS_URL } from '../../../../core/graphql/endpoints';
+import { ASSETS_URL, BRAND_CODE } from '../../../../core/graphql/endpoints';
 import styles from './SpaCarousel.module.scss';
 import { activeItems, getTimings } from 'utils/functions';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
@@ -70,7 +70,9 @@ export const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle
               <p>{time?.value}</p>
             </div>
           )}
-          <CustomReadMore text={t('View More') as string} />
+          <CustomReadMore
+            text={t(BRAND_CODE === 'fairmont' ? 'Discover' : 'View More') as string}
+          />
         </div>
       </div>
     </>
@@ -188,16 +190,18 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
         )}
       </div>
       {(spaTreatments?.length > 0 || spaInfoDetails?.cta?.status === ACTIVE) && (
-        <StyledButton
-          variant='contained'
-          onClick={onCtaClick}
-          className={cx(styles.button, 'globals-actionCtaWrapper')}
-        >
-          {spaTreatments?.length > 0
-            ? t('View Treatments')
-            : spaInfoDetails?.cta?.status === ACTIVE &&
-              (spaInfoDetails?.cta?.ctaTitle || t('BOOK NOW'))}
-        </StyledButton>
+        <div style={{ position: 'fixed' }}>
+          <StyledButton
+            variant='contained'
+            onClick={onCtaClick}
+            className={cx(styles.button, 'globals-actionCtaWrapper')}
+          >
+            {spaTreatments?.length > 0
+              ? t('View Treatments')
+              : spaInfoDetails?.cta?.status === ACTIVE &&
+                (spaInfoDetails?.cta?.ctaTitle || t('BOOK NOW'))}
+          </StyledButton>
+        </div>
       )}
     </div>
   );

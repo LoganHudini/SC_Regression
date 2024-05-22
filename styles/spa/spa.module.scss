@@ -13,7 +13,7 @@
 }
 
 .wrapper {
-  padding: 0.5rem 1.5rem 1rem;
+  padding: 0.5rem 1.5rem;
 }
 
 .button {
@@ -21,13 +21,15 @@
   max-width: 768px;
   position: fixed;
   bottom: 0;
+  left: 0;
+  right: 0;
   height: 60px;
   font-size: $medium;
-  margin-top: -2rem;
+  margin: 0 auto;
 }
 
 .listComponentMargin {
-  margin-bottom: 65px !important;
+  margin-bottom: 64px !important;
 }
 
 .detailComponentTitle {
@@ -148,6 +150,7 @@
   width: 18%;
   margin: 2%;
   font-size: $xsmall;
+
   &:after {
     display: none;
   }

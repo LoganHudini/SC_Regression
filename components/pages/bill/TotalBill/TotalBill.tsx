@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './TotalBill.module.scss';
 import { ITotalBillProps } from './TotalBill.types';
 import { useTranslation } from 'react-i18next';
+import { formatPrice } from 'utils/functions';
 
 export const TotalBill: React.FC<ITotalBillProps> = ({
   totalAmountDue,
@@ -16,9 +17,7 @@ export const TotalBill: React.FC<ITotalBillProps> = ({
         <p className={styles.billAmountTitle}>{t('Total Bill Amount')}</p>
         <p className={styles.billAmountValue}>
           <span className={styles.billAmountCurrency}>{currency} </span>{' '}
-          {Number(totalBillAmount)?.toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-          })}
+          {formatPrice(totalBillAmount)}
         </p>
       </div>
 
@@ -26,9 +25,7 @@ export const TotalBill: React.FC<ITotalBillProps> = ({
         <p className={styles.billAmountTitle}>{t('Total Amount Due')}</p>
         <p className={styles.billAmountValue}>
           <span className={styles.billAmountCurrency}>{currency} </span>{' '}
-          {Number(totalAmountDue)?.toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-          })}
+          {formatPrice(totalAmountDue)}
         </p>
       </div>
     </>

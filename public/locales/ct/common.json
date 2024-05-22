@@ -2,6 +2,7 @@
   "Dining": "Restauració",
   "In-Room Dining": "Servei d'habitacions",
   "Housekeeping": "Servei de neteja",
+  "Concierge": "Conserge",
   "Services": "Serveis",
   "In Room Dining": "Servei d'habitacions",
   "Restaurants & Bars": "Restaurants i Bars",
@@ -69,7 +70,6 @@
   "Duration": "Durada",
   "GET HERE": "ARRIBAR AQUÍ",
   "Welcome to": "Benvingut a",
-  "Read More": "Llegeix més",
   "Maintenance": "Manteniment",
   "View Treatments": "Veure tractaments",
   "Spa": "Spa",
@@ -80,7 +80,6 @@
   "VIEW MENU": "VEURE MENÚ",
   "Call": "Trucar",
   "Email": "Correu electrònic",
-  "VIEW MORE": "VEURE MÉS",
   "Things To Do": "Coses a fer",
   "Room": "Habitació",
   "CHECK-IN": "ENREGISTRAMENT",
@@ -123,5 +122,11 @@
   "Language": "Llenguatge",
   "Chat With Us": "Xateja amb nosaltres",
   "View More": "Veure més",
-  "Open 24x7": "Obert 24x7"
+  "Open 24x7": "Obert 24x7",
+  "Discover": "Descobreix",
+  "Min": "Min",
+  "Starts from": "Comença des de",
+  "Preferences": "Preferències",
+  "Submit": "Nithain",
+  "Invalid Room Type": "Tipus d'habitació no vàlid"
 }

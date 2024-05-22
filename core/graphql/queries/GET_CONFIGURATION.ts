@@ -482,6 +482,15 @@ export const configuration = [
                     isActive: true,
                   },
                   {
+                    name: 'dateOfBirth',
+                    label: 'Date of Birth',
+                    type: 'datePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    isDisableFuture: true,
+                  },
+                  {
                     name: 'issueCountry',
                     label: 'Document Issuing Authority',
                     type: 'Text',
@@ -555,6 +564,15 @@ export const configuration = [
                 required: true,
                 isDisabled: true,
                 isActive: true,
+              },
+              {
+                name: 'dateOfBirth',
+                label: 'Date of Birth',
+                type: 'datePicker',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+                isDisableFuture: true,
               },
               {
                 name: 'emails',
@@ -710,6 +728,7 @@ export const configuration = [
     pms: 'OPERA',
     fetchFromDb: 'no',
     saveToDb: 'no',
+    widgetId: 'ddcb45ee-838b-4311-af4b-fa3085903993',
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: [
       'hotel-info',
@@ -1718,6 +1737,7 @@ export const configuration = [
     pms: 'OPERA',
     fetchFromDb: 'no',
     saveToDb: 'yes',
+    widgetId: 'e7f299fc-fd03-46d7-9e39-b9ce19aa96e7',
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: [
       'hotel-info',
@@ -1756,10 +1776,6 @@ export const configuration = [
         code: 'Pair-To-Room',
         name: 'Connect to Room',
         isActive: true,
-        welcomeTitle: 'Welcome to Raffles The Palm',
-        welcomeBody:
-          // eslint-disable-next-line quotes
-          "Welcome to Raffles The Palm - the only Palace of its kind, blending timeless craftmanship with Dubai's vibrant social culture in an ultra-luxury beach resort environment.",
       },
       {
         code: 'In-Room Dining',
@@ -1794,19 +1810,22 @@ export const configuration = [
     pms: 'OPERA',
     fetchFromDb: 'yes',
     saveToDb: 'no',
+    widgetId: '88cc3ab4-1a5d-4f4a-ad52-b7deea078078',
     languages: [
       { code: 'en', name: 'English' },
       { code: 'fr', name: 'Français' },
     ],
     orderOfModules: [
-      'hotel-info',
-      'check-in',
       'offers',
+      'check-in',
+      'hotel-info',
       'services',
       'dining',
       'spa',
       'hotel-compendium',
     ],
+    allowedRoomtypes: ['TWA', 'VI2'],
+    hideImagePlaceholder: true,
     isAnimationActive: false,
     isLogoLoaderActive: false,
     modules: [
@@ -1981,7 +2000,7 @@ export const configuration = [
             name: 'accompanyingGuest',
             label: 'Secondary Guest',
             title: '',
-            type: 'youverse',
+            type: 'manual',
             isActive: true,
             cardIcon: 'guest',
             details: [
@@ -2010,38 +2029,13 @@ export const configuration = [
                 isActive: true,
               },
               {
-                name: 'phone',
-                label: 'Phone Number',
-                type: 'tel',
+                name: 'dateOfBirth',
+                label: 'Date of Birth',
+                type: 'datePicker',
                 required: true,
                 isDisabled: false,
                 isActive: true,
-              },
-              {
-                name: 'docType',
-                label: 'Document Type',
-                type: 'Text',
-                required: true,
-                isDisabled: true,
-                isActive: true,
-              },
-
-              {
-                name: 'docNo',
-                label: 'Document Number',
-                type: 'Text',
-                required: true,
-                isDisabled: true,
-                isActive: true,
-              },
-              {
-                name: 'condition',
-                label:
-                  'I agree to receive an invitation email to validate and sign up for a complimentary ACCOR Membership.',
-                type: 'CheckBox',
-                required: true,
-                isDisabled: false,
-                isActive: false,
+                isDisableFuture: true,
               },
             ],
           },
@@ -2117,20 +2111,13 @@ export const configuration = [
         code: 'Pair-To-Room',
         name: 'Connect to Room',
         isActive: true,
-        welcomeTitle: 'Welcome to Fairmont Royal Palm Marrakech',
-        welcomeBody:
-          'Backed by the snowy peaks of the Atlas Mountains and wrapped in landscaped water gardens, Fairmont Marrakech Royal Palm is a luxury Marrakech hotel welcoming business and leisure travelers alike',
       },
       {
         code: 'In-Room Dining',
         name: 'In-Room Dining',
         isActive: true,
-        type: 'VENDOR',
-        payment: [
-          { id: '1', name: 'BILL TO ROOM', message: '' },
-          { id: '2', name: 'CASH', message: '' },
-          { id: '3', name: 'CARD', message: '' },
-        ],
+        type: 'CMS',
+        payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
       },
       {
         code: 'Services',
@@ -2157,21 +2144,19 @@ export const configuration = [
     ],
   },
   {
-    code: 'fairmont-the-palm-dubai',
-    logo: 'the palm',
-    name: 'Fairmont The Palm Dubai',
-    hotelId: 'dc9849bf-bef7-4ba9-a288-cea18f493173',
+    code: 'fairmont-makkah-clock-royal-tower',
+    logo: 'Makkah Clock Royal Tower',
+    name: 'Fairmont Makkah Clock Royal Tower',
+    hotelId: '9bcdef3a-e0b7-45bd-908d-d555db8bd4be',
     pms: 'OPERA',
     fetchFromDb: 'yes',
     saveToDb: 'no',
-    languages: [
-      { code: 'en', name: 'English' },
-      { code: 'ar', name: 'عربي' },
-    ],
+    widgetId: '',
+    languages: [{ code: 'en', name: 'English' }],
     orderOfModules: [
-      'hotel-info',
-      'check-in',
       'offers',
+      'check-in',
+      'hotel-info',
       'services',
       'dining',
       'spa',
@@ -2205,16 +2190,90 @@ export const configuration = [
         code: 'Pair-To-Room',
         name: 'Connect to Room',
         isActive: true,
-        welcomeTitle: 'Welcome to Fairmont The Palm',
-        welcomeBody:
-          // eslint-disable-next-line quotes
-          "Escape to Dubai's Fairmont The Palm, an Arabian-style sanctuary that combines heartfelt hospitality with elegant sophistication.",
       },
       {
         code: 'In-Room Dining',
         name: 'In-Room Dining',
         isActive: true,
-        type: 'VENDOR',
+        type: 'CMS',
+        payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
+      },
+      {
+        code: 'Services',
+        name: 'Services',
+        isActive: true,
+        type: 'CMS',
+      },
+      {
+        code: 'view-bill',
+        name: 'View Bill',
+        isActive: true,
+      },
+      {
+        code: 'checkout',
+        name: 'Checkout',
+        isActive: true,
+      },
+      {
+        code: 'spa',
+        name: 'Spa',
+        isActive: true,
+      },
+    ],
+  },
+  {
+    code: 'fairmont-the-palm-dubai',
+    logo: 'the palm',
+    name: 'Fairmont The Palm Dubai',
+    hotelId: 'dc9849bf-bef7-4ba9-a288-cea18f493173',
+    pms: 'OPERA',
+    fetchFromDb: 'yes',
+    saveToDb: 'no',
+    widgetId: 'ee9b7dc5-4bf4-448d-82a0-a16509876aeb',
+    languages: [{ code: 'en', name: 'English' }],
+    orderOfModules: [
+      'offers',
+      'check-in',
+      'hotel-info',
+      'services',
+      'dining',
+      'spa',
+      'hotel-compendium',
+    ],
+    isAnimationActive: false,
+    isLogoLoaderActive: false,
+    modules: [
+      {
+        code: 'Preferences',
+        name: 'Preferences',
+        isActive: true,
+        submodules: [
+          {
+            code: 'Headers',
+            isActive: true,
+            details: [
+              {
+                title: 'ENHANCE YOUR STAY! SHARE YOUR DESIRES BELOW',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        code: 'Check-In',
+        name: 'Check-In',
+        isActive: false,
+      },
+      {
+        code: 'Pair-To-Room',
+        name: 'Connect to Room',
+        isActive: true,
+      },
+      {
+        code: 'In-Room Dining',
+        name: 'In-Room Dining',
+        isActive: false,
+        type: 'CMS',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
       },
       {
@@ -2232,6 +2291,12 @@ export const configuration = [
         code: 'checkout',
         name: 'Checkout',
         isActive: true,
+      },
+      {
+        code: 'spa',
+        name: 'Spa',
+        isActive: true,
+        type: 'VENDOR',
       },
     ],
   },
@@ -2547,9 +2612,6 @@ export const configuration = [
         code: 'Pair-To-Room',
         name: 'Connect to Room',
         isActive: true,
-        welcomeTitle: 'Welcome to 1 Hotels!',
-        welcomeBody:
-          'Your South Beach sanctuary, set along a pristine, 600-foot stretch of shoreline, with translucent, ocean blues in constant view.',
       },
       {
         code: 'In-Room Dining',
@@ -2898,9 +2960,6 @@ export const configuration = [
         code: 'Pair-To-Room',
         name: 'Connect to Room',
         isActive: true,
-        welcomeTitle: 'Welcome to Proper Downtown L.A.',
-        welcomeBody:
-          'With city lights and vintage brick as a backdrop, Proper re-imagines and updates an historic Broadway Corridor landmark into a 147-room destination hotel.',
       },
       {
         code: 'In-Room Dining',
@@ -3239,9 +3298,6 @@ export const configuration = [
         code: 'Pair-To-Room',
         name: 'Connect to Room',
         isActive: true,
-        welcomeTitle: 'Welcome to One&Only Royal Mirage',
-        welcomeBody:
-          'Indulge in abundant space, luxurious rooms and suites, nine inspiring restaurants, and dramatic Arabesque architecture at One&Only Royal Mirage, our luxury hotel in Dubai.',
       },
       {
         code: 'In-Room Dining',

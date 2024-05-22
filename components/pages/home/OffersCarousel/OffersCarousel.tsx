@@ -3,7 +3,7 @@ import { WithScrollbar } from 'components/shared/WithScrollbar/WithScrollbar';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ASSETS_URL } from '../../../../core/graphql/endpoints';
+import { ASSETS_URL, BRAND_CODE } from '../../../../core/graphql/endpoints';
 import styles from './OffersCarousel.module.scss';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import cx from 'classnames';
@@ -72,7 +72,9 @@ export const CarouselSlide: React.FC<ICarouselSlideProps> = ({
               <p>{time?.value}</p>
             </div>
           )}
-          <CustomReadMore text={t('VIEW MORE') as string} />
+          <CustomReadMore
+            text={t(BRAND_CODE === 'fairmont' ? 'Discover' : 'View More') as string}
+          />
         </div>
       </div>
     </>
@@ -190,16 +192,18 @@ export const offerDetails = (
           />
         )}
         {offerInfoDetails?.CTA?.status === ACTIVE && (
-          <StyledButton
-            variant='contained'
-            onClick={onCtaClick}
-            className={cx(styles.button, 'globals-actionCtaWrapper', {
-              [styles.withoutImageButton]:
-                offerInfoDetails && !offerInfoDetails?.images[0]?.ratio16to9,
-            })}
-          >
-            {offerInfoDetails?.CTA?.displayCTATitle || t('BOOK NOW')}
-          </StyledButton>
+          <div style={{ position: 'fixed' }}>
+            <StyledButton
+              variant='contained'
+              onClick={onCtaClick}
+              className={cx(styles.button, 'globals-actionCtaWrapper', {
+                [styles.withoutImageButton]:
+                  offerInfoDetails && !offerInfoDetails?.images[0]?.ratio16to9,
+              })}
+            >
+              {offerInfoDetails?.CTA?.displayCTATitle || t('BOOK NOW')}
+            </StyledButton>
+          </div>
         )}
       </div>
     </div>

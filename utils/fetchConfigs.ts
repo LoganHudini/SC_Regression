@@ -26,3 +26,8 @@ export const getSaveToDb = () => {
 export const getHotelName = () => {
   return configuration?.find((configuration: any) => configuration?.code === getHotelCode())?.name;
 };
+
+export const getMessageBirdWidgetId = () => {
+  return configuration?.find((configuration: any) => configuration?.code === getHotelCode())
+    ?.widgetId;
+};

@@ -63,7 +63,10 @@ import { hotelInformation, toggleNotification } from 'storage/home.storage';
 import { useConfig, usePaymentConfig } from 'utils/hooks/useConfiguration';
 import { Stepper } from 'components/shared/Stepper/Stepper';
 import produce from 'immer';
-import { accompanyGuestDetails } from 'storage/accompany-guest-details';
+import {
+  accompanyGuestDetails,
+  updateNewAccompanyGuestDetails,
+} from 'storage/accompany-guest-details';
 import {
   getCheckInToken,
   handleCheckInAuthenticationFailure,
@@ -72,6 +75,7 @@ import { processStatusCode } from 'utils/processError';
 import { ASSETS_URL } from 'core/graphql/endpoints';
 import Link from 'next/link';
 import { checkRoomStatus } from 'core/api/functions/checkRoomStatus';
+import { formatPrice } from 'utils/functions';
 
 export { getStaticPaths };
 
@@ -84,6 +88,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const guests = useReactiveVar(guestInformationStorage);
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const accompanyGuestInfo = useReactiveVar(accompanyGuestDetails);
+  const updatedGuestData = useReactiveVar(updateNewAccompanyGuestDetails);
   const hotelInfo = useReactiveVar(hotelInformation);
   const [accompanyGuestInformationState, setAcccompanyGuestInformation] = useState(
     new Array(accompanyGuestInfo?.length)?.fill(false),
@@ -555,8 +560,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           )}
         </div>
 
-        {accompanyGuestInfo?.length > 0 &&
-          accompanyGuestInfo?.map((accompanyGuest: any, index: number) => (
+        {accompanyGuestInfo.concat(updatedGuestData)?.length > 0 &&
+          accompanyGuestInfo.concat(updatedGuestData)?.map((accompanyGuest: any, index: number) => (
             <div key={accompanyGuest.id} onClick={() => toggleAccompanyGuestInformation(index)}>
               {accompanyGuestInformationState[index] ? (
                 <div>
@@ -575,10 +580,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                           />
                         ),
                       )}
-                      {guestReservationInfo?.dateOfBirth && (
+                      {accompanyGuest?.dateOfBirth && (
                         <ItemFullWidth
                           title={t('Date of Birth')}
-                          value={dayjs(guestReservationInfo?.dateOfBirth).format(
+                          value={dayjs(accompanyGuest?.dateOfBirth).format(
                             timeFormats.DAY_MONTH_YEAR_2,
                           )}
                         />
@@ -651,10 +656,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                     <p className={styles.personalizationQuantity}>
                       {personalizationEntity?.currency}{' '}
                       <span className={styles.price}>
-                        {Number(
+                        {formatPrice(
                           Number(personalizationEntity?.price) *
                             Number(personalizationEntity?.quantity),
-                        )?.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        )}
                       </span>
                     </p>
                   </div>
@@ -675,9 +680,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                     <p className={styles.personalizationQuantity}>
                       {personalizationEntity?.currency}{' '}
                       <span className={styles.price}>
-                        {Number(Number(personalizationEntity?.price))?.toLocaleString('en-US', {
-                          minimumFractionDigits: 2,
-                        })}
+                        {formatPrice(Number(personalizationEntity?.price))}
                       </span>
                     </p>
                   </div>

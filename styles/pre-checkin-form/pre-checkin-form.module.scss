@@ -54,7 +54,6 @@
   font-size: $medium;
   font-family: var(--primary-font-heading);
   text-align: start;
-  margin-bottom: 10px;
 }
 
 .guestType {
@@ -81,7 +80,14 @@
   gap: 10px;
   display: flex;
   flex-direction: column;
-  margin-top: 2rem;
+  margin-top: 1rem;
+}
+
+.boxWrapperForm {
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
 }
 
 // accompany
@@ -294,12 +300,15 @@
   background-color: var(--primary-card-background-color);
   display: flex;
   flex-direction: column;
-
   border: var(--primary-card-border);
   border-radius: var(--primary-card-border-radius);
   &:not(:first-child) {
     margin-top: 10px;
   }
+}
+
+.margin {
+  padding-bottom: 25px;
 }
 
 .scanPaymentButton {
@@ -371,4 +380,8 @@
   text-align: center;
   margin: auto;
   margin-top: 30px;
+}
+
+.button {
+  margin-top: 20px;
 }

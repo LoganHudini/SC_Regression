@@ -1,0 +1,174 @@
+.carousel {
+  max-width: 768px;
+  height: 62vh;
+}
+
+.imgGradient {
+  position: relative;
+}
+
+.imgGradient::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent linear-gradient(180deg, #00000000 0%, #000000 100%) 0% 0% no-repeat padding-box;
+  cursor: pointer;
+}
+
+.bannerImage {
+  width: 100%;
+  height: 62vh;
+  object-fit: cover;
+}
+
+.pageTitle {
+  position: absolute;
+  bottom: 5vh;
+  left: 0;
+  right: 0;
+  text-align: center;
+  cursor: pointer;
+}
+
+.title {
+  font: $header var(--primary-title-font-family) !important;
+  color: var(--secondary-text-color);
+}
+
+.description {
+  font: $small var(--secondary-title-font-family);
+  color: var(--secondary-text-color);
+  width: 70%;
+  margin: 8px auto;
+  -webkit-line-clamp: 3;
+}
+
+.heroBannerButton {
+  margin-top: 15px;
+  color: var(--secondary-text-color);
+  font-weight: 600;
+  text-transform: none;
+  font-size: 1.1rem;
+}
+
+.indicatorIconContainer {
+  position: absolute;
+  bottom: 0.5vh;
+  z-index: 1;
+}
+
+.indicatorIcon {
+  width: 6px;
+  height: 6px;
+  background: var(--primary-indicator-color);
+  opacity: 0.5;
+
+  &:not(:last-child) {
+    margin-right: 6px;
+  }
+}
+
+.activeIndicatorIcon {
+  width: 6px;
+  height: 6px;
+  transform: scale(1.3);
+
+  &:not(:last-child) {
+    margin-right: 6px;
+  }
+
+  border-radius: 0;
+  background: var(--primary-indicator-color) !important;
+}
+
+.readMore {
+  margin: 0.5rem auto !important;
+  color: var(--secondary-text-color) !important;
+  border-bottom: 1px solid var(--secondary-text-color);
+
+  path {
+    fill: var(--secondary-text-color);
+  }
+}
+
+.listComponent {
+  &:first-child {
+    margin-top: 36px;
+  }
+
+  &:last-child {
+    margin-bottom: 20px !important;
+  }
+}
+
+.listComponentMargin {
+  margin-bottom: 75px !important;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.contentWrapper {
+  margin: 0 1.5rem 2rem;
+}
+
+.listComponentData {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.listComponentTitle {
+  font-size: $header;
+  margin: 1.5rem 0 1rem;
+  font: $header var(--heading-font-regular);
+  line-height: 1.2;
+  text-align: center;
+}
+
+.gapList {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+
+.listComponentDataTitle {
+  font-family: var(--primary-font-heading) !important;
+  font-size: $medium !important;
+}
+
+.listComponentDataText {
+  line-height: 1.25;
+  white-space: pre-wrap;
+  text-align: left;
+  font-family: var(--primary-font-regular) !important;
+  font-size: $small !important;
+  color: var(--tertiary-text-color) !important;
+  display: flex;
+}
+
+.button {
+  width: inherit;
+  max-width: 768px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
+  box-shadow: 0px -2px 10px var(--primary-box-shadow-color);
+  height: 60px;
+  color: var(--secondary-text-color);
+  background: var(--primary-button-background-color);
+}
+
+.withoutImageButton {
+  position: relative;
+  margin-bottom: 15px;
+  margin-top: 25px;
+}

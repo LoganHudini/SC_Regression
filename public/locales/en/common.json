@@ -2,6 +2,7 @@
   "Dining": "Dining",
   "In-Room Dining": "In-Room Dining",
   "Housekeeping": "Housekeeping",
+  "Concierge": "Concierge",
   "Services": "Services",
   "In Room Dining": "In Room Dining",
   "Restaurants & Bars": "Restaurants & Bars",
@@ -69,7 +70,6 @@
   "Duration": "Duration",
   "GET HERE": "GET HERE",
   "Welcome to": "Welcome to",
-  "Read More": "Read More",
   "Maintenance": "Maintenance",
   "View Treatments": "View Treatments",
   "Spa": "Spa",
@@ -80,7 +80,6 @@
   "VIEW MENU": "VIEW MENU",
   "Call": "Call",
   "Email": "Email",
-  "VIEW MORE": "VIEW MORE",
   "Things To Do": "Things To Do",
   "Room": "Room",
   "CHECK-IN": "CHECK-IN",
@@ -123,5 +122,11 @@
   "Language": "Language",
   "Chat With Us": "Chat With Us",
   "View More": "View More",
-  "Open 24x7": "Open 24x7"
+  "Open 24x7": "Open 24x7",
+  "Discover": "Discover",
+  "Min": "Min",
+  "Starts from": "Starts from",
+  "Preferences": "Preferences",
+  "Submit": "Submit",
+  "Invalid Room Type": "Invalid Room Type"
 }

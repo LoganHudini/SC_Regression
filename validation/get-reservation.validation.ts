@@ -9,3 +9,7 @@ export const getReservationForConnectToRoomValidation = yup.object({
   roomNo: yup.string().required('Room Number is a required field'),
   lastName: yup.string().required('Last Name is a required field'),
 });
+
+export const getEmailRoomValidation = yup.object({
+  email: yup.string().required('Email is required').email('Invalid email'),
+});

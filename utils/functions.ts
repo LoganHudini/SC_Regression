@@ -4,13 +4,11 @@ import {
   BAR,
   DOCTYPE,
   EXTERNAL_URL,
-  PHONE_REGEX,
   RESTAURANT,
   RESTAURANTS,
   RESTAURANT_BOOKING_FLOW,
   TIMINGS,
 } from './constants';
-import * as yup from 'yup';
 import { tableReservationStorage } from 'storage/table-reservation.storage';
 import { housekeepingOptions, serviceRequestOptionsArray } from 'storage/housekeeping.storage';
 import { toggleRestaurantDetailsDrawer } from 'storage/home.storage';
@@ -100,47 +98,6 @@ export const irdActiveMenuList = (data: any) => {
 // Set global scroll position
 export const setScrollPosition = (x: number, y: number) => {
   scrollState({ scrollX: x, scrollY: y });
-};
-
-// Generate dynamic formik schema validation
-export const generateValidationSchema = (sections: any) => {
-  return yup.object().shape(
-    sections.reduce((schema: any, field: any) => {
-      const isActive = field?.isActive;
-      const isRequired = field?.required;
-
-      if (isActive) {
-        schema[field?.name] = yup.string();
-
-        const validationRules: any = {
-          emails: {
-            validation: yup.string().email('Invalid email format'),
-            requiredMessage: 'Email is required',
-          },
-          phone: {
-            validation: yup.string().matches(PHONE_REGEX, 'Invalid phone number'),
-            requiredMessage: 'Phone Number is required',
-          },
-          // Add more validation
-        };
-
-        if (validationRules[field?.name]) {
-          schema[field?.name] = validationRules[field?.name].validation.when([`${isRequired}`], {
-            is: true,
-            then: schema[field?.name].required(validationRules[field?.name].requiredMessage),
-          });
-        }
-
-        if (isRequired) {
-          schema[field?.name] = schema[field?.name].required(`${field?.label} is required`);
-        }
-
-        return schema;
-      }
-
-      return schema;
-    }, {}),
-  );
 };
 
 // Generate dynamic formik field values
@@ -327,7 +284,7 @@ export const serviceRequestArray = (
     },
     {
       id: 'concierge',
-      title: 'Maintenance',
+      title: 'Concierge',
       carouselLabel: 'Concierge',
       label: 'concierge',
       isActive: concierge?.length > 0 && true,
@@ -354,3 +311,27 @@ export const timeExtract = (time: any) => {
     });
   return data;
 };
+
+export const getHamburgerIcons = () => {
+  const hamburgerMenuForPreCheckin: any = [
+    {
+      category: 'both',
+      externalLink: '',
+      flow: '',
+      menuIconUrl: '',
+      isActive: true,
+      name: 'Language',
+      pages: [''],
+      redirectOptions: 'FLOW',
+      __typename: 'UiBuilderHamburgerMenu',
+    },
+  ];
+
+  return hamburgerMenuForPreCheckin;
+};
+
+export const formatPrice = (value: any) =>
+  Number(value)?.toLocaleString('en-US', { minimumFractionDigits: 2 });
+
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export const emptyFunction = () => {};

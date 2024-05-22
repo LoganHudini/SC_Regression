@@ -4,10 +4,10 @@ import { IInfoCardProps } from './DetailsCard.types';
 import DropDownIcon from '@icons/dropDownIcon.svg';
 import DropUpIcon from '@icons/dropUpIcon.svg';
 
-export const DetailsCard: React.FC<IInfoCardProps> = ({ title, children, icon }) => {
+export const DetailsCard: React.FC<IInfoCardProps> = ({ title, children, icon, handleClick }) => {
   return (
     <div className={styles.detailsCard}>
-      <div className={styles.titleCard}>
+      <div className={styles.titleCard} onClick={(e) => handleClick && handleClick(e)}>
         <h3 className={styles.titleText}>{title}</h3>
         {icon && <DropUpIcon />}
       </div>
@@ -16,9 +16,9 @@ export const DetailsCard: React.FC<IInfoCardProps> = ({ title, children, icon })
   );
 };
 
-export const DetailsCardShrinked: React.FC<IInfoCardProps> = ({ title, children }) => {
+export const DetailsCardShrinked: React.FC<IInfoCardProps> = ({ title, children, handleClick }) => {
   return (
-    <div className={styles.shrinkedCard}>
+    <div className={styles.shrinkedCard} onClick={(e) => handleClick && handleClick(e)}>
       <div className={styles.shrinkedTitleCard}>
         <h3 className={styles.titleText}>{title}</h3>
         <DropDownIcon />

@@ -68,5 +68,16 @@
   "Terms and conditions": "Termes i condicions",
   "Privacy laws": "Lleis de privadesa",
   "Guests": "Hostes",
-  "Date of Birth": "Data de naixement"
+  "Date of Birth": "Data de naixement",
+  "Save": "Desa",
+  "Add Guest": "Afegeix convidat",
+  "Invalid email format": "Format de correu electrònic invàlid",
+  "Email is required": "El correu electrònic és obligatori",
+  "Invalid phone number": "El número de telèfon no és vàlid",
+  "First Name is required": "El nom és obligatori",
+  "Last Name is required": "El cognom és obligatori",
+  "Document Type is required": "El tipus de document és obligatori",
+  "Document Number is required": "El número de document és obligatori",
+  "Date of Birth is required": "La data de naixement és obligatòria",
+  "Phone Number is required": "El número de telèfon és obligatori"
 }

@@ -8,6 +8,7 @@ import { toggleNotification } from 'storage/home.storage';
 import { FailureAnimation, SuccessAnimation } from '../Loaders/Loaders';
 import { SUCCESS, FAILURE } from 'utils/constants';
 import { useConfig } from 'utils/hooks/useConfiguration';
+import CloseIcon from '@icons/closeButton.svg';
 
 interface INotificationProps {
   title: any;
@@ -29,6 +30,13 @@ export const Notification: React.FC<INotificationProps> = ({
   const navigate = useLocalizedRouter();
   const networkError = apolloError?.networkError as { result?: { errors?: string; code?: number } };
   const config = useConfig();
+
+  const handleRedirection = () => {
+    if (notificationStatus) {
+      toggleNotification(false);
+      redirect && navigate(redirect);
+    }
+  };
 
   useEffect(() => {
     if (notificationStatus) {
@@ -67,9 +75,14 @@ export const Notification: React.FC<INotificationProps> = ({
           >
             <p className={styles.title}>{title}</p>
             <p className={styles.description}>
-              {networkError && apolloError ? networkError?.result?.errors : description}
+              {networkError && apolloError
+                ? networkError?.result?.errors === 'invalid room number'
+                  ? 'Invalid room number'
+                  : networkError?.result?.errors
+                : description}
             </p>
           </div>
+          <CloseIcon className={styles.close} onClick={handleRedirection} />
         </div>
       )}
     </>
