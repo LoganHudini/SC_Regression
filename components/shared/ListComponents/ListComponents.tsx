@@ -46,8 +46,11 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
           )}
           {queryResultEntity?.duration && queryResultEntity?.duration[0]?.price && (
             <p className={cx(styles.listDurationPrice, 'globals-text-align')}>
-              <span className={styles.currency}>{currency} </span>
-              {queryResultEntity?.duration[0]?.price}
+              <span className={styles.currency}>
+                {queryResultEntity?.duration?.length > 1 && 'Starts from  '}
+                {currency}{' '}
+              </span>
+              {Number(queryResultEntity?.duration[0]?.price)?.toLocaleString('en-US')}
               {'   '}|{'   '}
               {queryResultEntity?.duration[0]?.duration} Min
             </p>

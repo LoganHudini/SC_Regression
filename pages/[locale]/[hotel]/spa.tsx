@@ -46,7 +46,6 @@ import { useCheckedIn } from 'storage/check-in.storage';
 import { ListCounter } from 'components/shared/ListCounter/ListCounter';
 import { CREATE_SPA_ORDER } from 'core/graphql/queries/CREATE_SPA_RESERVATION';
 import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
-import { PlaceholderImage } from 'components/shared/PlaceholderImage/PlaceholderImage';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 import { useCurrency } from 'utils/hooks/useCurrency';
 import cx from 'classnames';
@@ -243,13 +242,17 @@ const Spa: React.FC = () => {
               <h2 className={styles.detailComponentTitle}>{t(`${selectedSpaItem?.name}`)}</h2>
             )}
 
-            {selectedSpaItem?.duration && selectedSpaItem?.duration[0]?.price && (
-              <p className={styles.detailComponentDuration}>
-                <span className={styles.currency}>{currency} </span>
-                {selectedSpaItem?.duration[0]?.price}
-                {'   '}|{'   '}
-                {selectedSpaItem?.duration[0]?.duration} Min
-              </p>
+            {selectedSpaItem?.duration?.length > 0 && (
+              <>
+                {selectedSpaItem?.duration?.map((duration: any, index: number) => (
+                  <p key={index + duration?.duration} className={styles.detailComponentDuration}>
+                    <span className={styles.currency}>{currency} </span>
+                    {Number(duration?.price)?.toLocaleString('en-US')}
+                    {'   '}|{'   '}
+                    {duration?.duration} Min
+                  </p>
+                ))}
+              </>
             )}
 
             {selectedSpaItem?.description && (

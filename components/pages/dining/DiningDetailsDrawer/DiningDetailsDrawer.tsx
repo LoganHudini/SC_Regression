@@ -369,7 +369,7 @@ const DiningDetailsDrawer = () => {
         <>
           {selectedItem?.images?.length > 0 && <CustomCarousel imageData={selectedItem} />}
           {selectedItem?.name && (
-            <div className={cx(styles.titleWrapper, 'globals-titleWrapper')}>
+            <div className={cx(styles.titleWrapper)}>
               <h3
                 className={cx(styles.title, {
                   [styles.titleWithImage]: selectedItem?.images?.length > 0,
