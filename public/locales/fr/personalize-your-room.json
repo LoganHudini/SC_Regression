@@ -19,5 +19,7 @@
   "The selected room is currently not available for an upgrade. Please select a different room type.": "La chambre sélectionnée n'est actuellement pas disponible pour une mise à niveau. Veuillez sélectionner un type de chambre différent.",
   "Read Less": "Lire moins",
   "Read More": "Lire plus",
-  "Upgrade": "Mettre à niveau"
+  "Upgrade": "Mettre à niveau",
+  "Upgraded": "Mise à niveau",
+  "Your order was not confirmed": "Votre commande n'a pas été confirmée"
 }

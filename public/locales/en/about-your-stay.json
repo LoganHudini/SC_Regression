@@ -59,5 +59,7 @@
   "Guest": "Guest",
   "Guest Added": "Guest Added",
   "Guest information added successfully.": "Guest information added successfully.",
-  "Failed to add guest details.": "Failed to add guest details."
+  "Failed to add guest details.": "Failed to add guest details.",
+  "Scan Document": "Scan Document",
+  "Something Went Wrong!": "Something Went Wrong!"
 }

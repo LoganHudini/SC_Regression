@@ -127,5 +127,7 @@
   "Starts from": "Commence à partir de",
   "Preferences": "Préférences",
   "Submit": "Soumettre",
-  "Invalid Room Type": "Type de chambre invalide"
+  "Invalid Room Type": "Type de chambre invalide",
+  "Invalid room number": "Numéro de chambre invalide",
+  "Something Went Wrong!": "Quelque chose s'est mal passé !"
 }

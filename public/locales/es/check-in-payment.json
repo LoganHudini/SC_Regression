@@ -1,1 +1,7 @@
-{ "Payment": "Payment" }
+{
+  "Payment": "Pago",
+  "Payment Failed!": "¡Pago fallido!",
+  "Thank You!": "¡Gracias!",
+  "Card Authentication Failed!": "¡Autenticación de tarjeta fallida!",
+  "Card Authentication Completed": "Autenticación de tarjeta Completada"
+}

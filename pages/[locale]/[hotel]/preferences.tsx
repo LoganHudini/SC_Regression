@@ -216,7 +216,7 @@ const Preferences = () => {
       statusCode === 403
         ? handleCheckInAuthenticationFailure(submit)
         : (setNotificationState({
-            title: ERRORMSG,
+            title: t(ERRORMSG),
             redirect: null,
             type: FAILURE,
             apolloError: uploadSignatureError as ApolloError,

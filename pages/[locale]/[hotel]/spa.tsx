@@ -240,7 +240,7 @@ const Spa: React.FC = () => {
       } catch (err) {
         setErrorNotification({
           type: true,
-          title: ERRORMSG as string,
+          title: t(ERRORMSG) as string,
           message: t('Your booking was not received.') as string,
         });
       }
@@ -312,7 +312,7 @@ const Spa: React.FC = () => {
     } catch (err) {
       setErrorNotification({
         type: true,
-        title: ERRORMSG as string,
+        title: t(ERRORMSG) as string,
         message: t('Your booking was not received.') as string,
       });
       setSpaBookingLoading(false);

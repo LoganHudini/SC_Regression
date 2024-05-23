@@ -19,5 +19,7 @@
   "The selected room is currently not available for an upgrade. Please select a different room type.": "La habitació seleccionada no està disponible actualment per a una actualització. Si us plau, selecciona un tipus de habitació diferent.",
   "Upgrade": "Actualització",
   "Read Less": "Llegeix Menys",
-  "Read More": "Llegeix Més"
+  "Read More": "Llegeix Més",
+  "Upgraded": "Millorat",
+  "Your order was not confirmed": "La teva comanda no ha estat confirmada"
 }

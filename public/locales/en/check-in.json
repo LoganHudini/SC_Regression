@@ -79,5 +79,10 @@
   "Document Type is required": "Document Type is required",
   "Document Number is required": "Document Number is required",
   "Date of Birth is required": "Date of Birth is required",
-  "Phone Number is required": "Phone Number is required"
+  "Phone Number is required": "Phone Number is required",
+  "Please Try Again!": "Please Try Again!",
+  "Verification process failed": "Verification process failed",
+  "Oops Match Not Found!": "Oops Match Not Found!",
+  "Reservation details doesn't match with Document details.": "Reservation details doesn't match with Document details.",
+  "Document Scanning": "Document Scanning"
 }

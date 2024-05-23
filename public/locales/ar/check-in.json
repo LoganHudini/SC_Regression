@@ -79,5 +79,10 @@
   "Document Type is required": "نوع المستند مطلوب",
   "Document Number is required": "رقم المستند مطلوب",
   "Date of Birth is required": "تاريخ الميلاد مطلوب",
-  "Phone Number is required": "رقم الهاتف مطلوب"
+  "Phone Number is required": "رقم الهاتف مطلوب",
+  "Please Try Again!": "يرجى المحاولة مرة أخرى!",
+  "Verification process failed": "فشلت عملية التحقق",
+  "Oops Match Not Found!": "عذرا، لم يتم العثور على تطابق!",
+  "Reservation details doesn't match with Document details.": "تفاصيل الحجز لا تتطابق مع تفاصيل المستند.",
+  "Document Scanning": "مسح الوثائق"
 }

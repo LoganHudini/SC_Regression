@@ -19,5 +19,7 @@
   "The selected room is currently not available for an upgrade. Please select a different room type.": "الغرفة المحددة غير متاحة حاليًا للترقية. يرجى اختيار نوع غرفة مختلف.",
   "Upgrade": "ترقية",
   "Read More": "قراءة المزيد",
-  "Read Less": "قراءة أقل"
+  "Read Less": "قراءة أقل",
+  "Upgraded": "تم الترقية",
+  "Your order was not confirmed": "لم يتم تأكيد طلبك"
 }

@@ -41,5 +41,7 @@
   "Update Order": "Update Order",
   "Reservation status is invalid. Please try again with a valid reservation details": "Reservation status is invalid. Please try again with a valid reservation details",
   "Confirm": "Confirm",
-  "ITEMS": "ITEMS"
+  "ITEMS": "ITEMS",
+  "Something Went Wrong!": "Something Went Wrong!",
+  "Invalid Reservation": "Invalid Reservation"
 }

@@ -46,7 +46,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
   selectedRestaurant,
   timeSelectProps,
 }) => {
-  const { t } = useTranslation('dining');
+  const { t } = useTranslation(['restaurants']);
   // const orderId = ordersData[ordersData?.length - 1]?.id?.slice(0, 6);
   const [availableSlots, setAvailableSlots] = useState(false);
   const [timeSelectDrawer, setTimeSelectDrawer] = useState(false);
@@ -313,7 +313,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
         title={errorNotification ? (ERRORMSG as string) : (t('Thank You!') as string)}
         description={
           errorNotification
-            ? ('Your booking was not received.' as string)
+            ? (t('Your booking was not received.') as string)
             : (t(
                 'Your booking has been received. Our reservation team will get in touch with you soon',
               ) as string)

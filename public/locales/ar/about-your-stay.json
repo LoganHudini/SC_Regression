@@ -59,5 +59,7 @@
   "Guest": "ضيف",
   "Guest Added": "تمت إضافة الضيف",
   "Guest information added successfully.": "تمت إضافة معلومات الضيف بنجاح.",
-  "Failed to add guest details.": "فشل في إضافة تفاصيل الضيف."
+  "Failed to add guest details.": "فشل في إضافة تفاصيل الضيف.",
+  "Scan Document": "مسح المستند",
+  "Something Went Wrong!": "حدث خطأ ما!"
 }

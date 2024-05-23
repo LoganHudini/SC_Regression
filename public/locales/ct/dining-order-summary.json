@@ -41,5 +41,7 @@
   "Update Order": "Actualitza L'ordre",
   "Reservation status is invalid. Please try again with a valid reservation details": "L'estat de la reserva no és vàlid. Si us plau, torna-ho a intentar amb uns detalls de reserva vàlids",
   "Confirm": "Confirmar",
-  "ITEMS": "ARTICLES"
+  "ITEMS": "ARTICLES",
+  "Invalid Reservation": "Reserva no vàlida",
+  "Something Went Wrong!": "Alguna cosa ha anat malament!"
 }

@@ -467,7 +467,7 @@ const Guest: React.FC<any> = () => {
       }
     } catch (error) {
       notificationDetails({
-        title: ERRORMSG,
+        title: t(ERRORMSG) as string,
         redirect: null,
         type: FAILURE,
         apolloError: error as ApolloError,
