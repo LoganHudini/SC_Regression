@@ -104,6 +104,7 @@
   "To begin your check-in process, please tap the ‘Check-In’ button below": "لبدء عملية تسجيل الوصول، يرجى النقر فوق الزر تسجيل الوصول أدناه",
   "Check-In Now": "سجل الوصول الآن",
   "Connect to Room": "الاتصال بالغرفة",
+  "CONNECT TO ROOM": "الاتصال بالغرفة",
   "Explore": "استكشاف",
   "Check-In": "تسجيل الوصول",
   "offers": "العروض",
@@ -124,5 +125,7 @@
   "Starts from": "يبدأ من",
   "Preferences": "التفضيلات",
   "Submit": "تقديم",
-  "Invalid Room Type": "نوع الغرفة غير صالح"
+  "Invalid Room Type": "نوع الغرفة غير صالح",
+  "Invalid room number": "رقم الغرفة غير صالح",
+  "Something Went Wrong!": "حدث خطأ ما!"
 }

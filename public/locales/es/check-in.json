@@ -79,5 +79,10 @@
   "Document Type is required": "Se requiere el tipo de documento",
   "Document Number is required": "Se requiere el número de documento",
   "Date of Birth is required": "Se requiere la fecha de nacimiento",
-  "Phone Number is required": "El número de teléfono es obligatorio"
+  "Phone Number is required": "El número de teléfono es obligatorio",
+  "Please Try Again!": "¡Por favor, inténtelo de nuevo!",
+  "Verification process failed": "El proceso de verificación falló",
+  "Oops Match Not Found!": "¡Ups! No se encontró coincidencia",
+  "Reservation details doesn't match with Document details.": "Los detalles de la reserva no coinciden con los detalles del documento.",
+  "Document Scanning": "Escaneo de documentos"
 }

@@ -128,5 +128,7 @@
   "Starts from": "Comença des de",
   "Preferences": "Preferències",
   "Submit": "Nithain",
-  "Invalid Room Type": "Tipus d'habitació no vàlid"
+  "Invalid Room Type": "Tipus d'habitació no vàlid",
+  "Invalid room number": "Número de habitació no vàlid",
+  "Something Went Wrong!": "Alguna cosa ha anat malament!"
 }

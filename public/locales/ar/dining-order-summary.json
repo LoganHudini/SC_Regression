@@ -32,5 +32,7 @@
   "* Rates are inclusive of applicable government taxes and subject to 10% service charge.": "* تشمل الأسعار الضرائب الحكومية القابلة للتطبيق وتخضع لرسم خدمة بنسبة 10%.",
   "Reservation status is invalid. Please try again with a valid reservation details.": "حالة الحجز غير صالحة. يرجى المحاولة مرة أخرى مع تفاصيل الحجز الصحيحة.",
   "Confirm": "تأكيد",
-  "ITEMS": "العناصر"
+  "ITEMS": "العناصر",
+  "Something Went Wrong!": "حدث خطأ ما!",
+  "Invalid Reservation": "حجز غير صالح"
 }

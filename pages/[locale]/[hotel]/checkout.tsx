@@ -100,7 +100,7 @@ const CheckOut = () => {
         state: true,
         message: processError(error),
         type: 'home',
-        description: 'Please try again after sometime.',
+        description: t('Please try again after sometime.'),
       });
     },
   });

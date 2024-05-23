@@ -1,1 +1,7 @@
-{ "Payment": "Payment" }
+{
+  "Payment": "الدفع",
+  "Payment Failed!": "فشل الدفع!",
+  "Thank You!": "شكرا لك!",
+  "Card Authentication Failed!": "فشلت المصادقة على البطاقة!",
+  "Card Authentication Completed": "اكتملت مصادقة البطاقة"
+}

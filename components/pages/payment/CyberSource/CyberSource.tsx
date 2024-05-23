@@ -169,11 +169,11 @@ const CyberSource: React.FC = () => {
         onLoad={handleIframeChange}
       />
       <Notification
-        title={errorNotification ? ('Payment Failed!' as string) : (t('Thank You!') as string)}
+        title={errorNotification ? (t('Payment Failed!') as string) : (t('Thank You!') as string)}
         description={
           errorNotification
-            ? ('Card Authentication Failed!' as string)
-            : (t('Card Authentication completed') as string)
+            ? (t('Card Authentication Failed!') as string)
+            : (t('Card Authentication Completed') as string)
         }
         redirect={availablePaths?.CARD_AUTHORISATION}
         type={errorNotification ? FAILURE : SUCCESS}

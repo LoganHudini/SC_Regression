@@ -19,5 +19,10 @@
   "Thank You!": "Thank You!",
   "Max limit exceeded!": "Max limit exceeded!",
   "Max Count:": "Max Count:",
-  "SELECT": "SELECT"
+  "SELECT": "SELECT",
+  "Invalid Reservation": "Invalid Reservation",
+  "Your request was not confirmed": "Your request was not confirmed.",
+  "Something Went Wrong!": "Something Went Wrong!",
+  "No information found": "No information found",
+  "SELECTED": "SELECTED"
 }

@@ -79,5 +79,10 @@
   "Document Type is required": "El tipus de document és obligatori",
   "Document Number is required": "El número de document és obligatori",
   "Date of Birth is required": "La data de naixement és obligatòria",
-  "Phone Number is required": "El número de telèfon és obligatori"
+  "Phone Number is required": "El número de telèfon és obligatori",
+  "Please Try Again!": "Si us plau, intenti-ho de nou!",
+  "Verification process failed": "El procés de verificació ha fallat",
+  "Oops Match Not Found!": "Oops! No s'ha trobat cap coincidència",
+  "Reservation details doesn't match with Document details.": "Els detalls de la reserva no coincideixen amb els detalls del document.",
+  "Document Scanning": "Escaneig de documents"
 }

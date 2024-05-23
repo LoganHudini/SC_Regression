@@ -59,5 +59,7 @@
   "Guest": "Invitado",
   "Guest Added": "Invitado añadido",
   "Guest information added successfully.": "Información del invitado añadida correctamente.",
-  "Failed to add guest details.": "Error al agregar los detalles del invitado."
+  "Failed to add guest details.": "Error al agregar los detalles del invitado.",
+  "Scan Document": "Escanear documento",
+  "Something Went Wrong!": "¡Algo salió mal!"
 }

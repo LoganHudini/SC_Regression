@@ -270,7 +270,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
         networkError?.message === FAILED_TO_FETCH_BOOKING_DETAILS ? true : false;
       const FailureCheck2 = networkError?.message === INVALID_BOOKING_STATUS ? true : false;
       setNotificationState({
-        title: FailureCheck1 || FailureCheck2 ? 'Invalid Reservation' : ERRORMSG,
+        title: FailureCheck1 || FailureCheck2 ? t('Invalid Reservation') : t(ERRORMSG),
         description:
           FailureCheck1 || FailureCheck2
             ? t('Reservation status is invalid. Please try again with a valid reservation details')
@@ -440,14 +440,16 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
           <>
             <PageWrapper displayBottomMenu className={styles.pageWrapper}>
               <div className={styles.container}>
-                {showServiceRequest?.length !== 0 ? (
+                {showServiceRequest && showServiceRequest?.length !== 0 ? (
                   showServiceRequest?.map((item: any) => (
                     <div className={styles.margin} key={item.id}>
                       <HousekeepingItem housekeepingItem={item} handleClick={handleClick} />
                     </div>
                   ))
                 ) : (
-                  <div className={styles.information}>{t('No information found')}</div>
+                  <div className={styles.information}>
+                    <h2>{t('No information found')}</h2>
+                  </div>
                 )}
               </div>
             </PageWrapper>

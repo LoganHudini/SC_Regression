@@ -31,7 +31,7 @@ import { processStatusCode } from 'utils/processError';
 export { getStaticPaths };
 
 const Youverse: React.FC = () => {
-  const { t } = useTranslation('youverse');
+  const { t } = useTranslation(['check-in']);
   const navigate = useLocalizedRouter();
   const hotel = useConfig()?.name;
   const [src, setSrc] = useState('');
@@ -129,9 +129,11 @@ const Youverse: React.FC = () => {
               ) {
                 toggleNotification(true);
                 notificationDetails({
-                  title: 'Oops Match Not Found!',
+                  title: t('Oops Match Not Found!') as string,
                   // eslint-disable-next-line quotes
-                  description: "Reservation details doesn't match with Document details.",
+                  description: t(
+                    'Reservation details doesn\'t match with Document details.',
+                  ) as string,
                   redirect: availablePaths?.GUEST_VERIFICATION,
                   type: FAILURE,
                 });
@@ -146,9 +148,11 @@ const Youverse: React.FC = () => {
               ) {
                 toggleNotification(true);
                 notificationDetails({
-                  title: 'Oops Match Not Found!',
+                  title: t('Oops Match Not Found!') as string,
                   // eslint-disable-next-line quotes
-                  description: "Reservation details doesn't match with Document details.",
+                  description: t(
+                    'Reservation details doesn\'t match with Document details.',
+                  ) as string,
                   redirect: availablePaths?.GUEST_VERIFICATION,
                   type: FAILURE,
                 });
@@ -210,8 +214,8 @@ const Youverse: React.FC = () => {
             if (res?.data?.getyoonikresponse?.data?.status === 'Failed') {
               toggleNotification(true);
               notificationDetails({
-                title: 'Please Try Again!',
-                description: 'Verfication process failed.',
+                title: t('Please Try Again!') as string,
+                description: t('Verification process failed.') as string,
                 redirect: availablePaths?.GUEST_VERIFICATION,
                 type: FAILURE,
               });
@@ -253,7 +257,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const locale = ctx?.params?.locale;
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ['youverse'], i18nConfig)),
+      ...(await serverSideTranslations(locale as string, ['check-in'], i18nConfig)),
     },
   };
 };

@@ -21,5 +21,10 @@
   "Thank You!": "شكرًا لك!",
   "Max limit exceeded!": "تم تجاوز الحد الأقصى!",
   "Max Count:": "العدد الأقصى:",
-  "SELECT": "اختر"
+  "SELECT": "اختر",
+  "Invalid Reservation": "حجز غير صالح",
+  "Your request was not confirmed": "لم يتم تأكيد طلبك.",
+  "Something Went Wrong!": "حدث خطأ ما!",
+  "No information found": "لم يتم العثور على معلومات",
+  "SELECTED": "مُختار"
 }

@@ -276,7 +276,7 @@ const DiningOrderSummary = () => {
         networkError?.message === FAILED_TO_FETCH_BOOKING_DETAILS ? true : false;
       const FailureCheck2 = networkError?.message === INVALID_BOOKING_STATUS ? true : false;
       setErrorNotification({
-        title: FailureCheck1 || FailureCheck2 ? 'Invalid Reservation' : ERRORMSG,
+        title: FailureCheck1 || FailureCheck2 ? t('Invalid Reservation') : t(ERRORMSG),
         type: FAILURE,
         description:
           FailureCheck1 || FailureCheck2

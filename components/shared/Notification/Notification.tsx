@@ -77,7 +77,7 @@ export const Notification: React.FC<INotificationProps> = ({
             <p className={styles.description}>
               {networkError && apolloError
                 ? networkError?.result?.errors === 'invalid room number'
-                  ? 'Invalid room number'
+                  ? t('Invalid room number')
                   : networkError?.result?.errors
                 : description}
             </p>
