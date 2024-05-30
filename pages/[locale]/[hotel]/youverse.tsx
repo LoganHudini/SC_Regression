@@ -130,8 +130,8 @@ const Youverse: React.FC = () => {
                 toggleNotification(true);
                 notificationDetails({
                   title: t('Oops Match Not Found!') as string,
-                  // eslint-disable-next-line quotes
                   description: t(
+                    // eslint-disable-next-line quotes
                     "Reservation details doesn't match with Document details.",
                   ) as string,
                   redirect: availablePaths?.GUEST_VERIFICATION,
@@ -149,8 +149,8 @@ const Youverse: React.FC = () => {
                 toggleNotification(true);
                 notificationDetails({
                   title: t('Oops Match Not Found!') as string,
-                  // eslint-disable-next-line quotes
                   description: t(
+                    // eslint-disable-next-line quotes
                     "Reservation details doesn't match with Document details.",
                   ) as string,
                   redirect: availablePaths?.GUEST_VERIFICATION,

@@ -4094,6 +4094,18 @@ export const configuration = [
                         code: 'PASSPORT',
                         youverse: 'PASSPORT',
                       },
+                      {
+                        name: 'ID Card',
+                        value: 'ID',
+                        code: 'ID',
+                        youverse: 'IDENTITY_CARD',
+                      },
+                      {
+                        name: 'Driver License',
+                        value: 'DL',
+                        code: 'DL',
+                        youverse: 'DRIVING_LICENSE',
+                      },
                     ],
                   },
                   {
