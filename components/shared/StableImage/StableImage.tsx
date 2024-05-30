@@ -4,10 +4,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import PlaceholderIcon from '@icons/imagePlaceholder.svg';
 import styles from './StableImage.module.scss';
 import cx from 'classnames';
+interface StableImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+  dontShowPlaceHolder?: boolean;
+}
 
-export const StableImage: React.FC<
-  React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>
-> = (props) => {
+export const StableImage: React.FC<StableImageProps> = (props) => {
   const [loading, setLoading] = useState(props.src ? true : false);
   const [error, setError] = useState(props.src ? false : true);
 
@@ -45,7 +46,7 @@ export const StableImage: React.FC<
 
   return (
     <>
-      {error && (
+      {error && !props.dontShowPlaceHolder && (
         <div className={cx(props.className, styles.imagePlaceholder)}>
           <PlaceholderIcon viewBox='0 0 85.272 62.533' />
         </div>

@@ -178,7 +178,8 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
     (offersActive && filteredOffersListInfo?.length > 1) ||
     (spaActive && spaCategories?.length > 1) ||
     (hotelCompendiumActive && filteredhotelCompendiumInfo?.length > 1) ||
-    (irdActive && diningCategoryOptions?.length > 1);
+    (irdActive && diningCategoryOptions?.length > 1) ||
+    checkOutActive;
 
   return (
     <>

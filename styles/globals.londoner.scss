@@ -1,0 +1,101 @@
+:root {
+  // theme colors
+  --primary-theme-color: #00253c;
+  --primary-background-color: #ffffff;
+  --primary-icon-color: #ffffff;
+  --primary-border-color: #837e7e;
+
+  --primary-box-shadow-color: #0000001a;
+  --primary-error-text-color: #f41313;
+  --primary-disabled-color: #bab9b9;
+
+  // overlays
+  --primary-overlay-color: #120e0e79;
+  --secondary-overlay-color: #120e0eb1;
+
+  // text colors
+  --primary-text-color: #444444;
+  --secondary-text-color: #ffffff;
+  --tertiary-text-color: #393939;
+
+  // drawer colors
+  --primary-drawer-color: #ffffff;
+  --primary-drawer-notch-color: #a0a1a3;
+  --primary-drawer-top-left-border-radius: 0px;
+  --primary-drawer-top-right-border-radius: 0px;
+  --primary-drawer-height: 70dvh;
+  --primary-drawer-background-opacity: 0.75;
+  --primary-drawer-background-color: #000000;
+
+  //image transition background color
+  --primary-image-transition-background-color: #a0a1a3;
+
+  // hamburger menu colors
+  --hamburgermenu-drawer-color: #ffffff;
+  --hamburgermenu-text-color: #444444;
+  --hamburgermenu-icon-color: #00253c;
+
+  // font-families
+  --primary-font-regular: 'GT-america-regular';
+  --primary-font-medium: 'GT-america-medium';
+  --primary-font-semibold: '';
+  --primary-font-bold: '';
+  --primary-font-heading: 'SangBleuKingdom';
+
+  --primary-font-extd-regular: 'GT-america-regular';
+
+  // headings
+  --heading-font-regular: 'SangBleuKingdom';
+
+  // banner configs
+  --primary-title-font-family: 'SangBleuKingdom';
+  --secondary-title-font-family: 'GT-america-regular';
+  --primary-indicator-color: #ffffff;
+
+  // card component configs
+  --primary-card-title-font-family: 'SangBleuKingdom';
+  --primary-card-desc-font-family: 'GT-america-medium';
+  --primary-card-cta-font-family: 'GT-america-medium';
+  --primary-card-background-color: #ffffff;
+  --primary-card-border-radius: 0px;
+  --primary-card-shadow-color: #00000010;
+
+  // button configs
+  --primary-button-color: #e3d5c5;
+  --primary-button-background-color: #00253c;
+  --primary-button-border-radius: 0px;
+  --primary-button-font-family: 'GT-america-regular';
+
+  --secondary-button-color: #00253c;
+  --secondary-button-background-color: #ffffff;
+  --secondary-button-border-radius: 0px;
+  --secondary-button-font-family: 'GT-america-regular';
+
+  // read more cta configs
+  --readmore-text: flex;
+  --readmore-arrowwithtext: none;
+  --readmore-arrow: none;
+  --readmore-arrowhead: none;
+  --readmore-underline: 1px solid var(--primary-text-color);
+
+  // Bottom menu arrow configs
+  --bottom-menu-arrow-color: #fff;
+}
+
+.MuiButton-containedPrimary {
+  &:before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    bottom: 4px;
+    left: 4px;
+    z-index: 1;
+    border: 1px solid #e3d5c5;
+  }
+
+  &:after {
+    display: none;
+  }
+
+}

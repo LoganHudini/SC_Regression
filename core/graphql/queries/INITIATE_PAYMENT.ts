@@ -90,6 +90,22 @@ query InitiatePayment( $body: UpdateGuestDetailsPayload) {
 }
 `;
 
+export const INITIATE_PAYMENT_OGONE = gql`
+query InitiatePayment( $body: UpdateGuestDetailsPayload) {
+    initiatePayment(body: $body)
+    @rest(
+      type: "InitiatePaymentPayload"
+      path: "/${ENVIRONMENT}/v3/initiatepayment/ogone/hotel/${HOTEL_ID}"
+      method: "POST"
+      bodyKey: "body"
+    ) {
+    errors
+    data
+    status
+  }
+}
+`;
+
 export const INITIATE_PAYMENT_FREEDOMPAY = gql`
 query InitiatePayment( $body: InitiatePaymentPayload) {
     initiatePayment(body: $body)

@@ -116,6 +116,7 @@ export const GET_HOTEL_INFORMATION = gql`
           index
           type
           value
+          field
         }
       }
       brand {

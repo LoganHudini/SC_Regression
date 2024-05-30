@@ -213,9 +213,9 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
 
   const checkInModule: boolean = activeModule(config?.modules, CHECK_IN);
   const pairToRoomModule: boolean = activeModule(config?.modules, PAIR_TO_ROOM);
+  const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
   const serviceModule: any = activeModule(config?.modules, SERVICES);
   const checkOutModule: any = activeModule(config?.modules, VIEW_BILL);
-  const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
 
   const closeDrawer = () => {
     toggleModuleOptionsDrawer(false);

@@ -126,7 +126,7 @@ const HotelInfoDrawer = () => {
                         className={styles.informationList}
                         onClick={() => openLinknewTab(item?.value)}
                       >
-                        {`${t(item?.displayTitle)}`}
+                        {`${t(item?.displayTitle || item?.field)}`}
                       </p>
                     </div>
                   ))}

@@ -144,11 +144,13 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     updateRoomStatus();
   }, [hotelId, reservationInfo?.confirmationId, roomNo]);
 
-  const preCheckInStatus = config?.preCheckInOnly
-    ? true
-    : !(roomNo && roomStatus && paymentConfig?.type !== NONE)
-    ? true
-    : false;
+  const preCheckInStatus =
+    (config?.allowedCountryode?.includes(reservationInfo?.guests[0]?.countryCode) ? false : true) ||
+    (config?.preCheckInOnly
+      ? true
+      : !(roomNo && roomStatus && paymentConfig?.type !== NONE)
+      ? true
+      : false);
 
   useEffect(() => {
     if (conditionsAccepted && sigCanvas?.current && signature !== null) {
@@ -560,46 +562,48 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           )}
         </div>
 
-        {accompanyGuestInfo.concat(updatedGuestData)?.length > 0 &&
-          accompanyGuestInfo.concat(updatedGuestData)?.map((accompanyGuest: any, index: number) => (
-            <div key={accompanyGuest.id} onClick={() => toggleAccompanyGuestInformation(index)}>
-              {accompanyGuestInformationState[index] ? (
-                <div>
-                  <DetailsCard title={`Guest ${index + 1}`} icon>
-                    <div className={styles.guestInformation}>
-                      <ItemFullWidth title={t('First Name')} value={accompanyGuest?.firstName} />
-                      <ItemFullWidth title={t('Last Name')} value={accompanyGuest?.lastName} />
-                      <ItemFullWidth title={t('Email')} value={accompanyGuest?.emails} />
-                      <ItemFullWidth title={t('Phone Number')} value={accompanyGuest?.phone} />
-                      {reviewConfig?.identityVerificationDetails?.map(
-                        (configData: any, index: number) => (
-                          <Item
-                            key={index}
-                            title={configData?.label}
-                            value={accompanyGuest?.[configData?.name] ?? ''}
+        {accompanyGuestInfo?.concat(updatedGuestData && updatedGuestData)?.length > 0 &&
+          accompanyGuestInfo
+            ?.concat(updatedGuestData && updatedGuestData)
+            ?.map((accompanyGuest: any, index: number) => (
+              <div key={accompanyGuest?.id} onClick={() => toggleAccompanyGuestInformation(index)}>
+                {accompanyGuestInformationState[index] ? (
+                  <div>
+                    <DetailsCard title={`Guest ${index + 1}`} icon>
+                      <div className={styles.guestInformation}>
+                        <ItemFullWidth title={t('First Name')} value={accompanyGuest?.firstName} />
+                        <ItemFullWidth title={t('Last Name')} value={accompanyGuest?.lastName} />
+                        <ItemFullWidth title={t('Email')} value={accompanyGuest?.emails} />
+                        <ItemFullWidth title={t('Phone Number')} value={accompanyGuest?.phone} />
+                        {reviewConfig?.identityVerificationDetails?.map(
+                          (configData: any, index: number) => (
+                            <Item
+                              key={index}
+                              title={configData?.label}
+                              value={accompanyGuest?.[configData?.name] ?? ''}
+                            />
+                          ),
+                        )}
+                        {accompanyGuest?.dateOfBirth && (
+                          <ItemFullWidth
+                            title={t('Date of Birth')}
+                            value={dayjs(accompanyGuest?.dateOfBirth).format(
+                              timeFormats.DAY_MONTH_YEAR_2,
+                            )}
                           />
-                        ),
-                      )}
-                      {accompanyGuest?.dateOfBirth && (
-                        <ItemFullWidth
-                          title={t('Date of Birth')}
-                          value={dayjs(accompanyGuest?.dateOfBirth).format(
-                            timeFormats.DAY_MONTH_YEAR_2,
-                          )}
-                        />
-                      )}
-                    </div>
-                  </DetailsCard>
-                </div>
-              ) : (
-                <DetailsCardShrinked title={`Guest ${index + 1}`}>
-                  <ShrinkedItem
-                    value={`${accompanyGuest?.firstName} ${accompanyGuest?.lastName}`}
-                  />
-                </DetailsCardShrinked>
-              )}
-            </div>
-          ))}
+                        )}
+                      </div>
+                    </DetailsCard>
+                  </div>
+                ) : (
+                  <DetailsCardShrinked title={`Guest ${index + 1}`}>
+                    <ShrinkedItem
+                      value={`${accompanyGuest?.firstName} ${accompanyGuest?.lastName}`}
+                    />
+                  </DetailsCardShrinked>
+                )}
+              </div>
+            ))}
 
         {paymentConfig?.type !== NONE &&
           (paymentConfig?.isTotalChargeActive

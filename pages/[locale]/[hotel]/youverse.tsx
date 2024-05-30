@@ -132,7 +132,7 @@ const Youverse: React.FC = () => {
                   title: t('Oops Match Not Found!') as string,
                   // eslint-disable-next-line quotes
                   description: t(
-                    'Reservation details doesn\'t match with Document details.',
+                    "Reservation details doesn't match with Document details.",
                   ) as string,
                   redirect: availablePaths?.GUEST_VERIFICATION,
                   type: FAILURE,
@@ -151,7 +151,7 @@ const Youverse: React.FC = () => {
                   title: t('Oops Match Not Found!') as string,
                   // eslint-disable-next-line quotes
                   description: t(
-                    'Reservation details doesn\'t match with Document details.',
+                    "Reservation details doesn't match with Document details.",
                   ) as string,
                   redirect: availablePaths?.GUEST_VERIFICATION,
                   type: FAILURE,

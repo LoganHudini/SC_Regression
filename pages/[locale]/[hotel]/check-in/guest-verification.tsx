@@ -94,7 +94,7 @@ const Guest: React.FC<any> = () => {
   const [openToggleAccompanyGuest, setOpenToggleAccompanyGuest] = useState(
     new Array(accompanyGuestData?.length)?.fill(false),
   );
-  const [openTogglePrimaryGuest, setOpenTogglePrimaryGuest] = useState(false);
+  const [openTogglePrimaryGuest, setOpenTogglePrimaryGuest] = useState(true);
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,

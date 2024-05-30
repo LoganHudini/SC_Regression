@@ -26,6 +26,8 @@ export const ONE_HOTELS_SOUTH_BEACH = '1-hotel-south-beach';
 export const ATLANTIS = 'atlantis';
 export const PROPER_DOWNTOWN_LA = 'proper-downtown-la';
 export const ONE_AND_ONLY_ROYAL_MIRAGE = 'one-and-only-royal-mirage';
+export const LONDONER_LEICESTER_SQ = 'londoner-leicester-sq';
+export const EDWARDIAN = 'edwardian';
 
 // configuration constants
 export const OPERA = 'OPERA';
@@ -36,6 +38,7 @@ export const SHIFT4 = 'SHIFT4';
 export const CYBERSOURCE = 'CYBERSOURCE';
 export const CCAVENUE = 'CCAVENUE';
 export const FREEDOMPAY = 'FREEDOMPAY';
+export const OGONE = 'OGONE';
 
 // flow constants
 export const CHAT_FLOW = 'CHAT_FLOW';

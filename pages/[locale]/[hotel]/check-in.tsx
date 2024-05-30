@@ -162,7 +162,11 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
         )}
         <div className={cx(styles.cardWrapper, 'globals-cardWrapper')}>
           <p className={styles.title}>{t('Your Stay Details')}</p>
-          <StableImage src={`/images/${BRAND_CODE}/Divider.png`} alt='Divider' />
+          <StableImage
+            dontShowPlaceHolder={true}
+            src={`/images/${BRAND_CODE}/Divider.png`}
+            alt='Divider'
+          />
           <div className={styles.nameBox}>
             <div className={styles.nameWrapper}>
               <p className={styles.detailTitle}>{t('NAME')}</p>

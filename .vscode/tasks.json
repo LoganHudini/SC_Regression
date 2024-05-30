@@ -219,6 +219,50 @@
       "problemMatcher": [],
       "label": "Start: ONE&ONLY",
       "detail": "env-cmd -f .env.oneandonly next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:londoner",
+      "problemMatcher": [],
+      "label": "Dev: LONDONER",
+      "detail": "env-cmd -f .env.londoner yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:londoner",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: LONDONER",
+      "detail": "env-cmd -f .env.londoner yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:londoner",
+      "problemMatcher": [],
+      "label": "Start: LONDONER",
+      "detail": "env-cmd -f .env.londoner next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:edwardian",
+      "problemMatcher": [],
+      "label": "Dev: EDWARDIAN",
+      "detail": "env-cmd -f .env.edwardian yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:edwardian",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: EDWARDIAN",
+      "detail": "env-cmd -f .env.edwardian yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:edwardian",
+      "problemMatcher": [],
+      "label": "Start: EDWARDIAN",
+      "detail": "env-cmd -f .env.edwardian next start"
     }
   ]
 }

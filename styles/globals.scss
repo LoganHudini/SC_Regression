@@ -130,12 +130,26 @@
 @font-face {
   font-family: 'GT Walsheim Medium';
   src: url('/fonts/GT-Walsheim/GTWalsheimMedium.ttf') format('truetype');
-
 }
 
 @font-face {
   font-family: 'Akzidenz Grotesk Pro Regular Extended';
   src: url('/fonts/AkzidenzGroteskPro/AkzidGrtskProExt.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'GT-america-regular';
+  src: url('/fonts/GT-America/GT-America-Standard-Regular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'GT-america-medium';
+  src: url('/fonts/GT-America/GT-America-Standard-Medium.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: url('/fonts/Avenir/Avenir.ttf') format('truetype');
 }
 
 // header font-families
@@ -188,6 +202,16 @@
 @font-face {
   font-family: 'Times New Roman';
   src: url('/fonts/TimesNewRoman/TimesNewRoman.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'SangBleuKingdom';
+  src: url('/fonts/SangBleuKingdom/SangBleuKingdom-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'ChronicleDisp';
+  src: url('/fonts/ChronicleDisp/ChronicleDisp-Roman.otf') format('opentype');
 }
 
 :root {
