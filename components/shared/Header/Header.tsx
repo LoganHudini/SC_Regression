@@ -51,7 +51,6 @@ export const Header: React.FC<IHeaderProps> = ({
   const config = useConfig();
   const hotelId = config?.hotelId;
   const hotel = config?.code;
-  const logo = config?.logo;
   const checkinData = useCheckedIn();
   const filter = useReactiveVar(diningInformationStorage);
   const irdMenu = filter?.menuName || (header && header[0]?.name);
@@ -156,7 +155,6 @@ export const Header: React.FC<IHeaderProps> = ({
                 src={`/images/${BRAND_CODE}/Logo.svg`}
                 onClick={goHome}
               />
-              {logo && <p className={cx(styles.propertyName, 'globals-propertyName')}>{logo}</p>}
             </>
           )}
 
