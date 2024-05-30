@@ -1731,7 +1731,7 @@ export const configuration = [
   },
   {
     code: 'raffles-the-palm-dubai',
-    logo: 'the palm dubai',
+    logo: '',
     name: 'Raffles The Palm Dubai',
     hotelId: '4e67ef89-b1d7-42fd-9cf0-70001cae54fc',
     pms: 'OPERA',
