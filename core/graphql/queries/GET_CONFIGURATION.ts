@@ -3684,7 +3684,6 @@ export const configuration = [
     saveToDb: 'no',
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: ['hotel-info', 'check-in'],
-    allowedCountryode: ['GB'],
     modules: [
       {
         code: 'Preferences',
@@ -3772,6 +3771,12 @@ export const configuration = [
                         value: 'PASSPORT',
                         code: 'PASSPORT',
                         youverse: 'PASSPORT',
+                      },
+                      {
+                        name: 'Others',
+                        value: 'UNKNOWN',
+                        code: 'UNKNOWN',
+                        youverse: 'AUTO',
                       },
                     ],
                   },

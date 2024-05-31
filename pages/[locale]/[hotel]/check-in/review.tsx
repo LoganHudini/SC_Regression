@@ -144,13 +144,11 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     updateRoomStatus();
   }, [hotelId, reservationInfo?.confirmationId, roomNo]);
 
-  const preCheckInStatus =
-    (config?.allowedCountryode?.includes(reservationInfo?.guests[0]?.countryCode) ? false : true) ||
-    (config?.preCheckInOnly
-      ? true
-      : !(roomNo && roomStatus && paymentConfig?.type !== NONE)
-      ? true
-      : false);
+  const preCheckInStatus = config?.preCheckInOnly
+    ? true
+    : !(roomNo && roomStatus && paymentConfig?.type !== NONE)
+    ? true
+    : false;
 
   useEffect(() => {
     if (conditionsAccepted && sigCanvas?.current && signature !== null) {
