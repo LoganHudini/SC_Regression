@@ -148,10 +148,10 @@ const PersonalizeYourRoom: React.FC = () => {
             type: FAILURE,
           });
         }
+        setLoadingButton(false);
       };
       updateBookingDetails();
     }
-    setLoadingButton(false);
   }, [
     t,
     navigate,
