@@ -36,9 +36,8 @@
     }
   }
 
-  :global(.MuiInputLabel-asterisk),
   :global(.Mui-error) {
-    color: var((--primary-error-text-color)) !important;
+    color: var((--primary-error-text-color));
   }
 
   :global(.Mui-error) {

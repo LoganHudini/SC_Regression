@@ -644,3 +644,7 @@ img {
 .MuiPickersDay-root.Mui-selected {
   background-color: var(--primary-theme-color) !important;
 }
+
+.MuiFormLabel-asterisk.Mui-error {
+  color: var(--primary-error-text-color);
+}
