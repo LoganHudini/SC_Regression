@@ -591,7 +591,9 @@ const Guest: React.FC<any> = () => {
           <p className={styles.title}>{t('Identity Verification')}</p>
           <p className={styles.description}>
             {t(
-              'Scan your Passport/ID to verify your identity. Your information is protected by responsible data practices.',
+              `${
+                guestInformationSection?.type === YOUVERSE ? 'Scan' : 'Enter'
+              } your Passport/ID to verify your identity. Your information is protected by responsible data practices.`,
             )}
           </p>
         </div>
