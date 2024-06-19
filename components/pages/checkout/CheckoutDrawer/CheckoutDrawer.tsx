@@ -99,11 +99,8 @@ const CheckoutDrawer = (props: any) => {
           t('Please proceed to the front desk to complete your checkout')
         ) {
           toggleNotification(true);
-          setTimeout(() => {
-            checkoutTrip();
-          }, 5000);
           setErrorToggle({
-            state: false,
+            state: true,
             message: t('Unable to checkout'),
             type: feedbackData?.length === 0 ? 'home' : 'feedback',
             description: `${

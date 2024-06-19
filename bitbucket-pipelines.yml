@@ -393,7 +393,7 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E2FWMFM6SOSO92'
-    deployToTheLondonerUAT:
+    deployToLondonerUAT:
       - step:
           caches:
             - node

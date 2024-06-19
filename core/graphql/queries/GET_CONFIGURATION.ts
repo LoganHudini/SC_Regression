@@ -3793,7 +3793,7 @@ export const configuration = [
               {
                 name: 'Credit Card Info',
                 isActive: true,
-                type: 'OGONE',
+                type: 'NONE',
                 details: [
                   {
                     name: 'cardNumber',
@@ -4126,7 +4126,7 @@ export const configuration = [
               {
                 name: 'Credit Card Info',
                 isActive: true,
-                type: 'OGONE',
+                type: 'NONE',
                 details: [
                   {
                     name: 'cardNumber',

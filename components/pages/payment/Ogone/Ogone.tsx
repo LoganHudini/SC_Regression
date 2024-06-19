@@ -86,7 +86,7 @@ export const Ogone = () => {
           cardHolderName: cardData?.CN,
           cardType: cardOptions?.find((option: any) => option?.value === cardData?.BRAND)?.code,
           cardExpiryDate: `20${cardData?.ED?.slice(2)}-${cardData?.ED?.slice(0, 2)}-01`,
-          paymentType: cardData?.PM,
+          paymentType: cardData?.BRAND,
         });
         setErrorNotification(false);
         toggleNotification(true);
