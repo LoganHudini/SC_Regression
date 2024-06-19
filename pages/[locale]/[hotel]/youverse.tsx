@@ -64,7 +64,7 @@ const Youverse: React.FC = () => {
       const payload = {
         userId: docScanId,
         expireDate: dayjs()?.add(1, 'day').format(timeFormats?.YOUVERSE_EXPIRE_DATE),
-        documentOptions: ['PASSPORT', 'IDENTITY_CARD', 'DRIVING_LICENSE'],
+        documentOptions: [...new Set(docTypes?.map((opt: any) => opt?.vendorDocType))],
       };
 
       client

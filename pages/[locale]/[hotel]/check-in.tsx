@@ -26,7 +26,7 @@ import UserIcon from '@icons/user.svg';
 import DocIcon from '@icons/docPoints.svg';
 import NightIcon from '@icons/night-mode.svg';
 import { availablePaths } from 'utils/availablePaths';
-import { useConfig, usePaymentConfig } from 'utils/hooks/useConfiguration';
+import { useConfig, useDocumentConfig, usePaymentConfig } from 'utils/hooks/useConfiguration';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { ASSETS_URL, BRAND_CODE } from 'core/graphql/endpoints';
 import { useReactiveVar } from '@apollo/client';
@@ -41,6 +41,7 @@ import {
   STEPPER_CHECK_IN,
   STEPPER_REVIEW,
   NONE,
+  DOCTYPE,
 } from 'utils/constants';
 import { usePersonalisation } from 'utils/hooks/usePersonalisation';
 import { personalizationStorage } from 'storage/personalize-your-room.storage';
@@ -58,6 +59,14 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
   const paymentConfig: any = usePaymentConfig();
   const personalisationDataloading = usePersonalisation();
   const availablePersonalizations = useReactiveVar(personalizationStorage);
+  const documentConfig: any = useDocumentConfig();
+  const docTypes: any = [
+    ...new Set(
+      documentConfig?.details
+        ?.find((e: any) => e?.name === DOCTYPE)
+        ?.options?.map((opt: any) => opt?.name),
+    ),
+  ];
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
@@ -94,7 +103,14 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
         <p className={styles.documentsList}>
           <DocIcon />
           <span className={styles.space}>
-            {t('Passport')} {BRAND_CODE === 'itc' && '/ Aadhaar '}/ {t('Driving License')}
+            {docTypes?.map((type: string, index: number) => {
+              return (
+                <>
+                  <>{type}</>
+                  {index !== docTypes?.length - 1 && ' / '}
+                </>
+              );
+            })}
           </span>
         </p>
         <div className={styles.verticalLine}></div>
