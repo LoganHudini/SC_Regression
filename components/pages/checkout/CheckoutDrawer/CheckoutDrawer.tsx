@@ -5,7 +5,11 @@ import { toggleDetailsDrawer, toggleNotification } from 'storage/home.storage';
 import styles from './CheckoutDrawer.module.scss';
 import { useTranslation } from 'react-i18next';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
-import { CHECKOUT, ICheckoutApiRequest } from 'core/graphql/queries/CHECKOUT';
+import {
+  CHECKOUT,
+  ICheckoutApiRequest,
+  MAKE_CHECKOUT_PAYMENT,
+} from 'core/graphql/queries/CHECKOUT';
 import { client } from 'core/graphql/client';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
@@ -15,7 +19,7 @@ import { getCheckOutToken } from 'core/api/functions/getCheckOutAuthentication';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { processStatusCode } from 'utils/processError';
 import { handleCheckInAuthenticationFailure } from 'core/api/functions/getCheckInAuthentication';
-import { CHECK_IN, CHECK_OUT, ERRORMSG } from 'utils/constants';
+import { CHECKOUT_PAYMENT, CHECK_IN, CHECK_OUT, ERRORMSG } from 'utils/constants';
 import { activeItems, activeModule } from 'utils/functions';
 
 const CheckoutDrawer = (props: any) => {
@@ -28,6 +32,7 @@ const CheckoutDrawer = (props: any) => {
   const detailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
   const checkedInData = useCheckedIn();
 
+  const checkoutPayment: boolean = activeModule(config?.modules, CHECKOUT_PAYMENT);
   const checkInModule: boolean = activeModule(config?.modules, CHECK_IN);
 
   const { data: feedBackList } = useQuery(GET_FEEDBACK, {
@@ -55,6 +60,37 @@ const CheckoutDrawer = (props: any) => {
 
   const handleCheckout = async () => {
     setCheckoutLoader(true);
+    let paymentDone = checkoutPayment ? false : true;
+    if (checkoutPayment && amountDue > 0) {
+      const paymentPayload = {
+        amount: amountDue as string,
+        bookingId: reservationId,
+        cardNumber: reservationInfo?.reservePayments[0]?.lastFourDigits,
+        cardHolderName: '',
+        cardType: reservationInfo?.reservePayments[0]?.cardType,
+        expiry: reservationInfo?.reservePayments[0]?.cardExpiryDate,
+        reference: Math.floor(Math.random() * 9000000000) + 1000000000,
+        token: reservationInfo?.reservePayments[0]?.vaultedCardID,
+      };
+      try {
+        await client.mutate({
+          mutation: MAKE_CHECKOUT_PAYMENT,
+          context: { clientName: 'integration_v6' },
+          fetchPolicy: 'network-only',
+          variables: paymentPayload,
+        });
+        paymentDone = true;
+      } catch {
+        toggleNotification(true);
+        setErrorToggle({
+          state: false,
+          message: t('Payment failed!'),
+          type: 'checkout',
+          description: t('Payment failed. Please try again.'),
+        });
+        return;
+      }
+    }
     const checkoutPayload: ICheckoutApiRequest = {
       reservationType,
       reservationId,
@@ -112,7 +148,7 @@ const CheckoutDrawer = (props: any) => {
           setErrorToggle({
             state: true,
             message: t(ERRORMSG),
-            type: 'checkout',
+            type: paymentDone && checkoutPayment ? 'home' : 'checkout',
             description: t('Please Try Again.'),
           });
         }

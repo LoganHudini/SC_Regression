@@ -84,5 +84,9 @@
   "Verification process failed": "Verification process failed",
   "Oops Match Not Found!": "Oops Match Not Found!",
   "Reservation details doesn't match with Document details.": "Reservation details doesn't match with Document details.",
-  "Document Scanning": "Document Scanning"
+  "Document Scanning": "Document Scanning",
+  "Estimated Time of Arrival is required": "Estimated Time of Arrival is required",
+  "Issue Country is required": "Issue Country is required",
+  "Issue Date is required": "Issue Date is required",
+  "Expiry Date is required": "Expiry Date is required"
 }

@@ -84,5 +84,9 @@
   "Verification process failed": "El proceso de verificación falló",
   "Oops Match Not Found!": "¡Ups! No se encontró coincidencia",
   "Reservation details doesn't match with Document details.": "Los detalles de la reserva no coinciden con los detalles del documento.",
-  "Document Scanning": "Escaneo de documentos"
+  "Document Scanning": "Escaneo de documentos",
+  "Estimated Time of Arrival is required": "Se requiere el tiempo estimado de llegada",
+  "Issue Country is required": "Se requiere el país de emisión",
+  "Issue Date is required": "Se requiere la fecha de emisión",
+  "Expiry Date is required": "Se requiere la fecha de caducidad"
 }

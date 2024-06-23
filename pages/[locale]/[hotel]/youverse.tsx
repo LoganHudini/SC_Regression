@@ -176,33 +176,37 @@ const Youverse: React.FC = () => {
                   reservationGuestInfoStorageData({
                     ...guestReservationInfo,
                     docNo: res?.data?.getyoonikresponse?.data?.documentNumber,
+                    dob: res?.data?.getyoonikresponse?.data?.dob,
                     docType: docTypes?.find(
                       (document: any) =>
                         document?.youverse === res?.data?.getyoonikresponse?.data?.youverseType,
-                    )?.name,
-                    effectiveDate: res?.data?.getyoonikresponse?.data?.issueDate,
+                    )?.value,
+                    issueDate: res?.data?.getyoonikresponse?.data?.issueDate,
                     expiryDate: res?.data?.getyoonikresponse?.data?.expiryDate,
                     issueCountry:
                       res?.data?.getyoonikresponse?.data?.country ||
                       res?.data?.getyoonikresponse?.data?.state,
+                    docImage: res.data?.getyoonikresponse?.data?.frontPage,
+                    portrait: res.data?.getyoonikresponse?.data?.portrait,
                   });
-                  // console.log('youverse', guestReservationInfo);
                 } else {
-                  // console.log('accompany', guestReservationInfo);
                   const updatedData = accompanyGuestData?.map((guest: any) => {
                     if (guest?.id === reservationDataSelected?.id) {
                       return {
                         ...guest,
                         docNo: res?.data?.getyoonikresponse?.data?.documentNumber,
+                        dob: res?.data?.getyoonikresponse?.data?.dob,
                         docType: docTypes?.find(
                           (document: any) =>
                             document?.youverse === res?.data?.getyoonikresponse?.data?.youverseType,
-                        )?.name,
-                        effectiveDate: res?.data?.getyoonikresponse?.data?.issueDate,
+                        )?.value,
+                        issueDate: res?.data?.getyoonikresponse?.data?.issueDate,
                         expiryDate: res?.data?.getyoonikresponse?.data?.expiryDate,
                         issueCountry:
                           res?.data?.getyoonikresponse?.data?.country ||
                           res?.data?.getyoonikresponse?.data?.state,
+                        docImage: res.data?.getyoonikresponse?.data?.frontPage,
+                        portrait: res.data?.getyoonikresponse?.data?.portrait,
                       };
                     }
                     return guest;

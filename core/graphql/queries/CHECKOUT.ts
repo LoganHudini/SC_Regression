@@ -23,3 +23,35 @@ query Checkout($body: ICheckoutApiRequest, $roomNumber: roomNumber) {
   }
 }
 `;
+
+export const MAKE_CHECKOUT_PAYMENT = gql`
+  mutation MyMutation(
+    $amount: String
+    $bookingId: String
+    $cardNumber: String
+    $cardHolderName: String
+    $cardType: String
+    $comment: String
+    $expiry: String
+    $reference: String
+    $token: String
+  ) {
+    postPMSPayment(
+      input: {
+        amount: $amount
+        bookingId: $bookingId
+        cardNumber: $cardNumber
+        cardHolderName: $cardHolderName
+        cardType: $cardType
+        comment: $comment
+        expiry: $expiry
+        hotelId: "${HOTEL_ID}"
+        reference: $reference
+        token: $token
+      }
+    ) {
+      status
+      message
+    }
+  }
+`;

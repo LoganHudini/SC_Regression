@@ -648,3 +648,16 @@ img {
 .MuiFormLabel-asterisk.Mui-error {
   color: var(--primary-error-text-color);
 }
+
+.MuiClockPointer-root {
+  background-color: var(--primary-theme-color) !important;
+}
+
+.MuiClockPointer-thumb {
+  background-color: var(--primary-theme-color) !important;
+  border: 16px solid var(--primary-theme-color) !important;
+}
+
+.MuiClock-pin {
+  background-color: var(--primary-theme-color) !important;
+}

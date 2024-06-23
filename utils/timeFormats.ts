@@ -8,6 +8,7 @@ export const timeFormats = {
   WEEKDAY_DAY_MONTH_YEAR_2: 'dddd, DD MMM YYYY',
   DAY_MONTH_YEAR_HOUR_MINUTE_SECOND_AM: 'DD MMM, YYYY - h.ss a',
   HOURS_MINUTES: 'hh:mm',
+  HOURS_MINUTES_2: 'HH:MM',
   HOURS_MINUTES_AM: 'hh:mm A',
   HOURS_MINUTES_AM_2: 'hh:mm a',
   FULL_DAY_MONTH_YEAR: 'dddd, D MMMM YYYY',

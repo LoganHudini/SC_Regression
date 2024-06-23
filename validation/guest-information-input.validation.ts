@@ -12,8 +12,6 @@ export const identityVerificationValidation = yup.object({
       /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
       'Please enter valid phone number',
     ),
-
-  // Document validation
   dob: yup.string().required('Required'),
   docNumber: yup.string().required('Required'),
   effectiveDate: yup.string().required('Required'),

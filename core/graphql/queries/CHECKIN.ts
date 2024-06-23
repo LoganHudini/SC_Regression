@@ -19,6 +19,7 @@ export interface ICheckInApiRequest {
   cardHolderName: string;
   creditCardType?: string;
   lastFourDigits?: string;
+  cardID?: string;
   vaultedCardID?: string;
   settlementType: string;
   documentType: string;
@@ -28,6 +29,9 @@ export interface ICheckInApiRequest {
   guestSignature: string;
   comment: string;
   isDoNotMove: boolean;
+  depositAmount?: string;
+  specialInstructions: string;
+  arrivalFlight: string;
 }
 
 export const CHECKIN = gql`

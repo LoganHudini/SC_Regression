@@ -174,7 +174,7 @@ export const isOfferActive = (offer: any) => {
 };
 
 export const activeModule = (moduleList: any, moduleActive: any) =>
-  moduleList.find((module: any) => module?.code === moduleActive && module?.isActive)
+  moduleList?.find((module: any) => module?.code === moduleActive && module?.isActive)
     ? true
     : false;
 
@@ -335,3 +335,20 @@ export const formatPrice = (value: any) =>
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const emptyFunction = () => {};
+
+export const fetchCharges = (reservationInfo: any) =>
+  (reservationInfo?.details?.nightCount && reservationInfo?.details?.nightCount > 0
+    ? reservationInfo?.details?.nightCount
+    : 1) *
+    1 +
+  (reservationInfo?.roomTypes[0]?.totalCharge &&
+    reservationInfo?.roomTypes[0]?.balance &&
+    (Math.floor(
+      Number(reservationInfo?.roomTypes[0]?.totalCharge) +
+        Number(reservationInfo?.roomTypes[0]?.balance),
+    ) > 0
+      ? Math.floor(
+          Number(reservationInfo?.roomTypes[0]?.totalCharge) +
+            Number(reservationInfo?.roomTypes[0]?.balance),
+        )
+      : 0));

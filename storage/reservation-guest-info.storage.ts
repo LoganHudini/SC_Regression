@@ -12,11 +12,11 @@ export type IReservationGuestInfoStorageData = {
   paymentType?: string;
   docNo?: string;
   docType?: string;
-  effectiveDate: string;
   expiryDate: string;
   issueCountry: string;
   isComplete: boolean;
   dateOfBirth?: string;
+  issueDate?: string;
 };
 
 export const reservationGuestInfoStorageData = makeVar<IReservationGuestInfoStorageData | any>(

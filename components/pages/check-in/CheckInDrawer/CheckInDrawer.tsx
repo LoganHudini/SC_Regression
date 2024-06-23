@@ -37,11 +37,11 @@ import {
   CANCELED,
   CHKOUT,
   FAILURE,
-  NOSHOW,
   SUCCESS,
   NA,
   INHOUSE,
   CHECKEDOUT,
+  NOSHOW,
 } from 'utils/constants';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { getCheckOutToken } from 'core/api/functions/getCheckOutAuthentication';

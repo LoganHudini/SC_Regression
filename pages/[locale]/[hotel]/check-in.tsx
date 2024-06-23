@@ -92,7 +92,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
           {t('Check-In now to save time when you arrive.')}
         </p>
         <StableImage
-          dontShowPlaceHolder={true}
+          hidePlaceholder={true}
           src={`/images/${BRAND_CODE}/Divider.png`}
           alt='Divider'
           className={styles.dividerImage}
@@ -180,7 +180,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
         <div className={cx(styles.cardWrapper, 'globals-cardWrapper')}>
           <p className={styles.title}>{t('Your Stay Details')}</p>
           <StableImage
-            dontShowPlaceHolder={true}
+            hidePlaceholder={true}
             src={`/images/${BRAND_CODE}/Divider.png`}
             alt='Divider'
           />

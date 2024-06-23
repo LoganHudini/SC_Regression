@@ -263,6 +263,28 @@
       "problemMatcher": [],
       "label": "Start: EDWARDIAN",
       "detail": "env-cmd -f .env.edwardian next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:mondrian",
+      "problemMatcher": [],
+      "label": "Dev: MONDRIAN",
+      "detail": "env-cmd -f .env.mondrian yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:mondrian",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: MONDRIAN",
+      "detail": "env-cmd -f .env.mondrian yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:mondrian",
+      "problemMatcher": [],
+      "label": "Start: MONDRIAN",
+      "detail": "env-cmd -f .env.mondrian next start"
     }
   ]
 }

@@ -19,6 +19,7 @@ export interface IPreCheckInApiRequest {
   cardHolderName: string;
   creditCardType?: string;
   lastFourDigits?: string;
+  cardID?: string;
   vaultedCardID?: string;
   settlementType: string;
   documentType: string;

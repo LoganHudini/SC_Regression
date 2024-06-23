@@ -75,10 +75,13 @@ import {
   handleCheckInAuthenticationFailure,
 } from 'core/api/functions/getCheckInAuthentication';
 import { processStatusCode } from 'utils/processError';
-import { ASSETS_URL } from 'core/graphql/endpoints';
+import { ASSETS_URL, S3_URL } from 'core/graphql/endpoints';
 import Link from 'next/link';
 import { checkRoomStatus } from 'core/api/functions/checkRoomStatus';
-import { formatPrice } from 'utils/functions';
+import { fetchCharges, formatPrice } from 'utils/functions';
+import Resizer from 'react-image-file-resizer';
+import { UPDATE_EVA } from 'core/graphql/queries/UPDATE_EVA';
+import { getHotelId } from 'utils/fetchConfigs';
 
 export { getStaticPaths };
 
@@ -193,45 +196,9 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
   const goToCheckIn = useCallback(async () => {
     setLoading(true);
-    const checkInPayload: ICheckInApiRequest = {
-      reservationType: reservationInfo?.confirmationType as string,
-      reservationId: reservationInfo?.reservationId as string,
-      bookingId: reservationInfo?.confirmationId as string,
-      checkinDate: reservationInfo?.details?.checkInDate as string,
-      checkoutDate: reservationInfo?.details?.checkOutDate as string,
-      roomNo: roomNo as string,
-      roomType: reservationInfo?.roomTypes[0]?.shortName as string,
-      primaryGuestEmail: guestReservationInfo?.emails as string,
-      primaryGuestFirstName: guestReservationInfo?.firstName as string,
-      primaryGuestLastName: guestReservationInfo?.lastName as string,
-      primaryGuestMobileNumber: guestReservationInfo?.phone as string,
-      guestCount: {
-        adult: adult,
-        children: children,
-      },
-      paymentType: paymentConfig?.paymentMethod ?? guestReservationInfo?.paymentType,
-      expirationDate: guestReservationInfo?.cardExpiryDate as string,
-      cardHolderName:
-        guestReservationInfo?.cardHolderName ||
-        guestReservationInfo?.firstName + guestReservationInfo?.lastName,
-      creditCardType: guestReservationInfo?.cardType,
-      lastFourDigits: guestReservationInfo?.cardNumber?.substr(
-        guestReservationInfo?.cardNumber?.length - 4,
-      ),
-      vaultedCardID: guestReservationInfo?.token,
-      settlementType: paymentConfig?.settlementType ?? guestReservationInfo?.cardType,
-      documentType: guestReservationInfo?.docType as string,
-      documentNumber: guestReservationInfo?.docNo as string,
-      channel: 'PWA',
-      upsell: personalizationEntities?.map((personalization) => ({
-        upsellName: personalization?.title,
-        revenue: Number(Number(personalization?.price).toFixed(2)),
-      })),
-      guestSignature: '',
-      comment: guestReservationInfo?.transactionId ?? '',
-      isDoNotMove: true,
-    };
+    let guestSignature = '';
 
+    // upload guest signature
     const uploadSignaturePayload: IPreSignDocUploadApiRequest = {
       groupId: 'e8030f49-afb1-43fc-80f6-c0515b62d5f6',
       type: 'reservation_docs',
@@ -246,7 +213,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       contents: (sigCanvas.current?.toDataURL() as string).replace('data:image/png;base64,', ''),
       isDocUpload: true,
     };
-
     const uploadSignature = async () => {
       const checkInToken = getCheckInToken();
       try {
@@ -258,7 +224,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             body: uploadSignaturePayload,
           },
         });
-        checkInPayload.guestSignature = uploadSignatureResponse.data.preSignDocUpload.data.key;
+        guestSignature = uploadSignatureResponse?.data?.preSignDocUpload?.data?.key;
       } catch (uploadSignatureError) {
         const statusCode = processStatusCode(uploadSignatureError as ApolloError);
         statusCode === 403
@@ -266,95 +232,251 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           : setErrorNotification(true);
       }
     };
-    uploadSignature();
+    await uploadSignature();
 
-    const checkIn = async () => {
-      const checkInToken = getCheckInToken();
-      try {
-        await client.query({
-          query: preCheckInStatus ? PRECHECKIN : CHECKIN,
-          context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
-          variables: {
-            confirmationNumber: reservationInfo?.confirmationId as string,
-            body: checkInPayload,
-          },
-        });
-        saveTrip({
-          reservationId: reservationInfo?.confirmationId as string,
-          preCheckedIn: preCheckInStatus ? true : false,
-          checkedIn: preCheckInStatus ? false : true,
-          name: guestReservationInfo?.lastName,
-          email: guestReservationInfo?.emails,
-          roomNumber: !preCheckInStatus ? roomNo : '',
-          invoiceId: reservationInfo?.reservationId as string,
-          hotelId: hotelId,
-        });
-        checkinStorage({
-          reservationId: reservationInfo?.confirmationId as string,
-          preCheckedIn: preCheckInStatus ? true : false,
-          checkedIn: preCheckInStatus ? false : true,
-          name: guestReservationInfo?.lastName,
-          email: guestReservationInfo?.emails,
-          roomNumber: !preCheckInStatus ? roomNo : '',
-          invoiceId: reservationInfo?.reservationId as string,
-          currency: reservationInfo?.details?.holdAmount?.currency,
-        });
-        setErrorNotification(false);
-        guestInformationStorage(null);
-        accompanyGuestDetails(null);
-        StepperInformationStorage([
-          { value: 60, label: 1, title: STEPPER_REVIEW },
-          { value: 0, label: 2, title: STEPPER_PAYMENT },
-          { value: 0, label: 3, title: STEPPER_CHECK_IN },
-        ]);
-      } catch (checkinError) {
-        const statusCode = processStatusCode(checkinError as ApolloError);
-        if (statusCode === 403) {
-          handleCheckInAuthenticationFailure(checkIn);
-        } else {
-          const error = checkinError as ApolloError;
-          const networkError = error?.networkError as { result?: { errors?: string } };
-          setErrorNotification(true);
-          if (networkError?.result?.errors === PRE_CHECKIN_ERROR_MSG) {
+    // check-in
+    if (guestSignature) {
+      const checkInPayload: ICheckInApiRequest = {
+        reservationType: reservationInfo?.confirmationType as string,
+        reservationId: reservationInfo?.reservationId as string,
+        bookingId: reservationInfo?.confirmationId as string,
+        checkinDate: reservationInfo?.details?.checkInDate as string,
+        checkoutDate: reservationInfo?.details?.checkOutDate as string,
+        roomNo: roomNo as string,
+        roomType: reservationInfo?.roomTypes[0]?.shortName as string,
+        primaryGuestEmail: guestReservationInfo?.emails as string,
+        primaryGuestFirstName: guestReservationInfo?.firstName as string,
+        primaryGuestLastName: guestReservationInfo?.lastName as string,
+        primaryGuestMobileNumber: guestReservationInfo?.phone as string,
+        guestCount: {
+          adult: adult,
+          children: children,
+        },
+        paymentType: paymentConfig?.paymentMethod ?? guestReservationInfo?.paymentType,
+        expirationDate: guestReservationInfo?.cardExpiryDate as string,
+        cardHolderName:
+          guestReservationInfo?.cardHolderName ||
+          guestReservationInfo?.firstName + guestReservationInfo?.lastName,
+        creditCardType: guestReservationInfo?.cardType,
+        lastFourDigits: guestReservationInfo?.cardNumber?.substr(
+          guestReservationInfo?.cardNumber?.length - 4,
+        ),
+        cardID: guestReservationInfo?.approvalCode ?? '',
+        vaultedCardID: guestReservationInfo?.token,
+        settlementType: paymentConfig?.settlementType ?? guestReservationInfo?.cardType,
+        documentType: guestReservationInfo?.docType as string,
+        documentNumber: guestReservationInfo?.docNo as string,
+        channel: 'PWA',
+        upsell: personalizationEntities?.map((personalization) => ({
+          upsellName: personalization?.title,
+          revenue: Number(Number(personalization?.price).toFixed(2)),
+        })),
+        guestSignature: guestSignature,
+        comment: guestReservationInfo?.transactionId ?? '',
+        isDoNotMove: true,
+        arrivalFlight: guestReservationInfo?.estimatedTime ?? '',
+        depositAmount: String(fetchCharges(reservationInfo)),
+        specialInstructions:
+          'vaultedCardID: ' +
+          guestReservationInfo?.token +
+          ', lastFourDigits: ' +
+          (guestReservationInfo?.cardNumber?.length > 4
+            ? guestReservationInfo?.cardNumber.substr(guestReservationInfo?.cardNumber.length - 4)
+            : guestReservationInfo?.cardNumber) +
+          ', cardType: ' +
+          cardType +
+          ', expiryDate: ' +
+          guestReservationInfo?.cardExpiryDate +
+          ', approvalCode: ' +
+          guestReservationInfo?.approvalCode +
+          ', authorizedAmount: ' +
+          String(fetchCharges(reservationInfo)),
+      };
+      const checkIn = async () => {
+        const checkInToken = getCheckInToken();
+        try {
+          await client.query({
+            query: preCheckInStatus ? PRECHECKIN : CHECKIN,
+            context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
+            variables: {
+              confirmationNumber: reservationInfo?.confirmationId as string,
+              body: checkInPayload,
+            },
+          });
+
+          // EVA integration
+          if (
+            checkInModule?.eva &&
+            (guestReservationInfo?.issueCountry !== 'SG' ||
+              guestReservationInfo?.issueCountry?.toLowerCase() !== 'singapore')
+          ) {
+            const resizeFile = (file: any) =>
+              new Promise((resolve) => {
+                Resizer.imageFileResizer(
+                  file,
+                  200,
+                  200,
+                  'JPEG',
+                  100,
+                  0,
+                  (uri) => {
+                    resolve(uri);
+                  },
+                  'base64',
+                  200,
+                  200,
+                );
+              });
+
+            const guestImage = await fetch(S3_URL + '/' + guestReservationInfo?.portrait)
+              .then((response) => response.blob())
+              .then((blob) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(blob);
+                return new Promise((res) => {
+                  reader.onloadend = async () => {
+                    const resizedImage = await resizeFile(blob);
+                    res(resizedImage);
+                  };
+                });
+              });
+            const docImage = await fetch(S3_URL + '/' + guestReservationInfo?.docImage)
+              .then((response) => response.blob())
+              .then((blob) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(blob);
+                return new Promise((res) => {
+                  reader.onloadend = async () => {
+                    const resizedImage = await resizeFile(blob);
+                    res(resizedImage);
+                  };
+                });
+              });
+
+            const guestDetails = {
+              checkin: {
+                confirmationNumber: reservationInfo?.confirmationId,
+                date: dayjs(reservationInfo?.details?.checkInDate).format('YYYYMMDD'),
+                checkoutDate: dayjs(reservationInfo?.details?.checkOutDate).format('YYYYMMDD'),
+              },
+              guests: [
+                {
+                  dob: dayjs(guestReservationInfo?.dob).format('YYYYMMDD'),
+                  firstName: guestReservationInfo?.firstName.replace(/[0-9]/g, ''),
+                  gender: reservationInfo?.guests[0].gender?.toLowerCase() == 'female' ? 'F' : 'M',
+                  lastName: guestReservationInfo?.lastName.replace(/[0-9]/g, ''),
+                  nationalityCountryCode: guestReservationInfo?.nationality,
+                  document: {
+                    number: guestReservationInfo?.docNo.replace(/\s/g, ''),
+                    images: [
+                      {
+                        name: 'photo',
+                        base64Content: guestImage,
+                      },
+                      {
+                        name: 'scanned',
+                        base64Content: docImage,
+                      },
+                      {
+                        name: 'cropped',
+                        base64Content: docImage,
+                      },
+                    ],
+                  },
+                },
+              ],
+            };
+            await client.mutate({
+              mutation: UPDATE_EVA,
+              context: { clientName: 'host_v5' },
+              variables: {
+                checkin: guestDetails.checkin,
+                guests: guestDetails.guests,
+                hotelId: getHotelId(),
+              },
+            });
+          }
+
+          saveTrip({
+            reservationId: reservationInfo?.confirmationId as string,
+            preCheckedIn: preCheckInStatus ? true : false,
+            checkedIn: preCheckInStatus ? false : true,
+            name: guestReservationInfo?.lastName,
+            email: guestReservationInfo?.emails,
+            roomNumber: !preCheckInStatus ? roomNo : '',
+            invoiceId: reservationInfo?.reservationId as string,
+            hotelId: hotelId,
+          });
+          checkinStorage({
+            reservationId: reservationInfo?.confirmationId as string,
+            preCheckedIn: preCheckInStatus ? true : false,
+            checkedIn: preCheckInStatus ? false : true,
+            name: guestReservationInfo?.lastName,
+            email: guestReservationInfo?.emails,
+            roomNumber: !preCheckInStatus ? roomNo : '',
+            invoiceId: reservationInfo?.reservationId as string,
+            currency: reservationInfo?.details?.holdAmount?.currency,
+          });
+          setErrorNotification(false);
+          guestInformationStorage(null);
+          accompanyGuestDetails(null);
+          StepperInformationStorage([
+            { value: 60, label: 1, title: STEPPER_REVIEW },
+            { value: 0, label: 2, title: STEPPER_PAYMENT },
+            { value: 0, label: 3, title: STEPPER_CHECK_IN },
+          ]);
+        } catch (checkinError) {
+          const statusCode = processStatusCode(checkinError as ApolloError);
+          if (statusCode === 403) {
+            handleCheckInAuthenticationFailure(checkIn);
+          } else {
+            const error = checkinError as ApolloError;
+            const networkError = error?.networkError as { result?: { errors?: string } };
             setErrorNotification(true);
-            setErrorText(t('You have already completed the pre check-in process.'));
+            if (networkError?.result?.errors === PRE_CHECKIN_ERROR_MSG) {
+              setErrorNotification(true);
+              setErrorText(t('You have already completed the pre check-in process.'));
+            }
           }
         }
-      }
-      toggleNotification(true);
-      setLoading(false);
-    };
-    checkIn();
+        toggleNotification(true);
+        setLoading(false);
+      };
+      await checkIn();
+    }
   }, [
-    reservationInfo?.confirmationType,
-    reservationInfo?.reservationId,
-    reservationInfo?.confirmationId,
-    reservationInfo?.details?.checkInDate,
-    reservationInfo?.details?.checkOutDate,
-    reservationInfo?.details?.holdAmount?.currency,
-    reservationInfo?.roomTypes,
-    roomNo,
-    guestReservationInfo?.emails,
-    guestReservationInfo?.firstName,
-    guestReservationInfo?.lastName,
-    guestReservationInfo?.phone,
-    guestReservationInfo?.paymentType,
+    adult,
+    cardType,
+    checkInModule?.eva,
+    children,
+    guestReservationInfo?.approvalCode,
     guestReservationInfo?.cardExpiryDate,
     guestReservationInfo?.cardHolderName,
-    guestReservationInfo?.cardType,
     guestReservationInfo?.cardNumber,
-    guestReservationInfo?.token,
-    guestReservationInfo?.docType,
+    guestReservationInfo?.cardType,
+    guestReservationInfo?.dob,
+    guestReservationInfo?.docImage,
     guestReservationInfo?.docNo,
+    guestReservationInfo?.docType,
+    guestReservationInfo?.emails,
+    guestReservationInfo?.estimatedTime,
+    guestReservationInfo?.firstName,
+    guestReservationInfo?.issueCountry,
+    guestReservationInfo?.lastName,
+    guestReservationInfo?.nationality,
+    guestReservationInfo?.paymentType,
+    guestReservationInfo?.phone,
+    guestReservationInfo?.portrait,
+    guestReservationInfo?.token,
     guestReservationInfo?.transactionId,
-    adult,
-    children,
+    guests,
+    hotelId,
     paymentConfig?.paymentMethod,
     paymentConfig?.settlementType,
     personalizationEntities,
-    guests,
     preCheckInStatus,
-    hotelId,
+    reservationInfo,
+    roomNo,
     t,
   ]);
 
@@ -486,16 +608,18 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                     </p>
                   </div>
                 )}
-                {reservationInfo?.roomTypes?.length > 0 && (
+
+                {/* {!reservationInfo?.roomtype[0]?.suppressRate && (
                   <Item
                     title={t('Rate')}
                     value={`${reservationInfo?.details?.holdAmount?.currency} ${Number(
-                      reservationInfo?.roomTypes[0]?.totalCharge,
+                      reservationInfo?.roomTypes[0]?.price,
                     )?.toLocaleString('en-US', {
                       minimumFractionDigits: 2,
                     })}`}
                   />
-                )}
+                )} */}
+
                 {reservationInfo?.roomTypes?.length > 0 && (
                   <ItemFullWidth
                     title={t('Room Type')}

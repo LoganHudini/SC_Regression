@@ -28,6 +28,7 @@ export const PROPER_DOWNTOWN_LA = 'proper-downtown-la';
 export const ONE_AND_ONLY_ROYAL_MIRAGE = 'one-and-only-royal-mirage';
 export const LONDONER_LEICESTER_SQ = 'londoner-leicester-sq';
 export const EDWARDIAN = 'edwardian';
+export const MONDRIAN_DUXTON_SINGAPORE = 'mondrian-duxton-singapore';
 
 // configuration constants
 export const OPERA = 'OPERA';
@@ -39,6 +40,7 @@ export const CYBERSOURCE = 'CYBERSOURCE';
 export const CCAVENUE = 'CCAVENUE';
 export const FREEDOMPAY = 'FREEDOMPAY';
 export const OGONE = 'OGONE';
+export const FISERV = 'Fiserv';
 
 // flow constants
 export const CHAT_FLOW = 'CHAT_FLOW';
@@ -64,6 +66,7 @@ export const ALL_DAY = 'all day';
 export const RESTAURANT_BOOKING_FLOW = 'Restaurant Booking Flow';
 export const PRE_CHECKIN_ERROR_MSG = 'Booking is already checked in with type:PreCheckIn';
 export const CHECK_IN = 'Check-In';
+export const CHECKOUT_PAYMENT = 'Checkout-Payment';
 export const PAIR_TO_ROOM = 'Pair-To-Room';
 export const REVIEW = 'review';
 export const CANCELED = 'CANCELED';
@@ -133,6 +136,7 @@ export const PRIMARY = 'primary';
 export const SECONDARY = 'secondary';
 export const NEWGUEST = 'newGuest';
 export const NEWGUESTFORM = 'newGuestForm';
+export const TIMEPICKER = 'TimePicker';
 export const DATEPICKER = 'datePicker';
 export const SUCCESS = 'success';
 export const FAILURE = 'failure';
@@ -246,12 +250,12 @@ export const cardTypes = [
   },
   {
     id: '4',
-    code: 'NS',
-    name: 'Diners Club / Discover',
+    code: 'C',
+    name: 'CUP',
   },
   {
     id: '5',
-    code: 'JC',
+    code: 'J',
     name: 'JCB',
   },
   {
@@ -263,6 +267,16 @@ export const cardTypes = [
     id: '7',
     code: 'VA',
     name: 'Visa',
+  },
+  {
+    id: '8',
+    code: 'A',
+    name: 'American Express',
+  },
+  {
+    id: '9',
+    code: 'M',
+    name: 'Master Card',
   },
 ];
 

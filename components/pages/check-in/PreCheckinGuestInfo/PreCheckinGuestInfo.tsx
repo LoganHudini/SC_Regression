@@ -11,17 +11,19 @@ import {
   PRIMARY,
   SECONDARY,
   SELECTDROPDOWN,
+  TIMEPICKER,
 } from 'utils/constants';
 import { generateInitialFieldValues } from 'utils/functions';
 import { InputLabel, Select, MenuItem, FormHelperText } from '@mui/material';
 import { StyledFormControl } from 'components/shared/StyledFormControl/StyledFormControl';
 import DropDown from '@icons/dropDownIcon.svg';
-import { DatePicker } from '@mui/x-date-pickers';
+import { DatePicker, MobileTimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
 import { useReactiveVar } from '@apollo/client';
 import { accompanyGuestDetails } from 'storage/accompany-guest-details';
 import useValidate from 'utils/hooks/useValidate';
+import { hotelInformation } from 'storage/home.storage';
 
 export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
   selectedGuest,
@@ -31,8 +33,13 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
 }) => {
   const { t } = useTranslation('check-in');
   const [cardOpened, setCardOpened] = useState(true);
-  const [onOpen, setOnOpen] = useState(false);
+  const [onOpen, setOnOpen] = useState(
+    guestInformationSection
+      .filter((field: any) => field?.type === DATEPICKER && field?.isActive)
+      .map((open: any) => ({ isOpen: false, name: open.name })),
+  );
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
+  const hotelInfo = useReactiveVar(hotelInformation);
 
   const handleInputChange = () => {
     setCardOpened(!cardOpened);
@@ -100,7 +107,7 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                       name={field?.name}
                       id={field?.name}
                       value={formik?.values[field?.name] || ''}
-                      onChange={(e: any) => {
+                      onChange={(e) => {
                         formik.handleChange(e);
                         updateGuestDetails(e.target.name, e.target.value);
                       }}
@@ -110,7 +117,7 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                         Boolean(formik.errors[field?.name])
                       }
                     >
-                      {field?.options.map((item: any) => {
+                      {field?.options?.map((item: any) => {
                         return (
                           <MenuItem value={item?.value} key={item?.value}>
                             <em>{t(item?.name)}</em>
@@ -128,26 +135,40 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
               ) : field?.type === DATEPICKER ? (
                 <div className={styles.col_100}>
                   <DatePicker
-                    open={onOpen}
-                    onOpen={() => setOnOpen(true)}
-                    onClose={() => setOnOpen(false)}
+                    open={onOpen?.find((open: any) => open?.name === field?.name)?.isOpen}
+                    onOpen={() =>
+                      setOnOpen((prev: any) => {
+                        const newState = [...prev];
+                        const index = newState?.findIndex((x) => x?.name === field?.name);
+                        if (index !== -1) {
+                          newState[index].isOpen = !newState[index].isOpen;
+                        }
+                        return newState;
+                      })
+                    }
+                    onClose={() =>
+                      setOnOpen((prev: any) => {
+                        const newState = [...prev];
+                        const index = newState?.findIndex((x) => x?.name === field?.name);
+                        if (index !== -1) {
+                          newState[index].isOpen = !newState[index]?.isOpen;
+                        }
+                        return newState;
+                      })
+                    }
                     className={styles.guestDataInput}
                     label={t(field?.label)}
                     value={formik.values[field?.name] || null}
                     onChange={(date) => {
-                      const expiryDate = dayjs(date).format(timeFormats.YEAR_MONTH_DAY);
-                      formik.setFieldValue(field?.name, expiryDate);
-                      updateGuestDetails(field?.name, expiryDate);
-                      setOnOpen(false);
+                      const selectedDate = dayjs(date).format(timeFormats.YEAR_MONTH_DAY);
+                      formik.setFieldValue(field?.name, selectedDate);
+                      updateGuestDetails(field?.name, selectedDate);
                     }}
                     disabled={
                       type === NEWGUESTFORM ? false : type === NEWGUEST ? true : field?.isDisabled
                     }
                     disableFuture={field?.isDisableFuture}
                     disablePast={field?.isDisablePast}
-                    componentsProps={{
-                      actionBar: { actions: [] },
-                    }}
                     renderInput={(params) => (
                       <StyledInput
                         required={field?.required}
@@ -158,6 +179,52 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                         id={field?.name}
                         onFocus={() => formik.setFieldTouched(field?.name, true)}
                         {...params}
+                        error={
+                          (formik?.validateOnMount || formik.touched[field?.name]) &&
+                          Boolean(formik.errors[field?.name])
+                        }
+                        helperText={
+                          (formik?.validateOnMount || formik.touched[field?.name]) &&
+                          formik.errors[field?.name] &&
+                          t(String(formik.errors[field?.name]))
+                        }
+                      />
+                    )}
+                  />
+                </div>
+              ) : field?.type === TIMEPICKER ? (
+                <div key={field?.name} className={styles.col_100}>
+                  <MobileTimePicker
+                    className={styles.guestDataInput}
+                    label={t(field?.label)}
+                    ampm={false}
+                    value={
+                      formik?.values[field?.name] === 'Invalid Date' ||
+                      formik?.values[field?.name] === ''
+                        ? null
+                        : typeof formik?.values[field?.name] === 'string'
+                        ? dayjs()
+                            ?.hour(Number(formik?.values[field?.name]?.split(':')[0]))
+                            ?.minute(Number(formik?.values[field?.name]?.split(':')[1]))
+                        : dayjs(formik.values[field?.name]) || null
+                    }
+                    onChange={(newValue) => {
+                      const selectedDate: any = dayjs(newValue).format(timeFormats.HOURS_MINUTES_2);
+                      formik.setFieldValue(field?.name, dayjs(newValue));
+                      updateGuestDetails(field?.name, selectedDate);
+                    }}
+                    minTime={dayjs()
+                      .set('hour', Number(hotelInfo.checkInTime?.split(':')[0]))
+                      .set('minute', hotelInfo.checkInTime?.split(':')[1])}
+                    renderInput={(params) => (
+                      <StyledInput
+                        name={field?.name}
+                        id={field?.name}
+                        required={field?.required}
+                        variant='standard'
+                        label={t(field?.label)}
+                        {...params}
+                        onFocus={() => formik.setFieldTouched(field?.name, true)}
                         error={
                           (formik?.validateOnMount || formik.touched[field?.name]) &&
                           Boolean(formik.errors[field?.name])

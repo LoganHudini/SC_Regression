@@ -31,6 +31,8 @@ import {
   X_API_GROUP,
   INTEGRATION_API_KEY_V5,
   INTEGRATION_HOST_V5,
+  INTEGRATION_HOST_V6,
+  INTEGRATION_API_KEY_V6,
 } from './endpoints';
 
 const retryLink = new RetryLink({
@@ -152,6 +154,14 @@ const integrationV5Link = new HttpLink({
   },
 });
 
+const integrationV6Link = new HttpLink({
+  uri: INTEGRATION_HOST_V6 as string,
+  headers: {
+    ['x-api-key']: INTEGRATION_API_KEY_V6 as string,
+    ['Content-Type']: 'application/json',
+  },
+});
+
 const onPremLink = new RestLink({
   uri: ONPREM_API_URL as string,
 });
@@ -193,15 +203,20 @@ export const client = new ApolloClient({
                           (operation) => operation.getContext().clientName === 'integration_v5',
                           integrationV5Link,
                           ApolloLink.split(
-                            (operation) => operation.getContext().clientName === 'host_v6',
-                            hostV6Link,
+                            (operation) => operation.getContext().clientName === 'integration_v6',
+                            integrationV6Link,
                             ApolloLink.split(
-                              (operation) => operation.getContext().clientName === 'rest_v3',
-                              restv3Link,
+                              (operation) => operation.getContext().clientName === 'host_v6',
+                              hostV6Link,
                               ApolloLink.split(
-                                (operation) => operation.getContext().clientName === 'housekeeping',
-                                housekeepingLink,
-                                hostV2Link,
+                                (operation) => operation.getContext().clientName === 'rest_v3',
+                                restv3Link,
+                                ApolloLink.split(
+                                  (operation) =>
+                                    operation.getContext().clientName === 'housekeeping',
+                                  housekeepingLink,
+                                  hostV2Link,
+                                ),
                               ),
                             ),
                           ),

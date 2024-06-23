@@ -84,5 +84,9 @@
   "Verification process failed": "فشلت عملية التحقق",
   "Oops Match Not Found!": "عذرا، لم يتم العثور على تطابق!",
   "Reservation details doesn't match with Document details.": "تفاصيل الحجز لا تتطابق مع تفاصيل المستند.",
-  "Document Scanning": "مسح الوثائق"
+  "Document Scanning": "مسح الوثائق",
+  "Estimated Time of Arrival is required": "وقت الوصول المتوقع مطلوب",
+  "Issue Country is required": "بلد الإصدار مطلوب",
+  "Issue Date is required": "تاريخ الإصدار مطلوب",
+  "Expiry Date is required": "تاريخ الانتهاء مطلوب"
 }

@@ -15,6 +15,7 @@ import {
   ONE_AND_ONLY_ROYAL_MIRAGE,
   LONDONER_LEICESTER_SQ,
   EDWARDIAN,
+  MONDRIAN_DUXTON_SINGAPORE,
 } from './constants';
 
 const propertyList = [
@@ -33,6 +34,7 @@ const propertyList = [
   ONE_AND_ONLY_ROYAL_MIRAGE,
   LONDONER_LEICESTER_SQ,
   EDWARDIAN,
+  MONDRIAN_DUXTON_SINGAPORE,
 ];
 
 export const getI18nPaths = () =>

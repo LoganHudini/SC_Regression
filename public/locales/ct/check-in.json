@@ -84,5 +84,9 @@
   "Verification process failed": "El procés de verificació ha fallat",
   "Oops Match Not Found!": "Oops! No s'ha trobat cap coincidència",
   "Reservation details doesn't match with Document details.": "Els detalls de la reserva no coincideixen amb els detalls del document.",
-  "Document Scanning": "Escaneig de documents"
+  "Document Scanning": "Escaneig de documents",
+  "Estimated Time of Arrival is required": "Es requereix el temps estimat d'arribada",
+  "Issue Country is required": "Es requereix el país d'emissió",
+  "Issue Date is required": "Es requereix la data d'emissió",
+  "Expiry Date is required": "Es requereix la data de caducitat"
 }

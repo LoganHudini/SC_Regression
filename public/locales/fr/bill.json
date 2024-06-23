@@ -42,5 +42,7 @@
   "Total Bill Amount": "Montant total de la facture",
   "Total Amount Due": "Montant total dû",
   "Disconnect Room": "Déconnecter la chambre",
-  "Please try again after sometime": "Veuillez réessayer plus tard"
+  "Please try again after sometime": "Veuillez réessayer plus tard",
+  "Payment failed!": "Échec du paiement !",
+  "Payment failed. Please try again.": "Échec du paiement. Veuillez réessayer."
 }

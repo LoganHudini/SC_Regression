@@ -340,7 +340,7 @@ const Guest: React.FC<any> = () => {
         lastName: guestReservationInfo?.lastName,
         profileId: reservationInfo?.guests[0]?.id as string,
         isPrimary: 'Y',
-        effectiveDate: guestReservationInfo?.effectiveDate,
+        effectiveDate: guestReservationInfo?.issueDate,
         expiryDate: guestReservationInfo?.expiryDate,
         countryOfIssue: guestReservationInfo?.issueCountry,
         channel: 'PWA',
@@ -348,7 +348,7 @@ const Guest: React.FC<any> = () => {
           name: {
             firstName: guestReservationInfo?.firstName,
             lastName: guestReservationInfo?.lastName,
-            nationality: guestReservationInfo?.nationality,
+            nationality: guestReservationInfo?.nationality ?? '',
             dob: guestReservationInfo?.dateOfBirth,
           },
           address: {
@@ -356,7 +356,7 @@ const Guest: React.FC<any> = () => {
             addressLine1: guestReservationInfo?.addressLine1,
             addressLine2: guestReservationInfo?.addressLine2,
             addressType: 'HOME',
-            countryCode: guestReservationInfo?.countryCode ?? '',
+            countryCode: '',
           },
           phone: {
             id: reservationInfo?.guests[0]?.phoneOperaId
@@ -406,7 +406,7 @@ const Guest: React.FC<any> = () => {
             lastName: data?.lastName,
             profileId: data?.id as string,
             isPrimary: 'N',
-            effectiveDate: '',
+            effectiveDate: data?.issueDate,
             expiryDate: data?.expiryDate || '',
             countryOfIssue: data?.issueCountry || '',
             gender: data?.gender,
@@ -415,7 +415,7 @@ const Guest: React.FC<any> = () => {
               name: {
                 firstName: data?.firstName,
                 lastName: data?.lastName,
-                nationality: '',
+                nationality: data?.nationality,
                 dob: data?.dateOfBirth,
               },
               phone: {
@@ -473,7 +473,6 @@ const Guest: React.FC<any> = () => {
         apolloError: error as ApolloError,
       });
       toggleNotification(true);
-      // processError(t, error as ApolloError);
     }
 
     setLoading(false);
@@ -482,14 +481,13 @@ const Guest: React.FC<any> = () => {
     guestReservationInfo?.docNo,
     guestReservationInfo?.firstName,
     guestReservationInfo?.lastName,
-    guestReservationInfo?.effectiveDate,
+    guestReservationInfo?.issueDate,
     guestReservationInfo?.expiryDate,
     guestReservationInfo?.issueCountry,
     guestReservationInfo?.nationality,
     guestReservationInfo?.dateOfBirth,
     guestReservationInfo?.addressLine1,
     guestReservationInfo?.addressLine2,
-    guestReservationInfo?.countryCode,
     guestReservationInfo?.phone,
     guestReservationInfo?.emails,
     guestReservationInfo?.docType,
@@ -526,6 +524,11 @@ const Guest: React.FC<any> = () => {
           docType: newGuestData?.docType?.toUpperCase(),
           docNumber: newGuestData?.docNo,
           dob: newGuestData?.dateOfBirth,
+          nationality: newGuestData?.nationality,
+          countryOfIssue: newGuestData?.issueCountry,
+          expiryDate: newGuestData?.expiryDate,
+          effectiveDate: newGuestData?.issueDate,
+          gender: newGuestData?.gender,
         },
       ],
     };

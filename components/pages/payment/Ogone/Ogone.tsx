@@ -4,7 +4,6 @@ import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/querie
 import { INITIATE_PAYMENT_OGONE } from 'core/graphql/queries/INITIATE_PAYMENT';
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './Ogone.module.scss';
-import { GET_OGONE_STATUS } from 'core/graphql/queries/GET_PAYMENT_STATUS';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
 import { useReactiveVar } from '@apollo/client';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
@@ -13,6 +12,7 @@ import { Notification } from 'components/shared/Notification/Notification';
 import { useTranslation } from 'react-i18next';
 import { FAILURE, SUCCESS } from 'utils/constants';
 import { toggleNotification } from 'storage/home.storage';
+import { GET_PAYMENT_STATUS_WITHOUT_CONFIRMATIONID } from 'core/graphql/queries/GET_PAYMENT_STATUS';
 
 export const Ogone = () => {
   const { t } = useTranslation(['check-in-payment', 'common']);
@@ -66,7 +66,7 @@ export const Ogone = () => {
     const checkInToken = getCheckInToken();
     try {
       const { data: status } = await client.query({
-        query: GET_OGONE_STATUS,
+        query: GET_PAYMENT_STATUS_WITHOUT_CONFIRMATIONID,
         context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
         fetchPolicy: 'network-only',
         variables: {
@@ -102,7 +102,7 @@ export const Ogone = () => {
   };
 
   return (
-    <div className={styles.paymentWrappert}>
+    <div className={styles.paymentWrapper}>
       <form>
         <iframe
           title='Payment'

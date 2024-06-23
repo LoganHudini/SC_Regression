@@ -42,5 +42,7 @@
   "EMAIL": "البريد الإلكتروني",
   "Total Bill Amount": "إجمالي المبلغ الفاتورة",
   "Total Amount Due": "إجمالي المبلغ المستحق",
-  "Please try again after sometime": "يرجى المحاولة مرة أخرى بعد فترة من الزمن"
+  "Please try again after sometime": "يرجى المحاولة مرة أخرى بعد فترة من الزمن",
+  "Payment failed!": "فشل الدفع!",
+  "Payment failed. Please try again.": "فشل الدفع. يرجى المحاولة مرة أخرى."
 }
