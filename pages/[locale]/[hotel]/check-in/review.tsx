@@ -60,6 +60,8 @@ import {
   INFORMATION,
   GUESTINFORMATION,
   ACCOMPANYINGGUEST,
+  personalisation,
+  CMS,
 } from 'utils/constants';
 import { Notification } from 'components/shared/Notification/Notification';
 import { hotelInformation, toggleNotification } from 'storage/home.storage';
@@ -77,7 +79,6 @@ import {
 import { processStatusCode } from 'utils/processError';
 import { ASSETS_URL, S3_URL } from 'core/graphql/endpoints';
 import Link from 'next/link';
-import { checkRoomStatus } from 'core/api/functions/checkRoomStatus';
 import { fetchCharges, formatPrice } from 'utils/functions';
 import Resizer from 'react-image-file-resizer';
 import { UPDATE_EVA } from 'core/graphql/queries/UPDATE_EVA';
@@ -102,7 +103,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const personalizationEntities = useReactiveVar(personalizeYourRoomStorage);
   const upgradeRoomEntities = useReactiveVar(upgradeYourRoomStorage);
   const [errorNotification, setErrorNotification] = useState(false);
-  const [roomStatus, setRoomStatus] = useState(false);
   const [conditionsAccepted, setConditionsAccepted] = useState(false);
   const [btnStatus, setBtnStatus] = useState(false);
   const [errorText, setErrorText] = useState(t('Please proceed to the front desk!'));
@@ -143,6 +143,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     (submodule: any) => submodule?.name === ACCOMPANYINGGUEST && submodule.isActive,
   );
 
+  const personalisationConfig = checkInModule?.submodules?.find(
+    (submodule: any) => submodule?.name === personalisation && submodule.isActive,
+  );
+
   useEffect(() => {
     if (
       !data ||
@@ -155,16 +159,9 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     }
   }, [data, navigate]);
 
-  useEffect(() => {
-    async function updateRoomStatus() {
-      setRoomStatus(await checkRoomStatus(roomNo, hotelId, reservationInfo?.confirmationId));
-    }
-    updateRoomStatus();
-  }, [hotelId, reservationInfo?.confirmationId, roomNo]);
-
   const preCheckInStatus = config?.preCheckInOnly
     ? true
-    : !(roomNo && roomStatus && paymentConfig?.type !== NONE)
+    : !(roomNo && guestReservationInfo?.roomStatus && paymentConfig?.type !== NONE)
     ? true
     : false;
 
@@ -267,12 +264,21 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         documentType: guestReservationInfo?.docType as string,
         documentNumber: guestReservationInfo?.docNo as string,
         channel: 'PWA',
-        upsell: personalizationEntities?.map((personalization) => ({
-          upsellName: personalization?.title,
-          revenue: Number(Number(personalization?.price).toFixed(2)),
-        })),
+        upsell:
+          personalisationConfig?.type !== CMS
+            ? personalizationEntities?.map((personalization) => ({
+                upsellName: personalization?.title,
+                revenue: Number(Number(personalization?.price).toFixed(2)),
+              }))
+            : '',
         guestSignature: guestSignature,
-        comment: guestReservationInfo?.transactionId ?? '',
+        comment:
+          personalisationConfig?.type === CMS
+            ? personalizationEntities?.map((personalization) => ({
+                upsellName: personalization?.title,
+                revenue: Number(Number(personalization?.price).toFixed(2)),
+              }))
+            : '',
         isDoNotMove: true,
         arrivalFlight: guestReservationInfo?.estimatedTime ?? '',
         depositAmount: String(fetchCharges(reservationInfo)),

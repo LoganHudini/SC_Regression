@@ -45,6 +45,7 @@ import {
 } from 'utils/constants';
 import { usePersonalisation } from 'utils/hooks/usePersonalisation';
 import { personalizationStorage } from 'storage/personalize-your-room.storage';
+import { Loader } from 'components/shared/Loaders/Loaders';
 
 export { getStaticPaths };
 
@@ -170,128 +171,132 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
         </title>
       </Head>
       <Header screenTitle={t('check-In') as string} displayHome backRoute={availablePaths?.HOME} />
-      <PageWrapper className={styles.pageWrapper}>
-        {hotelImageInfo && hotelImageInfo?.images?.length > 0 && (
-          <StableImage
-            className={styles.image}
-            src={`${ASSETS_URL}/${hotelImageInfo?.images[0]?.ratio16to9}`}
-          />
-        )}
-        <div className={cx(styles.cardWrapper, 'globals-cardWrapper')}>
-          <p className={styles.title}>{t('Your Stay Details')}</p>
-          <StableImage
-            hidePlaceholder={true}
-            src={`/images/${BRAND_CODE}/Divider.png`}
-            alt='Divider'
-          />
-          <div className={styles.nameBox}>
-            <div className={styles.nameWrapper}>
-              <p className={styles.detailTitle}>{t('NAME')}</p>
-              <p
-                className={styles.detailValue}
-              >{`${reservationInfo?.details?.contactPerson?.firstName} ${reservationInfo?.details?.contactPerson?.lastName}`}</p>
-            </div>
-            <div className={styles.divider} />
+      {paymentConfig?.loader ? (
+        <Loader />
+      ) : (
+        <PageWrapper className={styles.pageWrapper}>
+          {hotelImageInfo && hotelImageInfo?.images?.length > 0 && (
+            <StableImage
+              className={styles.image}
+              src={`${ASSETS_URL}/${hotelImageInfo?.images[0]?.ratio16to9}`}
+            />
+          )}
+          <div className={cx(styles.cardWrapper, 'globals-cardWrapper')}>
+            <p className={styles.title}>{t('Your Stay Details')}</p>
+            <StableImage
+              hidePlaceholder={true}
+              src={`/images/${BRAND_CODE}/Divider.png`}
+              alt='Divider'
+            />
+            <div className={styles.nameBox}>
+              <div className={styles.nameWrapper}>
+                <p className={styles.detailTitle}>{t('NAME')}</p>
+                <p
+                  className={styles.detailValue}
+                >{`${reservationInfo?.details?.contactPerson?.firstName} ${reservationInfo?.details?.contactPerson?.lastName}`}</p>
+              </div>
+              <div className={styles.divider} />
 
-            <div className={styles.nameWrapper}>
-              <p className={styles.detailTitle}>{t('BOOKING ID')}</p>
-              <p className={styles.detailValue}>{reservationInfo?.confirmationId}</p>
-            </div>
-          </div>
-          <div className={styles.dateWrapper}>
-            <div className={styles.checkInWrapper}>
-              <p className={styles.detailCheckinTitleCaps}>{t('Check-In')}</p>
-              <div className={cx(styles.checkContainer)}>
-                <p className={styles.detailCheckinTitle}>
-                  {dayjs(reservationInfo?.details?.checkInDate).format(timeFormats.DAY)}
-                </p>
-                <p className={styles.detailCheckinTitleDate}>
-                  {dayjs(reservationInfo?.details?.checkInDate).format(timeFormats.DAY_DIGIT)}
-                </p>
-                <p className={styles.detailCheckinTitle}>
-                  {dayjs(reservationInfo?.details?.checkInDate).format(timeFormats.MONTH_YEAR)}
-                </p>
+              <div className={styles.nameWrapper}>
+                <p className={styles.detailTitle}>{t('BOOKING ID')}</p>
+                <p className={styles.detailValue}>{reservationInfo?.confirmationId}</p>
               </div>
-              {hotelImageInfo?.checkInTime && (
-                <p className={styles.detailCheckinTitle}>From {hotelImageInfo?.checkInTime}</p>
-              )}
             </div>
-            <div className={styles.arrow}>
-              <DropDown />
-            </div>
-            <div className={styles.checkOutWrapper}>
-              <p className={styles.detailCheckinTitleCaps}>{t('Checkout')}</p>
-              <div className={cx(styles.checkContainer)}>
-                <p className={styles.detailCheckinTitle}>
-                  {dayjs(reservationInfo?.details?.checkOutDate).format(timeFormats.DAY)}
-                </p>
-                <p className={styles.detailCheckinTitleDate}>
-                  {dayjs(reservationInfo?.details?.checkOutDate).format(timeFormats.DAY_DIGIT)}
-                </p>
-                <p className={styles.detailCheckinTitle}>
-                  {dayjs(reservationInfo?.details?.checkOutDate).format(timeFormats.MONTH_YEAR)}
-                </p>
-              </div>
-              {hotelImageInfo?.checkOutTime && (
-                <p className={styles.detailCheckinTitle}>Till {hotelImageInfo?.checkOutTime}</p>
-              )}
-            </div>
-          </div>
-          <div className={styles.stayWrapper}>
-            {reservationInfo?.roomTypes[0]?.shortName && (
-              <div className={styles.stayDetails}>
-                <span className={styles.icon}>
-                  <BedIcon />
-                </span>
-                {reservationInfo?.roomTypes[0]?.shortName}
-              </div>
-            )}
-            {reservationInfo?.details?.nightCount !== 0 && (
-              <div className={styles.stayDetails}>
-                <span className={styles.icon}>
-                  <NightIcon />
-                </span>
-                {reservationInfo?.details?.nightCount}{' '}
-                {reservationInfo?.details?.nightCount === 1 ? t('Night') : t('Nights')}
-              </div>
-            )}
-            {(reservationInfo?.details?.adultGuestCount !== 0 ||
-              reservationInfo?.details?.childGuestCount !== 0) && (
-              <div className={styles.stayDetails}>
-                <span className={styles.icon}>
-                  <UserIcon />
-                </span>
-                {reservationInfo?.details?.adultGuestCount !== 0 && (
-                  <>
-                    {reservationInfo?.details?.adultGuestCount}{' '}
-                    {reservationInfo?.details?.adultGuestCount === 1 ? t('Adult') : t('Adults')}{' '}
-                  </>
-                )}
-                {reservationInfo?.details?.childGuestCount !== 0 && (
-                  <>
-                    {reservationInfo?.details?.childGuestCount}{' '}
-                    {reservationInfo?.details?.childGuestCount === 1 ? t('Child') : t('Children')}
-                  </>
+            <div className={styles.dateWrapper}>
+              <div className={styles.checkInWrapper}>
+                <p className={styles.detailCheckinTitleCaps}>{t('Check-In')}</p>
+                <div className={cx(styles.checkContainer)}>
+                  <p className={styles.detailCheckinTitle}>
+                    {dayjs(reservationInfo?.details?.checkInDate).format(timeFormats.DAY)}
+                  </p>
+                  <p className={styles.detailCheckinTitleDate}>
+                    {dayjs(reservationInfo?.details?.checkInDate).format(timeFormats.DAY_DIGIT)}
+                  </p>
+                  <p className={styles.detailCheckinTitle}>
+                    {dayjs(reservationInfo?.details?.checkInDate).format(timeFormats.MONTH_YEAR)}
+                  </p>
+                </div>
+                {hotelImageInfo?.checkInTime && (
+                  <p className={styles.detailCheckinTitle}>From {hotelImageInfo?.checkInTime}</p>
                 )}
               </div>
-            )}
+              <div className={styles.arrow}>
+                <DropDown />
+              </div>
+              <div className={styles.checkOutWrapper}>
+                <p className={styles.detailCheckinTitleCaps}>{t('Checkout')}</p>
+                <div className={cx(styles.checkContainer)}>
+                  <p className={styles.detailCheckinTitle}>
+                    {dayjs(reservationInfo?.details?.checkOutDate).format(timeFormats.DAY)}
+                  </p>
+                  <p className={styles.detailCheckinTitleDate}>
+                    {dayjs(reservationInfo?.details?.checkOutDate).format(timeFormats.DAY_DIGIT)}
+                  </p>
+                  <p className={styles.detailCheckinTitle}>
+                    {dayjs(reservationInfo?.details?.checkOutDate).format(timeFormats.MONTH_YEAR)}
+                  </p>
+                </div>
+                {hotelImageInfo?.checkOutTime && (
+                  <p className={styles.detailCheckinTitle}>Till {hotelImageInfo?.checkOutTime}</p>
+                )}
+              </div>
+            </div>
+            <div className={styles.stayWrapper}>
+              {reservationInfo?.roomTypes[0]?.shortName && (
+                <div className={styles.stayDetails}>
+                  <span className={styles.icon}>
+                    <BedIcon />
+                  </span>
+                  {reservationInfo?.roomTypes[0]?.shortName}
+                </div>
+              )}
+              {reservationInfo?.details?.nightCount !== 0 && (
+                <div className={styles.stayDetails}>
+                  <span className={styles.icon}>
+                    <NightIcon />
+                  </span>
+                  {reservationInfo?.details?.nightCount}{' '}
+                  {reservationInfo?.details?.nightCount === 1 ? t('Night') : t('Nights')}
+                </div>
+              )}
+              {(reservationInfo?.details?.adultGuestCount !== 0 ||
+                reservationInfo?.details?.childGuestCount !== 0) && (
+                <div className={styles.stayDetails}>
+                  <span className={styles.icon}>
+                    <UserIcon />
+                  </span>
+                  {reservationInfo?.details?.adultGuestCount !== 0 && (
+                    <>
+                      {reservationInfo?.details?.adultGuestCount}{' '}
+                      {reservationInfo?.details?.adultGuestCount === 1 ? t('Adult') : t('Adults')}{' '}
+                    </>
+                  )}
+                  {reservationInfo?.details?.childGuestCount !== 0 && (
+                    <>
+                      {reservationInfo?.details?.childGuestCount}{' '}
+                      {reservationInfo?.details?.childGuestCount === 1 ? t('Child') : t('Children')}
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+            <div className={cx(styles.bottomMenuWrapper)}>
+              <StyledButton
+                variant='contained'
+                onClick={() => navigate(availablePaths?.GUEST_VERIFICATION)}
+                className={cx(styles.bottomMenuButton)}
+              >
+                {t('continue')}
+              </StyledButton>
+            </div>
           </div>
-          <div className={cx(styles.bottomMenuWrapper)}>
-            <StyledButton
-              variant='contained'
-              onClick={() => navigate(availablePaths?.GUEST_VERIFICATION)}
-              className={cx(styles.bottomMenuButton)}
-            >
-              {t('continue')}
-            </StyledButton>
-          </div>
-        </div>
-      </PageWrapper>
-      <CustomDrawer
-        open={welcomeDrawer}
-        onClose={closeWelcomeDrawer}
-        content={<WelcomeDetails />}
-      />
+          <CustomDrawer
+            open={welcomeDrawer}
+            onClose={closeWelcomeDrawer}
+            content={<WelcomeDetails />}
+          />
+        </PageWrapper>
+      )}
     </>
   );
 };

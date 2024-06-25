@@ -7,7 +7,7 @@ import { client } from 'core/graphql/client';
 import { GET_ROOM_STATUS } from 'core/graphql/queries/GET_ROOM_STATUS';
 import { processStatusCode } from 'utils/processError';
 
-export const checkRoomStatus = async (roomNo: string, hotelId: any, confirmationId: any) => {
+export const checkRoomStatus = async (roomNo: string, confirmationId: string) => {
   let roomStatus = false;
   if (roomNo) {
     try {
@@ -19,7 +19,6 @@ export const checkRoomStatus = async (roomNo: string, hotelId: any, confirmation
         },
         variables: {
           roomNumber: roomNo,
-          hotelId: hotelId,
           confirmationId: confirmationId,
         },
       });

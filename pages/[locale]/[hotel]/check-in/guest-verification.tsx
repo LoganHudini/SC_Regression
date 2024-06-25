@@ -659,7 +659,7 @@ const Guest: React.FC<any> = () => {
                   ))
                 )
               ) : (
-                guestReservationInfo &&
+                guestReservationInfo?.firstName &&
                 guestInformationSection?.details?.length > 0 &&
                 (openTogglePrimaryGuest ? (
                   <DetailsCard

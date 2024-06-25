@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { ENVIRONMENT } from '../endpoints';
+import { ENVIRONMENT, HOTEL_ID } from '../endpoints';
 
 export interface IGetRoomStatusApiResponse {
   getRoomStatus: {
@@ -18,11 +18,11 @@ export interface IGetRoomStatusApiResponse {
 }
 
 export const GET_ROOM_STATUS = gql`
-  query GetReservationRoomStatus($roomNumber: String, $hotelId: String, $confirmationId: String) {
-    getRoomStatus(roomNumber: $roomNumber, hotelId: $hotelId, confirmationId: $confirmationId)
+  query GetReservationRoomStatus($roomNumber: String, $confirmationId: String) {
+    getRoomStatus(roomNumber: $roomNumber, confirmationId: $confirmationId)
       @rest(
         type: "GetReservationPayload"
-        path: "/${ENVIRONMENT}/booking/hotel/{args.hotelId}/rooms/{args.roomNumber}/status?confirmationId={args.confirmationId}"
+        path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/rooms/{args.roomNumber}/status?confirmationId={args.confirmationId}"
       ) {
       errors
       data

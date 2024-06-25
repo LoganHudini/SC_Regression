@@ -27,7 +27,7 @@ export interface ICheckInApiRequest {
   channel: string;
   upsell: any;
   guestSignature: string;
-  comment: string;
+  comment: any;
   isDoNotMove: boolean;
   depositAmount?: string;
   specialInstructions: string;
