@@ -194,25 +194,6 @@ const CCAvenue: React.FC = () => {
       ) : (
         <PaymentLoaderPopUp paymentLoader={!loading && !popUpStatus} />
       )}
-
-      {/* {popUpStatus && (
-        <div className={styles.popUpBlockerContainer}>
-          <PopUpBlocker />
-          <p className={styles.titleOops}>Oops!</p>
-          <p className={styles.titlePaymentPopup}>Disable Pop-up Blocker</p>
-          <p className={styles.descriptionPaymentPopup}>
-            Make sure your web browser permits pop-ups so that you can proceed with the payment.
-            <br />
-            <br />
-            Please disable the popup blocker in your browser settings. Follow the steps provided by
-            your browser to allow pop-ups, ensuring a smooth transaction process.
-            <br />
-            <br />
-            Thank you for your cooperation!
-          </p>
-        </div>
-      )} */}
-
       <Notification
         title={errorNotification ? (t('Payment Failed!') as string) : (t('Thank You!') as string)}
         description={

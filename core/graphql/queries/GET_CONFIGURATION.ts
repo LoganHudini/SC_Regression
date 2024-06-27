@@ -729,6 +729,7 @@ export const configuration = [
     fetchFromDb: 'no',
     saveToDb: 'no',
     widgetId: 'ddcb45ee-838b-4311-af4b-fa3085903993',
+    chatOption: 'MESSAGE_BIRD',
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: [
       'hotel-info',
@@ -1738,6 +1739,7 @@ export const configuration = [
     fetchFromDb: 'no',
     saveToDb: 'yes',
     widgetId: 'e7f299fc-fd03-46d7-9e39-b9ce19aa96e7',
+    chatOption: 'MESSAGE_BIRD',
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: [
       'hotel-info',
@@ -1811,6 +1813,7 @@ export const configuration = [
     fetchFromDb: 'yes',
     saveToDb: 'no',
     widgetId: '88cc3ab4-1a5d-4f4a-ad52-b7deea078078',
+    chatOption: 'MESSAGE_BIRD',
     languages: [
       { code: 'en', name: 'English' },
       { code: 'fr', name: 'FranÃ§ais' },
@@ -2151,7 +2154,6 @@ export const configuration = [
     pms: 'OPERA',
     fetchFromDb: 'yes',
     saveToDb: 'no',
-    widgetId: '',
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: [
       'offers',
@@ -2230,6 +2232,7 @@ export const configuration = [
     fetchFromDb: 'yes',
     saveToDb: 'no',
     widgetId: 'ee9b7dc5-4bf4-448d-82a0-a16509876aeb',
+    chatOption: 'MESSAGE_BOX',
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: [
       'offers',

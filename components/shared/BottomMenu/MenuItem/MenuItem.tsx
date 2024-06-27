@@ -28,6 +28,8 @@ import {
   IN_APP,
   IN_ROOM_DINING,
   LANGUAGE,
+  MESSAGE_BIRD,
+  MESSAGE_BOX,
   PAIR_TO_ROOM,
   SERVICES,
   SUCCESS,
@@ -71,6 +73,7 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
   const { t } = useTranslation(['common']);
   const router = useRouter();
   const config = useConfig();
+  const checkInData = useCheckedIn();
   const [externalURL, setExternalURL] = useState<boolean>(false);
   const [openLanguage, setOpenLanguage] = useState<boolean>(false);
   const closeBooking = () => {
@@ -98,17 +101,21 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
         toggleMapState(true);
         toggleHotelInfoDrawer(true);
       } else if (flow === CHAT_FLOW) {
-        if ((window as any).MessageBirdChatWidget) {
-          (window as any).MessageBirdChatWidget.toggleChat(true);
+        if (config?.chatOption === MESSAGE_BIRD) {
+          if ((window as any).MessageBirdChatWidget) {
+            (window as any).MessageBirdChatWidget.toggleChat(true);
+          }
+          toggleMessageBirdChat(true);
+        } else if (config?.chatOption === MESSAGE_BOX) {
+          navigate(availablePaths.CHAT);
         }
-        toggleMessageBirdChat(true);
         toggleOption();
       } else if (title === LANGUAGE) {
         toggleOption();
         setOpenLanguage(true);
       }
     }
-  }, [flow, navigate, pages, paths, redirectOptions, title, toggleOption]);
+  }, [config?.chatOption, flow, navigate, pages, paths, redirectOptions, title, toggleOption]);
 
   const renderLanguage = () => (
     <div className={styles.wrapper}>
@@ -165,6 +172,7 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
           <p className={styles.menuItemTitle}> {t(`${title}`)}</p>
         </div>
       )}
+
       <CustomDrawer
         open={openLanguage}
         content={renderLanguage()}

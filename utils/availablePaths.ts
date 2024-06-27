@@ -49,6 +49,9 @@ export const availablePaths = {
   // feedback
   FEEDBACK: `/${hotel}/feedback`,
 
+  // chat
+  CHAT: `/${hotel}/chat`,
+
   // Others
   PAGE_NOT_FOUND: '/404',
 };

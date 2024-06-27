@@ -16,9 +16,10 @@
   align-items: center;
 
   &:disabled {
-    & > svg > path {
+    &>svg>path {
       fill: var(--primary-theme-color) !important;
     }
+
     border-radius: 4px;
     display: flex;
     justify-content: center;
@@ -29,6 +30,7 @@
 .plusIcon {
   width: 20px;
   height: auto;
+
   path {
     fill: var(--primary-theme-color);
   }
@@ -37,6 +39,7 @@
 .minusIcon {
   width: 20px;
   height: auto;
+
   path {
     fill: var(--primary-theme-color);
   }
@@ -51,4 +54,5 @@
   user-select: none;
   width: 30px;
   height: 30px;
+  padding-top: 4px;
 }

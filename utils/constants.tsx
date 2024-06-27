@@ -173,6 +173,8 @@ export const CHECKIN_NOW = 'Check-In Now';
 export const ADDON = 'Addon';
 export const ROOM = 'Room';
 export const SPA = 'spa';
+export const MESSAGE_BOX = 'MESSAGE_BOX';
+export const MESSAGE_BIRD = 'MESSAGE_BIRD';
 
 // flow constants
 export const DAYS = [
