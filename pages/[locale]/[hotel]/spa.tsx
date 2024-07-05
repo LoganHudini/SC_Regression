@@ -49,6 +49,7 @@ import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput'
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 import { useCurrency } from 'utils/hooks/useCurrency';
 import cx from 'classnames';
+import { PhoneEmail } from 'components/shared/PhoneEmail/PhoneEmail';
 
 export { getStaticPaths };
 
@@ -259,6 +260,12 @@ const Spa: React.FC = () => {
               <p className={styles.detailComponentDescription}>
                 {t(`${selectedSpaItem?.description}`)}
               </p>
+            )}
+            {(spaInformation?.contact?.phone || spaInformation?.contact?.email) && (
+              <PhoneEmail
+                phone={spaInformation?.contact?.phone}
+                email={spaInformation?.contact?.email}
+              />
             )}
           </div>
           {spaInformation?.cta?.status === ACTIVE && (

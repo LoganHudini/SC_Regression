@@ -1,0 +1,22 @@
+.thirdRow {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+.callRow,
+.emailRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: var(--primary-theme-color);
+}
+
+.icon_contact {
+  color: var(--primary-theme-color) !important;
+  font-size: $small !important;
+  margin-inline-start: 6px;
+  margin-top: 5px;
+}

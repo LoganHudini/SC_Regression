@@ -257,7 +257,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
       setSelectedTime(dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM));
       setNotificationState({
         title: 'Thank You!',
-        description: 'Your request has been confirmed.',
+        description: showSchedules?.confirmationMessage || 'Your request has been confirmed.',
         redirect: null,
         type: SUCCESS,
       });
