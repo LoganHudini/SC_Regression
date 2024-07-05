@@ -25,8 +25,7 @@ export const analyticsEvent = (item: any) => {
   gtag &&
     gtag('event', item?.action, {
       event_category: item?.category,
-      event_label: item?.label,
-      value: item?.value,
+      event_title: item?.title,
     });
 };
 

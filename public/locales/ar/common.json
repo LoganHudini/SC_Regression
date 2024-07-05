@@ -128,5 +128,7 @@
   "Invalid Room Type": "نوع الغرفة غير صالح",
   "Invalid room number": "رقم الغرفة غير صالح",
   "Something Went Wrong!": "حدث خطأ ما!",
-  "Chat": "دردشة"
+  "Chat": "دردشة",
+  "Chat Unavailable!": "الدردشة غير متاحة!",
+  "Failed to initialize chat, please try again later.": "فشل في تهيئة الدردشة، يرجى المحاولة مرة أخرى لاحقًا."
 }

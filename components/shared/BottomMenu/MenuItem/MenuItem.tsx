@@ -20,7 +20,6 @@ import {
 import cx from 'classnames';
 import {
   CHAT_FLOW,
-  CHECK_IN,
   EXTERNAL,
   FAILURE,
   FLOW,
@@ -55,6 +54,7 @@ import { useRouter } from 'next/router';
 import { checkoutTrip } from 'storage/trips.storage';
 import { Notification } from 'components/shared/Notification/Notification';
 import { setHighLightCheckOut } from 'storage/menu-item';
+import { messageBoxURL } from 'storage/chats';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
   title,
@@ -67,18 +67,17 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
   status,
   hotelName,
   toggleOption,
-  iconStyle,
 }) => {
   const navigate = useLocalizedRouter();
   const { t } = useTranslation(['common']);
   const router = useRouter();
   const config = useConfig();
-  const checkInData = useCheckedIn();
   const [externalURL, setExternalURL] = useState<boolean>(false);
   const [openLanguage, setOpenLanguage] = useState<boolean>(false);
   const closeBooking = () => {
     setExternalURL(false);
   };
+  const chatURL = useReactiveVar(messageBoxURL);
   const onClick = useCallback(() => {
     if (redirectOptions === EXTERNAL) {
       setExternalURL(true);
@@ -106,8 +105,8 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
             (window as any).MessageBirdChatWidget.toggleChat(true);
           }
           toggleMessageBirdChat(true);
-        } else if (config?.chatOption === MESSAGE_BOX) {
-          navigate(availablePaths.CHAT);
+        } else if (config?.chatOption === MESSAGE_BOX && !chatURL) {
+          toggleNotification(true);
         }
         toggleOption();
       } else if (title === LANGUAGE) {
@@ -115,8 +114,17 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
         setOpenLanguage(true);
       }
     }
-  }, [config?.chatOption, flow, navigate, pages, paths, redirectOptions, title, toggleOption]);
-
+  }, [
+    chatURL,
+    config?.chatOption,
+    flow,
+    navigate,
+    pages,
+    paths,
+    redirectOptions,
+    title,
+    toggleOption,
+  ]);
   const renderLanguage = () => (
     <div className={styles.wrapper}>
       <p className={styles.title}>{t('Choose Your Language')}</p>
@@ -159,20 +167,38 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
         />
       )}
       {status && (
-        <div onClick={onClick} className={styles.menuItemWrapper}>
-          <div className={styles.menuItemIconWrapper}>
-            <div>
-              {Icon && isFunction(Icon) ? (
-                <Icon className={styles.imageIcon} />
-              ) : (
-                <ReactSVG src={Icon} className={styles.image} />
-              )}
+        <>
+          {chatURL && flow === CHAT_FLOW && config?.chatOption === MESSAGE_BOX ? (
+            <a target='blank' href={chatURL} className={styles.decoration}>
+              <div onClick={onClick} className={styles.menuItemWrapper}>
+                <div className={styles.menuItemIconWrapper}>
+                  <div>
+                    {Icon && isFunction(Icon) ? (
+                      <Icon className={styles.imageIcon} />
+                    ) : (
+                      <ReactSVG src={Icon} className={styles.image} />
+                    )}
+                  </div>
+                </div>
+                <p className={styles.menuItemTitle}> {t(`${title}`)}</p>
+              </div>
+            </a>
+          ) : (
+            <div onClick={onClick} className={styles.menuItemWrapper}>
+              <div className={styles.menuItemIconWrapper}>
+                <div>
+                  {Icon && isFunction(Icon) ? (
+                    <Icon className={styles.imageIcon} />
+                  ) : (
+                    <ReactSVG src={Icon} className={styles.image} />
+                  )}
+                </div>
+              </div>
+              <p className={styles.menuItemTitle}> {t(`${title}`)}</p>
             </div>
-          </div>
-          <p className={styles.menuItemTitle}> {t(`${title}`)}</p>
-        </div>
+          )}
+        </>
       )}
-
       <CustomDrawer
         open={openLanguage}
         content={renderLanguage()}
@@ -191,8 +217,6 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   offersActive,
   restaurantAndBarsActive,
   diningCategoryOptions,
-  hamburger,
-  path,
   filteredhotelCompendiumInfo,
   spaCategories,
   offersList,
@@ -212,14 +236,9 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   const selectedCategoryList = useReactiveVar(diningInformationStorage);
   const offersOptionSelected: any = useReactiveVar(selectedOfferOption);
   const highLightCheckOut = useReactiveVar(setHighLightCheckOut);
-  const [externalURL, setExternalURL] = useState<boolean>(false);
-  const [externalLink, setExternalLink] = useState<any>();
-  const [moduleTitle, setModuleTitle] = useState<any>();
   const [errorToggle, setErrorToggle] = useState<any>();
   const config = useConfig();
-  const hotelName = config?.name;
 
-  const checkInModule: boolean = activeModule(config?.modules, CHECK_IN);
   const pairToRoomModule: boolean = activeModule(config?.modules, PAIR_TO_ROOM);
   const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
   const serviceModule: any = activeModule(config?.modules, SERVICES);
@@ -233,39 +252,6 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   const handleSelect = (data: any) => {
     selectedCompendiumCategory(data);
     closeDrawer();
-  };
-
-  const moduleHandler = (module: any) => {
-    if (module.redirectOptions === EXTERNAL) {
-      setModuleTitle(module?.name);
-      setExternalLink(module?.externalLink);
-      setExternalURL(true);
-      closeDrawer();
-    }
-    if (module.redirectOptions === IN_APP && path) {
-      const redirectUrl = getRedirectLink(path, module.pages[0]);
-      if (redirectUrl) {
-        navigate(`/${redirectUrl}`);
-        closeDrawer();
-      }
-    }
-    if (module.redirectOptions === FLOW) {
-      const redirectUrl = flowPathMap[module.flow as keyof typeof flowPathMap];
-      if (redirectUrl) {
-        closeDrawer();
-        navigate(redirectUrl);
-      } else if (module?.flow === HOTEL_INFORMATION_FLOW) {
-        closeDrawer();
-        toggleMapState(true);
-        toggleHotelInfoDrawer(true);
-      } else if (module?.flow === CHAT_FLOW) {
-        if ((window as any).MessageBirdChatWidget) {
-          (window as any).MessageBirdChatWidget.toggleChat(true);
-        }
-        toggleMessageBirdChat(true);
-        closeDrawer();
-      }
-    }
   };
 
   const modulesOptionsRender = () => {
@@ -516,20 +502,6 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
               })}
             </div>
           </div>
-        )}
-        {externalURL && (
-          <CustomDrawer
-            open={externalURL}
-            onClose={closeDrawer}
-            content={
-              <IframeComponent
-                src={externalLink}
-                handledrawerState={setExternalURL}
-                name={hotelName || moduleTitle}
-              />
-            }
-            isIframe={true}
-          />
         )}
       </div>
     );

@@ -12,6 +12,7 @@ import {
 import { tableReservationStorage } from 'storage/table-reservation.storage';
 import { housekeepingOptions, serviceRequestOptionsArray } from 'storage/housekeeping.storage';
 import { toggleRestaurantDetailsDrawer } from 'storage/home.storage';
+import { analyticsEvent } from './gtag';
 
 // Extract data from local storage
 export const guestNameFandB = () =>
@@ -206,7 +207,13 @@ export const restaurantCtaNavigation = (
   navigate?: any,
 ) => {
   if (object?.cta?.redirectOption === EXTERNAL_URL) {
-    object?.cta?.redirectUrl && setIframeComponent(true);
+    object?.cta?.redirectUrl &&
+      (setIframeComponent(true),
+      analyticsEvent({
+        action: 'restaurant_redirect',
+        category: object?.__typename,
+        title: object?.name,
+      }));
   }
   if (object?.cta?.redirectOption === RESTAURANT_BOOKING_FLOW) {
     tableReservationStorage({

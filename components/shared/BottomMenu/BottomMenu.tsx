@@ -37,7 +37,7 @@ import { ASSETS_URL } from 'core/graphql/endpoints';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { activeModule, diningOptionList, getHamburgerIcons } from 'utils/functions';
-import { CHECK_IN, PAIR_TO_ROOM } from 'utils/constants';
+import { CHECK_IN, FAILURE, MESSAGE_BOX } from 'utils/constants';
 import { IBottomMenuProps } from './BottomMenu.types';
 import {
   IDiningMenuStorageData,
@@ -48,6 +48,10 @@ import { diningInformationStorage } from 'storage/dining.storage';
 import MyOrders from '@icons/orderDish.svg';
 import CloseIcon from '@icons/closeIcon.svg';
 import HamburgerIcon from '@icons/hamburger.svg';
+import { GET_MESSAGEBOX_URL } from 'core/graphql/queries/GET_MESSAGEBOX_URL';
+import { client } from 'core/graphql/client';
+import { messageBoxURL } from 'storage/chats';
+import { Notification } from '../Notification/Notification';
 
 export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) => {
   const wrapperRef = useRef(null);
@@ -66,7 +70,6 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
   const spaInformation = useReactiveVar(spaInformationStorage);
   const hotelCompendiumSelected: any = useReactiveVar(selectedCompendiumCategory);
   const checkInModule: boolean = activeModule(config?.modules, CHECK_IN);
-  const pairToRoom: boolean = activeModule(config?.modules, PAIR_TO_ROOM);
   const diningCategoryOptions = useReactiveVar(diningCategoryStorage);
   const hotelCompendiumInfo: any = useReactiveVar(getHotelCompendium);
   const spaCategories = useReactiveVar(spaCategoryList);
@@ -181,6 +184,22 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
     (irdActive && diningCategoryOptions?.length > 1) ||
     checkOutActive;
 
+  const fetchMessageBoxUrl = async () => {
+    try {
+      const data = await client.mutate({
+        mutation: GET_MESSAGEBOX_URL,
+        context: { clientName: 'integration_v7' },
+        fetchPolicy: 'network-only',
+        variables: {
+          roomNo: isCheckedIn?.roomNumber,
+        },
+      });
+      data?.data?.generateChatUrl?.url && messageBoxURL(data?.data?.generateChatUrl?.url);
+    } catch (err) {
+      messageBoxURL(null);
+    }
+  };
+
   return (
     <>
       {(homeActive ||
@@ -258,6 +277,9 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
                 if (toggled) {
                   selectedRestaurantStorage([]);
                   toggleHamburgerMenuDrawer(true);
+                  if (isCheckedIn?.roomNumber && config?.chatOption === MESSAGE_BOX) {
+                    fetchMessageBoxUrl();
+                  }
                 } else {
                   toggleHamburgerMenuDrawer(false);
                 }
@@ -304,6 +326,13 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
       />
 
       <CheckInDrawer />
+
+      <Notification
+        title={t('Chat Unavailable!')}
+        description={t('Failed to initialize chat, please try again later.')}
+        type={FAILURE}
+        redirect={availablePaths?.HOME}
+      />
     </>
   );
 };

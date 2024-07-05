@@ -21,6 +21,7 @@ import { ACTIVE, EXTERNAL_URL, SPA_AND_WELLNESS } from 'utils/constants';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 import { PhoneEmail } from 'components/shared/PhoneEmail/PhoneEmail';
 import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
+import { analyticsEvent } from 'utils/gtag';
 
 interface ICarouselProps {
   data: any;
@@ -120,6 +121,11 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
       navigate(availablePaths?.SPA);
     } else if (spaInfoDetails?.cta?.redirectOption === EXTERNAL_URL) {
       setspaBooking(true);
+      analyticsEvent({
+        action: 'spa_redirect',
+        category: spaInfoDetails?.__typename,
+        title: spaInfoDetails?.name,
+      });
     }
   };
 

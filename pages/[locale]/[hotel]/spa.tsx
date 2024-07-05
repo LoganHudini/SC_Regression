@@ -58,6 +58,7 @@ import DropDown from '@icons/dropDownIcon.svg';
 import { StyledInput } from 'components/shared/StyledInput/StyledInput';
 import { useFormik } from 'formik';
 import { getEmailRoomValidation } from 'validation/get-reservation.validation';
+import { analyticsEvent } from 'utils/gtag';
 
 export { getStaticPaths };
 
@@ -176,6 +177,11 @@ const Spa: React.FC = () => {
 
   const onCtaClick = () => {
     if (spaInformation?.cta?.redirectOption === EXTERNAL_URL) {
+      analyticsEvent({
+        action: 'spa_redirect',
+        category: spaInformation?.__typename,
+        title: spaInformation?.name,
+      });
       setspaBooking(true);
     }
     if (spaInformation?.cta?.redirectOption === SPA_BOOKING_FLOW) {

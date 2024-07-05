@@ -130,5 +130,7 @@
   "Invalid Room Type": "Type de chambre invalide",
   "Invalid room number": "Numéro de chambre invalide",
   "Something Went Wrong!": "Quelque chose s'est mal passé !",
-  "Chat": "Chat"
+  "Chat": "Chat",
+  "Chat Unavailable!": "Chat non disponible !",
+  "Failed to initialize chat, please try again later.": "Échec de l'initialisation du chat, veuillez réessayer plus tard."
 }

@@ -131,5 +131,7 @@
   "Invalid Room Type": "Invalid Room Type",
   "Invalid room number": "Invalid room number",
   "Something Went Wrong!": "Something Went Wrong!",
-  "Chat": "Chat"
+  "Chat": "Chat",
+  "Chat Unavailable!": "Chat Unavailable!",
+  "Failed to initialize chat, please try again later.": "Failed to initialize chat, please try again later."
 }

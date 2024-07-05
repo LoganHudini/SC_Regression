@@ -16,7 +16,8 @@
   align-items: center;
   text-decoration: none;
   cursor: pointer;
-  & > svg > path {
+
+  &>svg>path {
     fill: var(--hamburgermenu-icon-color);
   }
 }
@@ -129,4 +130,8 @@
   font-size: $extraSmall;
   line-height: 1.25;
   text-align: center;
+}
+
+.decoration {
+  text-decoration: none;
 }
