@@ -59,6 +59,7 @@ import { StyledInput } from 'components/shared/StyledInput/StyledInput';
 import { useFormik } from 'formik';
 import { getEmailRoomValidation } from 'validation/get-reservation.validation';
 import { analyticsEvent } from 'utils/gtag';
+import { PhoneEmail } from 'components/shared/PhoneEmail/PhoneEmail';
 
 export { getStaticPaths };
 
@@ -376,6 +377,12 @@ const Spa: React.FC = () => {
                 <p className={styles.detailComponentDescription}>
                   {t(`${selectedSpaItem?.description}`)}
                 </p>
+              )}
+              {(spaInformation?.contact?.phone || spaInformation?.contact?.email) && (
+                <PhoneEmail
+                  phone={spaInformation?.contact?.phone}
+                  email={spaInformation?.contact?.email}
+                />
               )}
             </div>
             {spaInformation?.cta?.status === ACTIVE && (

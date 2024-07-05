@@ -22,6 +22,8 @@ import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { filterHotelCompendiumCategories } from 'utils/functions';
 import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
+import { PhoneEmail } from 'components/shared/PhoneEmail/PhoneEmail';
+import { EMAILCAPS, PHONECAPS } from 'utils/constants';
 
 export { getStaticPaths };
 
@@ -85,6 +87,19 @@ const HotelCompendium: React.FC = () => {
             )}
             {showSelectedAmenity?.highlights[0] && (
               <p className={styles.highlights}>{showSelectedAmenity?.highlights[0]}</p>
+            )}
+
+            {showSelectedAmenity?.information?.some(
+              (e: any) => e?.type === PHONECAPS || e?.type === EMAILCAPS,
+            ) && (
+              <PhoneEmail
+                phone={
+                  showSelectedAmenity?.information?.find((e: any) => e?.type === PHONECAPS)?.value
+                }
+                email={
+                  showSelectedAmenity?.information?.find((e: any) => e?.type === EMAILCAPS)?.value
+                }
+              />
             )}
           </div>
         </>
