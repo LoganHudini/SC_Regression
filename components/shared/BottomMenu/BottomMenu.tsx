@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './BottomMenu.module.scss';
 import DownArrowIcon from '@icons/downArrow.svg';
 import { MenuItem, ModuleOptionsDrawer } from 'components/shared/BottomMenu/MenuItem/MenuItem';
@@ -87,6 +87,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
   const hotelCompendiumActive = router?.asPath?.includes(availablePaths?.HOTEL_COMPENDIUM);
   const checkOutActive = router?.asPath?.includes(availablePaths.BILL);
   const selectedDiningCategory = useReactiveVar(diningInformationStorage);
+  const [errorToggle, setErrorToggle] = useState<any>();
 
   useEffect(() => {
     homeActiveRef.current = router?.pathname === '/[locale]/[hotel]';
@@ -163,6 +164,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
             status={hamburgerMenuElement.isActive}
             toggleOption={closeHamburgerMenuDrawer}
             hotelName={hotelName}
+            setErrorToggle={setErrorToggle}
           />
         ))}
       </div>
@@ -326,12 +328,11 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
       />
 
       <CheckInDrawer />
-
       <Notification
-        title={t('Chat Unavailable!')}
-        description={t('Failed to initialize chat, please try again later.')}
-        type={FAILURE}
-        redirect={availablePaths?.HOME}
+        title={errorToggle?.message}
+        description={errorToggle?.description}
+        type={!errorToggle?.state && FAILURE}
+        redirect={errorToggle?.type === 'home' ? availablePaths?.HOME : null}
       />
     </>
   );

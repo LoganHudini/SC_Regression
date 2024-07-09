@@ -67,6 +67,7 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
   status,
   hotelName,
   toggleOption,
+  setErrorToggle,
 }) => {
   const navigate = useLocalizedRouter();
   const { t } = useTranslation(['common']);
@@ -107,6 +108,12 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
           toggleMessageBirdChat(true);
         } else if (config?.chatOption === MESSAGE_BOX && !chatURL) {
           toggleNotification(true);
+          setErrorToggle({
+            message: t('Chat Unavailable!'),
+            description: t('Failed to initialize chat, please try again later.'),
+            state: false,
+            type: 'home',
+          });
         }
         toggleOption();
       } else if (title === LANGUAGE) {
@@ -122,6 +129,8 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
     pages,
     paths,
     redirectOptions,
+    setErrorToggle,
+    t,
     title,
     toggleOption,
   ]);
