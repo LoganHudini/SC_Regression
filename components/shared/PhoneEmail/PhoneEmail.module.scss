@@ -2,22 +2,26 @@
   display: flex;
   justify-content: space-evenly;
   width: 100%;
-  margin: 0.5rem 0;
 }
-
 .callRow,
 .emailRow {
   display: flex;
-  justify-content: center;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   text-decoration: none;
-  color: var(--primary-theme-color);
+  color: var(--primary-text-color);
+  span {
+    margin-inline-start: 10px;
+    font-size: 1rem;
+    color: var(--primary-text-color);
+    text-align: start;
+    width: fit-content;
+  }
 }
 
 .icon_contact {
   color: var(--primary-theme-color) !important;
   font-size: $small !important;
   text-transform: uppercase;
-  margin-inline-start: 6px;
-  margin-top: 5px;
 }
