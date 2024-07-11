@@ -135,6 +135,9 @@ export const updateDocTypeOptions = (data: any, replaceData: any) => {
 export const isOfferActive = (offer: any) => {
   const currentTimestamp = Math.floor(Date.now() / 1000);
 
+  const currentDate = new Date();
+  const currentDayOfWeek = currentDate.toLocaleString('en-US', { weekday: 'long' }).toUpperCase();
+
   if (offer?.isActive) {
     if (offer?.duration?.alwaysActive) {
       return true;
@@ -167,7 +170,18 @@ export const isOfferActive = (offer: any) => {
       );
       const endTimeStamp = Math.floor(endDateTime.getTime() / 1000);
 
-      return startTimeStamp <= currentTimestamp && endTimeStamp >= currentTimestamp;
+      const isWithinTimeRange =
+        startTimeStamp <= currentTimestamp && endTimeStamp >= currentTimestamp;
+
+      if (isWithinTimeRange) {
+        if (!offer?.duration?.alwaysActive && offer?.duration?.timings?.length > 0) {
+          return offer?.duration?.timings?.some(
+            (customDay: any) => customDay?.day === currentDayOfWeek,
+          );
+        } else {
+          return true;
+        }
+      }
     }
   }
 

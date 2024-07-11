@@ -34,6 +34,10 @@ export const GET_OFFERS = gql`
         endTime
         startDate
         startTime
+        timings {
+          day
+          offerTime
+        }
       }
       notification {
         createdAt
