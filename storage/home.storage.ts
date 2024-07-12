@@ -26,6 +26,12 @@ export const toggleMapState = makeVar(true);
 
 export const toggleNotification = makeVar(false);
 
+export const errorNotification = makeVar<null | {
+  title: string;
+  description: string;
+  type: string;
+}>(null);
+
 export const notificationDetails = makeVar<INotificationDetailsProps>({});
 
 export const toggleLoader = makeVar(false);

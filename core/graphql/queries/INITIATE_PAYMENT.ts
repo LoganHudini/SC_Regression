@@ -47,7 +47,7 @@ query InitiatePayment( $body: InitiatePaymentPayload) {
     initiatePayment(body: $body)
     @rest(
       type: "InitiatePaymentPayload"
-      path: "/loadpaymentzone2/fiserv/hotel/${HOTEL_ID}"
+      path: "/loadpaymentzone2/fiserv/hotel/${HOTEL_ID}?confirmationId={args.body.bookingId}"
       method: "POST"
       bodyKey: "body"
     ) {

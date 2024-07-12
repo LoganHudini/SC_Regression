@@ -56,11 +56,11 @@ query GetPaymentStatus($paymentId: String, $confirmationId: String) {
 `;
 
 export const GET_PAYMENT_STATUS_WITHOUT_CONFIRMATIONID = gql`
-query GetPaymentStatus($paymentId: String) {
-    getPaymentStatus(paymentId: $paymentId)
+query GetPaymentStatus($paymentId: String, $confirmationId: String) {
+    getPaymentStatus(paymentId: $paymentId, confirmationId: $confirmationId)
     @rest(
       type: "GetPaymentStatusPayload"
-      path: "/${ENVIRONMENT}/payment/{args.paymentId}/hotel/${HOTEL_ID}/info"
+      path: "/${ENVIRONMENT}/payment/{args.paymentId}/hotel/${HOTEL_ID}/info?confirmationId={args.confirmationId}"
     ) {
     errors
     data

@@ -55,7 +55,7 @@ import {
   GET_PAYMENT_STATUS,
   IGetPaymentStatusApiResponse,
 } from 'core/graphql/queries/GET_PAYMENT_STATUS';
-import { toggleNotification } from 'storage/home.storage';
+import { errorNotification, toggleNotification } from 'storage/home.storage';
 import { Notification } from 'components/shared/Notification/Notification';
 import { processStatusCode } from 'utils/processError';
 import { personalizationStorage } from 'storage/personalize-your-room.storage';
@@ -63,12 +63,12 @@ import { personalizationStorage } from 'storage/personalize-your-room.storage';
 export { getStaticPaths };
 
 const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
+  const { t } = useTranslation(['about-your-stay', 'check-in']);
   const navigate = useLocalizedRouter();
   const config = useConfig();
   const availablePersonalizations = useReactiveVar(personalizationStorage);
-  const { t } = useTranslation(['about-your-stay', 'check-in']);
+  const notification = useReactiveVar(errorNotification);
   const transactionId = useRef('');
-  const [errorNotification, setErrorNotification] = useState(false);
   const [popUpStatus, setPopUpStatus] = useState(false);
   const [url, setUrl] = useState('');
   const paymentConfig: any = usePaymentConfig();
@@ -232,23 +232,37 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
             paymentType: paymentStatusData?.getPaymentStatus?.data['paymentMethod '],
             transactionId: transactionId.current,
           });
-          setErrorNotification(false);
+          errorNotification({
+            title: t('Thank You!') as string as string,
+            description: t('Card Authentication Completed') as string,
+            type: SUCCESS,
+          });
           toggleNotification(true);
           onPaymentDone();
         }
         if (status === 'Failed') {
-          setErrorNotification(true);
+          errorNotification({
+            title: t('Payment Failed!') as string,
+            description: t('Card Authentication Failed!') as string,
+            type: FAILURE,
+          });
           toggleNotification(true);
           onPaymentDone();
         }
       } catch (paymentStatusError) {
         const statusCode = processStatusCode(paymentStatusError as ApolloError);
-        statusCode === 403 && tryCount < 4
-          ? (handleCheckInAuthenticationFailure(paymentResponse), (tryCount = tryCount + 1))
-          : (setErrorNotification(true), toggleNotification(true), onPaymentDone());
+        statusCode === 403
+          ? handleCheckInAuthenticationFailure(paymentResponse)
+          : (errorNotification({
+              title: t('Payment Failed!') as string,
+              description: t('Card Authentication Failed!') as string,
+              type: FAILURE,
+            }),
+            toggleNotification(true),
+            onPaymentDone());
       }
     }
-  }, [guestReservationInfo, onPaymentDone, reservationInfo?.confirmationId]);
+  }, [guestReservationInfo, onPaymentDone, reservationInfo?.confirmationId, t]);
 
   useEffect(() => {
     if (!reservationData) {
@@ -324,14 +338,10 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
         <PaymentLoaderPopUp paymentLoader={popUpStatus} />
         <Notification
           translation={t}
-          title={errorNotification ? (t('Payment Failed!') as string) : (t('Thank You!') as string)}
-          description={
-            errorNotification
-              ? (t('Card Authentication Failed!') as string)
-              : (t('Card Authentication Completed') as string)
-          }
+          title={notification?.title}
+          description={notification?.description}
           redirect={availablePaths?.CARD_AUTHORISATION}
-          type={errorNotification ? FAILURE : SUCCESS}
+          type={notification?.type}
         />
       </PageWrapper>
     </>

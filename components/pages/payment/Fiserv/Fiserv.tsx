@@ -1,5 +1,8 @@
 /* eslint-disable camelcase */
-import { getCheckInToken } from 'core/api/functions/getCheckInAuthentication';
+import {
+  getCheckInToken,
+  handleCheckInAuthenticationFailure,
+} from 'core/api/functions/getCheckInAuthentication';
 import { client } from 'core/graphql/client';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
 import { INITIATE_PAYMENT_FISERV } from 'core/graphql/queries/INITIATE_PAYMENT';
@@ -7,16 +10,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from '@styles/check-in-payment/check-in-payment.module.scss';
 import { GET_PAYMENT_STATUS_WITHOUT_CONFIRMATIONID } from 'core/graphql/queries/GET_PAYMENT_STATUS';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
-import { useReactiveVar } from '@apollo/client';
+import { ApolloError, useReactiveVar } from '@apollo/client';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
-import { Notification } from 'components/shared/Notification/Notification';
 import { useTranslation } from 'react-i18next';
 import { CHECK_IN, CREDIT_CARD_INFO, FAILURE, INFORMATION, SUCCESS } from 'utils/constants';
 import cx from 'classnames';
-import { toggleNotification } from 'storage/home.storage';
+import { errorNotification, toggleNotification } from 'storage/home.storage';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { fetchCharges } from 'utils/functions';
+import { processStatusCode } from 'utils/processError';
 
 interface IInitiatePaymentApiResponse {
   initiatePayment: {
@@ -42,7 +45,6 @@ export const Fiserv = () => {
   const config = useConfig();
   const iframeRef: any = useRef<HTMLIFrameElement>(null);
   const [loading, setLoading] = useState(true);
-  const [errorNotification, setErrorNotification] = useState(false);
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
@@ -61,7 +63,7 @@ export const Fiserv = () => {
   const reservationInfo = reservationData && reservationData?.getReservation?.data;
 
   useEffect(() => {
-    (async () => {
+    const preparePayment = async () => {
       const checkInToken = getCheckInToken();
       if (reservationInfo) {
         const initiatePaymentPayload = {
@@ -85,9 +87,16 @@ export const Fiserv = () => {
             fetchPolicy: 'network-only',
           });
           paymentData = data;
-        } catch (err) {
-          setErrorNotification(true);
-          toggleNotification(true);
+        } catch (initiatePaymentError) {
+          const statusCode = processStatusCode(initiatePaymentError as ApolloError);
+          statusCode === 403
+            ? handleCheckInAuthenticationFailure(preparePayment)
+            : (errorNotification({
+                title: t('Payment Failed!') as string,
+                description: t('Card Authentication Failed!') as string,
+                type: FAILURE,
+              }),
+              toggleNotification(true));
         }
 
         if (paymentData) {
@@ -103,8 +112,9 @@ export const Fiserv = () => {
           }
         }
       }
-    })();
-  }, [cardDetailsSections?.timeZone, cardDetailsSections?.txnType, reservationInfo]);
+    };
+    preparePayment();
+  }, [cardDetailsSections?.timeZone, cardDetailsSections?.txnType, reservationInfo, t]);
 
   const handleChange = () => {
     const checkInToken = getCheckInToken();
@@ -115,7 +125,10 @@ export const Fiserv = () => {
             query: GET_PAYMENT_STATUS_WITHOUT_CONFIRMATIONID,
             context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
             fetchPolicy: 'network-only',
-            variables: { paymentId: transactionId },
+            variables: {
+              paymentId: transactionId,
+              confirmationId: reservationInfo?.confirmationId,
+            },
           });
 
           const status = paymentStatusData?.getPaymentStatus.data['status '];
@@ -131,18 +144,32 @@ export const Fiserv = () => {
               approvalCode: paymentStatusData?.getPaymentStatus?.data['approvalCode'],
               paymentType: paymentStatusData?.getPaymentStatus?.data['cardType '],
             });
-            setErrorNotification(false);
+            errorNotification({
+              title: t('Thank You!') as string as string,
+              description: t('Card Authentication Completed') as string,
+              type: SUCCESS,
+            });
             toggleNotification(true);
             navigate(availablePaths?.CARD_AUTHORISATION);
-          }
-          if (status === 'Failed') {
-            setErrorNotification(true);
+          } else if (status === 'Failed') {
+            errorNotification({
+              title: t('Payment Failed!') as string,
+              description: t('Card Authentication Failed!') as string,
+              type: FAILURE,
+            });
             toggleNotification(true);
             navigate(availablePaths?.CARD_AUTHORISATION);
           }
         } catch (paymentStatusError) {
-          setErrorNotification(true);
-          toggleNotification(true);
+          const statusCode = processStatusCode(paymentStatusError as ApolloError);
+          statusCode === 403
+            ? handleCheckInAuthenticationFailure(handleChange)
+            : (errorNotification({
+                title: t('Payment Failed!') as string,
+                description: t('Card Authentication Failed!') as string,
+                type: FAILURE,
+              }),
+              toggleNotification(true));
         }
       }
     }, 1500);
@@ -155,18 +182,6 @@ export const Fiserv = () => {
         className={cx(styles.paymentWindow, { [styles.paymentWindowHidden]: loading })}
         ref={iframeRef}
         onLoad={handleChange}
-      />
-
-      <Notification
-        translation={t}
-        title={errorNotification ? (t('Payment Failed!') as string) : (t('Thank You!') as string)}
-        description={
-          errorNotification
-            ? (t('Card Authentication Failed!') as string)
-            : (t('Card Authentication Completed') as string)
-        }
-        redirect={availablePaths?.CARD_AUTHORISATION}
-        type={errorNotification ? FAILURE : SUCCESS}
       />
     </div>
   );

@@ -101,7 +101,10 @@ const PersonalizeYourRoom: React.FC = () => {
 
   const goToNextStep = useCallback(async () => {
     setLoadingButton(true);
-    if (!personalizationStorageInfo?.some((item: any) => item?.quantity > 0)) {
+    if (
+      !personalizationStorageInfo?.some((item: any) => item?.quantity > 0) ||
+      personalisationConfig?.type === CMS
+    ) {
       navigate(availablePaths?.REVIEW);
     } else {
       personalizationStorageInfo?.filter((x: any) => x?.quantity !== 0);
