@@ -24,6 +24,7 @@ export const FAIRMONT_MAKKAH_CLOCK_ROYAL_TOWER = 'fairmont-makkah-clock-royal-to
 export const ONE_HOTELS_SOUTH_BEACH = '1-hotel-south-beach';
 export const ATLANTIS = 'atlantis';
 export const PROPER_DOWNTOWN_LA = 'proper-downtown-la';
+export const PROPER_SANTA_MONICA = 'proper-santa-monica';
 export const ONE_AND_ONLY_ROYAL_MIRAGE = 'one-and-only-royal-mirage';
 export const LONDONER_LEICESTER_SQ = 'londoner-leicester-sq';
 export const EDWARDIAN = 'edwardian';
