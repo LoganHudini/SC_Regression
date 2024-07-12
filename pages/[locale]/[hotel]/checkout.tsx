@@ -88,7 +88,12 @@ const CheckOut = () => {
     });
 
   const { data: invoiceData, loading: invoiceLoading } = useQuery<IInvoiceApiResponse>(INVOICE, {
-    context: { clientName: 'rest' },
+    context: {
+      clientName: 'rest',
+      headers: {
+        Authorization: 'Bearer ' + getCheckOutToken(checkedInData?.roomNumber, checkedInData?.name),
+      },
+    },
     fetchPolicy: 'network-only',
     variables: {
       confirmationNumber: checkedInData?.invoiceId,
@@ -125,7 +130,6 @@ const CheckOut = () => {
   }, [openCheckOutDrawer]);
 
   const handleMail = async () => {
-    const checkInToken = getCheckInToken();
     setEmailLoader(true);
     const emailInvoicePayload = {
       registeredGuest: checkedInData?.name,
@@ -157,7 +161,7 @@ const CheckOut = () => {
     try {
       await client.query({
         query: EMAIL_INVOICE,
-        context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
+        context: { clientName: 'rest' },
         fetchPolicy: 'network-only',
         variables: {
           confirmationNumber: checkedInData?.reservationId,
