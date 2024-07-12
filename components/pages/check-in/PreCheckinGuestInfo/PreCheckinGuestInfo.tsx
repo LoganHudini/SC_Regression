@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import { useState } from 'react';
 import {
   DATEPICKER,
+  INVALID_DATE,
   NEWGUEST,
   NEWGUESTFORM,
   PRIMARY,
@@ -33,11 +34,6 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
 }) => {
   const { t } = useTranslation('check-in');
   const [cardOpened, setCardOpened] = useState(true);
-  const [onOpen, setOnOpen] = useState(
-    guestInformationSection
-      .filter((field: any) => field?.type === DATEPICKER && field?.isActive)
-      .map((open: any) => ({ isOpen: false, name: open.name })),
-  );
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
   const hotelInfo = useReactiveVar(hotelInformation);
 
@@ -135,34 +131,18 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
               ) : field?.type === DATEPICKER ? (
                 <div className={styles.col_100}>
                   <DatePicker
-                    open={onOpen?.find((open: any) => open?.name === field?.name)?.isOpen}
-                    onOpen={() =>
-                      setOnOpen((prev: any) => {
-                        const newState = [...prev];
-                        const index = newState?.findIndex((x) => x?.name === field?.name);
-                        if (index !== -1) {
-                          newState[index].isOpen = !newState[index].isOpen;
-                        }
-                        return newState;
-                      })
-                    }
-                    onClose={() =>
-                      setOnOpen((prev: any) => {
-                        const newState = [...prev];
-                        const index = newState?.findIndex((x) => x?.name === field?.name);
-                        if (index !== -1) {
-                          newState[index].isOpen = !newState[index]?.isOpen;
-                        }
-                        return newState;
-                      })
-                    }
                     className={styles.guestDataInput}
                     label={t(field?.label)}
                     value={formik.values[field?.name] || null}
                     onChange={(date) => {
-                      const selectedDate = dayjs(date).format(timeFormats.YEAR_MONTH_DAY);
-                      formik.setFieldValue(field?.name, selectedDate);
-                      updateGuestDetails(field?.name, selectedDate);
+                      const selectedDate: any = dayjs(date).format(timeFormats.YEAR_MONTH_DAY);
+                      if (selectedDate !== INVALID_DATE) {
+                        formik.setFieldValue(field?.name, selectedDate);
+                        updateGuestDetails(field?.name, selectedDate);
+                      } else {
+                        formik.setFieldValue(field?.name, '');
+                        updateGuestDetails(field?.name, '');
+                      }
                     }}
                     disabled={
                       type === NEWGUESTFORM ? false : type === NEWGUEST ? true : field?.isDisabled
@@ -198,8 +178,11 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                     className={styles.guestDataInput}
                     label={t(field?.label)}
                     ampm={false}
+                    disabled={
+                      type === NEWGUESTFORM ? false : type === NEWGUEST ? true : field?.isDisabled
+                    }
                     value={
-                      formik?.values[field?.name] === 'Invalid Date' ||
+                      formik?.values[field?.name] === INVALID_DATE ||
                       formik?.values[field?.name] === ''
                         ? null
                         : typeof formik?.values[field?.name] === 'string'
@@ -210,12 +193,17 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                     }
                     onChange={(newValue) => {
                       const selectedDate: any = dayjs(newValue).format(timeFormats.HOURS_MINUTES_2);
-                      formik.setFieldValue(field?.name, dayjs(newValue));
-                      updateGuestDetails(field?.name, selectedDate);
+                      if (selectedDate !== INVALID_DATE) {
+                        formik.setFieldValue(field?.name, dayjs(newValue));
+                        updateGuestDetails(field?.name, selectedDate);
+                      } else {
+                        formik.setFieldValue(field?.name, '');
+                        updateGuestDetails(field?.name, '');
+                      }
                     }}
                     minTime={dayjs()
-                      .set('hour', Number(hotelInfo.checkInTime?.split(':')[0]))
-                      .set('minute', hotelInfo.checkInTime?.split(':')[1])}
+                      .set('hour', Number(hotelInfo?.checkInTime?.split(':')[0]))
+                      .set('minute', hotelInfo?.checkInTime?.split(':')[1])}
                     renderInput={(params) => (
                       <StyledInput
                         name={field?.name}

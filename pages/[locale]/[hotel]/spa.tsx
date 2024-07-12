@@ -519,6 +519,7 @@ const Spa: React.FC = () => {
         )}
 
         <Notification
+          translation={t}
           title={errorNotification?.title as string}
           description={errorNotification?.message}
           redirect={null}
@@ -586,7 +587,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ['spa', 'common'], i18nConfig)),
+      ...(await serverSideTranslations(locale as string, ['errors', 'spa', 'common'], i18nConfig)),
     },
   };
 };

@@ -62,5 +62,10 @@
   "Guest information added successfully.": "Información del invitado añadida correctamente.",
   "Failed to add guest details.": "Error al agregar los detalles del invitado.",
   "Scan Document": "Escanear documento",
-  "Something Went Wrong!": "¡Algo salió mal!"
+  "Something Went Wrong!": "¡Algo salió mal!",
+  "Nationality": "Nacionalidad",
+  "Choose Your Nationality": "Elige tu nacionalidad",
+  "Pre Checked-In": "Pre-registro",
+  "You have already completed the pre check-in process.": "Ya has completado el proceso de Pre-Registro de Entrada.",
+  "Pending Details": "Detalles pendientes"
 }

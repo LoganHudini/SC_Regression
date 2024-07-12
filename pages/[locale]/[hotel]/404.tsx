@@ -41,7 +41,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const locale = ctx?.params?.locale;
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ['404'], i18nConfig)),
+      ...(await serverSideTranslations(locale as string, ['errors', '404'], i18nConfig)),
     },
   };
 };

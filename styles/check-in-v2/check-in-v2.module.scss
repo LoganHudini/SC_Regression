@@ -55,10 +55,11 @@
   flex: 1;
   line-height: 1.4;
   color: var(--tertiary-text-color);
+
   a {
     color: var(--primary-theme-color);
     text-decoration: none;
-    white-space: nowrap;
+
   }
 }
 
@@ -85,10 +86,15 @@
 
 .agrementSignatureWrapper {
   canvas {
-    margin: -7px -15px -25px -15px;
+    background: #0f1b2a19;
   }
-  margin: 0 auto;
+
+  margin: auto;
   margin-bottom: 100px;
+  border-radius: 3px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .settlementWrapper {
@@ -139,6 +145,7 @@
   font-family: var(--primary-font-heading);
   font-size: $small;
   color: var(--tertiary-text-color);
+
   div {
     text-align: start;
     font-family: var(--primary-font-heading);

@@ -13,15 +13,16 @@ export interface IUpdateGuestDetailsApiRequest {
   placeOfIssue?: string;
   countryOfIssue?: string;
   isPrimary: string;
-  gender?: string;
   guestDocument?: string;
   channel: string;
   updateGuestDetails: {
     name?: {
       firstName: string;
       lastName: string;
-      dob?: string;
+      gender?: string;
       nationality?: string;
+      dob?: string;
+      profession?: string;
     };
     address?: {
       id: string;

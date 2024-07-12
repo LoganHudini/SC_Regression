@@ -48,4 +48,6 @@ export const diningHeaders = makeVar<any>([]);
 
 export const toggleMessageBirdChat = makeVar(false);
 
+export const setDayjsLocale = makeVar(false);
+
 export const hotelImage = makeVar<any>({});

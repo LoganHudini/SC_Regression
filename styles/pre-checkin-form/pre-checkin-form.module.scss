@@ -65,7 +65,7 @@
   background-color: var(--primary-card-background-color);
   display: flex;
   flex-direction: column;
-  padding: 26px;
+  padding: 0 26px;
   gap: 10px;
   border: var(--primary-card-border);
   border-radius: var(--primary-card-border-radius);
@@ -97,9 +97,7 @@
 
 .guestDataInput {
   width: 100%;
-  label {
-    // text-transform: capitalize !important;
-  }
+
   div {
     input {
       font-weight: bold;
@@ -120,6 +118,7 @@
   margin: 15px 0px;
   display: flex;
   justify-content: right;
+
   button {
     display: flex;
   }
@@ -136,6 +135,7 @@
 .buttonLeft {
   margin-inline-end: 1rem;
   border-radius: 7px;
+
   &:disabled {
     color: #ffffffab !important;
   }
@@ -143,6 +143,7 @@
 
 .buttonRight {
   margin-top: 30px;
+
   &:disabled {
     opacity: 0.7 !important;
     margin-top: 30px;
@@ -160,6 +161,7 @@
 .agrementText {
   max-width: none;
   margin-inline-start: 20px;
+
   a {
     text-decoration: none;
     white-space: nowrap;
@@ -173,10 +175,12 @@
   label {
     letter-spacing: 0.72px !important;
   }
+
   div {
     div {
       padding-bottom: 0px !important;
     }
+
     input {
       padding: 0px !important;
       padding-bottom: 6px !important;
@@ -187,15 +191,15 @@
 .styledDateInput {
   width: 100%;
   margin-top: 17px;
+
   label {
     letter-spacing: 0.72px !important;
     text-transform: uppercase !important;
   }
+
   div {
     div {
       padding-bottom: 0px !important;
-    }
-    input {
     }
   }
 }
@@ -277,7 +281,8 @@
   padding: 10px 20px;
   height: 35px;
   line-height: 35px;
-  margin-top: 10px;
+  margin: 10px 0;
+
   &:after {
     display: none;
   }
@@ -302,6 +307,7 @@
   flex-direction: column;
   border: var(--primary-card-border);
   border-radius: var(--primary-card-border-radius);
+
   &:not(:first-child) {
     margin-top: 10px;
   }
@@ -320,6 +326,7 @@
   padding: 10px 40px;
   margin-top: 10px;
   margin: 0 auto;
+
   &:after {
     display: none;
   }
@@ -384,4 +391,52 @@
 
 .button {
   margin-top: 20px;
+}
+
+.drawerWrapper {
+  padding: 0 30px;
+}
+
+.pageTitle {
+  font-family: var(--primary-font-heading);
+  font-size: $large;
+  margin: 3rem 0 33px;
+  text-align: center;
+  align-self: center;
+  line-height: 27px;
+  width: 100%;
+  text-transform: uppercase;
+}
+
+.button {
+  margin: 2rem 0 1rem;
+  font-size: 0.875rem;
+}
+
+.countryDropdown {
+  margin: 1rem 0 6rem;
+}
+
+.addGuestText {
+  font: $large var(--primarytext-regular);
+  color: var(--primary-theme-color);
+  margin-top: 1rem;
+}
+
+.pendingDetails {
+  font-size: $extraSmall;
+  display: inline-flex;
+  height: 1.3rem;
+  color: var(--primary-error-text-color);
+  justify-content: space-around;
+  border: 1px solid var(--primary-error-text-color);
+  align-items: center;
+  border-radius: var(--primary-card-border-radius);
+  width: auto;
+  padding: 0px 15px;
+  margin-top: 20px;
+}
+
+.icon {
+  padding-inline-end: 10px;
 }

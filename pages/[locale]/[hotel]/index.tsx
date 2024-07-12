@@ -6,7 +6,6 @@ import { SpaCarousel } from 'components/pages/home/SpaCarousel/SpaCarousel';
 import { Header } from 'components/shared/Header/Header';
 import { Loader, LogoLoader } from 'components/shared/Loaders/Loaders';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
-import { BRAND_CODE } from 'core/graphql/endpoints';
 import { GET_HOTEL_COMPENDIUM } from 'core/graphql/queries/GET_HOTEL_COMPENDIUM_DETIALS';
 import { GET_HOTEL_INFORMATION } from 'core/graphql/queries/GET_HOTEL_INFORMATION';
 import {
@@ -26,14 +25,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { useTranslation } from 'react-i18next';
 import { useCheckedIn } from 'storage/check-in.storage';
-import {
-  CHECK_IN,
-  FAIRMONT,
-  IN_ROOM_DINING,
-  PAIR_TO_ROOM,
-  RAFFLES,
-  SERVICES,
-} from 'utils/constants';
+import { CHECK_IN, IN_ROOM_DINING, PAIR_TO_ROOM, SERVICES } from 'utils/constants';
 import { activeModule, isOfferActive } from 'utils/functions';
 import { getStaticPaths } from 'utils/getStatic';
 import { useConfig } from 'utils/hooks/useConfiguration';
@@ -51,7 +43,6 @@ const Home: NextPage = () => {
   const config = useConfig();
   const hotelId = config?.hotelId;
   const hotelName = config?.name;
-
   const checkInModule = activeModule(config?.modules, CHECK_IN);
   const pairToRoomModule: boolean = activeModule(config?.modules, PAIR_TO_ROOM);
   const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
@@ -157,7 +148,7 @@ const Home: NextPage = () => {
     ),
     'check-in': () => (
       <>
-        {!checkInData?.checkedIn && checkInModule && (
+        {!checkInData?.checkedIn && checkInModule && !config?.preCheckInOnly && (
           <Checkin
             title={t('Check-in?')}
             description={t(
@@ -204,11 +195,8 @@ const Home: NextPage = () => {
       <Head>
         <title>{hotelName}</title>
       </Head>
-      {(BRAND_CODE === FAIRMONT || BRAND_CODE == RAFFLES) && (
-        <Header screenTitle={t('Home') as string} />
-      )}
-
-      <PageWrapper displayBottomMenu className={'globals-landingPageContainer'}>
+      {config?.homePageHeader && <Header screenTitle={t('Home') as string} />}
+      <PageWrapper displayBottomMenu homePageHeader={config?.homePageHeader}>
         {homeCarouselLoading ||
         serviceCarouselLoading ||
         irdloading ||
@@ -239,7 +227,11 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ['common', 'restaurants'], i18nConfig)),
+      ...(await serverSideTranslations(
+        locale as string,
+        ['errors', 'common', 'restaurants'],
+        i18nConfig,
+      )),
     },
   };
 };

@@ -48,5 +48,7 @@
   font-size: $header;
   color: var(--secondary-text-color);
   font-family: var(--heading-font-regular);
-  width: 70%;
+  width: 95%;
+  word-break: break-word;
+  -webkit-line-clamp: 3;
 }

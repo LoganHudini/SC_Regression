@@ -5,7 +5,7 @@ import PlaceholderIcon from '@icons/imagePlaceholder.svg';
 import styles from './StableImage.module.scss';
 import cx from 'classnames';
 interface StableImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
-  hidePlaceholder?: boolean;
+  hideplaceholder?: string;
 }
 
 export const StableImage: React.FC<StableImageProps> = (props) => {
@@ -46,7 +46,7 @@ export const StableImage: React.FC<StableImageProps> = (props) => {
 
   return (
     <>
-      {error && !props.hidePlaceholder && (
+      {error && props?.hideplaceholder !== 'true' && (
         <div className={cx(props.className, styles.imagePlaceholder)}>
           <PlaceholderIcon viewBox='0 0 85.272 62.533' />
         </div>

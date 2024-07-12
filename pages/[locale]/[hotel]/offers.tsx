@@ -9,7 +9,7 @@ import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { useTranslation } from 'react-i18next';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { Header } from 'components/shared/Header/Header';
-import { OFFERS } from 'utils/constants';
+import { EXTERNAL_URL_CAPS, FLOW, OFFERS } from 'utils/constants';
 import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { GET_OFFERS } from 'core/graphql/queries/GET_OFFERS';
@@ -25,11 +25,8 @@ import { useConfig } from 'utils/hooks/useConfiguration';
 import { isOfferActive } from 'utils/functions';
 import Head from 'next/head';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
-import {
-  offerDetails,
-  handleCtaClick,
-  timeDisplayed,
-} from 'components/pages/home/OffersCarousel/OffersCarousel';
+import { offerDetails, timeDisplayed } from 'components/pages/home/OffersCarousel/OffersCarousel';
+import { flowPathMap } from 'utils/flowPathMap';
 
 export { getStaticPaths };
 
@@ -81,7 +78,17 @@ const Offers: React.FC = () => {
   };
 
   const onCtaClick = useCallback(() => {
-    handleCtaClick(selectedOffer, setofferBooking, navigate, closeDrawer);
+    if (selectedOffer?.CTA?.redirectTo === EXTERNAL_URL_CAPS) {
+      setofferBooking(true);
+    }
+    if (selectedOffer?.CTA?.redirectTo === FLOW) {
+      const redirectUrl = flowPathMap[selectedOffer?.CTA?.redirectData as keyof typeof flowPathMap];
+
+      if (redirectUrl) {
+        navigate(redirectUrl);
+      }
+    }
+    offerDetailDrawerStatus(false);
   }, [navigate, selectedOffer]);
 
   const closeDrawer = () => {
@@ -142,7 +149,11 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const locale = ctx?.params?.locale;
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ['offers', 'common'], i18nConfig)),
+      ...(await serverSideTranslations(
+        locale as string,
+        ['errors', 'offers', 'common'],
+        i18nConfig,
+      )),
     },
   };
 };

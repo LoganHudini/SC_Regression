@@ -50,6 +50,6 @@ export const StepperInformationStorage = makeVar<any>([
   { value: 0, label: 3, title: STEPPER_CHECK_IN },
 ]);
 
-export const youverseProfileIDStorage = makeVar<any>({ id: '', guestType: '' });
+export const profileIDStorage = makeVar<any>({ id: '', guestType: '' });
 
 export const activeCheckInFlow = makeVar<boolean>(true); // true for check-in flow, false for Connect to Room flow

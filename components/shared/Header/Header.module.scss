@@ -70,7 +70,7 @@
 
 .headerLogo {
   cursor: pointer;
-  max-height: 2rem;
+  max-height: 3rem;
 }
 
 .propertyName {
@@ -80,17 +80,10 @@
   text-transform: uppercase;
 }
 
-.closeButton {
+.language {
   cursor: pointer;
   position: absolute;
-  top: 63px;
-  right: 23px;
-}
-
-.closeIcon {
-  width: 22px;
-  height: auto;
-  fill: var(--secondary-text-color);
+  right: 1rem;
 }
 
 .screenTitle {
@@ -132,8 +125,6 @@
 }
 
 .categoryDropdown {
-  // margin-left: 8px;
-  // margin-bottom: -2px;
   cursor: pointer;
 }
 

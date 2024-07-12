@@ -62,5 +62,10 @@
   "Guest information added successfully.": "Guest information added successfully.",
   "Failed to add guest details.": "Failed to add guest details.",
   "Scan Document": "Scan Document",
-  "Something Went Wrong!": "Something Went Wrong!"
+  "Something Went Wrong!": "Something Went Wrong!",
+  "Nationality": "Nationality",
+  "Choose Your Nationality": "Choose Your Nationality",
+  "Pre Checked-In": "Pre Checked-In",
+  "You have already completed the pre check-in process.": "You have already completed the pre check-in process.",
+  "Pending Details": "Pending Details"
 }

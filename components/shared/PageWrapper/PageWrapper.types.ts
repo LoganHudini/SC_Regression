@@ -4,4 +4,5 @@ export interface IPageWrapperProps {
   displayBottomMenu?: boolean;
   disabled?: boolean;
   amountDue?: boolean;
+  homePageHeader?: boolean;
 }

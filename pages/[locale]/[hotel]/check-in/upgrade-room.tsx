@@ -29,7 +29,7 @@ const PersonalizeYourRoom: React.FC = () => {
   const config = useConfig();
   const [notificationState, setNotificationState] = useState<any>(false);
 
-  const checkInModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
+  const checkInModule: any = config?.modules?.find((module: any) => module?.code === CHECK_IN);
   const upgradeRoomConfig = checkInModule?.submodules?.find(
     (submodule: any) => submodule?.name === UPGRADE_ROOM && submodule.isActive,
   );
@@ -92,6 +92,7 @@ const PersonalizeYourRoom: React.FC = () => {
           </StyledButton>
         </div>
         <Notification
+          translation={t}
           title={notificationState?.title}
           description={notificationState?.description}
           redirect={notificationState?.redirect}
@@ -108,7 +109,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     props: {
       ...(await serverSideTranslations(
         locale as string,
-        ['personalize-your-room', 'check-in'],
+        ['errors', 'personalize-your-room', 'check-in'],
         i18nConfig,
       )),
     },

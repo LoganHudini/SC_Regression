@@ -56,7 +56,7 @@ const PersonalizeYourRoom: React.FC = () => {
   const [notificationState, setNotificationState] = useState<any>(false);
   const personalizationStorageInfo = useReactiveVar(personalizeYourRoomStorage);
 
-  const checkInModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
+  const checkInModule: any = config?.modules?.find((module: any) => module?.code === CHECK_IN);
   const personalisationConfig = checkInModule?.submodules?.find(
     (submodule: any) => submodule?.name === personalisation && submodule.isActive,
   );
@@ -198,6 +198,7 @@ const PersonalizeYourRoom: React.FC = () => {
             ? availablePaths.UPGRADE_ROOM
             : availablePaths.GUEST_VERIFICATION
         }
+        language
       />
       <PageWrapper className={styles.pageWrapper}>
         <Stepper />
@@ -235,6 +236,7 @@ const PersonalizeYourRoom: React.FC = () => {
           </StyledButton>
         </div>
         <Notification
+          translation={t}
           title={notificationState?.title}
           description={notificationState?.description}
           redirect={notificationState?.redirect}
@@ -251,7 +253,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     props: {
       ...(await serverSideTranslations(
         locale as string,
-        ['personalize-your-room', 'check-in'],
+        ['errors', 'personalize-your-room', 'check-in'],
         i18nConfig,
       )),
     },

@@ -169,6 +169,7 @@ const CyberSource: React.FC = () => {
         onLoad={handleIframeChange}
       />
       <Notification
+        translation={t}
         title={errorNotification ? (t('Payment Failed!') as string) : (t('Thank You!') as string)}
         description={
           errorNotification

@@ -80,7 +80,7 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
 
   const reservationInfo = reservationData?.getReservation?.data;
 
-  const checkInModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
+  const checkInModule: any = config?.modules?.find((module: any) => module?.code === CHECK_IN);
   const personalisationConfig = checkInModule?.submodules?.find(
     (submodule: any) => submodule?.name === personalisation && submodule.isActive,
   );
@@ -162,11 +162,16 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
   const handleProceedToPayment = useCallback(async () => {
     const checkInToken = getCheckInToken();
     const orderId =
-      Math.floor(Math.random() * 9000000000) + 1000000000 + '-' + reservationInfo?.confirmationId;
+      Math.floor(Math.random() * 9000000000) +
+      1000000000 +
+      '-' +
+      reservationInfo?.confirmationId +
+      '-' +
+      'Hudini_Pwa';
 
     const initiatePaymentPayload: IInitiatePaymentApiRequest = {
-      currency: reservationInfo?.details?.holdAmount?.currency as string,
-      amount: Number(reservationInfo?.roomTypes[0]?.totalCharge) ?? 1,
+      currency: 'INR', // reservationInfo?.details?.holdAmount?.currency, commented for testing
+      amount: 1, //  Number(reservationInfo?.roomTypes[0]?.totalCharge) ??  (for ITC testing)
       bookingId: reservationInfo?.confirmationId as string,
       orderId: orderId,
     };
@@ -188,7 +193,10 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reservationInfo?.confirmationId]);
 
+  let tryCount = 0;
+
   const paymentResponse = useCallback(async () => {
+    tryCount = tryCount + 1;
     if (transactionId.current) {
       const checkInToken = getCheckInToken();
       const cardOptions = [
@@ -235,8 +243,8 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
         }
       } catch (paymentStatusError) {
         const statusCode = processStatusCode(paymentStatusError as ApolloError);
-        statusCode === 403
-          ? handleCheckInAuthenticationFailure(paymentResponse)
+        statusCode === 403 && tryCount < 4
+          ? (handleCheckInAuthenticationFailure(paymentResponse), (tryCount = tryCount + 1))
           : (setErrorNotification(true), toggleNotification(true), onPaymentDone());
       }
     }
@@ -278,6 +286,7 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
             ? availablePaths.UPGRADE_ROOM
             : availablePaths?.GUEST_VERIFICATION
         }
+        language
       />
       <PageWrapper className={styles.pageWrapper}>
         <Stepper />
@@ -314,6 +323,7 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
         </div>
         <PaymentLoaderPopUp paymentLoader={popUpStatus} />
         <Notification
+          translation={t}
           title={errorNotification ? (t('Payment Failed!') as string) : (t('Thank You!') as string)}
           description={
             errorNotification
@@ -334,7 +344,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     props: {
       ...(await serverSideTranslations(
         locale as string,
-        ['about-your-stay', 'check-in'],
+        ['errors', 'about-your-stay', 'check-in'],
         i18nConfig,
       )),
     },

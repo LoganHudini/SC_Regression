@@ -27,27 +27,29 @@ const HotelInformation = (props: any) => {
         >
           <p className={styles.welcome}>{t('Welcome to')}</p>
           <p className={styles.name}>{hotelInfo?.name}</p>
-          <div>
-            <WithScrollbar
-              responsive={CAROUSEL_RESPONSIVE}
-              className={cx(styles.carouselWrapper, {
-                [styles.carouselWrapperSingleImage]: hotelInfo?.images?.length === 1,
-              })}
-            >
-              {hotelInfo?.images?.map((image: any, i: any) => (
-                <StableImage
-                  className={styles.bannerImage}
-                  key={i}
-                  src={`${ASSETS_URL}/${image?.master}`}
-                />
-              ))}
-            </WithScrollbar>
-            <p className={styles.description}>{hotelInfo?.description}</p>
-            <CustomReadMore
-              text={t(BRAND_CODE === 'fairmont' ? 'Discover' : 'View More') as string}
-              className={styles.readMore}
-            />
-          </div>
+          {hotelInfo?.images?.length > 0 && (
+            <div>
+              <WithScrollbar
+                responsive={CAROUSEL_RESPONSIVE}
+                className={cx(styles.carouselWrapper, {
+                  [styles.carouselWrapperSingleImage]: hotelInfo?.images?.length === 1,
+                })}
+              >
+                {hotelInfo?.images?.map((image: any, i: any) => (
+                  <StableImage
+                    className={styles.bannerImage}
+                    key={i}
+                    src={`${ASSETS_URL}/${image?.master}`}
+                  />
+                ))}
+              </WithScrollbar>
+              <p className={styles.description}>{hotelInfo?.description}</p>
+              <CustomReadMore
+                text={t(BRAND_CODE === 'fairmont' ? 'Discover' : 'View More') as string}
+                className={styles.readMore}
+              />
+            </div>
+          )}
         </div>
       )}
     </>

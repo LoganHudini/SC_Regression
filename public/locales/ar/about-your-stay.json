@@ -62,5 +62,10 @@
   "Guest information added successfully.": "تمت إضافة معلومات الضيف بنجاح.",
   "Failed to add guest details.": "فشل في إضافة تفاصيل الضيف.",
   "Scan Document": "مسح المستند",
-  "Something Went Wrong!": "حدث خطأ ما!"
+  "Something Went Wrong!": "حدث خطأ ما!",
+  "Nationality": "جنسية",
+  "Choose Your Nationality": "اختر جنسيتك",
+  "Pre Checked-In": "تم تسجيل الوصول مسبقًا",
+  "You have already completed the pre check-in process.": "لقد أكملت بالفعل عملية التسجيل المسبق.",
+  "Pending Details": "تفاصيل معلقة"
 }

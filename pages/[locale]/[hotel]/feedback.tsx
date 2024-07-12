@@ -241,6 +241,7 @@ const Feedback = () => {
         </PageWrapper>
       )}
       <Notification
+        translation={t}
         title={notificationState?.title}
         apolloError={notificationState?.apolloError}
         redirect={notificationState?.redirect}
@@ -256,7 +257,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ['feedback'], i18nConfig)),
+      ...(await serverSideTranslations(locale as string, ['errors', 'feedback'], i18nConfig)),
     },
   };
 };

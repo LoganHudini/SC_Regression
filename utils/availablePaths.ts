@@ -21,6 +21,9 @@ export const availablePaths = {
   // Youverse
   YOUVERSE: `/${hotel}/youverse`,
 
+  // trential
+  TRENTIAL: `/${hotel}/trential`,
+
   // Incode
   INCODE: `/${hotel}/incode`,
 

@@ -112,7 +112,7 @@
   "Offer Includes": "تشمل العرض",
   "Your booking has been received. Our reservation team will get in touch with you soon": "تم استلام حجزك. سيتصل فريق الحجز لدينا بك قريبًا",
   "until": "حتى",
-  "Choose Your Language": "اختر لغتك",
+  "Choose Your Preferred Language": "اختر لغتك المفضلة",
   "Device Disconnected!": "تم قطع اتصال الجهاز!",
   "Hope you had a pleasant stay with us. We look forward to your next visit.\nThank You.": "أتمنى أن تكون قد قضيت إقامة ممتعة معنا. نحن نتطلع إلى زيارتك القادمة.\nشكرًا لك.",
   "Home": "بيت",
@@ -128,6 +128,9 @@
   "Invalid Room Type": "نوع الغرفة غير صالح",
   "Invalid room number": "رقم الغرفة غير صالح",
   "Something Went Wrong!": "حدث خطأ ما!",
+  "Pre Checked-In": "تم تسجيل الوصول مسبقًا",
+  "You have already completed the pre check-in process.": "لقد أكملت بالفعل عملية التسجيل المسبق.",
+  "Visit Website": "زيارة الموقع",
   "Chat": "دردشة",
   "Chat Unavailable!": "الدردشة غير متاحة!",
   "Failed to initialize chat, please try again later.": "فشل في تهيئة الدردشة، يرجى المحاولة مرة أخرى لاحقًا."

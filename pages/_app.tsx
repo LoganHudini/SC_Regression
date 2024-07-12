@@ -3,13 +3,13 @@ import type { AppProps } from 'next/app';
 import { ApolloProvider } from '@apollo/client';
 import { client } from '../core/graphql/client';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers';
+import { LocalizationProvider, PickersLocaleText } from '@mui/x-date-pickers';
 import { StyledEngineProvider } from '@mui/material/styles';
 import React, { useEffect } from 'react';
 import CloseToastIcon from '@icons/closeToast.svg';
 import ErrorIcon from '@icons/error.svg';
 import SuccessIcon from '@icons/success.svg';
-import { appWithTranslation } from 'next-i18next';
+import { appWithTranslation, useTranslation } from 'next-i18next';
 import { ToastContainer, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'normalize.css';
@@ -21,6 +21,13 @@ import dayjs from 'dayjs';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { BRAND_CODE } from 'core/graphql/endpoints';
 import Head from 'next/head';
+import { GetStaticProps } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import i18nConfig from 'next-i18next.config';
+import { getStaticPaths } from 'utils/getStatic';
+import { setDayjsLocale } from 'storage/home.storage';
+
+export { getStaticPaths };
 
 const toastIconMap = {
   success: <SuccessIcon />,
@@ -32,6 +39,7 @@ const ToastErrorIcon: ToastIcon = (props) => {
 };
 
 function App({ Component, pageProps }: AppProps) {
+  const { t } = useTranslation(['check-in']);
   const router = useRouter();
   const widgetId = useConfig()?.widgetId;
   useEffect(() => {
@@ -50,6 +58,7 @@ function App({ Component, pageProps }: AppProps) {
     fr: import('dayjs/locale/fr'),
     es: import('dayjs/locale/es-us'),
     ct: import('dayjs/locale/ca'),
+    ja: import('dayjs/locale/ja'),
   };
 
   useEffect(() => {
@@ -58,6 +67,7 @@ function App({ Component, pageProps }: AppProps) {
       if (route && locales[route]) {
         await locales[route];
         dayjs.locale(route);
+        setDayjsLocale(true);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,13 +81,18 @@ function App({ Component, pageProps }: AppProps) {
     }
   }, []);
 
+  const customLabel: Partial<PickersLocaleText<any>> = {
+    okButtonLabel: t('Ok') as string,
+    cancelButtonLabel: t('Cancel') as string,
+  };
+
   return (
     <>
       <Head>
         <link rel='manifest' href={`/manifest.${BRAND_CODE}.json`} />
       </Head>
       <StyledEngineProvider injectFirst>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <LocalizationProvider dateAdapter={AdapterDayjs} localeText={customLabel}>
           <ApolloProvider client={client}>
             <React.StrictMode>
               <ToastContainer
@@ -157,5 +172,18 @@ function App({ Component, pageProps }: AppProps) {
     </>
   );
 }
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const locale = ctx?.params?.locale;
+  return {
+    props: {
+      ...(await serverSideTranslations(
+        locale as string,
+        ['about-your-stay', 'check-in'],
+        i18nConfig,
+      )),
+    },
+  };
+};
 
 export default appWithTranslation(App);

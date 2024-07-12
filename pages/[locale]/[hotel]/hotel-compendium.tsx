@@ -150,7 +150,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     props: {
       ...(await serverSideTranslations(
         locale as string,
-        ['hotel-compendium', 'common'],
+        ['errors', 'hotel-compendium', 'common'],
         i18nConfig,
       )),
     },

@@ -115,7 +115,7 @@
   "Availability": "Disponibilitat",
   "Offer Includes": "L'oferta inclou",
   "Your booking has been received. Our reservation team will get in touch with you soon": "La teva reserva s'ha rebut. El nostre equip de reserves es posarà en contacte amb tu aviat",
-  "Choose Your Language": "Escull el teu idioma",
+  "Choose Your Preferred Language": "Trieu el vostre idioma preferit",
   "Device Disconnected!": "Dispositiu Desconnectat!",
   "Hope you had a pleasant stay with us. We look forward to your next visit.\nThank You.": "Esperem que hagis tingut una estada agradable amb nosaltres. Esperem la teva pròxima visita.\nGràcies.",
   "Home": "Casa",
@@ -131,6 +131,9 @@
   "Invalid Room Type": "Tipus d'habitació no vàlid",
   "Invalid room number": "Número de habitació no vàlid",
   "Something Went Wrong!": "Alguna cosa ha anat malament!",
+  "Pre Checked-In": "Facturació prèvia",
+  "You have already completed the pre check-in process.": "Ja has completat el procés de pre-registre.",
+  "Visit Website": "Visita el lloc web",
   "Chat": "Xat",
   "Chat Unavailable!": "Xat no disponible!",
   "Failed to initialize chat, please try again later.": "No s'ha pogut inicialitzar el xat, si us plau, torneu-ho a provar més tard."

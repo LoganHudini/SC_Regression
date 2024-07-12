@@ -115,7 +115,7 @@
   "Availability": "Availability",
   "Offer Includes": "Offer Includes",
   "Your booking has been received. Our reservation team will get in touch with you soon": "Your booking has been received. Our reservation team will get in touch with you soon",
-  "Choose Your Language": "Choose Your Language",
+  "Choose Your Preferred Language": "Choose Your Preferred Language",
   "Device Disconnected!": "Device Disconnected!",
   "Hope you had a pleasant stay with us. We look forward to your next visit.\nThank You.": "Hope you had a pleasant stay with us. We look forward to your next visit.\nThank You.",
   "Home": "Home",
@@ -131,6 +131,9 @@
   "Invalid Room Type": "Invalid Room Type",
   "Invalid room number": "Invalid room number",
   "Something Went Wrong!": "Something Went Wrong!",
+  "Pre Checked-In": "Pre Checked-In",
+  "You have already completed the pre check-in process.": "You have already completed the pre check-in process.",
+  "Visit Website": "Visit Website",
   "Chat": "Chat",
   "Chat Unavailable!": "Chat Unavailable!",
   "Failed to initialize chat, please try again later.": "Failed to initialize chat, please try again later."

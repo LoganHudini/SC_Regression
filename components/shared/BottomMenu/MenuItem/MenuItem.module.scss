@@ -89,6 +89,11 @@
   width: 80%;
   color: var(--tertiary-text-color);
   text-transform: capitalize;
+  white-space: nowrap;
+  display: block;
+  align-self: baseline;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .activeText {

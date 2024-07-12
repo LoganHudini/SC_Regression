@@ -310,6 +310,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
         </StyledButton>
       )}
       <Notification
+        translation={t}
         title={errorNotification ? (ERRORMSG as string) : (t('Thank You!') as string)}
         description={
           errorNotification

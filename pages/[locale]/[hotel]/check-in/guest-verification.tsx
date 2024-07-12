@@ -41,6 +41,7 @@ import {
   DOCTYPE,
   ERRORMSG,
   NONE,
+  TRENTIAL,
   UPGRADE_ROOM,
   CMS,
   ROOM,
@@ -48,11 +49,12 @@ import {
   NEWGUEST,
   NEWGUESTFORM,
   SUCCESS,
+  OHIP,
 } from 'utils/constants';
 import { updateDocTypeOptions } from 'utils/functions';
 import { docTypeStorage } from 'storage/guest-information.storage';
 import { Stepper } from 'components/shared/Stepper/Stepper';
-import { StepperInformationStorage, youverseProfileIDStorage } from 'storage/check-in.storage';
+import { StepperInformationStorage, profileIDStorage } from 'storage/check-in.storage';
 import produce from 'immer';
 import Camera from '@icons/cameraIcon.svg';
 import {
@@ -61,7 +63,7 @@ import {
   updateNewAccompanyGuestDetails,
 } from 'storage/accompany-guest-details';
 import { Notification } from 'components/shared/Notification/Notification';
-import { notificationDetails, toggleNotification } from 'storage/home.storage';
+import { notificationDetails, setDayjsLocale, toggleNotification } from 'storage/home.storage';
 import {
   getCheckInToken,
   handleCheckInAuthenticationFailure,
@@ -70,6 +72,14 @@ import { processStatusCode } from 'utils/processError';
 import { personalizationStorage } from 'storage/personalize-your-room.storage';
 import { ADD_ACCOMPANY_GUEST } from 'core/graphql/queries/ADD_GUEST';
 import { DetailsCard, DetailsCardShrinked } from 'components/shared/DetailsCard/DetailsCard';
+import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
+import { Autocomplete, InputAdornment, autocompleteClasses, styled } from '@mui/material';
+import { Countries } from 'utils/countryList';
+import { StyledInput } from 'components/shared/StyledInput/StyledInput';
+import Popper from '@mui/material/Popper';
+import DangerIcon from '@icons/danger.svg';
+import DropDownIcon from '@icons/dropDownIcon.svg';
+import { Loader } from 'components/shared/Loaders/Loaders';
 
 export { getStaticPaths };
 
@@ -80,10 +90,12 @@ const Guest: React.FC<any> = () => {
   const [guestLoading, setGuestLoading] = useState(false);
   const [addAccompanyGuest, setAddAccompanyGuest] = useState(false);
   const [newGuestAdded, setNewGuestAdded] = useState(false);
+  const [countryDrawer, setCountryDrawer] = useState(true);
+  const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const notificationInfo = useReactiveVar(notificationDetails);
+  const dayjsLocaleLoader = useReactiveVar(setDayjsLocale);
   const config = useConfig();
   const paymentConfig: any = usePaymentConfig();
-  const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
   const availablePersonalizations = useReactiveVar(personalizationStorage);
   const newGuestData = useReactiveVar(newAccompanyGuestDetails);
@@ -102,7 +114,7 @@ const Guest: React.FC<any> = () => {
 
   const reservationInfo = reservationData?.getReservation?.data;
 
-  const checkInModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
+  const checkInModule: any = config?.modules?.find((module: any) => module?.code === CHECK_IN);
 
   // primary guest configuration
   const guestSubmodule = checkInModule?.submodules?.find(
@@ -145,11 +157,11 @@ const Guest: React.FC<any> = () => {
   const extractDataForField = useCallback(
     (inputFieldName: string) => {
       let source: any = reservationInfo?.guests && reservationInfo?.guests[0];
-      const paymentAttributes: any =
-        reservationInfo?.reservePayments && reservationInfo?.reservePayments[0];
 
       if (source && source[inputFieldName]) {
-        guestInformationSection?.type === YOUVERSE && inputFieldName === 'docNo'
+        (guestInformationSection?.type === YOUVERSE ||
+          guestInformationSection?.type === TRENTIAL) &&
+        inputFieldName === 'docNo'
           ? (source = '')
           : (source = source[inputFieldName]);
       } else {
@@ -162,7 +174,7 @@ const Guest: React.FC<any> = () => {
 
       return source;
     },
-    [guestInformationSection?.type, reservationInfo?.guests, reservationInfo?.reservePayments],
+    [guestInformationSection?.type, reservationInfo?.guests],
   );
 
   useEffect(() => {
@@ -237,7 +249,9 @@ const Guest: React.FC<any> = () => {
             if (item?.name in accompanyGuest && item?.isActive) {
               guestData[item?.name] = Array.isArray(accompanyGuest[item?.name])
                 ? accompanyGuest[item?.name][0] || ''
-                : guestInformationSection?.type === YOUVERSE && item?.name === 'docNo'
+                : (accompanyGuestInformationSection?.type === YOUVERSE ||
+                    accompanyGuestInformationSection?.type === TRENTIAL) &&
+                  item?.name === 'docNo'
                 ? ''
                 : accompanyGuest[item?.name] || '';
             }
@@ -246,7 +260,7 @@ const Guest: React.FC<any> = () => {
         })
         ?.map((item: any) => item?.guestData);
     },
-    [accompanyGuestInformationSection, guestInformationSection?.type],
+    [accompanyGuestInformationSection],
   );
 
   // accompany guests initialization and validation
@@ -260,11 +274,9 @@ const Guest: React.FC<any> = () => {
     }
   }, [accompanyGuestData, generateAccompanyGuestDetails, reservationInfo]);
 
-  const accompanyGuestValidation = accompanyGuestData
-    ?.map((accompanyGuest: any) =>
-      validateCompleteGuestDetails(accompanyGuest, accompanyGuestInformationSection),
-    )
-    ?.every((item: boolean) => item);
+  const accompanyGuestValidation = accompanyGuestData?.map((accompanyGuest: any) =>
+    validateCompleteGuestDetails(accompanyGuest, accompanyGuestInformationSection),
+  );
 
   const newAcompanyGuestValidation = newGuestData
     ? validateCompleteGuestDetails(newGuestData, accompanyGuestInformationSection)
@@ -276,7 +288,11 @@ const Guest: React.FC<any> = () => {
       produce(StepperInformationStorage(), (draft: any) => {
         const item = draft?.find((el: any) => el?.title === STEPPER_REVIEW);
         if (item) {
-          item.value = !(!guestValidation || !reservationData || !accompanyGuestValidation)
+          item.value = !(
+            !guestValidation ||
+            !reservationData ||
+            !accompanyGuestValidation?.every((item: boolean) => item)
+          )
             ? 100
             : 60;
         }
@@ -348,23 +364,24 @@ const Guest: React.FC<any> = () => {
           name: {
             firstName: guestReservationInfo?.firstName,
             lastName: guestReservationInfo?.lastName,
+            gender: guestReservationInfo?.gender,
             nationality: guestReservationInfo?.nationality ?? '',
-            dob: guestReservationInfo?.dateOfBirth,
+            dob: guestReservationInfo?.dob,
+            profession: guestReservationInfo?.profession,
           },
           address: {
             id: reservationInfo?.guests[0]?.addressOperaId as string,
-            addressLine1: guestReservationInfo?.addressLine1,
-            addressLine2: guestReservationInfo?.addressLine2,
+            addressLine1: guestReservationInfo?.addressLine,
             addressType: 'HOME',
-            countryCode: '',
+            countryCode: guestReservationInfo?.countryCode,
           },
           phone: {
             id: reservationInfo?.guests[0]?.phoneOperaId
               ? reservationInfo?.guests[0]?.phoneOperaId[0]
               : '',
-            phoneType: 'HOME',
+            phoneType: config?.pms === OHIP ? 'PHONE' : 'HOME',
             phoneNumber: guestReservationInfo?.phone ?? '',
-            phoneRole: 'PHONE',
+            phoneRole: config?.pms === OHIP ? 'HOME' : 'PHONE',
           },
           email: {
             id: reservationInfo?.guests[0]?.emailOperaId
@@ -409,19 +426,19 @@ const Guest: React.FC<any> = () => {
             effectiveDate: data?.issueDate,
             expiryDate: data?.expiryDate || '',
             countryOfIssue: data?.issueCountry || '',
-            gender: data?.gender,
             channel: 'PWA',
             updateGuestDetails: {
               name: {
                 firstName: data?.firstName,
                 lastName: data?.lastName,
+                gender: data?.gender,
                 nationality: data?.nationality,
-                dob: data?.dateOfBirth,
+                dob: data?.dob,
               },
               phone: {
-                phoneType: 'HOME',
+                phoneType: config?.pms === OHIP ? 'PHONE' : 'HOME',
                 phoneNumber: data?.phone ?? '',
-                phoneRole: 'PHONE',
+                phoneRole: config?.pms === OHIP ? 'HOME' : 'PHONE',
               },
               email: {
                 email: data?.emails,
@@ -484,16 +501,19 @@ const Guest: React.FC<any> = () => {
     guestReservationInfo?.issueDate,
     guestReservationInfo?.expiryDate,
     guestReservationInfo?.issueCountry,
+    guestReservationInfo?.gender,
     guestReservationInfo?.nationality,
-    guestReservationInfo?.dateOfBirth,
-    guestReservationInfo?.addressLine1,
-    guestReservationInfo?.addressLine2,
+    guestReservationInfo?.dob,
+    guestReservationInfo?.profession,
+    guestReservationInfo?.addressLine,
+    guestReservationInfo?.countryCode,
     guestReservationInfo?.phone,
     guestReservationInfo?.emails,
     guestReservationInfo?.docType,
     reservationInfo?.confirmationId,
     reservationInfo?.guests,
     reservationInfo?.reservationId,
+    config?.pms,
     accompanyGuestData,
     nextStep,
     t,
@@ -523,7 +543,7 @@ const Guest: React.FC<any> = () => {
           email: newGuestData?.emails,
           docType: newGuestData?.docType?.toUpperCase(),
           docNumber: newGuestData?.docNo,
-          dob: newGuestData?.dateOfBirth,
+          dob: newGuestData?.dob,
           nationality: newGuestData?.nationality,
           countryOfIssue: newGuestData?.issueCountry,
           expiryDate: newGuestData?.expiryDate,
@@ -575,6 +595,73 @@ const Guest: React.FC<any> = () => {
     }
   };
 
+  const StyledPopper = styled(Popper)({
+    [`& .${autocompleteClasses.listbox}`]: {
+      boxSizing: 'border-box',
+      maxHeight: '6rem',
+      '& ul': {
+        padding: 0,
+        margin: 0,
+      },
+    },
+  });
+
+  const countryDrawerDetails = () => {
+    return (
+      <div className={styles.drawerWrapper}>
+        <p className={styles.pageTitle}>{t('Choose Your Nationality')}</p>
+        <Autocomplete
+          disablePortal
+          disableClearable={true}
+          disableListWrap
+          PopperComponent={StyledPopper}
+          className={styles.countryDropdown}
+          options={Countries?.map((country) => country?.name)}
+          value={
+            guestReservationInfo?.nationality
+              ? Countries?.find(
+                  (country: any) => country?.value === guestReservationInfo?.nationality,
+                )?.name
+              : undefined
+          }
+          autoComplete={true}
+          onChange={(event, selectedCountry) => {
+            const country = Countries?.find((country) => country?.name === selectedCountry)?.value;
+            reservationGuestInfoStorageData({
+              ...guestReservationInfo,
+              nationality: country,
+              countryCode: country,
+            });
+          }}
+          renderInput={(params) => (
+            <StyledInput
+              required
+              {...params}
+              label={t('Nationality')}
+              InputProps={{
+                ...params.InputProps,
+
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    <DropDownIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          )}
+        />
+        <StyledButton
+          variant='contained'
+          className={styles.button}
+          disabled={guestReservationInfo?.nationality ? false : true}
+          onClick={() => setCountryDrawer(false)}
+        >
+          {t('Next')}
+        </StyledButton>
+      </div>
+    );
+  };
+
   return (
     <>
       <Head>
@@ -586,55 +673,97 @@ const Guest: React.FC<any> = () => {
         screenTitle={t(`${guestSubmodule?.label}`) as string}
         displayBackButton
         backRoute={availablePaths?.CHECK_IN}
+        language
       />
-
-      <PageWrapper className={styles.pageWrapper}>
-        <Stepper />
-        <div className={styles.titleWrapper}>
-          <p className={styles.title}>{t('Identity Verification')}</p>
-          <p className={styles.description}>
-            {t(
-              `${
-                guestInformationSection?.type === YOUVERSE ? 'Scan' : 'Enter'
-              } your Passport/ID to verify your identity. Your information is protected by responsible data practices.`,
-            )}
-          </p>
-        </div>
-        {reservationInfo?.details?.contactPerson?.firstName && (
-          <div className={styles.boxWrapper}>
-            <p className={styles.guestType}>{t('Primary Guest')}</p>
-            <div>
-              {guestInformationSection?.type === YOUVERSE ||
-              guestInformationSection?.type === INCODE ? (
-                !guestReservationInfo?.docNo ||
-                !guestReservationInfo?.docType ||
-                !guestReservationInfo?.issueCountry ? (
-                  <StyledButton
-                    variant='contained'
-                    className={styles.scanDocWrapper}
-                    onClick={() => {
-                      youverseProfileIDStorage({
-                        id: reservationInfo?.guests[0]?.id,
-                        guestType: PRIMARY,
-                      });
-                      navigate(
-                        guestInformationSection?.type === YOUVERSE
-                          ? availablePaths?.YOUVERSE
-                          : availablePaths?.INCODE,
-                      );
-                    }}
-                  >
-                    <Camera />
-                    <span className={styles.scanDocText}>{t('Scan Document')}</span>
-                  </StyledButton>
+      {!dayjsLocaleLoader ? (
+        <Loader />
+      ) : (
+        <PageWrapper className={styles.pageWrapper}>
+          <Stepper />
+          <div className={styles.titleWrapper}>
+            <p className={styles.title}>{t('Identity Verification')}</p>
+            <p className={styles.description}>
+              {t(
+                `${
+                  guestInformationSection?.type === YOUVERSE ? 'Scan' : 'Enter'
+                } your Passport/ID to verify your identity. Your information is protected by responsible data practices.`,
+              )}
+            </p>
+          </div>
+          {(reservationInfo?.details?.contactPerson?.firstName ||
+            reservationInfo?.details?.contactPerson?.lastName) && (
+            <div className={styles.boxWrapper}>
+              <p className={styles.guestType}>{t('Primary Guest')}</p>
+              <div>
+                {guestInformationSection?.type === YOUVERSE ||
+                guestInformationSection?.type === INCODE ||
+                guestInformationSection?.type === TRENTIAL ? (
+                  !guestReservationInfo?.docNo ? (
+                    <DetailsCard
+                      title={`${guestReservationInfo?.firstName}  ${guestReservationInfo?.lastName}`}
+                    >
+                      <StyledButton
+                        variant='contained'
+                        className={styles.scanDocWrapper}
+                        onClick={() => {
+                          profileIDStorage({
+                            id: reservationInfo?.guests[0]?.id,
+                            guestType: PRIMARY,
+                          });
+                          navigate(
+                            guestInformationSection?.type === YOUVERSE
+                              ? availablePaths?.YOUVERSE
+                              : guestInformationSection?.type === TRENTIAL
+                              ? availablePaths?.TRENTIAL
+                              : availablePaths?.INCODE,
+                          );
+                        }}
+                      >
+                        <Camera />
+                        <span className={styles.scanDocText}>{t('Scan Document')}</span>
+                      </StyledButton>
+                    </DetailsCard>
+                  ) : (
+                    guestReservationInfo &&
+                    guestInformationSection?.details &&
+                    (openTogglePrimaryGuest ? (
+                      <DetailsCard
+                        title={`${guestReservationInfo?.firstName}  ${guestReservationInfo?.lastName}`}
+                        icon
+                        handleClick={() => setOpenTogglePrimaryGuest((prev) => !prev)}
+                      >
+                        <div className={styles.margin}>
+                          <PreCheckinGuestInfo
+                            selectedGuest={guestReservationInfo}
+                            guestInformationSection={guestInformationSection?.details}
+                            updateSelectedGuestInformation={reservationGuestInfoStorageData}
+                            type={PRIMARY}
+                          />
+                        </div>
+                      </DetailsCard>
+                    ) : (
+                      <DetailsCardShrinked
+                        error={guestValidation}
+                        title={`${guestReservationInfo?.firstName}  ${guestReservationInfo?.lastName}`}
+                        handleClick={() => setOpenTogglePrimaryGuest((prev) => !prev)}
+                      >
+                        {!guestValidation && (
+                          <div className={styles.pendingDetails}>
+                            <DangerIcon className={styles.icon} />
+                            <div className={styles.pendingText}>{t('Pending Details')}</div>
+                          </div>
+                        )}
+                      </DetailsCardShrinked>
+                    ))
+                  )
                 ) : (
-                  guestReservationInfo &&
-                  guestInformationSection?.details &&
+                  guestReservationInfo?.lastName &&
+                  guestInformationSection?.details?.length > 0 &&
                   (openTogglePrimaryGuest ? (
                     <DetailsCard
-                      title={t('Guest Information')}
-                      icon
+                      title={`${guestReservationInfo?.firstName}  ${guestReservationInfo?.lastName}`}
                       handleClick={() => setOpenTogglePrimaryGuest((prev) => !prev)}
+                      icon
                     >
                       <div className={styles.margin}>
                         <PreCheckinGuestInfo
@@ -647,77 +776,105 @@ const Guest: React.FC<any> = () => {
                     </DetailsCard>
                   ) : (
                     <DetailsCardShrinked
-                      title={t('Guest Information')}
+                      error={guestValidation}
+                      title={`${guestReservationInfo?.firstName}  ${guestReservationInfo?.lastName}`}
                       handleClick={() => setOpenTogglePrimaryGuest((prev) => !prev)}
                     >
-                      <div className={styles.cardTitleWrapper}>
-                        <p
-                          className={styles.cardTitle}
-                        >{`${reservationInfo?.details?.contactPerson?.firstName} ${reservationInfo?.details?.contactPerson?.lastName}`}</p>
-                      </div>
+                      {!guestValidation && (
+                        <div className={styles.pendingDetails}>
+                          <DangerIcon className={styles.icon} />
+                          <div className={styles.pendingText}>{t('Pending Details')}</div>
+                        </div>
+                      )}
                     </DetailsCardShrinked>
                   ))
-                )
-              ) : (
-                guestReservationInfo?.firstName &&
-                guestInformationSection?.details?.length > 0 &&
-                (openTogglePrimaryGuest ? (
-                  <DetailsCard
-                    title={t('Guest Information')}
-                    handleClick={() => setOpenTogglePrimaryGuest((prev) => !prev)}
-                    icon
-                  >
-                    <div className={styles.margin}>
-                      <PreCheckinGuestInfo
-                        selectedGuest={guestReservationInfo}
-                        guestInformationSection={guestInformationSection?.details}
-                        updateSelectedGuestInformation={reservationGuestInfoStorageData}
-                        type={PRIMARY}
-                      />
-                    </div>
-                  </DetailsCard>
-                ) : (
-                  <DetailsCardShrinked
-                    title={t('Guest Information')}
-                    handleClick={() => setOpenTogglePrimaryGuest((prev) => !prev)}
-                  >
-                    <div className={styles.cardTitleWrapper}>
-                      <p
-                        className={styles.cardTitle}
-                      >{`${reservationInfo?.details?.contactPerson?.firstName} ${reservationInfo?.details?.contactPerson?.lastName}`}</p>
-                    </div>
-                  </DetailsCardShrinked>
-                ))
-              )}
+                )}
+              </div>
             </div>
-          </div>
-        )}
-        {accompanyGuestData && accompanyGuestData?.length > 0 && (
-          <div className={styles.boxWrapper}>
-            <p className={styles.guestType}>
-              {accompanyGuestData?.length + updatedGuestData?.length === 1
-                ? t('Accompanying Guest')
-                : t('Accompanying Guests')}{' '}
-            </p>
-            {accompanyGuestData?.length > 0 &&
-              accompanyGuestData?.map((selectedAccompanyGuest: any, index: number) => (
-                <div key={index}>
-                  {accompanyingGuestSubmodule?.type === YOUVERSE ? (
-                    !selectedAccompanyGuest?.docNo || !selectedAccompanyGuest?.docType ? (
-                      <StyledButton
-                        variant='contained'
-                        className={styles.scanDocWrapper}
-                        onClick={() => {
-                          youverseProfileIDStorage({
-                            id: selectedAccompanyGuest?.id,
-                            guestType: ACCOMPANYINGGUEST,
-                          });
-                          navigate(availablePaths?.YOUVERSE);
-                        }}
-                      >
-                        <Camera />
-                        <span className={styles.scanDocText}>{t('Scan Document')}</span>
-                      </StyledButton>
+          )}
+          {accompanyGuestData && accompanyGuestData?.length > 0 && (
+            <div className={styles.boxWrapper}>
+              <p className={styles.guestType}>
+                {accompanyGuestData?.length + updatedGuestData?.length === 1
+                  ? t('Accompanying Guest')
+                  : t('Accompanying Guests')}{' '}
+              </p>
+              {accompanyGuestData?.length > 0 &&
+                accompanyGuestData?.map((selectedAccompanyGuest: any, index: number) => (
+                  <div key={index}>
+                    {accompanyingGuestSubmodule?.type === YOUVERSE ||
+                    accompanyingGuestSubmodule?.type === TRENTIAL ? (
+                      !selectedAccompanyGuest?.docNo || !selectedAccompanyGuest?.docType ? (
+                        <StyledButton
+                          variant='contained'
+                          className={styles.scanDocWrapper}
+                          onClick={() => {
+                            profileIDStorage({
+                              id: selectedAccompanyGuest?.id,
+                              guestType: ACCOMPANYINGGUEST,
+                            });
+                            navigate(
+                              guestInformationSection?.type === YOUVERSE
+                                ? availablePaths?.YOUVERSE
+                                : guestInformationSection?.type === TRENTIAL
+                                ? availablePaths?.TRENTIAL
+                                : availablePaths?.INCODE,
+                            );
+                          }}
+                        >
+                          <Camera />
+                          <span className={styles.scanDocText}>{t('Scan Document')}</span>
+                        </StyledButton>
+                      ) : (
+                        selectedAccompanyGuest &&
+                        accompanyGuestInformationSection?.length > 0 &&
+                        (openToggleAccompanyGuest[index] ? (
+                          <DetailsCard
+                            title={`${t('Guest')} ${index + 1}`}
+                            handleClick={() =>
+                              setOpenToggleAccompanyGuest((prev) => {
+                                const newState = [...prev];
+                                newState[index] = !newState[index];
+                                return newState;
+                              })
+                            }
+                            icon
+                          >
+                            <div className={styles.margin}>
+                              <PreCheckinGuestInfo
+                                selectedGuest={selectedAccompanyGuest}
+                                guestInformationSection={accompanyGuestInformationSection}
+                                updateSelectedGuestInformation={accompanyGuestDetails}
+                                type={SECONDARY}
+                              />
+                            </div>
+                          </DetailsCard>
+                        ) : (
+                          <DetailsCardShrinked
+                            error={accompanyGuestValidation[index]}
+                            title={`${t('Guest')} ${index + 1}`}
+                            handleClick={() =>
+                              setOpenToggleAccompanyGuest((prev) => {
+                                const newState = [...prev];
+                                newState[index] = !newState[index];
+                                return newState;
+                              })
+                            }
+                          >
+                            <div className={styles.cardTitleWrapper}>
+                              <p className={styles.cardTitleAccompany}>
+                                {`${selectedAccompanyGuest?.firstName} ${selectedAccompanyGuest?.lastName}`}
+                              </p>
+                            </div>
+                            {!accompanyGuestValidation[index] && (
+                              <div className={styles.pendingDetails}>
+                                <DangerIcon className={styles.icon} />
+                                <div className={styles.pendingText}>{t('Pending Details')}</div>
+                              </div>
+                            )}
+                          </DetailsCardShrinked>
+                        ))
+                      )
                     ) : (
                       selectedAccompanyGuest &&
                       accompanyGuestInformationSection?.length > 0 &&
@@ -744,6 +901,7 @@ const Guest: React.FC<any> = () => {
                         </DetailsCard>
                       ) : (
                         <DetailsCardShrinked
+                          error={accompanyGuestValidation[index]}
                           title={`${t('Guest')} ${index + 1}`}
                           handleClick={() =>
                             setOpenToggleAccompanyGuest((prev) => {
@@ -758,155 +916,134 @@ const Guest: React.FC<any> = () => {
                               {`${selectedAccompanyGuest?.firstName} ${selectedAccompanyGuest?.lastName}`}
                             </p>
                           </div>
+                          {!accompanyGuestValidation[index] && (
+                            <div className={styles.pendingDetails}>
+                              <DangerIcon className={styles.icon} />
+                              <div className={styles.pendingText}>{t('Pending Details')}</div>
+                            </div>
+                          )}
                         </DetailsCardShrinked>
                       ))
-                    )
+                    )}
+                  </div>
+                ))}
+            </div>
+          )}
+          {updatedGuestData?.length > 0 && (
+            <div className={styles.boxWrapper}>
+              <p className={styles.guestType}>
+                {updatedGuestData?.length === 1
+                  ? t('Accompanying Guest')
+                  : t('Accompanying Guests')}{' '}
+              </p>
+              {updatedGuestData?.map((guestData: any, index: any) => (
+                <div key={index}>
+                  {openToggleNewGuest[index] ? (
+                    <DetailsCard
+                      title={t(`${t('Guest')} ${accompanyGuestData?.length + index + 1}`)}
+                      icon
+                      handleClick={() =>
+                        setOpenToggleNewGuest((prev) => {
+                          const newState = [...prev];
+                          newState[index] = !newState[index];
+                          return newState;
+                        })
+                      }
+                    >
+                      <div className={styles.margin}>
+                        <PreCheckinGuestInfo
+                          selectedGuest={guestData}
+                          guestInformationSection={accompanyGuestInformationSection}
+                          updateSelectedGuestInformation={updateNewAccompanyGuestDetails}
+                          type={NEWGUEST}
+                        />
+                      </div>
+                    </DetailsCard>
                   ) : (
-                    selectedAccompanyGuest &&
-                    accompanyGuestInformationSection?.length > 0 &&
-                    (openToggleAccompanyGuest[index] ? (
-                      <DetailsCard
-                        title={`${t('Guest')} ${index + 1}`}
-                        handleClick={() =>
-                          setOpenToggleAccompanyGuest((prev) => {
-                            const newState = [...prev];
-                            newState[index] = !newState[index];
-                            return newState;
-                          })
-                        }
-                        icon
-                      >
-                        <div className={styles.margin}>
-                          <PreCheckinGuestInfo
-                            selectedGuest={selectedAccompanyGuest}
-                            guestInformationSection={accompanyGuestInformationSection}
-                            updateSelectedGuestInformation={accompanyGuestDetails}
-                            type={SECONDARY}
-                          />
-                        </div>
-                      </DetailsCard>
-                    ) : (
-                      <DetailsCardShrinked
-                        title={`${t('Guest')} ${index + 1}`}
-                        handleClick={() =>
-                          setOpenToggleAccompanyGuest((prev) => {
-                            const newState = [...prev];
-                            newState[index] = !newState[index];
-                            return newState;
-                          })
-                        }
-                      >
-                        <div className={styles.cardTitleWrapper}>
-                          <p className={styles.cardTitleAccompany}>
-                            {`${selectedAccompanyGuest?.firstName} ${selectedAccompanyGuest?.lastName}`}
-                          </p>
-                        </div>
-                      </DetailsCardShrinked>
-                    ))
+                    <DetailsCardShrinked
+                      title={t(`${t('Guest')} ${accompanyGuestData?.length + index + 1}`)}
+                      handleClick={() =>
+                        setOpenToggleNewGuest((prev) => {
+                          const newState = [...prev];
+                          newState[index] = !newState[index];
+                          return newState;
+                        })
+                      }
+                    >
+                      <div className={styles.cardTitleWrapper}>
+                        <p className={styles.cardTitleAccompany}>
+                          {`${guestData?.firstName} ${guestData?.lastName}`}
+                        </p>
+                      </div>
+                    </DetailsCardShrinked>
                   )}
                 </div>
               ))}
-          </div>
-        )}
-        {updatedGuestData?.length > 0 && (
-          <div className={styles.boxWrapper}>
-            {updatedGuestData?.map((guestData: any, index: any) => (
-              <div key={index}>
-                {openToggleNewGuest[index] ? (
-                  <DetailsCard
-                    title={t(`${t('Guest')} ${accompanyGuestData?.length + index + 1}`)}
-                    icon
-                    handleClick={() =>
-                      setOpenToggleNewGuest((prev) => {
-                        const newState = [...prev];
-                        newState[index] = !newState[index];
-                        return newState;
-                      })
-                    }
+            </div>
+          )}
+          {addAccompanyGuest && (
+            <div className={styles.boxWrapperForm}>
+              <p className={styles.guestType}>{t('Add Guest')}</p>
+              <div className={styles.box}>
+                <PreCheckinGuestInfo
+                  selectedGuest={newGuestData}
+                  guestInformationSection={accompanyGuestInformationSection}
+                  updateSelectedGuestInformation={newAccompanyGuestDetails}
+                  type={NEWGUESTFORM}
+                />
+                {!newGuestAdded && (
+                  <StyledButton
+                    variant='contained'
+                    disabled={!newAcompanyGuestValidation}
+                    className={styles.button}
+                    loading={guestLoading}
+                    onClick={() => saveGuest()}
                   >
-                    <div className={styles.margin}>
-                      <PreCheckinGuestInfo
-                        selectedGuest={guestData}
-                        guestInformationSection={accompanyGuestInformationSection}
-                        updateSelectedGuestInformation={updateNewAccompanyGuestDetails}
-                        type={NEWGUEST}
-                      />
-                    </div>
-                  </DetailsCard>
-                ) : (
-                  <DetailsCardShrinked
-                    title={t(`${t('Guest')} ${accompanyGuestData?.length + index + 1}`)}
-                    handleClick={() =>
-                      setOpenToggleNewGuest((prev) => {
-                        const newState = [...prev];
-                        newState[index] = !newState[index];
-                        return newState;
-                      })
-                    }
-                  >
-                    <div className={styles.cardTitleWrapper}>
-                      <p className={styles.cardTitleAccompany}>
-                        {`${guestData?.firstName} ${guestData?.lastName}`}
-                      </p>
-                    </div>
-                  </DetailsCardShrinked>
+                    {t('Save')}
+                  </StyledButton>
                 )}
               </div>
-            ))}
-          </div>
-        )}
-
-        {addAccompanyGuest && (
-          <div className={styles.boxWrapperForm}>
-            <div className={styles.box}>
-              <PreCheckinGuestInfo
-                selectedGuest={newGuestData}
-                guestInformationSection={accompanyGuestInformationSection}
-                updateSelectedGuestInformation={newAccompanyGuestDetails}
-                type={NEWGUESTFORM}
-              />
-              {!newGuestAdded && (
-                <StyledButton
-                  variant='contained'
-                  disabled={!newAcompanyGuestValidation}
-                  className={styles.button}
-                  loading={guestLoading}
-                  onClick={() => saveGuest()}
-                >
-                  {t('Save')}
-                </StyledButton>
-              )}
             </div>
-          </div>
-        )}
-        {accompanyingGuestSubmodule?.type !== YOUVERSE &&
-          reservationInfo &&
-          reservationInfo?.guests?.length + updatedGuestData?.length <
-            reservationInfo?.details?.totalGuestCount &&
-          !addAccompanyGuest && (
+          )}
+          {(accompanyingGuestSubmodule?.type !== YOUVERSE ||
+            guestInformationSection?.type !== TRENTIAL) &&
+            reservationInfo &&
+            reservationInfo?.guests?.length + updatedGuestData?.length <
+              reservationInfo?.details?.totalGuestCount &&
+            !addAccompanyGuest && (
+              <p className={styles.addGuestText} onClick={() => handleClickAccompanyGuest()}>
+                + {t('Add Guest')}
+              </p>
+            )}
+
+          <div className={cx(styles.bottomMenuWrapper)}>
             <StyledButton
               variant='contained'
-              className={styles.button}
-              onClick={() => handleClickAccompanyGuest()}
+              loading={loading}
+              disabled={
+                !guestValidation ||
+                !reservationData ||
+                !accompanyGuestValidation?.every((item: boolean) => item)
+              }
+              onClick={goToTheNextStep}
+              className={cx(styles.bottomMenuButton)}
             >
-              {t('Add Guest')}
+              {t('Next')}
             </StyledButton>
-          )}
+          </div>
+        </PageWrapper>
+      )}
 
-        <div className={cx(styles.bottomMenuWrapper)}>
-          <StyledButton
-            variant='contained'
-            loading={loading}
-            disabled={!guestValidation || !reservationData || !accompanyGuestValidation}
-            onClick={goToTheNextStep}
-            className={cx(styles.bottomMenuButton)}
-          >
-            {t('Next')}
-          </StyledButton>
-        </div>
-      </PageWrapper>
+      {config?.idVerificationBasedOnNationality && !guestReservationInfo?.docNo && (
+        <CustomDrawer
+          open={countryDrawer}
+          onClose={() => (guestReservationInfo?.countryCode ? setCountryDrawer(false) : null)}
+          content={countryDrawerDetails()}
+        />
+      )}
 
       <Notification
+        translation={t}
         title={notificationInfo?.title}
         description={notificationInfo?.description}
         apolloError={notificationInfo?.apolloError}
@@ -923,7 +1060,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     props: {
       ...(await serverSideTranslations(
         locale as string,
-        ['about-your-stay', 'check-in'],
+        ['errors', 'about-your-stay', 'check-in'],
         i18nConfig,
       )),
     },

@@ -8,6 +8,7 @@ import { useQuery, useReactiveVar } from '@apollo/client';
 import {
   diningOptions,
   getHotelCompendium,
+  hotelInfoStorage,
   selectedCompendiumCategory,
   toggleCheckInDetailsDrawer,
   toggleDetailsDrawer,
@@ -37,7 +38,7 @@ import { ASSETS_URL } from 'core/graphql/endpoints';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { activeModule, diningOptionList, getHamburgerIcons } from 'utils/functions';
-import { CHECK_IN, FAILURE, MESSAGE_BOX } from 'utils/constants';
+import { CHECK_IN, FAILURE, MESSAGE_BOX, URL } from 'utils/constants';
 import { IBottomMenuProps } from './BottomMenu.types';
 import {
   IDiningMenuStorageData,
@@ -66,6 +67,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
   const houseKeepingOptionSelected = useReactiveVar(housekeepingOptions);
   const diningOptionSelected = useReactiveVar(diningOptions);
   const offersOptionSelected: any = useReactiveVar(selectedOfferOption);
+  const hotelInfo = useReactiveVar(hotelInfoStorage);
   const { t } = useTranslation(['common']);
   const spaInformation = useReactiveVar(spaInformationStorage);
   const hotelCompendiumSelected: any = useReactiveVar(selectedCompendiumCategory);
@@ -87,6 +89,9 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
   const hotelCompendiumActive = router?.asPath?.includes(availablePaths?.HOTEL_COMPENDIUM);
   const checkOutActive = router?.asPath?.includes(availablePaths.BILL);
   const selectedDiningCategory = useReactiveVar(diningInformationStorage);
+  const webUrl = hotelInfo?.getPropertyDetailsByHotelId?.hotel?.information?.find(
+    (url: any) => url?.type === URL,
+  );
   const [errorToggle, setErrorToggle] = useState<any>();
 
   useEffect(() => {
@@ -228,7 +233,11 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
               availableItems
                 ? openModuleOptionsDrawer()
                 : homeActive
-                ? checkInModule
+                ? config?.preCheckInOnly && isCheckedIn?.preCheckedIn
+                  ? webUrl?.value
+                    ? window.open(webUrl?.value)
+                    : null
+                  : checkInModule
                   ? (toggleCheckInDetailsDrawer(true), activeCheckInFlow(true))
                   : (toggleCheckInDetailsDrawer(true), activeCheckInFlow(false))
                 : null;
@@ -238,6 +247,10 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
               {homeActive &&
                 (isCheckedIn?.checkedIn
                   ? `Room ${isCheckedIn?.roomNumber}`
+                  : config?.preCheckInOnly && isCheckedIn?.preCheckedIn
+                  ? webUrl?.value
+                    ? t('Visit Website')
+                    : t('Home')
                   : checkInModule
                   ? t('CHECK-IN')
                   : t('CONNECT TO ROOM'))}

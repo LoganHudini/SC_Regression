@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { Header } from 'components/shared/Header/Header';
 import styles from '@styles/guestDetail_checkin_v2/guestDetail_checkin_v2.module.scss';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
-import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
+import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
 import { client } from 'core/graphql/client';
@@ -29,11 +29,10 @@ import { availablePaths } from 'utils/availablePaths';
 import { useConfig, useDocumentConfig, usePaymentConfig } from 'utils/hooks/useConfiguration';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { ASSETS_URL, BRAND_CODE } from 'core/graphql/endpoints';
-import { useReactiveVar } from '@apollo/client';
-import { hotelInformation } from 'storage/home.storage';
+import { useReactiveVar, useQuery } from '@apollo/client';
+import { hotelInformation, toggleNotification } from 'storage/home.storage';
 import { StableImage } from 'components/shared/StableImage/StableImage';
-import { getWelcomeDrawer } from 'utils/functions';
-import { StepperInformationStorage } from 'storage/check-in.storage';
+import { activeCheckInFlow, StepperInformationStorage } from 'storage/check-in.storage';
 import produce from 'immer';
 import {
   STEPPER_PAYMENT,
@@ -42,25 +41,38 @@ import {
   STEPPER_REVIEW,
   NONE,
   DOCTYPE,
+  FAILURE,
+  SUCCESS,
 } from 'utils/constants';
 import { usePersonalisation } from 'utils/hooks/usePersonalisation';
 import { personalizationStorage } from 'storage/personalize-your-room.storage';
+import { useRouter } from 'next/router';
 import { Loader } from 'components/shared/Loaders/Loaders';
+import { processStatusCode } from 'utils/processError';
+import { Notification } from 'components/shared/Notification/Notification';
+import { handleReservation } from 'utils/fetchReservation';
+import { GET_HOTEL_INFORMATION } from 'core/graphql/queries/GET_HOTEL_INFORMATION';
+import { getWelcomeDrawer } from 'utils/functions';
 
 export { getStaticPaths };
 
 const GuestDetail: React.FC<AboutYourStayProps> = () => {
-  const { t } = useTranslation('about-your-stay');
+  const { t } = useTranslation(['about-your-stay', 'common']);
   const navigate = useLocalizedRouter();
   const config = useConfig();
+  const router = useRouter();
+  const locale = useLocale();
   const hotelName = config?.name;
-  const hotel = config?.code;
   const hotelImageInfo = useReactiveVar(hotelInformation);
-  const [welcomeDrawer, setWelcomeDrawer] = useState(getWelcomeDrawer());
   const paymentConfig: any = usePaymentConfig();
   const personalisationDataloading = usePersonalisation();
   const availablePersonalizations = useReactiveVar(personalizationStorage);
+  const [loading, setLoading] = useState(false);
+  const [welcomeDrawer, setWelcomeDrawer] = useState(getWelcomeDrawer());
   const documentConfig: any = useDocumentConfig();
+  const resId = router?.query?.resId ?? '';
+  const roomNo = router?.query?.roomNo ?? '';
+  const lastName = router?.query?.lastName ?? '';
   const docTypes: any = [
     ...new Set(
       documentConfig?.details
@@ -68,16 +80,72 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
         ?.options?.map((opt: any) => opt?.name),
     ),
   ];
+  const hotelId = config?.hotelId;
+
+  const [errorNotification, setErrorNotification] = useState<{
+    state: boolean;
+    title: string;
+    description: string;
+  }>({ state: false, title: '', description: '' });
+
+  const { data: hotelInfo, loading: hotelInfoLoading } = useQuery(GET_HOTEL_INFORMATION, {
+    skip: !hotelId,
+    context: { clientName: 'host_v0' },
+    fetchPolicy: 'no-cache',
+    variables: {
+      hotelId: hotelId,
+      lang: locale === 'en' ? '' : locale,
+    },
+  });
+
+  hotelInformation(hotelInfo && hotelInfo?.getPropertyDetailsByHotelId?.hotel);
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
   });
 
+  const activeCheckInFlowInfo = useReactiveVar(activeCheckInFlow);
+
   const reservationInfo = reservationData?.getReservation?.data;
 
   useEffect(() => {
-    !reservationInfo && navigate(`/${hotel}/`);
-  }, [hotel, navigate, reservationInfo]);
+    const goToTheNextStep = async () => {
+      if (lastName && (resId || roomNo)) {
+        const values: any = { lastName: lastName };
+        if (activeCheckInFlowInfo) {
+          values.confirmationNumber = resId;
+        } else {
+          values.roomNo = roomNo;
+        }
+        if (!reservationInfo) {
+          await handleReservation({
+            activeCheckInFlowInfo,
+            values,
+            hotelId,
+            config,
+            toggleNotification,
+            setLoading,
+            setErrorNotification,
+            t,
+            processStatusCode,
+            navigate,
+            goToTheNextStep,
+          });
+        }
+      }
+    };
+    goToTheNextStep();
+  }, [lastName, resId, roomNo, t]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (!reservationInfo && !lastName && (!resId || !roomNo)) {
+        navigate(availablePaths.HOME);
+      }
+    }, 2000);
+
+    return () => clearTimeout(timeoutId);
+  }, [reservationInfo, lastName, resId, roomNo, navigate]);
 
   const WelcomeDetails = () => (
     <>
@@ -93,7 +161,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
           {t('Check-In now to save time when you arrive.')}
         </p>
         <StableImage
-          hidePlaceholder={true}
+          hideplaceholder={'true'}
           src={`/images/${BRAND_CODE}/Divider.png`}
           alt='Divider'
           className={styles.dividerImage}
@@ -104,21 +172,23 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
         <p className={styles.documentsList}>
           <DocIcon />
           <span className={styles.space}>
-            {docTypes?.map((type: string, index: number) => {
-              return (
-                <>
-                  <>{type}</>
-                  {index !== docTypes?.length - 1 && ' / '}
-                </>
-              );
-            })}
+            {docTypes?.map((type: string, index: number) => (
+              <React.Fragment key={type + index}>
+                {type}
+                {index !== docTypes?.length - 1 && ' / '}
+              </React.Fragment>
+            ))}
           </span>
         </p>
-        <div className={styles.verticalLine}></div>
-        <p className={styles.documentsList}>
-          <DocIcon />
-          <span className={styles.space}>{t('Credit Card')}</span>
-        </p>
+        {paymentConfig?.type !== NONE && (
+          <>
+            <div className={styles.verticalLine}></div>
+            <p className={styles.documentsList}>
+              <DocIcon />
+              <span className={styles.space}>{t('Credit Card')}</span>
+            </p>
+          </>
+        )}
       </div>
       <StyledButton className={styles.beginCheckIn} onClick={closeWelcomeDrawer}>
         {t('Begin Check-In')}
@@ -170,8 +240,13 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
           {hotelName} | {t('Stay Details')}
         </title>
       </Head>
-      <Header screenTitle={t('check-In') as string} displayHome backRoute={availablePaths?.HOME} />
-      {paymentConfig?.loader ? (
+      <Header
+        screenTitle={t('check-In') as string}
+        displayHome
+        backRoute={availablePaths?.HOME}
+        language
+      />
+      {loading || hotelInfoLoading || paymentConfig?.loader ? (
         <Loader />
       ) : (
         <PageWrapper className={styles.pageWrapper}>
@@ -184,7 +259,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
           <div className={cx(styles.cardWrapper, 'globals-cardWrapper')}>
             <p className={styles.title}>{t('Your Stay Details')}</p>
             <StableImage
-              hidePlaceholder={true}
+              hideplaceholder={'true'}
               src={`/images/${BRAND_CODE}/Divider.png`}
               alt='Divider'
             />
@@ -217,7 +292,9 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
                   </p>
                 </div>
                 {hotelImageInfo?.checkInTime && (
-                  <p className={styles.detailCheckinTitle}>From {hotelImageInfo?.checkInTime}</p>
+                  <p className={styles.detailCheckinTitle}>
+                    {t('From')} {hotelImageInfo?.checkInTime}
+                  </p>
                 )}
               </div>
               <div className={styles.arrow}>
@@ -237,7 +314,9 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
                   </p>
                 </div>
                 {hotelImageInfo?.checkOutTime && (
-                  <p className={styles.detailCheckinTitle}>Till {hotelImageInfo?.checkOutTime}</p>
+                  <p className={styles.detailCheckinTitle}>
+                    {t('Till')} {hotelImageInfo?.checkOutTime}
+                  </p>
                 )}
               </div>
             </div>
@@ -295,6 +374,13 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
             onClose={closeWelcomeDrawer}
             content={<WelcomeDetails />}
           />
+          <Notification
+            translation={t}
+            title={errorNotification?.title as string}
+            description={errorNotification?.description as string}
+            redirect={errorNotification.state && availablePaths?.HOME}
+            type={errorNotification.state ? FAILURE : SUCCESS}
+          />
         </PageWrapper>
       )}
     </>
@@ -311,7 +397,11 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   return {
     props: {
       roomDetails: data,
-      ...(await serverSideTranslations(locale as string, ['about-your-stay'], i18nConfig)),
+      ...(await serverSideTranslations(
+        locale as string,
+        ['errors', 'about-your-stay', 'common'],
+        i18nConfig,
+      )),
     },
   };
 };

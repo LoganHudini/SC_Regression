@@ -1,0 +1,22 @@
+{
+  "theme_color": "#91723B",
+  "background_color": "#ffffff",
+  "display": "fullscreen",
+  "scope": "/",
+  "start_url": "/",
+  "name": "Grand Mercure",
+  "short_name": "Grand Mercure",
+  "icons": [
+    {
+      "src": "/images/grand-mercure/Logo.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/grand-mercure/Logo.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

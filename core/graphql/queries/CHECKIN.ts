@@ -12,8 +12,13 @@ export interface ICheckInApiRequest {
   primaryGuestEmail: string;
   primaryGuestFirstName: string;
   primaryGuestLastName: string;
+  firstName: string;
+  lastName: string;
   primaryGuestMobileNumber: string;
-  guestCount: any;
+  guestCount: {
+    adult: string;
+    children: string;
+  };
   paymentType: string;
   expirationDate: string;
   cardHolderName: string;
@@ -32,6 +37,17 @@ export interface ICheckInApiRequest {
   depositAmount?: string;
   specialInstructions: string;
   arrivalFlight: string;
+  primaryGuestAddress: string;
+  country: string;
+  profession: string;
+  guests: [
+    {
+      firstName: string;
+      lastName: string;
+      email: string;
+      phone: string;
+    },
+  ];
 }
 
 export const CHECKIN = gql`
@@ -40,6 +56,22 @@ query Checkin($confirmationNumber: String, $body: ICheckInApiRequest) {
     @rest(
       type: "CheckinPayload"
       path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/bookings/{args.confirmationNumber}/checkin"
+      method: "POST"
+      bodyKey: "body"
+    ) {
+    errors
+    data
+    status
+  }
+}
+`;
+
+export const PRECHECKIN = gql`
+query Precheckin($confirmationNumber: String, $body: ICheckInApiRequest) {
+    precheckin(confirmationNumber: $confirmationNumber, body: $body)
+    @rest(
+      type: "PrecheckinPayload"
+      path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/bookings/{args.confirmationNumber}/precheckin"
       method: "POST"
       bodyKey: "body"
     ) {

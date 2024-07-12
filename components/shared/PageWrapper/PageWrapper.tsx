@@ -16,6 +16,7 @@ export const PageWrapper: React.FC<IPageWrapperProps> = ({
   className,
   disabled,
   amountDue,
+  homePageHeader,
 }) => {
   const locale = useLocale();
   const hotelId = useConfig()?.hotelId;
@@ -34,13 +35,13 @@ export const PageWrapper: React.FC<IPageWrapperProps> = ({
     if (hotelInfoStorageList?.length === 0) {
       hotelInfo();
     }
-  }, [hotelInfoStorageList]);
+  }, [hotelInfo, hotelInfoStorageList]);
 
   useEffect(() => {
     if (!loading && data) {
       hotelInfoStorage(data);
     }
-  }, [loading]);
+  }, [data, loading]);
 
   const hideOnScroll = useHideOnScroll();
   return (
@@ -48,6 +49,7 @@ export const PageWrapper: React.FC<IPageWrapperProps> = ({
       className={cx(styles.wrapper, className, {
         [styles.wrapperWithBottomMenu]: displayBottomMenu,
         [styles.hideOnScroll]: hideOnScroll,
+        [styles.landingPageContainer]: homePageHeader,
       })}
     >
       {children}

@@ -50,10 +50,10 @@ import { activeModule, diningOptionList } from 'utils/functions';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 import { diningInformationStorage } from 'storage/dining.storage';
-import { useRouter } from 'next/router';
 import { checkoutTrip } from 'storage/trips.storage';
 import { Notification } from 'components/shared/Notification/Notification';
 import { setHighLightCheckOut } from 'storage/menu-item';
+import { LanguageDrawer } from '../LanguageDrawer/LanguageDrawer';
 import { messageBoxURL } from 'storage/chats';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
@@ -71,7 +71,6 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
 }) => {
   const navigate = useLocalizedRouter();
   const { t } = useTranslation(['common']);
-  const router = useRouter();
   const config = useConfig();
   const [externalURL, setExternalURL] = useState<boolean>(false);
   const [openLanguage, setOpenLanguage] = useState<boolean>(false);
@@ -121,43 +120,7 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
         setOpenLanguage(true);
       }
     }
-  }, [
-    chatURL,
-    config?.chatOption,
-    flow,
-    navigate,
-    pages,
-    paths,
-    redirectOptions,
-    setErrorToggle,
-    t,
-    title,
-    toggleOption,
-  ]);
-  const renderLanguage = () => (
-    <div className={styles.wrapper}>
-      <p className={styles.title}>{t('Choose Your Language')}</p>
-      <div className={styles.optionsList}>
-        {config?.languages?.map((language, index) => (
-          <div key={index} className={cx(styles.optionsListItem)}>
-            <p
-              className={cx(styles.inActiveDiningText, {
-                [styles.activeText]: language?.code === router?.query?.locale,
-              })}
-              onClick={async () => {
-                setOpenLanguage(false);
-                await router.push(`/${language?.code}/${router?.asPath?.slice(4)}`);
-              }}
-            >
-              {/* translation is not required  */}
-              {language?.name}
-            </p>
-            {language?.code === router?.query?.locale && <CheckIcon className={styles.icon} />}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+  }, [config?.chatOption, flow, navigate, pages, paths, redirectOptions, title, toggleOption]);
 
   return (
     <>
@@ -208,11 +171,7 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
           )}
         </>
       )}
-      <CustomDrawer
-        open={openLanguage}
-        content={renderLanguage()}
-        onClose={() => setOpenLanguage(false)}
-      />
+      <LanguageDrawer openLanguage={openLanguage} setOpenLanguage={setOpenLanguage} />
     </>
   );
 };
@@ -521,6 +480,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
       <CustomDrawer open={drawerStatus} onClose={closeDrawer} content={modulesOptionsRender()} />
       <HotelInfoDrawer />
       <Notification
+        translation={t}
         title={errorToggle?.message}
         description={errorToggle?.description}
         type={errorToggle?.state ? FAILURE : SUCCESS}

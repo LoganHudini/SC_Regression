@@ -266,6 +266,50 @@
     },
     {
       "type": "npm",
+      "script": "dev:grand-mercure",
+      "problemMatcher": [],
+      "label": "Dev: GRAND MERCURE",
+      "detail": "env-cmd -f .env.grand-mercure yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:grand-mercure",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: GRAND MERCURE",
+      "detail": "env-cmd -f .env.grand-mercure yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:grand-mercure",
+      "problemMatcher": [],
+      "label": "Start: GRAND MERCURE",
+      "detail": "env-cmd -f .env.grand-mercure next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:mercure",
+      "problemMatcher": [],
+      "label": "Dev: MERCURE",
+      "detail": "env-cmd -f .env.mercure yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:mercure",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: MERCURE",
+      "detail": "env-cmd -f .env.mercure yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:mercure",
+      "problemMatcher": [],
+      "label": "Start: MERCURE",
+      "detail": "env-cmd -f .env.mercure next start"
+    },
+    {
+      "type": "npm",
       "script": "dev:mondrian",
       "problemMatcher": [],
       "label": "Dev: MONDRIAN",

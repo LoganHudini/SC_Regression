@@ -3,4 +3,5 @@ export interface IInfoCardProps {
   children: React.ReactNode;
   icon?: any;
   handleClick?: any;
+  error?: boolean;
 }

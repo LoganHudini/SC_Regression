@@ -1,30 +1,28 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
-import { useLanguage, useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
+import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import cx from 'classnames';
 import React, { useCallback, useState } from 'react';
 import MenuDropDown from '@icons/menuDropDown.svg';
 import MenuDropDownSecondary from '@icons/menuDropDownSecondary.svg';
-import LangActive from '@icons/language-active.svg';
-import LangInactive from '@icons/language-inactive.svg';
+import Language from '@icons/languageHeader.svg';
 import SearchIrd from '@icons/serachIrd.svg';
 import styles from './Header.module.scss';
 import { IHeaderProps } from './Header.types';
 import { useRouter } from 'next/router';
 import ArrowBackIosIcon from '@icons/ArrowBack.svg';
-import { ALL_DAY, LANGUAGE_LIST_BARCELONA } from 'utils/constants';
+import { ALL_DAY } from 'utils/constants';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { useQuery, useReactiveVar } from '@apollo/client';
-import CrossDropdown from '@icons/close.svg';
 import { GET_ORDERS } from 'core/graphql/queries/GET_ORDERS_BY_ID';
 import { DiningOrdersDrawer } from 'components/pages/dining/DiningOrdersDrawer/DiningOrdersDrawer';
-import languageDetector from 'utils/languageDetector';
 import { setScrollPosition } from 'utils/functions';
 import produce from 'immer';
 import { useTranslation } from 'react-i18next';
 import { BRAND_CODE } from 'core/graphql/endpoints';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useCheckedIn } from 'storage/check-in.storage';
+import { LanguageDrawer } from '../BottomMenu/LanguageDrawer/LanguageDrawer';
 
 export const Header: React.FC<IHeaderProps> = ({
   transparent,
@@ -39,8 +37,7 @@ export const Header: React.FC<IHeaderProps> = ({
   setOpencategory,
   displayHome,
   className,
-  lang,
-  languageHandler,
+  language,
 }) => {
   const { t } = useTranslation('common');
   const navigate = useLocalizedRouter();
@@ -54,9 +51,8 @@ export const Header: React.FC<IHeaderProps> = ({
   const filter = useReactiveVar(diningInformationStorage);
   const irdMenu = filter?.menuName || (header && header[0]?.name);
   const irdMenuTimings = header && header[0]?.hours;
-  const [language, setLanguage] = useState<boolean>(false);
   const [orderDrawer, setOrderDrawer] = useState(false);
-  const [languageSelected, setLanguageSelected] = useState(useLanguage());
+  const [openLanguage, setOpenLanguage] = useState(false);
 
   const { data: myOrders } = useQuery(GET_ORDERS, {
     skip: !hotelId || !checkinData?.reservationId,
@@ -99,14 +95,6 @@ export const Header: React.FC<IHeaderProps> = ({
       }),
     );
   }, [hotel, navigate]);
-
-  const handleLanguageChange = async (event: any, el: any) => {
-    setLanguageSelected({ title: el?.title, value: el.value });
-    languageDetector.cache && languageDetector?.cache(el.value as string);
-    await router.push(`/${el.value}/${router?.asPath?.slice(4)}`);
-    setLanguage(!language);
-    languageHandler(language);
-  };
 
   return (
     <>
@@ -165,72 +153,28 @@ export const Header: React.FC<IHeaderProps> = ({
             </button>
           )}
 
-          {lang && (
+          {language && (
             <button
-              className={styles.closeButton1}
+              className={styles.language}
               onClick={() => {
-                setLanguage(!language);
-                languageHandler(language);
+                setOpenLanguage(true);
               }}
             >
-              {!language ? (
-                <LangInactive className={styles.closeIcon} />
-              ) : (
-                <LangActive className={styles.closeIcon} />
-              )}
+              <Language />
             </button>
           )}
         </div>
       </div>
-      <div>
+      <LanguageDrawer openLanguage={openLanguage} setOpenLanguage={setOpenLanguage} />
+      {ordersData?.length > 0 && (
         <>
-          {language && (
-            <div className={styles.containerLang}>
-              <div>
-                <div
-                  onClick={() => {
-                    setLanguage(!language);
-                    languageHandler(language);
-                  }}
-                >
-                  <CrossDropdown className={cx(styles.close)} />
-                </div>
-                <div className={styles.filterView}>
-                  <div className={styles.filterViewOptionContainer}>
-                    {LANGUAGE_LIST_BARCELONA?.map((el, index) => (
-                      <div
-                        className={cx(styles.dropDowntext, {
-                          [styles.selected]: languageSelected?.title === el?.title,
-                        })}
-                        id={el?.title}
-                        onClick={(e) => {
-                          handleLanguageChange(e, el);
-                        }}
-                        // placeholder={el?.title}
-                        key={`${el}-${index}`}
-                      >
-                        {el?.title}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+          <DiningOrdersDrawer
+            ordersDrawer={orderDrawer}
+            ordersData={ordersData}
+            closeOrdersDrawer={closeOrdersDrawer}
+          />
         </>
-      </div>
-
-      <>
-        {ordersData?.length > 0 && (
-          <>
-            <DiningOrdersDrawer
-              ordersDrawer={orderDrawer}
-              ordersData={ordersData}
-              closeOrdersDrawer={closeOrdersDrawer}
-            />
-          </>
-        )}
-      </>
+      )}
     </>
   );
 };

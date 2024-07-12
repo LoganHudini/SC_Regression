@@ -14,6 +14,5 @@ export interface IHeaderProps {
   search?: boolean;
   displayHome?: boolean;
   className?: string;
-  lang?: boolean;
-  languageHandler?: any;
+  language?: boolean;
 }

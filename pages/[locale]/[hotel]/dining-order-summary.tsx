@@ -529,6 +529,7 @@ const DiningOrderSummary = () => {
           closeCustomisationDrawer={closeCustomisationDrawer}
         />
         <Notification
+          translation={t}
           title={errorNotification?.title}
           description={errorNotification?.description}
           redirect={errorNotification?.redirect}
@@ -547,7 +548,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     props: {
       ...(await serverSideTranslations(
         locale as string,
-        ['dining-order-summary', 'dining'],
+        ['errors', 'dining-order-summary', 'dining'],
         i18nConfig,
       )),
     },

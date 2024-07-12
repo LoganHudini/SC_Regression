@@ -3,6 +3,7 @@ import styles from './DetailsCard.module.scss';
 import { IInfoCardProps } from './DetailsCard.types';
 import DropDownIcon from '@icons/dropDownIcon.svg';
 import DropUpIcon from '@icons/dropUpIcon.svg';
+import cx from 'classnames';
 
 export const DetailsCard: React.FC<IInfoCardProps> = ({ title, children, icon, handleClick }) => {
   return (
@@ -16,9 +17,19 @@ export const DetailsCard: React.FC<IInfoCardProps> = ({ title, children, icon, h
   );
 };
 
-export const DetailsCardShrinked: React.FC<IInfoCardProps> = ({ title, children, handleClick }) => {
+export const DetailsCardShrinked: React.FC<IInfoCardProps> = ({
+  title,
+  children,
+  handleClick,
+  error = true,
+}) => {
   return (
-    <div className={styles.shrinkedCard} onClick={(e) => handleClick && handleClick(e)}>
+    <div
+      className={cx(styles.shrinkedCard, {
+        [styles.error]: !error,
+      })}
+      onClick={(e) => handleClick && handleClick(e)}
+    >
       <div className={styles.shrinkedTitleCard}>
         <h3 className={styles.titleText}>{title}</h3>
         <DropDownIcon />

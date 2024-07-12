@@ -16,6 +16,8 @@ interface INotificationProps {
   redirect: any;
   type: any;
   apolloError?: any;
+  translation?: any;
+  delay?: number;
 }
 
 export const Notification: React.FC<INotificationProps> = ({
@@ -24,8 +26,10 @@ export const Notification: React.FC<INotificationProps> = ({
   redirect,
   type,
   apolloError,
+  translation,
+  delay,
 }) => {
-  const { t } = useTranslation(['common']);
+  const { t: errorTranslation } = useTranslation('errors');
   const notificationStatus = useReactiveVar(toggleNotification);
   const navigate = useLocalizedRouter();
   const networkError = apolloError?.networkError as { result?: { errors?: string; code?: number } };
@@ -40,12 +44,15 @@ export const Notification: React.FC<INotificationProps> = ({
 
   useEffect(() => {
     if (notificationStatus) {
-      setTimeout(() => {
-        toggleNotification(false);
-        redirect && navigate(redirect);
-      }, 5000);
+      setTimeout(
+        () => {
+          toggleNotification(false);
+          redirect && navigate(redirect);
+        },
+        delay ? delay : 5000,
+      );
     }
-  }, [navigate, notificationStatus, redirect]);
+  }, [delay, navigate, notificationStatus, redirect]);
 
   return (
     <>
@@ -73,13 +80,13 @@ export const Notification: React.FC<INotificationProps> = ({
               [styles.contentWrapperWithoutAnimation]: config?.isAnimationActive !== undefined,
             })}
           >
-            <p className={styles.title}>{title}</p>
+            <p className={styles.title}>{errorTranslation(title)}</p>
             <p className={styles.description}>
               {networkError && apolloError
                 ? networkError?.result?.errors === 'invalid room number'
-                  ? t('Invalid room number')
-                  : networkError?.result?.errors
-                : description}
+                  ? errorTranslation('Invalid room number')
+                  : errorTranslation(networkError?.result?.errors as string)
+                : translation && translation(description)}
             </p>
           </div>
           <CloseIcon className={styles.close} onClick={handleRedirection} />

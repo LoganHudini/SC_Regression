@@ -48,8 +48,9 @@ export const FandBOrders = () =>
 export const getWelcomeDrawer = () =>
   (typeof window !== 'undefined' &&
     sessionStorage.getItem('welcomeDrawer') &&
-    JSON.parse(sessionStorage.getItem('welcomeDrawer') ?? '')) ??
-  true;
+    JSON.parse(sessionStorage.getItem('welcomeDrawer') ?? '')) === null
+    ? true
+    : false;
 
 // Convert time format from 24H to 12H
 export const convertTo12HourFormat = (time24: string) => {

@@ -80,7 +80,7 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
 
                       const displayEndDate = endDate.format('MMMM D, YYYY');
 
-                      return `${displayStartDate} until ${displayEndDate}`;
+                      return `${displayStartDate} ${t('until')} ${displayEndDate}`;
                     })()}
               </p>
             )}

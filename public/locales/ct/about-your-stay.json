@@ -62,5 +62,10 @@
   "Guest information added successfully.": "Informació de l'hoste afegida amb èxit.",
   "Failed to add guest details.": "Error en afegir els detalls de l'hoste.",
   "Scan Document": "Escanejar document",
-  "Something Went Wrong!": "Alguna cosa ha anat malament!"
+  "Something Went Wrong!": "Alguna cosa ha anat malament!",
+  "Nationality": "Nacionalitat",
+  "Choose Your Nationality": "Tria la teva nacionalitat",
+  "Pre Checked-In": "Facturació prèvia",
+  "You have already completed the pre check-in process.": "Ja has completat el procés de pre-registre.",
+  "Pending Details": "Detalls pendents"
 }

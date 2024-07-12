@@ -1,5 +1,3 @@
-import { getHotelCode } from './fetchConfigs';
-
 export const CHECK_IN_FLOW_VERSION = process.env.NEXT_PUBLIC_CHECK_IN_FLOW_VERSION;
 export const CHECK_OUT_FLOW_VERSION = process.env.NEXT_PUBLIC_CHECK_OUT_FLOW_VERSION;
 export const DINING_FLOW_VERSION = process.env.NEXT_PUBLIC_DINING_FLOW_VERSION;
@@ -11,6 +9,7 @@ export const ROOM_CONTROLS_FLOW_VERSION = process.env.NEXT_PUBLIC_ROOM_CONTROLS_
 // brand constants
 export const RAFFLES = 'raffles';
 export const FAIRMONT = 'fairmont';
+export const GRAND_MERCURE = 'grand-mercure';
 
 // hotel constants
 export const STAGE = 'stage';
@@ -28,11 +27,14 @@ export const PROPER_DOWNTOWN_LA = 'proper-downtown-la';
 export const ONE_AND_ONLY_ROYAL_MIRAGE = 'one-and-only-royal-mirage';
 export const LONDONER_LEICESTER_SQ = 'londoner-leicester-sq';
 export const EDWARDIAN = 'edwardian';
+export const GRAND_MERCURE_OKINAWA_CAPE_ZANPA = 'grand-mercure-okinawa-cape-zanpa';
+export const MERCURE_NAGANO_MATSUSHIRO = 'mercure-nagano-matsushiro';
 export const MONDRIAN_DUXTON_SINGAPORE = 'mondrian-duxton-singapore';
 
 // configuration constants
 export const OPERA = 'OPERA';
 export const INFOR = 'INFOR';
+export const OHIP = 'OHIP';
 
 // payment type constants
 export const SHIFT4 = 'SHIFT4';
@@ -124,6 +126,7 @@ export const CHECK_OUT = 'Check-out';
 export const CHECKIN = 'Check-in';
 export const TIMINGS = 'timings';
 export const DOCTYPE = 'docType';
+export const GENDER = 'gender';
 export const MANUAL = 'manual';
 export const STEPPER_REVIEW = 'Review';
 export const STEPPER_PAYMENT = 'Payment';
@@ -150,6 +153,7 @@ export const BAR = 'bar';
 export const BARS_CAPS = 'bars';
 export const NA = 'na';
 export const CMS = 'CMS';
+export const PMS = 'PMS';
 export const VENDOR = 'VENDOR';
 export const NONE = 'NONE';
 export const TABLE_RESERVATION = 'tableReservation';
@@ -170,11 +174,26 @@ export const SETTINGS = 'settings';
 export const HOME = 'home';
 export const LANGUAGE = 'Language';
 export const CHECKIN_NOW = 'Check-In Now';
+export const FIRST_NAME = 'firstName';
+export const LAST_NAME = 'lastName';
+export const NATIONALITY = 'nationality';
+export const MESSAGE_BOX = 'MESSAGE_BOX';
+export const MESSAGE_BIRD = 'MESSAGE_BIRD';
+export const TRENTIAL = 'trential';
+export const COMPLETED = 'COMPLETED';
+export const AADHAAR = 'aadhaar';
+export const PASSPORT_SMALLCASE = 'passport';
+export const JAPANESE_RESIDENT_CARD = 'japanese-resident-card';
+export const DL = 'dl';
+export const INDIAN = 'Indian';
+export const FAILED = 'FAILED';
+export const IN_PROGRESS = 'IN_PROGRESS';
+export const NOT_INITIALIZED = 'NOT_INITIALIZED';
 export const ADDON = 'Addon';
 export const ROOM = 'Room';
 export const SPA = 'spa';
-export const MESSAGE_BOX = 'MESSAGE_BOX';
-export const MESSAGE_BIRD = 'MESSAGE_BIRD';
+export const INVALID_DATE = 'Invalid Date';
+export const LIVENESS = 'liveness';
 
 // flow constants
 export const DAYS = [
@@ -193,46 +212,6 @@ export const GenderOptions = [
   { label: 'Male', value: '604' },
   { label: 'Female', value: '603' },
 ];
-
-// ird to be removed later
-const hotel = getHotelCode();
-export const DINING_OPTIONS_PRE_CHECK_IN = [
-  {
-    id: 'restaurant',
-    title: 'Restaurants',
-    path: `/${hotel}/restaurants-bars`,
-    width: '101.36px',
-  },
-  {
-    id: 'bar',
-    title: 'Bars',
-    path: `/${hotel}/restaurants-bars`,
-    width: '47.77px',
-  },
-];
-
-export const DINING_OPTIONS = [
-  {
-    id: 'ird',
-    title: 'In-Room Dining',
-    path: `/${hotel}/dining`,
-    width: '116.89px',
-  },
-  {
-    id: 'restaurant',
-    title: 'Restaurants',
-    path: `/${hotel}/restaurants-bars`,
-    width: '101.36px',
-  },
-  {
-    id: 'bar',
-    title: 'Bars',
-    path: `/${hotel}/restaurants-bars`,
-    width: '47.77px',
-  },
-];
-
-export const Schedules = ['TODAY', 'TOMORROW'];
 
 export const cardTypes = [
   {
@@ -288,18 +267,6 @@ export const PAYMENT = [
   { id: '3', name: 'CARD', message: '' },
 ];
 
-export const LANGUAGE_LIST_DUBAI = [
-  { title: 'English', value: 'en' },
-  { title: 'عربي', value: 'ar' },
-];
-
-export const LANGUAGE_LIST_BARCELONA = [
-  { title: 'English', value: 'en' },
-  { title: 'Español', value: 'es' },
-  { title: 'Català', value: 'ct' },
-  { title: 'Français', value: 'fr' },
-];
-
 export const TIPS = [
   { id: '1', value: 10 },
   { id: '2', value: 20 },
@@ -321,15 +288,10 @@ export const DOCUMENT_LIST = [
   { code: 'covid19Regulations', name: 'Covid19 Regulations' },
   { code: 'dataProtection', name: 'Data Protection' },
   { code: 'privacyLaws', name: 'Privacy Laws' },
-  { code: 'termsAndConditions', name: 'Terms and Conditions' },
+  { code: 'termsAndConditions', name: 'Terms & Conditions' },
 ];
 
 export const TimeFormatArray = ['AM', 'PM'];
-
-export const Gender = [
-  { name: 'Male', value: 'MALE' },
-  { name: 'Female', value: 'FEMALE' },
-];
 
 export const CAROUSEL_RESPONSIVE = {
   desktop: {

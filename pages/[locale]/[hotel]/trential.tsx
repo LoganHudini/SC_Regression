@@ -1,0 +1,437 @@
+import Head from 'next/head';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { GetStaticProps } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { getStaticPaths } from 'utils/getStatic';
+import i18nConfig from 'next-i18next.config';
+import { client } from 'core/graphql/client';
+import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
+import { availablePaths } from 'utils/availablePaths';
+import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
+import { useReactiveVar } from '@apollo/client';
+import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
+import { useConfig, useDocumentConfig } from 'utils/hooks/useConfiguration';
+import { profileIDStorage } from 'storage/check-in.storage';
+import { accompanyGuestDetails } from 'storage/accompany-guest-details';
+import {
+  AADHAAR,
+  CHECK_IN,
+  COMPLETED,
+  DL,
+  DOCTYPE,
+  FAILED,
+  FAILURE,
+  GUESTINFORMATION,
+  INDIAN,
+  INFORMATION,
+  IN_PROGRESS,
+  JAPANESE_RESIDENT_CARD,
+  LIVENESS,
+  NOT_INITIALIZED,
+  PASSPORT_SMALLCASE,
+  PRIMARY,
+} from 'utils/constants';
+import { STORE_RESERVATION } from 'core/graphql/queries/STORE_RESERVATION';
+import { Notification } from 'components/shared/Notification/Notification';
+import { notificationDetails, toggleNotification } from 'storage/home.storage';
+import '@aws-amplify/ui-react/styles.css';
+import { ClientVerificationUI } from 'client-verification-trential-next-sdk';
+import {
+  CREATE_FACE,
+  GET_TRENTIAL_STATUS,
+  GET_TRENTIAL_TOKEN,
+} from 'core/graphql/queries/TRENTIAL_API';
+import { Loader } from 'components/shared/Loaders/Loaders';
+import { timeFormats } from 'utils/timeFormats';
+import dayjs from 'dayjs';
+export { getStaticPaths };
+
+const Trential: React.FC = () => {
+  const { t } = useTranslation(['check-in']);
+  const navigate = useLocalizedRouter();
+  const hotel = useConfig()?.name;
+  const hotelCode = useConfig()?.code;
+  const [token, setToken] = useState('');
+  const notificationInfo = useReactiveVar(notificationDetails);
+  const profileIDState = useReactiveVar(profileIDStorage);
+  const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
+  const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
+  const documentConfig: any = useDocumentConfig();
+  const [loading, setLoading] = useState(false);
+  const config = useConfig();
+  const checkInModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
+  const guestSubmodule = checkInModule?.submodules?.find(
+    (submodule: any) => submodule?.name === INFORMATION && submodule?.isActive,
+  );
+  const activeSections = guestSubmodule?.details?.filter((section: any) => section?.isActive);
+  const guestInformationSection = activeSections?.find(
+    (section: any) => section?.name === GUESTINFORMATION && section.isActive,
+  );
+  const docTypes = documentConfig?.details?.find((e: any) => e?.name === DOCTYPE)?.options;
+
+  const reservationData = client.readQuery<IGetReservationApiResponse>({
+    query: GET_RESERVATION,
+  });
+  const reservationDataSelected = reservationData?.getReservation?.data?.guests?.find(
+    (item) => item?.id === profileIDState?.id,
+  );
+  const confirmationId = reservationData?.getReservation?.data?.confirmationId;
+  const lastName = reservationData?.getReservation?.data?.guests[0]?.lastName;
+  const checkInDate = reservationData?.getReservation?.data?.details?.checkInDate;
+  const checkOutDate = reservationData?.getReservation?.data?.details?.checkOutDate;
+  const documentLists: any = [
+    ...new Set(docTypes?.map((opt: any) => opt?.vendorDocType)),
+    LIVENESS,
+  ];
+
+  useEffect(() => {
+    const data = async () => {
+      setLoading(true);
+      const InitiateTokenPayload = {
+        verificationNameList: documentLists,
+      };
+      try {
+        const res = await client.query({
+          query: GET_TRENTIAL_TOKEN,
+          context: {
+            clientName: 'rest',
+          },
+          variables: {
+            body: InitiateTokenPayload,
+          },
+          fetchPolicy: 'network-only',
+        });
+        if (res?.data?.InitiateToken?.data?.token) {
+          setToken(res?.data?.InitiateToken?.data?.token);
+        } else {
+          toggleNotification(true);
+          notificationDetails({
+            title: t('Something Went Wrong!') as string,
+            redirect: availablePaths?.GUEST_VERIFICATION,
+            type: FAILURE,
+          });
+        }
+      } catch {
+        toggleNotification(true);
+        notificationDetails({
+          title: t('Something Went Wrong!') as string,
+          redirect: availablePaths?.GUEST_VERIFICATION,
+          type: FAILURE,
+        });
+      }
+      setLoading(false);
+    };
+    data();
+  }, []);
+
+  const verificationStatusHandler = async () => {
+    setLoading(true);
+
+    try {
+      const { data } = await client.query({
+        query: GET_TRENTIAL_STATUS,
+        context: {
+          clientName: 'rest',
+        },
+        variables: {
+          body: {
+            token: token,
+          },
+        },
+        fetchPolicy: 'no-cache',
+      });
+
+      const trentialResponse = data?.InitiateToken?.data?.data?.verificationList?.find(
+        (item: any) => item?.state === COMPLETED,
+      );
+
+      const livenessResponse = data?.InitiateToken?.data?.data?.verificationList?.find(
+        (item: any) => item?.name === LIVENESS,
+      )?.response;
+
+      const statusList = documentLists?.includes(LIVENESS)
+        ? livenessResponse !== null
+          ? livenessResponse?.data?.confidence > 70
+            ? trentialResponse
+            : null
+          : null
+        : trentialResponse;
+
+      if (statusList) {
+        if (statusList?.state === COMPLETED) {
+          const expiryDate =
+            statusList?.name === JAPANESE_RESIDENT_CARD
+              ? statusList?.response?.dateOfExpiry
+              : dayjs(statusList?.response?.expiryDate, timeFormats.DAY_MONTH_YEAR_2).format(
+                  timeFormats.YEAR_MONTH_DAY,
+                );
+
+          if (
+            statusList?.name === AADHAAR ||
+            dayjs().isSame(dayjs(expiryDate, timeFormats.YEAR_MONTH_DAY)) ||
+            dayjs().isBefore(dayjs(expiryDate, timeFormats.YEAR_MONTH_DAY))
+          ) {
+            if (
+              statusList?.response?.firstName &&
+              statusList?.response?.lastName &&
+              profileIDState?.guestType === PRIMARY &&
+              !(
+                (statusList?.response?.firstName
+                  ?.toLowerCase()
+                  .includes(reservationDataSelected?.firstName?.toLowerCase()) ||
+                  statusList?.response?.firstName
+                    ?.toLowerCase()
+                    .includes(reservationDataSelected?.lastName?.toLowerCase())) &&
+                (statusList?.response?.lastName
+                  ?.toLowerCase()
+                  .includes(reservationDataSelected?.firstName.toLowerCase()) ||
+                  statusList?.response?.lastName
+                    ?.toLowerCase()
+                    .includes(reservationDataSelected?.lastName.toLowerCase()))
+              )
+            ) {
+              toggleNotification(true);
+              notificationDetails({
+                title: t('Oops Match Not Found!') as string,
+                description: t(
+                  // eslint-disable-next-line quotes
+                  "Reservation details doesn't match with Document details.",
+                ) as string,
+                redirect: availablePaths?.GUEST_VERIFICATION,
+                type: FAILURE,
+              });
+            } else if (
+              statusList?.response?.name &&
+              profileIDState?.guestType === PRIMARY &&
+              !statusList?.response?.name
+                ?.toLowerCase()
+                ?.includes(reservationDataSelected?.firstName?.toLowerCase()) &&
+              !statusList?.response?.name
+                ?.toLowerCase()
+                ?.includes(reservationDataSelected?.lastName?.toLowerCase())
+            ) {
+              toggleNotification(true);
+              notificationDetails({
+                title: t('Oops Match Not Found!') as string,
+                description: t(
+                  // eslint-disable-next-line quotes
+                  "Reservation details doesn't match with Document details.",
+                ) as string,
+                redirect: availablePaths?.GUEST_VERIFICATION,
+                type: FAILURE,
+              });
+            } else {
+              if (profileIDState?.guestType === PRIMARY && guestInformationSection?.kioskEnabled) {
+                try {
+                  await client.mutate({
+                    mutation: STORE_RESERVATION,
+                    context: { clientName: 'integration_v5' },
+                    variables: {
+                      profileId: reservationDataSelected?.id,
+                      reservationId: confirmationId,
+                      lastName: lastName,
+                      checkInDate: checkInDate,
+                      checkOutDate: checkOutDate,
+                    },
+                  });
+
+                  await client.query({
+                    query: CREATE_FACE,
+                    context: {
+                      clientName: 'rest',
+                    },
+                    variables: {
+                      body: {
+                        collectionName: guestInformationSection?.collectionName,
+                        userIdentifier: reservationDataSelected?.id,
+                        image: statusList?.response?.photo,
+                      },
+                    },
+                    fetchPolicy: 'no-cache',
+                  });
+                } catch (e) {
+                  console.error(e);
+                }
+              }
+              const docType =
+                docTypes?.find((document: any) => document?.vendorDocType === statusList?.name)
+                  ?.value || '';
+
+              const dateOfBirth =
+                statusList?.name === PASSPORT_SMALLCASE
+                  ? dayjs(statusList?.response?.birthDate, timeFormats.DAY_MONTH_YEAR_2).format(
+                      timeFormats.YEAR_MONTH_DAY,
+                    )
+                  : statusList?.name === JAPANESE_RESIDENT_CARD
+                  ? statusList?.response?.dateOfBirth
+                  : '';
+
+              const issueCountry =
+                statusList?.name === AADHAAR
+                  ? INDIAN
+                  : statusList?.name === DL
+                  ? INDIAN
+                  : statusList?.name === PASSPORT_SMALLCASE
+                  ? statusList?.response?.nationality
+                  : statusList?.name === JAPANESE_RESIDENT_CARD
+                  ? statusList?.response?.nationality
+                  : '';
+
+              const docNoRes =
+                statusList?.name === AADHAAR
+                  ? statusList?.response?.aadhaarId
+                  : statusList?.name === DL
+                  ? statusList?.response?.licenseNumber
+                  : statusList?.name === PASSPORT_SMALLCASE
+                  ? statusList?.response?.documentNumber
+                  : statusList?.name === JAPANESE_RESIDENT_CARD
+                  ? statusList?.response?.documentNumber
+                  : '';
+
+              if (profileIDState?.guestType === PRIMARY) {
+                reservationGuestInfoStorageData({
+                  ...guestReservationInfo,
+                  dob: dateOfBirth,
+                  docNo: docNoRes,
+                  docType: docType,
+                  gender:
+                    statusList?.response?.sex === 'M'
+                      ? 'MALE'
+                      : statusList?.response?.sex === 'F'
+                      ? 'FEMALE'
+                      : statusList?.response?.sex?.toUpperCase() ||
+                        statusList?.response?.gender?.toUpperCase(),
+                  effectiveDate: '',
+                  expiryDate: expiryDate,
+                  issueCountry: issueCountry,
+                  docImage: statusList?.response?.photo || '',
+                });
+              } else {
+                const updatedData = accompanyGuestData?.map((guest: any) => {
+                  if (guest?.id === reservationDataSelected?.id) {
+                    return {
+                      ...guest,
+                      dob: dateOfBirth,
+                      docNo: docNoRes,
+                      docType: docType,
+                      gender:
+                        statusList?.response?.sex === 'M'
+                          ? 'MALE'
+                          : statusList?.response?.sex === 'F'
+                          ? 'FEMALE'
+                          : statusList?.response?.sex?.toUpperCase(),
+                      effectiveDate: '',
+                      expiryDate: expiryDate,
+                      issueCountry: issueCountry,
+                      docImage: statusList?.response?.photo || '',
+                    };
+                  }
+                  return guest;
+                });
+                accompanyGuestDetails(updatedData);
+              }
+            }
+          } else {
+            notificationDetails({
+              title: t('Invalid Document!') as string,
+              description: t(
+                'Document is expired, please try again with a valid document.',
+              ) as string,
+              redirect: availablePaths?.GUEST_VERIFICATION,
+              type: FAILURE,
+            });
+            toggleNotification(true);
+            return;
+          }
+        }
+        if (statusList?.state === (FAILED || IN_PROGRESS || NOT_INITIALIZED)) {
+          toggleNotification(true);
+          notificationDetails({
+            title: t('Please Try Again!') as string,
+            description: t('Verification process failed.') as string,
+            redirect: availablePaths?.GUEST_VERIFICATION,
+            type: FAILURE,
+          });
+        }
+        navigate(availablePaths?.GUEST_VERIFICATION);
+      } else {
+        toggleNotification(true);
+        notificationDetails({
+          title: t('Verification Failed!') as string,
+          description: t('Failed to verify your face, please try again.') as string,
+          redirect: availablePaths?.GUEST_VERIFICATION,
+          type: FAILURE,
+        });
+        navigate(availablePaths?.GUEST_VERIFICATION);
+      }
+    } catch {
+      setLoading(false);
+      toggleNotification(true);
+      notificationDetails({
+        title: t('Please Try Again!') as string,
+        description: t('Verification process failed.') as string,
+        redirect: availablePaths?.GUEST_VERIFICATION,
+        type: FAILURE,
+      });
+    }
+    setLoading(false);
+  };
+
+  return (
+    <>
+      <Head>
+        <title>
+          {hotel} | {t('Document Scanning')}
+        </title>
+      </Head>
+
+      <div>
+        {loading && <Loader />}
+
+        {token && (
+          <ClientVerificationUI
+            verifications={
+              documentLists?.includes('dl')
+                ? documentLists?.map((list: string) => (list === 'dl' ? 'drivingLicense' : list))
+                : documentLists
+            }
+            environment={guestInformationSection?.environment}
+            onError={() => {
+              toggleNotification(true);
+              notificationDetails({
+                title: t('Please Try Again!') as string,
+                description: t('Verification process failed.') as string,
+                redirect: availablePaths?.GUEST_VERIFICATION,
+                type: FAILURE,
+              });
+              navigate(availablePaths?.GUEST_VERIFICATION);
+            }}
+            onSuccess={() => {
+              verificationStatusHandler();
+            }}
+            token={token}
+            disclaimer={t('I provide my consent to share my details with Hudini') as string}
+          />
+        )}
+      </div>
+      <Notification
+        title={notificationInfo?.title}
+        description={notificationInfo?.description}
+        redirect={notificationInfo?.redirect}
+        type={notificationInfo?.type}
+      />
+    </>
+  );
+};
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const locale = ctx?.params?.locale;
+  return {
+    props: {
+      ...(await serverSideTranslations(locale as string, ['check-in'], i18nConfig)),
+    },
+  };
+};
+
+export default Trential;

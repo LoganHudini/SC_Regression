@@ -152,6 +152,16 @@
   src: url('/fonts/Avenir/Avenir.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'League Spartan';
+  src: url('/fonts/LeagueSpartan/LeagueSpartan-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'League Spartan Medium';
+  src: url('/fonts/LeagueSpartan/LeagueSpartan-Medium.ttf') format('truetype');
+}
+
 // header font-families
 @font-face {
   font-family: 'Garamond';
@@ -212,6 +222,11 @@
 @font-face {
   font-family: 'ChronicleDisp';
   src: url('/fonts/ChronicleDisp/ChronicleDisp-Roman.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Cinzel';
+  src: url('/fonts/Cinzel/Cinzel-Regular.ttf') format('truetype');
 }
 
 :root {
@@ -424,10 +439,9 @@ img {
   color: var(--primary-theme-color);
   border: none;
   width: 100%;
-  border-radius: 0;
   font-size: 0.75rem;
   font-weight: bold;
-  padding: 11px 0;
+  padding: 0 0;
   border-radius: 5px;
   overflow: hidden;
 
@@ -649,6 +663,10 @@ img {
   color: var(--primary-error-text-color);
 }
 
+.MuiOutlinedInput-notchedOutline {
+  border-color: var(--primary-theme-color) !important;
+}
+
 .MuiClockPointer-root {
   background-color: var(--primary-theme-color) !important;
 }
@@ -660,4 +678,8 @@ img {
 
 .MuiClock-pin {
   background-color: var(--primary-theme-color) !important;
+}
+
+.MuiPickersToolbar-penIconButton {
+  display: none !important;
 }

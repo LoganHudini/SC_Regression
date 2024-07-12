@@ -457,6 +457,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
           </>
         )}
         <Notification
+          translation={t}
           title={notificationState?.title}
           description={notificationState?.description}
           redirect={notificationState?.redirect}
@@ -476,7 +477,11 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const locale = ctx?.params?.locale;
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ['housekeeping', 'common'], i18nConfig)),
+      ...(await serverSideTranslations(
+        locale as string,
+        ['errors', 'housekeeping', 'common'],
+        i18nConfig,
+      )),
     },
   };
 };

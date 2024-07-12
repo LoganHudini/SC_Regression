@@ -123,7 +123,7 @@ const Preferences = () => {
     }
   }, [lastName, resId]);
 
-  const homeModule: any = config?.modules?.find((module) => module?.code === PREFERENCES);
+  const homeModule: any = config?.modules?.find((module: any) => module?.code === PREFERENCES);
   const imageDetails = homeModule?.submodules?.find(
     (submodule: any) => submodule?.code === HEADERSCONFIG && submodule.isActive,
   )?.details[0];
@@ -288,6 +288,7 @@ const Preferences = () => {
         </PageWrapper>
       )}
       <Notification
+        translation={t}
         title={notificationState?.title}
         apolloError={notificationState?.apolloError}
         redirect={notificationState?.redirect}
@@ -302,7 +303,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ['common'], i18nConfig)),
+      ...(await serverSideTranslations(locale as string, ['errors', 'common'], i18nConfig)),
     },
   };
 };

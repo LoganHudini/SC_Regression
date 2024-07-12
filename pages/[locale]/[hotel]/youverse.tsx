@@ -14,9 +14,9 @@ import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.
 import { ApolloError, useReactiveVar } from '@apollo/client';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
 import { useConfig, useDocumentConfig } from 'utils/hooks/useConfiguration';
-import { youverseProfileIDStorage } from 'storage/check-in.storage';
+import { profileIDStorage } from 'storage/check-in.storage';
 import { accompanyGuestDetails } from 'storage/accompany-guest-details';
-import { DOCTYPE, FAILURE, PRIMARY } from 'utils/constants';
+import { DOCTYPE, FAILURE, GENDER, PRIMARY } from 'utils/constants';
 import { STORE_RESERVATION } from 'core/graphql/queries/STORE_RESERVATION';
 import { Notification } from 'components/shared/Notification/Notification';
 import { notificationDetails, toggleNotification } from 'storage/home.storage';
@@ -36,12 +36,13 @@ const Youverse: React.FC = () => {
   const hotel = useConfig()?.name;
   const [src, setSrc] = useState('');
   const notificationInfo = useReactiveVar(notificationDetails);
-  const youverseProfileIDState = useReactiveVar(youverseProfileIDStorage);
+  const youverseProfileIDState = useReactiveVar(profileIDStorage);
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
   const documentConfig: any = useDocumentConfig();
 
   const docTypes = documentConfig?.details?.find((e: any) => e?.name === DOCTYPE)?.options;
+  const genderTypes = documentConfig?.details?.find((e: any) => e?.name === GENDER)?.options;
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
@@ -179,7 +180,12 @@ const Youverse: React.FC = () => {
                     dob: res?.data?.getyoonikresponse?.data?.dob,
                     docType: docTypes?.find(
                       (document: any) =>
-                        document?.youverse === res?.data?.getyoonikresponse?.data?.youverseType,
+                        document?.vendorDocType ===
+                        res?.data?.getyoonikresponse?.data?.youverseType,
+                    )?.value,
+                    gender: genderTypes?.find(
+                      (gender: any) =>
+                        gender?.vendorGenderType === res?.data?.getyoonikresponse?.data?.gender,
                     )?.value,
                     issueDate: res?.data?.getyoonikresponse?.data?.issueDate,
                     expiryDate: res?.data?.getyoonikresponse?.data?.expiryDate,
@@ -198,7 +204,12 @@ const Youverse: React.FC = () => {
                         dob: res?.data?.getyoonikresponse?.data?.dob,
                         docType: docTypes?.find(
                           (document: any) =>
-                            document?.youverse === res?.data?.getyoonikresponse?.data?.youverseType,
+                            document?.vendorDocType ===
+                            res?.data?.getyoonikresponse?.data?.youverseType,
+                        )?.value,
+                        gender: genderTypes?.find(
+                          (gender: any) =>
+                            gender?.vendorGenderType === res?.data?.getyoonikresponse?.data?.gender,
                         )?.value,
                         issueDate: res?.data?.getyoonikresponse?.data?.issueDate,
                         expiryDate: res?.data?.getyoonikresponse?.data?.expiryDate,
@@ -248,6 +259,7 @@ const Youverse: React.FC = () => {
         <iframe src={src} allow='camera' style={{ width: '100%', height: '100dvh' }} />
       </div>
       <Notification
+        translation={t}
         title={notificationInfo?.title}
         description={notificationInfo?.description}
         redirect={notificationInfo?.redirect}
@@ -261,7 +273,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const locale = ctx?.params?.locale;
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ['check-in'], i18nConfig)),
+      ...(await serverSideTranslations(locale as string, ['errors', 'check-in'], i18nConfig)),
     },
   };
 };

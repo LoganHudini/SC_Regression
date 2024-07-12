@@ -154,7 +154,11 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ['restaurants', 'common'], i18nConfig)),
+      ...(await serverSideTranslations(
+        locale as string,
+        ['errors', 'restaurants', 'common'],
+        i18nConfig,
+      )),
     },
   };
 };

@@ -65,7 +65,8 @@ const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
   const offerDetails = () => (
     <div
       className={cx(styles.listComponent, {
-        [styles.listComponentMargin]: carouselItem?.CTA?.status === ACTIVE,
+        [styles.listComponentMargin]:
+          carouselItem?.CTA?.status === ACTIVE && carouselItem?.CTA?.URL,
       })}
     >
       <div className={styles.imageWrapper}>
@@ -94,14 +95,8 @@ const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
           )}
         </div>
       </div>
-      {carouselItem?.CTA?.status === ACTIVE && (
-        <StyledButton
-          variant='contained'
-          onClick={onCtaClick}
-          className={cx(styles.button, {
-            [styles.withoutImageButton]: carouselItem && !carouselItem?.images[0]?.ratio16to9,
-          })}
-        >
+      {carouselItem?.CTA?.status === ACTIVE && carouselItem?.CTA?.URL && (
+        <StyledButton variant='contained' onClick={onCtaClick} className={styles.button}>
           {carouselItem?.CTA?.displayCTATitle || t('BOOK NOW')}
         </StyledButton>
       )}

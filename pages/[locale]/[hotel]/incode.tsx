@@ -29,7 +29,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const locale = ctx?.params?.locale;
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ['incode'], i18nConfig)),
+      ...(await serverSideTranslations(locale as string, ['errors', 'incode'], i18nConfig)),
     },
   };
 };

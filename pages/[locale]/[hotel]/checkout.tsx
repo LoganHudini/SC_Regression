@@ -253,6 +253,7 @@ const CheckOut = () => {
         amountDue={invoiceData?.invoice?.data?.currentBalance}
       />
       <Notification
+        translation={t}
         title={errorToggle?.message}
         description={errorToggle?.description}
         type={errorToggle?.state ? FAILURE : SUCCESS}
@@ -274,7 +275,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const locale = ctx?.params?.locale;
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ['bill', 'common'], i18nConfig)),
+      ...(await serverSideTranslations(locale as string, ['errors', 'bill', 'common'], i18nConfig)),
     },
   };
 };

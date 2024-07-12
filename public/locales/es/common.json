@@ -115,7 +115,7 @@
   "Availability": "Disponibilidad",
   "Offer Includes": "Oferta Incluye",
   "Your booking has been received. Our reservation team will get in touch with you soon": "Tu reserva ha sido recibida. Nuestro equipo de reservas se pondrá en contacto contigo pronto",
-  "Choose Your Language": "Elige Tu Idioma",
+  "Choose Your Preferred Language": "Elija su idioma preferido",
   "Device Disconnected!": "¡Dispositivo Desconectado!",
   "Hope you had a pleasant stay with us. We look forward to your next visit.\nThank You.": "Esperamos que hayas tenido una agradable estancia con nosotros. Esperamos tu próxima visita.\nGracias.",
   "Home": "Hogar",
@@ -131,6 +131,9 @@
   "Invalid Room Type": "Tipo de habitación no válida",
   "Invalid room number": "Número de habitación inválido",
   "Something Went Wrong!": "¡Algo salió mal!",
+  "Pre Checked-In": "Pre-registro",
+  "You have already completed the pre check-in process.": "Ya has completado el proceso de Pre-Registro de Entrada.",
+  "Visit Website": "Visitar el sitio web",
   "Chat": "Chat",
   "Chat Unavailable!": "¡Chat no disponible!",
   "Failed to initialize chat, please try again later.": "No se pudo iniciar el chat, por favor inténtelo de nuevo más tarde."
