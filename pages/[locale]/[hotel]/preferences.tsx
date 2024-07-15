@@ -110,7 +110,7 @@ const Preferences = () => {
         ? handleCheckInAuthenticationFailure(getReservation)
         : (setNotificationState({
             title: t('Reservation Not Found'),
-            redirect: HOME,
+            redirect: availablePaths.HOME,
             type: FAILURE,
           }),
           toggleNotification(true));
@@ -120,7 +120,16 @@ const Preferences = () => {
   useEffect(() => {
     if (resId && lastName) {
       getReservation();
+      return;
     }
+
+    const timeoutId = setTimeout(() => {
+      if (!lastName && !resId) {
+        navigate(availablePaths.HOME);
+      }
+    }, 2000);
+
+    return () => clearTimeout(timeoutId);
   }, [lastName, resId]);
 
   const homeModule: any = config?.modules?.find((module: any) => module?.code === PREFERENCES);
@@ -245,32 +254,33 @@ const Preferences = () => {
           <div className={styles.wrapper}>
             <div className={styles.title}>{imageDetails?.title}</div>
             <div className={styles.container}>
-              {preferencesData?.map((preference: any, index: number) => (
-                <div key={index} className={styles.buttonWrapper}>
-                  <p className={styles.preferenceTitle}>{preference.pageTitle}</p>
-                  <div className={styles.preferenceWrap}>
-                    {preference.feedbackCategories.map((category: any, index: number) => (
-                      <>
-                        {category?.type === YESNO && (
-                          <div
-                            key={index}
-                            onClick={() =>
-                              handleOptionSelect(preference?.pageTitle, category?.title)
-                            }
-                            className={cx(styles.button, {
-                              [styles.buttonSelected]: selectedOptions[
-                                preference.pageTitle
-                              ]?.includes(category?.title),
-                            })}
-                          >
-                            {category?.title}
-                          </div>
+              {preferencesData?.length > 0 &&
+                preferencesData?.map((preference: any, index: number) => (
+                  <div key={index} className={styles.buttonWrapper}>
+                    <p className={styles.preferenceTitle}>{preference?.pageTitle}</p>
+                    <div className={styles.preferenceWrap}>
+                      {preference?.feedbackCategories?.length > 0 &&
+                        preference?.feedbackCategories?.map(
+                          (category: any, feedbackCategoriesIndex: number) =>
+                            category?.type === YESNO && (
+                              <div
+                                key={feedbackCategoriesIndex}
+                                onClick={() =>
+                                  handleOptionSelect(preference?.pageTitle, category?.title)
+                                }
+                                className={cx(styles.button, {
+                                  [styles.buttonSelected]: selectedOptions[
+                                    preference.pageTitle
+                                  ]?.includes(category?.title),
+                                })}
+                              >
+                                {category?.title}
+                              </div>
+                            ),
                         )}
-                      </>
-                    ))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
 
             <div className={cx(styles.bottomMenuWrapper)}>
