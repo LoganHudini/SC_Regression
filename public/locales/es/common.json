@@ -136,5 +136,9 @@
   "Visit Website": "Visitar el sitio web",
   "Chat": "Chat",
   "Chat Unavailable!": "¡Chat no disponible!",
-  "Failed to initialize chat, please try again later.": "No se pudo iniciar el chat, por favor inténtelo de nuevo más tarde."
+  "Failed to initialize chat, please try again later.": "No se pudo iniciar el chat, por favor inténtelo de nuevo más tarde.",
+  "Your Stay, Your Way!": "Tu estancia, a tu manera!",
+  "Thanks for sharing your preferences with us!": "Gracias por compartir tus preferencias con nosotros!",
+  "Oops!": "¡Ups!",
+  "We are having an issue saving your preferences. Please try again.": "WEstamos teniendo un problema para guardar tus preferencias. Por favor, inténtalo de nuevo."
 }

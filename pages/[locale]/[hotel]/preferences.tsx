@@ -23,6 +23,7 @@ import {
   HOME,
   NOSHOW,
   PREFERENCES,
+  SUCCESS,
   YESNO,
 } from 'utils/constants';
 import { useConfig } from 'utils/hooks/useConfiguration';
@@ -60,6 +61,7 @@ const Preferences = () => {
   const router = useRouter();
   const resId = router?.query?.resId ?? '';
   const lastName = router?.query?.lastName ?? '';
+  const [notificationState, setNotificationState] = useState<any>(false);
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
@@ -93,7 +95,7 @@ const Preferences = () => {
       ) {
         setNotificationState({
           title: t('Reservation Not Found'),
-          redirect: HOME,
+          redirect: availablePaths?.HOME,
           type: FAILURE,
           description: t('Please proceed to the front desk for further assistance.'),
         });
@@ -110,7 +112,7 @@ const Preferences = () => {
         ? handleCheckInAuthenticationFailure(getReservation)
         : (setNotificationState({
             title: t('Reservation Not Found'),
-            redirect: availablePaths.HOME,
+            redirect: availablePaths?.HOME,
             type: FAILURE,
           }),
           toggleNotification(true));
@@ -136,7 +138,6 @@ const Preferences = () => {
   const imageDetails = homeModule?.submodules?.find(
     (submodule: any) => submodule?.code === HEADERSCONFIG && submodule.isActive,
   )?.details[0];
-  const [notificationState, setNotificationState] = useState<any>(false);
 
   const { data, loading: feedbackLoading } = useQuery(GET_FEEDBACK, {
     skip: !hotelId,
@@ -218,17 +219,23 @@ const Preferences = () => {
           body: preferencesPayload,
         },
       });
-      navigate(availablePaths?.HOME);
-      setLoading(false);
+      setNotificationState({
+        title: t('Your Stay, Your Way!'),
+        redirect: availablePaths?.HOME,
+        type: SUCCESS,
+        description: 'Thanks for sharing your preferences with us!',
+      }),
+        toggleNotification(true),
+        setLoading(false);
     } catch (uploadSignatureError) {
       const statusCode = processStatusCode(uploadSignatureError as ApolloError);
       statusCode === 403
         ? handleCheckInAuthenticationFailure(submit)
         : (setNotificationState({
-            title: t(ERRORMSG),
+            title: t('Oops!'),
             redirect: null,
             type: FAILURE,
-            apolloError: uploadSignatureError as ApolloError,
+            description: 'We are having an issue saving your preferences. Please try again.',
           }),
           toggleNotification(true),
           setLoading(false));
@@ -303,6 +310,7 @@ const Preferences = () => {
         apolloError={notificationState?.apolloError}
         redirect={notificationState?.redirect}
         type={notificationState?.type}
+        description={notificationState?.description}
       />
     </>
   );

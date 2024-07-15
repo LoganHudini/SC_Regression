@@ -133,5 +133,9 @@
   "Visit Website": "زيارة الموقع",
   "Chat": "دردشة",
   "Chat Unavailable!": "الدردشة غير متاحة!",
-  "Failed to initialize chat, please try again later.": "فشل في تهيئة الدردشة، يرجى المحاولة مرة أخرى لاحقًا."
+  "Failed to initialize chat, please try again later.": "فشل في تهيئة الدردشة، يرجى المحاولة مرة أخرى لاحقًا.",
+  "Your Stay, Your Way!": "إقامتك، بطريقتك!",
+  "Thanks for sharing your preferences with us!": "شكرًا لمشاركة تفضيلاتك معنا!",
+  "Oops!": "عذرًا!",
+  "We are having an issue saving your preferences. Please try again.": "نواجه مشكلة في حفظ تفضيلاتك. الرجاء المحاولة مرة أخرى."
 }

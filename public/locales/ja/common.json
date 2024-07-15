@@ -136,5 +136,9 @@
   "Visit Website": "ウェブサイトを訪問する",
   "Chat": "チャット",
   "Chat Unavailable!": "チャットは利用できません!",
-  "Failed to initialize chat, please try again later.": "チャットの初期化に失敗しました。しばらくしてからもう一度お試しください。"
+  "Failed to initialize chat, please try again later.": "チャットの初期化に失敗しました。しばらくしてからもう一度お試しください。",
+  "Your Stay, Your Way!": "あなたの滞在を、あなたの方法で！",
+  "Thanks for sharing your preferences with us!": "ご希望を共有していただきありがとうございます！",
+  "Oops!": "おっと！",
+  "We are having an issue saving your preferences. Please try again.": "ご希望の設定を保存する際に問題が発生しました。もう一度お試しください。"
 }
