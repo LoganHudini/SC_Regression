@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { getStaticPaths } from 'utils/getStatic';
 import styles from '@styles/checkout/checkout.module.scss';
 import CheckoutDrawer from 'components/pages/checkout/CheckoutDrawer/CheckoutDrawer';
-import { ApolloError, useQuery, useReactiveVar } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { toggleOpenCheckOutDrawer } from 'storage/checkout.storage';
 import { toggleDetailsDrawer, toggleNotification } from 'storage/home.storage';
 import { BillSummary } from 'components/pages/bill/BillSummary/BillSummary';
@@ -30,11 +30,7 @@ import { Loader } from 'components/shared/Loaders/Loaders';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { FAILURE, INHOUSE, SUCCESS } from 'utils/constants';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import {
-  getCheckInToken,
-  handleCheckInAuthenticationFailure,
-} from 'core/api/functions/getCheckInAuthentication';
-import { processError, processStatusCode } from 'utils/processError';
+import { processError } from 'utils/processError';
 import { getCheckOutToken } from 'core/api/functions/getCheckOutAuthentication';
 import dayjs from 'dayjs';
 import { checkoutTrip } from 'storage/trips.storage';
@@ -175,17 +171,14 @@ const CheckOut = () => {
         type: 'email',
         description: t('Please check your mailbox.'),
       });
-    } catch (getUpdatedReservationError) {
-      const statusCode = processStatusCode(getUpdatedReservationError as ApolloError);
-      statusCode === 403
-        ? handleCheckInAuthenticationFailure(handleMail)
-        : (setErrorToggle({
-            state: true,
-            message: t('Could not send E-mail'),
-            type: 'email',
-            description: t('Please try again after some time.'),
-          }),
-          setEmailLoader(false));
+    } catch {
+      setErrorToggle({
+        state: true,
+        message: t('Could not send E-mail'),
+        type: 'email',
+        description: t('Please try again after some time.'),
+      }),
+        setEmailLoader(false);
     }
     toggleNotification(true);
   };
