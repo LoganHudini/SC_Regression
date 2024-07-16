@@ -4183,6 +4183,7 @@ export const configuration = [
                     required: true,
                     isDisabled: false,
                     isActive: true,
+                    maxLength: 80,
                   },
                   {
                     name: 'countryCode',
@@ -4580,6 +4581,7 @@ export const configuration = [
                     required: true,
                     isDisabled: false,
                     isActive: true,
+                    maxLength: 80,
                   },
                   {
                     name: 'countryCode',
@@ -4903,7 +4905,7 @@ export const configuration = [
                     label: 'Nationality',
                     type: 'Select',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: Countries,
                   },
@@ -4969,6 +4971,7 @@ export const configuration = [
                     required: true,
                     isDisabled: false,
                     isActive: true,
+                    maxLength: 80,
                   },
                   {
                     name: 'countryCode',
@@ -5325,7 +5328,7 @@ export const configuration = [
                     label: 'Nationality',
                     type: 'Select',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: Countries,
                   },
@@ -5391,6 +5394,7 @@ export const configuration = [
                     required: true,
                     isDisabled: false,
                     isActive: true,
+                    maxLength: 80,
                   },
                   {
                     name: 'countryCode',
