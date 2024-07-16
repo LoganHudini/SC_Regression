@@ -67,5 +67,8 @@
   "Choose Your Nationality": "Choisissez votre nationalité",
   "Pre Checked-In": "Pré-enregistrement",
   "You have already completed the pre check-in process.": "Vous avez déjà terminé le processus de pré-enregistrement.",
-  "Pending Details": "Détails en attente"
+  "Pending Details": "Détails en attente",
+  "Complete your identity verification by filling out essential details.": "Complétez la vérification de votre identité en remplissant les détails essentiels.",
+  "Scan your Passport/ID to verify your identity.": "Scannez votre passeport/pièce d'identité pour vérifier votre identité.",
+  "Your information is protected by responsible data practices.": "Vos informations sont protégées par des pratiques de données responsables."
 }

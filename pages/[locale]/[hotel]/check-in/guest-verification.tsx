@@ -50,6 +50,7 @@ import {
   NEWGUESTFORM,
   SUCCESS,
   OHIP,
+  MANUAL,
 } from 'utils/constants';
 import { updateDocTypeOptions } from 'utils/functions';
 import { docTypeStorage } from 'storage/guest-information.storage';
@@ -683,11 +684,11 @@ const Guest: React.FC<any> = () => {
           <div className={styles.titleWrapper}>
             <p className={styles.title}>{t('Identity Verification')}</p>
             <p className={styles.description}>
-              {t(
-                `${
-                  guestInformationSection?.type === YOUVERSE ? 'Scan' : 'Enter'
-                } your Passport/ID to verify your identity. Your information is protected by responsible data practices.`,
-              )}
+              {`${
+                guestInformationSection?.type === MANUAL
+                  ? t('Complete your identity verification by filling out essential details.')
+                  : t('Scan your Passport/ID to verify your identity.')
+              } ${t('Your information is protected by responsible data practices.')}`}
             </p>
           </div>
           {(reservationInfo?.details?.contactPerson?.firstName ||

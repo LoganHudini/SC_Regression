@@ -68,5 +68,8 @@
   "Pre Checked-In": "事前チェックイン",
   "You have already completed the pre check-in process.": "事前チェックイン手続きは完了しています",
   "Pending Details": "保留中の詳細",
-  "Add Guest": "お客様を追加"
+  "Add Guest": "お客様を追加",
+  "Complete your identity verification by filling out essential details.": "必要な情報を入力して、本人確認を完了してください。",
+  "Scan your Passport/ID to verify your identity.": "パスポート/IDをスキャンして本人確認を行ってください。",
+  "Your information is protected by responsible data practices.": "あなたの情報は責任あるデータ管理によって保護されています。"
 }

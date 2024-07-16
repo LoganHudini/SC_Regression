@@ -67,5 +67,8 @@
   "Choose Your Nationality": "Choose Your Nationality",
   "Pre Checked-In": "Pre Checked-In",
   "You have already completed the pre check-in process.": "You have already completed the pre check-in process.",
-  "Pending Details": "Pending Details"
+  "Pending Details": "Pending Details",
+  "Complete your identity verification by filling out essential details.":"Complete your identity verification by filling out essential details.",
+  "Scan your Passport/ID to verify your identity.":"Scan your Passport/ID to verify your identity.",
+  "Your information is protected by responsible data practices.":"Your information is protected by responsible data practices."
 }

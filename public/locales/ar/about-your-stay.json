@@ -67,5 +67,8 @@
   "Choose Your Nationality": "اختر جنسيتك",
   "Pre Checked-In": "تم تسجيل الوصول مسبقًا",
   "You have already completed the pre check-in process.": "لقد أكملت بالفعل عملية التسجيل المسبق.",
-  "Pending Details": "تفاصيل معلقة"
+  "Pending Details": "تفاصيل معلقة",
+  "Complete your identity verification by filling out essential details.": "أكمل التحقق من هويتك عن طريق تعبئة التفاصيل الأساسية.",
+  "Scan your Passport/ID to verify your identity.": "امسح جواز سفرك/هويتك للتحقق من هويتك.",
+  "Your information is protected by responsible data practices.": "تُحمى معلوماتك بواسطة ممارسات بيانات مسؤولة."
 }

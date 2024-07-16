@@ -67,5 +67,8 @@
   "Choose Your Nationality": "Tria la teva nacionalitat",
   "Pre Checked-In": "Facturació prèvia",
   "You have already completed the pre check-in process.": "Ja has completat el procés de pre-registre.",
-  "Pending Details": "Detalls pendents"
+  "Pending Details": "Detalls pendents",
+  "Complete your identity verification by filling out essential details.": "Completa la verificació de la teva identitat omplint les dades essencials.",
+  "Scan your Passport/ID to verify your identity.": "Escanegeu el vostre passaport/DNI per verificar la vostra identitat.",
+  "Your information is protected by responsible data practices.": "Les vostres dades estan protegides per pràctiques de dades responsables."
 }
