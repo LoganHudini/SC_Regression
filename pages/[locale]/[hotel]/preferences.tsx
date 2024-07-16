@@ -231,7 +231,7 @@ const Preferences = () => {
             title: t('Oops!'),
             redirect: null,
             type: FAILURE,
-            description: 'We are having an issue saving your preferences. Please try again.',
+            description: t('We are having an issue saving your preferences. Please try again.'),
           }),
           toggleNotification(true),
           setLoading(false));
