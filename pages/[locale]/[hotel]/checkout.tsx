@@ -128,7 +128,9 @@ const CheckOut = () => {
   const handleMail = async () => {
     setEmailLoader(true);
     const emailInvoicePayload = {
-      registeredGuest: checkedInData?.name,
+      registeredGuest:
+        reservationInfo &&
+        `${reservationInfo?.guests[0]?.firstName} ${reservationInfo?.guests[0]?.lastName}`,
       email: checkedInData?.email,
       checkInDate:
         reservationInfo?.details?.checkInDate?.split('T')[0] +
