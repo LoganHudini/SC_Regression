@@ -55,7 +55,12 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
   const [selectedTime, setSelectedTime] = useState(
     dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM),
   );
-  const [errorNotification, setErrorNotification] = useState(false);
+  const [errorNotification, setErrorNotification] = useState<{
+    type: string;
+    title: string;
+    description: string;
+    redirect: string | null;
+  }>({ type: '', title: '', description: '', redirect: '' });
   const [iframeComponent, setIframeComponent] = useState(false);
   const [menu, setMenu] = useState(false);
   const [menuLink, setmenuLink] = useState(null);
@@ -112,21 +117,35 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
         fetchPolicy: 'network-only',
         variables: DetailsReservationPayload,
       });
-      setErrorNotification(false);
+      setErrorNotification({
+        type: SUCCESS,
+        title: t('Thank You!') as string,
+        description: t(
+          'Your booking has been received. Our reservation team will get in touch with you soon',
+        ) as string,
+        redirect: availablePaths?.RESTAURANTS_BARS,
+      });
+
       setTimeout(() => {
         closeDrawer();
       }, 4000);
     } catch (err) {
-      setErrorNotification(true);
+      setErrorNotification({
+        type: FAILURE,
+        title: ERRORMSG as string,
+        description: t('Your booking was not received.') as string,
+        redirect: null,
+      });
     }
     toggleNotification(true);
   }, [
-    selectedTime,
     currentYear,
-    restaurantId,
+    guestCount,
     isCheckedIn?.name,
     isCheckedIn?.roomNumber,
-    guestCount,
+    restaurantId,
+    selectedTime,
+    t,
   ]);
   const restaurantTiming = getTimings(queryResultEntity?.customAttributes);
 
@@ -311,16 +330,10 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
       )}
       <Notification
         translation={t}
-        title={errorNotification ? (ERRORMSG as string) : (t('Thank You!') as string)}
-        description={
-          errorNotification
-            ? (t('Your booking was not received.') as string)
-            : (t(
-                'Your booking has been received. Our reservation team will get in touch with you soon',
-              ) as string)
-        }
-        redirect={!errorNotification && availablePaths?.RESTAURANTS_BARS}
-        type={errorNotification ? FAILURE : SUCCESS}
+        title={errorNotification?.title}
+        description={errorNotification?.description}
+        redirect={errorNotification?.redirect}
+        type={errorNotification?.type}
       />
       {(iframeComponent || menu) && (
         <CustomDrawer
