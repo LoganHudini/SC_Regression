@@ -17,10 +17,8 @@ import {
   CHECKEDOUT,
   CHECKIN,
   CHKOUT,
-  ERRORMSG,
   FAILURE,
   HEADERSCONFIG,
-  HOME,
   NOSHOW,
   PREFERENCES,
   SUCCESS,
@@ -33,7 +31,6 @@ import { ASSETS_URL } from 'core/graphql/endpoints';
 import { client } from 'core/graphql/client';
 import { POST_REQUEST } from 'core/graphql/queries/POST_REQUEST';
 import { availablePaths } from 'utils/availablePaths';
-import { useCheckedIn } from 'storage/check-in.storage';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import Head from 'next/head';
 import { toggleNotification } from 'storage/home.storage';
@@ -50,7 +47,6 @@ export { getStaticPaths };
 
 const Preferences = () => {
   const { t } = useTranslation(['common']);
-  const isCheckedIn = useCheckedIn();
   const config = useConfig();
   const locale = useLocale();
   const hotelId = useConfig()?.hotelId;
@@ -212,7 +208,7 @@ const Preferences = () => {
 
     try {
       setLoading(true);
-      const uploadSignatureResponse = await client.mutate({
+      await client.mutate({
         mutation: POST_REQUEST,
         context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
         variables: {
@@ -224,9 +220,9 @@ const Preferences = () => {
         redirect: availablePaths?.HOME,
         type: SUCCESS,
         description: 'Thanks for sharing your preferences with us!',
-      }),
-        toggleNotification(true),
-        setLoading(false);
+      });
+      toggleNotification(true);
+      setLoading(false);
     } catch (uploadSignatureError) {
       const statusCode = processStatusCode(uploadSignatureError as ApolloError);
       statusCode === 403

@@ -4823,6 +4823,7 @@ export const configuration = [
     saveToDb: 'no',
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: ['hotel-info', 'check-in'],
+    preCheckInOnly: true,
     modules: [
       {
         code: 'Preferences',
@@ -5151,6 +5152,7 @@ export const configuration = [
     saveToDb: 'no',
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: ['hotel-info', 'check-in'],
+    preCheckInOnly: true,
     modules: [
       {
         code: 'Preferences',
