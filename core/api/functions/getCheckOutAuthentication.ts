@@ -42,9 +42,7 @@ export const getCheckOutToken = (roomNumber?: string, lastName?: string, errorCo
       JSON.stringify(authenticatedData?.getAuthentication?.data?.token) ?? '',
     );
 
-    return authenticatedData?.getAuthentication?.data?.token
-      ? authenticatedData?.getAuthentication?.data?.token
-      : null;
+    return authenticatedData?.getAuthentication?.data?.token ?? null;
   };
 
   const sessionToken = getCheckOutTokenSession();

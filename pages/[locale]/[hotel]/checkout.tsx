@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { getStaticPaths } from 'utils/getStatic';
 import styles from '@styles/checkout/checkout.module.scss';
 import CheckoutDrawer from 'components/pages/checkout/CheckoutDrawer/CheckoutDrawer';
-import { useQuery, useReactiveVar } from '@apollo/client';
+import { ApolloError, useReactiveVar } from '@apollo/client';
 import { toggleOpenCheckOutDrawer } from 'storage/checkout.storage';
 import { toggleDetailsDrawer, toggleNotification } from 'storage/home.storage';
 import { BillSummary } from 'components/pages/bill/BillSummary/BillSummary';
@@ -30,7 +30,8 @@ import { Loader } from 'components/shared/Loaders/Loaders';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { FAILURE, INHOUSE, SUCCESS } from 'utils/constants';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { processError } from 'utils/processError';
+import { handleCheckInAuthenticationFailure } from 'core/api/functions/getCheckInAuthentication';
+import { processStatusCode } from 'utils/processError';
 import { getCheckOutToken } from 'core/api/functions/getCheckOutAuthentication';
 import dayjs from 'dayjs';
 import { checkoutTrip } from 'storage/trips.storage';
@@ -46,65 +47,103 @@ const CheckOut = () => {
   const openCheckOutDrawer = useReactiveVar(toggleOpenCheckOutDrawer);
   const checkedInData = useCheckedIn();
   const [emailLoader, setEmailLoader] = useState(false);
+  const [reservationData, setReservationData] = useState<IGetReservationApiResponse>();
+  const [invoiceData, setInvoiceData] = useState<IInvoiceApiResponse>();
+  const [loading, setLoading] = useState(true);
 
-  const { data: reservationData, loading: reservationLoading } =
-    useQuery<IGetReservationApiResponse>(GET_RESERVATION_WITH_ROOM_NUMBER, {
-      context: {
-        clientName: 'rest',
-        headers: {
-          Authorization:
-            'Bearer ' + getCheckOutToken(checkedInData?.roomNumber, checkedInData?.name),
+  const checkOutToken: { current?: string } = {};
+
+  const fetchReservation = async () => {
+    try {
+      checkOutToken.current = await getCheckOutToken(
+        checkedInData?.roomNumber?.toString()?.trim(),
+        checkedInData?.name?.toString()?.trim(),
+      );
+      const { data } = await client.query({
+        query: GET_RESERVATION_WITH_ROOM_NUMBER,
+        context: {
+          clientName: 'rest',
+          headers: {
+            Authorization: 'Bearer ' + checkOutToken.current,
+          },
         },
-      },
-      variables: {
-        roomNo: checkedInData?.roomNumber?.toString()?.trim(),
-        lastName: checkedInData?.name?.toString()?.trim(),
-      },
-      onError: (error) => {
+        variables: {
+          roomNo: checkedInData?.roomNumber?.toString()?.trim(),
+          lastName: checkedInData?.name?.toString()?.trim(),
+        },
+        fetchPolicy: 'no-cache',
+      });
+      if (data?.getReservation?.data?.reservationStatus !== INHOUSE) {
+        toggleNotification(true);
+        setErrorToggle({
+          state: true,
+          message: t('Reservation Not Found!'),
+          redirect: availablePaths?.HOME,
+          description: t('Please enter valid reservation details.'),
+        });
+        checkoutTrip();
+      } else {
+        setReservationData(data);
+      }
+    } catch (error) {
+      const statusCode = processStatusCode(error as ApolloError);
+      if (statusCode === 403) {
+        handleCheckInAuthenticationFailure(fetchReservation);
+      } else {
         toggleNotification(true);
         setErrorToggle({
           state: true,
           message: t('Please Try Again!'),
-          type: 'home',
+          redirect: availablePaths?.HOME,
           description: t('Could not fetch reservation details.'),
         });
-      },
-      onCompleted(data) {
-        if (data?.getReservation?.data?.reservationStatus !== INHOUSE) {
-          toggleNotification(true);
-          setErrorToggle({
-            state: true,
-            message: t('Reservation Not Found!'),
-            type: 'home',
-            description: t('Please enter valid reservation details.'),
-          });
-          checkoutTrip();
-        }
-      },
-    });
+      }
+    }
+  };
 
-  const { data: invoiceData, loading: invoiceLoading } = useQuery<IInvoiceApiResponse>(INVOICE, {
-    context: {
-      clientName: 'rest',
-      headers: {
-        Authorization: 'Bearer ' + getCheckOutToken(checkedInData?.roomNumber, checkedInData?.name),
-      },
-    },
-    fetchPolicy: 'network-only',
-    variables: {
-      confirmationNumber: checkedInData?.invoiceId,
-      roomNumber: checkedInData?.roomNumber,
-    },
-    onError: (error) => {
-      toggleNotification(true);
-      setErrorToggle({
-        state: true,
-        message: processError(error),
-        type: 'home',
-        description: t('Please try again after sometime.'),
+  const fetchInvoice = async () => {
+    checkOutToken.current = await getCheckOutToken(
+      checkedInData?.roomNumber?.toString()?.trim(),
+      checkedInData?.name?.toString()?.trim(),
+    );
+    try {
+      const { data } = await client.query({
+        query: INVOICE,
+        context: {
+          clientName: 'rest',
+          headers: {
+            Authorization: 'Bearer ' + checkOutToken.current,
+          },
+        },
+        variables: {
+          confirmationNumber: checkedInData?.invoiceId,
+          roomNumber: checkedInData?.roomNumber,
+        },
+        fetchPolicy: 'no-cache',
       });
-    },
-  });
+      setInvoiceData(data);
+      setLoading(false);
+    } catch (error) {
+      const statusCode = processStatusCode(error as ApolloError);
+      const errorMsg = error as ApolloError;
+      if (statusCode === 403) {
+        handleCheckInAuthenticationFailure(fetchInvoice);
+      } else {
+        toggleNotification(true);
+        setErrorToggle({
+          state: true,
+          message: errorMsg,
+          redirect: availablePaths?.HOME,
+          description: t('Please try again after sometime.'),
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchReservation();
+    fetchInvoice();
+  }, []);
 
   useEffect(() => {
     if (checkedInData && !checkedInData?.checkedIn) {
@@ -112,7 +151,6 @@ const CheckOut = () => {
     }
   }, [checkedInData, navigate]);
 
-  const loading = invoiceLoading || reservationLoading;
   const invoiceElements = invoiceData?.invoice?.data?.billItems;
   const reservationInfo = reservationData?.getReservation?.data;
   const currency = reservationInfo?.details?.holdAmount?.currency ?? '';
@@ -170,14 +208,14 @@ const CheckOut = () => {
       setErrorToggle({
         state: false,
         message: t('E-mail sent successfully'),
-        type: 'email',
+        type: null,
         description: t('Please check your mailbox.'),
       });
     } catch {
       setErrorToggle({
         state: true,
         message: t('Could not send E-mail'),
-        type: 'email',
+        type: null,
         description: t('Please try again after some time.'),
       }),
         setEmailLoader(false);
@@ -256,15 +294,7 @@ const CheckOut = () => {
         title={errorToggle?.message}
         description={errorToggle?.description}
         type={errorToggle?.state ? FAILURE : SUCCESS}
-        redirect={
-          errorToggle?.type === 'feedback'
-            ? availablePaths?.FEEDBACK
-            : errorToggle?.type === 'checkout'
-            ? availablePaths?.BILL
-            : errorToggle?.type === 'home'
-            ? availablePaths?.HOME
-            : null
-        }
+        redirect={errorToggle?.redirect}
       />
     </>
   );
