@@ -148,9 +148,9 @@ const CheckOut = () => {
             reservationInfo?.details?.contactPerson?.etd?.split('.')[0]
           }`,
         )?.format('HH:mm'),
-      totalBillAmount: invoiceData?.invoice?.data?.totalBillAmount,
+      totalBillAmount: `${currency} ${invoiceData?.invoice?.data?.totalBillAmount}`,
       billItems: invoiceElements,
-      totalDueAmount: invoiceData?.invoice?.data?.currentBalance,
+      totalDueAmount: `${currency} ${invoiceData?.invoice?.data?.currentBalance}`,
       roomNumber:
         checkedInData?.roomNumber || (reservationInfo?.roomTypes[0]?.roomNumber as string),
       currencyCode: currency,
