@@ -132,6 +132,7 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                 <div className={styles.col_100}>
                   <DatePicker
                     className={styles.guestDataInput}
+                    inputFormat={timeFormats.DAY_MONTH_YEAR_2}
                     label={t(field?.label)}
                     value={formik.values[field?.name] || null}
                     onChange={(date) => {

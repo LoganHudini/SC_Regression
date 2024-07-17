@@ -557,6 +557,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             <p className={cx(styles.checkDatesDetails, styles.left)}>
               {options?.length > 0
                 ? options?.find((option: any) => option?.value === value)?.name
+                : code === 'dob'
+                ? dayjs(value).format(timeFormats.DAY_MONTH_YEAR_5)
                 : value}
             </p>
           </div>
