@@ -4881,7 +4881,7 @@ export const configuration = [
                     type: 'Select',
                     required: true,
                     isDisabled: false,
-                    isActive: true,
+                    isActive: false,
                     options: [
                       {
                         name: 'Male',
@@ -5063,7 +5063,7 @@ export const configuration = [
                 type: 'Select',
                 required: true,
                 isDisabled: false,
-                isActive: true,
+                isActive: false,
                 options: [
                   {
                     name: 'Male',
