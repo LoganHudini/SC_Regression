@@ -217,11 +217,7 @@ const Guest: React.FC<any> = () => {
       return true;
     }
     return field?.every((fieldItem: any) => {
-      if (!fieldItem.isActive) {
-        return true;
-      }
-
-      if (!fieldItem.required) {
+      if (!fieldItem.isActive || !fieldItem.required) {
         return true;
       }
 
