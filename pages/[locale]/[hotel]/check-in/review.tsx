@@ -247,6 +247,28 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     await uploadSignature();
 
     // check-in
+
+    const personalisation =
+      personalisationConfig?.type === CMS
+        ? personalizationEntities?.map((personalization) => ({
+            upsellName: personalization?.title,
+            revenue: Number(Number(personalization?.price).toFixed(2)),
+          }))
+        : '';
+    const payment =
+      paymentConfig?.type !== NONE
+        ? 'vaultedCardID: ' + guestReservationInfo?.token ??
+          '' +
+            ', lastFourDigits: ' +
+            (guestReservationInfo?.cardNumber?.length > 4
+              ? guestReservationInfo?.cardNumber.substr(guestReservationInfo?.cardNumber.length - 4)
+              : guestReservationInfo?.cardNumber) ??
+          '' + ', cardType: ' + cardType ??
+          '' + ', expiryDate: ' + guestReservationInfo?.cardExpiryDate ??
+          '' + ', approvalCode: ' + guestReservationInfo?.approvalCode ??
+          '' + ', authorizedAmount: ' + String(fetchCharges(reservationInfo)) ??
+          ''
+        : '';
     if (guestSignature) {
       const checkInPayload: ICheckInApiRequest = {
         reservationType: reservationInfo?.confirmationType as string,
@@ -318,22 +340,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         isDoNotMove: true,
         arrivalFlight: guestReservationInfo?.estimatedTime ?? '',
         depositAmount: paymentConfig?.type !== NONE ? String(fetchCharges(reservationInfo)) : '',
-        specialInstructions:
-          paymentConfig?.type !== NONE
-            ? 'vaultedCardID: ' + guestReservationInfo?.token ??
-              '' +
-                ', lastFourDigits: ' +
-                (guestReservationInfo?.cardNumber?.length > 4
-                  ? guestReservationInfo?.cardNumber.substr(
-                      guestReservationInfo?.cardNumber.length - 4,
-                    )
-                  : guestReservationInfo?.cardNumber) ??
-              '' + ', cardType: ' + cardType ??
-              '' + ', expiryDate: ' + guestReservationInfo?.cardExpiryDate ??
-              '' + ', approvalCode: ' + guestReservationInfo?.approvalCode ??
-              '' + ', authorizedAmount: ' + String(fetchCharges(reservationInfo)) ??
-              ''
-            : '',
+        specialInstructions: payment + personalisation,
       };
       const checkIn = async () => {
         const checkInToken = getCheckInToken();

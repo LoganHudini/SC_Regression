@@ -5138,7 +5138,7 @@ export const configuration = [
             name: 'personalisation',
             label: 'Customize My Stay',
             title: 'Check-In',
-            type: 'CMS',
+            type: 'PMS',
             isActive: true,
           },
           {
@@ -5561,7 +5561,7 @@ export const configuration = [
             name: 'personalisation',
             label: 'Customize My Stay',
             title: 'Check-In',
-            type: 'CMS',
+            type: 'PMS',
             isActive: true,
           },
           {

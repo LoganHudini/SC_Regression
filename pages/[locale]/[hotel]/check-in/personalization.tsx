@@ -89,7 +89,9 @@ const PersonalizeYourRoom: React.FC = () => {
   const filteredAddonsList: any =
     personalisationConfig?.type !== CMS
       ? availablePersonalizations?.length > 0 &&
-        availablePersonalizations?.filter((item: any) => item?.isActive && item?.type === ADDON)
+        availablePersonalizations?.filter(
+          (item: any) => item?.isActive && (item?.type === ADDON || item?.type === ''),
+        )
       : availablePersonalizations;
 
   const filteredUpgradeRoomList: any =
