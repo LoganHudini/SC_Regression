@@ -201,7 +201,8 @@ const Preferences = () => {
     const comments = commentStrings.join(' | ');
 
     const preferencesPayload = {
-      bookingId: reservationInfo?.reservationId,
+      bookingId: reservationInfo?.uniqueBookingId,
+      reservationId: reservationInfo?.reservationId,
       commentId: '',
       comments: comments,
     };
