@@ -11,7 +11,6 @@ import {
 import { useFormik } from 'formik';
 import { useReactiveVar } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
-import { availablePaths } from 'utils/availablePaths';
 import { activeCheckInFlow, useCheckedIn } from 'storage/check-in.storage';
 import {
   hotelInfoStorage,
@@ -19,16 +18,15 @@ import {
   toggleNotification,
 } from 'storage/home.storage';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
-import { Notification } from 'components/shared/Notification/Notification';
 import { useRouter } from 'next/router';
 import { getCheckInToken } from 'core/api/functions/getCheckInAuthentication';
 import { processStatusCode } from 'utils/processError';
-import { FAILURE, SUCCESS } from 'utils/constants';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { getCheckOutToken } from 'core/api/functions/getCheckOutAuthentication';
 import { handleReservation } from 'utils/fetchReservation';
 
-const CheckInDrawer = () => {
+const CheckInDrawer = (props: any) => {
+  const { setErrorToggle } = props;
   const navigate = useLocalizedRouter();
   const config = useConfig();
   const hotelId = config?.hotelId;
@@ -54,11 +52,6 @@ const CheckInDrawer = () => {
   const activeCheckInFlowInfo = useReactiveVar(activeCheckInFlow);
 
   const [loading, setLoading] = useState(false);
-  const [errorNotification, setErrorNotification] = useState<{
-    state: boolean;
-    title: string;
-    description: string;
-  }>({ state: false, title: '', description: '' });
 
   const goToTheNextStep = useCallback(
     async (values: any) => {
@@ -69,7 +62,7 @@ const CheckInDrawer = () => {
         config,
         toggleNotification,
         setLoading,
-        setErrorNotification,
+        setErrorToggle,
         t,
         processStatusCode,
         goToTheNextStep,
@@ -227,13 +220,6 @@ const CheckInDrawer = () => {
             ? pairDeviceWelcomeMessage()
             : checkInDetails()
         }
-      />
-      <Notification
-        translation={t}
-        title={errorNotification?.title as string}
-        description={errorNotification?.description as string}
-        redirect={errorNotification.state && availablePaths?.HOME}
-        type={errorNotification.state ? FAILURE : SUCCESS}
       />
     </>
   );

@@ -38,7 +38,7 @@ import { ASSETS_URL } from 'core/graphql/endpoints';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { activeModule, diningOptionList, getHamburgerIcons } from 'utils/functions';
-import { CHECK_IN, FAILURE, MESSAGE_BOX, URL } from 'utils/constants';
+import { CHECK_IN, FAILURE, MESSAGE_BOX, SUCCESS, URL } from 'utils/constants';
 import { IBottomMenuProps } from './BottomMenu.types';
 import {
   IDiningMenuStorageData,
@@ -331,6 +331,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
           spaCategories,
           offersList,
           serviceRequestOptions,
+          setErrorToggle,
         }}
       />
 
@@ -340,11 +341,12 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
         content={hamburgerMenuRender()}
       />
 
-      <CheckInDrawer />
+      <CheckInDrawer setErrorToggle={setErrorToggle} />
       <Notification
+        translation={t}
         title={errorToggle?.message}
         description={errorToggle?.description}
-        type={!errorToggle?.state && FAILURE}
+        type={errorToggle?.state ? SUCCESS : FAILURE}
         redirect={errorToggle?.type === 'home' ? availablePaths?.HOME : null}
       />
     </>

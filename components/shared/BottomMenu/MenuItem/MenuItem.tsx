@@ -21,7 +21,6 @@ import cx from 'classnames';
 import {
   CHAT_FLOW,
   EXTERNAL,
-  FAILURE,
   FLOW,
   HOTEL_INFORMATION_FLOW,
   IN_APP,
@@ -31,7 +30,6 @@ import {
   MESSAGE_BOX,
   PAIR_TO_ROOM,
   SERVICES,
-  SUCCESS,
   VIEW_BILL,
 } from 'utils/constants';
 import CheckIcon from '@icons/checkIcon.svg';
@@ -51,7 +49,6 @@ import { useConfig } from 'utils/hooks/useConfiguration';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { checkoutTrip } from 'storage/trips.storage';
-import { Notification } from 'components/shared/Notification/Notification';
 import { setHighLightCheckOut } from 'storage/menu-item';
 import { LanguageDrawer } from '../LanguageDrawer/LanguageDrawer';
 import { messageBoxURL } from 'storage/chats';
@@ -189,6 +186,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   spaCategories,
   offersList,
   serviceRequestOptions,
+  setErrorToggle,
 }) => {
   const { t } = useTranslation(['common']);
   const navigate = useLocalizedRouter();
@@ -204,7 +202,6 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   const selectedCategoryList = useReactiveVar(diningInformationStorage);
   const offersOptionSelected: any = useReactiveVar(selectedOfferOption);
   const highLightCheckOut = useReactiveVar(setHighLightCheckOut);
-  const [errorToggle, setErrorToggle] = useState<any>();
   const config = useConfig();
 
   const pairToRoomModule: boolean = activeModule(config?.modules, PAIR_TO_ROOM);
@@ -289,7 +286,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                         checkoutTrip();
                       }, 5000);
                       setErrorToggle({
-                        state: false,
+                        state: true,
                         message: t('Device Disconnected!'),
                         type: 'home',
                         description: t(
@@ -479,13 +476,6 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
     <>
       <CustomDrawer open={drawerStatus} onClose={closeDrawer} content={modulesOptionsRender()} />
       <HotelInfoDrawer />
-      <Notification
-        translation={t}
-        title={errorToggle?.message}
-        description={errorToggle?.description}
-        type={errorToggle?.state ? FAILURE : SUCCESS}
-        redirect={errorToggle?.type === 'home' ? availablePaths?.HOME : null}
-      />
     </>
   );
 };
