@@ -59,6 +59,7 @@ import {
   personalisation,
   CMS,
   PMS,
+  CANCELLED,
 } from 'utils/constants';
 import { Notification } from 'components/shared/Notification/Notification';
 import { hotelInformation, setDayjsLocale, toggleNotification } from 'storage/home.storage';
@@ -168,6 +169,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       data?.getReservation?.data?.reservationStatus === CANCELED ||
       data?.getReservation?.data?.reservationStatus === CHECKEDOUT ||
       data.getReservation.data.reservationStatus === CHKOUT ||
+      data.getReservation.data.reservationStatus === CANCELLED ||
       data.getReservation.data.reservationStatus === NOSHOW
     ) {
       navigate(availablePaths?.HOME);
@@ -767,9 +769,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                     </div>
                   ) : (
                     <DetailsCardShrinked title={`${t('Guest')} ${index + 1}`}>
-                      <ShrinkedItem
-                        value={`${accompanyGuest?.firstName} ${accompanyGuest?.lastName}`}
-                      />
+                      <ShrinkedItem value={accompanyGuest?.lastName} />
                     </DetailsCardShrinked>
                   )}
                 </div>

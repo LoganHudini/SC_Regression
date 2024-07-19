@@ -13,7 +13,7 @@ import { checkinStorage } from 'storage/check-in.storage';
 import { toggleCheckInDetailsDrawer } from 'storage/home.storage';
 import { saveTrip } from 'storage/trips.storage';
 import { availablePaths } from './availablePaths';
-import { CANCELED, CHKOUT, CHECKEDOUT, NOSHOW, INHOUSE } from './constants';
+import { CANCELED, CHKOUT, CHECKEDOUT, NOSHOW, INHOUSE, CANCELLED } from './constants';
 import { getWelcomeDrawer } from './functions';
 
 export const handleReservation = async ({
@@ -86,7 +86,7 @@ export const handleReservation = async ({
         ) {
           const reservationStatus = data.getReservation.data.reservationStatus;
 
-          if ([CANCELED, CHKOUT, CHECKEDOUT, NOSHOW].includes(reservationStatus)) {
+          if ([CANCELLED, CANCELED, CHKOUT, CHECKEDOUT, NOSHOW].includes(reservationStatus)) {
             setErrorNotification({
               state: true,
               title: t('Reservation Not Found'),

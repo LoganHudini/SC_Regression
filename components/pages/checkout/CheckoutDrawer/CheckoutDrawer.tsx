@@ -13,14 +13,15 @@ import {
 import { client } from 'core/graphql/client';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
-import { checkoutTrip } from 'storage/trips.storage';
+import { checkoutTrip, saveTrip } from 'storage/trips.storage';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { getCheckOutToken } from 'core/api/functions/getCheckOutAuthentication';
-import { useCheckedIn } from 'storage/check-in.storage';
+import { checkinStorage, useCheckedIn } from 'storage/check-in.storage';
 import { processStatusCode } from 'utils/processError';
 import { handleCheckInAuthenticationFailure } from 'core/api/functions/getCheckInAuthentication';
 import { CHECKOUT_PAYMENT, CHECK_IN, CHECK_OUT, ERRORMSG } from 'utils/constants';
 import { activeItems, activeModule } from 'utils/functions';
+import { availablePaths } from 'utils/availablePaths';
 
 const CheckoutDrawer = (props: any) => {
   const { setErrorToggle, reservationData, amountDue } = props;
@@ -58,6 +59,26 @@ const CheckoutDrawer = (props: any) => {
     toggleDetailsDrawer(false);
   };
 
+  const feedbackStorage = () => {
+    saveTrip({
+      ...checkedInData,
+      reservationId: '',
+      preCheckedIn: false,
+      checkedIn: false,
+      roomNumber: '',
+      invoiceId: '',
+      hotelId: hotelId,
+    });
+    checkinStorage({
+      ...checkedInData,
+      reservationId: '',
+      preCheckedIn: false,
+      checkedIn: false,
+      roomNumber: '',
+      invoiceId: '',
+    });
+  };
+
   const handleCheckout = async () => {
     setCheckoutLoader(true);
     let paymentDone = checkoutPayment ? false : true;
@@ -85,7 +106,7 @@ const CheckoutDrawer = (props: any) => {
         setErrorToggle({
           state: false,
           message: t('Payment failed!'),
-          type: 'checkout',
+          redirect: null,
           description: t('Payment failed. Please try again.'),
         });
         return;
@@ -110,12 +131,18 @@ const CheckoutDrawer = (props: any) => {
         },
       });
       toggleDetailsDrawer(false);
-      checkoutTrip();
+      setTimeout(() => {
+        if (feedbackData?.length === 0) {
+          checkoutTrip();
+        } else {
+          feedbackStorage();
+        }
+      }, 5000);
       toggleNotification(true);
       setErrorToggle({
         state: false,
         message: t('You’ve Checked-out'),
-        type: feedbackData?.length === 0 ? 'home' : 'feedback',
+        redirect: feedbackData?.length === 0 ? availablePaths?.HOME : availablePaths?.FEEDBACK,
         description: t(
           t(
             'Hope you had a pleasant stay with us. We look forward to your next visit.\nThank You.',
@@ -138,7 +165,7 @@ const CheckoutDrawer = (props: any) => {
           setErrorToggle({
             state: true,
             message: t('Unable to checkout'),
-            type: feedbackData?.length === 0 ? 'home' : 'feedback',
+            redirect: feedbackData?.length === 0 ? availablePaths?.HOME : availablePaths?.FEEDBACK,
             description: `${
               amountDue > 0 ? t('There are outstanding payments to settle. ') : ''
             }${t('Kindly proceed to the front desk to complete the checkout process.')}`,
@@ -148,7 +175,7 @@ const CheckoutDrawer = (props: any) => {
           setErrorToggle({
             state: true,
             message: t(ERRORMSG),
-            type: paymentDone && checkoutPayment ? 'home' : 'checkout',
+            redirect: paymentDone && checkoutPayment ? availablePaths?.HOME : null,
             description: t('Please Try Again.'),
           });
         }
@@ -160,12 +187,16 @@ const CheckoutDrawer = (props: any) => {
 
   const handleDeviceDeactivate = () => {
     setTimeout(() => {
-      checkoutTrip();
+      if (feedbackData?.length === 0) {
+        checkoutTrip();
+      } else {
+        feedbackStorage();
+      }
     }, 5000);
     setErrorToggle({
       state: false,
       message: t('Device Disconnected!'),
-      type: feedbackData?.length === 0 ? 'home' : 'feedback',
+      redirect: feedbackData?.length === 0 ? availablePaths?.HOME : availablePaths?.FEEDBACK,
       description: t(
         'Hope you had a pleasant stay with us. We look forward to your next visit.\nThank You.',
       ),

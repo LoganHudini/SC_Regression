@@ -3,7 +3,7 @@ import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from '@styles/feedback/feedback.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
@@ -30,6 +30,7 @@ import { Loader } from 'components/shared/Loaders/Loaders';
 import { Notification } from 'components/shared/Notification/Notification';
 import { toggleNotification } from 'storage/home.storage';
 import { activeItems } from 'utils/functions';
+import { checkoutTrip } from 'storage/trips.storage';
 
 export { getStaticPaths };
 
@@ -75,10 +76,6 @@ const Feedback = () => {
     (inforamtion: any) => inforamtion?.field === EMAIL_CAPS,
   )?.value;
 
-  useEffect(() => {
-    feedbackData?.length === 0 && navigate(availablePaths?.HOME);
-  }, [feedbackData, navigate]);
-
   const handleButtonClick = (categoryTitle: any, rating: any) => {
     setSelectedFeedback((prevSelectedRatings: any) => ({
       ...prevSelectedRatings,
@@ -87,7 +84,7 @@ const Feedback = () => {
   };
 
   const feedbackPayload = {
-    orgEmail: 'arun.r@hudini.io', // do not changes, feedback should be sent to arun
+    orgEmail: 'arun.r@hudini.io', // do not change, feedback should be sent to arun
     email: isCheckedIn?.email,
     space: hotelName,
     guestName: isCheckedIn?.name,
@@ -109,6 +106,9 @@ const Feedback = () => {
           body: feedbackPayload,
         },
       });
+      setTimeout(() => {
+        checkoutTrip();
+      }, 5000);
       toggleNotification(true);
       setNotificationState({
         title: t('Thank You!'),
@@ -137,7 +137,7 @@ const Feedback = () => {
           {hotelName} | {t('Feedback') as string}
         </title>
       </Head>
-      <Header screenTitle={t('Feedback') as string} displayHome />
+      <Header screenTitle={t('Feedback') as string} />
       {homeCarouselLoading || feedbackLoading ? (
         <Loader />
       ) : (
@@ -228,7 +228,7 @@ const Feedback = () => {
                 onClick={() => {
                   feedbackText || Object.keys(selectedFeedback).length > 0
                     ? submit()
-                    : navigate(availablePaths.HOME);
+                    : (navigate(availablePaths.HOME), checkoutTrip());
                 }}
                 loading={loading}
               >

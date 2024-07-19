@@ -73,6 +73,7 @@ export const CHECKOUT_PAYMENT = 'Checkout-Payment';
 export const PAIR_TO_ROOM = 'Pair-To-Room';
 export const REVIEW = 'review';
 export const CANCELED = 'CANCELED';
+export const CANCELLED = 'CANCELLED';
 export const CHECKEDOUT = 'CHECKEDOUT';
 export const CHKOUT = 'CHKOUT';
 export const NOSHOW = 'NOSHOW';

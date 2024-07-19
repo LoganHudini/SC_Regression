@@ -14,6 +14,7 @@ import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import cx from 'classnames';
 import {
   CANCELED,
+  CANCELLED,
   CHECKEDOUT,
   CHECKIN,
   CHKOUT,
@@ -87,6 +88,7 @@ const Preferences = () => {
         data.getReservation.data.reservationStatus === CANCELED ||
         data.getReservation.data.reservationStatus === CHKOUT ||
         data.getReservation.data.reservationStatus === CHECKEDOUT ||
+        data.getReservation.data.reservationStatus === CANCELLED ||
         data.getReservation.data.reservationStatus === NOSHOW
       ) {
         setNotificationState({
