@@ -113,7 +113,7 @@ const Feedback = () => {
       setNotificationState({
         title: t('Thank You!'),
         description: t('Feedback submitted successfully'),
-        redirect: navigate(availablePaths.HOME),
+        redirect: availablePaths.HOME,
         type: SUCCESS,
         apolloError: null,
       });
