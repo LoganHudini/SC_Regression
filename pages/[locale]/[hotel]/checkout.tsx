@@ -57,7 +57,7 @@ const CheckOut = () => {
     try {
       checkOutToken.current = await getCheckOutToken(
         checkedInData?.roomNumber?.toString()?.trim(),
-        checkedInData?.name?.toString()?.trim(),
+        checkedInData?.lastName?.toString()?.trim(),
       );
       const { data } = await client.query({
         query: GET_RESERVATION_WITH_ROOM_NUMBER,
@@ -69,7 +69,7 @@ const CheckOut = () => {
         },
         variables: {
           roomNo: checkedInData?.roomNumber?.toString()?.trim(),
-          lastName: checkedInData?.name?.toString()?.trim(),
+          lastName: checkedInData?.lastName?.toString()?.trim(),
         },
         fetchPolicy: 'no-cache',
       });
@@ -104,7 +104,7 @@ const CheckOut = () => {
   const fetchInvoice = async () => {
     checkOutToken.current = await getCheckOutToken(
       checkedInData?.roomNumber?.toString()?.trim(),
-      checkedInData?.name?.toString()?.trim(),
+      checkedInData?.lastName?.toString()?.trim(),
     );
     try {
       const { data } = await client.query({

@@ -200,7 +200,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
         await sendHousekeepingOrder({
           variables: {
             bookingTime: dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2),
-            guestName: checkinData?.name,
+            guestName: checkinData?.lastName,
             serviceName: showSchedules?.name,
             requestType: showSchedules?.__typename,
             hotelId: HOTEL_ID,
@@ -232,7 +232,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
             roomNo: checkinData?.roomNumber,
             bookingId: checkinData?.reservationId,
             guestEmail: checkinData?.email,
-            guestFirstName: checkinData?.name,
+            guestFirstName: checkinData?.lastName,
             items: combinedServiceRequestArray
               ?.filter((item: any) => item?.quantity > 0)
               ?.map((el: any) => ({

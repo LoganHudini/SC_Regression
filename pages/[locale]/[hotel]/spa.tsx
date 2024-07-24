@@ -207,7 +207,7 @@ const Spa: React.FC = () => {
         hotelId: HOTEL_ID,
         bookingTime: dayjs().format(timeFormats.DATE_TIME),
         roomNo: isCheckedIn?.roomNumber,
-        guestName: isCheckedIn?.name,
+        guestName: `${isCheckedIn?.firstName} ${isCheckedIn?.lastName}`,
         guestType: isCheckedIn?.roomNumber ? 'resident' : 'nonresident',
         numberOfGuest: guestCount,
         pax: '',
@@ -261,7 +261,7 @@ const Spa: React.FC = () => {
     selectedTime,
     currentYear,
     restaurantId,
-    isCheckedIn?.name,
+    isCheckedIn?.lastName,
     isCheckedIn?.roomNumber,
     guestCount,
   ]);
@@ -291,8 +291,8 @@ const Spa: React.FC = () => {
       treatmentId: selectedSpaItem?.code,
       startTime: selectedSpaSlots?.startTime,
       technicianId: parseInt(selectedSpaSlots.technicianId),
-      firstName: isCheckedIn?.checkedIn ? isCheckedIn?.name : '',
-      lastName: isCheckedIn?.checkedIn ? isCheckedIn?.name : '',
+      firstName: isCheckedIn?.checkedIn ? isCheckedIn?.firstName : '',
+      lastName: isCheckedIn?.checkedIn ? isCheckedIn?.lastName : '',
       emailAddress:
         isCheckedIn?.checkedIn && isCheckedIn?.email ? isCheckedIn?.email : formik.values.email,
       roomNo: isCheckedIn?.checkedIn ? isCheckedIn?.roomNumber : '',

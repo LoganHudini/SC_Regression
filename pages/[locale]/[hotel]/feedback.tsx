@@ -87,7 +87,7 @@ const Feedback = () => {
     orgEmail: 'arun.r@hudini.io', // do not change, feedback should be sent to arun
     email: isCheckedIn?.email,
     space: hotelName,
-    guestName: isCheckedIn?.name,
+    guestName: `${isCheckedIn?.firstName} ${isCheckedIn?.lastName}`,
     feedbackDate: dayjs().format(timeFormats.YEAR_MONTH_DAY),
     comments: feedbackText,
     feedbackCategories: Object.entries(selectedFeedback)?.map(([description, rating]) => ({

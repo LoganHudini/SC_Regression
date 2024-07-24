@@ -6,7 +6,8 @@ export interface ISavedTrip {
   reservationId: string;
   preCheckedIn?: boolean;
   checkedIn?: boolean;
-  name?: string;
+  firstName?: string;
+  lastName?: string;
   email?: string;
   roomNumber?: string;
   invoiceId?: string;
@@ -24,7 +25,8 @@ export const checkoutTrip = () => {
     reservationId: '',
     preCheckedIn: false,
     checkedIn: false,
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
     roomNumber: '',
     invoiceId: '',

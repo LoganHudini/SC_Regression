@@ -8,7 +8,8 @@ interface ICheckinStorageData {
   reservationId?: any;
   preCheckedIn?: boolean;
   checkedIn: boolean;
-  name?: string;
+  firstName?: string;
+  lastName?: string;
   email?: string;
   roomNumber?: string;
   invoiceId?: string;
@@ -33,7 +34,8 @@ export const useCheckedIn = () => {
         reservationId: reservations?.reservationId, // confirmationId or uniqueBookingId
         preCheckedIn: reservations?.preCheckedIn,
         checkedIn: reservations?.checkedIn ?? false,
-        name: reservations?.name,
+        firstName: reservations?.firstName,
+        lastName: reservations?.lastName,
         email: reservations?.email,
         roomNumber: reservations?.roomNumber,
         invoiceId: reservations?.invoiceId, // reservationId

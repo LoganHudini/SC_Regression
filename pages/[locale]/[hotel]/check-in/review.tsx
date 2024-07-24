@@ -453,7 +453,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             reservationId: reservationInfo?.confirmationId as string,
             preCheckedIn: preCheckInStatus ? true : false,
             checkedIn: preCheckInStatus ? false : true,
-            name: guestReservationInfo?.lastName,
+            firstName: guestReservationInfo?.firstName,
+            lastName: guestReservationInfo?.lastName,
             email: guestReservationInfo?.emails,
             roomNumber: !preCheckInStatus ? roomNo : '',
             invoiceId: reservationInfo?.reservationId as string,
@@ -463,7 +464,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             reservationId: reservationInfo?.confirmationId as string,
             preCheckedIn: preCheckInStatus ? true : false,
             checkedIn: preCheckInStatus ? false : true,
-            name: guestReservationInfo?.lastName,
+            firstName: guestReservationInfo?.firstName,
+            lastName: guestReservationInfo?.lastName,
             email: guestReservationInfo?.emails,
             roomNumber: !preCheckInStatus ? roomNo : '',
             invoiceId: reservationInfo?.reservationId as string,
@@ -730,7 +732,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             ) : (
               <DetailsCardShrinked title={t('Primary Guest Information')}>
                 {guestInformationSection?.details
-                  ?.slice(1, 4)
+                  ?.slice(0, 4)
+                  ?.filter((_: string, index: number) => index !== 1)
                   ?.map((configData: any, index: number) => (
                     <ShrinkedItem
                       key={index}
@@ -769,7 +772,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                     </div>
                   ) : (
                     <DetailsCardShrinked title={`${t('Guest')} ${index + 1}`}>
-                      <ShrinkedItem value={accompanyGuest?.lastName} />
+                      <ShrinkedItem value={accompanyGuest?.firstName} />
                     </DetailsCardShrinked>
                   )}
                 </div>
