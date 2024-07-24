@@ -32,6 +32,7 @@ import {
   PAIR_TO_ROOM,
   SERVICES,
   VIEW_BILL,
+  VIEW_BILL_CHECKOUT_FLOW,
 } from 'utils/constants';
 import CheckIcon from '@icons/checkIcon.svg';
 import { housekeepingOptions } from 'storage/housekeeping.storage';
@@ -73,6 +74,7 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
   const config = useConfig();
   const [externalURL, setExternalURL] = useState<boolean>(false);
   const [openLanguage, setOpenLanguage] = useState<boolean>(false);
+  const pairToRoomModule: boolean = activeModule(config?.modules, PAIR_TO_ROOM);
   const closeBooking = () => {
     setExternalURL(false);
   };
@@ -92,8 +94,15 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
     if (redirectOptions === FLOW) {
       const redirectUrl = flowPathMap[flow as keyof typeof flowPathMap];
       if (redirectUrl) {
-        toggleOption();
-        navigate(redirectUrl);
+        const checkinToken = getCheckInTokenSession();
+        if (flow === VIEW_BILL_CHECKOUT_FLOW && pairToRoomModule && checkinToken === '') {
+          toggleCheckInDetailsDrawer(true);
+          activeCheckOutFlow(true);
+          toggleOption();
+        } else {
+          toggleOption();
+          navigate(redirectUrl);
+        }
       } else if (flow === HOTEL_INFORMATION_FLOW) {
         toggleOption();
         toggleMapState(true);
@@ -119,7 +128,20 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
         setOpenLanguage(true);
       }
     }
-  }, [config?.chatOption, flow, navigate, pages, paths, redirectOptions, title, toggleOption]);
+  }, [
+    chatURL,
+    config?.chatOption,
+    flow,
+    navigate,
+    pages,
+    pairToRoomModule,
+    paths,
+    redirectOptions,
+    setErrorToggle,
+    t,
+    title,
+    toggleOption,
+  ]);
 
   return (
     <>
@@ -223,7 +245,6 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
 
   const handleStaySummary = () => {
     const checkinToken = getCheckInTokenSession();
-
     if (pairToRoomModule && checkinToken === '') {
       toggleCheckInDetailsDrawer(true);
       activeCheckOutFlow(true);
@@ -295,9 +316,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                     className={cx(styles.inActiveText)}
                     onClick={() => {
                       closeDrawer();
-                      setTimeout(() => {
-                        checkoutTrip();
-                      }, 5000);
+                      checkoutTrip();
                       setErrorToggle({
                         state: true,
                         message: t('Device Disconnected!'),

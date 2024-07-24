@@ -129,7 +129,7 @@ const CheckoutDrawer = (props: any) => {
         },
         variables: {
           body: checkoutPayload,
-          roomNumber: checkedInData?.roomNumber,
+          confirmationId: checkedInData?.reservationId,
         },
       });
       toggleDetailsDrawer(false);

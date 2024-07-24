@@ -130,7 +130,9 @@ export const handleReservation = async ({
                 preCheckedIn: !roomNo,
                 checkedIn: !!roomNo,
                 firstName: reservationInformation?.details.contactPerson.firstName,
-                lastName: reservationInformation?.details.contactPerson.lastName,
+                lastName:
+                  values?.lastName?.toString().trim() ||
+                  reservationInformation?.details.contactPerson.lastName,
                 email: reservationInformation?.details.contactPerson.email,
                 roomNumber: roomNo,
                 invoiceId: reservationInformation?.reservationId,
@@ -145,7 +147,9 @@ export const handleReservation = async ({
                 preCheckedIn: !roomNo,
                 checkedIn: !!roomNo,
                 firstName: reservationInformation?.details.contactPerson.firstName,
-                lastName: reservationInformation?.details.contactPerson.lastName,
+                lastName:
+                  values?.lastName?.toString().trim() ||
+                  reservationInformation?.details.contactPerson.lastName,
                 email: reservationInformation?.details.contactPerson.email,
                 roomNumber: roomNo,
                 invoiceId: reservationInformation?.reservationId,
