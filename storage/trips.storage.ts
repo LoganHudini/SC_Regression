@@ -3,7 +3,7 @@ import { checkinStorage } from './check-in.storage';
 const TRIPS_KEY = 'hudini_pwa:TRIPS';
 
 export interface ISavedTrip {
-  reservationId: string;
+  reservationId: string | string[] | undefined;
   preCheckedIn?: boolean;
   checkedIn?: boolean;
   firstName?: string;
@@ -12,7 +12,7 @@ export interface ISavedTrip {
   roomNumber?: string;
   invoiceId?: string;
   bookingId?: any;
-  hotelId: any;
+  hotelId?: any;
 }
 
 export const saveTrip = (payload: ISavedTrip) => {

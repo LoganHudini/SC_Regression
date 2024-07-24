@@ -61,7 +61,7 @@ const RestaurantAndBars: React.FC = () => {
 
   const { data, loading } = useQuery<IGetRestaurantDetailsResponse>(GET_RESTAURANT_DETAILS, {
     skip: !hotelId,
-    context: { clientName: 'host_v0' },
+    context: { clientName: 'property_a' },
     fetchPolicy: 'no-cache',
     variables: {
       lang: locale === 'en' ? '' : locale,

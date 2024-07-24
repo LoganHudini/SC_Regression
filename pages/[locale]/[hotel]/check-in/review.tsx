@@ -214,7 +214,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
     // upload guest signature
     const uploadSignaturePayload: IPreSignDocUploadApiRequest = {
-      groupId: 'e8030f49-afb1-43fc-80f6-c0515b62d5f6',
+      groupId: hotelInfo?.groupId,
       type: 'reservation_docs',
       propertyType: 'hotels',
       confirmationId: reservationInfo?.confirmationId ?? '',
@@ -440,7 +440,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             };
             await client.mutate({
               mutation: UPDATE_EVA,
-              context: { clientName: 'host_v5' },
+              context: { clientName: 'integration_c' },
               variables: {
                 checkin: guestDetails.checkin,
                 guests: guestDetails.guests,
@@ -521,6 +521,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     guestReservationInfo?.token,
     guests,
     hotelId,
+    hotelInfo?.groupId,
     paymentConfig?.paymentMethod,
     paymentConfig?.settlementType,
     paymentConfig?.type,
@@ -560,6 +561,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     const options = guestInformationSection?.details?.find(
       (detail: any) => detail?.name === code,
     )?.options;
+
+    const isValidDate = (dateString: string) => {
+      return /^\d{4}-\d{2}-\d{2}$/.test(dateString) && !isNaN(new Date(dateString).getTime());
+    };
     return (
       <>
         {value && (
@@ -568,7 +573,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             <p className={cx(styles.checkDatesDetails, styles.left)}>
               {options?.length > 0
                 ? options?.find((option: any) => option?.value === value)?.name
-                : !isNaN(new Date(value).getTime())
+                : isValidDate(value)
                 ? dayjs(value).format(timeFormats.DAY_MONTH_YEAR_5)
                 : value}
             </p>
@@ -935,6 +940,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           </div>
 
           <Notification
+            translation={t}
             title={errorNotification ? t(ERRORMSG as string) : (t('Welcome Aboard!') as string)}
             description={
               errorNotification

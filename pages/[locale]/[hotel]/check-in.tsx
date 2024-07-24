@@ -90,7 +90,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
 
   const { data: hotelInfo, loading: hotelInfoLoading } = useQuery(GET_HOTEL_INFORMATION, {
     skip: !hotelId,
-    context: { clientName: 'host_v0' },
+    context: { clientName: 'property_a' },
     fetchPolicy: 'no-cache',
     variables: {
       hotelId: hotelId,
@@ -391,7 +391,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const locale = ctx?.params?.locale;
   const { data } = await client.query<IGetRoomDetailsApiResponse>({
     query: GET_ROOM_DETAILS,
-    context: { clientName: 'host_v0' },
+    context: { clientName: 'property_a' },
   });
 
   return {

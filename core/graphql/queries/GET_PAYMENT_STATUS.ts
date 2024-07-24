@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { ENVIRONMENT, HOTEL_ID } from '../endpoints';
+import { HOTEL_ID } from '../endpoints';
 
 export interface IGetPaymentStatusApiResponse {
   getPaymentStatus: {
@@ -46,7 +46,7 @@ query GetPaymentStatus($paymentId: String, $confirmationId: String) {
     getPaymentStatus(paymentId: $paymentId, confirmationId: $confirmationId)
     @rest(
       type: "GetPaymentStatusPayload"
-      path: "/${ENVIRONMENT}/payment/{args.paymentId}/hotel/${HOTEL_ID}/info?confirmationId={args.confirmationId}"
+      path: "/payment/{args.paymentId}/hotel/${HOTEL_ID}/info?confirmationId={args.confirmationId}"
     ) {
     errors
     data
@@ -60,7 +60,7 @@ query GetPaymentStatus($paymentId: String, $confirmationId: String) {
     getPaymentStatus(paymentId: $paymentId, confirmationId: $confirmationId)
     @rest(
       type: "GetPaymentStatusPayload"
-      path: "/${ENVIRONMENT}/payment/{args.paymentId}/hotel/${HOTEL_ID}/info?confirmationId={args.confirmationId}"
+      path: "/payment/{args.paymentId}/hotel/${HOTEL_ID}/info?confirmationId={args.confirmationId}"
     ) {
     errors
     data
@@ -74,7 +74,7 @@ query GetPaymentStatus($body: GetPaymentStatusPayload) {
     getPaymentStatus(body: $body)
     @rest(
       type: "GetPaymentStatusPayload"
-      path: "/${ENVIRONMENT}/v3/getpaymentstatus/freedompay/hotel/${HOTEL_ID}"
+      path: "/v3/getpaymentstatus/freedompay/hotel/${HOTEL_ID}"
       method: "POST"
       bodyKey: "body"
     ) {

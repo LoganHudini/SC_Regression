@@ -55,6 +55,11 @@ import { useConfig } from 'utils/hooks/useConfiguration';
 import { activeModule, serviceRequestArray } from 'utils/functions';
 import { HOUSEKEEPING_ORDER_TRANSACTION_HK } from 'core/graphql/queries/HOUSEKEEPING_ORDER_TRANSACTION_HK';
 import { checkoutTrip } from 'storage/trips.storage';
+import {
+  getInHouseToken,
+  handleinHouseAuthenticationFailure,
+} from 'core/api/functions/getInHouseAuthentication';
+import { processStatusCode } from 'utils/processError';
 
 export { getStaticPaths };
 
@@ -83,16 +88,21 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
   const [notificationState, setNotificationState] = useState<any>(false);
 
   const [sendHousekeepingOrder] = useMutation(HOUSEKEEPING_ORDER, {
-    context: { clientName: 'host_v4' },
+    context: { clientName: 'property_e' },
   });
 
   const [sendHousekeepingOrderIntegration] = useMutation(HOUSEKEEPING_ORDER_TRANSACTION_HK, {
-    context: { clientName: 'integration_v1' },
+    context: {
+      clientName: 'integration_b',
+      headers: {
+        Authorization: 'Bearer ' + getInHouseToken(),
+      },
+    },
   });
 
   const { data, loading } = useQuery<IGetHousekeepingApiResponse>(GET_HOUSEKEEPING, {
     skip: !hotelId,
-    context: { clientName: 'host_v1' },
+    context: { clientName: 'property_b' },
     variables: {
       hotelId: hotelId,
       lang: locale === 'en' ? '' : locale,
@@ -202,7 +212,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
             bookingTime: dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2),
             guestName: checkinData?.lastName,
             serviceName: showSchedules?.name,
-            requestType: showSchedules?.__typename,
+            requestType: 'Housekeeping',
             hotelId: HOTEL_ID,
             roomNo: checkinData?.roomNumber,
             items: combinedServiceRequestArray
@@ -267,21 +277,30 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
       });
     } catch (e) {
       const networkError = e as ApolloError;
+      const statusCode = processStatusCode(networkError);
+
       const FailureCheck1 =
         networkError?.message === FAILED_TO_FETCH_BOOKING_DETAILS ? true : false;
       const FailureCheck2 = networkError?.message === INVALID_BOOKING_STATUS ? true : false;
-      setNotificationState({
-        title: FailureCheck1 || FailureCheck2 ? t('Invalid Reservation') : t(ERRORMSG),
-        description:
-          FailureCheck1 || FailureCheck2
-            ? t('Reservation status is invalid. Please try again with a valid reservation details')
-            : t('Your request was not confirmed.'),
-        redirect: FailureCheck1 || FailureCheck2 ? availablePaths?.HOME : null,
-        type: FAILURE,
-      });
-      if (FailureCheck1 || FailureCheck2) {
-        checkoutTrip();
-        toggleDetailsDrawer(false);
+
+      if (statusCode === 403) {
+        handleinHouseAuthenticationFailure(handleOrder);
+      } else {
+        setNotificationState({
+          title: FailureCheck1 || FailureCheck2 ? t('Invalid Reservation') : t(ERRORMSG),
+          description:
+            FailureCheck1 || FailureCheck2
+              ? t(
+                  'Reservation status is invalid. Please try again with a valid reservation details',
+                )
+              : t('Your request was not confirmed.'),
+          redirect: FailureCheck1 || FailureCheck2 ? availablePaths?.HOME : null,
+          type: FAILURE,
+        });
+        if (FailureCheck1 || FailureCheck2) {
+          checkoutTrip();
+          toggleDetailsDrawer(false);
+        }
       }
     }
     setPlaceOrderLoader(false);

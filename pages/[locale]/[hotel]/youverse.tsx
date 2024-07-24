@@ -161,7 +161,7 @@ const Youverse: React.FC = () => {
                 try {
                   client.mutate({
                     mutation: STORE_RESERVATION,
-                    context: { clientName: 'integration_v5' },
+                    context: { clientName: 'integration_f' },
                     variables: {
                       profileId: docScanId,
                       reservationId: confirmationId,

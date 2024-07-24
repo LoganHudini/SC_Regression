@@ -43,7 +43,7 @@ const Offers: React.FC = () => {
 
   const { data, loading } = useQuery(GET_OFFERS, {
     skip: !hotelId,
-    context: { clientName: 'host_v2' },
+    context: { clientName: 'property_c' },
     variables: {
       hotelId: hotelId,
       lang: locale === 'en' ? '' : locale,

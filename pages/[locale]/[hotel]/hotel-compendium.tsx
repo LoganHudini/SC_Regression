@@ -38,7 +38,7 @@ const HotelCompendium: React.FC = () => {
 
   const { data, loading } = useQuery(GET_HOTEL_COMPENDIUM, {
     skip: !hotelId,
-    context: { clientName: 'host_v0' },
+    context: { clientName: 'property_a' },
     fetchPolicy: 'no-cache',
     variables: {
       hotelId: hotelId,

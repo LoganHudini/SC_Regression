@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { ENVIRONMENT, HOTEL_ID } from '../endpoints';
+import { HOTEL_ID } from '../endpoints';
 
 export interface IDeviceActivationApiResponse {
   getReservation: {
@@ -113,7 +113,7 @@ export const DEVICE_ACTIVATION = gql`
     getReservation(confirmationNumber: $confirmationNumber, lastName: $lastName)
       @rest(
         type: "GetReservationPayload"
-        path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/details/{args.confirmationNumber}?lastName={args.lastName}&arrivalDateRequired=no"
+        path: "/booking/hotel/${HOTEL_ID}/details/{args.confirmationNumber}?lastName={args.lastName}&arrivalDateRequired=no"
       ) {
       errors
       data

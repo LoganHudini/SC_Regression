@@ -15,10 +15,12 @@ import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
 import { checkoutTrip, saveTrip } from 'storage/trips.storage';
 import { useConfig } from 'utils/hooks/useConfiguration';
-import { getCheckOutToken } from 'core/api/functions/getCheckOutAuthentication';
 import { checkinStorage, useCheckedIn } from 'storage/check-in.storage';
 import { processStatusCode } from 'utils/processError';
-import { handleCheckInAuthenticationFailure } from 'core/api/functions/getCheckInAuthentication';
+import {
+  getCheckInToken,
+  handleCheckInAuthenticationFailure,
+} from 'core/api/functions/getCheckInAuthentication';
 import { CHECKOUT_PAYMENT, CHECK_IN, CHECK_OUT, ERRORMSG } from 'utils/constants';
 import { activeItems, activeModule } from 'utils/functions';
 import { availablePaths } from 'utils/availablePaths';
@@ -38,7 +40,7 @@ const CheckoutDrawer = (props: any) => {
 
   const { data: feedBackList } = useQuery(GET_FEEDBACK, {
     skip: !hotelId,
-    context: { clientName: 'host_v4' },
+    context: { clientName: 'property_e' },
     fetchPolicy: 'no-cache',
     variables: {
       hotelId: hotelId,
@@ -96,7 +98,7 @@ const CheckoutDrawer = (props: any) => {
       try {
         await client.mutate({
           mutation: MAKE_CHECKOUT_PAYMENT,
-          context: { clientName: 'integration_v6' },
+          context: { clientName: 'integration_g' },
           fetchPolicy: 'network-only',
           variables: paymentPayload,
         });
@@ -123,7 +125,7 @@ const CheckoutDrawer = (props: any) => {
         query: CHECKOUT,
         context: {
           clientName: 'rest',
-          headers: { Authorization: 'Bearer ' + getCheckOutToken() },
+          headers: { Authorization: 'Bearer ' + getCheckInToken() },
         },
         variables: {
           body: checkoutPayload,

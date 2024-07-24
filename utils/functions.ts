@@ -226,7 +226,7 @@ export const restaurantCtaNavigation = (
       (setIframeComponent(true),
       analyticsEvent({
         action: 'restaurant_redirect',
-        category: object?.__typename,
+        category: 'Restaurant',
         title: object?.name,
       }));
   }
@@ -345,7 +345,6 @@ export const getHamburgerIcons = () => {
       name: 'Language',
       pages: [''],
       redirectOptions: 'FLOW',
-      __typename: 'UiBuilderHamburgerMenu',
     },
   ];
 

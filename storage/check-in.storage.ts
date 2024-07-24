@@ -4,7 +4,7 @@ import { getTrips } from './trips.storage';
 import { STEPPER_CHECK_IN, STEPPER_PAYMENT, STEPPER_REVIEW } from 'utils/constants';
 import { useConfig } from 'utils/hooks/useConfiguration';
 
-interface ICheckinStorageData {
+export interface ICheckinStorageData {
   reservationId?: any;
   preCheckedIn?: boolean;
   checkedIn: boolean;
@@ -55,3 +55,5 @@ export const StepperInformationStorage = makeVar<any>([
 export const profileIDStorage = makeVar<any>({ id: '', guestType: '' });
 
 export const activeCheckInFlow = makeVar<boolean>(true); // true for check-in flow, false for Connect to Room flow
+
+export const activeCheckOutFlow = makeVar<boolean>(false);

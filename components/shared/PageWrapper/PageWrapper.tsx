@@ -23,7 +23,7 @@ export const PageWrapper: React.FC<IPageWrapperProps> = ({
   const hotelInfoStorageList = useReactiveVar(hotelInfoStorage);
 
   const [hotelInfo, { data, loading }] = useLazyQuery(GET_HOTEL_INFORMATION, {
-    context: { clientName: 'host_v0' },
+    context: { clientName: 'property_a' },
     fetchPolicy: 'no-cache',
     variables: {
       hotelId: hotelId,

@@ -92,7 +92,7 @@ const Spa: React.FC = () => {
 
   const { data, loading } = useQuery(GET_SPA_DETAILS, {
     skip: !hotelId,
-    context: { clientName: 'host_v0' },
+    context: { clientName: 'property_a' },
     fetchPolicy: 'no-cache',
     variables: {
       hotelId: hotelId,
@@ -180,7 +180,7 @@ const Spa: React.FC = () => {
     if (spaInformation?.cta?.redirectOption === EXTERNAL_URL) {
       analyticsEvent({
         action: 'spa_redirect',
-        category: spaInformation?.__typename,
+        category: 'Spa',
         title: spaInformation?.name,
       });
       setspaBooking(true);
@@ -230,7 +230,7 @@ const Spa: React.FC = () => {
       try {
         await client.mutate({
           mutation: CREATE_SPA_ORDER,
-          context: { clientName: 'host_v3' },
+          context: { clientName: 'property_d' },
           fetchPolicy: 'network-only',
           variables: DetailsReservationPayload,
         });
@@ -267,7 +267,7 @@ const Spa: React.FC = () => {
   ]);
 
   const [getSlots, { data: spaSlot, loading: spaLoading }] = useLazyQuery(GET_SLOT_DETAILS, {
-    context: { clientName: 'messages' },
+    context: { clientName: 'integration_d' },
     variables: {
       date: dayjs(selectedTime).year(currentYear).format(timeFormats.YEAR_MONTH_DAY),
       hotelId: hotelId,
@@ -302,7 +302,7 @@ const Spa: React.FC = () => {
     try {
       await client.mutate({
         mutation: CREATE_SPA_BOOKING,
-        context: { clientName: 'messages' },
+        context: { clientName: 'integration_d' },
         fetchPolicy: 'network-only',
         variables: spaPayload,
       });

@@ -6,15 +6,20 @@ import {
 } from 'core/graphql/queries/GET_RESERVATION';
 import { getHotelId } from 'utils/fetchConfigs';
 
-// extract checkInToken from session storage
-export const getCheckInTokenSession = () =>
+// extract inHouseToken from session storage
+export const getInHouseTokenSession = () =>
   (typeof window !== 'undefined' &&
-    sessionStorage.getItem('checkInToken') &&
-    JSON.parse(sessionStorage.getItem('checkInToken') ?? '')) ??
+    sessionStorage.getItem('inHouseToken') &&
+    JSON.parse(sessionStorage.getItem('inHouseToken') ?? '')) ??
   '';
 
 // authentication
-export const getCheckInToken = (confirmationId?: string, lastName?: string, errorCode?: number) => {
+export const getInHouseToken = (
+  confirmationId?: string | null,
+  roomNumber?: string,
+  lastName?: string,
+  errorCode?: number | null,
+) => {
   const hotelId = getHotelId();
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
@@ -23,26 +28,28 @@ export const getCheckInToken = (confirmationId?: string, lastName?: string, erro
 
   const getToken = async () => {
     if (
-      (confirmationId || reservationInfo?.confirmationId)?.toString()?.trim() &&
+      (roomNumber || reservationInfo?.roomTypes[0]?.roomNumber)?.toString()?.trim() &&
       (lastName || reservationInfo?.guests[0]?.lastName)?.toString()?.trim()
     ) {
       const { data: authenticatedData } = await client.query({
         query: GET_AUTHENTICATION,
-
         context: { clientName: 'rest' },
         variables: {
           body: {
             confirmationId: (confirmationId || reservationInfo?.confirmationId)?.toString()?.trim(),
+            roomNumber: (roomNumber || reservationInfo?.roomTypes[0]?.roomNumber)
+              ?.toString()
+              ?.trim(),
             lastname: (lastName || reservationInfo?.guests[0]?.lastName)?.toString()?.trim(),
             hotelId: hotelId,
-            type: 'CHECK_IN',
+            type: 'IN_HOUSE',
           },
         },
         fetchPolicy: 'no-cache',
       });
 
       sessionStorage.setItem(
-        'checkInToken',
+        'inHouseToken',
         JSON.stringify(authenticatedData?.getAuthentication?.data?.token) ?? '',
       );
 
@@ -52,12 +59,12 @@ export const getCheckInToken = (confirmationId?: string, lastName?: string, erro
     }
   };
 
-  const sessionToken = getCheckInTokenSession();
+  const sessionToken = getInHouseTokenSession();
   return errorCode && errorCode === 403 ? getToken() : sessionToken ? sessionToken : getToken();
 };
 
 // handler for authentication failure
-export const handleCheckInAuthenticationFailure = async (callback?: any, values?: any) => {
-  sessionStorage.setItem('checkInToken', '');
+export const handleinHouseAuthenticationFailure = async (callback?: any, values?: any) => {
+  sessionStorage.setItem('inHouseToken', '');
   callback && values ? callback(values) : callback && callback();
 };

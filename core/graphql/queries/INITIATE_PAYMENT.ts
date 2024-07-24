@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { ENVIRONMENT, HOTEL_ID } from '../endpoints';
+import { HOTEL_ID } from '../endpoints';
 
 export interface IInitiatePaymentApiRequest {
   currency: string;
@@ -31,7 +31,7 @@ query InitiatePayment( $body: InitiatePaymentPayload) {
     initiatePayment(body: $body)
     @rest(
       type: "InitiatePaymentPayload"
-      path: "/${ENVIRONMENT}/v3/loadpaymentzone/shift4/hotel/${HOTEL_ID}"
+      path: "/v3/loadpaymentzone/shift4/hotel/${HOTEL_ID}"
       method: "POST"
       bodyKey: "body"
     ) {
@@ -63,7 +63,7 @@ query InitiatePayment( $body: InitiatePaymentPayload) {
     initiatePayment(body: $body)
     @rest(
       type: "InitiatePaymentPayload"
-      path: "/${ENVIRONMENT}/payment/cybersource/hotel/${HOTEL_ID}/loadPaymentZone"
+      path: "/payment/cybersource/hotel/${HOTEL_ID}/loadPaymentZone"
       method: "POST"
       bodyKey: "body"
     ) {
@@ -79,7 +79,7 @@ query InitiatePayment( $body: UpdateGuestDetailsPayload) {
     initiatePayment(body: $body)
     @rest(
       type: "InitiatePaymentPayload"
-      path: "/${ENVIRONMENT}/payment/ccAvenue/hotel/${HOTEL_ID}/loadPaymentZone?confirmationId={args.body.bookingId}"
+      path: "/payment/ccAvenue/hotel/${HOTEL_ID}/loadPaymentZone?confirmationId={args.body.bookingId}"
       method: "POST"
       bodyKey: "body"
     ) {
@@ -95,7 +95,7 @@ query InitiatePayment( $body: UpdateGuestDetailsPayload) {
     initiatePayment(body: $body)
     @rest(
       type: "InitiatePaymentPayload"
-      path: "/${ENVIRONMENT}/v3/initiatepayment/ogone/hotel/${HOTEL_ID}"
+      path: "/v3/initiatepayment/ogone/hotel/${HOTEL_ID}"
       method: "POST"
       bodyKey: "body"
     ) {
@@ -111,7 +111,7 @@ query InitiatePayment( $body: InitiatePaymentPayload) {
     initiatePayment(body: $body)
     @rest(
       type: "InitiatePaymentPayload"
-      path: "/${ENVIRONMENT}/v3/loadpaymentzone/freedompay/hotel/${HOTEL_ID}"
+      path: "/v3/loadpaymentzone/freedompay/hotel/${HOTEL_ID}"
       method: "POST"
       bodyKey: "body"
     ) {

@@ -1,5 +1,5 @@
 import { Header } from 'components/shared/Header/Header';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
@@ -14,11 +14,8 @@ import { toggleOpenCheckOutDrawer } from 'storage/checkout.storage';
 import { toggleDetailsDrawer, toggleNotification } from 'storage/home.storage';
 import { BillSummary } from 'components/pages/bill/BillSummary/BillSummary';
 import { IInvoiceApiResponse, INVOICE } from 'core/graphql/queries/INVOICE';
-import {
-  GET_RESERVATION_WITH_ROOM_NUMBER,
-  IGetReservationApiResponse,
-} from 'core/graphql/queries/GET_RESERVATION';
-import { useCheckedIn } from 'storage/check-in.storage';
+import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
+import { checkinStorage, useCheckedIn } from 'storage/check-in.storage';
 import { BillElement } from 'components/pages/bill/BillElement/BillElement';
 import { TotalBill } from 'components/pages/bill/TotalBill/TotalBill';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
@@ -30,50 +27,95 @@ import { Loader } from 'components/shared/Loaders/Loaders';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { FAILURE, INHOUSE, SUCCESS } from 'utils/constants';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import { handleCheckInAuthenticationFailure } from 'core/api/functions/getCheckInAuthentication';
+import {
+  getCheckInToken,
+  handleCheckInAuthenticationFailure,
+} from 'core/api/functions/getCheckInAuthentication';
 import { processStatusCode } from 'utils/processError';
-import { getCheckOutToken } from 'core/api/functions/getCheckOutAuthentication';
 import dayjs from 'dayjs';
-import { checkoutTrip } from 'storage/trips.storage';
+import { checkoutTrip, saveTrip } from 'storage/trips.storage';
 
 export { getStaticPaths };
 
 const CheckOut = () => {
   const { t } = useTranslation(['bill', 'common']);
-  const hotelName = useConfig()?.name;
+  const config = useConfig();
+  const hotelName = config?.name;
   const navigate = useLocalizedRouter();
   const [errorToggle, setErrorToggle] = useState<any>();
-
   const openCheckOutDrawer = useReactiveVar(toggleOpenCheckOutDrawer);
   const checkedInData = useCheckedIn();
   const [emailLoader, setEmailLoader] = useState(false);
   const [reservationData, setReservationData] = useState<IGetReservationApiResponse>();
   const [invoiceData, setInvoiceData] = useState<IInvoiceApiResponse>();
   const [loading, setLoading] = useState(true);
+  const hotelId = config?.hotelId;
+  const checkInToken: { current?: string } = useRef();
 
-  const checkOutToken: { current?: string } = {};
+  const fetchInvoice = useCallback(
+    async (invoiceId: string) => {
+      checkInToken.current = getCheckInToken(
+        checkedInData?.reservationId?.toString()?.trim(),
+        checkedInData?.lastName?.toString()?.trim(),
+      );
+      try {
+        const { data } = await client.query({
+          query: INVOICE,
+          context: {
+            clientName: 'rest',
+            headers: {
+              Authorization: 'Bearer ' + checkInToken.current,
+            },
+          },
+          variables: {
+            reservationId: invoiceId,
+            roomNumber: checkedInData?.roomNumber,
+          },
+          fetchPolicy: 'no-cache',
+        });
+        setInvoiceData(data);
+        setLoading(false);
+      } catch (error) {
+        const statusCode = processStatusCode(error as ApolloError);
+        if (statusCode === 403) {
+          handleCheckInAuthenticationFailure(fetchInvoice);
+        } else {
+          toggleNotification(true);
+          setErrorToggle({
+            state: true,
+            message: t('Something Went Wrong!'),
+            redirect: availablePaths?.HOME,
+            description: t('Please try again after sometime.'),
+          });
+        }
+      }
+    },
+    [checkedInData?.lastName, checkedInData?.reservationId, checkedInData?.roomNumber, t],
+  );
 
-  const fetchReservation = async () => {
+  const fetchReservation = useCallback(async () => {
     try {
-      checkOutToken.current = await getCheckOutToken(
-        checkedInData?.roomNumber?.toString()?.trim(),
+      checkInToken.current = getCheckInToken(
+        checkedInData?.reservationId?.toString()?.trim(),
         checkedInData?.lastName?.toString()?.trim(),
       );
       const { data } = await client.query({
-        query: GET_RESERVATION_WITH_ROOM_NUMBER,
+        query: GET_RESERVATION,
         context: {
           clientName: 'rest',
           headers: {
-            Authorization: 'Bearer ' + checkOutToken.current,
+            Authorization: 'Bearer ' + checkInToken.current,
           },
         },
         variables: {
-          roomNo: checkedInData?.roomNumber?.toString()?.trim(),
+          confirmationNumber: checkedInData?.reservationId?.toString()?.trim(),
           lastName: checkedInData?.lastName?.toString()?.trim(),
+          hotelId: hotelId,
         },
         fetchPolicy: 'no-cache',
       });
-      if (data?.getReservation?.data?.reservationStatus !== INHOUSE) {
+      const reservationInformation = data?.getReservation?.data;
+      if (reservationInformation?.reservationStatus !== INHOUSE) {
         toggleNotification(true);
         setErrorToggle({
           state: true,
@@ -84,6 +126,22 @@ const CheckOut = () => {
         checkoutTrip();
       } else {
         setReservationData(data);
+        fetchInvoice(reservationInformation?.reservationId);
+        saveTrip({
+          ...checkedInData,
+          firstName: reservationInformation?.details.contactPerson.firstName,
+          email: reservationInformation?.details.contactPerson.email,
+          reservationId: reservationInformation?.uniqueBookingId,
+          invoiceId: reservationInformation?.reservationId,
+        });
+        checkinStorage({
+          ...checkedInData,
+          firstName: reservationInformation?.details.contactPerson.firstName,
+          email: reservationInformation?.details.contactPerson.email,
+          reservationId: reservationInformation?.uniqueBookingId,
+          invoiceId: reservationInformation?.reservationId,
+          currency: reservationInformation?.details?.holdAmount?.currency,
+        });
       }
     } catch (error) {
       const statusCode = processStatusCode(error as ApolloError);
@@ -99,50 +157,11 @@ const CheckOut = () => {
         });
       }
     }
-  };
-
-  const fetchInvoice = async () => {
-    checkOutToken.current = await getCheckOutToken(
-      checkedInData?.roomNumber?.toString()?.trim(),
-      checkedInData?.lastName?.toString()?.trim(),
-    );
-    try {
-      const { data } = await client.query({
-        query: INVOICE,
-        context: {
-          clientName: 'rest',
-          headers: {
-            Authorization: 'Bearer ' + checkOutToken.current,
-          },
-        },
-        variables: {
-          confirmationNumber: checkedInData?.invoiceId,
-          roomNumber: checkedInData?.roomNumber,
-        },
-        fetchPolicy: 'no-cache',
-      });
-      setInvoiceData(data);
-      setLoading(false);
-    } catch (error) {
-      const statusCode = processStatusCode(error as ApolloError);
-      const errorMsg = error as ApolloError;
-      if (statusCode === 403) {
-        handleCheckInAuthenticationFailure(fetchInvoice);
-      } else {
-        toggleNotification(true);
-        setErrorToggle({
-          state: true,
-          message: errorMsg,
-          redirect: availablePaths?.HOME,
-          description: t('Please try again after sometime.'),
-        });
-      }
-    }
-  };
+  }, [checkedInData, fetchInvoice, hotelId, t]);
 
   useEffect(() => {
     fetchReservation();
-    fetchInvoice();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

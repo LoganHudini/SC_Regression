@@ -5,13 +5,14 @@ import ClockIcon from '@icons/clockIcon.svg';
 import DishIcon from '@icons/dishIcon.svg';
 import styles from './ListComponents.module.scss';
 import { ASSETS_URL, BRAND_CODE } from 'core/graphql/endpoints';
-import { OFFERSDURATION } from 'utils/constants';
 import dayjs from 'dayjs';
 import { getTimings } from 'utils/functions';
 import { CustomReadMore } from '../CustomReadMore/CustomReadMore';
 import { useCurrency } from 'utils/hooks/useCurrency';
 import cx from 'classnames';
 import { useConfig } from 'utils/hooks/useConfiguration';
+import { useRouter } from 'next/router';
+import { availablePaths } from 'utils/availablePaths';
 
 interface ListComponentEntityProps {
   queryResultEntity: any;
@@ -26,6 +27,8 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
   const { t } = useTranslation(['common']);
   const currency = useCurrency();
   const config = useConfig();
+  const router = useRouter();
+  const offersActive = router?.asPath?.includes(availablePaths?.OFFERS);
 
   const onCtaClick = useCallback(() => {
     selectedListItem(queryResultEntity);
@@ -65,25 +68,24 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
               {queryResultEntity?.duration[0]?.duration} {t('Min')}
             </p>
           )}
-          {queryResultEntity?.duration &&
-            queryResultEntity?.duration.__typename === OFFERSDURATION && (
-              <p className={cx(styles.listDurationOffer, 'globals-listDurationOffer')}>
-                {queryResultEntity?.duration?.alwaysActive
-                  ? t('Everyday')
-                  : (() => {
-                      const startDate = dayjs(queryResultEntity?.duration?.startDate, 'DD-MM-YYYY');
-                      const endDate = dayjs(queryResultEntity?.duration?.endDate, 'DD-MM-YYYY');
-                      const displayStartDate =
-                        startDate?.year() === endDate?.year()
-                          ? startDate.format('MMMM D')
-                          : startDate.format('MMMM D, YYYY');
+          {queryResultEntity?.duration && offersActive && (
+            <p className={cx(styles.listDurationOffer, 'globals-listDurationOffer')}>
+              {queryResultEntity?.duration?.alwaysActive
+                ? t('Everyday')
+                : (() => {
+                    const startDate = dayjs(queryResultEntity?.duration?.startDate, 'DD-MM-YYYY');
+                    const endDate = dayjs(queryResultEntity?.duration?.endDate, 'DD-MM-YYYY');
+                    const displayStartDate =
+                      startDate?.year() === endDate?.year()
+                        ? startDate.format('MMMM D')
+                        : startDate.format('MMMM D, YYYY');
 
-                      const displayEndDate = endDate.format('MMMM D, YYYY');
+                    const displayEndDate = endDate.format('MMMM D, YYYY');
 
-                      return `${displayStartDate} ${t('until')} ${displayEndDate}`;
-                    })()}
-              </p>
-            )}
+                    return `${displayStartDate} ${t('until')} ${displayEndDate}`;
+                  })()}
+            </p>
+          )}
           {queryResultEntity?.description && (
             <p className={cx(styles.listDescription, 'globals-text-align')}>
               {queryResultEntity?.description}

@@ -6,7 +6,7 @@ export const GET_YOUVERSE_CONFIG = gql`
     getyoonikconfig(body: $body, confirmationId: $confirmationId)
       @rest(
         type: "GetYoonikConfigPayload"
-          path: "/uat/initiatekyc/hotel/${HOTEL_ID}?confirmationId={args.confirmationId}"
+          path: "/initiatekyc/hotel/${HOTEL_ID}?confirmationId={args.confirmationId}"
           method: "POST"
           bodyKey: "body"
         ) {

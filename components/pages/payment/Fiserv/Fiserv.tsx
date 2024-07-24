@@ -81,7 +81,7 @@ export const Fiserv = () => {
               body: initiatePaymentPayload,
             },
             context: {
-              clientName: 'rest_v4',
+              clientName: 'rest_e',
               headers: { Authorization: 'Bearer ' + checkInToken },
             },
             fetchPolicy: 'network-only',

@@ -63,7 +63,7 @@ const Dining = () => {
     GET_RESTAURANT_DETAILS,
     {
       skip: !hotelId,
-      context: { clientName: 'host_v0' },
+      context: { clientName: 'property_a' },
       fetchPolicy: 'no-cache',
       variables: {
         lang: locale === 'en' ? '' : locale,
@@ -73,7 +73,7 @@ const Dining = () => {
   );
   const { data, loading: irdMenuLoading } = useQuery<IRDMenuApiResponse>(IRD_MENU, {
     skip: !hotelId,
-    context: { clientName: 'host_v2' },
+    context: { clientName: 'property_c' },
     variables: {
       hotelId: hotelId,
       restaurantId: '',

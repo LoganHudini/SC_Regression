@@ -100,7 +100,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
 
   const { data } = useQuery<IGetHamburgerMenuDetailsApiResponse>(GET_HAMBURGER_MENU, {
     skip: !hotelId,
-    context: { clientName: 'host_v4' },
+    context: { clientName: 'property_e' },
     fetchPolicy: 'no-cache',
     variables: {
       hotelId: hotelId,
@@ -195,7 +195,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
     try {
       const data = await client.mutate({
         mutation: GET_MESSAGEBOX_URL,
-        context: { clientName: 'integration_v7' },
+        context: { clientName: 'integration_h' },
         fetchPolicy: 'network-only',
         variables: {
           roomNo: isCheckedIn?.roomNumber,

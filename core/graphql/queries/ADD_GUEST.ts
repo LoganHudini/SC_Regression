@@ -53,7 +53,7 @@ query AddAccompanyDetails($confirmationNumber: String, $body: AddAccompanyDetail
   addAccompanyDetails(confirmationNumber: $confirmationNumber, body: $body)
     @rest(
       type: "AddAccompanyDetailsPayload"
-      path: "/uat/hotel/${HOTEL_ID}/booking/{args.confirmationNumber}/guest/add"
+      path: "/hotel/${HOTEL_ID}/booking/{args.confirmationNumber}/guest/add"
       method: "POST"
       bodyKey: "body"
     ) {

@@ -6,7 +6,7 @@ query UpdateBookingDetails($confirmationNumber: String, $body: UpdateBookingDeta
   updateBookingDetails(confirmationNumber: $confirmationNumber, body: $body)
     @rest(
       type: "UpdateBookingDetailsPayload"
-      path: "/uat/booking/hotel/${HOTEL_ID}/reservation/{args.confirmationNumber}"
+      path: "/booking/hotel/${HOTEL_ID}/reservation/{args.confirmationNumber}"
       method: "PUT"
       bodyKey: "body"
     ) {

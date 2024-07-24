@@ -139,7 +139,7 @@ const Preferences = () => {
 
   const { data, loading: feedbackLoading } = useQuery(GET_FEEDBACK, {
     skip: !hotelId,
-    context: { clientName: 'host_v4' },
+    context: { clientName: 'property_e' },
     fetchPolicy: 'no-cache',
     variables: {
       hotelId: hotelId,
@@ -151,7 +151,7 @@ const Preferences = () => {
     GET_HOTEL_INFORMATION,
     {
       skip: !hotelId,
-      context: { clientName: 'host_v0' },
+      context: { clientName: 'property_a' },
       fetchPolicy: 'no-cache',
       variables: {
         hotelId: hotelId,

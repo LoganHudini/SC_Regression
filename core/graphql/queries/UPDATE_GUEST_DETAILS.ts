@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { ENVIRONMENT, HOTEL_ID } from '../endpoints';
+import { HOTEL_ID } from '../endpoints';
 
 export interface IUpdateGuestDetailsApiRequest {
   reservationId: string;
@@ -56,7 +56,7 @@ query UpdateGuestDetails($confirmationNumber: String, $body: UpdateGuestDetailsP
   updateGuestDetails(confirmationNumber: $confirmationNumber, body: $body)
     @rest(
       type: "UpdateGuestDetailsPayload"
-      path: "/${ENVIRONMENT}/v5/booking/hotel/${HOTEL_ID}/bookings/{args.confirmationNumber}/document?confirmationId={args.confirmationNumber}"
+      path: "/v5/booking/hotel/${HOTEL_ID}/bookings/{args.confirmationNumber}/document?confirmationId={args.confirmationNumber}"
       method: "POST"
       bodyKey: "body"
     ) {

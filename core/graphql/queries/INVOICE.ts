@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { ENVIRONMENT, HOTEL_ID } from '../endpoints';
+import { HOTEL_ID } from '../endpoints';
 
 export interface IInvoiceApiResponse {
   invoice: {
@@ -35,11 +35,11 @@ export interface IInvoiceApiResponse {
 }
 
 export const INVOICE = gql`
-  query Invoice($confirmationNumber: String, $roomNumber: roomNumber) {
-    invoice(confirmationNumber: $confirmationNumber, roomNumber: $roomNumber)
+  query Invoice($reservationId: String, $roomNumber: roomNumber) {
+    invoice(reservationId: $reservationId, roomNumber: $roomNumber)
       @rest(
         type: "InvoicePayload"
-        path: "/${ENVIRONMENT}/invoice/booking/{args.confirmationNumber}/hotel/${HOTEL_ID}?roomNumber={args.roomNumber}"
+        path: "/invoice/booking/{args.reservationId}/hotel/${HOTEL_ID}?roomNumber={args.roomNumber}"
       ) {
       errors
       data

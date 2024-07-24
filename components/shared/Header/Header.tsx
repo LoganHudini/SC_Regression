@@ -56,7 +56,7 @@ export const Header: React.FC<IHeaderProps> = ({
 
   const { data: myOrders } = useQuery(GET_ORDERS, {
     skip: !hotelId || !checkinData?.reservationId,
-    context: { clientName: 'host_v3' },
+    context: { clientName: 'property_d' },
     variables: {
       hotelId: hotelId,
       bookingId: checkinData?.reservationId,

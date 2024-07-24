@@ -1747,9 +1747,9 @@ export const configuration = [
     chatOption: 'MESSAGE_BIRD',
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: [
-      'hotel-info',
-      'check-in',
       'offers',
+      'check-in',
+      'hotel-info',
       'services',
       'dining',
       'spa',

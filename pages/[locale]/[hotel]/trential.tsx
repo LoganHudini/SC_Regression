@@ -226,7 +226,7 @@ const Trential: React.FC = () => {
                 try {
                   await client.mutate({
                     mutation: STORE_RESERVATION,
-                    context: { clientName: 'integration_v5' },
+                    context: { clientName: 'integration_f' },
                     variables: {
                       profileId: reservationDataSelected?.id,
                       reservationId: confirmationId,

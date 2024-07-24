@@ -6,7 +6,7 @@ export const GET_YOUVERSE_RESPONSE = gql`
         getyoonikresponse(docId: $docId,  confirmationId: $confirmationId)
         @rest(
           type: "GetYoonikResponsePayload"
-          path: "/uat/kycdocstatus/{args.docId}/hotel/${HOTEL_ID}/info?confirmationId={args.confirmationId}"
+          path: "/kycdocstatus/{args.docId}/hotel/${HOTEL_ID}/info?confirmationId={args.confirmationId}"
           method: "GET"
         ) {
         errors

@@ -123,7 +123,7 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
       setspaBooking(true);
       analyticsEvent({
         action: 'spa_redirect',
-        category: spaInfoDetails?.__typename,
+        category: 'Spa',
         title: spaInfoDetails?.name,
       });
     }

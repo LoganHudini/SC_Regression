@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { ENVIRONMENT, HOTEL_ID } from '../endpoints';
+import { HOTEL_ID } from '../endpoints';
 
 export interface ICheckInApiRequest {
   reservationType: string;
@@ -55,7 +55,7 @@ query Checkin($confirmationNumber: String, $body: ICheckInApiRequest) {
     checkin(confirmationNumber: $confirmationNumber, body: $body)
     @rest(
       type: "CheckinPayload"
-      path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/bookings/{args.confirmationNumber}/checkin"
+      path: "/booking/hotel/${HOTEL_ID}/bookings/{args.confirmationNumber}/checkin"
       method: "POST"
       bodyKey: "body"
     ) {
@@ -71,7 +71,7 @@ query Precheckin($confirmationNumber: String, $body: ICheckInApiRequest) {
     precheckin(confirmationNumber: $confirmationNumber, body: $body)
     @rest(
       type: "PrecheckinPayload"
-      path: "/${ENVIRONMENT}/booking/hotel/${HOTEL_ID}/bookings/{args.confirmationNumber}/precheckin"
+      path: "/booking/hotel/${HOTEL_ID}/bookings/{args.confirmationNumber}/precheckin"
       method: "POST"
       bodyKey: "body"
     ) {

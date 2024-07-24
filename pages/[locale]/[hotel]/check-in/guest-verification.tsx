@@ -393,10 +393,10 @@ const Guest: React.FC<any> = () => {
         },
       };
 
-      const updatePrimaryGuest = () => {
+      const updatePrimaryGuest = async () => {
         const checkInToken = getCheckInToken();
         try {
-          client.query({
+          await client.query({
             query: UPDATE_GUEST_DETAILS,
             context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
             variables: {
@@ -447,10 +447,10 @@ const Guest: React.FC<any> = () => {
             },
           };
 
-          const updateAccompanyGuests = () => {
+          const updateAccompanyGuests = async () => {
             const checkInToken = getCheckInToken();
             try {
-              client.query({
+              await client.query({
                 query: UPDATE_GUEST_DETAILS,
                 context: {
                   clientName: 'rest',

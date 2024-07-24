@@ -49,6 +49,11 @@ import { IRD_ORDER_TRANSACTION_POS } from 'core/graphql/queries/IRD_ORDER_TRANSA
 import EditIcon from '@icons/commonEditIcon.svg';
 import { useCurrency } from 'utils/hooks/useCurrency';
 import { checkoutTrip } from 'storage/trips.storage';
+import {
+  getInHouseToken,
+  handleinHouseAuthenticationFailure,
+} from 'core/api/functions/getInHouseAuthentication';
+import { processStatusCode } from 'utils/processError';
 
 export { getStaticPaths };
 
@@ -246,19 +251,23 @@ const DiningOrderSummary = () => {
       if (irdOrderType?.type === CMS) {
         response = await client.mutate({
           mutation: IRD_ORDER,
-          context: { clientName: 'host_v3' },
+          context: { clientName: 'property_d' },
           fetchPolicy: 'network-only',
           variables: irdOrderPayload,
         });
       } else if (irdOrderType?.type === VENDOR) {
         response = await client.mutate({
           mutation: IRD_ORDER_TRANSACTION_POS,
-          context: { clientName: 'integration_v1' },
+          context: {
+            clientName: 'integration_b',
+            headers: {
+              Authorization: 'Bearer ' + getInHouseToken(),
+            },
+          },
           fetchPolicy: 'network-only',
           variables: irdOrderPOSPayload,
         });
       }
-
       // irdOrderEvent(response?.data?.createOrder, currency);
       setTimeout(() => {
         diningMenuStorage({ items: [] });
@@ -272,27 +281,35 @@ const DiningOrderSummary = () => {
       toggleNotification(true);
     } catch (getUpdatedReservationError) {
       const networkError = getUpdatedReservationError as ApolloError;
+      const statusCode = processStatusCode(networkError);
+
       const FailureCheck1 =
         networkError?.message === FAILED_TO_FETCH_BOOKING_DETAILS ? true : false;
       const FailureCheck2 = networkError?.message === INVALID_BOOKING_STATUS ? true : false;
-      setErrorNotification({
-        title: FailureCheck1 || FailureCheck2 ? t('Invalid Reservation') : t(ERRORMSG),
-        type: FAILURE,
-        description:
-          FailureCheck1 || FailureCheck2
-            ? t('Reservation status is invalid. Please try again with a valid reservation details')
-            : t('Your order was not confirmed.'),
-        redirect: FailureCheck1 || FailureCheck2 ? availablePaths.HOME : null,
-      });
-      if (FailureCheck1 || FailureCheck2) {
-        checkoutTrip();
+
+      if (statusCode === 403) {
+        handleinHouseAuthenticationFailure(handleOrder);
+      } else {
+        setErrorNotification({
+          title: FailureCheck1 || FailureCheck2 ? t('Invalid Reservation') : t(ERRORMSG),
+          type: FAILURE,
+          description:
+            FailureCheck1 || FailureCheck2
+              ? t(
+                  'Reservation status is invalid. Please try again with a valid reservation details',
+                )
+              : t('Your order was not confirmed.'),
+          redirect: FailureCheck1 || FailureCheck2 ? availablePaths.HOME : null,
+        });
+        if (FailureCheck1 || FailureCheck2) {
+          checkoutTrip();
+        }
       }
     }
     setLoading(false);
   }, [
     t,
     checkinData,
-    currency,
     diningData.items,
     guestNumber,
     hotelId,

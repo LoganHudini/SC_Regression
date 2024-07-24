@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { ENVIRONMENT, HOTEL_ID } from '../endpoints';
+import { HOTEL_ID } from '../endpoints';
 
 export interface IInvoiceApiResponse {
   invoice: {
@@ -45,7 +45,7 @@ export const EMAIL_INVOICE = gql`
     invoice(confirmationNumber: $confirmationNumber, body: $body)
       @rest(
         type: "EmailInvoicePayload"
-        path: "/${ENVIRONMENT}/v2/email/hotel/${HOTEL_ID}/invoice"
+        path: "/v2/email/hotel/${HOTEL_ID}/invoice"
         method: "POST"
         bodyKey: "body"
       ) {

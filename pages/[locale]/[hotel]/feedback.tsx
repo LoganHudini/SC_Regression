@@ -50,7 +50,7 @@ const Feedback = () => {
     GET_HOTEL_INFORMATION,
     {
       skip: !hotelId,
-      context: { clientName: 'host_v0' },
+      context: { clientName: 'property_a' },
       fetchPolicy: 'no-cache',
       variables: {
         hotelId: hotelId,
@@ -61,7 +61,7 @@ const Feedback = () => {
 
   const { data, loading: feedbackLoading } = useQuery(GET_FEEDBACK, {
     skip: !hotelId,
-    context: { clientName: 'host_v4' },
+    context: { clientName: 'property_e' },
     fetchPolicy: 'no-cache',
     variables: {
       hotelId: hotelId,
@@ -101,7 +101,7 @@ const Feedback = () => {
       setLoading(true);
       await client.mutate({
         mutation: PostFeedback,
-        context: { clientName: 'rest_v3' },
+        context: { clientName: 'rest_d' },
         variables: {
           body: feedbackPayload,
         },

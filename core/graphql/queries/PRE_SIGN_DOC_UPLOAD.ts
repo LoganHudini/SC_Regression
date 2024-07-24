@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { ENVIRONMENT, HOTEL_ID } from '../endpoints';
+import { HOTEL_ID } from '../endpoints';
 
 export interface IPreSignDocUploadApiRequest {
   groupId: string;
@@ -37,7 +37,7 @@ query InitiatePayment( $body: IInitiatePaymentApiRequest, $confirmationNumber: S
     preSignDocUpload(body: $body, confirmationNumber: $confirmationNumber)
     @rest(
       type: "PreSignDocUploadPayload"
-      path: "/${ENVIRONMENT}/hotels/${HOTEL_ID}/reservations/{args.confirmationNumber}/pre-sign-doc-upload"
+      path: "/hotels/${HOTEL_ID}/reservations/{args.confirmationNumber}/pre-sign-doc-upload"
       method: "POST"
       bodyKey: "body"
     ) {

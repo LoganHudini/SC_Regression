@@ -95,7 +95,7 @@ const FreedomPay: React.FC = () => {
         try {
           const { data: paymentStatusData } = await client.query<IGetPaymentStatusApiResponse>({
             query: GET_FREEDOMPAY_STATUS,
-            context: { clientName: 'rest_v3' },
+            context: { clientName: 'rest_d' },
             fetchPolicy: 'network-only',
             variables: {
               body: {

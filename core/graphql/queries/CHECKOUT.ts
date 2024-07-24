@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { ENVIRONMENT, HOTEL_ID } from '../endpoints';
+import { HOTEL_ID } from '../endpoints';
 
 export interface ICheckoutApiRequest {
   reservationType: string;
@@ -13,7 +13,7 @@ query Checkout($body: ICheckoutApiRequest, $roomNumber: roomNumber) {
     checkout(body: $body, roomNumber: $roomNumber)
     @rest(
       type: "CheckoutPayload"
-      path: "/${ENVIRONMENT}/hotel/${HOTEL_ID}/booking/checkout?roomNumber={args.roomNumber}"
+      path: "/hotel/${HOTEL_ID}/booking/checkout?roomNumber={args.roomNumber}"
       method: "POST"
       bodyKey: "body"
     ) {

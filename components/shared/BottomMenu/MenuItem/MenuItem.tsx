@@ -16,6 +16,7 @@ import {
   toggleDetailsDrawer,
   toggleNotification,
   toggleMessageBirdChat,
+  toggleCheckInDetailsDrawer,
 } from 'storage/home.storage';
 import cx from 'classnames';
 import {
@@ -40,7 +41,7 @@ import { useTranslation } from 'react-i18next';
 import HotelInfoDrawer from 'components/pages/home/HotelInformation/HotelInfoDrawer/HotelInfoDrawer';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { availablePaths } from 'utils/availablePaths';
-import { useCheckedIn } from 'storage/check-in.storage';
+import { activeCheckOutFlow, useCheckedIn } from 'storage/check-in.storage';
 import { ReactSVG } from 'react-svg';
 import { isFunction } from 'lodash';
 import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
@@ -52,6 +53,7 @@ import { checkoutTrip } from 'storage/trips.storage';
 import { setHighLightCheckOut } from 'storage/menu-item';
 import { LanguageDrawer } from '../LanguageDrawer/LanguageDrawer';
 import { messageBoxURL } from 'storage/chats';
+import { getCheckInTokenSession } from 'core/api/functions/getCheckInAuthentication';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
   title,
@@ -219,6 +221,21 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
     closeDrawer();
   };
 
+  const handleStaySummary = () => {
+    const checkinToken = getCheckInTokenSession();
+
+    if (pairToRoomModule && checkinToken === '') {
+      toggleCheckInDetailsDrawer(true);
+      activeCheckOutFlow(true);
+      setHighLightCheckOut(true);
+      closeDrawer();
+    } else {
+      setHighLightCheckOut(true);
+      navigate(availablePaths.BILL);
+      closeDrawer();
+    }
+  };
+
   const modulesOptionsRender = () => {
     return (
       <div className={styles.wrapper}>
@@ -266,11 +283,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                       className={cx(styles.inActiveDiningText, {
                         [styles.activeText]: highLightCheckOut,
                       })}
-                      onClick={() => {
-                        setHighLightCheckOut(true);
-                        navigate(availablePaths.BILL);
-                        closeDrawer();
-                      }}
+                      onClick={() => handleStaySummary()}
                     >
                       {t('Stay Summary')}
                     </p>

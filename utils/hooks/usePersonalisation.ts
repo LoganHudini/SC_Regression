@@ -45,6 +45,7 @@ export const usePersonalisation = () => {
           endDate: endDate,
           confirmationId: reservationInfo?.confirmationId,
         },
+        skip: !reservationData?.getReservation?.data,
       },
     );
 

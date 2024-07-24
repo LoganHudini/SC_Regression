@@ -2,40 +2,53 @@ import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from '@apollo/clien
 import { RetryLink } from '@apollo/client/link/retry';
 import { RestLink } from 'apollo-link-rest';
 import {
-  HOST_V2,
-  API_KEY_V2,
+  PROPERTY_C,
+  API_KEY_PROPERTY_C,
   REST_API_URL,
-  REST_V4_API_URL,
-  API_KEY_V0,
-  HOST_V0,
-  API_KEY_V1,
-  HOST_V1,
-  API_KEY_V3,
-  HOST_V3,
-  HOST_MESSAGES,
-  API_KEY_MESSAGES,
-  HOST_V4,
-  API_KEY_V4,
-  API_KEY_HOUSEKEEPING_ORDER,
-  HOST_HOUSEKEEPING_ORDER,
-  INTEGRATION_API_KEY_V1,
-  INTEGRATION_HOST_V1,
+  REST_E_API_URL,
+  API_KEY_PROPERTY_A,
+  PROPERTY_A,
+  API_KEY_PROPERTY_B,
+  PROPERTY_B,
+  API_KEY_PROPERTY_D,
+  PROPERTY_D,
+  INTEGRATION_D,
+  INTEGRATION_API_KEY_PROPERTY_D,
+  PROPERTY_E,
+  API_KEY_PROPERTY_E,
+  INTEGRATION_API_KEY_PROPERTY_B,
+  INTEGRATION_B,
   ONPREM_API_URL,
-  HOST_V5,
-  API_KEY_V5,
-  API_KEY_V6,
-  HOST_V6,
-  X_API_TOKEN_V3,
-  X_API_GROUP_V3,
+  INTEGRATION_C,
+  INTEGRATION_API_KEY_PROPERTY_C,
+  INTEGRATION_API_KEY_PROPERTY_A,
+  INTEGRATION_A,
+  X_API_TOKEN_D,
+  X_API_GROUP_D,
   X_API_TOKEN,
   X_API_GROUP,
-  INTEGRATION_API_KEY_V5,
-  INTEGRATION_HOST_V5,
-  INTEGRATION_HOST_V7,
-  INTEGRATION_API_KEY_V7,
-  INTEGRATION_HOST_V6,
-  INTEGRATION_API_KEY_V6,
+  INTEGRATION_API_KEY_F,
+  INTEGRATION_F,
+  INTEGRATION_H,
+  INTEGRATION_API_KEY_H,
+  INTEGRATION_G,
+  INTEGRATION_API_KEY_G,
 } from './endpoints';
+import { visit } from 'graphql';
+
+const removeTypenameLink = new ApolloLink((operation, forward) => {
+  const modifiedQuery = visit(operation.query, {
+    Field: {
+      enter(node: any) {
+        if (node.name.value.startsWith('__')) {
+          return null;
+        }
+      },
+    },
+  });
+  operation.query = modifiedQuery;
+  return forward(operation);
+});
 
 const retryLink = new RetryLink({
   delay: {
@@ -50,60 +63,98 @@ const retryLink = new RetryLink({
   },
 });
 
-const messagesLink = new HttpLink({
-  uri: HOST_MESSAGES as string,
+const propertyALink = new HttpLink({
+  uri: PROPERTY_A as string,
   headers: {
-    ['x-api-key']: API_KEY_MESSAGES as string,
+    ['x-api-key']: API_KEY_PROPERTY_A as string,
     ['Content-Type']: 'application/json',
   },
 });
-const hostV0Link = new HttpLink({
-  uri: HOST_V0 as string,
+
+const propertyBLink = new HttpLink({
+  uri: PROPERTY_B as string,
   headers: {
-    ['x-api-key']: API_KEY_V0 as string,
+    ['x-api-key']: API_KEY_PROPERTY_B as string,
     ['Content-Type']: 'application/json',
   },
 });
-const hostV1Link = new HttpLink({
-  uri: HOST_V1 as string,
+
+const propertyCLink = new HttpLink({
+  uri: PROPERTY_C as string,
   headers: {
-    ['x-api-key']: API_KEY_V1 as string,
+    ['x-api-key']: API_KEY_PROPERTY_C as string,
     ['Content-Type']: 'application/json',
   },
 });
-const hostV2Link = new HttpLink({
-  uri: HOST_V2 as string,
+
+const propertyDLink = new HttpLink({
+  uri: PROPERTY_D as string,
   headers: {
-    ['x-api-key']: API_KEY_V2 as string,
+    ['x-api-key']: API_KEY_PROPERTY_D as string,
     ['Content-Type']: 'application/json',
   },
 });
-const hostV3Link = new HttpLink({
-  uri: HOST_V3 as string,
+
+const propertyELink = new HttpLink({
+  uri: PROPERTY_E as string,
   headers: {
-    ['x-api-key']: API_KEY_V3 as string,
+    ['x-api-key']: API_KEY_PROPERTY_E as string,
     ['Content-Type']: 'application/json',
   },
 });
-const hostV5Link = new HttpLink({
-  uri: HOST_V5 as string,
+
+const integrationCLink = new HttpLink({
+  uri: INTEGRATION_C as string,
   headers: {
-    ['x-api-key']: API_KEY_V5 as string,
+    ['x-api-key']: INTEGRATION_API_KEY_PROPERTY_C as string,
     ['Content-Type']: 'application/json',
   },
 });
-const hostv4Link = new HttpLink({
-  uri: HOST_V4 as string,
+
+const integrationALink = new HttpLink({
+  uri: INTEGRATION_A as string,
   headers: {
-    ['x-api-key']: API_KEY_V4 as string,
+    ['x-api-key']: INTEGRATION_API_KEY_PROPERTY_A as string,
     ['Content-Type']: 'application/json',
   },
 });
-const housekeepingLink = new HttpLink({
-  uri: HOST_HOUSEKEEPING_ORDER as string,
+
+const integrationBLink = new HttpLink({
+  uri: INTEGRATION_B as string,
   headers: {
-    ['x-api-key']: API_KEY_HOUSEKEEPING_ORDER as string,
+    ['x-api-key']: INTEGRATION_API_KEY_PROPERTY_B as string,
     ['Content-Type']: 'application/json',
+  },
+});
+
+const integrationDLink = new HttpLink({
+  uri: INTEGRATION_D as string,
+  headers: {
+    ['x-api-key']: INTEGRATION_API_KEY_PROPERTY_D as string,
+    ['Content-Type']: 'application/json',
+  },
+});
+
+const integrationFLink = new HttpLink({
+  uri: INTEGRATION_F as string,
+  headers: {
+    ['x-api-key']: INTEGRATION_API_KEY_F as string,
+    ['Content-Type']: 'application/json',
+  },
+});
+
+const integrationGLink = new HttpLink({
+  uri: INTEGRATION_G as string,
+  headers: {
+    ['x-api-key']: INTEGRATION_API_KEY_G as string,
+    ['Content-Type']: 'application/json',
+  },
+});
+
+const integrationHLink = new HttpLink({
+  uri: INTEGRATION_H as string,
+  headers: {
+    ['x-api-key']: INTEGRATION_API_KEY_H as string,
   },
 });
 
@@ -116,57 +167,18 @@ const restLink = new RestLink({
   },
 });
 
-const restv4Link = new RestLink({
-  uri: REST_V4_API_URL,
-  headers: {
-    ['Content-Type']: 'application/json',
-  },
-});
-
-const restv3Link = new RestLink({
+const restDLink = new RestLink({
   uri: REST_API_URL,
   headers: {
-    ['x-api-token']: X_API_TOKEN_V3 as string,
-    ['x-api-group']: X_API_GROUP_V3 as string,
+    ['x-api-token']: X_API_TOKEN_D as string,
+    ['x-api-group']: X_API_GROUP_D as string,
     ['Content-Type']: 'application/json',
   },
 });
 
-const integrationv1Link = new HttpLink({
-  uri: INTEGRATION_HOST_V1 as string,
+const restELink = new RestLink({
+  uri: REST_E_API_URL,
   headers: {
-    ['x-api-key']: INTEGRATION_API_KEY_V1 as string,
-    ['Content-Type']: 'application/json',
-  },
-});
-
-const hostV6Link = new HttpLink({
-  uri: HOST_V6 as string,
-  headers: {
-    ['x-api-key']: API_KEY_V6 as string,
-    ['Content-Type']: 'application/json',
-  },
-});
-
-const integrationV5Link = new HttpLink({
-  uri: INTEGRATION_HOST_V5 as string,
-  headers: {
-    ['x-api-key']: INTEGRATION_API_KEY_V5 as string,
-    ['Content-Type']: 'application/json',
-  },
-});
-
-const integrationV7Link = new HttpLink({
-  uri: INTEGRATION_HOST_V7 as string,
-  headers: {
-    ['x-api-key']: INTEGRATION_API_KEY_V7 as string,
-  },
-});
-
-const integrationV6Link = new HttpLink({
-  uri: INTEGRATION_HOST_V6 as string,
-  headers: {
-    ['x-api-key']: INTEGRATION_API_KEY_V6 as string,
     ['Content-Type']: 'application/json',
   },
 });
@@ -177,57 +189,56 @@ const onPremLink = new RestLink({
 
 export const client = new ApolloClient({
   link: ApolloLink.from([
+    removeTypenameLink,
     retryLink,
     ApolloLink.split(
-      (operation) => operation.getContext().clientName === 'rest',
-      restLink,
+      (operation) => operation.getContext().clientName === 'property_a',
+      propertyALink,
       ApolloLink.split(
-        (operation) => operation.getContext().clientName === 'rest_v4',
-        restv4Link,
+        (operation) => operation.getContext().clientName === 'property_b',
+        propertyBLink,
         ApolloLink.split(
-          (operation) => operation.getContext().clientName === 'host_v0',
-          hostV0Link,
+          (operation) => operation.getContext().clientName === 'property_c',
+          propertyCLink,
           ApolloLink.split(
-            (operation) => operation.getContext().clientName === 'host_v1',
-            hostV1Link,
+            (operation) => operation.getContext().clientName === 'property_d',
+            propertyDLink,
             ApolloLink.split(
-              (operation) => operation.getContext().clientName === 'host_v3',
-              hostV3Link,
+              (operation) => operation.getContext().clientName === 'property_e',
+              propertyELink,
               ApolloLink.split(
-                (operation) => operation.getContext().clientName === 'host_v5',
-                hostV5Link,
+                (operation) => operation.getContext().clientName === 'integration_a',
+                integrationALink,
                 ApolloLink.split(
-                  (operation) => operation.getContext().clientName === 'messages',
-                  messagesLink,
+                  (operation) => operation.getContext().clientName === 'integration_b',
+                  integrationBLink,
                   ApolloLink.split(
-                    (operation) => operation.getContext().clientName === 'host_v4',
-                    hostv4Link,
+                    (operation) => operation.getContext().clientName === 'integration_c',
+                    integrationCLink,
                     ApolloLink.split(
-                      (operation) => operation.getContext().clientName === 'integration_v1',
-                      integrationv1Link,
+                      (operation) => operation.getContext().clientName === 'integration_d',
+                      integrationDLink,
                       ApolloLink.split(
-                        (operation) => operation.getContext().clientName === 'onprem',
-                        onPremLink,
+                        (operation) => operation.getContext().clientName === 'integration_f',
+                        integrationFLink,
                         ApolloLink.split(
-                          (operation) => operation.getContext().clientName === 'integration_v5',
-                          integrationV5Link,
+                          (operation) => operation.getContext().clientName === 'integration_g',
+                          integrationGLink,
                           ApolloLink.split(
-                            (operation) => operation.getContext().clientName === 'integration_v7',
-                            integrationV7Link,
+                            (operation) => operation.getContext().clientName === 'integration_h',
+                            integrationHLink,
                             ApolloLink.split(
-                              (operation) => operation.getContext().clientName === 'integration_v6',
-                              integrationV6Link,
+                              (operation) => operation.getContext().clientName === 'rest',
+                              restLink,
                               ApolloLink.split(
-                                (operation) => operation.getContext().clientName === 'host_v6',
-                                hostV6Link,
+                                (operation) => operation.getContext().clientName === 'rest_d',
+                                restDLink,
                                 ApolloLink.split(
-                                  (operation) => operation.getContext().clientName === 'rest_v3',
-                                  restv3Link,
+                                  (operation) => operation.getContext().clientName === 'rest_e',
+                                  restELink,
                                   ApolloLink.split(
-                                    (operation) =>
-                                      operation.getContext().clientName === 'housekeeping',
-                                    housekeepingLink,
-                                    hostV2Link,
+                                    (operation) => operation.getContext().clientName === 'onprem',
+                                    onPremLink,
                                   ),
                                 ),
                               ),

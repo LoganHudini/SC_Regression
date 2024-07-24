@@ -54,7 +54,7 @@ const Home: NextPage = () => {
     GET_HOTEL_INFORMATION,
     {
       skip: !hotelId,
-      context: { clientName: 'host_v0' },
+      context: { clientName: 'property_a' },
       fetchPolicy: 'no-cache',
       variables: {
         hotelId: hotelId,
@@ -66,7 +66,7 @@ const Home: NextPage = () => {
   const { data: serviceCarouselDetails, loading: serviceCarouselLoading } =
     useQuery<IGetHousekeepingApiResponse>(GET_HOUSEKEEPING, {
       skip: !hotelId,
-      context: { clientName: 'host_v1' },
+      context: { clientName: 'property_b' },
       variables: {
         lang: locale === 'en' ? '' : locale,
         hotelId: hotelId,
@@ -75,7 +75,7 @@ const Home: NextPage = () => {
 
   const { data: irdMenu, loading: irdloading } = useQuery<IRDMenuApiResponse>(IRD_MENU, {
     skip: !hotelId,
-    context: { clientName: 'host_v2' },
+    context: { clientName: 'property_c' },
     variables: {
       hotelId: hotelId,
       restaurantId: '',
@@ -87,7 +87,7 @@ const Home: NextPage = () => {
   const { data: restaurantList, loading: restaurantloading } =
     useQuery<IGetRestaurantDetailsResponse>(GET_RESTAURANT_DETAILS, {
       skip: !hotelId,
-      context: { clientName: 'host_v0' },
+      context: { clientName: 'property_a' },
       fetchPolicy: 'no-cache',
       variables: {
         lang: locale === 'en' ? '' : locale,
@@ -97,7 +97,7 @@ const Home: NextPage = () => {
 
   const { data: spaList, loading: spaloading } = useQuery(GET_SPA_DETAILS, {
     skip: !hotelId,
-    context: { clientName: 'host_v0' },
+    context: { clientName: 'property_a' },
     fetchPolicy: 'no-cache',
     variables: {
       lang: locale === 'en' ? '' : locale,
@@ -109,7 +109,7 @@ const Home: NextPage = () => {
     GET_HOTEL_COMPENDIUM,
     {
       skip: !hotelId,
-      context: { clientName: 'host_v0' },
+      context: { clientName: 'property_a' },
       fetchPolicy: 'no-cache',
       variables: {
         lang: locale === 'en' ? '' : locale,
@@ -120,7 +120,7 @@ const Home: NextPage = () => {
 
   const { data: offersList, loading: offersListLoading } = useQuery(GET_OFFERS, {
     skip: !hotelId,
-    context: { clientName: 'host_v2' },
+    context: { clientName: 'property_c' },
     variables: {
       hotelId: hotelId,
       lang: locale === 'en' ? '' : locale,
