@@ -15,6 +15,7 @@ import { OFFERS, EXTERNAL_URL_CAPS, FLOW, ACTIVE } from 'utils/constants';
 import { flowPathMap } from 'utils/flowPathMap';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
+import { PhoneEmail } from 'components/shared/PhoneEmail/PhoneEmail';
 
 interface IHomeCarouselProps {
   data: any;
@@ -92,6 +93,12 @@ const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
                 {carouselItem?.duration?.alwaysActive ? t('Everyday') : timeDisplayed}
               </p>
             </>
+          )}
+          {(carouselItem?.contact?.phoneNumber || carouselItem?.contact?.email) && (
+            <PhoneEmail
+              phone={carouselItem?.contact?.phoneNumber as string}
+              email={carouselItem?.contact?.email as string}
+            />
           )}
         </div>
       </div>
