@@ -147,12 +147,15 @@
 
 .listComponentDataText {
   line-height: 1.25;
-  white-space: pre-wrap;
   text-align: left;
   font-family: var(--primary-font-regular) !important;
   font-size: $small !important;
   color: var(--tertiary-text-color) !important;
   display: flex;
+}
+
+.daysLabel {
+  padding-right: 4px;
 }
 
 .button {
@@ -168,4 +171,10 @@
   position: relative;
   margin-bottom: 15px;
   margin-top: 25px;
+}
+
+.day + .day::before {
+  display: inline-block;
+  white-space: pre;
+  content: ', ';
 }

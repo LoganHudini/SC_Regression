@@ -112,6 +112,19 @@ export const offerDetails = (
                 ? t('Everyday')
                 : timeDisplayed(offerInfoDetails, t)}
             </p>
+            {offerInfoDetails?.duration?.timings?.length &&
+              offerInfoDetails?.duration?.timings?.length < 7 && (
+                <div className={styles.listComponentDataText}>
+                  <span className={styles.daysLabel}>{t('Days: ')}</span>
+                  <span className={styles.days}>
+                    {offerInfoDetails?.duration?.timings?.map((days: any, index: number) => (
+                      <span className={styles.day} key={index}>
+                        {days?.day?.charAt(0)?.toUpperCase() + days?.day?.slice(1)?.toLowerCase()}
+                      </span>
+                    ))}
+                  </span>
+                </div>
+              )}
           </>
         )}
         {(offerInfoDetails?.contact?.phoneNumber || offerInfoDetails?.contact?.email) && (

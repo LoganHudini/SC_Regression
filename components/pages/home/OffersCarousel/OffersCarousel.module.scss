@@ -15,6 +15,16 @@
   margin-inline-start: 12px;
 }
 
+.daysLabel {
+  padding-right: 4px;
+}
+
+.day + .day::before {
+  display: inline-block;
+  white-space: pre;
+  content: ', ';
+}
+
 .carouselWrapperSingleImage {
   justify-content: center;
   width: 100% !important;

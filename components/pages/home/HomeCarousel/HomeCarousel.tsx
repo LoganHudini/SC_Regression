@@ -92,6 +92,19 @@ const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
               <p className={styles.listComponentDataText}>
                 {carouselItem?.duration?.alwaysActive ? t('Everyday') : timeDisplayed}
               </p>
+              {carouselItem?.duration?.timings?.length &&
+                carouselItem?.duration?.timings?.length < 7 && (
+                  <div className={styles.listComponentDataText}>
+                    <span className={styles.daysLabel}>{t('Days: ')}</span>
+                    <span className={styles.days}>
+                      {carouselItem?.duration?.timings?.map((days: any, index: number) => (
+                        <span className={styles.day} key={index}>
+                          {days?.day?.charAt(0)?.toUpperCase() + days?.day?.slice(1)?.toLowerCase()}
+                        </span>
+                      ))}
+                    </span>
+                  </div>
+                )}
             </>
           )}
           {(carouselItem?.contact?.phoneNumber || carouselItem?.contact?.email) && (
