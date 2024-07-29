@@ -59,7 +59,6 @@ const Preferences = () => {
   const resId = router?.query?.resId ?? '';
   const lastName = router?.query?.lastName ?? '';
   const [notificationState, setNotificationState] = useState<any>(false);
-
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
   });
@@ -124,13 +123,19 @@ const Preferences = () => {
     }
 
     const timeoutId = setTimeout(() => {
-      if (!lastName && !resId) {
-        navigate(availablePaths.HOME);
+      if (!lastName || !resId) {
+        setNotificationState({
+          title: t('Reservation Not Found'),
+          redirect: availablePaths?.HOME,
+          type: FAILURE,
+        });
+        toggleNotification(true);
       }
     }, 2000);
 
     return () => clearTimeout(timeoutId);
-  }, [lastName, resId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lastName, resId, t]);
 
   const homeModule: any = config?.modules?.find((module: any) => module?.code === PREFERENCES);
   const imageDetails = homeModule?.submodules?.find(

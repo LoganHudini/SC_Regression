@@ -5,7 +5,7 @@ import {
 } from 'core/api/functions/getCheckInAuthentication';
 import { client } from 'core/graphql/client';
 import { GET_RESERVATION, GET_RESERVATION_STATUS } from 'core/graphql/queries/GET_RESERVATION';
-import { checkinStorage, ICheckinStorageData } from 'storage/check-in.storage';
+import { activeCheckOutFlow, checkinStorage, ICheckinStorageData } from 'storage/check-in.storage';
 import { toggleCheckInDetailsDrawer, toggleNotification } from 'storage/home.storage';
 import { saveTrip } from 'storage/trips.storage';
 import { availablePaths } from './availablePaths';
@@ -276,5 +276,6 @@ export const handleCheckInToken = async ({
     toggleNotification(true);
     toggleCheckInDetailsDrawer(false);
   }
+  activeCheckOutFlow(false);
   setLoading(false);
 };

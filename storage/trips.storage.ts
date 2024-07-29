@@ -31,6 +31,7 @@ export const checkoutTrip = () => {
     roomNumber: '',
     invoiceId: '',
   });
+  sessionStorage.clear();
 };
 
 export const getTrips = (): ISavedTrip => {

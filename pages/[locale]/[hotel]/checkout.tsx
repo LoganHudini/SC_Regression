@@ -25,7 +25,7 @@ import { Notification } from 'components/shared/Notification/Notification';
 import { availablePaths } from 'utils/availablePaths';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { useConfig } from 'utils/hooks/useConfiguration';
-import { FAILURE, INHOUSE, SUCCESS } from 'utils/constants';
+import { FAILURE, INHOUSE, INVALID_DATE, SUCCESS } from 'utils/constants';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import {
   getCheckInToken,
@@ -184,27 +184,30 @@ const CheckOut = () => {
 
   const handleMail = async () => {
     setEmailLoader(true);
+    const validateCheckInCheckOutDate = (date: string, time: string) =>
+      dayjs(`${date?.split('T')[0]}${time?.split('.')[0]}`)?.format('HH:mm') !== INVALID_DATE
+        ? date?.split('T')[0] +
+          ' ' +
+          dayjs(`${date?.split('T')[0]}${time?.split('.')[0]}`)?.format('HH:mm')
+        : `${date?.split('T')[0]} ${dayjs(time)?.format('HH:mm')}`;
+
     const emailInvoicePayload = {
       registeredGuest:
         reservationInfo &&
         `${reservationInfo?.guests[0]?.firstName} ${reservationInfo?.guests[0]?.lastName}`,
       email: checkedInData?.email,
       checkInDate:
-        reservationInfo?.details?.checkInDate?.split('T')[0] +
-        ' ' +
-        dayjs(
-          `${reservationInfo?.details?.checkInDate?.split('T')[0]}${
-            reservationInfo?.details?.contactPerson?.eta?.split('.')[0]
-          }`,
-        )?.format('HH:mm'),
+        reservationInfo &&
+        validateCheckInCheckOutDate(
+          reservationInfo?.details?.checkInDate,
+          reservationInfo?.details?.contactPerson?.eta,
+        ),
       checkOutDate:
-        reservationInfo?.details?.checkOutDate?.split('T')[0] +
-        ' ' +
-        dayjs(
-          `${reservationInfo?.details?.checkOutDate?.split('T')[0]}${
-            reservationInfo?.details?.contactPerson?.etd?.split('.')[0]
-          }`,
-        )?.format('HH:mm'),
+        reservationInfo &&
+        validateCheckInCheckOutDate(
+          reservationInfo?.details?.checkOutDate,
+          reservationInfo?.details?.contactPerson?.etd,
+        ),
       totalBillAmount: `${currency} ${invoiceData?.invoice?.data?.totalBillAmount}`,
       billItems: invoiceElements,
       totalDueAmount: `${currency} ${invoiceData?.invoice?.data?.currentBalance}`,
