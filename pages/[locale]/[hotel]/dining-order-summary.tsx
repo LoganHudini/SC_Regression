@@ -256,7 +256,7 @@ const DiningOrderSummary = () => {
           variables: irdOrderPayload,
         });
       } else if (irdOrderType?.type === VENDOR) {
-        response = await client.mutate({
+        await client.mutate({
           mutation: IRD_ORDER_TRANSACTION_POS,
           context: {
             clientName: 'integration_b',
@@ -301,6 +301,7 @@ const DiningOrderSummary = () => {
               : t('Your order was not confirmed.'),
           redirect: FailureCheck1 || FailureCheck2 ? availablePaths.HOME : null,
         });
+        toggleNotification(true);
         if (FailureCheck1 || FailureCheck2) {
           checkoutTrip();
         }
