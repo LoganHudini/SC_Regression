@@ -72,6 +72,7 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
   const navigate = useLocalizedRouter();
   const { t } = useTranslation(['common']);
   const config = useConfig();
+  const isCheckedIn = useCheckedIn();
   const [externalURL, setExternalURL] = useState<boolean>(false);
   const [openLanguage, setOpenLanguage] = useState<boolean>(false);
   const pairToRoomModule: boolean = activeModule(config?.modules, PAIR_TO_ROOM);
@@ -95,7 +96,11 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
       const redirectUrl = flowPathMap[flow as keyof typeof flowPathMap];
       if (redirectUrl) {
         const checkinToken = getCheckInTokenSession();
-        if (flow === VIEW_BILL_CHECKOUT_FLOW && pairToRoomModule && checkinToken === '') {
+        if (
+          flow === VIEW_BILL_CHECKOUT_FLOW &&
+          pairToRoomModule &&
+          !(checkinToken || isCheckedIn?.reservationId)
+        ) {
           toggleCheckInDetailsDrawer(true);
           activeCheckOutFlow(true);
           toggleOption();
@@ -132,6 +137,7 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
     chatURL,
     config?.chatOption,
     flow,
+    isCheckedIn?.reservationId,
     navigate,
     pages,
     pairToRoomModule,
@@ -245,7 +251,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
 
   const handleStaySummary = () => {
     const checkinToken = getCheckInTokenSession();
-    if (pairToRoomModule && checkinToken === '') {
+    if (pairToRoomModule && !(checkinToken || isCheckedIn?.reservationId)) {
       toggleCheckInDetailsDrawer(true);
       activeCheckOutFlow(true);
       setHighLightCheckOut(true);

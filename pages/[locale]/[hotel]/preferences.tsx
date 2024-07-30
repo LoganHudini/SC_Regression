@@ -43,6 +43,8 @@ import {
 import { processStatusCode } from 'utils/processError';
 import { useRouter } from 'next/router';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
+import { saveTrip } from 'storage/trips.storage';
+import { checkinStorage } from 'storage/check-in.storage';
 
 export { getStaticPaths };
 
@@ -103,6 +105,35 @@ const Preferences = () => {
           data,
         });
       }
+      const reservationInformation = data?.getReservation?.data;
+      saveTrip({
+        reservationId:
+          reservationInformation?.confirmationId !== 'NA'
+            ? reservationInformation?.confirmationId
+            : reservationInformation?.uniqueBookingId,
+        preCheckedIn: false,
+        checkedIn: false,
+        firstName: reservationInformation?.details.contactPerson.firstName,
+        lastName: reservationInformation?.details.contactPerson.lastName,
+        email: reservationInformation?.details.contactPerson.email,
+        roomNumber: reservationInformation?.roomTypes[0]?.roomNumber,
+        invoiceId: reservationInformation?.reservationId,
+        hotelId: hotelId,
+      });
+      checkinStorage({
+        reservationId:
+          reservationInformation?.confirmationId !== 'NA'
+            ? reservationInformation?.confirmationId
+            : reservationInformation?.uniqueBookingId,
+        preCheckedIn: false,
+        checkedIn: false,
+        firstName: reservationInformation?.details.contactPerson.firstName,
+        lastName: reservationInformation?.details.contactPerson.lastName,
+        email: reservationInformation?.details.contactPerson.email,
+        roomNumber: reservationInformation?.roomTypes[0]?.roomNumber,
+        invoiceId: reservationInformation?.reservationId,
+        currency: reservationInformation?.details.holdAmount.currency,
+      });
     } catch (error) {
       const statusCode = processStatusCode(error as ApolloError);
       statusCode === 403
