@@ -99,7 +99,7 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
         if (
           flow === VIEW_BILL_CHECKOUT_FLOW &&
           pairToRoomModule &&
-          !(checkinToken || isCheckedIn?.reservationId)
+          !(checkinToken && isCheckedIn?.reservationId)
         ) {
           toggleCheckInDetailsDrawer(true);
           activeCheckOutFlow(true);
@@ -251,7 +251,8 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
 
   const handleStaySummary = () => {
     const checkinToken = getCheckInTokenSession();
-    if (pairToRoomModule && !(checkinToken || isCheckedIn?.reservationId)) {
+
+    if (pairToRoomModule && !(checkinToken && isCheckedIn?.reservationId)) {
       toggleCheckInDetailsDrawer(true);
       activeCheckOutFlow(true);
       setHighLightCheckOut(true);
