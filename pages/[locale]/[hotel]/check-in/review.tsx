@@ -82,6 +82,7 @@ import Resizer from 'react-image-file-resizer';
 import { UPDATE_EVA } from 'core/graphql/queries/UPDATE_EVA';
 import { getHotelId } from 'utils/fetchConfigs';
 import { Loader } from 'components/shared/Loaders/Loaders';
+import { Countries } from '../../../../utils/countryList';
 
 export { getStaticPaths };
 
@@ -417,7 +418,9 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                   firstName: guestReservationInfo?.firstName.replace(/[0-9]/g, ''),
                   gender: reservationInfo?.guests[0].gender?.toLowerCase() == 'female' ? 'F' : 'M',
                   lastName: guestReservationInfo?.lastName.replace(/[0-9]/g, ''),
-                  nationalityCountryCode: guestReservationInfo?.nationality,
+                  nationalityCountryCode: Countries?.find(
+                    (country) => country?.value === guestReservationInfo?.nationality,
+                  )?.evaValue,
                   document: {
                     number: guestReservationInfo?.docNo.replace(/\s/g, ''),
                     images: [
