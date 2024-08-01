@@ -4,8 +4,8 @@
   "display": "fullscreen",
   "scope": "/",
   "start_url": "/",
-  "name": "STAGE",
-  "short_name": "STAGE",
+  "name": "Stage",
+  "short_name": "Stage",
   "icons": [
     {
       "src": "/images/stage/Logo.png",

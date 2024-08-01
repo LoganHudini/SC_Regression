@@ -4,17 +4,17 @@
   "display": "fullscreen",
   "scope": "/",
   "start_url": "/",
-  "name": "UAT",
-  "short_name": "UAT",
+  "name": "Production",
+  "short_name": "Production",
   "icons": [
     {
-      "src": "/images/uat/Logo.png",
+      "src": "/images/production/Logo.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
-      "src": "/images/uat/Logo.png",
+      "src": "/images/production/Logo.png",
       "type": "image/png",
       "sizes": "512x512"
     }

@@ -11,9 +11,13 @@ export const RAFFLES = 'raffles';
 export const FAIRMONT = 'fairmont';
 export const GRAND_MERCURE = 'grand-mercure';
 
-// hotel constants
-export const STAGE = 'stage';
-export const UAT = 'uat';
+// property constants
+// stage
+export const INFINITE = 'infinite';
+export const INFINITE_AUTH = 'infinite-auth';
+// production
+export const HUDINI_INFINITE = 'hudini-infinite';
+export const HUDINI_INFINITE_AUTH = 'hudini-infinite-auth';
 export const SOFITEL_MANILA = 'sofitel-manila';
 export const ITC_GRAND_CHOLA = 'itc-grand-chola';
 export const ITC_WELCOMHOTEL_CHENNAI = 'itc-welcomhotel-chennai';

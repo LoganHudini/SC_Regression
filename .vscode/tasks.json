@@ -24,25 +24,25 @@
     },
     {
       "type": "npm",
-      "script": "dev:uat",
+      "script": "dev:production",
       "problemMatcher": [],
-      "label": "Dev: UAT",
-      "detail": "env-cmd -f .env.uat yarn next dev"
+      "label": "Dev: PRODUCTION",
+      "detail": "env-cmd -f .env.production yarn next dev"
     },
     {
       "type": "npm",
-      "script": "build:uat",
+      "script": "build:production",
       "group": "build",
       "problemMatcher": [],
-      "label": "Build: UAT",
-      "detail": "env-cmd -f .env.uat yarn build"
+      "label": "Build: PRODUCTION",
+      "detail": "env-cmd -f .env.production yarn build"
     },
     {
       "type": "npm",
-      "script": "start:uat",
+      "script": "start:production",
       "problemMatcher": [],
-      "label": "Start: UAT",
-      "detail": "env-cmd -f .env.uat next start"
+      "label": "Start: PRODUCTION",
+      "detail": "env-cmd -f .env.production next start"
     },
     {
       "type": "npm",
