@@ -1,6 +1,11 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import i18nextConfig from '../next-i18next.config';
-import { BRAND_CODE, GA_MEASUREMENT_ID, THEME_COLOR } from 'core/graphql/endpoints';
+import {
+  BRAND_CODE,
+  GA_MEASUREMENT_ID,
+  GOOGLE_MAPS_API_KEY,
+  THEME_COLOR,
+} from 'core/graphql/endpoints';
 
 class MyDocument extends Document {
   render() {
@@ -8,10 +13,12 @@ class MyDocument extends Document {
     return (
       <Html lang={currentLocale as string}>
         <Head>
-          <script
-            async
-            src='https://maps.googleapis.com/maps/api/js?key=AIzaSyAX06khad_7kuvlsqG_bt3gxH_VWy5y_is&libraries=places,geometry,drawing,localContext,visualization'
-          ></script>
+          {GOOGLE_MAPS_API_KEY && (
+            <script
+              async
+              src={`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places,geometry,drawing,localContext,visualization`}
+            />
+          )}
           {GA_MEASUREMENT_ID && (
             <>
               <script
