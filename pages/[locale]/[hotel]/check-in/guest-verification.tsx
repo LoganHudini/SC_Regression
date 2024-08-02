@@ -51,6 +51,8 @@ import {
   SUCCESS,
   OHIP,
   MANUAL,
+  TEXTFIELD_REGEX,
+  TEXT,
 } from 'utils/constants';
 import { updateDocTypeOptions } from 'utils/functions';
 import { docTypeStorage } from 'storage/guest-information.storage';
@@ -223,12 +225,16 @@ const Guest: React.FC<any> = () => {
 
       const infoValue = fieldItem?.name in guestDetails ? guestDetails[fieldItem?.name] : true;
 
-      if (fieldItem.name === PHONE) {
+      if (fieldItem?.name === PHONE) {
         return PHONE_REGEX.test(infoValue);
       }
 
-      if (fieldItem.name === EMAILS) {
+      if (fieldItem?.name === EMAILS) {
         return EMAIL_REGEX.test(infoValue);
+      }
+
+      if (fieldItem?.type === TEXT) {
+        return TEXTFIELD_REGEX.test(infoValue);
       }
 
       return !!infoValue;

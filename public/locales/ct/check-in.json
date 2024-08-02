@@ -109,5 +109,6 @@
   "Document is expired, please try again with a valid document.": "El document ha caducat, si us plau, provi-ho de nou amb un document vàlid.",
   "Invalid Document!": "Document invàlid!",
   "Verification Failed!": "La verificació ha fallat!",
-  "Failed to verify your face, please try again.": "No s'ha pogut verificar la seva cara, si us plau, torni a intentar-ho."
+  "Failed to verify your face, please try again.": "No s'ha pogut verificar la seva cara, si us plau, torni a intentar-ho.",
+  "Please enter valid characters": "Introduïu caràcters vàlids"
 }

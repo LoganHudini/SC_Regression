@@ -107,5 +107,6 @@
   "Document is expired, please try again with a valid document.": "ドキュメントの有効期限が切れています。有効なドキュメントでもう一度お試しください。",
   "Invalid Document!": "無効なドキュメントです！",
   "Verification Failed!": "認証に失敗しました！",
-  "Failed to verify your face, please try again.": "顔認証に失敗しました。もう一度お試しください。"
+  "Failed to verify your face, please try again.": "顔認証に失敗しました。もう一度お試しください。",
+  "Please enter valid characters": "有効な文字を入力してください"
 }

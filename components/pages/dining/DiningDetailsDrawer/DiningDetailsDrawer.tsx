@@ -17,7 +17,6 @@ import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
 import { DiningCheckboxItem } from 'components/pages/dining/DiningCheckboxItem/DiningCheckboxItem';
 import { InputAdornment } from '@mui/material';
 import { sortBy } from 'lodash';
-import TextField from '@mui/material/TextField';
 import { iconsMap } from 'utils/hamburger/hamburgerIconsMap';
 import { filterLiveMenu, formatPrice, irdActiveMenuList } from 'utils/functions';
 import { addToCartEvent } from 'utils/gtag';
@@ -26,6 +25,9 @@ import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { client } from 'core/graphql/client';
 import { useCurrency } from 'utils/hooks/useCurrency';
 import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
+import { StyledInput } from 'components/shared/StyledInput/StyledInput';
+import { useFormik } from 'formik';
+import { instructionValidation } from 'validation/dining.validation';
 
 const DiningDetailsDrawer = () => {
   const { t } = useTranslation(['dining', 'common']);
@@ -37,7 +39,7 @@ const DiningDetailsDrawer = () => {
   const diningDetailsDrawerStatus = useReactiveVar(toggleDiningDetailsDrawer);
   const editControlStatus = useReactiveVar(editControl);
   const [count, setCount] = useState<number>(1);
-  const [instruction, setinstruction] = useState('');
+  const [instruction, setInstruction] = useState('');
   const [updateAddons, setupdateAddons] = useState(false);
   const [totalAddons, settotalAddons] = useState<number>(0);
   const [customisation, setCustomisation] = useState<any>([]);
@@ -88,7 +90,7 @@ const DiningDetailsDrawer = () => {
         setAddons(selectedItemWithIndex?.addons);
       }
       setCount(selectedItemWithIndex.quantity || 1);
-      setinstruction(selectedItemWithIndex?.cookingInstruction);
+      setInstruction(selectedItemWithIndex?.cookingInstruction);
     }
   }, [selectedItemWithIndex, editControlStatus]);
 
@@ -158,16 +160,13 @@ const DiningDetailsDrawer = () => {
     setCustomisation(updatedCustomizations);
   };
 
-  const cookingInstructions = useCallback((event: any) => {
-    setinstruction(event?.target.value);
-  }, []);
-
   const closeDrawer = useCallback(() => {
     toggleDiningDetailsDrawer(false);
     setCustomisation([]);
     setAddons([]);
     editControl(false);
-    setinstruction('');
+    setInstruction('');
+    formik.resetForm();
     setCount(1);
     diningMenuStorage(
       produce(diningMenuStorage(), (draft) => {
@@ -358,6 +357,14 @@ const DiningDetailsDrawer = () => {
     selectedItemIndex,
   ]);
 
+  const formik = useFormik({
+    initialValues: { instruction: '' },
+    validationSchema: instructionValidation,
+    onSubmit: (values) => {
+      setInstruction(values.instruction);
+    },
+  });
+
   const diningDetails = () => {
     const filteredCustomisation = selectedItem?.customisation?.map((customisationItem: any) =>
       customisationItem?.customisations?.filter((item: any) => item?.status),
@@ -492,15 +499,19 @@ const DiningDetailsDrawer = () => {
               </>
             )}
 
-            <TextField
+            <StyledInput
+              variant='standard'
               autoComplete='off'
               fullWidth
               color='success'
-              value={instruction}
+              value={formik.values.instruction}
               className={styles.textInput}
-              id='input-with-icon-textfield'
+              id='instruction'
               placeholder={`${t('Add instructions')}`}
-              onChange={cookingInstructions}
+              onChange={(e) => {
+                formik.handleChange(e);
+                setInstruction(e.target.value);
+              }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position='start'>
@@ -519,7 +530,8 @@ const DiningDetailsDrawer = () => {
                   },
                 },
               }}
-              variant='standard'
+              error={Boolean(formik.errors.instruction)}
+              helperText={formik.errors.instruction ? t(formik.errors.instruction) : null}
             />
 
             {selectedItem?.price && (
@@ -548,6 +560,7 @@ const DiningDetailsDrawer = () => {
                 className={styles.addToCart}
                 variant='contained'
                 disabled={
+                  Boolean(formik.errors.instruction) ||
                   count === 0 ||
                   (selectedItem?.customisation?.length > 0 &&
                     filteredCustomisation?.length !== customisation?.length) ||

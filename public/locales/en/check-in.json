@@ -109,5 +109,6 @@
   "Document is expired, please try again with a valid document.": "Document is expired, please try again with a valid document.",
   "Invalid Document!": "Invalid Document!",
   "Verification Failed!": "Verification Failed!",
-  "Failed to verify your face, please try again.": "Failed to verify your face, please try again."
+  "Failed to verify your face, please try again.": "Failed to verify your face, please try again.",
+  "Please enter valid characters": "Please enter valid characters"
 }

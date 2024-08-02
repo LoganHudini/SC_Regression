@@ -109,5 +109,6 @@
   "Document is expired, please try again with a valid document.": "الوثيقة منتهية الصلاحية، يرجى المحاولة مرة أخرى باستخدام وثيقة صالحة.",
   "Invalid Document!": "وثيقة غير صالحة!",
   "Verification Failed!": "فشل التحقق!",
-  "Failed to verify your face, please try again.": "فشل في التحقق من وجهك، يرجى المحاولة مرة أخرى."
+  "Failed to verify your face, please try again.": "فشل في التحقق من وجهك، يرجى المحاولة مرة أخرى.",
+  "Please enter valid characters": "يرجى إدخال أحرف صالحة"
 }

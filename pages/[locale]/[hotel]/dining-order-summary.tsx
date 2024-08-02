@@ -33,7 +33,7 @@ import {
   SUCCESS,
   VENDOR,
 } from 'utils/constants';
-import { InputAdornment, TextField } from '@mui/material';
+import { InputAdornment } from '@mui/material';
 import Cookinginstructions from '@icons/cooking_instructions.svg';
 import { IRD_ORDER } from 'core/graphql/queries/IRD_ORDER';
 import { Notification } from 'components/shared/Notification/Notification';
@@ -54,6 +54,9 @@ import {
   handleinHouseAuthenticationFailure,
 } from 'core/api/functions/getInHouseAuthentication';
 import { processStatusCode } from 'utils/processError';
+import { StyledInput } from 'components/shared/StyledInput/StyledInput';
+import { useFormik } from 'formik';
+import { instructionValidation } from 'validation/dining.validation';
 
 export { getStaticPaths };
 
@@ -96,6 +99,14 @@ const DiningOrderSummary = () => {
       navigate(availablePaths.DINING);
     }
   }, [items, navigate]);
+
+  const formik = useFormik({
+    initialValues: { instruction: '' },
+    validationSchema: instructionValidation,
+    onSubmit: (values) => {
+      setSpecialRequests(values.instruction);
+    },
+  });
 
   const increment = useCallback(
     (itemId: string, index: number) => {
@@ -449,13 +460,18 @@ const DiningOrderSummary = () => {
           </>
         )}
 
-        <TextField
+        <StyledInput
           autoComplete='off'
-          onChange={handleSpecialRequestsChange}
+          variant='standard'
+          onChange={(e) => {
+            formik.handleChange(e);
+            setSpecialRequests(e.target.value);
+          }}
           fullWidth
           color='success'
+          value={formik.values.instruction}
           className={styles.textInput}
-          id='input-with-icon-textfield'
+          id='instruction'
           placeholder={`${t('Special Requests')}`}
           InputProps={{
             startAdornment: (
@@ -475,7 +491,8 @@ const DiningOrderSummary = () => {
               },
             },
           }}
-          variant='standard'
+          error={Boolean(formik.errors.instruction)}
+          helperText={formik.errors.instruction ? t(formik.errors.instruction) : null}
         />
 
         <div className={styles.noOfGuests}>
@@ -523,7 +540,11 @@ const DiningOrderSummary = () => {
         {items?.length > 0 && (
           <div className={styles.confirmOrderButtonWrapper}>
             <StyledButton
-              disabled={items?.length === 0 || paymentType?.length === 0}
+              disabled={
+                Boolean(formik.errors.instruction) ||
+                items?.length === 0 ||
+                paymentType?.length === 0
+              }
               loading={loading}
               className={styles.confirmButton}
               onClick={handleOrder}

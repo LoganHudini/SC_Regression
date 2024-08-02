@@ -90,6 +90,7 @@ export const DRIVERLICENCE = 'DL';
 export const EMAIL = 'email';
 export const EMAIL_CAPS = 'Email';
 export const EMAILS = 'emails';
+export const TEXT = 'Text';
 export const PHONENUMBER = 'phoneNumber';
 export const PHONE = 'phone';
 export const SELECTDROPDOWN = 'Select';
@@ -332,3 +333,4 @@ export const RESTAURANTS_BARS = 'RESTAURANTS_BARS';
 export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const PHONE_REGEX =
   /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/;
+export const TEXTFIELD_REGEX = /^[a-zA-Z0-9\s\-:,.]*$/;

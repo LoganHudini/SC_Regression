@@ -16,7 +16,6 @@ import { CHECK_OUT, EMAIL_CAPS, ERRORMSG, FAILURE, RATING5STARS, SUCCESS } from 
 import Okay from '@icons/okayFeedback.svg';
 import Good from '@icons/goodFeedback.svg';
 import Great from '@icons/greatFeedback.svg';
-import { TextField } from '@mui/material';
 import { client } from 'core/graphql/client';
 import { PostFeedback } from 'core/graphql/queries/FEEDBACK';
 import dayjs from 'dayjs';
@@ -31,6 +30,9 @@ import { Notification } from 'components/shared/Notification/Notification';
 import { toggleNotification } from 'storage/home.storage';
 import { activeItems } from 'utils/functions';
 import { checkoutTrip } from 'storage/trips.storage';
+import { StyledInput } from 'components/shared/StyledInput/StyledInput';
+import { useFormik } from 'formik';
+import { typeHereValidation } from 'validation/feedback.validation';
 
 export { getStaticPaths };
 
@@ -75,6 +77,14 @@ const Feedback = () => {
   const hotelEmail = homeCarouselDetails?.getPropertyDetailsByHotelId?.hotel?.information?.find(
     (inforamtion: any) => inforamtion?.field === EMAIL_CAPS,
   )?.value;
+
+  const formik = useFormik({
+    initialValues: { typeHere: '' },
+    validationSchema: typeHereValidation,
+    onSubmit: (values) => {
+      setFeedbackText(values.typeHere);
+    },
+  });
 
   const handleButtonClick = (categoryTitle: any, rating: any) => {
     setSelectedFeedback((prevSelectedRatings: any) => ({
@@ -196,12 +206,16 @@ const Feedback = () => {
                   ))}
                   <div className={styles.feedbackTextWrapper}>
                     <span className={styles.categoryTitle}>{t('Feedback')} </span>
-                    <TextField
+                    <StyledInput
                       placeholder={`${t('Type here')}`}
                       multiline
-                      onChange={(e) => setFeedbackText(e.target.value)}
+                      id='typeHere'
+                      onChange={(e) => {
+                        formik.handleChange(e);
+                        setFeedbackText(e.target.value);
+                      }}
                       fullWidth
-                      value={feedbackText}
+                      value={formik.values.typeHere}
                       autoComplete='off'
                       sx={{
                         '& .MuiOutlinedInput-input': {
@@ -215,6 +229,8 @@ const Feedback = () => {
                         },
                       }}
                       variant='outlined'
+                      error={Boolean(formik.errors.typeHere)}
+                      helperText={formik.errors.typeHere ? t(formik.errors.typeHere) : null}
                     />
                   </div>
                 </div>
@@ -224,6 +240,7 @@ const Feedback = () => {
             <div className={cx(styles.bottomMenuWrapper)}>
               <StyledButton
                 variant='contained'
+                disabled={Boolean(formik.errors.typeHere)}
                 className={styles.bottomMenuButton}
                 onClick={() => {
                   feedbackText || Object.keys(selectedFeedback).length > 0

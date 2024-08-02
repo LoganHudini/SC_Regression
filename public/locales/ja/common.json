@@ -142,5 +142,6 @@
   "Oops!": "おっと！",
   "We are having an issue saving your preferences. Please try again.": "ご希望の設定を保存する際に問題が発生しました。もう一度お試しください。",
   "Please enter the details to proceed": "続行するには詳細を入力してください",
-  "Days: ": "日数: "
+  "Days: ": "日数: ",
+  "Please enter valid characters": "有効な文字を入力してください"
 }

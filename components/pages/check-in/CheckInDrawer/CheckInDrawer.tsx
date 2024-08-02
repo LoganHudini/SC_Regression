@@ -6,7 +6,7 @@ import { StyledInput } from 'components/shared/StyledInput/StyledInput';
 import styles from './CheckInDrawer.module.scss';
 import {
   getReservationForCheckinValidation,
-  getReservationForCheckInValidation,
+  getcheckInTokenValidation,
   getReservationForConnectToRoomValidation,
 } from 'validation/get-reservation.validation';
 import { useFormik } from 'formik';
@@ -118,7 +118,7 @@ const CheckInDrawer = (props: any) => {
       activeCheckInFlowInfo && !activeCheckOutFlowInfo
         ? getReservationForCheckinValidation
         : activeCheckOutFlowInfo
-        ? getReservationForCheckInValidation
+        ? getcheckInTokenValidation
         : getReservationForConnectToRoomValidation,
     onSubmit: goToTheNextStep,
     enableReinitialize: true,

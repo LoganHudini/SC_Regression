@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { PHONE_REGEX } from 'utils/constants';
+import { PHONE_REGEX, TEXT } from 'utils/constants';
+import { textFieldValidation } from 'utils/functions';
 import * as yup from 'yup';
 
 const useValidate = (sections: any) => {
@@ -11,7 +12,11 @@ const useValidate = (sections: any) => {
       const isRequired = field?.required;
 
       if (isActive) {
-        schema[field?.name] = yup.string();
+        if (field?.type === TEXT) {
+          schema[field?.name] = textFieldValidation();
+        } else {
+          schema[field?.name] = yup.string();
+        }
 
         const validationRules: any = {
           emails: {
@@ -28,12 +33,12 @@ const useValidate = (sections: any) => {
         if (validationRules[field?.name]) {
           schema[field?.name] = validationRules[field?.name].validation.when([`${isRequired}`], {
             is: true,
-            then: schema[field?.name].required(validationRules[field?.name].requiredMessage),
+            then: schema[field?.name]?.required(validationRules[field?.name]?.requiredMessage),
           });
         }
 
         if (isRequired) {
-          schema[field?.name] = schema[field?.name].required(t(`${field?.label} is required`));
+          schema[field?.name] = schema[field?.name]?.required(t(`${field?.label} is required`));
         }
 
         return schema;

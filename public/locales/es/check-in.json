@@ -109,5 +109,6 @@
   "Document is expired, please try again with a valid document.": "El documento ha caducado, por favor intente de nuevo con un documento válido.",
   "Invalid Document!": "Documento inválido!",
   "Verification Failed!": "¡Verificación fallida!",
-  "Failed to verify your face, please try again.": "No se pudo verificar su rostro, por favor inténtelo de nuevo."
+  "Failed to verify your face, please try again.": "No se pudo verificar su rostro, por favor inténtelo de nuevo.",
+  "Please enter valid characters": "Por favor, ingrese caracteres válidos"
 }

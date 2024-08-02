@@ -7,12 +7,14 @@ import {
   RESTAURANT,
   RESTAURANTS,
   RESTAURANT_BOOKING_FLOW,
+  TEXTFIELD_REGEX,
   TIMINGS,
 } from './constants';
 import { tableReservationStorage } from 'storage/table-reservation.storage';
 import { housekeepingOptions, serviceRequestOptionsArray } from 'storage/housekeeping.storage';
 import { toggleRestaurantDetailsDrawer } from 'storage/home.storage';
 import { analyticsEvent } from './gtag';
+import * as yup from 'yup';
 
 // Extract data from local storage
 export const guestNameFandB = () =>
@@ -373,3 +375,7 @@ export const fetchCharges = (reservationInfo: any) =>
             Number(reservationInfo?.roomTypes[0]?.balance),
         )
       : 0));
+
+export const textFieldValidation = () => {
+  return yup.string().matches(TEXTFIELD_REGEX, 'Please enter valid characters');
+};
