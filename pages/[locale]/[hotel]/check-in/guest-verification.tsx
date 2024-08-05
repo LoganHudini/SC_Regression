@@ -39,7 +39,6 @@ import {
   FAILURE,
   INCODE,
   DOCTYPE,
-  ERRORMSG,
   NONE,
   TRENTIAL,
   UPGRADE_ROOM,
@@ -65,8 +64,7 @@ import {
   newAccompanyGuestDetails,
   updateNewAccompanyGuestDetails,
 } from 'storage/accompany-guest-details';
-import { Notification } from 'components/shared/Notification/Notification';
-import { notificationDetails, setDayjsLocale, toggleNotification } from 'storage/home.storage';
+import { notificationStorage, setDayjsLocale, toggleNotification } from 'storage/home.storage';
 import {
   getCheckInToken,
   handleCheckInAuthenticationFailure,
@@ -95,7 +93,6 @@ const Guest: React.FC<any> = () => {
   const [newGuestAdded, setNewGuestAdded] = useState(false);
   const [countryDrawer, setCountryDrawer] = useState(true);
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
-  const notificationInfo = useReactiveVar(notificationDetails);
   const dayjsLocaleLoader = useReactiveVar(setDayjsLocale);
   const config = useConfig();
   const paymentConfig: any = usePaymentConfig();
@@ -352,151 +349,121 @@ const Guest: React.FC<any> = () => {
     setLoading(true);
     let successFlag = true;
 
-    try {
-      const updateGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
-        docType: documentTypes?.find(
-          (option: any) => option?.value === guestReservationInfo?.docType,
-        )?.code,
-        docNumber: guestReservationInfo?.docNo,
-        reservationId: reservationInfo?.confirmationId as string,
-        firstName: guestReservationInfo?.firstName,
-        lastName: guestReservationInfo?.lastName,
-        profileId: reservationInfo?.guests[0]?.id as string,
-        isPrimary: 'Y',
-        effectiveDate: guestReservationInfo?.issueDate,
-        expiryDate: guestReservationInfo?.expiryDate,
-        countryOfIssue: guestReservationInfo?.issueCountry,
-        channel: 'PWA',
-        updateGuestDetails: {
-          name: {
-            firstName: guestReservationInfo?.firstName,
-            lastName: guestReservationInfo?.lastName,
-            gender: guestReservationInfo?.gender,
-            nationality: guestReservationInfo?.nationality ?? '',
-            dob: guestReservationInfo?.dob,
-            profession: guestReservationInfo?.profession,
-          },
-          address: {
-            id: reservationInfo?.guests[0]?.addressOperaId as string,
-            addressLine1: guestReservationInfo?.addressLine,
-            addressType: 'HOME',
-            countryCode: guestReservationInfo?.countryCode,
-          },
-          phone: {
-            id: reservationInfo?.guests[0]?.phoneOperaId
-              ? reservationInfo?.guests[0]?.phoneOperaId[0]
-              : '',
-            phoneType: config?.pms === OHIP ? 'PHONE' : 'HOME',
-            phoneNumber: guestReservationInfo?.phone ?? '',
-            phoneRole: config?.pms === OHIP ? 'HOME' : 'PHONE',
-          },
-          email: {
-            id: reservationInfo?.guests[0]?.emailOperaId
-              ? reservationInfo?.guests[0]?.emailOperaId[0]
-              : '',
-            email: guestReservationInfo?.emails,
-          },
+    const updateGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
+      docType: documentTypes?.find((option: any) => option?.value === guestReservationInfo?.docType)
+        ?.code,
+      docNumber: guestReservationInfo?.docNo,
+      reservationId: reservationInfo?.confirmationId as string,
+      firstName: guestReservationInfo?.firstName,
+      lastName: guestReservationInfo?.lastName,
+      profileId: reservationInfo?.guests[0]?.id as string,
+      isPrimary: 'Y',
+      effectiveDate: guestReservationInfo?.issueDate,
+      expiryDate: guestReservationInfo?.expiryDate,
+      countryOfIssue: guestReservationInfo?.issueCountry,
+      channel: 'PWA',
+      updateGuestDetails: {
+        name: {
+          firstName: guestReservationInfo?.firstName,
+          lastName: guestReservationInfo?.lastName,
+          gender: guestReservationInfo?.gender,
+          nationality: guestReservationInfo?.nationality ?? '',
+          dob: guestReservationInfo?.dob,
+          profession: guestReservationInfo?.profession,
         },
-      };
+        address: {
+          id: reservationInfo?.guests[0]?.addressOperaId as string,
+          addressLine1: guestReservationInfo?.addressLine,
+          addressType: 'HOME',
+          countryCode: guestReservationInfo?.countryCode,
+        },
+        phone: {
+          id: reservationInfo?.guests[0]?.phoneOperaId
+            ? reservationInfo?.guests[0]?.phoneOperaId[0]
+            : '',
+          phoneType: config?.pms === OHIP ? 'PHONE' : 'HOME',
+          phoneNumber: guestReservationInfo?.phone ?? '',
+          phoneRole: config?.pms === OHIP ? 'HOME' : 'PHONE',
+        },
+        email: {
+          id: reservationInfo?.guests[0]?.emailOperaId
+            ? reservationInfo?.guests[0]?.emailOperaId[0]
+            : '',
+          email: guestReservationInfo?.emails,
+        },
+      },
+    };
 
-      const updatePrimaryGuest = async () => {
+    const updateGuestDetails = async (payload: IUpdateGuestDetailsApiRequest) => {
+      try {
         const checkInToken = getCheckInToken();
-        try {
-          await client.query({
-            query: UPDATE_GUEST_DETAILS,
-            context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
-            variables: {
-              confirmationNumber: reservationInfo?.confirmationId as string,
-              body: updateGuestDetailsPayload,
-            },
-          });
-        } catch (error) {
-          const statusCode = processStatusCode(error as ApolloError);
-          statusCode === 403
-            ? handleCheckInAuthenticationFailure(updatePrimaryGuest)
-            : (successFlag = false);
-        }
-      };
-      updatePrimaryGuest();
-
-      if (accompanyGuestData.length > 0) {
-        for (let i = 0; i < accompanyGuestData.length; i++) {
-          const data = accompanyGuestData[i];
-          const updateAccompanyGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
-            docType: documentTypes?.find((option: any) => option?.value === data?.docType)?.code,
-            docNumber: data?.docNo,
-            reservationId: reservationInfo?.reservationId as string,
-            firstName: data?.firstName,
-            lastName: data?.lastName,
-            profileId: data?.id as string,
-            isPrimary: 'N',
-            effectiveDate: data?.issueDate,
-            expiryDate: data?.expiryDate || '',
-            countryOfIssue: data?.issueCountry || '',
-            channel: 'PWA',
-            updateGuestDetails: {
-              name: {
-                firstName: data?.firstName,
-                lastName: data?.lastName,
-                gender: data?.gender,
-                nationality: data?.nationality,
-                dob: data?.dob,
-              },
-              phone: {
-                phoneType: config?.pms === OHIP ? 'PHONE' : 'HOME',
-                phoneNumber: data?.phone ?? '',
-                phoneRole: config?.pms === OHIP ? 'HOME' : 'PHONE',
-              },
-              email: {
-                email: data?.emails,
-              },
-            },
-          };
-
-          const updateAccompanyGuests = async () => {
-            const checkInToken = getCheckInToken();
-            try {
-              await client.query({
-                query: UPDATE_GUEST_DETAILS,
-                context: {
-                  clientName: 'rest',
-                  headers: { Authorization: 'Bearer ' + checkInToken },
-                },
-                variables: {
-                  confirmationNumber: reservationInfo?.confirmationId as string,
-                  body: updateAccompanyGuestDetailsPayload,
-                },
-              });
-            } catch (error) {
-              const statusCode = processStatusCode(error as ApolloError);
-              statusCode === 403
-                ? handleCheckInAuthenticationFailure(updateAccompanyGuests)
-                : (successFlag = false);
-            }
-          };
-          updateAccompanyGuests();
-        }
-      }
-
-      if (successFlag) {
-        nextStep();
-      } else {
-        toggleNotification(true);
-        notificationDetails({
-          title: t('Please Try Again!') as string,
-          description: t('Failed to update your details.') as string,
-          redirect: null,
-          type: FAILURE,
+        await client.query({
+          query: UPDATE_GUEST_DETAILS,
+          context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
+          variables: {
+            confirmationNumber: reservationInfo?.confirmationId as string,
+            body: payload,
+          },
         });
+        return true;
+      } catch (error) {
+        const statusCode = processStatusCode(error as ApolloError);
+        if (statusCode === 403) {
+          handleCheckInAuthenticationFailure(updateGuestDetails(payload));
+        }
+        return false;
       }
-    } catch (error) {
-      notificationDetails({
-        title: t(ERRORMSG) as string,
+    };
+
+    successFlag = (await updateGuestDetails(updateGuestDetailsPayload)) && successFlag;
+
+    if (accompanyGuestData.length > 0) {
+      for (const data of accompanyGuestData) {
+        const updateAccompanyGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
+          docType: documentTypes?.find((option: any) => option?.value === data?.docType)?.code,
+          docNumber: data?.docNo,
+          reservationId: reservationInfo?.reservationId as string,
+          firstName: data?.firstName,
+          lastName: data?.lastName,
+          profileId: data?.id as string,
+          isPrimary: 'N',
+          effectiveDate: data?.issueDate,
+          expiryDate: data?.expiryDate || '',
+          countryOfIssue: data?.issueCountry || '',
+          channel: 'PWA',
+          updateGuestDetails: {
+            name: {
+              firstName: data?.firstName,
+              lastName: data?.lastName,
+              gender: data?.gender,
+              nationality: data?.nationality,
+              dob: data?.dob,
+            },
+            phone: {
+              phoneType: config?.pms === OHIP ? 'PHONE' : 'HOME',
+              phoneNumber: data?.phone ?? '',
+              phoneRole: config?.pms === OHIP ? 'HOME' : 'PHONE',
+            },
+            email: {
+              email: data?.emails,
+            },
+          },
+        };
+
+        successFlag = (await updateGuestDetails(updateAccompanyGuestDetailsPayload)) && successFlag;
+      }
+    }
+
+    if (successFlag) {
+      nextStep();
+    } else {
+      toggleNotification(true);
+      notificationStorage({
+        title: t('Please Try Again!') as string,
+        description: t('Failed to update your details.') as string,
         redirect: null,
         type: FAILURE,
-        apolloError: error as ApolloError,
       });
-      toggleNotification(true);
     }
 
     setLoading(false);
@@ -583,7 +550,7 @@ const Guest: React.FC<any> = () => {
         },
       ]);
       toggleNotification(true);
-      notificationDetails({
+      notificationStorage({
         title: t('Guest Added') as string,
         description: t('Guest information added successfully.') as string,
         redirect: null,
@@ -592,7 +559,7 @@ const Guest: React.FC<any> = () => {
       setGuestLoading(false);
     } catch (error) {
       toggleNotification(true);
-      notificationDetails({
+      notificationStorage({
         title: t('Please Try Again!') as string,
         description: t('Failed to add guest details.') as string,
         redirect: null,
@@ -1038,25 +1005,15 @@ const Guest: React.FC<any> = () => {
               {t('Next')}
             </StyledButton>
           </div>
+          {config?.idVerificationBasedOnNationality && !guestReservationInfo?.docNo && (
+            <CustomDrawer
+              open={countryDrawer}
+              onClose={() => (guestReservationInfo?.countryCode ? setCountryDrawer(false) : null)}
+              content={countryDrawerDetails()}
+            />
+          )}
         </PageWrapper>
       )}
-
-      {config?.idVerificationBasedOnNationality && !guestReservationInfo?.docNo && (
-        <CustomDrawer
-          open={countryDrawer}
-          onClose={() => (guestReservationInfo?.countryCode ? setCountryDrawer(false) : null)}
-          content={countryDrawerDetails()}
-        />
-      )}
-
-      <Notification
-        translation={t}
-        title={notificationInfo?.title}
-        description={notificationInfo?.description}
-        apolloError={notificationInfo?.apolloError}
-        redirect={notificationInfo?.redirect}
-        type={notificationInfo?.type}
-      />
     </>
   );
 };

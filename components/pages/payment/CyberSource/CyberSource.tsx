@@ -18,9 +18,8 @@ import { useTranslation } from 'react-i18next';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
-import { Notification } from 'components/shared/Notification/Notification';
 import { FAILURE, SUCCESS } from 'utils/constants';
-import { toggleNotification } from 'storage/home.storage';
+import { notificationStorage, toggleNotification } from 'storage/home.storage';
 import {
   getCheckInToken,
   handleCheckInAuthenticationFailure,
@@ -30,7 +29,6 @@ import { processStatusCode } from 'utils/processError';
 const CyberSource: React.FC = () => {
   const transactionId = useRef('');
   const navigate = useLocalizedRouter();
-  const [errorNotification, setErrorNotification] = useState(false);
   const [loading, setLoading] = useState(true);
   const { t } = useTranslation(['check-in-payment', 'common']);
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -75,7 +73,13 @@ const CyberSource: React.FC = () => {
         const statusCode = processStatusCode(initiatePaymentError as ApolloError);
         statusCode === 403
           ? handleCheckInAuthenticationFailure(preparePayment)
-          : (setErrorNotification(true), toggleNotification(true), onPaymentDone());
+          : (notificationStorage({
+              title: t('Payment Failed!') as string,
+              description: t('Card Authentication Failed!') as string,
+              type: FAILURE,
+            }),
+            toggleNotification(true),
+            onPaymentDone());
       }
 
       if (paymentData) {
@@ -132,12 +136,20 @@ const CyberSource: React.FC = () => {
               cardExpiryDate: paymentStatusData?.getPaymentStatus?.data['cardExpiry'],
               paymentType: paymentStatusData?.getPaymentStatus?.data['paymentMethod '],
             });
-            setErrorNotification(false);
+            notificationStorage({
+              title: t('Thank You!') as string as string,
+              description: t('Card Authentication Completed') as string,
+              type: SUCCESS,
+            });
             toggleNotification(true);
             onPaymentDone();
           }
           if (status === 'Failed') {
-            setErrorNotification(true);
+            notificationStorage({
+              title: t('Payment Failed!') as string,
+              description: t('Card Authentication Failed!') as string,
+              type: FAILURE,
+            });
             toggleNotification(true);
             onPaymentDone();
           }
@@ -145,11 +157,17 @@ const CyberSource: React.FC = () => {
           const statusCode = processStatusCode(paymentStatusError as ApolloError);
           statusCode === 403
             ? handleCheckInAuthenticationFailure(handleIframeChange)
-            : (setErrorNotification(true), toggleNotification(true), onPaymentDone());
+            : (notificationStorage({
+                title: t('Payment Failed!') as string,
+                description: t('Card Authentication Failed!') as string,
+                type: FAILURE,
+              }),
+              toggleNotification(true),
+              onPaymentDone());
         }
       }
     }, 1500);
-  }, [guestReservationInfo, onPaymentDone, reservationInfo?.confirmationId]);
+  }, [guestReservationInfo, onPaymentDone, reservationInfo?.confirmationId, t]);
 
   useEffect(() => {
     if (!reservationInfo?.confirmationId) {
@@ -167,17 +185,6 @@ const CyberSource: React.FC = () => {
         ref={iframeRef}
         className={cx(styles.paymentWindow, { [styles.paymentWindowHidden]: loading })}
         onLoad={handleIframeChange}
-      />
-      <Notification
-        translation={t}
-        title={errorNotification ? (t('Payment Failed!') as string) : (t('Thank You!') as string)}
-        description={
-          errorNotification
-            ? (t('Card Authentication Failed!') as string)
-            : (t('Card Authentication Completed') as string)
-        }
-        redirect={availablePaths?.CARD_AUTHORISATION}
-        type={errorNotification ? FAILURE : SUCCESS}
       />
     </>
   );

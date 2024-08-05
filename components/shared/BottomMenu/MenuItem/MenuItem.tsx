@@ -16,12 +16,14 @@ import {
   toggleDetailsDrawer,
   toggleNotification,
   toggleMessageBirdChat,
+  notificationStorage,
   toggleCheckInDetailsDrawer,
 } from 'storage/home.storage';
 import cx from 'classnames';
 import {
   CHAT_FLOW,
   EXTERNAL,
+  FAILURE,
   FLOW,
   HOTEL_INFORMATION_FLOW,
   IN_APP,
@@ -31,6 +33,7 @@ import {
   MESSAGE_BOX,
   PAIR_TO_ROOM,
   SERVICES,
+  SUCCESS,
   VIEW_BILL,
   VIEW_BILL_CHECKOUT_FLOW,
 } from 'utils/constants';
@@ -67,7 +70,6 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
   status,
   hotelName,
   toggleOption,
-  setErrorToggle,
 }) => {
   const navigate = useLocalizedRouter();
   const { t } = useTranslation(['common']);
@@ -119,13 +121,13 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
           }
           toggleMessageBirdChat(true);
         } else if (config?.chatOption === MESSAGE_BOX && !chatURL) {
-          toggleNotification(true);
-          setErrorToggle({
-            message: t('Chat Unavailable!'),
+          notificationStorage({
+            title: t('Chat Unavailable!'),
             description: t('Failed to initialize chat, please try again later.'),
-            state: false,
-            type: 'home',
+            type: FAILURE,
+            redirect: availablePaths?.HOME,
           });
+          toggleNotification(true);
         }
         toggleOption();
       } else if (title === LANGUAGE) {
@@ -143,7 +145,6 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
     pairToRoomModule,
     paths,
     redirectOptions,
-    setErrorToggle,
     t,
     title,
     toggleOption,
@@ -216,7 +217,6 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   spaCategories,
   offersList,
   serviceRequestOptions,
-  setErrorToggle,
 }) => {
   const { t } = useTranslation(['common']);
   const navigate = useLocalizedRouter();
@@ -324,13 +324,13 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                     onClick={() => {
                       closeDrawer();
                       checkoutTrip();
-                      setErrorToggle({
-                        state: true,
-                        message: t('Device Disconnected!'),
-                        type: 'home',
+                      notificationStorage({
+                        type: SUCCESS,
+                        title: t('Device Disconnected!'),
                         description: t(
                           'Hope you had a pleasant stay with us. We look forward to your next visit.\nThank You.',
                         ),
+                        redirect: availablePaths?.HOME,
                       });
                       toggleNotification(true);
                       toggleDetailsDrawer(false);

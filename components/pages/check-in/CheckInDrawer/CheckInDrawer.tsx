@@ -67,7 +67,6 @@ const CheckInDrawer = (props: any) => {
         await handleCheckInToken({
           values,
           checkedInData,
-          setErrorToggle,
           t,
           setLoading,
           navigate,

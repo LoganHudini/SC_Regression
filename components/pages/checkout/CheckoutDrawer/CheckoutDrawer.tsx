@@ -1,7 +1,7 @@
 import { ApolloError, useQuery, useReactiveVar } from '@apollo/client';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import React, { useState } from 'react';
-import { toggleDetailsDrawer, toggleNotification } from 'storage/home.storage';
+import { notificationStorage, toggleDetailsDrawer, toggleNotification } from 'storage/home.storage';
 import styles from './CheckoutDrawer.module.scss';
 import { useTranslation } from 'react-i18next';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
@@ -21,12 +21,12 @@ import {
   getCheckInToken,
   handleCheckInAuthenticationFailure,
 } from 'core/api/functions/getCheckInAuthentication';
-import { CHECKOUT_PAYMENT, CHECK_IN, CHECK_OUT, ERRORMSG } from 'utils/constants';
+import { CHECKOUT_PAYMENT, CHECK_IN, CHECK_OUT, ERRORMSG, FAILURE, SUCCESS } from 'utils/constants';
 import { activeItems, activeModule } from 'utils/functions';
 import { availablePaths } from 'utils/availablePaths';
 
 const CheckoutDrawer = (props: any) => {
-  const { setErrorToggle, reservationData, amountDue } = props;
+  const { reservationData, amountDue } = props;
   const locale = useLocale();
   const config = useConfig();
   const hotelId = useConfig()?.hotelId;
@@ -105,10 +105,10 @@ const CheckoutDrawer = (props: any) => {
         paymentDone = true;
       } catch {
         toggleNotification(true);
-        setErrorToggle({
-          state: false,
-          message: t('Payment failed!'),
-          redirect: null,
+        notificationStorage({
+          type: FAILURE,
+          title: t('Payment failed!'),
+          redirect: availablePaths?.BILL,
           description: t('Payment failed. Please try again.'),
         });
         return;
@@ -141,14 +141,12 @@ const CheckoutDrawer = (props: any) => {
         }
       }, 5000);
       toggleNotification(true);
-      setErrorToggle({
-        state: false,
-        message: t('You’ve Checked-out'),
+      notificationStorage({
+        type: SUCCESS,
+        title: t('You’ve Checked-out'),
         redirect: feedbackData?.length === 0 ? availablePaths?.HOME : availablePaths?.FEEDBACK,
         description: t(
-          t(
-            'Hope you had a pleasant stay with us. We look forward to your next visit.\nThank You.',
-          ),
+          'Hope you had a pleasant stay with us. We look forward to your next visit.\nThank You.',
         ),
       });
     } catch (error) {
@@ -161,12 +159,12 @@ const CheckoutDrawer = (props: any) => {
         const networkError = errorMsg?.networkError as { result?: { errors?: string } };
         if (
           networkError?.result?.errors ===
-          t('Please proceed to the front desk to complete your checkout')
+          'Please proceed to the front desk to complete your checkout'
         ) {
           toggleNotification(true);
-          setErrorToggle({
-            state: true,
-            message: t('Unable to checkout'),
+          notificationStorage({
+            type: FAILURE,
+            title: t('Unable to checkout'),
             redirect: feedbackData?.length === 0 ? availablePaths?.HOME : availablePaths?.FEEDBACK,
             description: `${
               amountDue > 0 ? t('There are outstanding payments to settle. ') : ''
@@ -174,10 +172,10 @@ const CheckoutDrawer = (props: any) => {
           });
         } else {
           toggleNotification(true);
-          setErrorToggle({
-            state: true,
-            message: t(ERRORMSG),
-            redirect: paymentDone && checkoutPayment ? availablePaths?.HOME : null,
+          notificationStorage({
+            type: FAILURE,
+            title: t(ERRORMSG),
+            redirect: paymentDone && checkoutPayment ? availablePaths?.HOME : availablePaths?.BILL,
             description: t('Please Try Again.'),
           });
         }
@@ -195,9 +193,9 @@ const CheckoutDrawer = (props: any) => {
         feedbackStorage();
       }
     }, 5000);
-    setErrorToggle({
-      state: false,
-      message: t('Device Disconnected!'),
+    notificationStorage({
+      type: SUCCESS,
+      title: t('Device Disconnected!'),
       redirect: feedbackData?.length === 0 ? availablePaths?.HOME : availablePaths?.FEEDBACK,
       description: t(
         'Hope you had a pleasant stay with us. We look forward to your next visit.\nThank You.',

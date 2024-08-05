@@ -21,6 +21,7 @@ import dayjs from 'dayjs';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { BRAND_CODE } from 'core/graphql/endpoints';
 import Head from 'next/head';
+import { Notification } from 'components/shared/Notification/Notification';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import i18nConfig from 'next-i18next.config';
@@ -108,7 +109,7 @@ function App({ Component, pageProps }: AppProps) {
                 transition={Zoom}
                 icon={ToastErrorIcon}
                 closeButton={({ closeToast }) => (
-                  <button className='Toastify__toast__close' onClick={closeToast}>
+                  <button title='toast' className='Toastify__toast__close' onClick={closeToast}>
                     <CloseToastIcon />
                   </button>
                 )}
@@ -168,6 +169,7 @@ function App({ Component, pageProps }: AppProps) {
             </React.StrictMode>
           </ApolloProvider>
         </LocalizationProvider>
+        <Notification />
       </StyledEngineProvider>
     </>
   );

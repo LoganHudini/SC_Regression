@@ -11,7 +11,7 @@ import {
 } from 'storage/personalize-your-room.storage';
 import { ApolloError, useReactiveVar } from '@apollo/client';
 import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
-import { toggleNotification } from 'storage/home.storage';
+import { notificationStorage, toggleNotification } from 'storage/home.storage';
 import { FAILURE, UPGRADE_ROOM } from 'utils/constants';
 import {
   getCheckInToken,
@@ -31,7 +31,6 @@ export const RoomPersonalizationEntityV2: React.FC<IRoomPersonalizationEntityPro
   type,
   id,
   maxQuantity,
-  setNotificationState,
   code,
 }) => {
   const { t } = useTranslation('personalize-your-room');
@@ -79,24 +78,15 @@ export const RoomPersonalizationEntityV2: React.FC<IRoomPersonalizationEntityPro
         }),
       );
     } else {
-      toggleNotification(true);
-      setNotificationState({
+      notificationStorage({
         title: t('Limit Exceeded!'),
         description: t('Maximum limit reached for the selected item'),
         redirect: null,
         type: FAILURE,
       });
+      toggleNotification(true);
     }
-  }, [
-    t,
-    currency,
-    id,
-    maxQuantity?.maxQuantityValue,
-    price,
-    quantity,
-    setNotificationState,
-    title,
-  ]);
+  }, [currency, id, maxQuantity?.maxQuantityValue, price, quantity, t, title]);
 
   const handleRemove = useCallback(() => {
     personalizeYourRoomStorage(
@@ -190,18 +180,18 @@ export const RoomPersonalizationEntityV2: React.FC<IRoomPersonalizationEntityPro
           body: updateBookingDetailsPayload,
         },
       });
-      setNotificationState({
+      notificationStorage({
         title: t('Upgrade Successful'),
         description: t('Your room upgrade processed successfully.'),
         redirect: null,
         type: FAILURE,
       });
+      toggleNotification(true);
       setLoading(false);
     } catch (e) {
       const statusCode = processStatusCode(e as ApolloError);
       statusCode === 403 && handleCheckInAuthenticationFailure(updateBookingDetails);
-      toggleNotification(true);
-      setNotificationState({
+      notificationStorage({
         title: t('Sorry!'),
         description: t(
           'The selected room is currently not available for an upgrade. Please select a different room type.',
@@ -209,6 +199,7 @@ export const RoomPersonalizationEntityV2: React.FC<IRoomPersonalizationEntityPro
         redirect: null,
         type: FAILURE,
       });
+      toggleNotification(true);
       setLoading(false);
       upgradeYourRoomStorage([]);
     }

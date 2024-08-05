@@ -33,8 +33,7 @@ import {
   PRIMARY,
 } from 'utils/constants';
 import { STORE_RESERVATION } from 'core/graphql/queries/STORE_RESERVATION';
-import { Notification } from 'components/shared/Notification/Notification';
-import { notificationDetails, toggleNotification } from 'storage/home.storage';
+import { notificationStorage, toggleNotification } from 'storage/home.storage';
 import '@aws-amplify/ui-react/styles.css';
 import { ClientVerificationUI } from 'client-verification-trential-next-sdk';
 import {
@@ -51,9 +50,7 @@ const Trential: React.FC = () => {
   const { t } = useTranslation(['check-in']);
   const navigate = useLocalizedRouter();
   const hotel = useConfig()?.name;
-  const hotelCode = useConfig()?.code;
   const [token, setToken] = useState('');
-  const notificationInfo = useReactiveVar(notificationDetails);
   const profileIDState = useReactiveVar(profileIDStorage);
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
@@ -105,20 +102,20 @@ const Trential: React.FC = () => {
         if (res?.data?.InitiateToken?.data?.token) {
           setToken(res?.data?.InitiateToken?.data?.token);
         } else {
-          toggleNotification(true);
-          notificationDetails({
+          notificationStorage({
             title: t('Something Went Wrong!') as string,
             redirect: availablePaths?.GUEST_VERIFICATION,
             type: FAILURE,
           });
+          toggleNotification(true);
         }
       } catch {
-        toggleNotification(true);
-        notificationDetails({
+        notificationStorage({
           title: t('Something Went Wrong!') as string,
           redirect: availablePaths?.GUEST_VERIFICATION,
           type: FAILURE,
         });
+        toggleNotification(true);
       }
       setLoading(false);
     };
@@ -191,8 +188,7 @@ const Trential: React.FC = () => {
                     .includes(reservationDataSelected?.lastName.toLowerCase()))
               )
             ) {
-              toggleNotification(true);
-              notificationDetails({
+              notificationStorage({
                 title: t('Oops Match Not Found!') as string,
                 description: t(
                   // eslint-disable-next-line quotes
@@ -201,6 +197,7 @@ const Trential: React.FC = () => {
                 redirect: availablePaths?.GUEST_VERIFICATION,
                 type: FAILURE,
               });
+              toggleNotification(true);
             } else if (
               statusList?.response?.name &&
               profileIDState?.guestType === PRIMARY &&
@@ -211,8 +208,7 @@ const Trential: React.FC = () => {
                 ?.toLowerCase()
                 ?.includes(reservationDataSelected?.lastName?.toLowerCase())
             ) {
-              toggleNotification(true);
-              notificationDetails({
+              notificationStorage({
                 title: t('Oops Match Not Found!') as string,
                 description: t(
                   // eslint-disable-next-line quotes
@@ -221,6 +217,7 @@ const Trential: React.FC = () => {
                 redirect: availablePaths?.GUEST_VERIFICATION,
                 type: FAILURE,
               });
+              toggleNotification(true);
             } else {
               if (profileIDState?.guestType === PRIMARY && guestInformationSection?.kioskEnabled) {
                 try {
@@ -333,7 +330,7 @@ const Trential: React.FC = () => {
               }
             }
           } else {
-            notificationDetails({
+            notificationStorage({
               title: t('Invalid Document!') as string,
               description: t(
                 'Document is expired, please try again with a valid document.',
@@ -346,34 +343,34 @@ const Trential: React.FC = () => {
           }
         }
         if (statusList?.state === (FAILED || IN_PROGRESS || NOT_INITIALIZED)) {
-          toggleNotification(true);
-          notificationDetails({
+          notificationStorage({
             title: t('Please Try Again!') as string,
             description: t('Verification process failed.') as string,
             redirect: availablePaths?.GUEST_VERIFICATION,
             type: FAILURE,
           });
+          toggleNotification(true);
         }
         navigate(availablePaths?.GUEST_VERIFICATION);
       } else {
-        toggleNotification(true);
-        notificationDetails({
+        notificationStorage({
           title: t('Verification Failed!') as string,
           description: t('Failed to verify your face, please try again.') as string,
           redirect: availablePaths?.GUEST_VERIFICATION,
           type: FAILURE,
         });
+        toggleNotification(true);
         navigate(availablePaths?.GUEST_VERIFICATION);
       }
     } catch {
       setLoading(false);
-      toggleNotification(true);
-      notificationDetails({
+      notificationStorage({
         title: t('Please Try Again!') as string,
         description: t('Verification process failed.') as string,
         redirect: availablePaths?.GUEST_VERIFICATION,
         type: FAILURE,
       });
+      toggleNotification(true);
     }
     setLoading(false);
   };
@@ -398,13 +395,13 @@ const Trential: React.FC = () => {
             }
             environment={guestInformationSection?.environment}
             onError={() => {
-              toggleNotification(true);
-              notificationDetails({
+              notificationStorage({
                 title: t('Please Try Again!') as string,
                 description: t('Verification process failed.') as string,
                 redirect: availablePaths?.GUEST_VERIFICATION,
                 type: FAILURE,
               });
+              toggleNotification(true);
               navigate(availablePaths?.GUEST_VERIFICATION);
             }}
             onSuccess={() => {
@@ -415,12 +412,6 @@ const Trential: React.FC = () => {
           />
         )}
       </div>
-      <Notification
-        title={notificationInfo?.title}
-        description={notificationInfo?.description}
-        redirect={notificationInfo?.redirect}
-        type={notificationInfo?.type}
-      />
     </>
   );
 };

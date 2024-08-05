@@ -16,9 +16,8 @@ import { useTranslation } from 'react-i18next';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
-import { Notification } from 'components/shared/Notification/Notification';
 import { FAILURE, SUCCESS } from 'utils/constants';
-import { toggleNotification } from 'storage/home.storage';
+import { notificationStorage, toggleNotification } from 'storage/home.storage';
 import {
   getCheckInToken,
   handleCheckInAuthenticationFailure,
@@ -29,7 +28,6 @@ import { PaymentLoaderPopUp } from 'components/pages/check-in/PreCheckinPaymentI
 const CCAvenue: React.FC = () => {
   const transactionId = useRef('');
   const navigate = useLocalizedRouter();
-  const [errorNotification, setErrorNotification] = useState(false);
   const [popUpStatus, setPopUpStatus] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -113,7 +111,13 @@ const CCAvenue: React.FC = () => {
         const statusCode = processStatusCode(initiatePaymentError as ApolloError);
         statusCode === 403
           ? handleCheckInAuthenticationFailure(preparePayment)
-          : (setErrorNotification(true), toggleNotification(true), onPaymentDone());
+          : ((notificationStorage({
+              title: t('Payment Failed!') as string,
+              description: t('Card Authentication Failed!') as string,
+              type: FAILURE,
+            }),
+            toggleNotification(true)),
+            onPaymentDone());
       }
       setLoading(false);
     }
@@ -155,12 +159,22 @@ const CCAvenue: React.FC = () => {
             cardExpiryDate: paymentStatusData?.getPaymentStatus?.data['cardExpiry'],
             paymentType: paymentStatusData?.getPaymentStatus?.data['paymentMethod '],
           });
-          setErrorNotification(false);
+          notificationStorage({
+            title: t('Thank You!') as string as string,
+            description: t('Card Authentication Completed') as string,
+            type: SUCCESS,
+            redirect: availablePaths?.CARD_AUTHORISATION,
+          });
           toggleNotification(true);
           onPaymentDone();
         }
         if (status === 'Failed') {
-          setErrorNotification(true);
+          notificationStorage({
+            title: t('Payment Failed!') as string,
+            description: t('Card Authentication Failed!') as string,
+            type: FAILURE,
+            redirect: availablePaths?.CARD_AUTHORISATION,
+          });
           toggleNotification(true);
           onPaymentDone();
         }
@@ -168,7 +182,13 @@ const CCAvenue: React.FC = () => {
         const statusCode = processStatusCode(paymentStatusError as ApolloError);
         statusCode === 403
           ? handleCheckInAuthenticationFailure(paymentResponse)
-          : (setErrorNotification(true), toggleNotification(true), onPaymentDone());
+          : (notificationStorage({
+              title: t('Payment Failed!') as string,
+              description: t('Card Authentication Failed!') as string,
+              type: FAILURE,
+            }),
+            toggleNotification(true),
+            onPaymentDone());
       }
     }
   };
@@ -194,17 +214,6 @@ const CCAvenue: React.FC = () => {
       ) : (
         <PaymentLoaderPopUp paymentLoader={!loading && !popUpStatus} />
       )}
-      <Notification
-        translation={t}
-        title={errorNotification ? (t('Payment Failed!') as string) : (t('Thank You!') as string)}
-        description={
-          errorNotification
-            ? (t('Card Authentication Failed!') as string)
-            : (t('Card Authentication Completed') as string)
-        }
-        redirect={availablePaths?.CARD_AUTHORISATION}
-        type={errorNotification ? FAILURE : SUCCESS}
-      />
     </>
   );
 };

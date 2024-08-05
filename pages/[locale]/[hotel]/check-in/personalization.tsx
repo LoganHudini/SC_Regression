@@ -31,8 +31,7 @@ import {
   NONE,
   ROOM,
 } from 'utils/constants';
-import { Notification } from 'components/shared/Notification/Notification';
-import { toggleNotification } from 'storage/home.storage';
+import { notificationStorage, toggleNotification } from 'storage/home.storage';
 import { useConfig, usePaymentConfig } from 'utils/hooks/useConfiguration';
 import { StepperInformationStorage } from 'storage/check-in.storage';
 import { Stepper } from 'components/shared/Stepper/Stepper';
@@ -53,7 +52,6 @@ const PersonalizeYourRoom: React.FC = () => {
   const paymentConfig: any = usePaymentConfig();
   const [loadingButton, setLoadingButton] = useState(false);
 
-  const [notificationState, setNotificationState] = useState<any>(false);
   const personalizationStorageInfo = useReactiveVar(personalizeYourRoomStorage);
 
   const checkInModule: any = config?.modules?.find((module: any) => module?.code === CHECK_IN);
@@ -146,7 +144,7 @@ const PersonalizeYourRoom: React.FC = () => {
           const statusCode = processStatusCode(e as ApolloError);
           statusCode === 403 && handleCheckInAuthenticationFailure(updateBookingDetails);
           toggleNotification(true);
-          setNotificationState({
+          notificationStorage({
             title: t('Please Try Again!'),
             description: t('Your order was not confirmed'),
             redirect: null,
@@ -158,8 +156,8 @@ const PersonalizeYourRoom: React.FC = () => {
       updateBookingDetails();
     }
   }, [
-    t,
     navigate,
+    personalisationConfig?.type,
     personalizationStorageInfo,
     reservationInfo?.accountId,
     reservationInfo?.confirmationId,
@@ -171,6 +169,7 @@ const PersonalizeYourRoom: React.FC = () => {
     reservationInfo?.reservationId,
     reservationInfo?.roomTypes,
     reservationInfo?.uniqueBookingId,
+    t,
   ]);
 
   useEffect(() => {
@@ -225,7 +224,6 @@ const PersonalizeYourRoom: React.FC = () => {
                 price={el?.cost}
                 currency={el?.currency}
                 maxQuantity={el?.maxQuantity}
-                setNotificationState={setNotificationState}
               />
             ))}
         </div>
@@ -240,13 +238,6 @@ const PersonalizeYourRoom: React.FC = () => {
             {t('Next')}
           </StyledButton>
         </div>
-        <Notification
-          translation={t}
-          title={notificationState?.title}
-          description={notificationState?.description}
-          redirect={notificationState?.redirect}
-          type={notificationState?.type}
-        />
       </PageWrapper>{' '}
     </>
   );

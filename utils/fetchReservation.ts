@@ -4,17 +4,30 @@ import {
   handleCheckInAuthenticationFailure,
 } from 'core/api/functions/getCheckInAuthentication';
 import { client } from 'core/graphql/client';
-import { GET_RESERVATION, GET_RESERVATION_STATUS } from 'core/graphql/queries/GET_RESERVATION';
-import { activeCheckOutFlow, checkinStorage, ICheckinStorageData } from 'storage/check-in.storage';
-import { toggleCheckInDetailsDrawer, toggleNotification } from 'storage/home.storage';
 import { saveTrip } from 'storage/trips.storage';
 import { availablePaths } from './availablePaths';
-import { CANCELED, CHKOUT, CHECKEDOUT, NOSHOW, INHOUSE, CANCELLED } from './constants';
+import {
+  CANCELED,
+  CHKOUT,
+  CHECKEDOUT,
+  NOSHOW,
+  INHOUSE,
+  FAILURE,
+  SUCCESS,
+  CANCELLED,
+} from './constants';
 import { getWelcomeDrawer } from './functions';
 import {
   getInHouseToken,
   handleinHouseAuthenticationFailure,
 } from 'core/api/functions/getInHouseAuthentication';
+import { GET_RESERVATION, GET_RESERVATION_STATUS } from 'core/graphql/queries/GET_RESERVATION';
+import {
+  notificationStorage,
+  toggleCheckInDetailsDrawer,
+  toggleNotification,
+} from 'storage/home.storage';
+import { activeCheckOutFlow, checkinStorage, ICheckinStorageData } from 'storage/check-in.storage';
 
 export const handleReservation = async ({
   activeCheckInFlowInfo,
@@ -23,7 +36,6 @@ export const handleReservation = async ({
   config,
   toggleNotification,
   setLoading,
-  setErrorToggle,
   t,
   processStatusCode,
   goToTheNextStep,
@@ -90,13 +102,12 @@ export const handleReservation = async ({
           const reservationStatus = reservationInformation?.reservationStatus;
 
           if ([CANCELLED, CANCELED, CHKOUT, CHECKEDOUT, NOSHOW].includes(reservationStatus)) {
-            setErrorToggle &&
-              setErrorToggle({
-                state: false,
-                message: t('Reservation Not Found'),
-                description: t('Please proceed to the front desk for further assistance.'),
-                redirect: null,
-              });
+            notificationStorage({
+              type: FAILURE,
+              title: t('Reservation Not Found'),
+              description: t('Please proceed to the front desk for further assistance.'),
+              redirect: availablePaths?.HOME,
+            });
             checkinStorage({
               reservationId: reservationInformation?.confirmationId,
               checkedIn: false,
@@ -108,15 +119,13 @@ export const handleReservation = async ({
           } else if (reservationStatus === INHOUSE) {
             if (roomNo) {
               if (activeCheckInFlowInfo) {
-                setErrorToggle &&
-                  setErrorToggle({
-                    state: true,
-                    message: t('Hello Again!'),
-                    description: t(
-                      'Reservation validated successfully. You can now explore our in-stay services.',
-                    ),
-                    redirect: null,
-                  });
+                notificationStorage({
+                  type: SUCCESS,
+                  title: t('Hello Again!'),
+                  description: t(
+                    'Reservation validated successfully. You can now explore our in-stay services.',
+                  ),
+                });
                 toggleNotification(true);
                 toggleCheckInDetailsDrawer(false);
               } else {
@@ -158,13 +167,12 @@ export const handleReservation = async ({
 
               setLoading(false);
             } else {
-              setErrorToggle &&
-                setErrorToggle({
-                  state: false,
-                  message: t('Room Unavailable'),
-                  description: t('Please try after sometime'),
-                  redirect: null,
-                });
+              notificationStorage({
+                type: FAILURE,
+                title: t('Room Unavailable'),
+                description: t('Please try after sometime'),
+                redirect: availablePaths?.HOME,
+              });
               toggleNotification(true);
               toggleCheckInDetailsDrawer(false);
               setLoading(false);
@@ -175,15 +183,14 @@ export const handleReservation = async ({
             activeCheckInFlowInfo && getWelcomeDrawer();
             homeActiveRef && homeActiveRef.current && navigate && navigate(availablePaths.CHECK_IN);
             if (!activeCheckInFlowInfo) {
-              setErrorToggle &&
-                setErrorToggle({
-                  state: false,
-                  message: t('Oops! Check-In Incomplete!'),
-                  description: t(
-                    'Please complete your check-in at our front desk to connect your phone with the room.',
-                  ),
-                  redirect: null,
-                });
+              notificationStorage({
+                type: FAILURE,
+                title: t('Oops! Check-In Incomplete!'),
+                description: t(
+                  'Please complete your check-in at our front desk to connect your phone with the room.',
+                ),
+                redirect: availablePaths?.HOME,
+              });
               toggleNotification(true);
             }
             setLoading(false);
@@ -192,25 +199,23 @@ export const handleReservation = async ({
             }, 2000);
           }
         } else {
-          setErrorToggle &&
-            setErrorToggle({
-              state: false,
-              message: t('Invalid Room Type'),
-              description: t('Please proceed to the front desk for further assistance.'),
-              redirect: null,
-            });
+          notificationStorage({
+            type: FAILURE,
+            title: t('Invalid Room Type'),
+            description: t('Please proceed to the front desk for further assistance.'),
+            redirect: availablePaths?.HOME,
+          });
           toggleNotification(true);
           toggleCheckInDetailsDrawer(false);
           setLoading(false);
         }
       } else {
-        setErrorToggle &&
-          setErrorToggle({
-            state: false,
-            message: t('Pre Checked-In'),
-            description: t('You have already completed the pre check-in process.'),
-            redirect: null,
-          });
+        notificationStorage({
+          type: FAILURE,
+          title: t('Pre Checked-In'),
+          description: t('You have already completed the pre check-in process.'),
+          redirect: availablePaths?.HOME,
+        });
         toggleNotification(true);
         toggleCheckInDetailsDrawer(false);
         setLoading(false);
@@ -223,13 +228,12 @@ export const handleReservation = async ({
         ? handleCheckInAuthenticationFailure(goToTheNextStep, values)
         : handleinHouseAuthenticationFailure(goToTheNextStep, values);
     } else {
-      setErrorToggle &&
-        setErrorToggle({
-          state: false,
-          message: t('Reservation Not Found'),
-          description: t('Please proceed to the front desk for further assistance.'),
-          redirect: null,
-        });
+      notificationStorage({
+        type: FAILURE,
+        title: t('Reservation Not Found'),
+        description: t('Please proceed to the front desk for further assistance.'),
+        redirect: availablePaths?.HOME,
+      });
       toggleNotification(true);
       toggleCheckInDetailsDrawer(false);
       setLoading(false);
@@ -240,17 +244,15 @@ export const handleReservation = async ({
 export const handleCheckInToken = async ({
   values,
   checkedInData,
-  setErrorToggle,
-  t,
   setLoading,
   navigate,
+  t,
 }: {
   values: { confirmationNumber?: string | string[] };
   checkedInData: ICheckinStorageData;
-  setErrorToggle: any;
-  t: any;
   setLoading: any;
   navigate: any;
+  t: any;
 }) => {
   setLoading(true);
   try {
@@ -266,13 +268,12 @@ export const handleCheckInToken = async ({
     navigate(availablePaths.BILL);
     toggleCheckInDetailsDrawer(false);
   } catch {
-    setErrorToggle &&
-      setErrorToggle({
-        state: false,
-        message: t('Reservation Not Found'),
-        description: t('Please proceed to the front desk for further assistance.'),
-        redirect: null,
-      });
+    notificationStorage({
+      type: FAILURE,
+      title: t('Reservation Not Found'),
+      description: t('Please proceed to the front desk for further assistance.'),
+      redirect: null,
+    });
     toggleNotification(true);
     toggleCheckInDetailsDrawer(false);
   }

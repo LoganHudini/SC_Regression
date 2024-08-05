@@ -26,8 +26,7 @@ import { useCheckedIn } from 'storage/check-in.storage';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { GET_HOTEL_INFORMATION } from 'core/graphql/queries/GET_HOTEL_INFORMATION';
 import { Loader } from 'components/shared/Loaders/Loaders';
-import { Notification } from 'components/shared/Notification/Notification';
-import { toggleNotification } from 'storage/home.storage';
+import { notificationStorage, toggleNotification } from 'storage/home.storage';
 import { activeItems } from 'utils/functions';
 import { checkoutTrip } from 'storage/trips.storage';
 import { StyledInput } from 'components/shared/StyledInput/StyledInput';
@@ -46,7 +45,6 @@ const Feedback = () => {
   const hotelId = useConfig()?.hotelId;
   const hotelName = useConfig()?.name;
   const navigate = useLocalizedRouter();
-  const [notificationState, setNotificationState] = useState<any>(false);
 
   const { data: homeCarouselDetails, loading: homeCarouselLoading } = useQuery(
     GET_HOTEL_INFORMATION,
@@ -120,7 +118,7 @@ const Feedback = () => {
         checkoutTrip();
       }, 5000);
       toggleNotification(true);
-      setNotificationState({
+      notificationStorage({
         title: t('Thank You!'),
         description: t('Feedback submitted successfully'),
         redirect: availablePaths.HOME,
@@ -129,7 +127,7 @@ const Feedback = () => {
       });
       setLoading(false);
     } catch (uploadSignatureError) {
-      setNotificationState({
+      notificationStorage({
         title: t(ERRORMSG),
         redirect: null,
         type: FAILURE,
@@ -257,14 +255,6 @@ const Feedback = () => {
           </div>
         </PageWrapper>
       )}
-      <Notification
-        translation={t}
-        title={notificationState?.title}
-        apolloError={notificationState?.apolloError}
-        redirect={notificationState?.redirect}
-        type={notificationState?.type}
-        description={notificationState?.description}
-      />
     </>
   );
 };

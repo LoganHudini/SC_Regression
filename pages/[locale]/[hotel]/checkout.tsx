@@ -11,7 +11,7 @@ import styles from '@styles/checkout/checkout.module.scss';
 import CheckoutDrawer from 'components/pages/checkout/CheckoutDrawer/CheckoutDrawer';
 import { ApolloError, useReactiveVar } from '@apollo/client';
 import { toggleOpenCheckOutDrawer } from 'storage/checkout.storage';
-import { toggleDetailsDrawer, toggleNotification } from 'storage/home.storage';
+import { notificationStorage, toggleDetailsDrawer, toggleNotification } from 'storage/home.storage';
 import { BillSummary } from 'components/pages/bill/BillSummary/BillSummary';
 import { IInvoiceApiResponse, INVOICE } from 'core/graphql/queries/INVOICE';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
@@ -21,7 +21,6 @@ import { TotalBill } from 'components/pages/bill/TotalBill/TotalBill';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { client } from 'core/graphql/client';
 import { EMAIL_INVOICE } from 'core/graphql/queries/EMAIL_INVOICE';
-import { Notification } from 'components/shared/Notification/Notification';
 import { availablePaths } from 'utils/availablePaths';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { useConfig } from 'utils/hooks/useConfiguration';
@@ -42,7 +41,6 @@ const CheckOut = () => {
   const config = useConfig();
   const hotelName = config?.name;
   const navigate = useLocalizedRouter();
-  const [errorToggle, setErrorToggle] = useState<any>();
   const openCheckOutDrawer = useReactiveVar(toggleOpenCheckOutDrawer);
   const checkedInData = useCheckedIn();
   const [emailLoader, setEmailLoader] = useState(false);
@@ -80,13 +78,13 @@ const CheckOut = () => {
         if (statusCode === 403) {
           handleCheckInAuthenticationFailure(fetchInvoice);
         } else {
-          toggleNotification(true);
-          setErrorToggle({
-            state: true,
-            message: t('Something Went Wrong!'),
+          notificationStorage({
+            type: FAILURE,
+            title: t('Something Went Wrong!'),
             redirect: availablePaths?.HOME,
             description: t('Please try again after sometime.'),
           });
+          toggleNotification(true);
         }
       }
     },
@@ -114,18 +112,18 @@ const CheckOut = () => {
         },
         fetchPolicy: 'no-cache',
       });
-      const reservationInformation = data?.getReservation?.data;
-      if (reservationInformation?.reservationStatus !== INHOUSE) {
-        toggleNotification(true);
-        setErrorToggle({
-          state: true,
-          message: t('Reservation Not Found!'),
+      if (data?.getReservation?.data?.reservationStatus !== INHOUSE) {
+        notificationStorage({
+          type: FAILURE,
+          title: t('Reservation Not Found!'),
           redirect: availablePaths?.HOME,
           description: t('Please enter valid reservation details.'),
         });
+        toggleNotification(true);
         checkoutTrip();
       } else {
         setReservationData(data);
+        const reservationInformation = data?.getReservation?.data;
         fetchInvoice(reservationInformation?.reservationId);
         saveTrip({
           ...checkedInData,
@@ -148,13 +146,13 @@ const CheckOut = () => {
       if (statusCode === 403) {
         handleCheckInAuthenticationFailure(fetchReservation);
       } else {
-        toggleNotification(true);
-        setErrorToggle({
-          state: true,
-          message: t('Please Try Again!'),
+        notificationStorage({
+          type: FAILURE,
+          title: t('Please Try Again!'),
           redirect: availablePaths?.HOME,
           description: t('Could not fetch reservation details.'),
         });
+        toggleNotification(true);
       }
     }
   }, [checkedInData, fetchInvoice, hotelId, t]);
@@ -227,20 +225,18 @@ const CheckOut = () => {
         },
       });
       setEmailLoader(false);
-      setErrorToggle({
-        state: false,
-        message: t('E-mail sent successfully'),
-        type: null,
+      notificationStorage({
+        type: SUCCESS,
+        title: t('E-mail sent successfully'),
         description: t('Please check your mailbox.'),
       });
     } catch {
-      setErrorToggle({
-        state: true,
-        message: t('Could not send E-mail'),
-        type: null,
+      notificationStorage({
+        type: FAILURE,
+        title: t('Could not send E-mail'),
         description: t('Please try again after some time.'),
-      }),
-        setEmailLoader(false);
+      });
+      setEmailLoader(false);
     }
     toggleNotification(true);
   };
@@ -307,16 +303,8 @@ const CheckOut = () => {
         )}
       </PageWrapper>
       <CheckoutDrawer
-        setErrorToggle={setErrorToggle}
         reservationData={reservationData}
         amountDue={invoiceData?.invoice?.data?.currentBalance}
-      />
-      <Notification
-        translation={t}
-        title={errorToggle?.message}
-        description={errorToggle?.description}
-        type={errorToggle?.state ? FAILURE : SUCCESS}
-        redirect={errorToggle?.redirect}
       />
     </>
   );

@@ -31,11 +31,11 @@ import { useCheckedIn } from 'storage/check-in.storage';
 import { CREATE_RESTAURANT_RESERVATION } from 'core/graphql/queries/GET_RESTAURANT_RESERVATION_DETAILS';
 import { client } from 'core/graphql/client';
 import {
+  notificationStorage,
   toggleDetailsDrawer,
   toggleNotification,
   toggleRestaurantDetailsDrawer,
 } from 'storage/home.storage';
-import { Notification } from 'components/shared/Notification/Notification';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 import { useReactiveVar } from '@apollo/client';
@@ -55,12 +55,6 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
   const [selectedTime, setSelectedTime] = useState(
     dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM),
   );
-  const [errorNotification, setErrorNotification] = useState<{
-    type: string;
-    title: string;
-    description: string;
-    redirect: string | null;
-  }>({ type: '', title: '', description: '', redirect: '' });
   const [iframeComponent, setIframeComponent] = useState(false);
   const [menu, setMenu] = useState(false);
   const [menuLink, setmenuLink] = useState(null);
@@ -117,7 +111,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
         fetchPolicy: 'network-only',
         variables: DetailsReservationPayload,
       });
-      setErrorNotification({
+      notificationStorage({
         type: SUCCESS,
         title: t('Thank You!') as string,
         description: t(
@@ -130,7 +124,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
         closeDrawer();
       }, 4000);
     } catch (err) {
-      setErrorNotification({
+      notificationStorage({
         type: FAILURE,
         title: ERRORMSG as string,
         description: t('Your booking was not received.') as string,
@@ -329,13 +323,6 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
           </>
         </StyledButton>
       )}
-      <Notification
-        translation={t}
-        title={errorNotification?.title}
-        description={errorNotification?.description}
-        redirect={errorNotification?.redirect}
-        type={errorNotification?.type}
-      />
       {(iframeComponent || menu) && (
         <CustomDrawer
           open={iframeComponent ? iframeComponent : menu}

@@ -6,6 +6,5 @@ export interface IRoomPersonalizationEntityProps {
   currency: string;
   id: any;
   maxQuantity: any;
-  setNotificationState: any;
   code?: string;
 }

@@ -8,10 +8,9 @@ import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.
 import { useReactiveVar } from '@apollo/client';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
-import { Notification } from 'components/shared/Notification/Notification';
 import { useTranslation } from 'react-i18next';
 import { FAILURE, SUCCESS } from 'utils/constants';
-import { toggleNotification } from 'storage/home.storage';
+import { notificationStorage, toggleNotification } from 'storage/home.storage';
 import { GET_PAYMENT_STATUS_WITHOUT_CONFIRMATIONID } from 'core/graphql/queries/GET_PAYMENT_STATUS';
 
 export const Ogone = () => {
@@ -19,7 +18,6 @@ export const Ogone = () => {
   const navigate = useLocalizedRouter();
   const transactionId = useRef('');
   const [paymentURL, setPaymentURL] = useState('');
-  const [errorNotification, setErrorNotification] = useState(false);
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
@@ -75,7 +73,12 @@ export const Ogone = () => {
       });
 
       if (status && status?.getPaymentStatus?.data?.['status '] == 'Failed') {
-        setErrorNotification(true);
+        notificationStorage({
+          title: t('Payment Failed!') as string,
+          description: t('Card Authentication Failed!') as string,
+          type: FAILURE,
+          redirect: availablePaths?.CARD_AUTHORISATION,
+        });
         toggleNotification(true);
       } else if (status && status?.getPaymentStatus?.data?.['status '] == 'Success') {
         const cardData = JSON.parse(status?.getPaymentStatus?.data?.encryptedPayment);
@@ -88,15 +91,30 @@ export const Ogone = () => {
           cardExpiryDate: `20${cardData?.ED?.slice(2)}-${cardData?.ED?.slice(0, 2)}-01`,
           paymentType: cardData?.BRAND,
         });
-        setErrorNotification(false);
+        notificationStorage({
+          title: t('Thank You!') as string as string,
+          description: t('Card Authentication Completed') as string,
+          type: SUCCESS,
+          redirect: availablePaths?.CARD_AUTHORISATION,
+        });
         toggleNotification(true);
         navigate(availablePaths?.CARD_AUTHORISATION);
       } else if (status && status?.getPaymentStatus?.data?.['status '] != '') {
-        setErrorNotification(true);
+        notificationStorage({
+          title: t('Payment Failed!') as string,
+          description: t('Card Authentication Failed!') as string,
+          type: FAILURE,
+          redirect: availablePaths?.CARD_AUTHORISATION,
+        });
         toggleNotification(true);
       }
     } catch {
-      setErrorNotification(true);
+      notificationStorage({
+        title: t('Payment Failed!') as string,
+        description: t('Card Authentication Failed!') as string,
+        type: FAILURE,
+        redirect: availablePaths?.CARD_AUTHORISATION,
+      });
       toggleNotification(true);
     }
   };
@@ -111,17 +129,6 @@ export const Ogone = () => {
           onLoad={handleChange}
         />
       </form>
-      <Notification
-        translation={t}
-        title={errorNotification ? (t('Payment Failed!') as string) : (t('Thank You!') as string)}
-        description={
-          errorNotification
-            ? (t('Card Authentication Failed!') as string)
-            : (t('Card Authentication Completed') as string)
-        }
-        redirect={availablePaths?.CARD_AUTHORISATION}
-        type={errorNotification ? FAILURE : SUCCESS}
-      />
     </div>
   );
 };

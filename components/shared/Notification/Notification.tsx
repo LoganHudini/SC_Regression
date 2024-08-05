@@ -4,40 +4,33 @@ import styles from './Notification.module.scss';
 import { useTranslation } from 'react-i18next';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { useReactiveVar } from '@apollo/client';
-import { toggleNotification } from 'storage/home.storage';
+import { notificationStorage, toggleNotification } from 'storage/home.storage';
 import { FailureAnimation, SuccessAnimation } from '../Loaders/Loaders';
 import { SUCCESS, FAILURE } from 'utils/constants';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import CloseIcon from '@icons/closeButton.svg';
 
-interface INotificationProps {
-  title: any;
-  description?: any;
-  redirect: any;
-  type: any;
-  apolloError?: any;
-  translation?: any;
-  delay?: number;
-}
-
-export const Notification: React.FC<INotificationProps> = ({
-  title,
-  description,
-  redirect,
-  type,
-  apolloError,
-  translation,
-  delay,
-}) => {
+export const Notification: React.FC = () => {
   const { t: errorTranslation } = useTranslation('errors');
   const notificationStatus = useReactiveVar(toggleNotification);
+  const notificationDetails = useReactiveVar(notificationStorage);
   const navigate = useLocalizedRouter();
-  const networkError = apolloError?.networkError as { result?: { errors?: string; code?: number } };
   const config = useConfig();
+
+  const title = notificationDetails?.title;
+  const description = notificationDetails?.description;
+  const redirect = notificationDetails?.redirect;
+  const type = notificationDetails?.type;
+  const apolloError = notificationDetails?.apolloError;
+  const delay = notificationDetails?.delay;
+  const networkError = apolloError?.networkError as {
+    result?: { errors?: string; code?: number };
+  };
 
   const handleRedirection = () => {
     if (notificationStatus) {
       toggleNotification(false);
+      notificationStorage(null);
       redirect && navigate(redirect);
     }
   };
@@ -47,6 +40,7 @@ export const Notification: React.FC<INotificationProps> = ({
       setTimeout(
         () => {
           toggleNotification(false);
+          notificationStorage(null);
           redirect && navigate(redirect);
         },
         delay ? delay : 5000,
@@ -86,7 +80,7 @@ export const Notification: React.FC<INotificationProps> = ({
                 ? networkError?.result?.errors === 'invalid room number'
                   ? errorTranslation('Invalid room number')
                   : errorTranslation(networkError?.result?.errors as string)
-                : translation && translation(description)}
+                : description}
             </p>
           </div>
           <CloseIcon className={styles.close} onClick={handleRedirection} />

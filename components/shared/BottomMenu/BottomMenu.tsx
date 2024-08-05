@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import styles from './BottomMenu.module.scss';
 import DownArrowIcon from '@icons/downArrow.svg';
 import { MenuItem, ModuleOptionsDrawer } from 'components/shared/BottomMenu/MenuItem/MenuItem';
@@ -38,7 +38,7 @@ import { ASSETS_URL } from 'core/graphql/endpoints';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { activeModule, diningOptionList, getHamburgerIcons } from 'utils/functions';
-import { CHECK_IN, FAILURE, MESSAGE_BOX, SUCCESS, URL } from 'utils/constants';
+import { CHECK_IN, MESSAGE_BOX, URL } from 'utils/constants';
 import { IBottomMenuProps } from './BottomMenu.types';
 import {
   IDiningMenuStorageData,
@@ -52,7 +52,6 @@ import HamburgerIcon from '@icons/hamburger.svg';
 import { GET_MESSAGEBOX_URL } from 'core/graphql/queries/GET_MESSAGEBOX_URL';
 import { client } from 'core/graphql/client';
 import { messageBoxURL } from 'storage/chats';
-import { Notification } from '../Notification/Notification';
 
 export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) => {
   const wrapperRef = useRef(null);
@@ -92,7 +91,6 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
   const webUrl = hotelInfo?.getPropertyDetailsByHotelId?.hotel?.information?.find(
     (url: any) => url?.type === URL,
   );
-  const [errorToggle, setErrorToggle] = useState<any>();
 
   useEffect(() => {
     homeActiveRef.current = router?.pathname === '/[locale]/[hotel]';
@@ -169,7 +167,6 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
             status={hamburgerMenuElement.isActive}
             toggleOption={closeHamburgerMenuDrawer}
             hotelName={hotelName}
-            setErrorToggle={setErrorToggle}
           />
         ))}
       </div>
@@ -331,7 +328,6 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
           spaCategories,
           offersList,
           serviceRequestOptions,
-          setErrorToggle,
         }}
       />
 
@@ -341,14 +337,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
         content={hamburgerMenuRender()}
       />
 
-      <CheckInDrawer setErrorToggle={setErrorToggle} />
-      <Notification
-        translation={t}
-        title={errorToggle?.message}
-        description={errorToggle?.description}
-        type={errorToggle?.state ? SUCCESS : FAILURE}
-        redirect={errorToggle?.type === 'home' ? availablePaths?.HOME : null}
-      />
+      <CheckInDrawer />
     </>
   );
 };

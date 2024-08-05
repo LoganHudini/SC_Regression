@@ -8,7 +8,7 @@ import { housekeepingQuantityStorage } from 'storage/housekeeping-quantity.stora
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { useTranslation } from 'react-i18next';
 import cx from 'classnames';
-import { toggleNotification } from 'storage/home.storage';
+import { notificationStorage, toggleNotification } from 'storage/home.storage';
 import { FAILURE } from 'utils/constants';
 
 export const HousekeepingQuantityItem: React.FC<IHousekeepingQuantityItemProps> = ({
@@ -17,7 +17,6 @@ export const HousekeepingQuantityItem: React.FC<IHousekeepingQuantityItemProps> 
   maxQuantity,
   maxQuantityActive,
   changeAlignment,
-  setNotificationState,
 }) => {
   const { t } = useTranslation('housekeeping');
 
@@ -39,7 +38,7 @@ export const HousekeepingQuantityItem: React.FC<IHousekeepingQuantityItemProps> 
         }),
       );
     } else {
-      setNotificationState({
+      notificationStorage({
         title: t('Max limit exceeded!'),
         description: t('Max limit reached for the selected item'),
         redirect: null,
@@ -47,7 +46,7 @@ export const HousekeepingQuantityItem: React.FC<IHousekeepingQuantityItemProps> 
       });
       toggleNotification(true);
     }
-  }, [id, maxQuantity, quantity, setNotificationState, t, title]);
+  }, [id, maxQuantity, quantity, t, title]);
 
   const toggleRequested = useCallback(() => {
     housekeepingQuantityStorage(
@@ -66,7 +65,7 @@ export const HousekeepingQuantityItem: React.FC<IHousekeepingQuantityItemProps> 
         }
       }),
     );
-  }, [id]);
+  }, [id, title]);
 
   const onClickMinus = useCallback(() => {
     housekeepingQuantityStorage(

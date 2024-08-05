@@ -61,8 +61,12 @@ import {
   PMS,
   CANCELLED,
 } from 'utils/constants';
-import { Notification } from 'components/shared/Notification/Notification';
-import { hotelInformation, setDayjsLocale, toggleNotification } from 'storage/home.storage';
+import {
+  notificationStorage,
+  hotelInformation,
+  setDayjsLocale,
+  toggleNotification,
+} from 'storage/home.storage';
 import { useConfig, usePaymentConfig } from 'utils/hooks/useConfiguration';
 import { Stepper } from 'components/shared/Stepper/Stepper';
 import produce from 'immer';
@@ -103,10 +107,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   );
   const personalizationEntities = useReactiveVar(personalizeYourRoomStorage);
   const upgradeRoomEntities = useReactiveVar(upgradeYourRoomStorage);
-  const [errorNotification, setErrorNotification] = useState(false);
   const [conditionsAccepted, setConditionsAccepted] = useState(false);
   const [btnStatus, setBtnStatus] = useState(false);
-  const [errorText, setErrorText] = useState(t('Please proceed to the front desk!'));
   const [signature, setSignature] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [signatureWidth, setSignatureWidth] = useState(340);
@@ -244,7 +246,11 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         const statusCode = processStatusCode(uploadSignatureError as ApolloError);
         statusCode === 403
           ? handleCheckInAuthenticationFailure(uploadSignature)
-          : setErrorNotification(true);
+          : notificationStorage({
+              type: FAILURE,
+              title: t(ERRORMSG as string),
+              description: t('Please proceed to the front desk!'),
+            });
       }
     };
     await uploadSignature();
@@ -474,7 +480,19 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             invoiceId: reservationInfo?.reservationId as string,
             currency: reservationInfo?.details?.holdAmount?.currency,
           });
-          setErrorNotification(false);
+          notificationStorage({
+            type: SUCCESS,
+            title: t('Welcome Aboard!') as string,
+            description: preCheckInStatus
+              ? (t(
+                  'You have pre checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
+                ) as string)
+              : (t(
+                  'You have checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
+                ) as string),
+            redirect: availablePaths?.HOME,
+            delay: 9000,
+          });
           guestInformationStorage(null);
           accompanyGuestDetails(null);
         } catch (checkinError) {
@@ -484,10 +502,17 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           } else {
             const error = checkinError as ApolloError;
             const networkError = error?.networkError as { result?: { errors?: string } };
-            setErrorNotification(true);
+            notificationStorage({
+              type: FAILURE,
+              title: t(ERRORMSG as string),
+              description: t('Please proceed to the front desk!'),
+            });
             if (networkError?.result?.errors === PRE_CHECKIN_ERROR_MSG) {
-              setErrorNotification(true);
-              setErrorText(t('You have already completed the pre check-in process.'));
+              notificationStorage({
+                type: FAILURE,
+                title: t(ERRORMSG as string),
+                description: t('You have already completed the pre check-in process.'),
+              });
             }
           }
         }
@@ -941,25 +966,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               {t(`${reviewConfig?.buttonLabelCheckIn}`)}
             </StyledButton>
           </div>
-
-          <Notification
-            translation={t}
-            title={errorNotification ? t(ERRORMSG as string) : (t('Welcome Aboard!') as string)}
-            description={
-              errorNotification
-                ? (errorText as string)
-                : preCheckInStatus
-                ? (t(
-                    'You have pre checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
-                  ) as string)
-                : (t(
-                    'You have checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
-                  ) as string)
-            }
-            redirect={!errorNotification && availablePaths?.HOME}
-            type={errorNotification ? FAILURE : SUCCESS}
-            delay={9000}
-          />
         </PageWrapper>
       )}
     </>

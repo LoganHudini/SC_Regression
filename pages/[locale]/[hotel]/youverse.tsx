@@ -18,8 +18,7 @@ import { profileIDStorage } from 'storage/check-in.storage';
 import { accompanyGuestDetails } from 'storage/accompany-guest-details';
 import { DOCTYPE, FAILURE, GENDER, PRIMARY } from 'utils/constants';
 import { STORE_RESERVATION } from 'core/graphql/queries/STORE_RESERVATION';
-import { Notification } from 'components/shared/Notification/Notification';
-import { notificationDetails, toggleNotification } from 'storage/home.storage';
+import { notificationStorage, toggleNotification } from 'storage/home.storage';
 import { timeFormats } from 'utils/timeFormats';
 import dayjs from 'dayjs';
 import {
@@ -35,7 +34,6 @@ const Youverse: React.FC = () => {
   const navigate = useLocalizedRouter();
   const hotel = useConfig()?.name;
   const [src, setSrc] = useState('');
-  const notificationInfo = useReactiveVar(notificationDetails);
   const youverseProfileIDState = useReactiveVar(profileIDStorage);
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
@@ -129,7 +127,7 @@ const Youverse: React.FC = () => {
                 )
               ) {
                 toggleNotification(true);
-                notificationDetails({
+                notificationStorage({
                   title: t('Oops Match Not Found!') as string,
                   description: t(
                     // eslint-disable-next-line quotes
@@ -148,7 +146,7 @@ const Youverse: React.FC = () => {
                   ?.includes(reservationDataSelected?.lastName.toLowerCase())
               ) {
                 toggleNotification(true);
-                notificationDetails({
+                notificationStorage({
                   title: t('Oops Match Not Found!') as string,
                   description: t(
                     // eslint-disable-next-line quotes
@@ -228,7 +226,7 @@ const Youverse: React.FC = () => {
             }
             if (res?.data?.getyoonikresponse?.data?.status === 'Failed') {
               toggleNotification(true);
-              notificationDetails({
+              notificationStorage({
                 title: t('Please Try Again!') as string,
                 description: t('Verification process failed.') as string,
                 redirect: availablePaths?.GUEST_VERIFICATION,
@@ -258,13 +256,6 @@ const Youverse: React.FC = () => {
       <div>
         <iframe src={src} allow='camera' style={{ width: '100%', height: '100dvh' }} />
       </div>
-      <Notification
-        translation={t}
-        title={notificationInfo?.title}
-        description={notificationInfo?.description}
-        redirect={notificationInfo?.redirect}
-        type={notificationInfo?.type}
-      />
     </>
   );
 };

@@ -16,7 +16,7 @@ import { availablePaths } from 'utils/availablePaths';
 import { useTranslation } from 'react-i18next';
 import { CHECK_IN, CREDIT_CARD_INFO, FAILURE, INFORMATION, SUCCESS } from 'utils/constants';
 import cx from 'classnames';
-import { errorNotification, toggleNotification } from 'storage/home.storage';
+import { notificationStorage, toggleNotification } from 'storage/home.storage';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { fetchCharges } from 'utils/functions';
 import { processStatusCode } from 'utils/processError';
@@ -91,7 +91,7 @@ export const Fiserv = () => {
           const statusCode = processStatusCode(initiatePaymentError as ApolloError);
           statusCode === 403
             ? handleCheckInAuthenticationFailure(preparePayment)
-            : (errorNotification({
+            : (notificationStorage({
                 title: t('Payment Failed!') as string,
                 description: t('Card Authentication Failed!') as string,
                 type: FAILURE,
@@ -144,7 +144,7 @@ export const Fiserv = () => {
               approvalCode: paymentStatusData?.getPaymentStatus?.data['approvalCode'],
               paymentType: paymentStatusData?.getPaymentStatus?.data['cardType '],
             });
-            errorNotification({
+            notificationStorage({
               title: t('Thank You!') as string as string,
               description: t('Card Authentication Completed') as string,
               type: SUCCESS,
@@ -152,7 +152,7 @@ export const Fiserv = () => {
             toggleNotification(true);
             navigate(availablePaths?.CARD_AUTHORISATION);
           } else if (status === 'Failed') {
-            errorNotification({
+            notificationStorage({
               title: t('Payment Failed!') as string,
               description: t('Card Authentication Failed!') as string,
               type: FAILURE,
@@ -164,7 +164,7 @@ export const Fiserv = () => {
           const statusCode = processStatusCode(paymentStatusError as ApolloError);
           statusCode === 403
             ? handleCheckInAuthenticationFailure(handleChange)
-            : (errorNotification({
+            : (notificationStorage({
                 title: t('Payment Failed!') as string,
                 description: t('Card Authentication Failed!') as string,
                 type: FAILURE,

@@ -56,7 +56,7 @@ const RestaurantAndBars: React.FC = () => {
   const initialSelected = useReactiveVar(selectedRestaurantStorage);
   const currentYear = new Date().getFullYear();
   const [selectedRestaurantData, setSelectedRestaurantData] = useState<any>();
-  const [errorNotification, setErrorNotification] = useState(false);
+  const [notificationStorage, setnotificationStorage] = useState(false);
   const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
 
   const { data, loading } = useQuery<IGetRestaurantDetailsResponse>(GET_RESTAURANT_DETAILS, {

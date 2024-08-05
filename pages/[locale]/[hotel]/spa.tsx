@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { Header } from 'components/shared/Header/Header';
 import {
+  notificationStorage,
   toggleDetailsDrawer,
   toggleHamburgerMenuDrawer,
   toggleNotification,
@@ -22,7 +23,6 @@ import Head from 'next/head';
 import { spaCategoryList, spaInformationStorage } from 'storage/spa.storage';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import produce from 'immer';
-import { Notification } from 'components/shared/Notification/Notification';
 import { ASSETS_URL, HOTEL_ID } from 'core/graphql/endpoints';
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
@@ -37,6 +37,8 @@ import {
   SPA,
   CMS,
   GenderOptions,
+  FAILURE,
+  SUCCESS,
 } from 'utils/constants';
 import DateTimeSelect from 'components/shared/DateTimeSelect/DateTimeSelect';
 import { client } from 'core/graphql/client';
@@ -82,7 +84,6 @@ const Spa: React.FC = () => {
   const currentYear = new Date().getFullYear();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [guestCount, setGuestCount] = useState(1);
-  const [errorNotification, setErrorNotification] = useState<any>({});
   const [spaBooking, setspaBooking] = useState(false);
   const spaModule: any = moduleType(config?.modules, SPA);
   const [availableSlots, setAvailableSlots] = useState(false);
@@ -187,10 +188,10 @@ const Spa: React.FC = () => {
     }
     if (spaInformation?.cta?.redirectOption === SPA_BOOKING_FLOW) {
       if (!isCheckedIn?.checkedIn) {
-        setErrorNotification({
-          type: true,
+        notificationStorage({
+          type: FAILURE,
           title: t('Access Denied.'),
-          message: t('Please connect to room to reserve spa treatments.') as string,
+          description: t('Please connect to room to reserve spa treatments.') as string,
         });
         toggleNotification(true);
       } else {
@@ -237,18 +238,18 @@ const Spa: React.FC = () => {
         setTimeout(() => {
           closeDrawer();
         }, 5000);
-        setErrorNotification({
-          type: false,
+        notificationStorage({
+          type: SUCCESS,
           title: t('Thank You!') as string,
-          message: t(
+          description: t(
             'Your booking has been received. Our reservation team will get in touch with you soon',
           ) as string,
         });
       } catch (err) {
-        setErrorNotification({
-          type: true,
+        notificationStorage({
+          type: FAILURE,
           title: t(ERRORMSG) as string,
-          message: t('Your booking was not received.') as string,
+          description: t('Your booking was not received.') as string,
         });
       }
       toggleNotification(true);
@@ -309,18 +310,18 @@ const Spa: React.FC = () => {
       setTimeout(() => {
         closeDrawer();
       }, 5000);
-      setErrorNotification({
-        type: false,
+      notificationStorage({
+        type: SUCCESS,
         title: t('Thank You!') as string,
-        message: t(
+        description: t(
           'Your booking has been received. Our reservation team will get in touch with you soon',
         ) as string,
       });
     } catch (err) {
-      setErrorNotification({
-        type: true,
+      notificationStorage({
+        type: FAILURE,
         title: t(ERRORMSG) as string,
-        message: t('Your booking was not received.') as string,
+        description: t('Your booking was not received.') as string,
       });
       setSpaBookingLoading(false);
     }
@@ -517,14 +518,6 @@ const Spa: React.FC = () => {
             </StyledButton>
           </div>
         )}
-
-        <Notification
-          translation={t}
-          title={errorNotification?.title as string}
-          description={errorNotification?.message}
-          redirect={null}
-          type={errorNotification?.type}
-        />
       </div>
     );
   };

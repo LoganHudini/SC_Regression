@@ -6,12 +6,13 @@ export type IdiningOptionsProps = {
   path: string;
 };
 
-export type INotificationDetailsProps = {
-  title?: string;
-  description?: string;
+export type INotificationDetailsProps = null | {
+  title: string;
+  description?: string | null;
   redirect?: string | null;
-  type?: string;
+  type: string;
   apolloError?: string | any;
+  delay?: number;
 };
 
 export const diningOptions = makeVar<any>({});
@@ -26,13 +27,7 @@ export const toggleMapState = makeVar(true);
 
 export const toggleNotification = makeVar(false);
 
-export const errorNotification = makeVar<null | {
-  title: string;
-  description: string;
-  type: string;
-}>(null);
-
-export const notificationDetails = makeVar<INotificationDetailsProps>({});
+export const notificationStorage = makeVar<INotificationDetailsProps>(null);
 
 export const toggleLoader = makeVar(false);
 

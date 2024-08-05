@@ -13,12 +13,10 @@ export interface IMenuItemProps {
   toggleOption: () => void;
   hotelName?: string;
   iconStyle?: any;
-  setErrorToggle?: any;
 }
 
 export interface IModuleOptionsDrawerProps {
   homeActive: boolean | undefined;
-  setErrorToggle?: any;
   irdActive: boolean;
   housekeepingActive: boolean;
   hotelCompendiumActive: boolean;

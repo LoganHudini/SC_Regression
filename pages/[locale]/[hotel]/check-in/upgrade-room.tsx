@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import React, { useState } from 'react';
+import React from 'react';
 import { Header } from 'components/shared/Header/Header';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import styles from '@styles/upgrade-room/upgrade-room.module.scss';
@@ -15,7 +15,6 @@ import i18nConfig from 'next-i18next.config';
 import { availablePaths } from 'utils/availablePaths';
 import { RoomPersonalizationEntityV2 } from 'components/pages/personalize-your-room-v2/RoomPersonalizationEntityV2/RoomPersonalizationEntityV2';
 import { CHECK_IN, UPGRADE_ROOM } from 'utils/constants';
-import { Notification } from 'components/shared/Notification/Notification';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { Stepper } from 'components/shared/Stepper/Stepper';
 import cx from 'classnames';
@@ -27,7 +26,6 @@ const PersonalizeYourRoom: React.FC = () => {
   const { t } = useTranslation(['personalize-your-room', 'check-in']);
   const navigate = useLocalizedRouter();
   const config = useConfig();
-  const [notificationState, setNotificationState] = useState<any>(false);
 
   const checkInModule: any = config?.modules?.find((module: any) => module?.code === CHECK_IN);
   const upgradeRoomConfig = checkInModule?.submodules?.find(
@@ -76,7 +74,6 @@ const PersonalizeYourRoom: React.FC = () => {
                 type={UPGRADE_ROOM}
                 currency={el.currency}
                 maxQuantity={el.maxQuantity}
-                setNotificationState={setNotificationState}
                 code={el.code}
               />
             ))}
@@ -91,13 +88,6 @@ const PersonalizeYourRoom: React.FC = () => {
             {t('Continue')}
           </StyledButton>
         </div>
-        <Notification
-          translation={t}
-          title={notificationState?.title}
-          description={notificationState?.description}
-          redirect={notificationState?.redirect}
-          type={notificationState?.type}
-        />
       </PageWrapper>
     </>
   );

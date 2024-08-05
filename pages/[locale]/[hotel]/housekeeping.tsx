@@ -46,8 +46,7 @@ import DateTimeSelect from 'components/shared/DateTimeSelect/DateTimeSelect';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { HOUSEKEEPING_ORDER } from 'core/graphql/queries/HOUSEKEEPING_ORDER';
 import { HOTEL_ID } from 'core/graphql/endpoints';
-import { toggleDetailsDrawer, toggleNotification } from 'storage/home.storage';
-import { Notification } from 'components/shared/Notification/Notification';
+import { notificationStorage, toggleDetailsDrawer, toggleNotification } from 'storage/home.storage';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { availablePaths } from 'utils/availablePaths';
 import { useCheckedIn } from 'storage/check-in.storage';
@@ -85,7 +84,6 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
   const serviceRequesttDetailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
   const serviceModule: any = activeModule(config?.modules, SERVICES);
   const navigate = useLocalizedRouter();
-  const [notificationState, setNotificationState] = useState<any>(false);
 
   const [sendHousekeepingOrder] = useMutation(HOUSEKEEPING_ORDER, {
     context: { clientName: 'property_e' },
@@ -269,9 +267,9 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
       setShowCalendar(false);
       setShowText(false);
       setSelectedTime(dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM));
-      setNotificationState({
-        title: 'Thank You!',
-        description: showSchedules?.confirmationMessage || 'Your request has been confirmed.',
+      notificationStorage({
+        title: t('Thank You!'),
+        description: showSchedules?.confirmationMessage || t('Your request has been confirmed.'),
         redirect: null,
         type: SUCCESS,
       });
@@ -286,7 +284,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
       if (statusCode === 403) {
         handleinHouseAuthenticationFailure(handleOrder);
       } else {
-        setNotificationState({
+        notificationStorage({
           title: FailureCheck1 || FailureCheck2 ? t('Invalid Reservation') : t(ERRORMSG),
           description:
             FailureCheck1 || FailureCheck2
@@ -322,7 +320,6 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
                   maxQuantity={showSchedules?.maxQuantity}
                   maxQuantityActive={showSchedules?.maxQuantityActive}
                   changeAlignment={false}
-                  setNotificationState={setNotificationState}
                 />
               ) : (
                 <>
@@ -343,7 +340,6 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
                               maxQuantity={schedule?.maxQuantity}
                               maxQuantityActive={schedule?.maxQuantityActive}
                               changeAlignment={true}
-                              setNotificationState={setNotificationState}
                             />
                           </React.Fragment>
                         ))}
@@ -475,13 +471,6 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
             </PageWrapper>
           </>
         )}
-        <Notification
-          translation={t}
-          title={notificationState?.title}
-          description={notificationState?.description}
-          redirect={notificationState?.redirect}
-          type={notificationState?.type}
-        />
         <CustomDrawer
           open={serviceRequesttDetailsDrawerStatus}
           onClose={() => handleClose()}

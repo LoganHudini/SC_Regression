@@ -34,8 +34,7 @@ import { POST_REQUEST } from 'core/graphql/queries/POST_REQUEST';
 import { availablePaths } from 'utils/availablePaths';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import Head from 'next/head';
-import { toggleNotification } from 'storage/home.storage';
-import { Notification } from 'components/shared/Notification/Notification';
+import { notificationStorage, toggleNotification } from 'storage/home.storage';
 import {
   getCheckInToken,
   handleCheckInAuthenticationFailure,
@@ -60,7 +59,6 @@ const Preferences = () => {
   const router = useRouter();
   const resId = router?.query?.resId ?? '';
   const lastName = router?.query?.lastName ?? '';
-  const [notificationState, setNotificationState] = useState<any>(false);
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
   });
@@ -92,7 +90,7 @@ const Preferences = () => {
         data.getReservation.data.reservationStatus === CANCELLED ||
         data.getReservation.data.reservationStatus === NOSHOW
       ) {
-        setNotificationState({
+        notificationStorage({
           title: t('Reservation Not Found'),
           redirect: availablePaths?.HOME,
           type: FAILURE,
@@ -138,7 +136,7 @@ const Preferences = () => {
       const statusCode = processStatusCode(error as ApolloError);
       statusCode === 403
         ? handleCheckInAuthenticationFailure(getReservation)
-        : (setNotificationState({
+        : (notificationStorage({
             title: t('Reservation Not Found'),
             redirect: availablePaths?.HOME,
             type: FAILURE,
@@ -155,7 +153,7 @@ const Preferences = () => {
 
     const timeoutId = setTimeout(() => {
       if (!lastName || !resId) {
-        setNotificationState({
+        notificationStorage({
           title: t('Reservation Not Found'),
           redirect: availablePaths?.HOME,
           type: FAILURE,
@@ -254,7 +252,7 @@ const Preferences = () => {
           body: preferencesPayload,
         },
       });
-      setNotificationState({
+      notificationStorage({
         title: t('Your Stay, Your Way!'),
         redirect: availablePaths?.HOME,
         type: SUCCESS,
@@ -266,7 +264,7 @@ const Preferences = () => {
       const statusCode = processStatusCode(uploadSignatureError as ApolloError);
       statusCode === 403
         ? handleCheckInAuthenticationFailure(submit)
-        : (setNotificationState({
+        : (notificationStorage({
             title: t('Oops!'),
             redirect: null,
             type: FAILURE,
@@ -339,14 +337,6 @@ const Preferences = () => {
           </div>
         </PageWrapper>
       )}
-      <Notification
-        translation={t}
-        title={notificationState?.title}
-        apolloError={notificationState?.apolloError}
-        redirect={notificationState?.redirect}
-        type={notificationState?.type}
-        description={notificationState?.description}
-      />
     </>
   );
 };

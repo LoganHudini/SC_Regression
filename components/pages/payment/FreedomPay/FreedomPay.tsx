@@ -18,14 +18,12 @@ import { useTranslation } from 'react-i18next';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
-import { Notification } from 'components/shared/Notification/Notification';
 import { FAILURE, SUCCESS } from 'utils/constants';
-import { toggleNotification } from 'storage/home.storage';
+import { notificationStorage, toggleNotification } from 'storage/home.storage';
 
 const FreedomPay: React.FC = () => {
   const transactionId = useRef('');
   const navigate = useLocalizedRouter();
-  const [errorNotification, setErrorNotification] = useState(false);
   const [paymentIntent, setPaymentIntent] = useState('');
   const [loading, setLoading] = useState(true);
 
@@ -71,7 +69,12 @@ const FreedomPay: React.FC = () => {
           transactionId.current = data?.initiatePayment?.data?.answer?.transaction_id as string;
         }
       } catch (initiatePaymentError) {
-        setErrorNotification(true);
+        notificationStorage({
+          title: t('Payment Failed!') as string,
+          description: t('Card Authentication Failed!') as string,
+          type: FAILURE,
+          redirect: availablePaths?.CARD_AUTHORISATION,
+        });
         toggleNotification(true);
         onPaymentDone();
       }
@@ -121,24 +124,39 @@ const FreedomPay: React.FC = () => {
               cardExpiryDate: paymentStatusData?.getPaymentStatus?.data['cardExpiry'],
               paymentType: paymentStatusData?.getPaymentStatus?.data['payment_method'],
             });
-            setErrorNotification(false);
+            notificationStorage({
+              title: t('Thank You!') as string as string,
+              description: t('Card Authentication Completed') as string,
+              type: SUCCESS,
+              redirect: availablePaths?.CARD_AUTHORISATION,
+            });
             toggleNotification(true);
             onPaymentDone();
           }
           if (status === 'Failed') {
-            setErrorNotification(true);
+            notificationStorage({
+              title: t('Payment Failed!') as string,
+              description: t('Card Authentication Failed!') as string,
+              type: FAILURE,
+              redirect: availablePaths?.CARD_AUTHORISATION,
+            });
             toggleNotification(true);
             onPaymentDone();
           }
         } catch (paymentStatusError) {
           // processError(t, paymentStatusError as ApolloError);
-          setErrorNotification(true);
+          notificationStorage({
+            title: t('Payment Failed!') as string,
+            description: t('Card Authentication Failed!') as string,
+            type: FAILURE,
+            redirect: availablePaths?.CARD_AUTHORISATION,
+          });
           toggleNotification(true);
           onPaymentDone();
         }
       }
     },
-    [guestReservationInfo, onPaymentDone, paymentIntent],
+    [guestReservationInfo, onPaymentDone, paymentIntent, t],
   );
 
   useEffect(() => {
@@ -168,18 +186,6 @@ const FreedomPay: React.FC = () => {
           src={'https://hpc.freedompay.com/api/v1.5/controls?sessionKey=' + paymentIntent}
         ></iframe>
       )}
-
-      <Notification
-        translation={t}
-        title={errorNotification ? (t('Payment Failed!') as string) : (t('Thank You!') as string)}
-        description={
-          errorNotification
-            ? (t('Card Authentication Failed!') as string)
-            : (t('Card Authentication Completed') as string)
-        }
-        redirect={availablePaths?.CARD_AUTHORISATION}
-        type={errorNotification ? FAILURE : SUCCESS}
-      />
     </>
   );
 };

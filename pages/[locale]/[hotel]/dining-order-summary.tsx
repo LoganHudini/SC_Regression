@@ -36,12 +36,11 @@ import {
 import { InputAdornment } from '@mui/material';
 import Cookinginstructions from '@icons/cooking_instructions.svg';
 import { IRD_ORDER } from 'core/graphql/queries/IRD_ORDER';
-import { Notification } from 'components/shared/Notification/Notification';
 import { addToCartEvent } from 'utils/gtag';
 import { findModule, formatPrice, setScrollPosition } from 'utils/functions';
 import { diningInformationStorage } from 'storage/dining.storage';
 import DiningDetailsDrawer from 'components/pages/dining/DiningDetailsDrawer/DiningDetailsDrawer';
-import { toggleNotification } from 'storage/home.storage';
+import { notificationStorage, toggleNotification } from 'storage/home.storage';
 import { DiningMenuElementUpsell } from 'components/pages/dining/DiningMenuElementUpsell/DiningMenuElementUpsell';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { useConfig } from 'utils/hooks/useConfiguration';
@@ -77,7 +76,6 @@ const DiningOrderSummary = () => {
   );
   const [guestNumber, setguestNumber] = useState(1);
   const [totalAmount, setTotalAmount] = useState(0);
-  const [errorNotification, setErrorNotification] = useState<any>({});
   const currency = useCurrency();
 
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
@@ -283,7 +281,7 @@ const DiningOrderSummary = () => {
       setTimeout(() => {
         diningMenuStorage({ items: [] });
       }, 5000);
-      setErrorNotification({
+      notificationStorage({
         title: t('Thank You!'),
         type: SUCCESS,
         description: t('Your order has been confirmed.'),
@@ -301,7 +299,7 @@ const DiningOrderSummary = () => {
       if (statusCode === 403) {
         handleinHouseAuthenticationFailure(handleOrder);
       } else {
-        setErrorNotification({
+        notificationStorage({
           title: FailureCheck1 || FailureCheck2 ? t('Invalid Reservation') : t(ERRORMSG),
           type: FAILURE,
           description:
@@ -320,14 +318,17 @@ const DiningOrderSummary = () => {
     }
     setLoading(false);
   }, [
-    t,
-    checkinData,
+    checkinData?.email,
+    checkinData?.lastName,
+    checkinData?.reservationId,
+    checkinData?.roomNumber,
     diningData.items,
     guestNumber,
     hotelId,
     irdOrderType?.type,
     paymentType?.name,
     specialRequests,
+    t,
     totalAmount,
   ]);
 
@@ -566,13 +567,6 @@ const DiningOrderSummary = () => {
         <DiningCustomisationDrawer
           customisationDrawer={customisationDrawer}
           closeCustomisationDrawer={closeCustomisationDrawer}
-        />
-        <Notification
-          translation={t}
-          title={errorNotification?.title}
-          description={errorNotification?.description}
-          redirect={errorNotification?.redirect}
-          type={errorNotification?.type}
         />
         <DiningDetailsDrawer />
       </PageWrapper>

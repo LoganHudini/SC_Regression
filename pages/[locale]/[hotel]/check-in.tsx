@@ -41,15 +41,12 @@ import {
   STEPPER_REVIEW,
   NONE,
   DOCTYPE,
-  FAILURE,
-  SUCCESS,
 } from 'utils/constants';
 import { usePersonalisation } from 'utils/hooks/usePersonalisation';
 import { personalizationStorage } from 'storage/personalize-your-room.storage';
 import { useRouter } from 'next/router';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { processStatusCode } from 'utils/processError';
-import { Notification } from 'components/shared/Notification/Notification';
 import { handleReservation } from 'utils/fetchReservation';
 import { GET_HOTEL_INFORMATION } from 'core/graphql/queries/GET_HOTEL_INFORMATION';
 import { getWelcomeDrawer } from 'utils/functions';
@@ -81,12 +78,6 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
     ),
   ];
   const hotelId = config?.hotelId;
-
-  const [errorNotification, setErrorNotification] = useState<{
-    state: boolean;
-    title: string;
-    description: string;
-  }>({ state: false, title: '', description: '' });
 
   const { data: hotelInfo, loading: hotelInfoLoading } = useQuery(GET_HOTEL_INFORMATION, {
     skip: !hotelId,
@@ -125,7 +116,6 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
             config,
             toggleNotification,
             setLoading,
-            setErrorNotification,
             t,
             processStatusCode,
             navigate,
@@ -373,13 +363,6 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
             open={welcomeDrawer}
             onClose={closeWelcomeDrawer}
             content={<WelcomeDetails />}
-          />
-          <Notification
-            translation={t}
-            title={errorNotification?.title as string}
-            description={errorNotification?.description as string}
-            redirect={errorNotification.state && availablePaths?.HOME}
-            type={errorNotification.state ? FAILURE : SUCCESS}
           />
         </PageWrapper>
       )}
