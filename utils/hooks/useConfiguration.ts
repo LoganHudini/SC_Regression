@@ -34,7 +34,7 @@ export const useConfig = () => {
         JSON.parse(localStorage.getItem('hotel') ?? '')) ??
       '';
 
-  const hotelConfigs = configuration?.find((config) => hotel && config?.code === hotel);
+  const hotelConfigs: any = configuration?.find((config: any) => hotel && config?.code === hotel);
   const hotelConfigsBasedOnNationality = structuredClone(hotelConfigs);
 
   if (hotelConfigs?.idVerificationBasedOnNationality) {

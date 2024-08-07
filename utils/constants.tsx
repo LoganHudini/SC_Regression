@@ -6,11 +6,6 @@ export const TABLE_RESERVATION_FLOW_VERSION =
 export const HOUSEKEEPING_FLOW_VERSION = process.env.NEXT_PUBLIC_HOUSEKEEPING_FLOW_VERSION;
 export const ROOM_CONTROLS_FLOW_VERSION = process.env.NEXT_PUBLIC_ROOM_CONTROLS_FLOW_VERSION;
 
-// brand constants
-export const RAFFLES = 'raffles';
-export const FAIRMONT = 'fairmont';
-export const GRAND_MERCURE = 'grand-mercure';
-
 // hotel constants
 export const STAGE = 'stage';
 export const UAT = 'uat';
