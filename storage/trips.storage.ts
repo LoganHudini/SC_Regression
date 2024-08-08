@@ -30,6 +30,7 @@ export const checkoutTrip = () => {
     email: '',
     roomNumber: '',
     invoiceId: '',
+    hotelId: '',
   });
   sessionStorage.clear();
 };

@@ -131,6 +131,7 @@ const Preferences = () => {
         roomNumber: reservationInformation?.roomTypes[0]?.roomNumber,
         invoiceId: reservationInformation?.reservationId,
         currency: reservationInformation?.details.holdAmount.currency,
+        hotelId: hotelId,
       });
     } catch (error) {
       const statusCode = processStatusCode(error as ApolloError);

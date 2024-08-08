@@ -78,6 +78,7 @@ const CheckoutDrawer = (props: any) => {
       checkedIn: false,
       roomNumber: '',
       invoiceId: '',
+      hotelId: hotelId,
     });
   };
 

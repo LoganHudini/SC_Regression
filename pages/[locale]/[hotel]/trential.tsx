@@ -57,7 +57,7 @@ const Trential: React.FC = () => {
   const documentConfig: any = useDocumentConfig();
   const [loading, setLoading] = useState(false);
   const config = useConfig();
-  const checkInModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
+  const checkInModule: any = config?.modules?.find((module: any) => module?.code === CHECK_IN);
   const guestSubmodule = checkInModule?.submodules?.find(
     (submodule: any) => submodule?.name === INFORMATION && submodule?.isActive,
   );

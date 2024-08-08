@@ -479,6 +479,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             roomNumber: !preCheckInStatus ? roomNo : '',
             invoiceId: reservationInfo?.reservationId as string,
             currency: reservationInfo?.details?.holdAmount?.currency,
+            hotelId: hotelId,
           });
           notificationStorage({
             type: SUCCESS,

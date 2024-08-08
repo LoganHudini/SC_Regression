@@ -163,6 +163,7 @@ export const handleReservation = async ({
                 roomNumber: roomNo,
                 invoiceId: reservationInformation?.reservationId,
                 currency: reservationInformation?.details.holdAmount.currency,
+                hotelId: hotelId,
               });
 
               setLoading(false);
