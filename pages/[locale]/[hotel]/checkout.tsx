@@ -26,7 +26,6 @@ import { availablePaths } from 'utils/availablePaths';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { FAILURE, INHOUSE, INVALID_DATE, SUCCESS } from 'utils/constants';
-import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import {
   getCheckInToken,
   handleCheckInAuthenticationFailure,
@@ -41,7 +40,6 @@ const CheckOut = () => {
   const { t } = useTranslation(['bill', 'common']);
   const config = useConfig();
   const hotelName = config?.name;
-  const navigate = useLocalizedRouter();
   const [errorToggle, setErrorToggle] = useState<any>();
   const openCheckOutDrawer = useReactiveVar(toggleOpenCheckOutDrawer);
   const checkedInData = useCheckedIn();
@@ -54,7 +52,7 @@ const CheckOut = () => {
 
   const fetchInvoice = useCallback(
     async (invoiceId: string) => {
-      checkInToken.current = getCheckInToken(
+      checkInToken.current = await getCheckInToken(
         checkedInData?.reservationId?.toString()?.trim(),
         checkedInData?.lastName?.toString()?.trim(),
       );
@@ -95,7 +93,7 @@ const CheckOut = () => {
 
   const fetchReservation = useCallback(async () => {
     try {
-      checkInToken.current = getCheckInToken(
+      checkInToken.current = await getCheckInToken(
         checkedInData?.reservationId?.toString()?.trim(),
         checkedInData?.lastName?.toString()?.trim(),
       );
@@ -160,15 +158,11 @@ const CheckOut = () => {
   }, [checkedInData, fetchInvoice, hotelId, t]);
 
   useEffect(() => {
-    fetchReservation();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (checkedInData && !checkedInData?.checkedIn) {
-      navigate(availablePaths?.HOME);
+    if (checkedInData?.reservationId && checkedInData?.lastName) {
+      fetchReservation();
     }
-  }, [checkedInData, navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checkedInData?.reservationId, checkedInData?.lastName]);
 
   const invoiceElements = invoiceData?.invoice?.data?.billItems;
   const reservationInfo = reservationData?.getReservation?.data;

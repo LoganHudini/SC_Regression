@@ -14,6 +14,7 @@ export interface ICheckinStorageData {
   roomNumber?: string;
   invoiceId?: string;
   currency?: string;
+  hotelId?: string;
 }
 
 export const checkinStorage = makeVar<ICheckinStorageData>({
@@ -29,7 +30,7 @@ export const useCheckedIn = () => {
   useEffect(() => {
     const reservations = getTrips();
 
-    if (reservations?.checkedIn && reservations?.hotelId === hotelId) {
+    if (reservations && reservations?.checkedIn && reservations?.hotelId === hotelId) {
       checkinStorage({
         reservationId: reservations?.reservationId, // confirmationId or uniqueBookingId
         preCheckedIn: reservations?.preCheckedIn,
@@ -39,9 +40,10 @@ export const useCheckedIn = () => {
         email: reservations?.email,
         roomNumber: reservations?.roomNumber,
         invoiceId: reservations?.invoiceId, // reservationId
+        hotelId: hotelId,
       });
     }
-  }, []);
+  }, [hotelId]);
 
   return checkinData;
 };

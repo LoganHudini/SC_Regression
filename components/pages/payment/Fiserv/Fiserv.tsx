@@ -51,7 +51,7 @@ export const Fiserv = () => {
     query: GET_RESERVATION,
   });
 
-  const checkInModule: any = config?.modules?.find((module) => module?.code === CHECK_IN);
+  const checkInModule: any = config?.modules?.find((module: any) => module?.code === CHECK_IN);
 
   const guestSubmodule = checkInModule?.submodules?.find(
     (submodule: any) => submodule?.name === INFORMATION && submodule?.isActive,

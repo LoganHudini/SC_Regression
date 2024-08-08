@@ -1,6 +1,6 @@
 import { Countries } from 'utils/countryList';
 
-export const configuration = [
+export const configuration: any = [
   {
     code: 'infinite',
     logo: '',
