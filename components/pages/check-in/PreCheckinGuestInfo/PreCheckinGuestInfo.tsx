@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import {
+  AUTOCOMPLETE,
   DATEPICKER,
   INVALID_DATE,
   NEWGUEST,
@@ -15,7 +16,7 @@ import {
   TIMEPICKER,
 } from 'utils/constants';
 import { generateInitialFieldValues } from 'utils/functions';
-import { InputLabel, Select, MenuItem, FormHelperText } from '@mui/material';
+import { InputLabel, Select, MenuItem, FormHelperText, Autocomplete } from '@mui/material';
 import { StyledFormControl } from 'components/shared/StyledFormControl/StyledFormControl';
 import DropDown from '@icons/dropDownIcon.svg';
 import { DatePicker, MobileTimePicker } from '@mui/x-date-pickers';
@@ -128,6 +129,37 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                     </FormHelperText>
                   </StyledFormControl>
                 </div>
+              ) : field?.type === AUTOCOMPLETE ? (
+                <Autocomplete
+                  disablePortal
+                  disableClearable={true}
+                  disableListWrap
+                  className={styles.guestDataInput}
+                  options={field?.options?.map((item: any) => item?.name)}
+                  value={
+                    field?.options?.find((item: any) => item?.value === formik?.values[field?.name])
+                      ?.name || ''
+                  }
+                  autoComplete={true}
+                  onChange={(e, selectedData) => {
+                    const updatedData = field?.options?.find(
+                      (data: any) => data?.name === selectedData,
+                    )?.value;
+                    formik.setFieldValue(field?.name, updatedData);
+                    updateGuestDetails(field?.name, updatedData);
+                  }}
+                  renderInput={(params) => (
+                    <StyledInput
+                      required
+                      variant='standard'
+                      {...params}
+                      label={t(field?.label)}
+                      InputProps={{
+                        ...params.InputProps,
+                      }}
+                    />
+                  )}
+                />
               ) : field?.type === DATEPICKER ? (
                 <div className={styles.col_100}>
                   <DatePicker

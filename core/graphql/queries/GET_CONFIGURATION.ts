@@ -87,7 +87,7 @@ export const configuration: any = [
                   {
                     name: 'nationality',
                     label: 'Nationality',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -96,7 +96,7 @@ export const configuration: any = [
                   {
                     name: 'docType',
                     label: 'Document Type',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -227,7 +227,7 @@ export const configuration: any = [
               {
                 name: 'docType',
                 label: 'Document Type',
-                type: 'Select',
+                type: 'AutoComplete',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -445,7 +445,7 @@ export const configuration: any = [
                   {
                     name: 'nationality',
                     label: 'Nationality',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -454,7 +454,7 @@ export const configuration: any = [
                   {
                     name: 'docType',
                     label: 'Document Type',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -585,7 +585,7 @@ export const configuration: any = [
               {
                 name: 'docType',
                 label: 'Document Type',
-                type: 'Select',
+                type: 'AutoComplete',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -803,7 +803,7 @@ export const configuration: any = [
                   {
                     name: 'nationality',
                     label: 'Nationality',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -812,7 +812,7 @@ export const configuration: any = [
                   {
                     name: 'docType',
                     label: 'Document Type',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -951,7 +951,7 @@ export const configuration: any = [
               {
                 name: 'docType',
                 label: 'Document Type',
-                type: 'Select',
+                type: 'AutoComplete',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -1169,7 +1169,7 @@ export const configuration: any = [
                   {
                     name: 'nationality',
                     label: 'Nationality',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -1178,7 +1178,7 @@ export const configuration: any = [
                   {
                     name: 'docType',
                     label: 'Document Type',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -1317,7 +1317,7 @@ export const configuration: any = [
               {
                 name: 'docType',
                 label: 'Document Type',
-                type: 'Select',
+                type: 'AutoComplete',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -1538,7 +1538,7 @@ export const configuration: any = [
                   {
                     name: 'nationality',
                     label: 'Nationality',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -1547,7 +1547,7 @@ export const configuration: any = [
                   {
                     name: 'docType',
                     label: 'Document Type',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -1699,7 +1699,7 @@ export const configuration: any = [
               {
                 name: 'docType',
                 label: 'Document Type',
-                type: 'Select',
+                type: 'AutoComplete',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -1916,7 +1916,7 @@ export const configuration: any = [
                   {
                     name: 'nationality',
                     label: 'Nationality',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -1925,7 +1925,7 @@ export const configuration: any = [
                   {
                     name: 'docType',
                     label: 'Document Type',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: true,
                     isActive: true,
@@ -2225,7 +2225,7 @@ export const configuration: any = [
                   {
                     name: 'nationality',
                     label: 'Nationality',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -2234,7 +2234,7 @@ export const configuration: any = [
                   {
                     name: 'docType',
                     label: 'Document Type',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: true,
                     isActive: true,
@@ -2634,7 +2634,7 @@ export const configuration: any = [
                   {
                     name: 'nationality',
                     label: 'Nationality',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -2643,7 +2643,7 @@ export const configuration: any = [
                   {
                     name: 'docType',
                     label: 'Document Type',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -3126,7 +3126,7 @@ export const configuration: any = [
                   {
                     name: 'nationality',
                     label: 'Nationality',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -3135,7 +3135,7 @@ export const configuration: any = [
                   {
                     name: 'docType',
                     label: 'Document Type',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: true,
                     isActive: true,
@@ -3256,7 +3256,7 @@ export const configuration: any = [
               {
                 name: 'docType',
                 label: 'Document Type',
-                type: 'Select',
+                type: 'AutoComplete',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -3469,7 +3469,7 @@ export const configuration: any = [
                   {
                     name: 'nationality',
                     label: 'Nationality',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -3478,7 +3478,7 @@ export const configuration: any = [
                   {
                     name: 'docType',
                     label: 'Document Type',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: true,
                     isActive: true,
@@ -3803,7 +3803,7 @@ export const configuration: any = [
                   {
                     name: 'nationality',
                     label: 'Nationality',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -3812,7 +3812,7 @@ export const configuration: any = [
                   {
                     name: 'docType',
                     label: 'Document Type',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: true,
                     isActive: true,
@@ -4146,7 +4146,7 @@ export const configuration: any = [
                   {
                     name: 'nationality',
                     label: 'Nationality',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -4155,7 +4155,7 @@ export const configuration: any = [
                   {
                     name: 'docType',
                     label: 'Document Type',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -4276,7 +4276,7 @@ export const configuration: any = [
               {
                 name: 'docType',
                 label: 'Document Type',
-                type: 'Select',
+                type: 'AutoComplete',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -4491,7 +4491,7 @@ export const configuration: any = [
                   {
                     name: 'nationality',
                     label: 'Nationality',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -4500,7 +4500,7 @@ export const configuration: any = [
                   {
                     name: 'docType',
                     label: 'Document Type',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -4621,7 +4621,7 @@ export const configuration: any = [
               {
                 name: 'docType',
                 label: 'Document Type',
-                type: 'Select',
+                type: 'AutoComplete',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -4819,7 +4819,7 @@ export const configuration: any = [
                   {
                     name: 'gender',
                     label: 'Gender',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -4844,7 +4844,7 @@ export const configuration: any = [
                   {
                     name: 'nationality',
                     label: 'Nationality',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: true,
                     isActive: true,
@@ -4878,7 +4878,7 @@ export const configuration: any = [
                   {
                     name: 'docType',
                     label: 'Document Type',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: true,
                     isActive: true,
@@ -4917,7 +4917,7 @@ export const configuration: any = [
                   {
                     name: 'countryCode',
                     label: 'Country',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -4976,7 +4976,7 @@ export const configuration: any = [
               {
                 name: 'gender',
                 label: 'Gender',
-                type: 'Select',
+                type: 'AutoComplete',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -5026,7 +5026,7 @@ export const configuration: any = [
               {
                 name: 'docType',
                 label: 'Document Type',
-                type: 'Select',
+                type: 'AutoComplete',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -5217,7 +5217,7 @@ export const configuration: any = [
                   {
                     name: 'gender',
                     label: 'Gender',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -5242,7 +5242,7 @@ export const configuration: any = [
                   {
                     name: 'nationality',
                     label: 'Nationality',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: true,
                     isActive: true,
@@ -5276,7 +5276,7 @@ export const configuration: any = [
                   {
                     name: 'docType',
                     label: 'Document Type',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: true,
                     isActive: true,
@@ -5315,7 +5315,7 @@ export const configuration: any = [
                   {
                     name: 'countryCode',
                     label: 'Country',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -5374,7 +5374,7 @@ export const configuration: any = [
               {
                 name: 'gender',
                 label: 'Gender',
-                type: 'Select',
+                type: 'AutoComplete',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -5424,7 +5424,7 @@ export const configuration: any = [
               {
                 name: 'docType',
                 label: 'Document Type',
-                type: 'Select',
+                type: 'AutoComplete',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -5548,7 +5548,8 @@ export const configuration: any = [
     code: 'londoner-leicester-sq',
     logo: '',
     name: 'Londoner Leicester Square',
-    hotelId: 'aa211eb9-110c-47cb-ade4-7db0e6da20b4',
+    // hotelId: 'aa211eb9-110c-47cb-ade4-7db0e6da20b4',
+    hotelId: '78402815-a21e-486f-992b-91104e0cb887',
     pms: 'OHIP',
     fetchFromDb: 'no',
     saveToDb: 'no',
@@ -5607,7 +5608,7 @@ export const configuration: any = [
                   {
                     name: 'gender',
                     label: 'Gender',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: false,
@@ -5632,7 +5633,7 @@ export const configuration: any = [
                   {
                     name: 'nationality',
                     label: 'Nationality',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -5666,7 +5667,7 @@ export const configuration: any = [
                   {
                     name: 'docType',
                     label: 'Document Type',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -5705,7 +5706,7 @@ export const configuration: any = [
                   {
                     name: 'countryCode',
                     label: 'Country',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -5789,7 +5790,7 @@ export const configuration: any = [
               {
                 name: 'gender',
                 label: 'Gender',
-                type: 'Select',
+                type: 'AutoComplete',
                 required: false,
                 isDisabled: false,
                 isActive: false,
@@ -5839,7 +5840,7 @@ export const configuration: any = [
               {
                 name: 'docType',
                 label: 'Document Type',
-                type: 'Select',
+                type: 'AutoComplete',
                 required: false,
                 isDisabled: false,
                 isActive: true,
@@ -6030,7 +6031,7 @@ export const configuration: any = [
                   {
                     name: 'gender',
                     label: 'Gender',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -6055,7 +6056,7 @@ export const configuration: any = [
                   {
                     name: 'nationality',
                     label: 'Nationality',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -6089,7 +6090,7 @@ export const configuration: any = [
                   {
                     name: 'docType',
                     label: 'Document Type',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -6128,7 +6129,7 @@ export const configuration: any = [
                   {
                     name: 'countryCode',
                     label: 'Country',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -6212,7 +6213,7 @@ export const configuration: any = [
               {
                 name: 'gender',
                 label: 'Gender',
-                type: 'Select',
+                type: 'AutoComplete',
                 required: false,
                 isDisabled: false,
                 isActive: true,
@@ -6262,7 +6263,7 @@ export const configuration: any = [
               {
                 name: 'docType',
                 label: 'Document Type',
-                type: 'Select',
+                type: 'AutoComplete',
                 required: false,
                 isDisabled: false,
                 isActive: true,
@@ -6477,7 +6478,7 @@ export const configuration: any = [
                   {
                     name: 'nationality',
                     label: 'Nationality',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -6494,7 +6495,7 @@ export const configuration: any = [
                   {
                     name: 'docType',
                     label: 'Document Type',
-                    type: 'Select',
+                    type: 'AutoComplete',
                     required: true,
                     isDisabled: true,
                     isActive: true,
@@ -6635,7 +6636,7 @@ export const configuration: any = [
               {
                 name: 'gender',
                 label: 'Gender',
-                type: 'Select',
+                type: 'AutoComplete',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -6657,7 +6658,7 @@ export const configuration: any = [
               {
                 name: 'docType',
                 label: 'Document Type',
-                type: 'Select',
+                type: 'AutoComplete',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -6673,7 +6674,7 @@ export const configuration: any = [
               {
                 name: 'nationality',
                 label: 'Nationality',
-                type: 'Select',
+                type: 'AutoComplete',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -6691,7 +6692,7 @@ export const configuration: any = [
               {
                 name: 'issueCountry',
                 label: 'Country of Issue',
-                type: 'Select',
+                type: 'AutoComplete',
                 required: true,
                 isDisabled: false,
                 isActive: true,

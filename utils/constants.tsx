@@ -89,6 +89,7 @@ export const TEXT = 'Text';
 export const PHONENUMBER = 'phoneNumber';
 export const PHONE = 'phone';
 export const SELECTDROPDOWN = 'Select';
+export const AUTOCOMPLETE = 'AutoComplete';
 export const GUESTINFORMATION = 'Guest Information';
 export const CREDIT_CARD_INFO = 'Credit Card Info';
 export const INFORMATION = 'information';
