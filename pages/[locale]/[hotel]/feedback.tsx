@@ -94,7 +94,7 @@ const Feedback = () => {
   };
 
   const feedbackPayload = {
-    orgEmail: 'arun.r@hudini.io', // do not change, feedback should be sent to arun
+    orgEmail: '',
     email: isCheckedIn?.email,
     space: hotelName,
     guestName: `${isCheckedIn?.firstName} ${isCheckedIn?.lastName}`,
