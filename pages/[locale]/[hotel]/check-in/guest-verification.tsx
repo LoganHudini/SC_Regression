@@ -81,7 +81,6 @@ import Popper from '@mui/material/Popper';
 import DangerIcon from '@icons/danger.svg';
 import DropDownIcon from '@icons/dropDownIcon.svg';
 import { Loader } from 'components/shared/Loaders/Loaders';
-
 export { getStaticPaths };
 
 const Guest: React.FC<any> = () => {
@@ -468,28 +467,28 @@ const Guest: React.FC<any> = () => {
 
     setLoading(false);
   }, [
+    accompanyGuestData,
+    config?.pms,
     documentTypes,
-    guestReservationInfo?.docNo,
-    guestReservationInfo?.firstName,
-    guestReservationInfo?.lastName,
-    guestReservationInfo?.issueDate,
-    guestReservationInfo?.expiryDate,
-    guestReservationInfo?.issueCountry,
-    guestReservationInfo?.gender,
-    guestReservationInfo?.nationality,
-    guestReservationInfo?.dob,
-    guestReservationInfo?.profession,
     guestReservationInfo?.addressLine,
     guestReservationInfo?.countryCode,
-    guestReservationInfo?.phone,
-    guestReservationInfo?.emails,
+    guestReservationInfo?.dob,
+    guestReservationInfo?.docNo,
     guestReservationInfo?.docType,
+    guestReservationInfo?.emails,
+    guestReservationInfo?.expiryDate,
+    guestReservationInfo?.firstName,
+    guestReservationInfo?.gender,
+    guestReservationInfo?.issueCountry,
+    guestReservationInfo?.issueDate,
+    guestReservationInfo?.lastName,
+    guestReservationInfo?.nationality,
+    guestReservationInfo?.phone,
+    guestReservationInfo?.profession,
+    nextStep,
     reservationInfo?.confirmationId,
     reservationInfo?.guests,
     reservationInfo?.reservationId,
-    config?.pms,
-    accompanyGuestData,
-    nextStep,
     t,
   ]);
 
@@ -710,7 +709,6 @@ const Guest: React.FC<any> = () => {
                           <PreCheckinGuestInfo
                             selectedGuest={guestReservationInfo}
                             guestInformationSection={guestInformationSection?.details}
-                            updateSelectedGuestInformation={reservationGuestInfoStorageData}
                             type={PRIMARY}
                           />
                         </div>
@@ -743,7 +741,6 @@ const Guest: React.FC<any> = () => {
                         <PreCheckinGuestInfo
                           selectedGuest={guestReservationInfo}
                           guestInformationSection={guestInformationSection?.details}
-                          updateSelectedGuestInformation={reservationGuestInfoStorageData}
                           type={PRIMARY}
                         />
                       </div>
@@ -818,7 +815,6 @@ const Guest: React.FC<any> = () => {
                               <PreCheckinGuestInfo
                                 selectedGuest={selectedAccompanyGuest}
                                 guestInformationSection={accompanyGuestInformationSection}
-                                updateSelectedGuestInformation={accompanyGuestDetails}
                                 type={SECONDARY}
                               />
                             </div>
@@ -868,7 +864,6 @@ const Guest: React.FC<any> = () => {
                             <PreCheckinGuestInfo
                               selectedGuest={selectedAccompanyGuest}
                               guestInformationSection={accompanyGuestInformationSection}
-                              updateSelectedGuestInformation={accompanyGuestDetails}
                               type={SECONDARY}
                             />
                           </div>
@@ -928,7 +923,6 @@ const Guest: React.FC<any> = () => {
                         <PreCheckinGuestInfo
                           selectedGuest={guestData}
                           guestInformationSection={accompanyGuestInformationSection}
-                          updateSelectedGuestInformation={updateNewAccompanyGuestDetails}
                           type={NEWGUEST}
                         />
                       </div>
@@ -962,7 +956,6 @@ const Guest: React.FC<any> = () => {
                 <PreCheckinGuestInfo
                   selectedGuest={newGuestData}
                   guestInformationSection={accompanyGuestInformationSection}
-                  updateSelectedGuestInformation={newAccompanyGuestDetails}
                   type={NEWGUESTFORM}
                 />
                 {!newGuestAdded && (

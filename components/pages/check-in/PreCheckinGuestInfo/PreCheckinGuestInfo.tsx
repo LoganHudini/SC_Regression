@@ -3,7 +3,7 @@ import { IPreCheckinGuestInfoProps } from './PreCheckinGuestInfo.types';
 import styles from './PreCheckinGuestInfo.module.scss';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   AUTOCOMPLETE,
   DATEPICKER,
@@ -14,6 +14,7 @@ import {
   SECONDARY,
   SELECTDROPDOWN,
   TIMEPICKER,
+  TIMEPICKERPOPUP,
 } from 'utils/constants';
 import { generateInitialFieldValues } from 'utils/functions';
 import { InputLabel, Select, MenuItem, FormHelperText, Autocomplete } from '@mui/material';
@@ -23,20 +24,38 @@ import { DatePicker, MobileTimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
 import { useReactiveVar } from '@apollo/client';
-import { accompanyGuestDetails } from 'storage/accompany-guest-details';
+import {
+  accompanyGuestDetails,
+  updateNewAccompanyGuestDetails,
+} from 'storage/accompany-guest-details';
 import useValidate from 'utils/hooks/useValidate';
 import { hotelInformation } from 'storage/home.storage';
+import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
+import cx from 'classnames';
+import 'rmc-picker/assets/index.css';
+import Picker from 'rmc-picker/lib/Picker';
+import MultiPicker from 'rmc-picker/lib/MultiPicker';
 
 export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
   selectedGuest,
   guestInformationSection,
-  updateSelectedGuestInformation,
   type,
 }) => {
   const { t } = useTranslation('check-in');
   const [cardOpened, setCardOpened] = useState(true);
+  const [openPopup, setOpenPopup] = useState(false);
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
   const hotelInfo = useReactiveVar(hotelInformation);
+  const hoursArray = new Array(25 - Number(hotelInfo?.checkInTime?.split(':')[0]))
+    ?.fill(0)
+    ?.map((_el, index) =>
+      String(index + Number(hotelInfo?.checkInTime?.split(':')[0])).padStart(2, '0'),
+    );
+  const minutesArray = new Array(60 - Number(hotelInfo?.checkInTime?.split(':')[1]))
+    ?.fill(0)
+    ?.map((_el, index) =>
+      String(index + Number(hotelInfo?.checkInTime?.split(':')[1])).padStart(2, '0'),
+    );
 
   const handleInputChange = () => {
     setCardOpened(!cardOpened);
@@ -55,10 +74,10 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
       });
 
     type === PRIMARY
-      ? updateSelectedGuestInformation({ ...selectedGuest, [inputField]: inputValue })
+      ? reservationGuestInfoStorageData({ ...selectedGuest, [inputField]: inputValue })
       : type === SECONDARY
-      ? updateSelectedGuestInformation([...accompanyGuestData])
-      : updateSelectedGuestInformation({
+      ? accompanyGuestDetails([...accompanyGuestData])
+      : updateNewAccompanyGuestDetails({
           ...selectedGuest,
           [inputField]: inputValue,
         });
@@ -74,6 +93,15 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
     onSubmit: handleInputChange,
     validateOnMount: true,
   });
+
+  const onChange = useCallback(
+    (fieldName: string, value: [string, string]) => {
+      formik.setFieldValue(fieldName, value.join(':'));
+      updateGuestDetails(fieldName, value.join(':'));
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [formik],
+  );
 
   return (
     <div className={styles.identityInputs}>
@@ -138,7 +166,7 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                   options={field?.options?.map((item: any) => item?.name)}
                   value={
                     field?.options?.find((item: any) => item?.value === formik?.values[field?.name])
-                      ?.name || ''
+                      ?.name || null
                   }
                   autoComplete={true}
                   onChange={(e, selectedData) => {
@@ -259,6 +287,76 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                     )}
                   />
                 </div>
+              ) : field?.type === TIMEPICKERPOPUP ? (
+                <>
+                  <StyledInput
+                    required={field?.required}
+                    autoComplete='off'
+                    className={styles.guestDataInput}
+                    variant='standard'
+                    label={t(field?.label)}
+                    name={field?.name}
+                    id={field?.name}
+                    value={formik.values[field?.name]}
+                    onClick={() => setOpenPopup(true)}
+                    disabled={
+                      type === NEWGUESTFORM ? false : type === NEWGUEST ? true : field?.isDisabled
+                    }
+                    onFocus={() => formik.setFieldTouched(field?.name, true)}
+                    error={
+                      (formik?.validateOnMount || formik.touched[field?.name]) &&
+                      Boolean(formik.errors[field?.name])
+                    }
+                    helperText={
+                      (formik?.validateOnMount || formik.touched[field?.name]) &&
+                      formik.errors[field?.name] &&
+                      t(String(formik.errors[field?.name]))
+                    }
+                  />
+                  <div
+                    onClick={() => setOpenPopup(false)}
+                    className={cx(styles.background, {
+                      [styles.backgroundOpened]: openPopup,
+                    })}
+                  />
+                  {openPopup && (
+                    <div
+                      className={cx(styles.wrapper, {
+                        [styles.wrapperOpened]: openPopup,
+                      })}
+                    >
+                      <div className={styles.timePickerWrapper}>
+                        <MultiPicker
+                          onValueChange={(e) => onChange(field?.name, e)}
+                          selectedValue={formik.values[field?.name]?.split(':') || null}
+                        >
+                          <Picker indicatorClassName='my-picker-indicator'>
+                            {hoursArray.map((hour) => (
+                              <Picker.Item
+                                className='my-picker-view-item hour'
+                                key={hour}
+                                value={hour}
+                              >
+                                {hour}
+                              </Picker.Item>
+                            ))}
+                          </Picker>
+                          <Picker indicatorClassName='my-picker-indicator'>
+                            {minutesArray?.map((minute) => (
+                              <Picker.Item
+                                className='my-picker-view-item minute'
+                                key={minute}
+                                value={minute}
+                              >
+                                {minute}
+                              </Picker.Item>
+                            ))}
+                          </Picker>
+                        </MultiPicker>
+                      </div>
+                    </div>
+                  )}
+                </>
               ) : (
                 <div key={field?.name} className={styles.col_100}>
                   <StyledInput

@@ -143,6 +143,7 @@ export const SECONDARY = 'secondary';
 export const NEWGUEST = 'newGuest';
 export const NEWGUESTFORM = 'newGuestForm';
 export const TIMEPICKER = 'TimePicker';
+export const TIMEPICKERPOPUP = 'TimePickerPopup';
 export const DATEPICKER = 'datePicker';
 export const SUCCESS = 'success';
 export const FAILURE = 'failure';
