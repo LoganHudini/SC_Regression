@@ -998,13 +998,17 @@ const Guest: React.FC<any> = () => {
               {t('Next')}
             </StyledButton>
           </div>
-          {config?.idVerificationBasedOnNationality && !guestReservationInfo?.docNo && (
-            <CustomDrawer
-              open={countryDrawer}
-              onClose={() => (guestReservationInfo?.countryCode ? setCountryDrawer(false) : null)}
-              content={countryDrawerDetails()}
-            />
-          )}
+          {config?.idVerificationBasedOnNationality &&
+            (guestInformationSection?.type === YOUVERSE ||
+            guestInformationSection?.type === TRENTIAL
+              ? !guestReservationInfo?.docNo
+              : true) && (
+              <CustomDrawer
+                open={countryDrawer}
+                onClose={() => (guestReservationInfo?.countryCode ? setCountryDrawer(false) : null)}
+                content={countryDrawerDetails()}
+              />
+            )}
         </PageWrapper>
       )}
     </>

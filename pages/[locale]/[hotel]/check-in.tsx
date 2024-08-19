@@ -50,13 +50,12 @@ import { processStatusCode } from 'utils/processError';
 import { handleReservation } from 'utils/fetchReservation';
 import { GET_HOTEL_INFORMATION } from 'core/graphql/queries/GET_HOTEL_INFORMATION';
 import { getWelcomeDrawer } from 'utils/functions';
-
 export { getStaticPaths };
-
+import { Countries } from 'utils/countryList';
 const GuestDetail: React.FC<AboutYourStayProps> = () => {
   const { t } = useTranslation(['about-your-stay', 'common']);
   const navigate = useLocalizedRouter();
-  const config = useConfig();
+  const config: any = useConfig();
   const router = useRouter();
   const locale = useLocale();
   const hotelName = config?.name;
@@ -70,6 +69,9 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
   const resId = router?.query?.resId ?? '';
   const roomNo = router?.query?.roomNo ?? '';
   const lastName = router?.query?.lastName ?? '';
+  const countryName = config?.idVerificationNationality?.map((code: any) =>
+    Countries?.find((country) => country?.value === code),
+  );
   const docTypes: any = [
     ...new Set(
       documentConfig?.details
@@ -88,7 +90,6 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
       lang: locale === 'en' ? '' : locale,
     },
   });
-
   hotelInformation(hotelInfo && hotelInfo?.getPropertyDetailsByHotelId?.hotel);
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
@@ -98,7 +99,6 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
   const activeCheckInFlowInfo = useReactiveVar(activeCheckInFlow);
 
   const reservationInfo = reservationData?.getReservation?.data;
-
   useEffect(() => {
     const goToTheNextStep = async () => {
       if (lastName && (resId || roomNo)) {
@@ -143,13 +143,18 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
         <h3 className={styles.welcomeTitle}>
           {t('Welcome to')}{' '}
           <span className={cx(styles.capitalise, 'globals-brandCaps')}>
-            {BRAND_CODE === '1hotels' ? '1' : BRAND_CODE}
+            {hotelInfo?.getPropertyDetailsByHotelId?.brand?.name}
           </span>{' '}
-          {t('Hotels!')}
         </h3>
-        <p className={styles.welcomeDescription}>
-          {t('Check-In now to save time when you arrive.')}
-        </p>
+        {
+          <p className={styles.welcomeDescription}>
+            {`${
+              config?.preCheckInOnly
+                ? t('Register now to save time when you arrive.')
+                : t('Check-In now to save time when you arrive.')
+            }`}
+          </p>
+        }
         <StableImage
           hideplaceholder={'true'}
           src={`/images/${BRAND_CODE}/Divider.png`}
@@ -157,8 +162,13 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
           className={styles.dividerImage}
         />
         <p className={styles.welcomeDescription}>
-          {t('You will need the following documents handy to finish online Check-In:')}
+          {config && config?.idVerificationNationality?.length > 0
+            ? t(
+                `If you live outside of ${countryName[0]?.name}, you will need the following documents to finish online check-in`,
+              )
+            : t('You will need the following documents handy to finish online check-in')}
         </p>
+
         <p className={styles.documentsList}>
           <DocIcon />
           <span className={styles.space}>

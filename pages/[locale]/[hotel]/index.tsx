@@ -164,6 +164,13 @@ const Home: NextPage = () => {
               'To pair your device with your room, please press the ‘Connect to Room’ button below. This will enable you to access in-room services conveniently from your device. Enjoy your stay with us!',
             )}
             buttonTitle={t('Connect to Room')}
+            downloadText={
+              config?.nativeAppRedirection
+                ? (t(
+                    'Download now to transform your stay into an unforgettable experience!',
+                  ) as string)
+                : null
+            }
           />
         )}
       </>

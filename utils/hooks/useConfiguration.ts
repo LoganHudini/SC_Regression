@@ -35,7 +35,7 @@ export const useConfig = () => {
       '';
 
   const hotelConfigs: any = configuration?.find((config: any) => hotel && config?.code === hotel);
-  const hotelConfigsBasedOnNationality = structuredClone(hotelConfigs);
+  const hotelConfigsBasedOnNationality = hotelConfigs && structuredClone(hotelConfigs);
 
   if (hotelConfigs?.idVerificationBasedOnNationality) {
     const updatedHotelConfigs: any = hotelConfigsBasedOnNationality?.modules

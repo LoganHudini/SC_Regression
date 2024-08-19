@@ -162,6 +162,9 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                   disablePortal
                   disableClearable={true}
                   disableListWrap
+                  disabled={
+                    type === NEWGUESTFORM ? false : type === NEWGUEST ? true : field?.isDisabled
+                  }
                   className={styles.guestDataInput}
                   options={field?.options?.map((item: any) => item?.name)}
                   value={

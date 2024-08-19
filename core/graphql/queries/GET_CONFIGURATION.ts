@@ -5552,9 +5552,13 @@ export const configuration: any = [
     pms: 'OHIP',
     fetchFromDb: 'no',
     saveToDb: 'no',
+    idVerificationBasedOnNationality: true,
+    idVerificationNationality: ['GB'],
+    fieldsToBeRemoved: ['docNo', 'docType'],
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: ['hotel-info', 'check-in'],
     preCheckInOnly: true,
+    nativeAppRedirection: false,
     modules: [
       {
         code: 'Preferences',
@@ -5644,7 +5648,7 @@ export const configuration: any = [
                     type: 'datePicker',
                     required: true,
                     isDisabled: false,
-                    isActive: true,
+                    isActive: false,
                     isDisableFuture: true,
                   },
                   {
@@ -5697,7 +5701,7 @@ export const configuration: any = [
                     name: 'addressLine',
                     label: 'Address',
                     type: 'Text',
-                    required: true,
+                    required: false,
                     isDisabled: false,
                     isActive: true,
                     maxLength: 80,
@@ -5975,9 +5979,13 @@ export const configuration: any = [
     pms: 'OHIP',
     fetchFromDb: 'no',
     saveToDb: 'no',
+    idVerificationBasedOnNationality: true,
+    idVerificationNationality: ['GB'],
+    fieldsToBeRemoved: ['docNo', 'docType'],
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: ['hotel-info', 'check-in'],
     preCheckInOnly: true,
+    nativeAppRedirection: false,
     modules: [
       {
         code: 'Preferences',
@@ -6067,7 +6075,7 @@ export const configuration: any = [
                     type: 'datePicker',
                     required: true,
                     isDisabled: false,
-                    isActive: true,
+                    isActive: false,
                     isDisableFuture: true,
                   },
                   {
@@ -6120,7 +6128,7 @@ export const configuration: any = [
                     name: 'addressLine',
                     label: 'Address',
                     type: 'Text',
-                    required: true,
+                    required: false,
                     isDisabled: false,
                     isActive: true,
                     maxLength: 80,

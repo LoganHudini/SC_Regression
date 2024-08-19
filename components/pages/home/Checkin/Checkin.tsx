@@ -5,14 +5,22 @@ import { toggleCheckInDetailsDrawer } from 'storage/home.storage';
 import { CHECKIN_NOW } from 'utils/constants';
 import { activeCheckInFlow } from 'storage/check-in.storage';
 import { useTranslation } from 'react-i18next';
+import AppStore from '@icons/appStore.svg';
+import PlayStore from '@icons/googlePlay.svg';
 
 interface ICheckinProps {
   title: string;
   description: string;
   buttonTitle: string;
+  downloadText?: string | boolean | null;
 }
 
-export const Checkin: React.FC<ICheckinProps> = ({ title, description, buttonTitle }) => {
+export const Checkin: React.FC<ICheckinProps> = ({
+  title,
+  description,
+  buttonTitle,
+  downloadText = false,
+}) => {
   const { t } = useTranslation(['common']);
 
   const handleComponentCta = () => {
@@ -30,6 +38,15 @@ export const Checkin: React.FC<ICheckinProps> = ({ title, description, buttonTit
             {buttonTitle}
           </StyledButton>
         </div>
+        {downloadText && (
+          <>
+            <p className={styles.pairRoomdesc}>{downloadText}</p>
+            <div className={styles.iconWrapper}>
+              <AppStore />
+              <PlayStore />
+            </div>
+          </>
+        )}
       </div>
     </>
   );
