@@ -1,13 +1,10 @@
-import { StableImage } from 'components/shared/StableImage/StableImage';
 import React from 'react';
 import styles from './HotelInformation.module.scss';
-import { ASSETS_URL, BRAND_CODE } from 'core/graphql/endpoints';
+import { BRAND_CODE } from 'core/graphql/endpoints';
 import { useTranslation } from 'react-i18next';
 import { hotelInformation, toggleHotelInfoDrawer, toggleMapState } from 'storage/home.storage';
 import { CustomReadMore } from 'components/shared/CustomReadMore/CustomReadMore';
-import { WithScrollbar } from 'components/shared/WithScrollbar/WithScrollbar';
-import { CAROUSEL_RESPONSIVE } from 'utils/constants';
-import cx from 'classnames';
+import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 
 const HotelInformation = (props: any) => {
   const { details } = props;
@@ -29,20 +26,9 @@ const HotelInformation = (props: any) => {
           <p className={styles.name}>{hotelInfo?.name}</p>
           {hotelInfo?.images?.length > 0 && (
             <div>
-              <WithScrollbar
-                responsive={CAROUSEL_RESPONSIVE}
-                className={cx(styles.carouselWrapper, {
-                  [styles.carouselWrapperSingleImage]: hotelInfo?.images?.length === 1,
-                })}
-              >
-                {hotelInfo?.images?.map((image: any, i: any) => (
-                  <StableImage
-                    className={styles.bannerImage}
-                    key={i}
-                    src={`${ASSETS_URL}/${image?.master}`}
-                  />
-                ))}
-              </WithScrollbar>
+              <div className={styles.margin}>
+                <CustomCarousel imageData={hotelInfo} />
+              </div>
               <p className={styles.description}>{hotelInfo?.description}</p>
               <CustomReadMore
                 text={t(BRAND_CODE === 'fairmont' ? 'Discover' : 'View More') as string}
