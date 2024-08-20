@@ -204,8 +204,7 @@ const Guest: React.FC<any> = () => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [extractDataForField, reservationInfo?.guests]);
-
+  }, [extractDataForField, countryDrawer, reservationInfo?.guests]);
   // guest validation
   const validateCompleteGuestDetails = (guestDetails: any, field: any) => {
     if (!guestDetails) {
@@ -375,6 +374,7 @@ const Guest: React.FC<any> = () => {
           addressLine1: guestReservationInfo?.addressLine,
           addressType: 'HOME',
           countryCode: guestReservationInfo?.countryCode,
+          city: guestReservationInfo?.city,
         },
         phone: {
           id: reservationInfo?.guests[0]?.phoneOperaId
@@ -471,6 +471,7 @@ const Guest: React.FC<any> = () => {
     config?.pms,
     documentTypes,
     guestReservationInfo?.addressLine,
+    guestReservationInfo?.city,
     guestReservationInfo?.countryCode,
     guestReservationInfo?.dob,
     guestReservationInfo?.docNo,

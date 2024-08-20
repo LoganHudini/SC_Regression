@@ -143,7 +143,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
         <h3 className={styles.welcomeTitle}>
           {t('Welcome to')}{' '}
           <span className={cx(styles.capitalise, 'globals-brandCaps')}>
-            {hotelInfo?.getPropertyDetailsByHotelId?.brand?.name}
+            {hotelInfo?.getPropertyDetailsByHotelId?.hotel?.name}
           </span>{' '}
         </h3>
         {

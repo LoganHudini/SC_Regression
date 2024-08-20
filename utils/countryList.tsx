@@ -1167,6 +1167,11 @@ export const Countries = [
     evaValue: 'ARE',
   },
   {
+    name: 'United Kingdom',
+    value: 'UK',
+    evaValue: 'GBR',
+  },
+  {
     name: 'United States',
     value: 'US',
     evaValue: 'USA',

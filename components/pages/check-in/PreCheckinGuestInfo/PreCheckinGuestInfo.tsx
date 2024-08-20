@@ -24,10 +24,7 @@ import { DatePicker, MobileTimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
 import { useReactiveVar } from '@apollo/client';
-import {
-  accompanyGuestDetails,
-  updateNewAccompanyGuestDetails,
-} from 'storage/accompany-guest-details';
+import { accompanyGuestDetails, newAccompanyGuestDetails } from 'storage/accompany-guest-details';
 import useValidate from 'utils/hooks/useValidate';
 import { hotelInformation } from 'storage/home.storage';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
@@ -46,16 +43,20 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
   const [openPopup, setOpenPopup] = useState(false);
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
   const hotelInfo = useReactiveVar(hotelInformation);
-  const hoursArray = new Array(25 - Number(hotelInfo?.checkInTime?.split(':')[0]))
-    ?.fill(0)
-    ?.map((_el, index) =>
-      String(index + Number(hotelInfo?.checkInTime?.split(':')[0])).padStart(2, '0'),
-    );
-  const minutesArray = new Array(60 - Number(hotelInfo?.checkInTime?.split(':')[1]))
-    ?.fill(0)
-    ?.map((_el, index) =>
-      String(index + Number(hotelInfo?.checkInTime?.split(':')[1])).padStart(2, '0'),
-    );
+  const hoursArray =
+    hotelInfo &&
+    new Array(25 - Number(hotelInfo?.checkInTime?.split(':')[0]))
+      ?.fill(0)
+      ?.map((_el, index) =>
+        String(index + Number(hotelInfo?.checkInTime?.split(':')[0])).padStart(2, '0'),
+      );
+  const minutesArray =
+    hotelInfo &&
+    new Array(60 - Number(hotelInfo?.checkInTime?.split(':')[1]))
+      ?.fill(0)
+      ?.map((_el, index) =>
+        String(index + Number(hotelInfo?.checkInTime?.split(':')[1])).padStart(2, '0'),
+      );
 
   const handleInputChange = () => {
     setCardOpened(!cardOpened);
@@ -77,7 +78,7 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
       ? reservationGuestInfoStorageData({ ...selectedGuest, [inputField]: inputValue })
       : type === SECONDARY
       ? accompanyGuestDetails([...accompanyGuestData])
-      : updateNewAccompanyGuestDetails({
+      : newAccompanyGuestDetails({
           ...selectedGuest,
           [inputField]: inputValue,
         });
@@ -92,6 +93,7 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
     validationSchema: validationSchema,
     onSubmit: handleInputChange,
     validateOnMount: true,
+    enableReinitialize: true,
   });
 
   const onChange = useCallback(
@@ -334,7 +336,7 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                           selectedValue={formik.values[field?.name]?.split(':') || null}
                         >
                           <Picker indicatorClassName='my-picker-indicator'>
-                            {hoursArray.map((hour) => (
+                            {hoursArray.map((hour: any) => (
                               <Picker.Item
                                 className='my-picker-view-item hour'
                                 key={hour}
@@ -345,7 +347,7 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                             ))}
                           </Picker>
                           <Picker indicatorClassName='my-picker-indicator'>
-                            {minutesArray?.map((minute) => (
+                            {minutesArray?.map((minute: any) => (
                               <Picker.Item
                                 className='my-picker-view-item minute'
                                 key={minute}

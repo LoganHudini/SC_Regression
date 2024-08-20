@@ -483,11 +483,15 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           });
           notificationStorage({
             type: SUCCESS,
-            title: t('Welcome Aboard!') as string,
+            title: reviewConfig?.checkInSuccessfulMessageTitle
+              ? reviewConfig?.checkInSuccessfulMessageTitle
+              : (t('Welcome Aboard!') as string),
             description: preCheckInStatus
-              ? (t(
-                  'You have pre checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
-                ) as string)
+              ? reviewConfig?.checkInSuccessfulMessageDescription
+                ? reviewConfig?.checkInSuccessfulMessageDescription
+                : (t(
+                    'You have pre checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
+                  ) as string)
               : (t(
                   'You have checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
                 ) as string),
@@ -558,6 +562,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     personalizationEntities,
     preCheckInStatus,
     reservationInfo,
+    reviewConfig?.checkInSuccessfulMessageDescription,
+    reviewConfig?.checkInSuccessfulMessageTitle,
     roomNo,
     t,
   ]);

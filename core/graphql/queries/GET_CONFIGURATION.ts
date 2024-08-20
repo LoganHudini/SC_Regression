@@ -5553,7 +5553,7 @@ export const configuration: any = [
     fetchFromDb: 'no',
     saveToDb: 'no',
     idVerificationBasedOnNationality: true,
-    idVerificationNationality: ['GB'],
+    idVerificationNationality: ['UK'],
     fieldsToBeRemoved: ['docNo', 'docType'],
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: ['hotel-info', 'check-in'],
@@ -5698,6 +5698,14 @@ export const configuration: any = [
                     isActive: true,
                   },
                   {
+                    name: 'city',
+                    label: 'City',
+                    type: 'Text',
+                    required: false,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
                     name: 'addressLine',
                     label: 'Address',
                     type: 'Text',
@@ -5821,7 +5829,7 @@ export const configuration: any = [
                 type: 'datePicker',
                 required: false,
                 isDisabled: false,
-                isActive: true,
+                isActive: false,
                 isDisableFuture: true,
               },
               {
@@ -5871,7 +5879,7 @@ export const configuration: any = [
             name: 'personalisation',
             label: 'Customize My Stay',
             title: 'Check-In',
-            type: 'PMS',
+            type: 'CMS',
             isActive: true,
           },
           {
@@ -5879,6 +5887,9 @@ export const configuration: any = [
             label: 'Review & Sign',
             title: 'Check-In',
             buttonLabelCheckIn: 'Confirm Check-In',
+            checkInSuccessfulMessageTitle: 'Pre Check-In Successful!',
+            checkInSuccessfulMessageDescription:
+              'When your room is ready, you will receive an email with the room number and a link to download our app to digitise your key.\n If you do not wish to download the app, please proceed to the hotel lobby to collect your room key.',
             // eslint-disable-next-line quotes
             termsAndCondition:
               'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',
@@ -5980,7 +5991,7 @@ export const configuration: any = [
     fetchFromDb: 'no',
     saveToDb: 'no',
     idVerificationBasedOnNationality: true,
-    idVerificationNationality: ['GB'],
+    idVerificationNationality: ['UK'],
     fieldsToBeRemoved: ['docNo', 'docType'],
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: ['hotel-info', 'check-in'],
@@ -6125,6 +6136,14 @@ export const configuration: any = [
                     isActive: true,
                   },
                   {
+                    name: 'city',
+                    label: 'City',
+                    type: 'Text',
+                    required: false,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
                     name: 'addressLine',
                     label: 'Address',
                     type: 'Text',
@@ -6248,7 +6267,7 @@ export const configuration: any = [
                 type: 'datePicker',
                 required: false,
                 isDisabled: false,
-                isActive: true,
+                isActive: false,
                 isDisableFuture: true,
               },
               {
@@ -6298,7 +6317,7 @@ export const configuration: any = [
             name: 'personalisation',
             label: 'Customize My Stay',
             title: 'Check-In',
-            type: 'PMS',
+            type: 'CMS',
             isActive: true,
           },
           {
@@ -6306,6 +6325,9 @@ export const configuration: any = [
             label: 'Review & Sign',
             title: 'Check-In',
             buttonLabelCheckIn: 'Confirm Check-In',
+            checkInSuccessfulMessageTitle: 'Pre Check-In Successful!',
+            checkInSuccessfulMessageDescription:
+              'When your room is ready, you will receive an email with the room number and a link to download our app to digitise your key.\n If you do not wish to download the app, please proceed to the hotel lobby to collect your room key.',
             // eslint-disable-next-line quotes
             termsAndCondition:
               'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',
