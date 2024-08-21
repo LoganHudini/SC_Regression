@@ -183,13 +183,23 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                   }}
                   renderInput={(params) => (
                     <StyledInput
-                      required
+                      required={field?.required}
                       variant='standard'
                       {...params}
                       label={t(field?.label)}
                       InputProps={{
                         ...params.InputProps,
                       }}
+                      onFocus={() => formik.setFieldTouched(field?.name, true)}
+                      error={
+                        (formik?.validateOnMount || formik.touched[field?.name]) &&
+                        Boolean(formik.errors[field?.name])
+                      }
+                      helperText={
+                        (formik?.validateOnMount || formik.touched[field?.name]) &&
+                        formik.errors[field?.name] &&
+                        t(String(formik.errors[field?.name]))
+                      }
                     />
                   )}
                 />

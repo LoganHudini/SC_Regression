@@ -214,21 +214,24 @@ const Guest: React.FC<any> = () => {
       return true;
     }
     return field?.every((fieldItem: any) => {
+      const infoValue = guestDetails[fieldItem.name];
+
       if (!fieldItem.isActive || !fieldItem.required) {
+        if (fieldItem?.type === TEXT && !fieldItem.required) {
+          return TEXTFIELD_REGEX.test(infoValue);
+        }
         return true;
       }
-
-      const infoValue = fieldItem?.name in guestDetails ? guestDetails[fieldItem?.name] : true;
-
       if (fieldItem?.name === PHONE) {
         return PHONE_REGEX.test(infoValue);
       }
-
       if (fieldItem?.name === EMAILS) {
         return EMAIL_REGEX.test(infoValue);
       }
-
-      if (fieldItem?.type === TEXT) {
+      if (fieldItem.type === TEXT && fieldItem.required) {
+        return TEXTFIELD_REGEX.test(infoValue) && infoValue && infoValue !== '';
+      }
+      if (fieldItem?.type === TEXT && fieldItem.required) {
         return TEXTFIELD_REGEX.test(infoValue);
       }
 
