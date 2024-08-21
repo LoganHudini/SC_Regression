@@ -567,3 +567,15 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E2GKZP012H7R9Z'
+
+    deployToSonarSource:
+      - step:
+          name: SonarSource
+          size: 4x
+          clone:
+            depth: full
+          script:
+            - pipe: sonarsource/sonarcloud-scan:2.0.0
+              variables:
+                SONAR_TOKEN: ${SONAR_TOKEN}
+                EXTRA_ARGS: -Dsonar.javascript.node.maxspace=8192 -Dsonar.sourceEncoding=UTF-8
