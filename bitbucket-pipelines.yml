@@ -5,6 +5,10 @@
 # You can specify a custom docker image from Docker Hub as your build environment.
 
 image: node:18.12.1
+definitions:
+  services:
+    docker:
+      memory: 4096
 pipelines:
   #default:
   #  - step:
@@ -571,7 +575,7 @@ pipelines:
     deployToSonarSource:
       - step:
           name: SonarSource
-          size: 4x
+          size: 2x
           clone:
             depth: full
           script:
