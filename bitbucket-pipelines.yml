@@ -5,10 +5,7 @@
 # You can specify a custom docker image from Docker Hub as your build environment.
 
 image: node:18.12.1
-definitions:
-  services:
-    docker:
-      memory: 4096
+
 pipelines:
   #default:
   #  - step:
