@@ -21,9 +21,11 @@ import {
   HUDINI_INFINITE_AUTH,
   INFINITE_AUTH,
   INFINITE,
+  INFINITE_AUTH_DEV,
 } from './constants';
 
 const propertyList = [
+  INFINITE_AUTH_DEV,
   INFINITE,
   INFINITE_AUTH,
   HUDINI_INFINITE,
