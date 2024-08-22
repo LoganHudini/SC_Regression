@@ -46,11 +46,11 @@ pipelines:
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E9PVO4YEDANZA'
   custom:
-    deployToStaging:
+    deployToInfiniteStaging:
       - step:
           caches:
             - node
-          name: Deploy Manually to Staging https://sofitel.hudinielevate-stage.io/
+          name: Deploy Manually to Staging https://pwa-infinite.hudinielevate-stage.io/
           deployment: staging
           size: 2x # Double resources available for this step.
           script:
@@ -67,14 +67,14 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING # Optional if already defined in the context.
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING # Optional if already defined in the context.
                 #ACL: 'public-read'
-                S3_BUCKET: $S3_BUCKET_SOFITEL_STAGE
+                S3_BUCKET: $S3_BUCKET_INFINITE_STAGE
                 LOCAL_PATH: $(pwd)
             - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
               variables:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING
-                DISTRIBUTION_ID: 'EU8Z583GKAK65'
+                DISTRIBUTION_ID: 'E25IWP47C7I75B'
     deployToInfiniteQA:
       - step:
           caches:
