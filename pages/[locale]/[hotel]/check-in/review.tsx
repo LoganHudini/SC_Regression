@@ -772,6 +772,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             ) : (
               <DetailsCardShrinked title={t('Primary Guest Information')}>
                 {guestInformationSection?.details
+                  ?.filter((detail: any) => detail?.isActive)
                   ?.slice(0, 4)
                   ?.filter((_: string, index: number) => index !== 1)
                   ?.map((configData: any, index: number) => (

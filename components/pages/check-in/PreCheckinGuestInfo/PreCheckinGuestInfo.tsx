@@ -3,7 +3,7 @@ import { IPreCheckinGuestInfoProps } from './PreCheckinGuestInfo.types';
 import styles from './PreCheckinGuestInfo.module.scss';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   AUTOCOMPLETE,
   DATEPICKER,
@@ -24,7 +24,13 @@ import { DatePicker, MobileTimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
 import { useReactiveVar } from '@apollo/client';
-import { accompanyGuestDetails, newAccompanyGuestDetails } from 'storage/accompany-guest-details';
+import {
+  accompanyGuestDetails,
+  newAccompanyGuestDetails,
+  newGuestButtonDisabled,
+  primaryGuestButtonDisabled,
+  secondaryGuestButtonDisabled,
+} from 'storage/accompany-guest-details';
 import useValidate from 'utils/hooks/useValidate';
 import { hotelInformation } from 'storage/home.storage';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
@@ -62,6 +68,18 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
     setCardOpened(!cardOpened);
   };
 
+  const initialFieldValues = generateInitialFieldValues(guestInformationSection, selectedGuest);
+
+  const validationSchema = useValidate(guestInformationSection);
+
+  const formik = useFormik({
+    initialValues: initialFieldValues,
+    validationSchema: validationSchema,
+    onSubmit: handleInputChange,
+    validateOnMount: true,
+    enableReinitialize: true,
+  });
+
   const updateGuestDetails = (name: string, value: string) => {
     const inputField = name;
     const inputValue = value;
@@ -84,17 +102,21 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
         });
   };
 
-  const initialFieldValues = generateInitialFieldValues(guestInformationSection, selectedGuest);
-
-  const validationSchema = useValidate(guestInformationSection);
-
-  const formik = useFormik({
-    initialValues: initialFieldValues,
-    validationSchema: validationSchema,
-    onSubmit: handleInputChange,
-    validateOnMount: true,
-    enableReinitialize: true,
-  });
+  useEffect(() => {
+    if (type === PRIMARY) {
+      primaryGuestButtonDisabled(
+        formik?.errors && Object.keys(formik.errors).length !== 0 ? false : true,
+      );
+    } else if (type === SECONDARY) {
+      secondaryGuestButtonDisabled(
+        formik?.errors && Object.keys(formik.errors).length !== 0 ? false : true,
+      );
+    } else if (type === NEWGUESTFORM) {
+      newGuestButtonDisabled(
+        formik?.errors && Object.keys(formik.errors).length !== 0 ? false : true,
+      );
+    }
+  }, [formik.errors, type]);
 
   const onChange = useCallback(
     (fieldName: string, value: [string, string]) => {

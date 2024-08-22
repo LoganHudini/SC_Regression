@@ -50,8 +50,6 @@ import {
   SUCCESS,
   OHIP,
   MANUAL,
-  TEXTFIELD_REGEX,
-  TEXT,
 } from 'utils/constants';
 import { updateDocTypeOptions } from 'utils/functions';
 import { docTypeStorage } from 'storage/guest-information.storage';
@@ -62,6 +60,9 @@ import Camera from '@icons/cameraIcon.svg';
 import {
   accompanyGuestDetails,
   newAccompanyGuestDetails,
+  newGuestButtonDisabled,
+  primaryGuestButtonDisabled,
+  secondaryGuestButtonDisabled,
   updateNewAccompanyGuestDetails,
 } from 'storage/accompany-guest-details';
 import { notificationStorage, setDayjsLocale, toggleNotification } from 'storage/home.storage';
@@ -99,6 +100,9 @@ const Guest: React.FC<any> = () => {
   const availablePersonalizations = useReactiveVar(personalizationStorage);
   const newGuestData = useReactiveVar(newAccompanyGuestDetails);
   const updatedGuestData = useReactiveVar(updateNewAccompanyGuestDetails);
+  const primaryGuestButtonDisable = useReactiveVar(primaryGuestButtonDisabled);
+  const secondaryGuestButtonDisable = useReactiveVar(secondaryGuestButtonDisabled);
+  const newGuestButtonDisable = useReactiveVar(newGuestButtonDisabled);
   const [openToggleNewGuest, setOpenToggleNewGuest] = useState(
     new Array(updatedGuestData?.length)?.fill(false),
   );
@@ -214,25 +218,17 @@ const Guest: React.FC<any> = () => {
       return true;
     }
     return field?.every((fieldItem: any) => {
-      const infoValue = guestDetails[fieldItem.name];
-
       if (!fieldItem.isActive || !fieldItem.required) {
-        if (fieldItem?.type === TEXT && !fieldItem.required) {
-          return TEXTFIELD_REGEX.test(infoValue);
-        }
         return true;
       }
+
+      const infoValue = fieldItem?.name in guestDetails ? guestDetails[fieldItem?.name] : true;
+
       if (fieldItem?.name === PHONE) {
         return PHONE_REGEX.test(infoValue);
       }
       if (fieldItem?.name === EMAILS) {
         return EMAIL_REGEX.test(infoValue);
-      }
-      if (fieldItem.type === TEXT && fieldItem.required) {
-        return TEXTFIELD_REGEX.test(infoValue) && infoValue && infoValue !== '';
-      }
-      if (fieldItem?.type === TEXT && fieldItem.required) {
-        return TEXTFIELD_REGEX.test(infoValue);
       }
 
       return !!infoValue;
@@ -377,7 +373,7 @@ const Guest: React.FC<any> = () => {
           addressLine1: guestReservationInfo?.addressLine,
           addressType: 'HOME',
           countryCode: guestReservationInfo?.countryCode,
-          city: guestReservationInfo?.city,
+          city: guestReservationInfo?.cityName,
         },
         phone: {
           id: reservationInfo?.guests[0]?.phoneOperaId
@@ -965,7 +961,7 @@ const Guest: React.FC<any> = () => {
                 {!newGuestAdded && (
                   <StyledButton
                     variant='contained'
-                    disabled={!newAcompanyGuestValidation}
+                    disabled={!newGuestButtonDisable}
                     className={styles.button}
                     loading={guestLoading}
                     onClick={() => saveGuest()}
@@ -992,9 +988,10 @@ const Guest: React.FC<any> = () => {
               variant='contained'
               loading={loading}
               disabled={
-                !guestValidation ||
-                !reservationData ||
-                !accompanyGuestValidation?.every((item: boolean) => item)
+                !primaryGuestButtonDisable ||
+                (accompanyGuestValidation.every((item: boolean) => item)
+                  ? !secondaryGuestButtonDisable
+                  : !accompanyGuestValidation.every((item: boolean) => item))
               }
               onClick={goToTheNextStep}
               className={cx(styles.bottomMenuButton)}

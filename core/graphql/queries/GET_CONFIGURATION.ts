@@ -5698,7 +5698,7 @@ export const configuration: any = [
                     isActive: true,
                   },
                   {
-                    name: 'city',
+                    name: 'cityName',
                     label: 'City',
                     type: 'Text',
                     required: false,
@@ -6136,7 +6136,7 @@ export const configuration: any = [
                     isActive: true,
                   },
                   {
-                    name: 'city',
+                    name: 'cityName',
                     label: 'City',
                     type: 'Text',
                     required: false,
