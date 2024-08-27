@@ -1162,22 +1162,22 @@ export const Countries = [
     evaValue: 'UKR',
   },
   {
-    name: 'United Arab Emirates',
+    name: 'The United Arab Emirates',
     value: 'AE',
     evaValue: 'ARE',
   },
   {
-    name: 'United Kingdom',
+    name: 'The United Kingdom',
     value: 'UK',
     evaValue: 'GBR',
   },
   {
-    name: 'United States',
+    name: 'The United States',
     value: 'US',
     evaValue: 'USA',
   },
   {
-    name: 'United States Minor Outlying Islands',
+    name: ' The United States Minor Outlying Islands',
     value: 'UM',
     evaValue: 'UMI',
   },
