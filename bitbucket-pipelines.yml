@@ -32,11 +32,11 @@ pipelines:
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E9PVO4YEDANZA'
   custom:
-    deployToInfiniteDev:
+    deployToDevelopment:
       - step:
           caches:
             - node
-          name: Deploy Manually to Staging https://pwa-infinite.hudinielevate-dev.io/
+          name: Deploy Manually to Development https://pwa-infinite.hudinielevate-dev.io/
           deployment: dev
           size: 2x # Double resources available for this step.
           script:
@@ -49,23 +49,23 @@ pipelines:
             - cd out
             - pipe: atlassian/aws-s3-deploy:0.4.1
               variables:
-                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING # Optional if already defined in the context.
-                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING # Optional if already defined in the context.
-                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING # Optional if already defined in the context.
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_DEV # Optional if already defined in the context.
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_DEV # Optional if already defined in the context.
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_DEV # Optional if already defined in the context.
                 #ACL: 'public-read'
                 S3_BUCKET: $S3_BUCKET_INFINITE_DEV
                 LOCAL_PATH: $(pwd)
             - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
               variables:
-                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING
-                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING
-                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_DEV
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_DEV
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_DEV
                 DISTRIBUTION_ID: 'E6HFI8KKES78'
-    deployToInfiniteStaging:
+    deployToStage:
       - step:
           caches:
             - node
-          name: Deploy Manually to Staging https://pwa-infinite.hudinielevate-stage.io/
+          name: Deploy Manually to Stage https://pwa-infinite.hudinielevate-stage.io/
           deployment: staging
           size: 2x # Double resources available for this step.
           script:
@@ -90,7 +90,7 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING
                 DISTRIBUTION_ID: 'E25IWP47C7I75B'
-    deployToInfinitePROD:
+    deployToProduction:
       - step:
           caches:
             - node
@@ -119,7 +119,7 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E2IJ27PQ9E08IU'
-    deployToSofitelPROD:
+    deployToSofitel:
       - step:
           caches:
             - node
@@ -148,7 +148,7 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E3DU5R0R1H7FSF'
-    deployToFairmontPROD:
+    deployToFairmont:
       - step:
           caches:
             - node
@@ -177,7 +177,7 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E2UKK3TQ2VVU2N'
-    deployToRafflesPROD:
+    deployToRaffles:
       - step:
           caches:
             - node
@@ -206,7 +206,7 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E3PFBGDNMD6JBU'
-    deployToITCPROD:
+    deployToITC:
       - step:
           caches:
             - node
@@ -235,7 +235,7 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E3QW2SJVKM9B2L'
-    deployTo1HotelsPROD:
+    deployTo1Hotels:
       - step:
           caches:
             - node
@@ -264,7 +264,7 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E193V8LMJUO7BP'
-    deployToAtlantisPROD:
+    deployToAtlantis:
       - step:
           caches:
             - node
@@ -293,7 +293,7 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E3ZUF2S563M5Q'
-    deployToRCDHotelsPROD:
+    deployToRCDHotels:
       - step:
           caches:
             - node
@@ -322,7 +322,7 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'EVWTWAI09GH00'
-    deployToProperPROD:
+    deployToProper:
       - step:
           caches:
             - node
@@ -351,7 +351,7 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'EYPCLKXLJKRN7'
-    deployToOne&OnlyPROD:
+    deployToOne&Only:
       - step:
           caches:
             - node
@@ -380,7 +380,7 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E2FWMFM6SOSO92'
-    deployToLondonerPROD:
+    deployToLondoner:
       - step:
           caches:
             - node
@@ -409,7 +409,7 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E3FLVRZRNEGXYU'
-    deployToEdwardianPROD:
+    deployToEdwardian:
       - step:
           caches:
             - node
@@ -438,7 +438,7 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E2XR22FGTQ1LD5'
-    deployToMondrianPROD:
+    deployToMondrian:
       - step:
           caches:
             - node
@@ -467,7 +467,7 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'ERSNUD5WJC3MV'
-    deployToGrandMercurePROD:
+    deployToGrandMercure:
       - step:
           caches:
             - node
@@ -496,7 +496,7 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E4E6VVKWM9OHU'
-    deployToMercurePROD:
+    deployToMercure:
       - step:
           caches:
             - node

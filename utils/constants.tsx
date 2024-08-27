@@ -8,14 +8,17 @@ export const ROOM_CONTROLS_FLOW_VERSION = process.env.NEXT_PUBLIC_ROOM_CONTROLS_
 
 // property constants
 // dev
+export const INFINITE_DEV = 'infinite-dev';
 export const INFINITE_AUTH_DEV = 'infinite-auth-dev';
 
 // stage
-export const INFINITE = 'infinite';
-export const INFINITE_AUTH = 'infinite-auth';
+export const INFINITE_STAGE = 'infinite-stage';
+export const INFINITE_AUTH_STAGE = 'infinite-auth-stage';
 // production
-export const HUDINI_INFINITE = 'hudini-infinite';
-export const HUDINI_INFINITE_AUTH = 'hudini-infinite-auth';
+// internal
+export const INFINITE_PROD = 'infinite-prod';
+export const INFINITE_AUTH_PROD = 'infinite-auth-prod';
+// external
 export const SOFITEL_MANILA = 'sofitel-manila';
 export const ITC_GRAND_CHOLA = 'itc-grand-chola';
 export const ITC_WELCOMHOTEL_CHENNAI = 'itc-welcomhotel-chennai';
