@@ -470,7 +470,7 @@ const Guest: React.FC<any> = () => {
     config?.pms,
     documentTypes,
     guestReservationInfo?.addressLine,
-    guestReservationInfo?.city,
+    guestReservationInfo?.cityName,
     guestReservationInfo?.countryCode,
     guestReservationInfo?.dob,
     guestReservationInfo?.docNo,

@@ -1,20 +1,6 @@
-# This is a sample build configuration for JavaScript.
-# Check our guides at https://confluence.atlassian.com/x/14UWN for more examples.
-# Only use spaces to indent your .yml configuration.
-# -----
-# You can specify a custom docker image from Docker Hub as your build environment.
-
 image: node:18.12.1
 
 pipelines:
-  #default:
-  #  - step:
-  #      name: Build and test
-  #      script:
-  #        - rm -rf package-lock.json
-  #        - rm -rf yarn.lock
-  #        - rm -rf node_modules
-  #        - yarn
   branches: # Pipelines that run automatically on a push to a master
     master:
       - step:
@@ -46,6 +32,35 @@ pipelines:
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E9PVO4YEDANZA'
   custom:
+    deployToInfiniteDev:
+      - step:
+          caches:
+            - node
+          name: Deploy Manually to Staging https://pwa-infinite.hudinielevate-dev.io/
+          deployment: dev
+          size: 2x # Double resources available for this step.
+          script:
+            - rm -rf package-lock.json
+            - rm -rf yarn.lock
+            - rm -rf node_modules
+            - yarn
+            - CI='' yarn build:dev
+            - CI='' yarn export
+            - cd out
+            - pipe: atlassian/aws-s3-deploy:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING # Optional if already defined in the context.
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING # Optional if already defined in the context.
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING # Optional if already defined in the context.
+                #ACL: 'public-read'
+                S3_BUCKET: $S3_BUCKET_INFINITE_DEV
+                LOCAL_PATH: $(pwd)
+            - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING
+                DISTRIBUTION_ID: 'E6HFI8KKES78'
     deployToInfiniteStaging:
       - step:
           caches:
@@ -75,40 +90,11 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING
                 DISTRIBUTION_ID: 'E25IWP47C7I75B'
-    deployToInfiniteQA:
+    deployToInfinitePROD:
       - step:
           caches:
             - node
-          name: Deploy Manually to UAT(QA) https://pwa-infinite-qa.hudini.app/
-          deployment: uat
-          size: 2x # Double resources available for this step.
-          script:
-            - rm -rf package-lock.json
-            - rm -rf yarn.lock
-            - rm -rf node_modules
-            - yarn
-            - CI='' yarn build:production
-            - CI='' yarn export
-            - cd out
-            - pipe: atlassian/aws-s3-deploy:0.4.1
-              variables:
-                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_UAT # Optional if already defined in the context.
-                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT # Optional if already defined in the context.
-                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT # Optional if already defined in the context.
-                #ACL: 'public-read'
-                S3_BUCKET: $S3_BUCKET_PWA_INFINITE_STAGE
-                LOCAL_PATH: $(pwd)
-            - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
-              variables:
-                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_UAT
-                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
-                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
-                DISTRIBUTION_ID: 'E3QOETK7ZFR0UR'
-    deployToInfiniteUAT:
-      - step:
-          caches:
-            - node
-          name: Deploy Manually to UAT https://pwa-infinite.hudini.app/
+          name: Deploy Manually to PRODUCTION https://infinite.hudini.app/
           deployment: uat
           size: 2x # Double resources available for this step.
           script:
@@ -133,11 +119,11 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E2IJ27PQ9E08IU'
-    deployToSofitelUAT:
+    deployToSofitelPROD:
       - step:
           caches:
             - node
-          name: Deploy Manually to UAT https://sofitel.hudini.app/
+          name: Deploy Manually to PRODUCTION https://sofitel.hudini.app/
           deployment: uat
           size: 2x # Double resources available for this step.
           script:
@@ -162,11 +148,11 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E3DU5R0R1H7FSF'
-    deployToFairmontUAT:
+    deployToFairmontPROD:
       - step:
           caches:
             - node
-          name: Deploy Manually to UAT https://fairmont.hudini.app/
+          name: Deploy Manually to PRODUCTION https://fairmont.hudini.app/
           deployment: uat
           size: 2x # Double resources available for this step.
           script:
@@ -191,11 +177,11 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E2UKK3TQ2VVU2N'
-    deployToRafflesUAT:
+    deployToRafflesPROD:
       - step:
           caches:
             - node
-          name: Deploy Manually to UAT https://raffles.hudini.app/
+          name: Deploy Manually to PRODUCTION https://raffles.hudini.app/
           deployment: uat
           size: 2x # Double resources available for this step.
           script:
@@ -220,11 +206,11 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E3PFBGDNMD6JBU'
-    deployToITCUAT:
+    deployToITCPROD:
       - step:
           caches:
             - node
-          name: Deploy Manually to UAT https://itc.hudini.app/
+          name: Deploy Manually to PRODUCTION https://itc.hudini.app/
           deployment: uat
           size: 2x # Double resources available for this step.
           script:
@@ -249,11 +235,11 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E3QW2SJVKM9B2L'
-    deployTo1HotelsUAT:
+    deployTo1HotelsPROD:
       - step:
           caches:
             - node
-          name: Deploy Manually to UAT https://1-hotels.hudini.app/
+          name: Deploy Manually to PRODUCTION https://1-hotels.hudini.app/
           deployment: uat
           size: 2x # Double resources available for this step.
           script:
@@ -278,11 +264,11 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E193V8LMJUO7BP'
-    deployToAtlantisUAT:
+    deployToAtlantisPROD:
       - step:
           caches:
             - node
-          name: Deploy Manually to UAT https://atlantis-pwa.hudini.app/
+          name: Deploy Manually to PRODUCTION https://atlantis-pwa.hudini.app/
           deployment: uat
           size: 2x # Double resources available for this step.
           script:
@@ -307,11 +293,11 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E3ZUF2S563M5Q'
-    deployToRCDHotelsUAT:
+    deployToRCDHotelsPROD:
       - step:
           caches:
             - node
-          name: Deploy Manually to UAT https://rcdhotels.hudini.app/
+          name: Deploy Manually to PRODUCTION https://rcdhotels.hudini.app/
           deployment: uat
           size: 2x # Double resources available for this step.
           script:
@@ -336,11 +322,11 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'EVWTWAI09GH00'
-    deployToProperUAT:
+    deployToProperPROD:
       - step:
           caches:
             - node
-          name: Deploy Manually to UAT https://proper.hudini.app/
+          name: Deploy Manually to PRODUCTION https://proper.hudini.app/
           deployment: uat
           size: 2x # Double resources available for this step.
           script:
@@ -365,11 +351,11 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'EYPCLKXLJKRN7'
-    deployToOne&OnlyUAT:
+    deployToOne&OnlyPROD:
       - step:
           caches:
             - node
-          name: Deploy Manually to UAT https://onenandonlyresorts.hudini.app/
+          name: Deploy Manually to PRODUCTION https://onenandonlyresorts.hudini.app/
           deployment: uat
           size: 2x # Double resources available for this step.
           script:
@@ -394,11 +380,11 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E2FWMFM6SOSO92'
-    deployToLondonerUAT:
+    deployToLondonerPROD:
       - step:
           caches:
             - node
-          name: Deploy Manually to UAT https://thelondoner.hudini.app/
+          name: Deploy Manually to PRODUCTION https://thelondoner.hudini.app/
           deployment: uat
           size: 2x # Double resources available for this step.
           script:
@@ -423,11 +409,11 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E3FLVRZRNEGXYU'
-    deployToEdwardianUAT:
+    deployToEdwardianPROD:
       - step:
           caches:
             - node
-          name: Deploy Manually to UAT https://edwardian.hudini.app/
+          name: Deploy Manually to PRODUCTION https://edwardian.hudini.app/
           deployment: uat
           size: 2x # Double resources available for this step.
           script:
@@ -452,11 +438,11 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E2XR22FGTQ1LD5'
-    deployToMondrianUAT:
+    deployToMondrianPROD:
       - step:
           caches:
             - node
-          name: Deploy Manually to UAT https://mondrian.hudini.app/
+          name: Deploy Manually to PRODUCTION https://mondrian.hudini.app/
           deployment: uat
           size: 2x # Double resources available for this step.
           script:
@@ -481,40 +467,11 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'ERSNUD5WJC3MV'
-    deployToFairmontStaging:
+    deployToGrandMercurePROD:
       - step:
           caches:
             - node
-          name: Deploy Manually to STAGING https://fairmont.hudinielevate-stage.io
-          deployment: staging
-          size: 2x # Double resources available for this step.
-          script:
-            - rm -rf package-lock.json
-            - rm -rf yarn.lock
-            - rm -rf node_modules
-            - yarn
-            - CI='' yarn build:fairmont
-            - CI='' yarn export
-            - cd out
-            - pipe: atlassian/aws-s3-deploy:0.4.1
-              variables:
-                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING # Optional if already defined in the context.
-                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING # Optional if already defined in the context.
-                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING # Optional if already defined in the context.
-                #ACL: 'public-read'
-                S3_BUCKET: $S3_BUCKET_FAIRMONT_PWA_STAGE
-                LOCAL_PATH: $(pwd)
-            - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
-              variables:
-                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING
-                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING
-                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING
-                DISTRIBUTION_ID: 'E3SKA8IIRKW43Q'
-    deployToGrandMercureUAT:
-      - step:
-          caches:
-            - node
-          name: Deploy Manually to UAT https://grand-mercure.hudini.app/
+          name: Deploy Manually to PRODUCTION https://grand-mercure.hudini.app/
           deployment: uat
           size: 2x # Double resources available for this step.
           script:
@@ -539,11 +496,11 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E4E6VVKWM9OHU'
-    deployToMercureUAT:
+    deployToMercurePROD:
       - step:
           caches:
             - node
-          name: Deploy Manually to UAT https://mercure.hudini.app/
+          name: Deploy Manually to PRODUCTION https://mercure.hudini.app/
           deployment: uat
           size: 2x # Double resources available for this step.
           script:
@@ -568,7 +525,6 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E2GKZP012H7R9Z'
-
     deployToSonarSource:
       - step:
           name: SonarSource
@@ -580,33 +536,3 @@ pipelines:
               variables:
                 SONAR_TOKEN: ${SONAR_TOKEN}
                 EXTRA_ARGS: -Dsonar.javascript.node.maxspace=8192 -Dsonar.sourceEncoding=UTF-8
-                
-    deployToInfiniteDev:
-      - step:
-          caches:
-            - node
-          name: Deploy Manually to Staging https://pwa-infinite.hudinielevate-dev.io/
-          deployment: dev
-          size: 2x # Double resources available for this step.
-          script:
-            - rm -rf package-lock.json
-            - rm -rf yarn.lock
-            - rm -rf node_modules
-            - yarn
-            - CI='' yarn build:stage
-            - CI='' yarn export
-            - cd out
-            - pipe: atlassian/aws-s3-deploy:0.4.1
-              variables:
-                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_DEV # Optional if already defined in the context.
-                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_DEV # Optional if already defined in the context.
-                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_DEV # Optional if already defined in the context.
-                #ACL: 'public-read'
-                S3_BUCKET: $S3_BUCKET_INFINITE_DEV
-                LOCAL_PATH: $(pwd)
-            - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
-              variables:
-                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_DEV
-                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_DEV
-                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_DEV
-                DISTRIBUTION_ID: 'E6HFI8KKES78'

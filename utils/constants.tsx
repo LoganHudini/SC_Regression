@@ -7,6 +7,9 @@ export const HOUSEKEEPING_FLOW_VERSION = process.env.NEXT_PUBLIC_HOUSEKEEPING_FL
 export const ROOM_CONTROLS_FLOW_VERSION = process.env.NEXT_PUBLIC_ROOM_CONTROLS_FLOW_VERSION;
 
 // property constants
+// dev
+export const INFINITE_AUTH_DEV = 'infinite-auth-dev';
+
 // stage
 export const INFINITE = 'infinite';
 export const INFINITE_AUTH = 'infinite-auth';

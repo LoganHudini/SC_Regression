@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "dev:dev": "env-cmd -f .env.dev yarn next dev",
+    "build:dev": "env-cmd -f .env.dev yarn next build",
+    "start:dev": "env-cmd -f .env.dev next start",
     "dev:stage": "env-cmd -f .env.stage yarn next dev",
     "build:stage": "env-cmd -f .env.stage yarn next build",
     "start:stage": "env-cmd -f .env.stage next start",

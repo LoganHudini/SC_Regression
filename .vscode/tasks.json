@@ -3,6 +3,27 @@
   "tasks": [
     {
       "type": "npm",
+      "script": "dev:dev",
+      "problemMatcher": [],
+      "label": "Dev: DEV",
+      "detail": "env-cmd -f .env.dev yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:dev",
+      "problemMatcher": [],
+      "label": "Build: DEV",
+      "detail": "env-cmd -f .env.dev yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:dev",
+      "problemMatcher": [],
+      "label": "Start: DEV",
+      "detail": "env-cmd -f .env.dev next start"
+    },
+    {
+      "type": "npm",
       "script": "dev:stage",
       "problemMatcher": [],
       "label": "Dev: STAGE",
