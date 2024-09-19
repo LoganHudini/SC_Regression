@@ -87,7 +87,7 @@ const DiningOrderSummary = () => {
       const addonsTotal = item?.addons?.reduce((acc: any, addon: any) => {
         return acc + addon.price * item.quantity;
       }, 0);
-      return allTotal + item.quantity * item.price + (addonsTotal ?? 0);
+      return allTotal + item.quantity * item.price + addonsTotal;
     }, 0);
     setTotalAmount(totalAmount);
   }, [diningData?.items]);
@@ -369,7 +369,7 @@ const DiningOrderSummary = () => {
               (acc: any, addon: any) => acc + addon?.price,
               0,
             );
-            const totalPrice = item?.price + totalAddonPrice ?? 0;
+            const totalPrice = item?.price + totalAddonPrice;
             return (
               item?.quantity > 0 && (
                 <div key={index} className={styles.cartItemWrapper}>

@@ -266,17 +266,15 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         : '';
     const payment =
       paymentConfig?.type !== NONE
-        ? 'vaultedCardID: ' + guestReservationInfo?.token ??
-          '' +
-            ', lastFourDigits: ' +
+        ? ('vaultedCardID: ' + guestReservationInfo?.token || '') +
+          (', lastFourDigits: ' +
             (guestReservationInfo?.cardNumber?.length > 4
               ? guestReservationInfo?.cardNumber.substr(guestReservationInfo?.cardNumber.length - 4)
-              : guestReservationInfo?.cardNumber) ??
-          '' + ', cardType: ' + cardType ??
-          '' + ', expiryDate: ' + guestReservationInfo?.cardExpiryDate ??
-          '' + ', approvalCode: ' + guestReservationInfo?.approvalCode ??
-          '' + ', authorizedAmount: ' + String(fetchCharges(reservationInfo)) ??
-          ''
+              : guestReservationInfo?.cardNumber) || '') +
+          (', cardType: ' + cardType || '') +
+          (', expiryDate: ' + guestReservationInfo?.cardExpiryDate || '') +
+          (', approvalCode: ' + guestReservationInfo?.approvalCode || '') +
+          (', authorizedAmount: ' + String(fetchCharges(reservationInfo)) || '')
         : '';
     if (guestSignature) {
       const checkInPayload: ICheckInApiRequest = {
