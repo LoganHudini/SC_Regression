@@ -206,6 +206,35 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'E3PFBGDNMD6JBU'
+    deployToRafflesStage:
+      - step:
+          caches:
+            - node
+          name: Deploy Manually to STAGE https://raffles.hudinielevate-stage.io/
+          deployment: staging
+          size: 2x # Double resources available for this step.
+          script:
+            - rm -rf package-lock.json
+            - rm -rf yarn.lock
+            - rm -rf node_modules
+            - yarn
+            - CI='' yarn build:raffles
+            - CI='' yarn export
+            - cd out
+            - pipe: atlassian/aws-s3-deploy:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING # Optional if already defined in the context.
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING # Optional if already defined in the context.
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING # Optional if already defined in the context.
+                #ACL: 'public-read'
+                S3_BUCKET: $S3_BUCKET_RAFFLES_STAGE
+                LOCAL_PATH: $(pwd)
+            - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING
+                DISTRIBUTION_ID: 'E2C9DUVP6K6FDF'
     deployToITC:
       - step:
           caches:
@@ -351,6 +380,35 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
                 DISTRIBUTION_ID: 'EYPCLKXLJKRN7'
+    deployToProperStage:
+      - step:
+          caches:
+            - node
+          name: Deploy Manually to STAGE https://proper.hudinielevate-stage.io/
+          deployment: staging
+          size: 2x # Double resources available for this step.
+          script:
+            - rm -rf package-lock.json
+            - rm -rf yarn.lock
+            - rm -rf node_modules
+            - yarn
+            - CI='' yarn build:proper
+            - CI='' yarn export
+            - cd out
+            - pipe: atlassian/aws-s3-deploy:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING # Optional if already defined in the context.
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING # Optional if already defined in the context.
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING # Optional if already defined in the context.
+                #ACL: 'public-read'
+                S3_BUCKET: $S3_BUCKET_PROPER_STAGE
+                LOCAL_PATH: $(pwd)
+            - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING
+                DISTRIBUTION_ID: 'E13Z4YZ2SDBA4U'
     deployToOne&Only:
       - step:
           caches:
@@ -535,64 +593,5 @@ pipelines:
             - pipe: sonarsource/sonarcloud-scan:2.0.0
               variables:
                 SONAR_TOKEN: ${SONAR_TOKEN}
-                EXTRA_ARGS: -Dsonar.javascript.node.maxspace=8192 -Dsonar.sourceEncoding=UTF-8
-                
-    deployToRafflesStage:
-      - step:
-          caches:
-            - node
-          name: Deploy Manually to Staging https://raffles.hudinielevate-stage.io/
-          deployment: staging
-          size: 2x # Double resources available for this step.
-          script:
-            - rm -rf package-lock.json
-            - rm -rf yarn.lock
-            - rm -rf node_modules
-            - yarn
-            - CI='' yarn build:raffles
-            - CI='' yarn export
-            - cd out
-            - pipe: atlassian/aws-s3-deploy:0.4.1
-              variables:
-                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING # Optional if already defined in the context.
-                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING # Optional if already defined in the context.
-                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING # Optional if already defined in the context.
-                #ACL: 'public-read'
-                S3_BUCKET: $S3_BUCKET_RAFFLES_STAGE
-                LOCAL_PATH: $(pwd)
-            - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
-              variables:
-                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING
-                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING
-                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING
-                DISTRIBUTION_ID: 'E2C9DUVP6K6FDF'
-                
-    deployToProperStage:
-      - step:
-          caches:
-            - node
-          name: Deploy Manually to Staging https://proper.hudinielevate-stage.io/
-          deployment: staging
-          size: 2x # Double resources available for this step.
-          script:
-            - rm -rf package-lock.json
-            - rm -rf yarn.lock
-            - rm -rf node_modules
-            - yarn
-            - CI='' yarn build:proper
-            - CI='' yarn export
-            - cd out
-            - pipe: atlassian/aws-s3-deploy:0.4.1
-              variables:
-                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING # Optional if already defined in the context.
-                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING # Optional if already defined in the context.
-                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING # Optional if already defined in the context.
-                #ACL: 'public-read'
-                S3_BUCKET: $S3_BUCKET_PROPER_STAGE
-                LOCAL_PATH: $(pwd)
-            - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
-              variables:
-                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING
-                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING
-                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING
-                DISTRIBUTION_ID: 'E13Z4YZ2SDBA4U'
+                EXTRA_ARGS: -Dsonar.javascript.node.maxspace=8192 -Dsonar.sourceEncoding=UTF-8           
+              
