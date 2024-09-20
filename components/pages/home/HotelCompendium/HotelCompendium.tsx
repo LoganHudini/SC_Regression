@@ -7,6 +7,7 @@ import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
 import { useTranslation } from 'react-i18next';
 import { filterHotelCompendiumCategories } from 'utils/functions';
+import cx from 'classnames';
 
 export const HotelCompendiumContainer = (props: any) => {
   const { data } = props;
@@ -45,7 +46,7 @@ export const HotelCompendiumContainer = (props: any) => {
             {categories?.map((category: any, index: number) => (
               <div key={index} className={styles.wrapper} onClick={() => handleClick(category?.id)}>
                 <div className={styles.imgWrapper}>
-                  <p className={styles.name}>{category?.name}</p>
+                  <p className={cx(styles.name, 'globals-compendiumTitle')}>{category?.name}</p>
                 </div>
 
                 <StableImage

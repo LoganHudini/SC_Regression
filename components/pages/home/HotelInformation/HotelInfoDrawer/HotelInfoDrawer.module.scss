@@ -129,14 +129,23 @@
 
 .phoneIcon {
   width: 20px;
+  path {
+    fill: var(--secondary-text-color);
+  }
 }
 
 .linkIcon {
   width: 20px;
+    path {
+    fill: var(--secondary-text-color);
+  }
 }
 
 .emailIcon {
   width: 20px;
+    path {
+    fill: var(--secondary-text-color);
+  }
 }
 
 .activeIndicatorIcon {

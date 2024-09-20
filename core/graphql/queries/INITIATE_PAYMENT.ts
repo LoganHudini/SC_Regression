@@ -121,3 +121,19 @@ query InitiatePayment( $body: InitiatePaymentPayload) {
   }
 }
 `;
+
+export const INITIATE_PAYMENT_DSP = gql`
+query InitiatePayment( $body: InitiatePaymentPayload) {
+    initiatePayment(body: $body)
+    @rest(
+      type: "InitiatePaymentPayload"
+      path: "/loadpaymentzone2/dsp/hotel/${HOTEL_ID}"
+      method: "POST"
+      bodyKey: "body"
+    ) {
+    errors
+    data
+    status
+  }
+}
+`;

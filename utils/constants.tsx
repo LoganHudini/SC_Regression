@@ -27,6 +27,7 @@ export const FAIRMONT_ROYAL_PALM_MARRAKECH = 'fairmont-royal-palm-marrakech';
 export const FAIRMONT_THE_PALM_DUBAI = 'fairmont-the-palm-dubai';
 export const FAIRMONT_MAKKAH_CLOCK_ROYAL_TOWER = 'fairmont-makkah-clock-royal-tower';
 export const ONE_HOTELS_SOUTH_BEACH = '1-hotel-south-beach';
+export const HARD_ROCK_HOTEL_CANCUN = 'hard-rock-hotel-cancun';
 export const ATLANTIS = 'atlantis';
 export const PROPER_DOWNTOWN_LA = 'proper-downtown-la';
 export const PROPER_SANTA_MONICA = 'proper-santa-monica';
@@ -36,6 +37,7 @@ export const EDWARDIAN = 'edwardian';
 export const GRAND_MERCURE_OKINAWA_CAPE_ZANPA = 'grand-mercure-okinawa-cape-zanpa';
 export const MERCURE_NAGANO_MATSUSHIRO = 'mercure-nagano-matsushiro';
 export const MONDRIAN_DUXTON_SINGAPORE = 'mondrian-duxton-singapore';
+export const AVA_RESORT_CANCUN = 'ava-resort-cancun';
 
 // configuration constants
 export const OPERA = 'OPERA';
@@ -47,6 +49,7 @@ export const SHIFT4 = 'SHIFT4';
 export const CYBERSOURCE = 'CYBERSOURCE';
 export const CCAVENUE = 'CCAVENUE';
 export const FREEDOMPAY = 'FREEDOMPAY';
+export const DSP = 'DSP';
 export const OGONE = 'OGONE';
 export const FISERV = 'Fiserv';
 

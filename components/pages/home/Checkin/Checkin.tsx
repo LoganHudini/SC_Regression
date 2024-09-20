@@ -5,6 +5,7 @@ import { toggleCheckInDetailsDrawer } from 'storage/home.storage';
 import { CHECKIN_NOW } from 'utils/constants';
 import { activeCheckInFlow } from 'storage/check-in.storage';
 import { useTranslation } from 'react-i18next';
+import cx from 'classnames';
 import AppStore from '@icons/appStore.svg';
 import PlayStore from '@icons/googlePlay.svg';
 
@@ -30,7 +31,7 @@ export const Checkin: React.FC<ICheckinProps> = ({
 
   return (
     <>
-      <div className={styles.PairtoRoomWrapper}>
+      <div className={cx(styles.PairtoRoomWrapper, 'globals-pairToRoomWrapper')}>
         <p className={styles.pairRoomTitle}>{title}</p>
         <p className={styles.pairRoomdesc}>{description}</p>
         <div className={styles.buttonWrapper}>

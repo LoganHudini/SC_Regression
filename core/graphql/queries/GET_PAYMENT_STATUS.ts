@@ -84,3 +84,17 @@ query GetPaymentStatus($body: GetPaymentStatusPayload) {
   }
 }
 `;
+
+export const GET_DSP_PAYMENT_STATUS = gql`
+query GetPaymentStatus($transactionId: String) {
+    getPaymentStatus(transactionId: $transactionId)
+    @rest(
+      type: "GetPaymentStatusPayload"
+      path: "/getpaymentstatus/dsp/hotel/${HOTEL_ID}"
+    ) {
+    errors
+    data
+    status
+  }
+}
+`;

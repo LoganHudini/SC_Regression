@@ -92,7 +92,7 @@ const HotelInfoDrawer = () => {
 
                 <>
                   <div className={styles.border}>
-                    <Map onClick={() => handleClick()} />
+                    <Map className={styles.phoneIcon} onClick={() => handleClick()} />
                   </div>
                 </>
 

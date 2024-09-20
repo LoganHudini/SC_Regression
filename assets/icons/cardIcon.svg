@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="20.889" viewBox="0 0 24 20.889">
   <g id="money" transform="translate(-0.5 -2.5)">
-    <path id="Path_69214" data-name="Path 69214" d="M22.567,12.149c0-2.062-.007-7.609-.007-7.609A1.545,1.545,0,0,0,21.02,3H2.54A1.545,1.545,0,0,0,1,4.54V15.32a1.545,1.545,0,0,0,1.54,1.54l8.36.023" fill="none" stroke="var(--primary-icon-color)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-    <path id="Path_69215" data-name="Path 69215" d="M1,8H22.56" transform="translate(0 -1.15)" fill="none" stroke="var(--primary-icon-color)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-    <path id="Path_69216" data-name="Path 69216" d="M23,18v4.62" transform="translate(-5.06 -3.45)" fill="none" stroke="var(--primary-icon-color)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-    <path id="Path_69217" data-name="Path 69217" d="M24.62,21H20" transform="translate(-4.37 -4.14)" fill="none" stroke="var(--primary-icon-color)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-    <circle id="Ellipse_9509" data-name="Ellipse 9509" cx="6.5" cy="6.5" r="6.5" transform="translate(11 9.889)" fill="none" stroke="var(--primary-icon-color)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <path id="Path_69214" data-name="Path 69214" d="M22.567,12.149c0-2.062-.007-7.609-.007-7.609A1.545,1.545,0,0,0,21.02,3H2.54A1.545,1.545,0,0,0,1,4.54V15.32a1.545,1.545,0,0,0,1.54,1.54l8.36.023" fill="none" stroke="var(--primary-button-color)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <path id="Path_69215" data-name="Path 69215" d="M1,8H22.56" transform="translate(0 -1.15)" fill="none" stroke="var(--primary-button-color)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <path id="Path_69216" data-name="Path 69216" d="M23,18v4.62" transform="translate(-5.06 -3.45)" fill="none" stroke="var(--primary-button-color)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <path id="Path_69217" data-name="Path 69217" d="M24.62,21H20" transform="translate(-4.37 -4.14)" fill="none" stroke="var(--primary-button-color)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <circle id="Ellipse_9509" data-name="Ellipse 9509" cx="6.5" cy="6.5" r="6.5" transform="translate(11 9.889)" fill="none" stroke="var(--primary-button-color)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
   </g>
 </svg>

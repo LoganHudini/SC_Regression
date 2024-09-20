@@ -1,0 +1,22 @@
+{
+  "theme_color": "#826224",
+  "background_color": "#ffffff",
+  "display": "fullscreen",
+  "scope": "/",
+  "start_url": "/",
+  "name": "Hard Rock Hotels",
+  "short_name": "Hard Rock Hotels",
+  "icons": [
+    {
+      "src": "/images/hard-rock-hotels/Logo.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/hard-rock-hotels/Logo.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

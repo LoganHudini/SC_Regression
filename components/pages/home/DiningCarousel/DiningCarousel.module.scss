@@ -133,6 +133,7 @@
 .carouselSlideTimings {
   font: $xsmall var(--primary-font-regular);
   color: var(--tertiary-text-color);
+  margin: 4px 0;
 }
 
 .content {
@@ -228,9 +229,16 @@
   width: auto;
   font-size: $xsmall;
   height: 30px;
+  line-height: 30px;
 }
 
 .buttonWrapper {
   text-align: start;
   margin: 5px auto;
+}
+
+.cuisineIcon {
+  path {
+    fill: var(--primary-icon-color);
+  }
 }

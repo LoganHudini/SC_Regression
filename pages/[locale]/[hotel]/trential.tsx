@@ -36,6 +36,7 @@ import { STORE_RESERVATION } from 'core/graphql/queries/STORE_RESERVATION';
 import { notificationStorage, toggleNotification } from 'storage/home.storage';
 import '@aws-amplify/ui-react/styles.css';
 import { ClientVerificationUI } from 'client-verification-trential-next-sdk';
+import 'client-verification-trential-next-sdk/dist/esm/assets/css/liveness/style.css';
 import {
   CREATE_FACE,
   GET_TRENTIAL_STATUS,
@@ -409,6 +410,7 @@ const Trential: React.FC = () => {
             }}
             token={token}
             disclaimer={t('I provide my consent to share my details with Hudini') as string}
+            enableDlCaptcha={true}
           />
         )}
       </div>

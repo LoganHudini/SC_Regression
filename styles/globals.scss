@@ -123,6 +123,16 @@
 }
 
 @font-face {
+  font-family: 'ApexSans Book';
+  src: url('/fonts/ApexSans/ApexSans-Book.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'ApexSans Bold';
+  src: url('/fonts/ApexSans/ApexSans-Bold.otf') format('opentype');
+}
+
+@font-face {
   font-family: 'GT Walsheim Regular';
   src: url('/fonts/GT-Walsheim/GT-Walsheim-Regular.ttf') format('truetype');
 }
@@ -160,6 +170,11 @@
 @font-face {
   font-family: 'League Spartan Medium';
   src: url('/fonts/LeagueSpartan/LeagueSpartan-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'ObjectSans-regular';
+  src: url('/fonts/ObjectSans/ObjectSans-Regular.otf') format('opentype');
 }
 
 // header font-families

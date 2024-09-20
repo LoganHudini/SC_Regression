@@ -191,10 +191,7 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reservationInfo?.confirmationId]);
 
-  let tryCount = 0;
-
   const paymentResponse = useCallback(async () => {
-    tryCount = tryCount + 1;
     if (transactionId.current) {
       const checkInToken = getCheckInToken();
       const cardOptions = [

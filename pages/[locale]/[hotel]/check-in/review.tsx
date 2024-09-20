@@ -259,10 +259,12 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
     const personalisation =
       personalisationConfig?.type === CMS
-        ? personalizationEntities?.map((personalization) => ({
-            upsellName: personalization?.title,
-            revenue: Number(Number(personalization?.price).toFixed(2)),
-          }))
+        ? personalizationEntities
+            ?.map(
+              (personalization) =>
+                `${personalization?.title} (${Number(Number(personalization?.price).toFixed(2))})`,
+            )
+            ?.join(', ')
         : '';
     const payment =
       paymentConfig?.type !== NONE
@@ -348,7 +350,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         isDoNotMove: true,
         arrivalFlight: guestReservationInfo?.estimatedTime ?? '',
         depositAmount: paymentConfig?.type !== NONE ? String(fetchCharges(reservationInfo)) : '',
-        specialInstructions: payment + personalisation,
+        specialInstructions:
+          payment + personalisation ? 'Personalisations: ' + personalisation : '',
       };
       const checkIn = async () => {
         const checkInToken = getCheckInToken();

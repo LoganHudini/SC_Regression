@@ -177,6 +177,28 @@
     },
     {
       "type": "npm",
+      "script": "dev:hard-rock-hotels",
+      "problemMatcher": [],
+      "label": "Dev: HARD ROCK HOTELS",
+      "detail": "env-cmd -f .env.hard-rock-hotels yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:hard-rock-hotels",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: HARD ROCK HOTELS",
+      "detail": "env-cmd -f .env.hard-rock-hotels yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:hard-rock-hotels",
+      "problemMatcher": [],
+      "label": "Start: HARD ROCK HOTELS",
+      "detail": "env-cmd -f .env.hard-rock-hotels next start"
+    },
+    {
+      "type": "npm",
       "script": "dev:atlantis",
       "problemMatcher": [],
       "label": "Dev: ATLANTIS",
@@ -350,6 +372,50 @@
       "problemMatcher": [],
       "label": "Start: MONDRIAN",
       "detail": "env-cmd -f .env.mondrian next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:ava-resorts",
+      "problemMatcher": [],
+      "label": "Dev: AVA RESORTS",
+      "detail": "env-cmd -f .env.ava-resorts yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:ava-resorts",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: AVA RESORTS",
+      "detail": "env-cmd -f .env.ava-resorts yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:ava-resorts",
+      "problemMatcher": [],
+      "label": "Start: AVA RESORTS",
+      "detail": "env-cmd -f .env.ava-resorts next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:ava-resorts-stage",
+      "problemMatcher": [],
+      "label": "Dev: AVA RESORTS STAGE",
+      "detail": "env-cmd -f .env.ava-resorts.stage yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:ava-resorts-stage",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: AVA RESORTS STAGE",
+      "detail": "env-cmd -f .env.ava-resorts.stage yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:ava-resorts-stage",
+      "problemMatcher": [],
+      "label": "Start: AVA RESORTS STAGE",
+      "detail": "env-cmd -f .env.ava-resorts.stage next start"
     }
   ]
 }

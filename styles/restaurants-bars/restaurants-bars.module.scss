@@ -87,7 +87,14 @@
 }
 
 .cuisineIcon {
-  height: 20px;
+  height: auto;
+  path {
+    fill: var(--primary-icon-color);
+  }
+}
+
+.timeIcon {
+  height: auto;
   path {
     fill: var(--primary-icon-color);
   }
@@ -96,11 +103,17 @@
 .restaurantIcon {
   flex: 0 0 18px;
   height: auto;
+  path {
+    fill: var(--primary-icon-color);
+  }
 }
 
 .locationIcon {
   flex: 0 0 13px;
   height: auto;
+  path {
+    fill: var(--primary-icon-color);
+  }
 }
 
 .cuisineRow,
@@ -441,6 +454,12 @@
 
 .additionalTimeWrapperOpened {
   display: block;
+}
+
+.icon_contact {
+  color: var(--primary-theme-color) !important;
+  font-size: $small !important;
+  text-transform: uppercase;
 }
 
 .icon {

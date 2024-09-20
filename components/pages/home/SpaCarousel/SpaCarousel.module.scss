@@ -359,6 +359,13 @@
   }
 }
 
+.cuisineIcon,
+.locationicon {
+  path {
+    fill: var(--primary-icon-color);
+  }
+}
+
 .listComponentMargin {
   margin-bottom: 64px !important;
 }

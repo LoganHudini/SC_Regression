@@ -957,6 +957,15 @@ export const configuration: any = [
                 isActive: true,
               },
               {
+                name: 'dob',
+                label: 'Date of Birth',
+                type: 'datePicker',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+                isDisableFuture: true,
+              },
+              {
                 name: 'docType',
                 label: 'Document Type',
                 type: 'AutoComplete',
@@ -1313,6 +1322,15 @@ export const configuration: any = [
                 required: true,
                 isDisabled: false,
                 isActive: true,
+              },
+              {
+                name: 'dob',
+                label: 'Date of Birth',
+                type: 'datePicker',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+                isDisableFuture: true,
               },
               {
                 name: 'docType',
@@ -2429,6 +2447,15 @@ export const configuration: any = [
                 isActive: true,
               },
               {
+                name: 'dob',
+                label: 'Date of Birth',
+                type: 'datePicker',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+                isDisableFuture: true,
+              },
+              {
                 name: 'docType',
                 label: 'Document Type',
                 type: 'AutoComplete',
@@ -2758,6 +2785,15 @@ export const configuration: any = [
                 isActive: true,
               },
               {
+                name: 'dob',
+                label: 'Date of Birth',
+                type: 'datePicker',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+                isDisableFuture: true,
+              },
+              {
                 name: 'docType',
                 label: 'Document Type',
                 type: 'Text',
@@ -2765,7 +2801,6 @@ export const configuration: any = [
                 isDisabled: true,
                 isActive: true,
               },
-
               {
                 name: 'docNo',
                 label: 'Document Number',
@@ -2920,7 +2955,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'youverse',
-                environment: 'development',
                 details: [
                   {
                     name: 'firstName',
@@ -3066,6 +3100,15 @@ export const configuration: any = [
                 required: true,
                 isDisabled: false,
                 isActive: true,
+              },
+              {
+                name: 'dob',
+                label: 'Date of Birth',
+                type: 'datePicker',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+                isDisableFuture: true,
               },
               {
                 name: 'docType',
@@ -3986,6 +4029,15 @@ export const configuration: any = [
                 isActive: true,
               },
               {
+                name: 'dob',
+                label: 'Date of Birth',
+                type: 'datePicker',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+                isDisableFuture: true,
+              },
+              {
                 name: 'docType',
                 label: 'Document Type',
                 type: 'AutoComplete',
@@ -4023,7 +4075,7 @@ export const configuration: any = [
             name: 'review',
             label: 'Review & Sign',
             title: 'Check-In',
-            buttonLabelCheckIn: 'CONFIRM CHECK-IN',
+            buttonLabelCheckIn: 'Confirm Check-In',
             // eslint-disable-next-line quotes
             termsAndCondition:
               'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',
@@ -4113,6 +4165,332 @@ export const configuration: any = [
         name: 'Spa',
         isActive: true,
         type: 'VENDOR',
+      },
+    ],
+  },
+  {
+    code: 'hard-rock-hotel-cancun',
+    name: 'Hard Rock Hotel Cancun',
+    hotelId: 'a069e0c7-a2c9-4a1f-8826-98869ff66deb',
+    pms: 'OPERA',
+    fetchFromDb: 'yes',
+    saveToDb: 'no',
+    languages: [{ code: 'en', name: 'English' }],
+    orderOfModules: ['offers', 'hotel-info', 'check-in', 'hotel-compendium'],
+    preCheckInOnly: true,
+    modules: [
+      {
+        code: 'Preferences',
+        name: 'Preferences',
+        isActive: true,
+        submodules: [
+          {
+            code: 'Headers',
+            isActive: true,
+            details: [
+              {
+                title: 'ENHANCE YOUR STAY! SHARE YOUR DESIRES BELOW',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        code: 'Check-In',
+        name: 'Check-In',
+        isActive: true,
+        submodules: [
+          {
+            name: 'information',
+            label: 'Check-In',
+            title: 'Please Complete Your Check-In Process',
+            isActive: true,
+            details: [
+              {
+                name: 'Guest Information',
+                isActive: true,
+                type: 'trential',
+                environment: 'development',
+                details: [
+                  {
+                    name: 'firstName',
+                    label: 'First Name',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'lastName',
+                    label: 'Last Name',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'emails',
+                    label: 'Email',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
+                    name: 'phone',
+                    label: 'Phone Number',
+                    type: 'Tel',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
+                    name: 'nationality',
+                    label: 'Nationality',
+                    type: 'AutoComplete',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    options: Countries,
+                  },
+                  {
+                    name: 'docType',
+                    label: 'Document Type',
+                    type: 'AutoComplete',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                    options: [
+                      {
+                        name: 'Passport',
+                        value: 'Passport',
+                        code: 'PASSPORT',
+                        vendorDocType: 'passport',
+                      },
+                      {
+                        name: 'Driving License',
+                        value: 'DL',
+                        code: 'DL',
+                        vendorDocType: 'dl',
+                      },
+                    ],
+                  },
+                  {
+                    name: 'docNo',
+                    label: 'Document Number',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                ],
+              },
+              {
+                name: 'Credit Card Info',
+                isActive: true,
+                type: 'NONE',
+                details: [
+                  {
+                    name: 'cardNumber',
+                    label: 'Card Number',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'cardHolderName',
+                    label: 'Card Holder Name',
+                    type: 'Text',
+                    required: false,
+                    isDisabled: true,
+                    isActive: false,
+                  },
+                  {
+                    name: 'cardType',
+                    label: 'Card Type',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'cardExpiryDate',
+                    label: 'Expiry Date',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'accompanyingGuest',
+            label: 'Secondary Guest',
+            title: '',
+            type: 'manual',
+            isActive: true,
+            cardIcon: 'guest',
+            details: [
+              {
+                name: 'firstName',
+                label: 'First Name',
+                type: 'Text',
+                required: true,
+                isDisabled: true,
+                isActive: true,
+              },
+              {
+                name: 'lastName',
+                label: 'Last Name',
+                type: 'Text',
+                required: true,
+                isDisabled: true,
+                isActive: true,
+              },
+              {
+                name: 'emails',
+                label: 'Email',
+                type: 'Text',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'phone',
+                label: 'Phone Number',
+                type: 'Tel',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'dob',
+                label: 'Date of Birth',
+                type: 'datePicker',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+                isDisableFuture: true,
+              },
+              {
+                name: 'docType',
+                label: 'Document Type',
+                type: 'AutoComplete',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'docNo',
+                label: 'Document Number',
+                type: 'Text',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'condition',
+                label:
+                  'I agree to receive an invitation email to validate and sign up for a complimentary ACCOR Membership.',
+                type: 'CheckBox',
+                required: true,
+                isDisabled: false,
+                isActive: false,
+              },
+            ],
+          },
+          {
+            name: 'personalisation',
+            label: 'Customize My Stay',
+            title: 'Check-In',
+            type: 'CMS',
+            isActive: true,
+          },
+          {
+            name: 'review',
+            label: 'Review & Sign',
+            title: 'Check-In',
+            buttonLabelCheckIn: 'Confirm Check-In',
+            // eslint-disable-next-line quotes
+            termsAndCondition:
+              'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',
+            subTitle:
+              'Please review and confirm the below information to complete the Check-In process',
+            type: 'cms',
+            isActive: true,
+            guestInformationDetails: [
+              {
+                title: 'Guest Information',
+              },
+              {
+                checkIn: 'Check-In',
+                checkOut: 'Checkout',
+              },
+            ],
+            creditCardDetails: {
+              title: 'Payment Information',
+              details: [
+                {
+                  name: 'cardNumber',
+                  label: 'Card Number',
+                },
+                {
+                  name: 'cardType',
+                  label: 'Card Type',
+                },
+                {
+                  name: 'cardExpiryDate',
+                  label: 'Expiry Date',
+                },
+              ],
+            },
+            identityVerificationDetails: [
+              {
+                title: 'Identity Verification',
+              },
+              {
+                name: 'docType',
+                cmsName: 'DOCUMENT_TYPE',
+                label: 'Document Type',
+              },
+              {
+                name: 'docNo',
+                cmsName: 'DOCUMENT_NUMBER',
+                label: 'Document Number',
+              },
+            ],
+            personalizationDetails: [
+              {
+                title: 'Add-Ons',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        code: 'In-Room Dining',
+        name: 'In-Room Dining',
+        isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'Services',
+        name: 'Services',
+        isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'view-bill',
+        name: 'View Bill',
+        isActive: false,
+      },
+      {
+        code: 'checkout',
+        name: 'Checkout',
+        isActive: false,
       },
     ],
   },
@@ -4212,7 +4590,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -4321,6 +4699,15 @@ export const configuration: any = [
                 isActive: true,
               },
               {
+                name: 'dob',
+                label: 'Date of Birth',
+                type: 'datePicker',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+                isDisableFuture: true,
+              },
+              {
                 name: 'docType',
                 label: 'Document Type',
                 type: 'Text',
@@ -4328,7 +4715,6 @@ export const configuration: any = [
                 isDisabled: true,
                 isActive: true,
               },
-
               {
                 name: 'docNo',
                 label: 'Document Number',
@@ -4655,6 +5041,15 @@ export const configuration: any = [
                 isActive: true,
               },
               {
+                name: 'dob',
+                label: 'Date of Birth',
+                type: 'datePicker',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+                isDisableFuture: true,
+              },
+              {
                 name: 'docType',
                 label: 'Document Type',
                 type: 'Text',
@@ -4662,7 +5057,6 @@ export const configuration: any = [
                 isDisabled: true,
                 isActive: true,
               },
-
               {
                 name: 'docNo',
                 label: 'Document Number',
@@ -5004,6 +5398,15 @@ export const configuration: any = [
                 required: true,
                 isDisabled: false,
                 isActive: true,
+              },
+              {
+                name: 'dob',
+                label: 'Date of Birth',
+                type: 'datePicker',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+                isDisableFuture: true,
               },
               {
                 name: 'docType',
@@ -5351,6 +5754,15 @@ export const configuration: any = [
                 isActive: true,
               },
               {
+                name: 'dob',
+                label: 'Date of Birth',
+                type: 'datePicker',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+                isDisableFuture: true,
+              },
+              {
                 name: 'docType',
                 label: 'Document Type',
                 type: 'AutoComplete',
@@ -5388,7 +5800,7 @@ export const configuration: any = [
             name: 'review',
             label: 'Review & Sign',
             title: 'Check-In',
-            buttonLabelCheckIn: 'CONFIRM CHECK-IN',
+            buttonLabelCheckIn: 'Confirm Check-In',
             // eslint-disable-next-line quotes
             termsAndCondition:
               'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',
@@ -6682,7 +7094,7 @@ export const configuration: any = [
       {
         code: 'Pair-To-Room',
         name: 'Connect to Room',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'In-Room Dining',
@@ -6700,12 +7112,12 @@ export const configuration: any = [
       {
         code: 'view-bill',
         name: 'View Bill',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'spa',
@@ -7121,7 +7533,7 @@ export const configuration: any = [
       {
         code: 'Pair-To-Room',
         name: 'Connect to Room',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'In-Room Dining',
@@ -7139,12 +7551,12 @@ export const configuration: any = [
       {
         code: 'view-bill',
         name: 'View Bill',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'spa',
@@ -7596,6 +8008,374 @@ export const configuration: any = [
         name: 'Spa',
         isActive: false,
         type: 'CMS',
+      },
+    ],
+  },
+  {
+    code: 'ava-resort-cancun',
+    name: 'AVA Resort Cancun',
+    hotelId: 'bfa8d4c3-4af9-4203-91f5-0f8336ae591f',
+    // stage
+    // hotelId: '367d06d4-4ad0-4034-9bce-d58e6c36ee03',
+    pms: 'OPERA',
+    fetchFromDb: 'yes',
+    saveToDb: 'no',
+    languages: [
+      { code: 'en', name: 'English' },
+      { code: 'es', name: 'Spanish' },
+    ],
+    orderOfModules: ['offers', 'hotel-info', 'check-in', 'hotel-compendium'],
+    preCheckInOnly: true,
+    skipQueueReservation: true,
+    isLogoLoaderActive: false,
+    modules: [
+      {
+        code: 'Preferences',
+        name: 'Preferences',
+        isActive: true,
+        submodules: [
+          {
+            code: 'Headers',
+            isActive: true,
+            details: [
+              {
+                title: 'ENHANCE YOUR STAY! SHARE YOUR DESIRES BELOW',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        code: 'Check-In',
+        name: 'Check-In',
+        isActive: true,
+        submodules: [
+          {
+            name: 'information',
+            label: 'Check-In',
+            title: 'Please Complete Your Check-In Process',
+            isActive: true,
+            details: [
+              {
+                name: 'Guest Information',
+                isActive: true,
+                type: 'manual',
+                details: [
+                  {
+                    name: 'firstName',
+                    label: 'First Name',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'lastName',
+                    label: 'Last Name',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'nationality',
+                    label: 'Nationality',
+                    type: 'AutoComplete',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    options: Countries,
+                  },
+                  {
+                    name: 'dob',
+                    label: 'Date of Birth',
+                    type: 'datePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    isDisableFuture: true,
+                  },
+                  {
+                    name: 'phone',
+                    label: 'Phone Number',
+                    type: 'Tel',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
+                    name: 'emails',
+                    label: 'Email',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
+                    name: 'docType',
+                    label: 'Document Type',
+                    type: 'AutoComplete',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    options: [
+                      {
+                        name: 'Passport',
+                        value: 'PASSPORT',
+                        code: 'PASSPORT',
+                        vendorDocType: 'passport',
+                      },
+                      {
+                        name: 'Driving License',
+                        value: 'D',
+                        code: 'D',
+                        vendorDocType: 'dl',
+                      },
+                    ],
+                  },
+                  {
+                    name: 'docNo',
+                    label: 'Document Number',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
+                    name: 'countryCode',
+                    label: 'Country',
+                    type: 'AutoComplete',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    options: Countries,
+                  },
+                ],
+              },
+              {
+                name: 'Credit Card Info',
+                isActive: true,
+                type: 'NONE',
+                details: [
+                  {
+                    name: 'cardNumber',
+                    label: 'Card Number',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'cardHolderName',
+                    label: 'Card Holder Name',
+                    type: 'Text',
+                    required: false,
+                    isDisabled: true,
+                    isActive: false,
+                  },
+                  {
+                    name: 'cardType',
+                    label: 'Card Type',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'cardExpiryDate',
+                    label: 'Expiry Date',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'accompanyingGuest',
+            label: 'Secondary Guest',
+            title: '',
+            type: 'manual',
+            isActive: true,
+            cardIcon: 'guest',
+            details: [
+              {
+                name: 'firstName',
+                label: 'First Name',
+                type: 'Text',
+                required: true,
+                isDisabled: true,
+                isActive: true,
+              },
+              {
+                name: 'lastName',
+                label: 'Last Name',
+                type: 'Text',
+                required: true,
+                isDisabled: true,
+                isActive: true,
+              },
+              {
+                name: 'nationality',
+                label: 'Nationality',
+                type: 'AutoComplete',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+                options: Countries,
+              },
+              {
+                name: 'dob',
+                label: 'Date of Birth',
+                type: 'datePicker',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+                isDisableFuture: true,
+              },
+              {
+                name: 'phone',
+                label: 'Phone Number',
+                type: 'Tel',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'emails',
+                label: 'Email',
+                type: 'Text',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'docType',
+                label: 'Document Type',
+                type: 'AutoComplete',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'docNo',
+                label: 'Document Number',
+                type: 'Text',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'countryCode',
+                label: 'Country',
+                type: 'AutoComplete',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+                options: Countries,
+              },
+              {
+                name: 'condition',
+                label:
+                  'I agree to receive an invitation email to validate and sign up for a complimentary ACCOR Membership.',
+                type: 'CheckBox',
+                required: true,
+                isDisabled: false,
+                isActive: false,
+              },
+            ],
+          },
+          {
+            name: 'personalisation',
+            label: 'Customize My Stay',
+            title: 'Check-In',
+            type: 'CMS',
+            isActive: true,
+          },
+          {
+            name: 'review',
+            label: 'Review & Sign',
+            title: 'Check-In',
+            buttonLabelCheckIn: 'Confirm Check-In',
+            // eslint-disable-next-line quotes
+            termsAndCondition:
+              'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',
+            subTitle:
+              'Please review and confirm the below information to complete the Check-In process',
+            type: 'cms',
+            isActive: true,
+            guestInformationDetails: [
+              {
+                title: 'Guest Information',
+              },
+              {
+                checkIn: 'Check-In',
+                checkOut: 'Checkout',
+              },
+            ],
+            creditCardDetails: {
+              title: 'Payment Information',
+              details: [
+                {
+                  name: 'cardNumber',
+                  label: 'Card Number',
+                },
+                {
+                  name: 'cardType',
+                  label: 'Card Type',
+                },
+                {
+                  name: 'cardExpiryDate',
+                  label: 'Expiry Date',
+                },
+              ],
+            },
+            identityVerificationDetails: [
+              {
+                title: 'Identity Verification',
+              },
+              {
+                name: 'docType',
+                cmsName: 'DOCUMENT_TYPE',
+                label: 'Document Type',
+              },
+              {
+                name: 'docNo',
+                cmsName: 'DOCUMENT_NUMBER',
+                label: 'Document Number',
+              },
+            ],
+            personalizationDetails: [
+              {
+                title: 'Add-Ons',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        code: 'In-Room Dining',
+        name: 'In-Room Dining',
+        isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'Services',
+        name: 'Services',
+        isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'view-bill',
+        name: 'View Bill',
+        isActive: false,
+      },
+      {
+        code: 'checkout',
+        name: 'Checkout',
+        isActive: false,
       },
     ],
   },

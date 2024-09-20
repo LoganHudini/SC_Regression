@@ -1,0 +1,22 @@
+{
+  "theme_color": "#D13E87",
+  "background_color": "#F9F7F1",
+  "display": "fullscreen",
+  "scope": "/",
+  "start_url": "/",
+  "name": "AVA Resorts",
+  "short_name": "AVA Resorts",
+  "icons": [
+    {
+      "src": "/images/ava-resorts/Logo.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/ava-resorts/Logo.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

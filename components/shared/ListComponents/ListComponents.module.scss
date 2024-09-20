@@ -106,6 +106,13 @@
   padding: 10px 25px;
 }
 
+.cuisineIcon {
+  height: auto;
+  path {
+    fill: var(--primary-icon-color);
+  }
+}
+
 .restaurantIcon {
   flex: 0 0 18px;
   height: auto;
