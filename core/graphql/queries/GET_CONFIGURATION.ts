@@ -7388,7 +7388,7 @@ export const configuration: any = [
                 type: 'AutoComplete',
                 required: false,
                 isDisabled: false,
-                isActive: true,
+                isActive: false,
                 options: [
                   {
                     name: 'Male',
