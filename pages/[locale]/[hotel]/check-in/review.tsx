@@ -278,6 +278,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         : '';
     if (guestSignature) {
       const checkInPayload: ICheckInApiRequest = {
+        skipQueueReservation: config?.skipQueueReservation ? true : false,
         reservationType: reservationInfo?.confirmationType as string,
         reservationId: reservationInfo?.reservationId as string,
         bookingId: reservationInfo?.confirmationId as string,

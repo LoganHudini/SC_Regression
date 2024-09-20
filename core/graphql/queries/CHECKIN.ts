@@ -2,6 +2,7 @@ import { gql } from '@apollo/client';
 import { HOTEL_ID } from '../endpoints';
 
 export interface ICheckInApiRequest {
+  skipQueueReservation: boolean;
   reservationType: string;
   reservationId: string;
   bookingId: string;
