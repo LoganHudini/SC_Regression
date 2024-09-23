@@ -66,6 +66,7 @@ const CheckOut = () => {
           variables: {
             reservationId: invoiceId,
             confirmationId: checkedInData?.reservationId,
+            roomNo: checkedInData?.roomNumber,
           },
           fetchPolicy: 'no-cache',
         });
@@ -86,7 +87,7 @@ const CheckOut = () => {
         }
       }
     },
-    [checkedInData?.lastName, checkedInData?.reservationId, t],
+    [checkedInData?.lastName, checkedInData?.reservationId, checkedInData?.roomNumber, t],
   );
 
   const fetchReservation = useCallback(async () => {

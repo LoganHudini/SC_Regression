@@ -119,6 +119,7 @@ const CheckoutDrawer = (props: any) => {
       reservationType,
       reservationId,
       bookingId,
+      roomNo: checkedInData?.roomNumber as string,
       paymentType: 'OPIVA',
     };
     try {

@@ -421,7 +421,7 @@ pipelines:
             - rm -rf yarn.lock
             - rm -rf node_modules
             - yarn
-            - CI='' yarn build:proper
+            - CI='' yarn build:proper-stage
             - CI='' yarn export
             - cd out
             - pipe: atlassian/aws-s3-deploy:0.4.1
@@ -698,7 +698,7 @@ pipelines:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_UAT
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT
-                DISTRIBUTION_ID: 'E1CLH111Q8VTQE'               
+                DISTRIBUTION_ID: 'E1CLH111Q8VTQE'
     deployToHardRockHotelsStage:
       - step:
           caches:
@@ -727,7 +727,7 @@ pipelines:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING
-                DISTRIBUTION_ID: 'E4JIUU6YPWK7C'             
+                DISTRIBUTION_ID: 'E4JIUU6YPWK7C'
     deployToUnicoHotels:
       - step:
           caches:
@@ -785,7 +785,7 @@ pipelines:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING
-                DISTRIBUTION_ID: 'E2HBO1RWRD117J'     
+                DISTRIBUTION_ID: 'E2HBO1RWRD117J'
     deployToSonarSource:
       - step:
           name: SonarSource

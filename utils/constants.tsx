@@ -305,6 +305,12 @@ export const DOCUMENT_LIST = [
   { code: 'termsAndConditions', name: 'Terms & Conditions' },
 ];
 
+export const settlementType = [
+  { code: '9003', type: 'AX' },
+  { code: '9004', type: 'VS' },
+  { code: '9005', type: 'MC' },
+];
+
 export const TimeFormatArray = ['AM', 'PM'];
 
 export const CAROUSEL_RESPONSIVE = {

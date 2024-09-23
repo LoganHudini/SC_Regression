@@ -60,6 +60,8 @@ import {
   CMS,
   PMS,
   CANCELLED,
+  settlementType,
+  INFOR,
 } from 'utils/constants';
 import {
   notificationStorage,
@@ -324,7 +326,11 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         ),
         cardID: guestReservationInfo?.approvalCode ?? '',
         vaultedCardID: guestReservationInfo?.token,
-        settlementType: paymentConfig?.settlementType ?? guestReservationInfo?.cardType,
+        settlementType:
+          paymentConfig?.settlementType ?? config?.pms === INFOR
+            ? settlementType?.find((card: any) => card?.type === guestReservationInfo?.cardType)
+                ?.code
+            : guestReservationInfo?.cardType,
         documentType: guestReservationInfo?.docType
           ? guestReservationInfo?.docType
           : reservationInfo?.guests[0]?.docType,
@@ -534,6 +540,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     cardType,
     checkInModule?.eva,
     children,
+    config?.pms,
     guestReservationInfo?.addressLine,
     guestReservationInfo?.approvalCode,
     guestReservationInfo?.cardExpiryDate,

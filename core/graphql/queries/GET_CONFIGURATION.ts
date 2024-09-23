@@ -4497,7 +4497,9 @@ export const configuration: any = [
   {
     code: 'proper-downtown-la',
     name: 'Proper Downtown L.A.',
-    hotelId: 'af33df72-467c-40f9-b2d3-ac9d56a7fb85',
+    // hotelId: 'af33df72-467c-40f9-b2d3-ac9d56a7fb85',
+    // Stage
+    hotelId: '4d9fcf15-4e4e-4eee-a7cb-2ad0df4f6300',
     pms: 'INFOR',
     fetchFromDb: 'yes',
     saveToDb: 'no',
@@ -4542,7 +4544,8 @@ export const configuration: any = [
               {
                 name: 'Guest Information',
                 isActive: true,
-                type: 'youverse',
+                type: 'trential',
+                environment: 'development',
                 details: [
                   {
                     name: 'firstName',
@@ -4590,7 +4593,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: false,
+                    isDisabled: true,
                     isActive: true,
                     options: [
                       {

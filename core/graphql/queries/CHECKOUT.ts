@@ -6,6 +6,7 @@ export interface ICheckoutApiRequest {
   reservationId: string;
   bookingId: string;
   paymentType: string;
+  roomNo: string;
 }
 
 export const CHECKOUT = gql`
