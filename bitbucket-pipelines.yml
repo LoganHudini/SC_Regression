@@ -708,7 +708,7 @@ pipelines:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_STAGING
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_STAGING
-                DISTRIBUTION_ID: 'E3CGOI4RCLO35H'   
+                DISTRIBUTION_ID: 'E3CGOI4RCLO35H'
     deployToArrazunaStage:
       - step:
           caches:
