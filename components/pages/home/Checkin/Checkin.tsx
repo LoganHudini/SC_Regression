@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import cx from 'classnames';
 import AppStore from '@icons/appStore.svg';
 import PlayStore from '@icons/googlePlay.svg';
+import { useConfig } from 'utils/hooks/useConfiguration';
 
 interface ICheckinProps {
   title: string;
@@ -23,6 +24,7 @@ export const Checkin: React.FC<ICheckinProps> = ({
   downloadText = false,
 }) => {
   const { t } = useTranslation(['common']);
+  const config = useConfig();
 
   const handleComponentCta = () => {
     toggleCheckInDetailsDrawer(true);
@@ -32,19 +34,42 @@ export const Checkin: React.FC<ICheckinProps> = ({
   return (
     <>
       <div className={cx(styles.PairtoRoomWrapper, 'globals-pairToRoomWrapper')}>
-        <p className={styles.pairRoomTitle}>{title}</p>
-        <p className={styles.pairRoomdesc}>{description}</p>
-        <div className={styles.buttonWrapper}>
-          <StyledButton variant='outlined' className={styles.button} onClick={handleComponentCta}>
-            {buttonTitle}
-          </StyledButton>
-        </div>
+        {!downloadText && (
+          <>
+            <p className={styles.pairRoomTitle}>{title}</p>
+            <p className={styles.pairRoomdesc}>{description}</p>
+            <div className={styles.buttonWrapper}>
+              <StyledButton
+                variant='outlined'
+                className={styles.button}
+                onClick={handleComponentCta}
+              >
+                {buttonTitle}
+              </StyledButton>
+            </div>
+          </>
+        )}
+
         {downloadText && (
           <>
             <p className={styles.pairRoomdesc}>{downloadText}</p>
             <div className={styles.iconWrapper}>
-              <AppStore />
-              <PlayStore />
+              <a
+                title='appLinks'
+                target='_blank'
+                rel='noreferrer'
+                href={config?.nativeAppRedirection?.appStoreRedirection}
+              >
+                <AppStore />
+              </a>
+              <a
+                title='appLinks'
+                target='_blank'
+                rel='noreferrer'
+                href={config?.nativeAppRedirection?.playStoreRedirection}
+              >
+                <PlayStore />
+              </a>
             </div>
           </>
         )}

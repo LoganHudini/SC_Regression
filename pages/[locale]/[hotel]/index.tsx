@@ -165,7 +165,7 @@ const Home: NextPage = () => {
             )}
             buttonTitle={t('Connect to Room')}
             downloadText={
-              config?.nativeAppRedirection
+              config?.nativeAppRedirection?.isActive
                 ? (t(
                     'Download now to transform your stay into an unforgettable experience!',
                   ) as string)
