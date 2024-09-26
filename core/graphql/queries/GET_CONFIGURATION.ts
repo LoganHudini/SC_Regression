@@ -6706,7 +6706,12 @@ export const configuration: any = [
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: ['hotel-info', 'check-in'],
     preCheckInOnly: true,
-    nativeAppRedirection: false,
+    nativeAppRedirection: {
+      isActive: true,
+      playStoreRedirection:
+        'https://play.google.com/store/apps/details?id=com.mankara.hudini.londoner',
+      appStoreRedirection: 'https://apps.apple.com/app/the-londoner-hotels/id6449024143',
+    },
     modules: [
       {
         code: 'Preferences',
@@ -7097,7 +7102,7 @@ export const configuration: any = [
       {
         code: 'Pair-To-Room',
         name: 'Connect to Room',
-        isActive: false,
+        isActive: true,
       },
       {
         code: 'In-Room Dining',
