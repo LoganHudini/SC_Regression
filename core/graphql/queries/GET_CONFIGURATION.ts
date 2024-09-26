@@ -8086,6 +8086,31 @@ export const configuration: any = [
                     isActive: true,
                   },
                   {
+                    name: 'gender',
+                    label: 'Gender',
+                    type: 'AutoComplete',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    options: [
+                      {
+                        name: 'Male',
+                        value: 'MALE',
+                        vendorGenderType: 'M',
+                      },
+                      {
+                        name: 'Female',
+                        value: 'FEMALE',
+                        vendorGenderType: 'F',
+                      },
+                      {
+                        name: 'Others',
+                        value: 'UNKNOWN',
+                        vendorGenderType: '',
+                      },
+                    ],
+                  },
+                  {
                     name: 'nationality',
                     label: 'Nationality',
                     type: 'AutoComplete',
@@ -8144,6 +8169,30 @@ export const configuration: any = [
                   {
                     name: 'docNo',
                     label: 'Document Number',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
+                    name: 'cityName',
+                    label: 'City',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
+                    name: 'stateProv',
+                    label: 'State',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
+                    name: 'postalCode',
+                    label: 'Postal Code',
                     type: 'Text',
                     required: true,
                     isDisabled: false,

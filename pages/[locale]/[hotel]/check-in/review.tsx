@@ -304,11 +304,18 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         country: guestReservationInfo?.nationality,
         profession: guestReservationInfo?.profession,
         guests: accompanyGuestInfo?.map(
-          (guest: { firstName: string; lastName: string; emails: string; phone: string }) => ({
+          (guest: {
+            firstName: string;
+            lastName: string;
+            emails: string;
+            phone: string;
+            dob: string;
+          }) => ({
             firstName: guest?.firstName,
             lastName: guest?.lastName,
             email: guest?.emails,
             phone: guest?.phone,
+            dob: guest?.dob,
           }),
         ),
         guestCount: {
@@ -358,6 +365,14 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         depositAmount: paymentConfig?.type !== NONE ? String(fetchCharges(reservationInfo)) : '',
         specialInstructions:
           payment + personalisation ? 'Personalisations: ' + personalisation : '',
+        primaryGuestDOB: guestReservationInfo?.dob as string,
+        guestType: reservationInfo?.travelAgent?.name as string,
+        voucherNumber: (reservationInfo?.packages[0]?.code as string) || '',
+        rate: (reservationInfo?.roomTypes[0]?.price as string) || '',
+        state: guestReservationInfo?.stateProv as string,
+        city: guestReservationInfo?.cityName,
+        postalCode: guestReservationInfo?.postalCode,
+        gender: guestReservationInfo?.gender,
       };
       const checkIn = async () => {
         const checkInToken = getCheckInToken();

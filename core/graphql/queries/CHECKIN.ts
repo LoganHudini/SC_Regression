@@ -41,12 +41,21 @@ export interface ICheckInApiRequest {
   primaryGuestAddress: string;
   country: string;
   profession: string;
+  primaryGuestDOB: string;
+  guestType: string;
+  voucherNumber: string;
+  rate: string;
+  state: string;
+  city: string;
+  postalCode: string;
+  gender: string;
   guests: [
     {
       firstName: string;
       lastName: string;
       email: string;
       phone: string;
+      dob: string;
     },
   ];
 }

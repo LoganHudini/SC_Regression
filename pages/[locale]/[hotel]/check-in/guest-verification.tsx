@@ -374,6 +374,8 @@ const Guest: React.FC<any> = () => {
           addressType: 'HOME',
           countryCode: guestReservationInfo?.countryCode,
           city: guestReservationInfo?.cityName,
+          postalCode: guestReservationInfo?.postalCode,
+          stateProv: guestReservationInfo?.stateProv,
         },
         phone: {
           id: reservationInfo?.guests[0]?.phoneOperaId
