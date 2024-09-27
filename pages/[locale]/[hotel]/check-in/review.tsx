@@ -89,6 +89,7 @@ import { UPDATE_EVA } from 'core/graphql/queries/UPDATE_EVA';
 import { getHotelId } from 'utils/fetchConfigs';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { Countries } from '../../../../utils/countryList';
+import { useCurrency } from 'utils/hooks/useCurrency';
 
 export { getStaticPaths };
 
@@ -114,6 +115,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const [signature, setSignature] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [signatureWidth, setSignatureWidth] = useState(340);
+  const currency = useCurrency();
 
   // card expansion states
   const [stayInformation, setStayInformation] = useState(false);
@@ -373,6 +375,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         city: guestReservationInfo?.cityName,
         postalCode: guestReservationInfo?.postalCode,
         gender: guestReservationInfo?.gender,
+        currencyCode: currency || reservationInfo?.details?.holdAmount?.currency || '',
       };
       const checkIn = async () => {
         const checkInToken = getCheckInToken();

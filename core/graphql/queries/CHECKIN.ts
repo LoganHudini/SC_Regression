@@ -49,6 +49,7 @@ export interface ICheckInApiRequest {
   city: string;
   postalCode: string;
   gender: string;
+  currencyCode: string;
   guests: [
     {
       firstName: string;
