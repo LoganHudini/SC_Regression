@@ -8067,7 +8067,8 @@ export const configuration: any = [
               {
                 name: 'Guest Information',
                 isActive: true,
-                type: 'manual',
+                type: 'trential',
+                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -8149,7 +8150,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: false,
+                    isDisabled: true,
                     isActive: true,
                     options: [
                       {
@@ -8171,7 +8172,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: false,
+                    isDisabled: true,
                     isActive: true,
                   },
                   {

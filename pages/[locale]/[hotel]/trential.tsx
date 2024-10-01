@@ -263,7 +263,13 @@ const Trential: React.FC = () => {
                     )
                   : statusList?.name === JAPANESE_RESIDENT_CARD
                   ? statusList?.response?.dateOfBirth
-                  : '';
+                  : dayjs(statusList?.response?.dateOfBirth, timeFormats.DAY_MONTH_YEAR_2).format(
+                      timeFormats.YEAR_MONTH_DAY,
+                    ) ||
+                    dayjs(statusList?.response?.dob, timeFormats.DAY_MONTH_YEAR_2).format(
+                      timeFormats.YEAR_MONTH_DAY,
+                    ) ||
+                    '';
 
               const issueCountry =
                 statusList?.name === AADHAAR

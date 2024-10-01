@@ -115,7 +115,7 @@ const Guest: React.FC<any> = () => {
     query: GET_RESERVATION,
   });
 
-  const reservationInfo = reservationData?.getReservation?.data;
+  const reservationInfo: any = reservationData?.getReservation?.data;
 
   const checkInModule: any = config?.modules?.find((module: any) => module?.code === CHECK_IN);
 
@@ -993,7 +993,9 @@ const Guest: React.FC<any> = () => {
                 !primaryGuestButtonDisable ||
                 (accompanyGuestValidation.every((item: boolean) => item)
                   ? !secondaryGuestButtonDisable
-                  : !accompanyGuestValidation.every((item: boolean) => item))
+                  : !accompanyGuestValidation.every((item: boolean) => item)) ||
+                (accompanyGuestData || []).concat(updatedGuestData || [])?.length <
+                  (reservationInfo && reservationInfo?.details?.totalGuestCount - 1)
               }
               onClick={goToTheNextStep}
               className={cx(styles.bottomMenuButton)}
