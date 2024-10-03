@@ -1,6 +1,6 @@
 :root {
   // theme colors
-  --primary-theme-color: #000000;
+  --primary-theme-color: #d0a868;
   --primary-background-color: #f7f7f7;
   --primary-icon-color: #000000;
   --primary-border-color: #e0e0e0;
@@ -30,29 +30,29 @@
   --primary-image-transition-background-color: #a0a1a3;
 
   // hamburger menu colors
-  --hamburgermenu-drawer-color: #000000;
-  --hamburgermenu-text-color: #ffffff;
-  --hamburgermenu-icon-color: #ffffff;
+  --hamburgermenu-drawer-color: #ffffff;
+  --hamburgermenu-text-color: #2f2f2f;
+  --hamburgermenu-icon-color: #d0a868;
 
   // font-families
   --primary-font-regular: 'Helvetica Neue';
   --primary-font-medium: 'Helvetica Neue Medium';
   --primary-font-semibold: '';
   --primary-font-bold: '';
-  --primary-font-heading: 'Helvetica Neue Medium';
+  --primary-font-heading: 'Trajan Pro Regular';
 
   --primary-font-extd-regular: 'Helvetica Neue';
 
   // headings
-  --heading-font-regular: 'Helvetica Neue Bold';
+  --heading-font-regular: 'Trajan Pro Regular';
 
   // banner configs
-  --primary-title-font-family: 'Helvetica Neue Bold';
+  --primary-title-font-family: 'Trajan Pro Regular';
   --secondary-title-font-family: 'Helvetica Neue Medium';
   --primary-indicator-color: #ffffff;
 
   // card component configs
-  --primary-card-title-font-family: 'Helvetica Neue Medium';
+  --primary-card-title-font-family: 'Trajan Pro Regular';
   --primary-card-desc-font-family: 'Helvetica Neue';
   --primary-card-cta-font-family: 'Helvetica Neue Medium';
   --primary-card-background-color: #ffffff;
@@ -61,11 +61,11 @@
 
   // button configs
   --primary-button-color: #ffffff;
-  --primary-button-background-color: #000000;
+  --primary-button-background-color: #d0a868;
   --primary-button-border-radius: 48px;
   --primary-button-font-family: 'Helvetica Neue Medium';
 
-  --secondary-button-color: #000000;
+  --secondary-button-color: #d0a868;
   --secondary-button-background-color: #ffffff;
   --secondary-button-border-radius: 48px;
   --secondary-button-font-family: 'Helvetica Neue Medium';

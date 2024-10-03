@@ -8,13 +8,13 @@
   "short_name": "ITC",
   "icons": [
     {
-      "src": "/images/itc/Logo.png",
+      "src": "/images/itc-hotels/Logo.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
-      "src": "/images/itc/Logo.png",
+      "src": "/images/itc-hotels/Logo.png",
       "type": "image/png",
       "sizes": "512x512"
     }

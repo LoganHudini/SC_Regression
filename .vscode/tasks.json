@@ -111,25 +111,25 @@
     },
     {
       "type": "npm",
-      "script": "dev:itc",
+      "script": "dev:itc-hotels",
       "problemMatcher": [],
-      "label": "Dev: ITC",
-      "detail": "env-cmd -f .env.itc yarn next dev"
+      "label": "Dev: ITC_HOTELS",
+      "detail": "env-cmd -f .env.itc-hotels yarn next dev"
     },
     {
       "type": "npm",
-      "script": "build:itc",
+      "script": "build:itc-hotels",
       "group": "build",
       "problemMatcher": [],
-      "label": "Build: ITC",
-      "detail": "env-cmd -f .env.itc yarn build"
+      "label": "Build: ITC_HOTELS",
+      "detail": "env-cmd -f .env.itc-hotels yarn build"
     },
     {
       "type": "npm",
-      "script": "start:itc",
+      "script": "start:itc-hotels",
       "problemMatcher": [],
-      "label": "Start: ITC",
-      "detail": "env-cmd -f .env.itc next start"
+      "label": "Start: ITC_HOTELS",
+      "detail": "env-cmd -f .env.itc-hotels next start"
     },
     {
       "type": "npm",

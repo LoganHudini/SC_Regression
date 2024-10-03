@@ -2586,9 +2586,9 @@ export const configuration: any = [
     ],
   },
   {
-    code: 'itc-grand-chola',
+    code: 'itc-hotels-grand-chola',
     logo: '',
-    name: 'ITC Grand Chola',
+    name: 'ITC Hotels Grand Chola',
     hotelId: 'ad0fd522-5f0e-4d2c-9f51-c3a43f546a7a',
     pms: 'OPERA',
     fetchFromDb: 'yes',
@@ -2637,7 +2637,7 @@ export const configuration: any = [
                 isActive: true,
                 type: 'trential',
                 environment: 'development',
-                collectionName: 'ITC_WELCOMHOTEL_CHENNAI_TRENTIAL',
+                collectionName: 'ITC_HOTELS_GRAND_CHOLA',
                 kioskEnabled: true,
                 details: [
                   {
@@ -2748,7 +2748,7 @@ export const configuration: any = [
             name: 'accompanyingGuest',
             label: 'Secondary Guest',
             title: '',
-            type: 'youverse',
+            type: 'manual',
             isActive: true,
             cardIcon: 'guest',
             details: [
@@ -2798,7 +2798,7 @@ export const configuration: any = [
                 label: 'Document Type',
                 type: 'Text',
                 required: true,
-                isDisabled: true,
+                isDisabled: false,
                 isActive: true,
               },
               {
@@ -2806,7 +2806,328 @@ export const configuration: any = [
                 label: 'Document Number',
                 type: 'Text',
                 required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'condition',
+                label:
+                  'I agree to receive an invitation email to validate and sign up for a complimentary ACCOR Membership.',
+                type: 'CheckBox',
+                required: true,
+                isDisabled: false,
+                isActive: false,
+              },
+            ],
+          },
+          {
+            name: 'personalisation',
+            label: 'Customize My Stay',
+            title: 'Check-In',
+            type: 'CMS',
+            isActive: true,
+          },
+          {
+            name: 'review',
+            label: 'Review & Sign',
+            title: 'Check-In',
+            buttonLabelCheckIn: 'Confirm Check-In',
+            // eslint-disable-next-line quotes
+            termsAndCondition:
+              'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',
+            subTitle:
+              'Please review and confirm the below information to complete the Check-In process',
+            type: 'cms',
+            isActive: true,
+            guestInformationDetails: [
+              {
+                title: 'Guest Information',
+              },
+              {
+                checkIn: 'Check-In',
+                checkOut: 'Checkout',
+              },
+            ],
+            creditCardDetails: {
+              title: 'Payment Information',
+              details: [
+                {
+                  name: 'paymentType',
+                  label: 'Payment Method',
+                },
+              ],
+            },
+            identityVerificationDetails: [
+              {
+                title: 'Identity Verification',
+              },
+              {
+                name: 'docType',
+                cmsName: 'DOCUMENT_TYPE',
+                label: 'Document Type',
+              },
+              {
+                name: 'docNo',
+                cmsName: 'DOCUMENT_NUMBER',
+                label: 'Document Number',
+              },
+              {
+                name: 'issueCountry',
+                cmsName: 'COUNTRY_OF_ISSUE',
+                label: 'Document Issuing Authority',
+              },
+            ],
+            personalizationDetails: [
+              {
+                title: 'Add-Ons',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        code: 'In-Room Dining',
+        name: 'In-Room Dining',
+        isActive: false,
+        type: 'CMS',
+        payment: [
+          { id: '1', name: 'BILL TO ROOM', message: '' },
+          { id: '2', name: 'CASH', message: '' },
+          { id: '3', name: 'CARD', message: '' },
+        ],
+      },
+      {
+        code: 'Services',
+        name: 'Services',
+        isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'view-bill',
+        name: 'View Bill',
+        isActive: false,
+      },
+      {
+        code: 'checkout',
+        name: 'Checkout',
+        isActive: false,
+      },
+    ],
+  },
+  {
+    code: 'itc-hotels-maratha',
+    logo: '',
+    name: 'ITC Hotels Maratha',
+    hotelId: '84c3ba14-ef7e-48a2-9290-def9645bf3dd',
+    pms: 'OPERA',
+    fetchFromDb: 'yes',
+    saveToDb: 'no',
+    languages: [{ code: 'en', name: 'English' }],
+    orderOfModules: ['offers', 'hotel-info', 'check-in', 'spa', 'hotel-compendium'],
+    preCheckInOnly: true,
+    modules: [
+      {
+        code: 'Preferences',
+        name: 'Preferences',
+        isActive: true,
+        submodules: [
+          {
+            code: 'Headers',
+            isActive: true,
+            details: [
+              {
+                title: 'ENHANCE YOUR STAY! SHARE YOUR DESIRES BELOW',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        code: 'Check-In',
+        name: 'Check-In',
+        isActive: true,
+        submodules: [
+          {
+            name: 'information',
+            label: 'Check-In',
+            title: 'Please Complete Your Check-In Process',
+            isActive: true,
+            details: [
+              {
+                name: 'Guest Information',
+                isActive: true,
+                type: 'trential',
+                environment: 'development',
+                collectionName: 'ITC_HOTELS_MARATHA',
+                kioskEnabled: true,
+                details: [
+                  {
+                    name: 'firstName',
+                    label: 'First Name',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'lastName',
+                    label: 'Last Name',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'emails',
+                    label: 'Email',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
+                    name: 'phone',
+                    label: 'Phone Number',
+                    type: 'tel',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
+                    name: 'nationality',
+                    label: 'Nationality',
+                    type: 'AutoComplete',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    options: Countries,
+                  },
+                  {
+                    name: 'docType',
+                    label: 'Document Type',
+                    type: 'AutoComplete',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                    options: [
+                      {
+                        name: 'Passport',
+                        value: 'Passport',
+                        code: 'PASSPORT',
+                        vendorDocType: 'passport',
+                      },
+                      {
+                        name: 'Aadhaar Card',
+                        value: 'ID',
+                        code: 'ID',
+                        vendorDocType: 'aadhaar',
+                      },
+                      {
+                        name: 'Driving License',
+                        value: 'DL',
+                        code: 'DL',
+                        vendorDocType: 'dl',
+                      },
+                    ],
+                  },
+                  {
+                    name: 'docNo',
+                    label: 'Document Number',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'issueCountry',
+                    label: 'Document Issuing Authority',
+                    type: 'text',
+                    required: false,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                ],
+              },
+              {
+                name: 'Credit Card Info',
+                isActive: true,
+                type: 'CCAVENUE',
+                details: [
+                  {
+                    name: 'paymentType',
+                    label: 'Payment Method',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'accompanyingGuest',
+            label: 'Secondary Guest',
+            title: '',
+            type: 'manual',
+            isActive: true,
+            cardIcon: 'guest',
+            details: [
+              {
+                name: 'firstName',
+                label: 'First Name',
+                type: 'Text',
+                required: true,
                 isDisabled: true,
+                isActive: true,
+              },
+              {
+                name: 'lastName',
+                label: 'Last Name',
+                type: 'Text',
+                required: true,
+                isDisabled: true,
+                isActive: true,
+              },
+              {
+                name: 'emails',
+                label: 'Email',
+                type: 'Text',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'phone',
+                label: 'Phone Number',
+                type: 'tel',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'dob',
+                label: 'Date of Birth',
+                type: 'datePicker',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+                isDisableFuture: true,
+              },
+              {
+                name: 'docType',
+                label: 'Document Type',
+                type: 'Text',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'docNo',
+                label: 'Document Number',
+                type: 'Text',
+                required: true,
+                isDisabled: false,
                 isActive: true,
               },
               {

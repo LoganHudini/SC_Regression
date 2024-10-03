@@ -20,7 +20,7 @@ export const INFINITE_PROD = 'infinite-prod';
 export const INFINITE_AUTH_PROD = 'infinite-auth-prod';
 // external
 export const SOFITEL_MANILA = 'sofitel-manila';
-export const ITC_GRAND_CHOLA = 'itc-grand-chola';
+export const ITC_HOTELS_GRAND_CHOLA = 'itc-hotels-grand-chola';
 export const ITC_WELCOMHOTEL_CHENNAI = 'itc-welcomhotel-chennai';
 export const RAFFLES_THE_PALM_DUBAI = 'raffles-the-palm-dubai';
 export const FAIRMONT_ROYAL_PALM_MARRAKECH = 'fairmont-royal-palm-marrakech';
@@ -38,6 +38,7 @@ export const GRAND_MERCURE_OKINAWA_CAPE_ZANPA = 'grand-mercure-okinawa-cape-zanp
 export const MERCURE_NAGANO_MATSUSHIRO = 'mercure-nagano-matsushiro';
 export const MONDRIAN_DUXTON_SINGAPORE = 'mondrian-duxton-singapore';
 export const AVA_RESORT_CANCUN = 'ava-resort-cancun';
+export const ITC_HOTELS_MARATHA = 'itc-hotels-maratha';
 
 // configuration constants
 export const OPERA = 'OPERA';
