@@ -34,7 +34,10 @@ import {
   INTEGRATION_G,
   INTEGRATION_API_KEY_G,
 } from './endpoints';
+import { onError } from '@apollo/client/link/error';
 import { visit } from 'graphql';
+import { GET_RESERVATION, IGetReservationApiResponse } from './queries/GET_RESERVATION';
+import { logError } from 'core/api/functions/errorLogs';
 
 const removeTypenameLink = new ApolloLink((operation, forward) => {
   const modifiedQuery = visit(operation.query, {
@@ -187,8 +190,46 @@ const onPremLink = new RestLink({
   uri: ONPREM_API_URL as string,
 });
 
+const errorLink = onError((error?: any) => {
+  const reservationData = client.readQuery<IGetReservationApiResponse>({
+    query: GET_RESERVATION,
+  });
+  const reservationInfo = reservationData?.getReservation?.data;
+  const url = window.location.pathname;
+  const page = url?.split('/')?.splice(3)?.join('/') || `${url}-homePage`;
+  const networkError = error?.networkError as any;
+  const statusCode = networkError?.statusCode || networkError?.response?.status;
+
+  if (error?.operation?.operationName !== 'LogErrors') {
+    if (networkError) {
+      logError(
+        statusCode as string,
+        networkError?.result?.message || networkError?.result?.errors || networkError?.message,
+        page,
+        error?.operation?.operationName,
+        error?.operation?.variables?.body?.confirmationId ||
+          error?.operation?.variables?.confirmationNumber ||
+          reservationInfo?.confirmationId?.toString()?.trim() ||
+          '',
+      );
+    } else if (error?.graphQLErrors && typeof error?.graphQLErrors === 'object') {
+      logError(
+        '',
+        error?.graphQLErrors[0]?.message || error?.graphQLErrors,
+        page,
+        error?.operation?.operationName,
+        error?.operation?.variables?.body?.confirmationId ||
+          error?.operation?.variables?.confirmationNumber ||
+          reservationInfo?.confirmationId?.toString()?.trim() ||
+          '',
+      );
+    }
+  }
+});
+
 export const client = new ApolloClient({
   link: ApolloLink.from([
+    errorLink,
     removeTypenameLink,
     retryLink,
     ApolloLink.split(
