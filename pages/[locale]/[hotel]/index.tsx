@@ -167,7 +167,7 @@ const Home: NextPage = () => {
             downloadText={
               config?.nativeAppRedirection?.isActive
                 ? (t(
-                    'Download now to transform your stay into an unforgettable experience!',
+                    'Elevate your stay with our exclusive app. Unlock your room, view your bill, control in-room settings, and stay updated on hotel events—all from your phone. \n\nDownload now to transform your stay into an unforgettable experience!',
                   ) as string)
                 : null
             }
