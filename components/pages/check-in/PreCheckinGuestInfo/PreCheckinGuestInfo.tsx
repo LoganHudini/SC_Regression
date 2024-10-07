@@ -10,6 +10,7 @@ import {
   INVALID_DATE,
   NEWGUEST,
   NEWGUESTFORM,
+  NEWGUESTSCAN,
   PRIMARY,
   SECONDARY,
   SELECTDROPDOWN,
@@ -111,7 +112,7 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
       secondaryGuestButtonDisabled(
         formik?.errors && Object.keys(formik.errors).length !== 0 ? false : true,
       );
-    } else if (type === NEWGUESTFORM) {
+    } else if (type === NEWGUESTFORM || type === NEWGUESTSCAN) {
       newGuestButtonDisabled(
         formik?.errors && Object.keys(formik.errors).length !== 0 ? false : true,
       );

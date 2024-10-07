@@ -50,6 +50,7 @@ import {
   SUCCESS,
   OHIP,
   MANUAL,
+  NEWGUESTSCAN,
 } from 'utils/constants';
 import { updateDocTypeOptions } from 'utils/functions';
 import { docTypeStorage } from 'storage/guest-information.storage';
@@ -63,6 +64,7 @@ import {
   newGuestButtonDisabled,
   primaryGuestButtonDisabled,
   secondaryGuestButtonDisabled,
+  setNewGuestFormData,
   updateNewAccompanyGuestDetails,
 } from 'storage/accompany-guest-details';
 import { notificationStorage, setDayjsLocale, toggleNotification } from 'storage/home.storage';
@@ -89,9 +91,9 @@ const Guest: React.FC<any> = () => {
   const navigate = useLocalizedRouter();
   const [loading, setLoading] = useState(false);
   const [guestLoading, setGuestLoading] = useState(false);
-  const [addAccompanyGuest, setAddAccompanyGuest] = useState(false);
   const [newGuestAdded, setNewGuestAdded] = useState(false);
   const [countryDrawer, setCountryDrawer] = useState(true);
+  const addAccompanyGuest = useReactiveVar(setNewGuestFormData);
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const dayjsLocaleLoader = useReactiveVar(setDayjsLocale);
   const config = useConfig();
@@ -250,8 +252,8 @@ const Guest: React.FC<any> = () => {
             if (item?.name in accompanyGuest && item?.isActive) {
               guestData[item?.name] = Array.isArray(accompanyGuest[item?.name])
                 ? accompanyGuest[item?.name][0] || ''
-                : (accompanyGuestInformationSection?.type === YOUVERSE ||
-                    accompanyGuestInformationSection?.type === TRENTIAL) &&
+                : (accompanyingGuestSubmodule?.type === YOUVERSE ||
+                    accompanyingGuestSubmodule?.type === TRENTIAL) &&
                   item?.name === 'docNo'
                 ? ''
                 : accompanyGuest[item?.name] || '';
@@ -261,7 +263,7 @@ const Guest: React.FC<any> = () => {
         })
         ?.map((item: any) => item?.guestData);
     },
-    [accompanyGuestInformationSection],
+    [accompanyGuestInformationSection, accompanyingGuestSubmodule?.type],
   );
 
   // accompany guests initialization and validation
@@ -278,10 +280,6 @@ const Guest: React.FC<any> = () => {
   const accompanyGuestValidation = accompanyGuestData?.map((accompanyGuest: any) =>
     validateCompleteGuestDetails(accompanyGuest, accompanyGuestInformationSection),
   );
-
-  const newAcompanyGuestValidation = newGuestData
-    ? validateCompleteGuestDetails(newGuestData, accompanyGuestInformationSection)
-    : false;
 
   // stepper component
   useEffect(() => {
@@ -504,7 +502,7 @@ const Guest: React.FC<any> = () => {
       return acc;
     }, {});
     newAccompanyGuestDetails(guestFields);
-    setAddAccompanyGuest(true);
+    setNewGuestFormData(true);
     setNewGuestAdded(false);
   };
 
@@ -544,7 +542,7 @@ const Guest: React.FC<any> = () => {
       });
 
       setNewGuestAdded(true);
-      setAddAccompanyGuest(false);
+      setNewGuestFormData(false);
       updateNewAccompanyGuestDetails([
         ...updatedGuestData,
         {
@@ -780,26 +778,30 @@ const Guest: React.FC<any> = () => {
                     {accompanyingGuestSubmodule?.type === YOUVERSE ||
                     accompanyingGuestSubmodule?.type === TRENTIAL ? (
                       !selectedAccompanyGuest?.docNo || !selectedAccompanyGuest?.docType ? (
-                        <StyledButton
-                          variant='contained'
-                          className={styles.scanDocWrapper}
-                          onClick={() => {
-                            profileIDStorage({
-                              id: selectedAccompanyGuest?.id,
-                              guestType: ACCOMPANYINGGUEST,
-                            });
-                            navigate(
-                              guestInformationSection?.type === YOUVERSE
-                                ? availablePaths?.YOUVERSE
-                                : guestInformationSection?.type === TRENTIAL
-                                ? availablePaths?.TRENTIAL
-                                : availablePaths?.INCODE,
-                            );
-                          }}
+                        <DetailsCard
+                          title={`${selectedAccompanyGuest?.firstName}  ${selectedAccompanyGuest?.lastName}`}
                         >
-                          <Camera />
-                          <span className={styles.scanDocText}>{t('Scan Document')}</span>
-                        </StyledButton>
+                          <StyledButton
+                            variant='contained'
+                            className={styles.scanDocWrapper}
+                            onClick={() => {
+                              profileIDStorage({
+                                id: selectedAccompanyGuest?.id,
+                                guestType: ACCOMPANYINGGUEST,
+                              });
+                              navigate(
+                                guestInformationSection?.type === YOUVERSE
+                                  ? availablePaths?.YOUVERSE
+                                  : guestInformationSection?.type === TRENTIAL
+                                  ? availablePaths?.TRENTIAL
+                                  : availablePaths?.INCODE,
+                              );
+                            }}
+                          >
+                            <Camera />
+                            <span className={styles.scanDocText}>{t('Scan Document')}</span>
+                          </StyledButton>
+                        </DetailsCard>
                       ) : (
                         selectedAccompanyGuest &&
                         accompanyGuestInformationSection?.length > 0 &&
@@ -956,24 +958,66 @@ const Guest: React.FC<any> = () => {
           {addAccompanyGuest && (
             <div className={styles.boxWrapperForm}>
               <p className={styles.guestType}>{t('Add Guest')}</p>
-              <div className={styles.box}>
-                <PreCheckinGuestInfo
-                  selectedGuest={newGuestData}
-                  guestInformationSection={accompanyGuestInformationSection}
-                  type={NEWGUESTFORM}
-                />
-                {!newGuestAdded && (
+              {accompanyingGuestSubmodule?.type === YOUVERSE ||
+              accompanyingGuestSubmodule?.type === TRENTIAL ? (
+                !newGuestData?.docType && !newGuestData?.docNo ? (
                   <StyledButton
                     variant='contained'
-                    disabled={!newGuestButtonDisable}
-                    className={styles.button}
-                    loading={guestLoading}
-                    onClick={() => saveGuest()}
+                    className={styles.scanDocWrapper}
+                    onClick={() => {
+                      profileIDStorage({ guestType: NEWGUESTSCAN });
+                      navigate(
+                        accompanyingGuestSubmodule?.type === YOUVERSE
+                          ? availablePaths?.YOUVERSE
+                          : accompanyingGuestSubmodule?.type === TRENTIAL
+                          ? availablePaths?.TRENTIAL
+                          : availablePaths?.INCODE,
+                      );
+                    }}
                   >
-                    {t('Save')}
+                    <Camera />
+                    <span className={styles.scanDocText}>{t('Scan Document')}</span>
                   </StyledButton>
-                )}
-              </div>
+                ) : (
+                  <div className={styles.box}>
+                    <PreCheckinGuestInfo
+                      selectedGuest={newGuestData}
+                      guestInformationSection={accompanyGuestInformationSection}
+                      type={NEWGUESTSCAN}
+                    />
+                    {!newGuestAdded && (
+                      <StyledButton
+                        variant='contained'
+                        disabled={!newGuestButtonDisable}
+                        className={styles.button}
+                        loading={guestLoading}
+                        onClick={() => saveGuest()}
+                      >
+                        {t('Save')}
+                      </StyledButton>
+                    )}
+                  </div>
+                )
+              ) : (
+                <div className={styles.box}>
+                  <PreCheckinGuestInfo
+                    selectedGuest={newGuestData}
+                    guestInformationSection={accompanyGuestInformationSection}
+                    type={NEWGUESTFORM}
+                  />
+                  {!newGuestAdded && (
+                    <StyledButton
+                      variant='contained'
+                      disabled={!newGuestButtonDisable}
+                      className={styles.button}
+                      loading={guestLoading}
+                      onClick={() => saveGuest()}
+                    >
+                      {t('Save')}
+                    </StyledButton>
+                  )}
+                </div>
+              )}
             </div>
           )}
           {(accompanyingGuestSubmodule?.type !== YOUVERSE ||

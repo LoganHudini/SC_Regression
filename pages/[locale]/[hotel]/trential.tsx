@@ -13,7 +13,7 @@ import { useReactiveVar } from '@apollo/client';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
 import { useConfig, useDocumentConfig } from 'utils/hooks/useConfiguration';
 import { profileIDStorage } from 'storage/check-in.storage';
-import { accompanyGuestDetails } from 'storage/accompany-guest-details';
+import { accompanyGuestDetails, newAccompanyGuestDetails } from 'storage/accompany-guest-details';
 import {
   AADHAAR,
   CHECK_IN,
@@ -28,6 +28,7 @@ import {
   IN_PROGRESS,
   JAPANESE_RESIDENT_CARD,
   LIVENESS,
+  NEWGUESTSCAN,
   NOT_INITIALIZED,
   PASSPORT_SMALLCASE,
   PRIMARY,
@@ -165,12 +166,70 @@ const Trential: React.FC = () => {
                   timeFormats.YEAR_MONTH_DAY,
                 );
 
+          const dateOfBirth =
+            statusList?.name === PASSPORT_SMALLCASE
+              ? dayjs(statusList?.response?.birthDate, timeFormats.DAY_MONTH_YEAR_2).format(
+                  timeFormats.YEAR_MONTH_DAY,
+                )
+              : statusList?.name === JAPANESE_RESIDENT_CARD
+              ? statusList?.response?.dateOfBirth
+              : dayjs(statusList?.response?.dateOfBirth, timeFormats.DAY_MONTH_YEAR_2).format(
+                  timeFormats.YEAR_MONTH_DAY,
+                ) ||
+                dayjs(statusList?.response?.dob, timeFormats.DAY_MONTH_YEAR_2).format(
+                  timeFormats.YEAR_MONTH_DAY,
+                ) ||
+                '';
+
+          const docType =
+            docTypes?.find((document: any) => document?.vendorDocType === statusList?.name)
+              ?.value || '';
+
+          const issueCountry =
+            statusList?.name === AADHAAR
+              ? INDIAN
+              : statusList?.name === DL
+              ? INDIAN
+              : statusList?.name === PASSPORT_SMALLCASE
+              ? statusList?.response?.nationality
+              : statusList?.name === JAPANESE_RESIDENT_CARD
+              ? statusList?.response?.nationality
+              : '';
+
+          const docNoRes =
+            statusList?.name === AADHAAR
+              ? statusList?.response?.aadhaarId
+              : statusList?.name === DL
+              ? statusList?.response?.licenseNumber
+              : statusList?.name === PASSPORT_SMALLCASE
+              ? statusList?.response?.documentNumber
+              : statusList?.name === JAPANESE_RESIDENT_CARD
+              ? statusList?.response?.documentNumber
+              : '';
+
           if (
             statusList?.name === AADHAAR ||
             dayjs().isSame(dayjs(expiryDate, timeFormats.YEAR_MONTH_DAY)) ||
             dayjs().isBefore(dayjs(expiryDate, timeFormats.YEAR_MONTH_DAY))
           ) {
-            if (
+            if (profileIDState?.guestType === NEWGUESTSCAN) {
+              newAccompanyGuestDetails({
+                firstName: statusList?.response?.firstName || statusList?.response?.name,
+                lastName: statusList?.response?.lastName || statusList?.response?.name,
+                dob: dateOfBirth,
+                docType: docType,
+                docNo: docNoRes,
+                expiryDate: expiryDate,
+                issueCountry: issueCountry,
+                gender:
+                  statusList?.response?.sex === 'M'
+                    ? 'MALE'
+                    : statusList?.response?.sex === 'F'
+                    ? 'FEMALE'
+                    : statusList?.response?.sex?.toUpperCase() ||
+                      statusList?.response?.gender?.toUpperCase(),
+              });
+            } else if (
               statusList?.response?.firstName &&
               statusList?.response?.lastName &&
               profileIDState?.guestType === PRIMARY &&
@@ -252,46 +311,6 @@ const Trential: React.FC = () => {
                   console.error(e);
                 }
               }
-              const docType =
-                docTypes?.find((document: any) => document?.vendorDocType === statusList?.name)
-                  ?.value || '';
-
-              const dateOfBirth =
-                statusList?.name === PASSPORT_SMALLCASE
-                  ? dayjs(statusList?.response?.birthDate, timeFormats.DAY_MONTH_YEAR_2).format(
-                      timeFormats.YEAR_MONTH_DAY,
-                    )
-                  : statusList?.name === JAPANESE_RESIDENT_CARD
-                  ? statusList?.response?.dateOfBirth
-                  : dayjs(statusList?.response?.dateOfBirth, timeFormats.DAY_MONTH_YEAR_2).format(
-                      timeFormats.YEAR_MONTH_DAY,
-                    ) ||
-                    dayjs(statusList?.response?.dob, timeFormats.DAY_MONTH_YEAR_2).format(
-                      timeFormats.YEAR_MONTH_DAY,
-                    ) ||
-                    '';
-
-              const issueCountry =
-                statusList?.name === AADHAAR
-                  ? INDIAN
-                  : statusList?.name === DL
-                  ? INDIAN
-                  : statusList?.name === PASSPORT_SMALLCASE
-                  ? statusList?.response?.nationality
-                  : statusList?.name === JAPANESE_RESIDENT_CARD
-                  ? statusList?.response?.nationality
-                  : '';
-
-              const docNoRes =
-                statusList?.name === AADHAAR
-                  ? statusList?.response?.aadhaarId
-                  : statusList?.name === DL
-                  ? statusList?.response?.licenseNumber
-                  : statusList?.name === PASSPORT_SMALLCASE
-                  ? statusList?.response?.documentNumber
-                  : statusList?.name === JAPANESE_RESIDENT_CARD
-                  ? statusList?.response?.documentNumber
-                  : '';
 
               if (profileIDState?.guestType === PRIMARY) {
                 reservationGuestInfoStorageData({

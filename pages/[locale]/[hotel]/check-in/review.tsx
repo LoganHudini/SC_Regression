@@ -305,21 +305,23 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         primaryGuestAddress: guestReservationInfo?.addressLine,
         country: guestReservationInfo?.nationality,
         profession: guestReservationInfo?.profession,
-        guests: accompanyGuestInfo?.map(
-          (guest: {
-            firstName: string;
-            lastName: string;
-            emails: string;
-            phone: string;
-            dob: string;
-          }) => ({
-            firstName: guest?.firstName,
-            lastName: guest?.lastName,
-            email: guest?.emails,
-            phone: guest?.phone,
-            dob: guest?.dob,
-          }),
-        ),
+        guests: accompanyGuestInfo
+          ?.concat(updatedGuestData && updatedGuestData)
+          ?.map(
+            (guest: {
+              firstName: string;
+              lastName: string;
+              emails: string;
+              phone: string;
+              dob: string;
+            }) => ({
+              firstName: guest?.firstName,
+              lastName: guest?.lastName,
+              email: guest?.emails,
+              phone: guest?.phone,
+              dob: guest?.dob,
+            }),
+          ),
         guestCount: {
           adult: adult,
           children: children,
@@ -559,12 +561,15 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     checkInModule?.eva,
     children,
     config?.pms,
+    config?.skipQueueReservation,
+    currency,
     guestReservationInfo?.addressLine,
     guestReservationInfo?.approvalCode,
     guestReservationInfo?.cardExpiryDate,
     guestReservationInfo?.cardHolderName,
     guestReservationInfo?.cardNumber,
     guestReservationInfo?.cardType,
+    guestReservationInfo?.cityName,
     guestReservationInfo?.dob,
     guestReservationInfo?.docImage,
     guestReservationInfo?.docNo,
@@ -572,12 +577,15 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     guestReservationInfo?.emails,
     guestReservationInfo?.estimatedTime,
     guestReservationInfo?.firstName,
+    guestReservationInfo?.gender,
     guestReservationInfo?.lastName,
     guestReservationInfo?.nationality,
     guestReservationInfo?.paymentType,
     guestReservationInfo?.phone,
     guestReservationInfo?.portrait,
+    guestReservationInfo?.postalCode,
     guestReservationInfo?.profession,
+    guestReservationInfo?.stateProv,
     guestReservationInfo?.token,
     guests,
     hotelId,
@@ -593,6 +601,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     reviewConfig?.checkInSuccessfulMessageTitle,
     roomNo,
     t,
+    updatedGuestData,
   ]);
 
   useEffect(() => {

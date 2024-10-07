@@ -152,6 +152,7 @@ export const PRIMARY = 'primary';
 export const SECONDARY = 'secondary';
 export const NEWGUEST = 'newGuest';
 export const NEWGUESTFORM = 'newGuestForm';
+export const NEWGUESTSCAN = 'newGuestScan';
 export const TIMEPICKER = 'TimePicker';
 export const TIMEPICKERPOPUP = 'TimePickerPopup';
 export const DATEPICKER = 'datePicker';
