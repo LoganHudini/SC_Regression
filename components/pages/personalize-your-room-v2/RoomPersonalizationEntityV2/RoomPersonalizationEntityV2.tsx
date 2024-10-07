@@ -12,7 +12,7 @@ import {
 import { ApolloError, useReactiveVar } from '@apollo/client';
 import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
 import { notificationStorage, toggleNotification } from 'storage/home.storage';
-import { FAILURE, UPGRADE_ROOM } from 'utils/constants';
+import { FAILURE, SUCCESS, UPGRADE_ROOM } from 'utils/constants';
 import {
   getCheckInToken,
   handleCheckInAuthenticationFailure,
@@ -184,7 +184,7 @@ export const RoomPersonalizationEntityV2: React.FC<IRoomPersonalizationEntityPro
         title: t('Upgrade Successful'),
         description: t('Your room upgrade processed successfully.'),
         redirect: null,
-        type: FAILURE,
+        type: SUCCESS,
       });
       toggleNotification(true);
       setLoading(false);
