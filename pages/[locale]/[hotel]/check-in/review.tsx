@@ -368,7 +368,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         arrivalFlight: guestReservationInfo?.estimatedTime ?? '',
         depositAmount: paymentConfig?.type !== NONE ? String(fetchCharges(reservationInfo)) : '',
         specialInstructions:
-          payment + personalisation ? 'Personalisations: ' + personalisation : '',
+          payment + (personalisation ? 'Personalisations: ' + personalisation : ''),
         primaryGuestDOB: guestReservationInfo?.dob as string,
         guestType: reservationInfo?.travelAgent?.name as string,
         voucherNumber: (reservationInfo?.packages[0]?.code as string) || '',
