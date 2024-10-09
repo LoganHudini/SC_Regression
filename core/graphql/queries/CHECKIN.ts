@@ -50,6 +50,8 @@ export interface ICheckInApiRequest {
   postalCode: string;
   gender: string;
   currencyCode: string;
+  group: string;
+  agency: string;
   guests: [
     {
       firstName: string;

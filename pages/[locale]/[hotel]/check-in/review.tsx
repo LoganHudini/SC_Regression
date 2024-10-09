@@ -378,6 +378,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         postalCode: guestReservationInfo?.postalCode,
         gender: guestReservationInfo?.gender,
         currencyCode: currency || reservationInfo?.details?.holdAmount?.currency || '',
+        group: reservationInfo?.group || '',
+        agency: reservationInfo?.agency || '',
       };
       const checkIn = async () => {
         const checkInToken = getCheckInToken();
@@ -602,6 +604,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     roomNo,
     t,
     updatedGuestData,
+    reservationInfo?.group,
+    reservationInfo?.agency,
   ]);
 
   useEffect(() => {
