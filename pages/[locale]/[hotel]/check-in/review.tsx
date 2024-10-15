@@ -116,7 +116,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const [loading, setLoading] = useState(false);
   const [signatureWidth, setSignatureWidth] = useState(340);
   const currency = useCurrency();
-
   // card expansion states
   const [stayInformation, setStayInformation] = useState(false);
   const [primaryGuestInformation, setPrimaryGuestInformation] = useState(false);
@@ -182,7 +181,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       navigate(availablePaths?.HOME);
     }
   }, [data, navigate]);
-
   const preCheckInStatus = config?.preCheckInOnly
     ? true
     : !(roomNo && guestReservationInfo?.roomStatus && paymentConfig?.type !== NONE)
@@ -952,7 +950,11 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
           <div className={styles.agrementWrapper}>
             <div className={styles.checkBoxAlign}>
-              <StyledCheckBox onClick={toggleConditionsAccepted} value={conditionsAccepted} />
+              <StyledCheckBox
+                onClick={toggleConditionsAccepted}
+                value={conditionsAccepted}
+                checked={conditionsAccepted}
+              />
             </div>
 
             <p className={styles.agrementText}>
