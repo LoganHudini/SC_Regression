@@ -180,7 +180,7 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
           spaInfoDetails?.treatmentsMenu !== '{}' &&
           spaInfoDetails?.treatmentsMenu?.split('=')[1].split(',')[0] && (
             <StyledButton variant='outlined' onClick={onViewMenu} className={styles.buttonView}>
-              {t('VIEW MENU')}
+              {t('View Menu')}
             </StyledButton>
           )}
 
@@ -205,7 +205,7 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
             {spaTreatments?.length > 0
               ? t('View Treatments')
               : spaInfoDetails?.cta?.status === ACTIVE &&
-                (spaInfoDetails?.cta?.ctaTitle || t('BOOK NOW'))}
+                (spaInfoDetails?.cta?.ctaTitle || t('Book Now'))}
           </StyledButton>
         </div>
       )}

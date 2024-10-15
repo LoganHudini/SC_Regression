@@ -393,7 +393,7 @@ const Spa: React.FC = () => {
                   onClick={onCtaClick}
                   className={cx(styles.button, 'globals-actionCtaWrapper')}
                 >
-                  {spaInformation?.cta?.ctaTitle || t('BOOK NOW')}
+                  {spaInformation?.cta?.ctaTitle || t('Book Now')}
                 </StyledButton>
               </div>
             )}

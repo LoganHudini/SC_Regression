@@ -12,6 +12,7 @@
   "The scheduler is set to begin 15 minutes from now, as this aligns with our standard delivery time.": "Le planificateur est programmé pour commencer dans 15 minutes, car cela correspond à notre délai de livraison standard.",
   "Your items will be delivered in 15 minutes or less!": "Vos articles seront livrés dans 15 minutes ou moins !",
   "Save": "Enregistrer",
+  "Place Request": "Placer une demande",
   "PLACE ORDER": "PASSER LA COMMANDE",
   "Reservation status is invalid. Please try again with a valid reservation details": "Le statut de la réservation est invalide. Veuillez réessayer avec des détails de réservation valides.",
   "Your request was not confirmed.": "Votre demande n'a pas été confirmée.",
@@ -19,10 +20,10 @@
   "Thank You!": "Merci !",
   "Max limit exceeded!": "Limite maximale dépassée !",
   "Max Count:": "Compteur maximal :",
-  "SELECT": "SÉLECTIONNR",
+  "Select": "Sélectionner",
   "Invalid Reservation": "Réservation invalide",
   "Your request was not confirmed": "Votre demande n'a pas été confirmée.",
   "Something Went Wrong!": "Quelque chose s'est mal passé !",
   "No information found": "Aucune information trouvée",
-  "SELECTED": "SÉLECTIONNÉ"
+  "Selected": "Sélectionné"
 }

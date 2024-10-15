@@ -291,7 +291,7 @@ const CheckOut = () => {
                 className={styles.button}
                 onClick={() => handleMail()}
               >
-                {t('EMAIL')}
+                {t('Email')}
               </StyledButton>
             )}
           </>

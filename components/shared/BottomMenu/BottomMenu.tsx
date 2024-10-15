@@ -249,8 +249,8 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
                     ? t('Visit Website')
                     : t('Home')
                   : checkInModule
-                  ? t('CHECK-IN')
-                  : t('CONNECT TO ROOM'))}
+                  ? t('Check-In')
+                  : t('Connect to room'))}
               {restaurantAndBarsActive && t(diningOptionList(diningOptionSelected?.type))}
               {irdActive && t(`${selectedDiningCategory?.menuName}`)}
               {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}

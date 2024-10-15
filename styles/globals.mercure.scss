@@ -81,6 +81,7 @@
 }
 
 .MuiButton-containedPrimary {
+  text-transform: capitalize;
   &:disabled {
     background: var(--primary-disabled-color);
   }

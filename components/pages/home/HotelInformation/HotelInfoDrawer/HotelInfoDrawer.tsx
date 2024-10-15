@@ -148,7 +148,7 @@ const HotelInfoDrawer = () => {
                 className={styles.url}
                 href={`https://maps.google.com/?q=${hotelInfo?.location?.latitude},${hotelInfo?.location?.longitude}`}
               >
-                <StyledButton className={styles.botton}>{t('GET HERE')}</StyledButton>
+                <StyledButton className={styles.botton}>{t('Get Here')}</StyledButton>
               </a>
             </div>
           </div>

@@ -12,17 +12,17 @@
   "The scheduler is set to begin 15 minutes from now, as this aligns with our standard delivery time.": "標準の配達時間と一致するため、スケジューラーは今から 15 分後に開始されるように設定されています。",
   "Your items will be delivered in 15 minutes or less!": "商品は15分以内にお届けします！",
   "Save": "保存",
-  "PLACE REQUEST": "リクエストを送信する",
+  "Place Request": "リクエストを送信する",
   "Reservation status is invalid. Please try again with a valid reservation details": "予約ステータスが無効です。有効な予約詳細を使用して再試行してください",
   "Your request was not confirmed.": "リクエストは確認されませんでした。",
   "Your request has been confirmed.": "あなたのリクエストは確認されました。",
   "Thank You!": "ありがとう！",
   "Max limit exceeded!": "最大制限を超えました!",
   "Max Count:": "最大数:",
-  "SELECT": "選択する",
+  "Select": "選択する",
   "Invalid Reservation": "無効な予約",
   "Your request was not confirmed": "リクエストは確認されませんでした。",
   "Something Went Wrong!": "何かがうまくいきませんでした！",
   "No information found": "情報が見つかりませんでした",
-  "SELECTED": "選択済み"
+  "Selected": "選択済み"
 }

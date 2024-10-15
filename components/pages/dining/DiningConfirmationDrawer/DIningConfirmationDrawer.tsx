@@ -45,7 +45,7 @@ export const DiningConfirmationDrawer: React.FC<IDIningConfirmationDrawerProps> 
         </div>
         <div className={styles.buttonWrapper}>
           <StyledButton variant='contained' className={styles.button}>
-            {'CONFIRM'}
+            {t('Confirm')}
           </StyledButton>
         </div>
       </div>

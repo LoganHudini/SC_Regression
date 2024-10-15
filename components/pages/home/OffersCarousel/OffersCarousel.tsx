@@ -140,7 +140,7 @@ export const offerDetails = (
               onClick={onCtaClick}
               className={cx(styles.button, 'globals-actionCtaWrapper')}
             >
-              {offerInfoDetails?.CTA?.displayCTATitle || t('BOOK NOW')}
+              {offerInfoDetails?.CTA?.displayCTATitle || t('Book Now')}
             </StyledButton>
           </div>
         )}

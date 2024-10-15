@@ -119,7 +119,7 @@ export const HousekeepingQuantityItem: React.FC<IHousekeepingQuantityItemProps> 
               onClick={toggleRequested}
               className={styles.button}
             >
-              {quantity === 0 ? t('SELECT') : t('SELECTED')}
+              {quantity === 0 ? t('Select') : t('Selected')}
             </StyledButton>
           )}
         </div>

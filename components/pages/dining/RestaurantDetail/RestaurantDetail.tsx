@@ -223,7 +223,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
                   onClick={onSeeMenuClick}
                   className={styles.buttonView}
                 >
-                  {queryResultEntity?.ctaTitle || t('VIEW MENU')}
+                  {queryResultEntity?.ctaTitle || t('View Menu')}
                 </StyledButton>
               </div>
             )}
@@ -265,7 +265,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
                     queryResultEntity && !queryResultEntity?.images[0]?.ratio16to9,
                 })}
               >
-                {queryResultEntity?.cta?.ctaTitle || t('BOOK NOW')}
+                {queryResultEntity?.cta?.ctaTitle || t('Book Now')}
               </StyledButton>
             </div>
           )}

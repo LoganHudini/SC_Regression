@@ -365,7 +365,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
                 onClick={() => navigate(availablePaths?.GUEST_VERIFICATION)}
                 className={cx(styles.bottomMenuButton)}
               >
-                {t('continue')}
+                {t('Continue')}
               </StyledButton>
             </div>
           </div>

@@ -172,7 +172,7 @@ const CheckInDrawer = (props: any) => {
             className={styles.findMyBookingBtn}
             onClick={() => toggleCheckInDetailsDrawer(false)}
           >
-            {t('GET STARTED')}
+            {t('Get Started')}
           </StyledButton>
         </PageWrapper>
       </>
@@ -250,7 +250,7 @@ const CheckInDrawer = (props: any) => {
             className={styles.findMyBookingBtn}
             onClick={formik.submitForm}
           >
-            {activeCheckInFlowInfo || activeCheckOutFlowInfo ? t('NEXT') : t('Connect to Room')}
+            {activeCheckInFlowInfo || activeCheckOutFlowInfo ? t('Next') : t('Connect to Room')}
           </StyledButton>
         </PageWrapper>
       </>

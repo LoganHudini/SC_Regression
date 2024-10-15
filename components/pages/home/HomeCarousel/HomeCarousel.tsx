@@ -116,8 +116,12 @@ const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
         </div>
       </div>
       {carouselItem?.CTA?.status === ACTIVE && carouselItem?.CTA?.URL && (
-        <StyledButton variant='contained' onClick={onCtaClick} className={styles.button}>
-          {carouselItem?.CTA?.displayCTATitle || t('BOOK NOW')}
+        <StyledButton
+          variant='contained'
+          onClick={onCtaClick}
+          className={cx(styles.button, 'globals-actionCtaWrapper')}
+        >
+          {carouselItem?.CTA?.displayCTATitle || t('Book Now')}
         </StyledButton>
       )}
     </div>

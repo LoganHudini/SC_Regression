@@ -12,17 +12,17 @@
   "The scheduler is set to begin 15 minutes from now, as this aligns with our standard delivery time.": "The scheduler is set to begin 15 minutes from now, as this aligns with our standard delivery time.",
   "Your items will be delivered in 15 minutes or less!": "Your items will be delivered in 15 minutes or less!",
   "Save": "Save",
-  "PLACE REQUEST": "PLACE REQUEST",
+  "Place Request": "Place Request",
   "Reservation status is invalid. Please try again with a valid reservation details": "Reservation status is invalid. Please try again with a valid reservation details",
   "Your request was not confirmed.": "Your request was not confirmed.",
   "Your request has been confirmed.": "Your request has been confirmed.",
   "Thank You!": "Thank You!",
   "Max limit exceeded!": "Max limit exceeded!",
   "Max Count:": "Max Count:",
-  "SELECT": "SELECT",
+  "Select": "Select",
   "Invalid Reservation": "Invalid Reservation",
   "Your request was not confirmed": "Your request was not confirmed.",
   "Something Went Wrong!": "Something Went Wrong!",
   "No information found": "No information found",
-  "SELECTED": "SELECTED"
+  "Selected": "Selected"
 }

@@ -132,7 +132,7 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
         )}
         <div className={styles.buttonContainer}>
           <StyledButton variant='outlined' className={styles.buttonLeft} onClick={handleAddNew}>
-            {t('ADD NEW')}
+            {t('Add New')}
           </StyledButton>
 
           <StyledButton
@@ -140,7 +140,7 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
             className={styles.buttonRight}
             onClick={handleRepeatLast}
           >
-            {t('REPEAT LAST')}
+            {t('Repeat Last')}
           </StyledButton>
         </div>
       </div>
