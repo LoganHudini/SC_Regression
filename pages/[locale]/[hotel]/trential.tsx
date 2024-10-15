@@ -232,7 +232,6 @@ const Trential: React.FC = () => {
             } else if (
               statusList?.response?.firstName &&
               statusList?.response?.lastName &&
-              profileIDState?.guestType === PRIMARY &&
               !(
                 (statusList?.response?.firstName
                   ?.toLowerCase()
@@ -260,7 +259,6 @@ const Trential: React.FC = () => {
               toggleNotification(true);
             } else if (
               statusList?.response?.name &&
-              profileIDState?.guestType === PRIMARY &&
               !statusList?.response?.name
                 ?.toLowerCase()
                 ?.includes(reservationDataSelected?.firstName?.toLowerCase()) &&
