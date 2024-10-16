@@ -198,11 +198,9 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const sigCanvas = useRef<SignatureCanvas>(null);
 
   const clearCanvas = useCallback(() => {
-    if (sigCanvas.current) {
-      sigCanvas?.current?.clear();
-      setSignature(null);
-      setBtnStatus(false);
-    }
+    sigCanvas?.current?.clear();
+    setSignature(null);
+    setBtnStatus(false);
   }, []);
 
   const toggleConditionsAccepted = useCallback(() => {
@@ -210,7 +208,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   }, []);
 
   const handleSignatureChange = () => {
-    setSignature(sigCanvas?.current);
+    const signatureData = sigCanvas?.current?.toData();
+    setSignature(signatureData);
   };
 
   const goToCheckIn = useCallback(async () => {
@@ -229,7 +228,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       contentType: 'image/png',
       contentLength: 8196,
       body: null,
-      contents: (sigCanvas.current?.toDataURL() as string).replace('data:image/png;base64,', ''),
+      contents: (sigCanvas?.current?.toDataURL() as string)?.replace('data:image/png;base64,', ''),
       isDocUpload: true,
     };
     const uploadSignature = async () => {
@@ -264,7 +263,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         ? personalizationEntities
             ?.map(
               (personalization) =>
-                `${personalization?.title} (${Number(Number(personalization?.price).toFixed(2))})`,
+                `${personalization?.title} (${Number(Number(personalization?.price)?.toFixed(2))})`,
             )
             ?.join(', ')
         : '';
@@ -273,7 +272,9 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         ? ('vaultedCardID: ' + guestReservationInfo?.token || '') +
           (', lastFourDigits: ' +
             (guestReservationInfo?.cardNumber?.length > 4
-              ? guestReservationInfo?.cardNumber.substr(guestReservationInfo?.cardNumber.length - 4)
+              ? guestReservationInfo?.cardNumber?.substr(
+                  guestReservationInfo?.cardNumber?.length - 4,
+                )
               : guestReservationInfo?.cardNumber) || '') +
           (', cardType: ' + cardType || '') +
           (', expiryDate: ' + guestReservationInfo?.cardExpiryDate || '') +
@@ -286,10 +287,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         reservationType: reservationInfo?.confirmationType as string,
         reservationId: reservationInfo?.reservationId as string,
         bookingId: reservationInfo?.confirmationId as string,
-        checkinDate: dayjs(reservationInfo?.details?.checkInDate as string).format(
+        checkinDate: dayjs(reservationInfo?.details?.checkInDate as string)?.format(
           timeFormats.YEAR_MONTH_DAY,
         ),
-        checkoutDate: dayjs(reservationInfo?.details?.checkOutDate as string).format(
+        checkoutDate: dayjs(reservationInfo?.details?.checkOutDate as string)?.format(
           timeFormats.YEAR_MONTH_DAY,
         ),
         roomNo: roomNo as string,
@@ -351,7 +352,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           personalisationConfig?.type === PMS
             ? personalizationEntities?.map((personalization) => ({
                 upsellName: personalization?.title,
-                revenue: Number(Number(personalization?.price).toFixed(2)),
+                revenue: Number(Number(personalization?.price)?.toFixed(2)),
               }))
             : [],
         guestSignature: guestSignature,
@@ -359,7 +360,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           personalisationConfig?.type === CMS
             ? personalizationEntities?.map((personalization) => ({
                 upsellName: personalization?.title,
-                revenue: Number(Number(personalization?.price).toFixed(2)),
+                revenue: Number(Number(personalization?.price)?.toFixed(2)),
               }))
             : '',
         isDoNotMove: true,
@@ -448,10 +449,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               },
               guests: [
                 {
-                  dob: dayjs(guestReservationInfo?.dob).format('YYYYMMDD'),
-                  firstName: guestReservationInfo?.firstName.replace(/[0-9]/g, ''),
-                  gender: reservationInfo?.guests[0].gender?.toLowerCase() == 'female' ? 'F' : 'M',
-                  lastName: guestReservationInfo?.lastName.replace(/[0-9]/g, ''),
+                  dob: dayjs(guestReservationInfo?.dob)?.format('YYYYMMDD'),
+                  firstName: guestReservationInfo?.firstName?.replace(/[0-9]/g, ''),
+                  gender: reservationInfo?.guests[0]?.gender?.toLowerCase() == 'female' ? 'F' : 'M',
+                  lastName: guestReservationInfo?.lastName?.replace(/[0-9]/g, ''),
                   nationalityCountryCode: Countries?.find(
                     (country) => country?.value === guestReservationInfo?.nationality,
                   )?.evaValue,
@@ -688,6 +689,19 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
   const toggleCreditCardInformation = () => {
     setCreditCardInformation((prev) => !prev);
+  };
+
+  useEffect(() => {
+    restoreSignature();
+  }, [dayjsLocaleLoader]);
+
+  const restoreSignature = () => {
+    if (signature && sigCanvas?.current) {
+      requestAnimationFrame(() => {
+        sigCanvas?.current?.clear();
+        sigCanvas?.current?.fromData(signature);
+      });
+    }
   };
 
   return (
