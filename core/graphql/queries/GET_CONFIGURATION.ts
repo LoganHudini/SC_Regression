@@ -4918,7 +4918,6 @@ export const configuration: any = [
                     isDisabled: false,
                     isActive: true,
                   },
-
                   {
                     name: 'docType',
                     label: 'Document Type',
@@ -5079,17 +5078,31 @@ export const configuration: any = [
               {
                 name: 'docType',
                 label: 'Document Type',
-                type: 'Text',
+                type: 'AutoComplete',
                 required: true,
-                isDisabled: true,
+                isDisabled: false,
                 isActive: true,
+                options: [
+                  {
+                    name: 'Passport',
+                    value: 'Pass',
+                    code: 'PASS',
+                    vendorDocType: 'passport',
+                  },
+                  {
+                    name: 'Driving License',
+                    value: 'DriversLicense',
+                    code: 'D',
+                    vendorDocType: 'dl',
+                  },
+                ],
               },
               {
                 name: 'docNo',
                 label: 'Document Number',
                 type: 'Text',
                 required: true,
-                isDisabled: true,
+                isDisabled: false,
                 isActive: true,
               },
               {
@@ -5306,7 +5319,6 @@ export const configuration: any = [
                     isDisabled: false,
                     isActive: true,
                   },
-
                   {
                     name: 'docType',
                     label: 'Document Type',
@@ -5467,17 +5479,31 @@ export const configuration: any = [
               {
                 name: 'docType',
                 label: 'Document Type',
-                type: 'Text',
+                type: 'AutoComplete',
                 required: true,
-                isDisabled: true,
+                isDisabled: false,
                 isActive: true,
+                options: [
+                  {
+                    name: 'Passport',
+                    value: 'Pass',
+                    code: 'PASS',
+                    vendorDocType: 'passport',
+                  },
+                  {
+                    name: 'Driving License',
+                    value: 'DriversLicense',
+                    code: 'D',
+                    vendorDocType: 'dl',
+                  },
+                ],
               },
               {
                 name: 'docNo',
                 label: 'Document Number',
                 type: 'Text',
                 required: true,
-                isDisabled: true,
+                isDisabled: false,
                 isActive: true,
               },
               {
