@@ -257,7 +257,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     await uploadSignature();
 
     // check-in
-
     const personalisation =
       personalisationConfig?.type === CMS
         ? personalizationEntities
@@ -337,10 +336,11 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         cardID: guestReservationInfo?.approvalCode ?? '',
         vaultedCardID: guestReservationInfo?.token,
         settlementType:
-          paymentConfig?.settlementType ?? config?.pms === INFOR
+          paymentConfig?.settlementType ??
+          (config?.pms === INFOR
             ? settlementType?.find((card: any) => card?.type === guestReservationInfo?.cardType)
                 ?.code
-            : guestReservationInfo?.cardType,
+            : guestReservationInfo?.cardType),
         documentType: guestReservationInfo?.docType
           ? guestReservationInfo?.docType
           : reservationInfo?.guests[0]?.docType,
@@ -364,7 +364,12 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               }))
             : '',
         isDoNotMove: true,
-        arrivalFlight: guestReservationInfo?.estimatedTime ?? '',
+        arrivalFlight:
+          config?.pms === INFOR
+            ? dayjs(guestReservationInfo?.estimatedTime, timeFormats.HOURS_MINUTES)?.format(
+                timeFormats?.INFOR_ARRIVAL_DATE,
+              )
+            : guestReservationInfo?.estimatedTime,
         depositAmount: paymentConfig?.type !== NONE ? String(fetchCharges(reservationInfo)) : '',
         specialInstructions:
           payment + (personalisation ? 'Personalisations: ' + personalisation : ''),

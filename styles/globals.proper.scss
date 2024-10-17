@@ -2,7 +2,7 @@
   // theme colors
   --primary-theme-color: #282828;
   --primary-background-color: #f2ede7;
-  --primary-icon-color: #ffffff;
+  --primary-icon-color: #282828;
   --primary-border-color: #201e1e;
   --primary-box-shadow-color: none;
   --primary-error-text-color: #f41313;
@@ -161,4 +161,8 @@
 
 .globals-contentWrapper {
   background: #f2ede7 !important;
+}
+
+.globals-listDurationOffer {
+  text-align: left;
 }
