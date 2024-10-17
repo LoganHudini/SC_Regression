@@ -3,7 +3,7 @@ import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from '@styles/feedback/feedback.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
@@ -22,7 +22,6 @@ import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
 import { availablePaths } from 'utils/availablePaths';
 import Head from 'next/head';
-import { useCheckedIn } from 'storage/check-in.storage';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { GET_HOTEL_INFORMATION } from 'core/graphql/queries/GET_HOTEL_INFORMATION';
 import { Loader } from 'components/shared/Loaders/Loaders';
@@ -32,6 +31,7 @@ import { checkoutTrip } from 'storage/trips.storage';
 import { StyledInput } from 'components/shared/StyledInput/StyledInput';
 import { useFormik } from 'formik';
 import { typeHereValidation } from 'validation/feedback.validation';
+import { useCheckedIn } from 'storage/check-in.storage';
 
 export { getStaticPaths };
 
@@ -68,6 +68,12 @@ const Feedback = () => {
       lang: locale === 'en' ? '' : locale,
     },
   });
+
+  useEffect(() => {
+    if (!isCheckedIn?.firstName && !isCheckedIn?.lastName) {
+      navigate(availablePaths.HOME);
+    }
+  }, [isCheckedIn?.firstName, isCheckedIn?.lastName]);
 
   const feedbackData = activeItems(
     data?.listFeedback?.filter((item: any) => item?.destination === CHECK_OUT),
