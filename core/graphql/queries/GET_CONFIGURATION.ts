@@ -4989,7 +4989,7 @@ export const configuration: any = [
               {
                 name: 'Credit Card Info',
                 isActive: true,
-                type: 'FREEDOMPAY',
+                type: 'NONE',
                 details: [
                   {
                     name: 'cardNumber',
@@ -5377,7 +5377,7 @@ export const configuration: any = [
               {
                 name: 'Credit Card Info',
                 isActive: true,
-                type: 'FREEDOMPAY',
+                type: 'NONE',
                 details: [
                   {
                     name: 'cardNumber',

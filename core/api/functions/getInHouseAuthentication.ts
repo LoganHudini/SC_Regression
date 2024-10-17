@@ -28,8 +28,22 @@ export const getInHouseToken = (
 
   const getToken = async () => {
     if (
-      (roomNumber || reservationInfo?.roomTypes[0]?.roomNumber)?.toString()?.trim() &&
-      (lastName || reservationInfo?.guests[0]?.lastName)?.toString()?.trim()
+      (
+        roomNumber ||
+        (reservationInfo &&
+          reservationInfo?.roomTypes?.length > 0 &&
+          reservationInfo?.roomTypes[0]?.roomNumber)
+      )
+        ?.toString()
+        ?.trim() &&
+      (
+        lastName ||
+        (reservationInfo &&
+          reservationInfo?.roomTypes?.length > 0 &&
+          reservationInfo?.guests[0]?.lastName)
+      )
+        ?.toString()
+        ?.trim()
     ) {
       const { data: authenticatedData } = await client.query({
         query: GET_AUTHENTICATION,

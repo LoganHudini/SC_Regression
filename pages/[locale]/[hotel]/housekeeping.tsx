@@ -59,6 +59,7 @@ import {
   handleinHouseAuthenticationFailure,
 } from 'core/api/functions/getInHouseAuthentication';
 import { processStatusCode } from 'utils/processError';
+import { client } from 'core/graphql/client';
 
 export { getStaticPaths };
 
@@ -87,15 +88,6 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
 
   const [sendHousekeepingOrder] = useMutation(HOUSEKEEPING_ORDER, {
     context: { clientName: 'property_e' },
-  });
-
-  const [sendHousekeepingOrderIntegration] = useMutation(HOUSEKEEPING_ORDER_TRANSACTION_HK, {
-    context: {
-      clientName: 'integration_b',
-      headers: {
-        Authorization: 'Bearer ' + getInHouseToken(),
-      },
-    },
   });
 
   const { data, loading } = useQuery<IGetHousekeepingApiResponse>(GET_HOUSEKEEPING, {
@@ -224,6 +216,11 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
           },
         });
       } else {
+        const inHouseToken = await getInHouseToken(
+          '',
+          checkinData?.roomNumber,
+          checkinData?.lastName,
+        );
         combinedServiceRequestArray?.length === 0
           ? combinedServiceRequestArray.push({
               itemId: showSchedules?.code,
@@ -234,7 +231,15 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
             })
           : null;
 
-        const response = await sendHousekeepingOrderIntegration({
+        const response = await client.mutate({
+          mutation: HOUSEKEEPING_ORDER_TRANSACTION_HK,
+          context: {
+            clientName: 'integration_b',
+            headers: {
+              Authorization: 'Bearer ' + inHouseToken,
+            },
+          },
+          fetchPolicy: 'network-only',
           variables: {
             hotelId: HOTEL_ID,
             roomNo: checkinData?.roomNumber,

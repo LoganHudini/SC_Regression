@@ -265,12 +265,17 @@ const DiningOrderSummary = () => {
           variables: irdOrderPayload,
         });
       } else if (irdOrderType?.type === VENDOR) {
+        const inHouseToken = await getInHouseToken(
+          '',
+          checkinData?.roomNumber,
+          checkinData?.lastName,
+        );
         await client.mutate({
           mutation: IRD_ORDER_TRANSACTION_POS,
           context: {
             clientName: 'integration_b',
             headers: {
-              Authorization: 'Bearer ' + getInHouseToken(),
+              Authorization: 'Bearer ' + inHouseToken,
             },
           },
           fetchPolicy: 'network-only',
