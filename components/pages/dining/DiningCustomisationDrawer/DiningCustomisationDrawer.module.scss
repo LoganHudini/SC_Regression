@@ -42,8 +42,7 @@
   display: flex;
   gap: 5px;
   flex-direction: column;
-  font: $medium var(--primary-font-heading);
-  font-family: var(--primary-font-heading);
+  font: $medium var(--primary-font-regular);
   color: var(--primary-text-color);
   font-size: $xsmall;
 }
@@ -76,7 +75,7 @@
   line-height: 1.6;
 }
 
-.item + .item::before {
+.item+.item::before {
   line-height: 1.5;
   font: $xsmall var(--primary-font-regular);
   color: var(--tertiary-text-color);
@@ -94,6 +93,7 @@
   padding: 10px;
   margin-inline-end: 3px;
   min-width: fit-content;
+
   &:after {
     display: none;
   }
@@ -105,13 +105,14 @@
   padding: 10px;
   min-width: fit-content;
   margin-inline-start: 3px;
+
   &:after {
     display: none;
   }
 }
 
 .currencyItems {
-  font: $xsmall var(--primary-font-heading);
+  font-size: $xsmall;
   color: var(--tertiary-text-color);
 }
 
@@ -123,5 +124,5 @@
 }
 
 .currencyValue {
-  font: $medium var(--primary-font-heading);
+  font: $medium var(--primary-font-regular);
 }

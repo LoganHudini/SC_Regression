@@ -382,4 +382,5 @@ export const textFieldValidation = () => {
 };
 
 export const getCountryCode = (CountryName: string) =>
-  Countries?.find((item: any) => item?.name?.toLowerCase() === CountryName?.toLowerCase())?.value;
+  Countries?.find((item: any) => item?.name?.toLowerCase() === CountryName?.toLowerCase())?.value ||
+  '';

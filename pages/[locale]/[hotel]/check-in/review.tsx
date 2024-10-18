@@ -608,8 +608,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     roomNo,
     t,
     updatedGuestData,
-    reservationInfo?.group,
-    reservationInfo?.agency,
   ]);
 
   useEffect(() => {

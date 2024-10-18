@@ -59,7 +59,15 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
         }
       }),
     );
-  }, [closeCustomisationDrawer, diningData?.selectedIndex, selectedItem]);
+  }, [
+    closeCustomisationDrawer,
+    currency,
+    diningData?.selectedIndex,
+    selectedItem?.itemId,
+    selectedItem?.price,
+    selectedItem?.quantity,
+    selectedItem?.title,
+  ]);
 
   return (
     <Drawer
@@ -114,7 +122,7 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
         {selectedItem?.price && (
           <>
             <p className={styles.itemPrice}>
-              <span>{t('Total Item Price :')}</span>
+              <span className={styles.addonsTitle}>{t('Total Item Price :')}</span>
               <div>
                 <span className={styles.currency}>{currency} </span>{' '}
                 <span className={styles.currencyValue}>

@@ -26,6 +26,7 @@ import {
   handleCheckInAuthenticationFailure,
 } from 'core/api/functions/getCheckInAuthentication';
 import { processStatusCode } from 'utils/processError';
+import { getCountryCode } from 'utils/functions';
 
 export { getStaticPaths };
 
@@ -174,8 +175,9 @@ const Youverse: React.FC = () => {
                 if (youverseProfileIDState?.guestType === PRIMARY) {
                   reservationGuestInfoStorageData({
                     ...guestReservationInfo,
-                    docNo: res?.data?.getyoonikresponse?.data?.documentNumber,
                     dob: res?.data?.getyoonikresponse?.data?.dob,
+                    nationality: getCountryCode(res?.data?.getyoonikresponse?.data?.country),
+                    docNo: res?.data?.getyoonikresponse?.data?.documentNumber,
                     docType: docTypes?.find(
                       (document: any) =>
                         document?.vendorDocType ===
@@ -187,9 +189,7 @@ const Youverse: React.FC = () => {
                     )?.value,
                     issueDate: res?.data?.getyoonikresponse?.data?.issueDate,
                     expiryDate: res?.data?.getyoonikresponse?.data?.expiryDate,
-                    issueCountry:
-                      res?.data?.getyoonikresponse?.data?.country ||
-                      res?.data?.getyoonikresponse?.data?.state,
+                    issueCountry: getCountryCode(res?.data?.getyoonikresponse?.data?.state),
                     docImage: res.data?.getyoonikresponse?.data?.frontPage,
                     portrait: res.data?.getyoonikresponse?.data?.portrait,
                   });
@@ -198,8 +198,9 @@ const Youverse: React.FC = () => {
                     if (guest?.id === reservationDataSelected?.id) {
                       return {
                         ...guest,
-                        docNo: res?.data?.getyoonikresponse?.data?.documentNumber,
                         dob: res?.data?.getyoonikresponse?.data?.dob,
+                        nationality: getCountryCode(res?.data?.getyoonikresponse?.data?.country),
+                        docNo: res?.data?.getyoonikresponse?.data?.documentNumber,
                         docType: docTypes?.find(
                           (document: any) =>
                             document?.vendorDocType ===
@@ -211,9 +212,7 @@ const Youverse: React.FC = () => {
                         )?.value,
                         issueDate: res?.data?.getyoonikresponse?.data?.issueDate,
                         expiryDate: res?.data?.getyoonikresponse?.data?.expiryDate,
-                        issueCountry:
-                          res?.data?.getyoonikresponse?.data?.country ||
-                          res?.data?.getyoonikresponse?.data?.state,
+                        issueCountry: getCountryCode(res?.data?.getyoonikresponse?.data?.state),
                         docImage: res.data?.getyoonikresponse?.data?.frontPage,
                         portrait: res.data?.getyoonikresponse?.data?.portrait,
                       };

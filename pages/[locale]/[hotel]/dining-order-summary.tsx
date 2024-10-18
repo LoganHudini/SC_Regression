@@ -84,10 +84,12 @@ const DiningOrderSummary = () => {
 
   useEffect(() => {
     const totalAmount = diningData?.items?.reduce((allTotal, item) => {
-      const addonsTotal = item?.addons?.reduce((acc: any, addon: any) => {
-        return acc + addon.price * item.quantity;
-      }, 0);
-      return allTotal + item.quantity * item.price + addonsTotal;
+      const addonsTotal =
+        item?.addons?.length > 0 &&
+        item?.addons?.reduce((acc: any, addon: any) => {
+          return acc + addon?.price * item?.quantity;
+        }, 0);
+      return allTotal + item?.quantity * item?.price + addonsTotal;
     }, 0);
     setTotalAmount(totalAmount);
   }, [diningData?.items]);
@@ -132,26 +134,23 @@ const DiningOrderSummary = () => {
         }),
       );
     },
-    [diningData?.items],
+    [currency, diningData?.items],
   );
 
-  const editFunction = useCallback(
-    (itemId: any, index: number) => {
-      diningMenuStorage(
-        produce(diningMenuStorage(), (draft) => {
-          const item = draft?.items?.find((el, i) => el.itemId === itemId && i === index);
+  const editFunction = useCallback((itemId: any, index: number) => {
+    diningMenuStorage(
+      produce(diningMenuStorage(), (draft) => {
+        const item = draft?.items?.find((el, i) => el.itemId === itemId && i === index);
 
-          if (item) {
-            draft.selectedItemId = itemId;
-            draft.selectedIndex = index;
-            editControl(true);
-            toggleDiningDetailsDrawer(true);
-          }
-        }),
-      );
-    },
-    [diningData?.items],
-  );
+        if (item) {
+          draft.selectedItemId = itemId;
+          draft.selectedIndex = index;
+          editControl(true);
+          toggleDiningDetailsDrawer(true);
+        }
+      }),
+    );
+  }, []);
 
   const decrement = useCallback((itemId: string, index: number) => {
     diningMenuStorage(
@@ -370,10 +369,9 @@ const DiningOrderSummary = () => {
         <p className={styles.itemsAddedText}>{t('Item(s) Added')}</p>
         <div className={styles.cartWrapper}>
           {items?.map((item, index) => {
-            const totalAddonPrice: any = item?.addons?.reduce(
-              (acc: any, addon: any) => acc + addon?.price,
-              0,
-            );
+            const totalAddonPrice: any =
+              item?.addons?.length > 0 &&
+              item?.addons?.reduce((acc: any, addon: any) => acc + addon?.price, 0);
             const totalPrice = item?.price + totalAddonPrice;
             return (
               item?.quantity > 0 && (
@@ -558,7 +556,7 @@ const DiningOrderSummary = () => {
             >
               <div className={styles.buttonContentWrapper}>
                 <div className={styles.buttonWrapper}>
-                  <span className={styles.items}>{items && items?.length}</span>
+                  {items?.length > 0 && <span className={styles.itemCount}>{items?.length}</span>}
                   <span className={styles.currency}>
                     <span className={styles.currencyTitle}> {currency} </span>
                     {formatPrice(totalAmount)}

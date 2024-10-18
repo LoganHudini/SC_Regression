@@ -4872,7 +4872,7 @@ export const configuration: any = [
               {
                 name: 'Guest Information',
                 isActive: true,
-                type: 'trential',
+                type: 'youverse',
                 environment: 'production',
                 details: [
                   {
@@ -5273,7 +5273,7 @@ export const configuration: any = [
               {
                 name: 'Guest Information',
                 isActive: true,
-                type: 'trential',
+                type: 'youverse',
                 environment: 'production',
                 details: [
                   {

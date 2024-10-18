@@ -323,7 +323,7 @@ const Trential: React.FC = () => {
                       ? 'FEMALE'
                       : statusList?.response?.sex?.toUpperCase() ||
                         statusList?.response?.gender?.toUpperCase(),
-                  effectiveDate: '',
+                  issueDate: '',
                   expiryDate: expiryDate,
                   issueCountry: issueCountry,
                   docImage: statusList?.response?.photo || '',
@@ -342,7 +342,7 @@ const Trential: React.FC = () => {
                           : statusList?.response?.sex === 'F'
                           ? 'FEMALE'
                           : statusList?.response?.sex?.toUpperCase(),
-                      effectiveDate: '',
+                      issueDate: '',
                       expiryDate: expiryDate,
                       issueCountry: issueCountry,
                       docImage: statusList?.response?.photo || '',
