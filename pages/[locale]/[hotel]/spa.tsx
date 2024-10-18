@@ -31,7 +31,6 @@ import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import {
   ACTIVE,
   ERRORMSG,
-  EXTERNAL_URL,
   SPA_BOOKING_FLOW,
   SPA_TREATMENTS,
   SPA,
@@ -39,6 +38,7 @@ import {
   GenderOptions,
   FAILURE,
   SUCCESS,
+  SPA_TREATMENT_LINK,
 } from 'utils/constants';
 import DateTimeSelect from 'components/shared/DateTimeSelect/DateTimeSelect';
 import { client } from 'core/graphql/client';
@@ -178,8 +178,12 @@ const Spa: React.FC = () => {
     setspaBooking(false);
   };
 
+  const treatmentLink = selectedSpaItem?.customAttributes?.find(
+    (attr: any) => attr.key === SPA_TREATMENT_LINK,
+  )?.value;
+
   const onCtaClick = () => {
-    if (spaInformation?.cta?.redirectOption === EXTERNAL_URL) {
+    if (treatmentLink) {
       analyticsEvent({
         action: 'spa_redirect',
         category: 'Spa',
@@ -564,7 +568,7 @@ const Spa: React.FC = () => {
           onClose={closeSpa}
           content={
             <IframeComponent
-              src={spaInformation?.cta?.redirectUrl}
+              src={treatmentLink ?? spaInformation?.cta?.redirectUrl}
               handledrawerState={setspaBooking}
               name={SPA_TREATMENTS}
             />
