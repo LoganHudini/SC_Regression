@@ -159,3 +159,24 @@
 .slotBookingButton {
   margin-top: 5%;
 }
+
+.information {
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.nothing {
+  height: 150px;
+  width: 150px;
+}
+
+.infoContent {
+  width: 390px;
+  font-size: $xlarge;
+  text-align: center;
+  padding-top: 25px;
+}

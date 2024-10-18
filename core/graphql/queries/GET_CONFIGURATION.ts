@@ -1841,7 +1841,14 @@ export const configuration: any = [
     pms: 'OPERA',
     fetchFromDb: 'yes',
     saveToDb: 'no',
-    languages: [{ code: 'en', name: 'English' }],
+    languages: [
+      { code: 'en', name: 'English' },
+      { code: 'ar', name: 'Arabic' },
+      { code: 'es', name: 'Spanish' },
+      { code: 'fr', name: 'FranÃ§ais' },
+      { code: 'ct', name: 'Catalan' },
+      { code: 'ja', name: 'Japanese' },
+    ],
     orderOfModules: [
       'offers',
       'check-in',

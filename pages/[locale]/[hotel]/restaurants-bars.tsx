@@ -13,7 +13,6 @@ import {
 } from 'storage/table-reservation.storage';
 import { getStaticPaths } from 'utils/getStatic';
 import styles from '@styles/restaurants-bars/restaurants-bars.module.scss';
-import { useRouter } from 'next/router';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { useTranslation } from 'react-i18next';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
@@ -23,14 +22,13 @@ import { IN_ROOM_DINING } from 'utils/constants';
 import { activeItems, activeModule, uniqueDiningOption } from 'utils/functions';
 import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
-import dayjs from 'dayjs';
-import { timeFormats } from 'utils/timeFormats';
 import Head from 'next/head';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { isEmpty } from 'lodash';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { RestaurantDetail } from 'components/pages/dining/RestaurantDetail/RestaurantDetail';
+import NoInformation from 'components/shared/NoInformation/NoInformation';
 
 export { getStaticPaths };
 
@@ -40,23 +38,10 @@ const RestaurantAndBars: React.FC = () => {
   const locale = useLocale();
   const hotelId = useConfig()?.hotelId;
   const hotelName = useConfig()?.name;
-  const [guestCount, setGuestCount] = useState(1);
-  const [availableSlots, setAvailableSlots] = useState(false);
-  const [timeSelectDrawer, setTimeSelectDrawer] = useState(false);
-  const [detailContent, setDetailContent] = useState(true);
-  const [selectedTime, setSelectedTime] = useState(
-    dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM),
-  );
-  const [iframeComponent, setIframeComponent] = useState(false);
-  const [menu, setMenu] = useState(false);
-  const [menuLink, setmenuLink] = useState(null);
-  const router = useRouter();
   const config = useConfig();
   const restaurantDetailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
   const initialSelected = useReactiveVar(selectedRestaurantStorage);
-  const currentYear = new Date().getFullYear();
   const [selectedRestaurantData, setSelectedRestaurantData] = useState<any>();
-  const [notificationStorage, setnotificationStorage] = useState(false);
   const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
 
   const { data, loading } = useQuery<IGetRestaurantDetailsResponse>(GET_RESTAURANT_DETAILS, {
@@ -107,11 +92,6 @@ const RestaurantAndBars: React.FC = () => {
 
   const closeDrawer = () => {
     toggleDetailsDrawer(false);
-    setAvailableSlots(false);
-    setSelectedTime(dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM));
-    setTimeSelectDrawer(false);
-    setDetailContent(true);
-    setGuestCount(1);
     setSelectedRestaurantData('');
   };
 
@@ -127,15 +107,26 @@ const RestaurantAndBars: React.FC = () => {
         <Loader />
       ) : (
         <>
-          <PageWrapper className={styles.pageWrapper} displayBottomMenu>
+          <PageWrapper
+            className={styles.pageWrapper}
+            displayBottomMenu={filteredList?.length > 0 ? true : false}
+          >
             <div>
-              {filteredList?.map((queryResultEntity: any) => (
-                <ListComponentEntity
-                  key={queryResultEntity?.id}
-                  queryResultEntity={queryResultEntity}
-                  selectedListItem={selectedListItem}
+              {filteredList?.length > 0 ? (
+                filteredList?.map((queryResultEntity: any) => (
+                  <ListComponentEntity
+                    key={queryResultEntity?.id}
+                    queryResultEntity={queryResultEntity}
+                    selectedListItem={selectedListItem}
+                  />
+                ))
+              ) : (
+                <NoInformation
+                  message={t(
+                    'At the moment, there are no restaurants available. Please check back later. We appreciate your understanding.',
+                  )}
                 />
-              ))}
+              )}
             </div>
           </PageWrapper>
           <CustomDrawer

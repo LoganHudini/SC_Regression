@@ -60,6 +60,7 @@ import {
 } from 'core/api/functions/getInHouseAuthentication';
 import { processStatusCode } from 'utils/processError';
 import { client } from 'core/graphql/client';
+import NoInformation from 'components/shared/NoInformation/NoInformation';
 
 export { getStaticPaths };
 
@@ -468,9 +469,11 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
                     </div>
                   ))
                 ) : (
-                  <div className={styles.information}>
-                    <h2>{t('No information found')}</h2>
-                  </div>
+                  <NoInformation
+                    message={t(
+                      'At the moment, there are no service requests available. Please check back later. We appreciate your understanding.',
+                    )}
+                  />
                 )}
               </div>
             </PageWrapper>

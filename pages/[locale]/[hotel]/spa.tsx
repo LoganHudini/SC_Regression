@@ -62,6 +62,7 @@ import { useFormik } from 'formik';
 import { getEmailRoomValidation } from 'validation/get-reservation.validation';
 import { analyticsEvent } from 'utils/gtag';
 import { PhoneEmail } from 'components/shared/PhoneEmail/PhoneEmail';
+import NoInformation from 'components/shared/NoInformation/NoInformation';
 
 export { getStaticPaths };
 
@@ -547,9 +548,11 @@ const Spa: React.FC = () => {
                 />
               ))
             ) : (
-              <div className={styles.treatmentsNotFound}>
-                <h2>Spa treatments not found</h2>
-              </div>
+              <NoInformation
+                message={t(
+                  'At the moment, there are no spa services available. Please check back later. We appreciate your understanding.',
+                )}
+              />
             )}
           </div>
         </PageWrapper>
