@@ -4939,12 +4939,13 @@ export const configuration: any = [
                         code: 'PASS',
                         vendorDocType: 'passport',
                       },
-                      {
-                        name: 'Driving License',
-                        value: 'DriversLicense',
-                        code: 'D',
-                        vendorDocType: 'dl',
-                      },
+                      // to be added later
+                      // {
+                      //   name: 'Driving License',
+                      //   value: 'DriversLicense',
+                      //   code: 'D',
+                      //   vendorDocType: 'dl',
+                      // },
                     ],
                   },
                   {
@@ -5096,12 +5097,12 @@ export const configuration: any = [
                     code: 'PASS',
                     vendorDocType: 'passport',
                   },
-                  {
-                    name: 'Driving License',
-                    value: 'DriversLicense',
-                    code: 'D',
-                    vendorDocType: 'dl',
-                  },
+                  // {
+                  //   name: 'Driving License',
+                  //   value: 'DriversLicense',
+                  //   code: 'D',
+                  //   vendorDocType: 'dl',
+                  // },
                 ],
               },
               {
@@ -5340,12 +5341,13 @@ export const configuration: any = [
                         code: 'PASS',
                         vendorDocType: 'passport',
                       },
-                      {
-                        name: 'Driving License',
-                        value: 'DriversLicense',
-                        code: 'D',
-                        vendorDocType: 'dl',
-                      },
+                      // to be added later
+                      // {
+                      //   name: 'Driving License',
+                      //   value: 'DriversLicense',
+                      //   code: 'D',
+                      //   vendorDocType: 'dl',
+                      // },
                     ],
                   },
                   {
@@ -5497,12 +5499,12 @@ export const configuration: any = [
                     code: 'PASS',
                     vendorDocType: 'passport',
                   },
-                  {
-                    name: 'Driving License',
-                    value: 'DriversLicense',
-                    code: 'D',
-                    vendorDocType: 'dl',
-                  },
+                  // {
+                  //   name: 'Driving License',
+                  //   value: 'DriversLicense',
+                  //   code: 'D',
+                  //   vendorDocType: 'dl',
+                  // },
                 ],
               },
               {
