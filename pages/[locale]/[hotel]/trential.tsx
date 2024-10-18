@@ -23,7 +23,6 @@ import {
   FAILED,
   FAILURE,
   GUESTINFORMATION,
-  INDIAN,
   INFORMATION,
   IN_PROGRESS,
   JAPANESE_RESIDENT_CARD,
@@ -46,6 +45,7 @@ import {
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { timeFormats } from 'utils/timeFormats';
 import dayjs from 'dayjs';
+import { getCountryCode } from 'utils/functions';
 export { getStaticPaths };
 
 const Trential: React.FC = () => {
@@ -187,13 +187,13 @@ const Trential: React.FC = () => {
 
           const issueCountry =
             statusList?.name === AADHAAR
-              ? INDIAN
+              ? getCountryCode(statusList?.response?.country) || 'IN'
               : statusList?.name === DL
-              ? INDIAN
+              ? 'IN'
               : statusList?.name === PASSPORT_SMALLCASE
-              ? statusList?.response?.nationality
+              ? getCountryCode(statusList?.response?.issuingState)
               : statusList?.name === JAPANESE_RESIDENT_CARD
-              ? statusList?.response?.nationality
+              ? 'JP'
               : '';
 
           const docNoRes =

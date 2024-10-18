@@ -15,6 +15,7 @@ import { housekeepingOptions, serviceRequestOptionsArray } from 'storage/houseke
 import { toggleRestaurantDetailsDrawer } from 'storage/home.storage';
 import { analyticsEvent } from './gtag';
 import * as yup from 'yup';
+import { Countries } from './countryList';
 
 // Extract data from local storage
 export const guestNameFandB = () =>
@@ -379,3 +380,6 @@ export const fetchCharges = (reservationInfo: any) =>
 export const textFieldValidation = () => {
   return yup.string().matches(TEXTFIELD_REGEX, 'Please enter valid characters');
 };
+
+export const getCountryCode = (CountryName: string) =>
+  Countries?.find((item: any) => item?.name?.toLowerCase() === CountryName?.toLowerCase())?.value;
