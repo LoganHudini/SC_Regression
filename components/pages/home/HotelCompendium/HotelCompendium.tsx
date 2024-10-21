@@ -28,15 +28,6 @@ export const HotelCompendiumContainer = (props: any) => {
     navigate(availablePaths.HOTEL_COMPENDIUM);
   };
 
-  const hotelAmenities = categories?.map((category: any) =>
-    amenities?.find(
-      (amenity: any) =>
-        amenity?.images?.length > 0 &&
-        amenity?.isActive &&
-        amenity?.categoryIds.includes(category?.id),
-    ),
-  );
-
   return (
     <>
       {categories?.length > 0 && (
@@ -52,8 +43,7 @@ export const HotelCompendiumContainer = (props: any) => {
                 <StableImage
                   className={styles.image}
                   src={`${ASSETS_URL}/${
-                    hotelAmenities[index]?.images[0]?.master &&
-                    hotelAmenities[index]?.images[0]?.master
+                    category?.images[0]?.master && category?.images[0]?.master
                   }`}
                 />
               </div>

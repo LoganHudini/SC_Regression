@@ -3,15 +3,15 @@ import { gql } from '@apollo/client';
 export const GET_HOTEL_COMPENDIUM = gql`
   query MyQuery($hotelId: String!, $lang: String) {
     getHotelAmenityDetails(input: { hotelId: $hotelId, lang: $lang }) {
-      amenities {
-        categoryId
-        categoryIds
-        createdAt
+      categories {
         createdBy
-        description
-        highlights
+        customAttributes {
+          key
+          value
+        }
         hotelId
         id
+        name
         images {
           fileName
           index
@@ -19,33 +19,40 @@ export const GET_HOTEL_COMPENDIUM = gql`
           ratio16to9
           ratio1to1
           ratio21to9
+          ratio9to21
+          ratio9to16
         }
-        information {
-          displayTitle
-          field
-          index
-          type
+      }
+      amenities {
+        name
+        categoryIds
+        createdBy
+        customAttributes {
+          key
           value
         }
-        isActive
-        name
-        pk
-        sk
-        updatedAt
-        updatedBy
-        version
-      }
-      categories {
-        createdAt
-        createdBy
+        description
+        highlights
         hotelId
         id
-        name
-        sk
-        pk
-        updatedAt
-        updatedBy
-        version
+        isActive
+        information {
+          field
+          index
+          value
+          type
+          displayTitle
+        }
+        images {
+          fileName
+          index
+          master
+          ratio16to9
+          ratio1to1
+          ratio21to9
+          ratio9to16
+          ratio9to21
+        }
       }
     }
   }
