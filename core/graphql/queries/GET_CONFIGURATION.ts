@@ -4937,15 +4937,14 @@ export const configuration: any = [
                         name: 'Passport',
                         value: 'Pass',
                         code: 'PASS',
-                        vendorDocType: 'passport',
+                        vendorDocType: 'PASSPORT',
                       },
-                      // to be added later
-                      // {
-                      //   name: 'Driving License',
-                      //   value: 'DriversLicense',
-                      //   code: 'D',
-                      //   vendorDocType: 'dl',
-                      // },
+                      {
+                        name: 'Driving License',
+                        value: 'DriversLicense',
+                        code: 'D',
+                        vendorDocType: 'DRIVING_LICENSE',
+                      },
                     ],
                   },
                   {
@@ -4996,7 +4995,8 @@ export const configuration: any = [
               {
                 name: 'Credit Card Info',
                 isActive: true,
-                type: 'NONE',
+                type: 'FREEDOMPAY',
+                guaranteeCard: true,
                 details: [
                   {
                     name: 'cardNumber',
@@ -5095,14 +5095,14 @@ export const configuration: any = [
                     name: 'Passport',
                     value: 'Pass',
                     code: 'PASS',
-                    vendorDocType: 'passport',
+                    vendorDocType: 'PASSPORT',
                   },
-                  // {
-                  //   name: 'Driving License',
-                  //   value: 'DriversLicense',
-                  //   code: 'D',
-                  //   vendorDocType: 'dl',
-                  // },
+                  {
+                    name: 'Driving License',
+                    value: 'DriversLicense',
+                    code: 'D',
+                    vendorDocType: 'DRIVING_LICENSE',
+                  },
                 ],
               },
               {
@@ -5339,15 +5339,14 @@ export const configuration: any = [
                         name: 'Passport',
                         value: 'Pass',
                         code: 'PASS',
-                        vendorDocType: 'passport',
+                        vendorDocType: 'PASSPORT',
                       },
-                      // to be added later
-                      // {
-                      //   name: 'Driving License',
-                      //   value: 'DriversLicense',
-                      //   code: 'D',
-                      //   vendorDocType: 'dl',
-                      // },
+                      {
+                        name: 'Driving License',
+                        value: 'DriversLicense',
+                        code: 'D',
+                        vendorDocType: 'DRIVING_LICENSE',
+                      },
                     ],
                   },
                   {
@@ -5398,7 +5397,8 @@ export const configuration: any = [
               {
                 name: 'Credit Card Info',
                 isActive: true,
-                type: 'NONE',
+                type: 'FREEDOMPAY',
+                guaranteeCard: true,
                 details: [
                   {
                     name: 'cardNumber',
@@ -5497,14 +5497,14 @@ export const configuration: any = [
                     name: 'Passport',
                     value: 'Pass',
                     code: 'PASS',
-                    vendorDocType: 'passport',
+                    vendorDocType: 'PASSPORT',
                   },
-                  // {
-                  //   name: 'Driving License',
-                  //   value: 'DriversLicense',
-                  //   code: 'D',
-                  //   vendorDocType: 'dl',
-                  // },
+                  {
+                    name: 'Driving License',
+                    value: 'DriversLicense',
+                    code: 'D',
+                    vendorDocType: 'DRIVING_LICENSE',
+                  },
                 ],
               },
               {

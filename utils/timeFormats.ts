@@ -22,6 +22,7 @@ export const timeFormats = {
   DAY_DIGIT: 'DD',
   MONTH_DAY: 'MMM DD',
   MONTH_YEAR: 'MMM YYYY',
+  MONTH_YEAR_PAYMENT: 'MMYYYY',
   YOUVERSE_EXPIRE_DATE: 'YYYY-MM-DDThh:mm',
   INFOR_ARRIVAL_DATE: 'YYYY-MM-DDThh:mm:ss',
   DATE_TIME: 'YYYY-MM-DD HH:mm',

@@ -183,6 +183,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   }, [data, navigate]);
   const preCheckInStatus = config?.preCheckInOnly
     ? true
+    : paymentConfig?.guaranteeCard
+    ? true
     : !(roomNo && guestReservationInfo?.roomStatus && paymentConfig?.type !== NONE)
     ? true
     : false;
