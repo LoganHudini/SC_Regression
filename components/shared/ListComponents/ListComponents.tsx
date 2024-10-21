@@ -1,10 +1,9 @@
-import { StableImage } from '../StableImage/StableImage';
 import { useTranslation } from 'react-i18next';
 import { useCallback } from 'react';
 import ClockIcon from '@icons/clockIcon.svg';
 import DishIcon from '@icons/dishIcon.svg';
 import styles from './ListComponents.module.scss';
-import { ASSETS_URL, BRAND_CODE } from 'core/graphql/endpoints';
+import { BRAND_CODE } from 'core/graphql/endpoints';
 import dayjs from 'dayjs';
 import { getTimings } from 'utils/functions';
 import { CustomReadMore } from '../CustomReadMore/CustomReadMore';
@@ -13,6 +12,7 @@ import cx from 'classnames';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useRouter } from 'next/router';
 import { availablePaths } from 'utils/availablePaths';
+import CustomCarousel from '../CustomCarousel/CustomCarousel';
 
 interface ListComponentEntityProps {
   queryResultEntity: any;
@@ -39,10 +39,7 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
   return (
     <div className={styles.listComponent} onClick={onCtaClick}>
       {(config?.hideImagePlaceholder ? queryResultEntity?.images?.length > 0 : true) && (
-        <StableImage
-          className={styles.bannerImage}
-          src={`${ASSETS_URL}/${queryResultEntity?.images[0]?.ratio16to9}`}
-        />
+        <CustomCarousel imageData={queryResultEntity} />
       )}
       <div className={cx(styles.contentWrapper, 'globals-contentWrapper')}>
         <div className={cx(styles.imageContent, 'globals-imageContent')}>
