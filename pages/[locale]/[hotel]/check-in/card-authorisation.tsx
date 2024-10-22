@@ -115,6 +115,7 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
   const goToTheNextStep = useCallback(async () => {
     if (paymentConfig?.guaranteeCard) {
       const updateGuestDetailsPayload: any = {
+        docNumber: guestReservationInfo?.docNo,
         reservationId: reservationInfo?.confirmationId as string,
         firstName: guestReservationInfo?.firstName,
         lastName: guestReservationInfo?.lastName,
@@ -218,6 +219,7 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
     guestReservationInfo?.cityName,
     guestReservationInfo?.countryCode,
     guestReservationInfo?.dob,
+    guestReservationInfo?.docNo,
     guestReservationInfo?.emails,
     guestReservationInfo?.expiryDate,
     guestReservationInfo?.firstName,

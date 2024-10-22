@@ -1040,8 +1040,10 @@ const Guest: React.FC<any> = () => {
                 (accompanyGuestValidation.every((item: boolean) => item)
                   ? !secondaryGuestButtonDisable
                   : !accompanyGuestValidation.every((item: boolean) => item)) ||
-                (accompanyGuestData || []).concat(updatedGuestData || [])?.length <
-                  (reservationInfo && reservationInfo?.details?.totalGuestCount - 1)
+                (accompanyingGuestSubmodule?.mandatory
+                  ? (accompanyGuestData || []).concat(updatedGuestData || [])?.length <
+                    (reservationInfo && reservationInfo?.details?.totalGuestCount - 1)
+                  : false)
               }
               onClick={goToTheNextStep}
               className={cx(styles.bottomMenuButton)}

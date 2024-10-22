@@ -8705,6 +8705,7 @@ export const configuration: any = [
             type: 'trential',
             isActive: true,
             cardIcon: 'guest',
+            mandatory: true,
             details: [
               {
                 name: 'firstName',
