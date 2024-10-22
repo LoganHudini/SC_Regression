@@ -441,6 +441,50 @@
     },
     {
       "type": "npm",
+      "script": "dev:pestana-cr7.stage",
+      "problemMatcher": [],
+      "label": "Dev: PESTANA CR7 STAGE",
+      "detail": "env-cmd -f .env.pestana-cr7.stage yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:pestana-cr7.stage",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: PESTANA CR7 STAGE",
+      "detail": "env-cmd -f .env.pestana-cr7.stage yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:pestana-cr7.stage",
+      "problemMatcher": [],
+      "label": "Start: PESTANA CR7 STAGE",
+      "detail": "env-cmd -f .env.pestana-cr7.stage next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:pestana-cr7",
+      "problemMatcher": [],
+      "label": "Dev: PESTANA CR7",
+      "detail": "env-cmd -f .env.pestana-cr7 yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:pestana-cr7",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: PESTANA CR7",
+      "detail": "env-cmd -f .env.pestana-cr7 yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:pestana-cr7",
+      "problemMatcher": [],
+      "label": "Start: PESTANA CR7",
+      "detail": "env-cmd -f .env.pestana-cr7 next start"
+    },
+    {
+      "type": "npm",
       "script": "dev:the-savoy",
       "problemMatcher": [],
       "label": "Dev: THE SAVOY",

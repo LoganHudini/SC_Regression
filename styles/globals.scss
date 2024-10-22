@@ -177,6 +177,11 @@
   src: url('/fonts/ObjectSans/ObjectSans-Regular.otf') format('opentype');
 }
 
+@font-face {
+  font-family: 'Pluto Sans Regular';
+  src: url('/public/fonts//PlutoSans/PlutoSansRegular.otf') format('opentype');
+}
+
 // header font-families
 @font-face {
   font-family: 'Garamond';
@@ -247,6 +252,11 @@
 @font-face {
   font-family: 'Cinzel';
   src: url('/fonts/Cinzel/Cinzel-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Pluto Sans Medium';
+  src: url('/fonts/PlutoSans/PlutoSansMedium.otf') format('opentype');
 }
 
 :root {

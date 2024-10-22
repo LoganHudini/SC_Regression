@@ -42,9 +42,7 @@ export const HotelCompendiumContainer = (props: any) => {
 
                 <StableImage
                   className={styles.image}
-                  src={`${ASSETS_URL}/${
-                    category?.images[0]?.master && category?.images[0]?.master
-                  }`}
+                  src={category?.images?.length && `${ASSETS_URL}/${category?.images[0]?.master}`}
                 />
               </div>
             ))}
