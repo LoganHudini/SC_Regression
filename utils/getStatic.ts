@@ -26,6 +26,7 @@ import {
   AVA_RESORT_CANCUN,
   HARD_ROCK_HOTEL_CANCUN,
   ITC_HOTELS_MARATHA,
+  THE_SAVOY_LONDON,
 } from './constants';
 
 const propertyList = [
@@ -55,6 +56,7 @@ const propertyList = [
   MONDRIAN_DUXTON_SINGAPORE,
   AVA_RESORT_CANCUN,
   ITC_HOTELS_MARATHA,
+  THE_SAVOY_LONDON,
 ];
 
 export const getI18nPaths = () =>

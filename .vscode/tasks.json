@@ -438,6 +438,28 @@
       "problemMatcher": [],
       "label": "Start: AVA RESORTS STAGE",
       "detail": "env-cmd -f .env.ava-resorts.stage next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:the-savoy",
+      "problemMatcher": [],
+      "label": "Dev: THE SAVOY",
+      "detail": "env-cmd -f .env.the-savoy yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:the-savoy",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: THE SAVOY",
+      "detail": "env-cmd -f .env.the-savoy yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:the-savoy",
+      "problemMatcher": [],
+      "label": "Start: THE SAVOY",
+      "detail": "env-cmd -f .env.the-savoy next start"
     }
   ]
 }

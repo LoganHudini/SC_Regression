@@ -331,11 +331,10 @@ const Guest: React.FC<any> = () => {
       }
     }
   }, [
-    paymentConfig?.type,
-    paymentConfig?.isTotalChargeActive,
-    reservationInfo?.roomTypes,
     availablePersonalizations,
     navigate,
+    paymentConfig,
+    reservationInfo?.roomTypes,
     upgradeRoomConfig?.type,
   ]);
 
@@ -451,7 +450,6 @@ const Guest: React.FC<any> = () => {
         successFlag = (await updateGuestDetails(updateAccompanyGuestDetailsPayload)) && successFlag;
       }
     }
-
     if (successFlag) {
       nextStep();
     } else {

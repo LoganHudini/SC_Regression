@@ -1,0 +1,174 @@
+:root {
+  // theme colors
+  --primary-theme-color: #90c53e;
+  --primary-background-color: #f9f9f9;
+  --primary-icon-color: #000000;
+  --primary-border-color: #000000;
+  --primary-box-shadow-color: none;
+  --primary-error-text-color: #f41313;
+  --primary-disabled-color: #e0e0e0;
+
+  // overlays
+  --primary-overlay-color: #120e0e79;
+  --secondary-overlay-color: #120e0eb1;
+
+  // text colors
+  --primary-text-color: #1e1e1e;
+  --secondary-text-color: #ffffff;
+  --tertiary-text-color: #1e1e1e;
+
+  // drawer colors
+  --primary-drawer-color: #ffffff;
+  --primary-drawer-notch-color: #eeeef1;
+  --primary-drawer-top-left-border-radius: 0px;
+  --primary-drawer-top-right-border-radius: 0px;
+  --primary-drawer-height: 70dvh;
+  --primary-drawer-background-opacity: 0.75;
+  --primary-drawer-background-color: #f9f9f9;
+
+  //image transition background color
+  --primary-image-transition-background-color: #a0a1a3;
+
+  // hamburger menu colors
+  --hamburgermenu-drawer-color: #f9f9f9;
+  --hamburgermenu-text-color: #1e1e1e;
+  --hamburgermenu-icon-color: #90c53e;
+
+  // font-families
+  --primary-font-regular: 'Helvetica Regular';
+  --primary-font-medium: 'Helvetica Medium';
+  --primary-font-semibold: '';
+  --primary-font-bold: '';
+  --primary-font-heading: 'Helvetica Medium';
+
+  --primary-font-extd-regular: '';
+
+  // headings
+  --heading-font-regular: 'Helvetica Medium';
+
+  // banner configs
+  --primary-title-font-family: '';
+  --secondary-title-font-family: 'Helvetica Medium';
+  --primary-indicator-color: #ffffff;
+
+  // card component configs
+  --primary-card-title-font-family: '';
+  --primary-card-desc-font-family: '';
+  --primary-card-cta-font-family: '';
+  --primary-card-background-color: #f8f8f8;
+  --primary-card-border-radius: 0px;
+  --primary-card-shadow-color: #00000010;
+
+  // button configs
+  --primary-button-color: #000000;
+  --primary-button-background-color: #90c53e;
+  --primary-button-border-radius: 0px;
+  --primary-button-font-family: 'Helvetica Medium';
+
+  --secondary-button-color: #90c53e;
+  --secondary-button-background-color: #ffffff;
+  --secondary-button-border-radius: 0px;
+  --secondary-button-font-family: '';
+
+  // read more cta configs
+  --readmore-text: flex;
+  --readmore-arrowwithtext: none;
+  --readmore-arrow: none;
+  --readmore-arrowhead: none;
+  --readmore-underline: 1px solid var(--primary-text-color);
+
+  // Bottom menu arrow configs
+  --bottom-menu-arrow-color: #1e1e1e;
+}
+
+.MuiButton-containedPrimary {
+  padding-top: 8px;
+
+  &:disabled {
+    background: var(--primary-disabled-color);
+  }
+
+  &:after {
+    display: none;
+  }
+}
+
+.MuiButton-outlinedPrimary {
+  padding-top: 8px;
+}
+
+.globals-menuItemWrapper {
+  border-bottom: 1px solid #3e3b3b !important;
+}
+
+// details card configs
+
+.globals-carouselSlideWrapper {
+  height: 300px !important;
+}
+
+.globals-carouselSlideImage {
+  position: static !important;
+}
+
+.globals-carouselSlideDetailsWrapperRestaurantsAndBars {
+  position: static !important;
+  width: 100% !important;
+  height: 110px !important;
+  text-align: start !important;
+  align-items: flex-start !important;
+}
+
+.globals-content {
+  padding-left: 0% !important;
+}
+
+.globals-carouselSlideDetailsWrapper {
+  position: static !important;
+  width: 100% !important;
+  height: 100px !important;
+  text-align: start !important;
+}
+
+.globals-detailPosition {
+  width: 100% !important;
+}
+
+.globals-carouselSlideTitle {
+  padding: 10px 0 19px !important;
+}
+
+.globals-carouselSlideWrapperServiceRequest {
+  height: 290px !important;
+}
+
+.globals-carouselSlideWrapperSpa {
+  height: 300px !important;
+}
+
+.globals-contentWrapper {
+  position: static !important;
+  width: 100% !important;
+  margin-top: 0 !important;
+}
+
+.globals-imageContent {
+  padding: 10px 0px !important;
+}
+
+.globals-customReadMore {
+  margin: 10px 0 !important;
+}
+
+.globals-text-align {
+  text-align: start !important;
+}
+
+.globals-listDurationOffer {
+  text-align: left;
+}
+
+.globals-customReadMore {
+  text-transform: capitalize;
+  color: var(--primary-theme-color) !important;
+}
