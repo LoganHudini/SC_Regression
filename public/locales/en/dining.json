@@ -71,10 +71,10 @@
   "GREAT": "GREAT",
   "View Order": "View Order",
   "Update Order": "Update Order",
-  "Add to Order": "Add to Order",
   "Select up to": "Select up to",
   "option(s)": "option(s)",
   "Try rewording your search or entering a new keyword.": "Try rewording your search or entering a new keyword.",
   "Total Item Price :": "Total Item Price :",
-  "Repeat last used customization?": "Repeat last used customization?"
+  "Repeat last used customization?": "Repeat last used customization?",
+  "Add to Cart": "Add to Cart"
 }

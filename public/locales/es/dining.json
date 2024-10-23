@@ -71,10 +71,10 @@
   "GREAT": "GENIAL",
   "View Order": "Ver Pedido",
   "Update Order": "Orden de actualización",
-  "Add to Order": "Agregar a la Orden",
   "Select up to": "Selecciona hasta",
   "option(s)": "opción(es)",
   "Try rewording your search or entering a new keyword.": "Intenta reformular tu búsqueda o ingresar una nueva palabra clave.",
   "Total Item Price :": "Precio Total del Artículo :",
-  "Repeat last used customization?": "¿Repetir la última personalización utilizada?"
+  "Repeat last used customization?": "¿Repetir la última personalización utilizada?",
+  "Add to Cart": "añadir a la cesta"
 }

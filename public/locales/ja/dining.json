@@ -71,10 +71,10 @@
   "GREAT": "素晴らしい",
   "View Order": "表示の順序",
   "Update Order": "更新順序",
-  "Add to Order": "注文に追加",
   "Select up to": "まで選択してください",
   "option(s)": "オプション",
   "Try rewording your search or entering a new keyword.": "検索語を言い換えるか、新しいキーワードを入力してください。",
   "Total Item Price :": "商品合計価格 :",
-  "Repeat last used customization?": "最後に使用したカスタマイズを繰り返しますか?"
+  "Repeat last used customization?": "最後に使用したカスタマイズを繰り返しますか?",
+  "Add to Cart": "カートに追加"
 }

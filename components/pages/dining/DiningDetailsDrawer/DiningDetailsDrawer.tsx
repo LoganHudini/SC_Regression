@@ -568,7 +568,7 @@ const DiningDetailsDrawer = () => {
                   filteredList?.length === 0
                 }
               >
-                {editControlStatus ? t('Update Order') : t('Add to Order')}
+                {editControlStatus ? t('Update Order') : t('Add to Cart')}
               </StyledButton>
             </div>
           </div>

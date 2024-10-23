@@ -71,10 +71,10 @@
   "GREAT": "GENIAL",
   "View Order": "Veure Comanda",
   "Update Order": "Actualitza L'ordre",
-  "Add to Order": "Afegeix a Ordre",
   "Select up to": "Selecciona fins a",
   "option(s)": "opció(s)",
   "Try rewording your search or entering a new keyword.": "Prova a reformular la teva cerca o introduir una paraula clau nova.",
   "Total Item Price :": "Preu Total de l'Article :",
-  "Repeat last used customization?": "Repetir la personalització utilitzada anteriorment?"
+  "Repeat last used customization?": "Repetir la personalització utilitzada anteriorment?",
+  "Add to Cart": "Afegeix a la cistella"
 }
