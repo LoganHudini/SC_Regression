@@ -68,9 +68,17 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   const [allergens, setAllergens] = useState<string[]>([]);
   const [irdItemsList, setIrdItemsList] = useState<any[]>([]);
   const [orderDrawer, setOrderDrawer] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const [scrollHide, setScrollHide] = useState(true);
   const [scrollPosition] = useState(scrollData);
   const currency = useCurrency();
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(true);
+    }, 1500);
+  }, []);
 
   const data = client.readQuery<IRDMenuApiResponse>({ query: IRD_MENU });
 
@@ -362,7 +370,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
 
   return (
     <>
-      {!data ? (
+      {!data || !loading ? (
         <>
           <Loader />
         </>
