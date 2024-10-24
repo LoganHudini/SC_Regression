@@ -967,44 +967,44 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             </div>
           )}
 
-          <div className={styles.agrementWrapper}>
-            <div className={styles.checkBoxAlign}>
-              <StyledCheckBox
-                onClick={toggleConditionsAccepted}
-                value={conditionsAccepted}
-                checked={conditionsAccepted}
-              />
-            </div>
+          {DOCUMENT_LIST?.some((document: any) => hotelInfo?.[document.code]?.type) && (
+            <div className={styles.agrementWrapper}>
+              <div className={styles.checkBoxAlign}>
+                <StyledCheckBox
+                  onClick={toggleConditionsAccepted}
+                  value={conditionsAccepted}
+                  checked={conditionsAccepted}
+                />
+              </div>
 
-            <p className={styles.agrementText}>
-              {DOCUMENT_LIST.some((document) => hotelInfo?.[document.code]?.type) &&
-                t('I have read, understood and agree to the')}{' '}
-              {DOCUMENT_LIST.map((document, index) => {
-                if (hotelInfo?.[document.code]?.type) {
-                  return (
-                    <>
-                      <Link
-                        href={
-                          hotelInfo?.[document.code]?.type === WEBURL2
-                            ? hotelInfo?.[document.code]?.url
-                            : `${ASSETS_URL}/${hotelInfo?.[document.code]?.url}`
-                        }
-                        target='_blank'
-                        rel='noopener noreferrer'
-                      >
-                        {t(`${document.name}`)}
-                      </Link>
-                      {index === DOCUMENT_LIST.length - 2
-                        ? ` ${t('and')} `
-                        : index !== DOCUMENT_LIST.length - 1 && ', '}
-                    </>
-                  );
-                }
-              })}
-              {DOCUMENT_LIST.every((document) => !hotelInfo?.[document.code]?.type) &&
-                t(`${reviewConfig?.termsAndCondition}`)}
-            </p>
-          </div>
+              <p className={styles.agrementText}>
+                {DOCUMENT_LIST?.some((document) => hotelInfo?.[document.code]?.type) &&
+                  t('I have read, understood and agree to the')}{' '}
+                {DOCUMENT_LIST?.map((document, index) => {
+                  if (hotelInfo?.[document.code]?.type) {
+                    return (
+                      <>
+                        <Link
+                          href={
+                            hotelInfo?.[document.code]?.type === WEBURL2
+                              ? hotelInfo?.[document.code]?.url
+                              : `${ASSETS_URL}/${hotelInfo?.[document.code]?.url}`
+                          }
+                          target='_blank'
+                          rel='noopener noreferrer'
+                        >
+                          {t(`${document.name}`)}
+                        </Link>
+                        {index === DOCUMENT_LIST.length - 2
+                          ? ` ${t('and')} `
+                          : index !== DOCUMENT_LIST.length - 1 && ', '}
+                      </>
+                    );
+                  }
+                })}
+              </p>
+            </div>
+          )}
           <div className={styles.guestSignatureWrapper}>
             <p className={styles.guestSignature}>{t('Guest Signature')}</p>
             <p className={styles.clearBtn} onClick={clearCanvas}>
