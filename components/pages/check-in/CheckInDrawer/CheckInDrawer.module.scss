@@ -29,9 +29,13 @@
 }
 
 .findMyBookingBtn {
-  margin: 40px 0px 20px 0px;
+  margin: 30px 0px 20px 0px;
   width: 100%;
   font-size: $small;
+}
+
+.inputOnFocus {
+  margin: 20px 0 100px 0px;
 }
 
 .styledDateInput {

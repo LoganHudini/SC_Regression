@@ -25,6 +25,8 @@ import { processStatusCode } from 'utils/processError';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { handleCheckInToken, handleReservation } from 'utils/fetchReservation';
 import { getInHouseToken } from 'core/api/functions/getInHouseAuthentication';
+import cx from 'classnames';
+import useDetectKeyboardOpen from 'utils/hooks/useDetectKeyboardOpen';
 
 export interface Values {
   confirmationNumber?: string | string[];
@@ -60,6 +62,7 @@ const CheckInDrawer = (props: any) => {
   const activeCheckOutFlowInfo = useReactiveVar(activeCheckOutFlow);
 
   const [loading, setLoading] = useState(false);
+  const isKeyboardVisible = useDetectKeyboardOpen();
 
   const goToTheNextStep = useCallback(
     async (values: Values) => {
@@ -243,15 +246,16 @@ const CheckInDrawer = (props: any) => {
                 }
               />
             )}
+            <StyledButton
+              loading={loading}
+              className={cx(styles.findMyBookingBtn, {
+                [styles.inputOnFocus]: isKeyboardVisible,
+              })}
+              onClick={formik.submitForm}
+            >
+              {activeCheckInFlowInfo || activeCheckOutFlowInfo ? t('Next') : t('Connect to Room')}
+            </StyledButton>
           </div>
-
-          <StyledButton
-            loading={loading}
-            className={styles.findMyBookingBtn}
-            onClick={formik.submitForm}
-          >
-            {activeCheckInFlowInfo || activeCheckOutFlowInfo ? t('Next') : t('Connect to Room')}
-          </StyledButton>
         </PageWrapper>
       </>
     );
