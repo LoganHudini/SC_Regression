@@ -521,7 +521,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             type: SUCCESS,
             title: reviewConfig?.checkInSuccessfulMessageTitle
               ? reviewConfig?.checkInSuccessfulMessageTitle
-              : (t('Welcome Aboard!') as string),
+              : (t('Welcome!') as string),
             description: preCheckInStatus
               ? reviewConfig?.checkInSuccessfulMessageDescription
                 ? reviewConfig?.checkInSuccessfulMessageDescription
