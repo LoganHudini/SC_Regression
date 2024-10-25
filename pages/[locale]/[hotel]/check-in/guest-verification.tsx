@@ -84,6 +84,8 @@ import Popper from '@mui/material/Popper';
 import DangerIcon from '@icons/danger.svg';
 import DropDownIcon from '@icons/dropDownIcon.svg';
 import { Loader } from 'components/shared/Loaders/Loaders';
+import dayjs from 'dayjs';
+import { timeFormats } from 'utils/timeFormats';
 export { getStaticPaths };
 
 const Guest: React.FC<any> = () => {
@@ -522,6 +524,12 @@ const Guest: React.FC<any> = () => {
           expiryDate: newGuestData?.expiryDate,
           effectiveDate: newGuestData?.issueDate,
           gender: newGuestData?.gender,
+          arrivalDate: dayjs(reservationInfo?.details?.checkInDate).format(
+            timeFormats.YEAR_MONTH_DAY,
+          ),
+          departureDate: dayjs(reservationInfo?.details?.checkOutDate).format(
+            timeFormats.YEAR_MONTH_DAY,
+          ),
         },
       ],
     };
