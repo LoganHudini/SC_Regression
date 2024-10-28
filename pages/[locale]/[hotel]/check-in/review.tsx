@@ -1032,7 +1032,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               variant='contained'
               className={cx(styles.checkInButton)}
             >
-              {t(`${reviewConfig?.buttonLabelCheckIn}`)}
+              {preCheckInStatus ? t('Confirm Pre-Register') : t('Confirm Check-In')}
             </StyledButton>
           </div>
         </PageWrapper>
