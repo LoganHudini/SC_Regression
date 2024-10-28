@@ -27,6 +27,7 @@ import Head from 'next/head';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 import { offerDetails, timeDisplayed } from 'components/pages/home/OffersCarousel/OffersCarousel';
 import { flowPathMap } from 'utils/flowPathMap';
+import NoInformation from 'components/shared/NoInformation/NoInformation';
 
 export { getStaticPaths };
 
@@ -112,14 +113,22 @@ const Offers: React.FC = () => {
         <Loader />
       ) : (
         <PageWrapper className={styles.pageWrapper} displayBottomMenu>
-          {filteredOffersWthCategory?.map((queryResultEntity: any) => (
-            <ListComponentEntity
-              key={queryResultEntity.id}
-              queryResultEntity={queryResultEntity}
-              selectedListItem={selectedListItem}
-              module={OFFERS}
+          {filteredOffersWthCategory?.length > 0 ? (
+            filteredOffersWthCategory?.map((queryResultEntity: any) => (
+              <ListComponentEntity
+                key={queryResultEntity.id}
+                queryResultEntity={queryResultEntity}
+                selectedListItem={selectedListItem}
+                module={OFFERS}
+              />
+            ))
+          ) : (
+            <NoInformation
+              message={t(
+                'At the moment, there are no offers available. Please check back later. We appreciate your understanding.',
+              )}
             />
-          ))}
+          )}
         </PageWrapper>
       )}
       {offerBooking ? (

@@ -24,6 +24,7 @@ import { filterHotelCompendiumCategories } from 'utils/functions';
 import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 import { PhoneEmail } from 'components/shared/PhoneEmail/PhoneEmail';
 import { EMAILCAPS, PHONECAPS } from 'utils/constants';
+import NoInformation from 'components/shared/NoInformation/NoInformation';
 
 export { getStaticPaths };
 
@@ -130,7 +131,11 @@ const HotelCompendium: React.FC = () => {
                 </div>
               ))
             ) : (
-              <div className={styles.info}>{t('No information found')}</div>
+              <NoInformation
+                message={t(
+                  'At the moment, there are no activities available. Please check back later. We appreciate your understanding.',
+                )}
+              />
             )}
             <CustomDrawer
               open={detailsDrawerStatus}
