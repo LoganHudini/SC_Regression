@@ -4935,13 +4935,13 @@ export const configuration: any = [
                     options: [
                       {
                         name: 'Passport',
-                        value: 'Pass',
+                        value: 'Passport',
                         code: 'PASS',
                         vendorDocType: 'PASSPORT',
                       },
                       {
                         name: 'Driving License',
-                        value: 'DriversLicense',
+                        value: 'DRIVERSLICENSE',
                         code: 'D',
                         vendorDocType: 'DRIVING_LICENSE',
                       },
@@ -5090,20 +5090,6 @@ export const configuration: any = [
                 required: true,
                 isDisabled: false,
                 isActive: true,
-                options: [
-                  {
-                    name: 'Passport',
-                    value: 'Pass',
-                    code: 'PASS',
-                    vendorDocType: 'PASSPORT',
-                  },
-                  {
-                    name: 'Driving License',
-                    value: 'DriversLicense',
-                    code: 'D',
-                    vendorDocType: 'DRIVING_LICENSE',
-                  },
-                ],
               },
               {
                 name: 'docNo',
