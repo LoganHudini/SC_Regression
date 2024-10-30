@@ -129,7 +129,7 @@ const PersonalizeYourRoom: React.FC = () => {
       };
 
       const updateBookingDetails = async () => {
-        const checkInToken = getCheckInToken();
+        const checkInToken = await getCheckInToken();
         try {
           await client.query({
             query: UPDATE_BOOKING_DETAILS,

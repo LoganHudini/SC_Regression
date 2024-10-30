@@ -15,7 +15,7 @@ export const checkRoomStatus = async (roomNo: string, confirmationId: string) =>
         query: GET_ROOM_STATUS,
         context: {
           clientName: 'rest',
-          headers: { Authorization: 'Bearer ' + getCheckInToken() },
+          headers: { Authorization: 'Bearer ' + (await getCheckInToken()) },
         },
         variables: {
           roomNumber: roomNo,

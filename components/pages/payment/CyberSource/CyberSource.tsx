@@ -45,7 +45,7 @@ const CyberSource: React.FC = () => {
   }, [navigate]);
 
   const preparePayment = useCallback(async () => {
-    const checkInToken = getCheckInToken();
+    const checkInToken = await getCheckInToken();
 
     const data = client.readQuery<IGetReservationApiResponse>({
       query: GET_RESERVATION,
@@ -109,7 +109,7 @@ const CyberSource: React.FC = () => {
           { code: 'VS', value: 'Visa' },
           { code: 'AX', value: 'Americanexpress' },
         ];
-        const checkInToken = getCheckInToken();
+        const checkInToken = await getCheckInToken();
         try {
           const { data: paymentStatusData } = await client.query<IGetPaymentStatusApiResponse>({
             query: GET_PAYMENT_STATUS,

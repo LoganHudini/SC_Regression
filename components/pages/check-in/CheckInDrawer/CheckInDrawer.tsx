@@ -20,11 +20,9 @@ import {
 } from 'storage/home.storage';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { useRouter } from 'next/router';
-import { getCheckInToken } from 'core/api/functions/getCheckInAuthentication';
 import { processStatusCode } from 'utils/processError';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { handleCheckInToken, handleReservation } from 'utils/fetchReservation';
-import { getInHouseToken } from 'core/api/functions/getInHouseAuthentication';
 import cx from 'classnames';
 import useDetectKeyboardOpen from 'utils/hooks/useDetectKeyboardOpen';
 
@@ -34,22 +32,18 @@ export interface Values {
   lastName?: string | string[];
 }
 
-const CheckInDrawer = (props: any) => {
-  const { setErrorToggle } = props;
+const CheckInDrawer = () => {
   const navigate = useLocalizedRouter();
   const config = useConfig();
   const hotelId = config?.hotelId;
   const hotel = config?.code;
   const hotelInformation = useReactiveVar(hotelInfoStorage);
-
   const checkInDrawerStatus = useReactiveVar(toggleCheckInDetailsDrawer);
   const { t } = useTranslation(['common']);
   const router = useRouter();
   const HOME = `/${hotel}/`;
   const resId = router?.query?.resId ?? '';
   const lastName = router?.query?.lastName ?? '';
-  const checkInToken = useRef<string>('');
-  const inHouseToken = useRef<string>('');
   const roomNo = router?.query?.roomNo ?? '';
   const checkedInData = useCheckedIn();
   const homeActiveRef = useRef<boolean>();
@@ -82,7 +76,6 @@ const CheckInDrawer = (props: any) => {
           config,
           toggleNotification,
           setLoading,
-          setErrorToggle,
           t,
           processStatusCode,
           goToTheNextStep,
@@ -91,16 +84,7 @@ const CheckInDrawer = (props: any) => {
         });
       }
     },
-    [
-      activeCheckInFlowInfo,
-      activeCheckOutFlowInfo,
-      checkedInData,
-      config,
-      hotelId,
-      navigate,
-      setErrorToggle,
-      t,
-    ],
+    [activeCheckInFlowInfo, activeCheckOutFlowInfo, checkedInData, config, hotelId, navigate, t],
   );
 
   const formik = useFormik({
@@ -137,7 +121,6 @@ const CheckInDrawer = (props: any) => {
         ['lastName' as string]: lastName,
         ['confirmationNumber' as string]: resId,
       });
-      checkInToken.current = getCheckInToken(resId as string, lastName as string);
       toggleCheckInDetailsDrawer(true);
       goToTheNextStep(values);
     } else if (roomNo && lastName && !activeCheckInFlowInfo) {
@@ -147,7 +130,6 @@ const CheckInDrawer = (props: any) => {
         ['lastName' as string]: lastName,
         ['roomNo' as string]: roomNo,
       });
-      inHouseToken.current = getInHouseToken(roomNo as string, lastName as string);
       toggleCheckInDetailsDrawer(true);
       goToTheNextStep(values);
     }

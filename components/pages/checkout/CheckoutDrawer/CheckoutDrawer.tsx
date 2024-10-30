@@ -127,7 +127,7 @@ const CheckoutDrawer = (props: any) => {
         query: CHECKOUT,
         context: {
           clientName: 'rest',
-          headers: { Authorization: 'Bearer ' + getCheckInToken() },
+          headers: { Authorization: 'Bearer ' + (await getCheckInToken()) },
         },
         variables: {
           body: checkoutPayload,

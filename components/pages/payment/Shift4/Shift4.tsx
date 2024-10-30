@@ -26,7 +26,6 @@ const Shift4 = () => {
     backgroundPosition: 'center',
     backgroundSize: 'cover',
   };
-  const checkInToken = getCheckInToken();
 
   const reservationData = client.readQuery({
     query: GET_RESERVATION,
@@ -47,7 +46,10 @@ const Shift4 = () => {
     const { data } = await client.query({
       query: INITIATE_PAYMENT_SHIFT4,
       variables: { body: initiatePaymentPayload },
-      context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
+      context: {
+        clientName: 'rest',
+        headers: { Authorization: 'Bearer ' + (await getCheckInToken()) },
+      },
       fetchPolicy: 'network-only',
     });
 

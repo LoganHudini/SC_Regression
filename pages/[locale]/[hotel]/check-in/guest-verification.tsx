@@ -395,7 +395,7 @@ const Guest: React.FC<any> = () => {
 
     const updateGuestDetails = async (payload: IUpdateGuestDetailsApiRequest) => {
       try {
-        const checkInToken = getCheckInToken();
+        const checkInToken = await getCheckInToken();
         await client.query({
           query: UPDATE_GUEST_DETAILS,
           context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
@@ -507,7 +507,7 @@ const Guest: React.FC<any> = () => {
   };
 
   const saveGuest = async () => {
-    const checkInToken = getCheckInToken();
+    const checkInToken = await getCheckInToken();
     const addAccompanyGuestDetailsPayload = {
       isRegisterNewProfile: true,
       guests: [

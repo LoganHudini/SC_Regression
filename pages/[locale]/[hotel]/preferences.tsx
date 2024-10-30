@@ -229,7 +229,7 @@ const Preferences = () => {
   };
 
   const submit = async () => {
-    const checkInToken = getCheckInToken();
+    const checkInToken = await getCheckInToken();
     const commentStrings = [];
     for (const categoryTitle in selectedOptions) {
       const comment = `${categoryTitle}: ${selectedOptions[categoryTitle].join(', ')}`;

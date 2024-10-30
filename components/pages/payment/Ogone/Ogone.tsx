@@ -28,7 +28,7 @@ export const Ogone = () => {
 
   useEffect(() => {
     (async () => {
-      const checkInToken = getCheckInToken();
+      const checkInToken = await getCheckInToken();
       const orderId =
         Math.floor(Math.random() * 9000000000) + 1000000000 + '-' + reservationInfo?.confirmationId;
       if (reservationInfo) {
@@ -61,7 +61,7 @@ export const Ogone = () => {
       { code: 'VS', value: 'VISA' },
       { code: 'AX', value: 'AMERICANEXPRESS' },
     ];
-    const checkInToken = getCheckInToken();
+    const checkInToken = await getCheckInToken();
     try {
       const { data: status } = await client.query({
         query: GET_PAYMENT_STATUS_WITHOUT_CONFIRMATIONID,

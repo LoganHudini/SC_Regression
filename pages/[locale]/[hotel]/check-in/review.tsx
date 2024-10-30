@@ -234,7 +234,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       isDocUpload: true,
     };
     const uploadSignature = async () => {
-      const checkInToken = getCheckInToken();
+      const checkInToken = await getCheckInToken();
       try {
         const uploadSignatureResponse = await client.query<IPreSignDocUploadApiResponse>({
           query: PRE_SIGN_DOC_UPLOAD,
@@ -388,7 +388,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         agency: reservationInfo?.agency || '',
       };
       const checkIn = async () => {
-        const checkInToken = getCheckInToken();
+        const checkInToken = await getCheckInToken();
         try {
           await client.query({
             query: preCheckInStatus ? PRECHECKIN : CHECKIN,

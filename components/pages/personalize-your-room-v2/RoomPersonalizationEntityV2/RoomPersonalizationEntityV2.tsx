@@ -170,7 +170,7 @@ export const RoomPersonalizationEntityV2: React.FC<IRoomPersonalizationEntityPro
       comments: [''],
     };
 
-    const checkInToken = getCheckInToken();
+    const checkInToken = await getCheckInToken();
     try {
       await client.query({
         query: UPDATE_BOOKING_DETAILS,

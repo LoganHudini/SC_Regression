@@ -284,7 +284,7 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
   }, []);
 
   const handleProceedToPayment = useCallback(async () => {
-    const checkInToken = getCheckInToken();
+    const checkInToken = await getCheckInToken();
     const orderId =
       Math.floor(Math.random() * 9000000000) +
       1000000000 +
@@ -319,7 +319,7 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
 
   const paymentResponse = useCallback(async () => {
     if (transactionId.current) {
-      const checkInToken = getCheckInToken();
+      const checkInToken = await getCheckInToken();
       const cardOptions = [
         { code: 'MC', value: 'Mastercard' },
         { code: 'VS', value: 'Visa' },

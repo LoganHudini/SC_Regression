@@ -59,8 +59,8 @@ const Youverse: React.FC = () => {
   const docScanId = 'docScanId_' + reservationDataSelected?.id;
 
   useEffect(() => {
-    const getYouverseConfig = () => {
-      const checkInToken = getCheckInToken();
+    const getYouverseConfig = async () => {
+      const checkInToken = await getCheckInToken();
       const payload = {
         userId: docScanId,
         expireDate: dayjs()?.add(1, 'day').format(timeFormats?.YOUVERSE_EXPIRE_DATE),
@@ -89,13 +89,13 @@ const Youverse: React.FC = () => {
 
     const interval = setInterval(() => getData(), 10000);
 
-    function getData() {
+    const getData = async () => {
       client
         .query({
           query: GET_YOUVERSE_RESPONSE,
           context: {
             clientName: 'rest',
-            headers: { Authorization: 'Bearer ' + getCheckInToken() },
+            headers: { Authorization: 'Bearer ' + (await getCheckInToken()) },
           },
           fetchPolicy: 'no-cache',
           variables: {
@@ -240,7 +240,7 @@ const Youverse: React.FC = () => {
           const statusCode = processStatusCode(error as ApolloError);
           statusCode === 403 && handleCheckInAuthenticationFailure(getData);
         });
-    }
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

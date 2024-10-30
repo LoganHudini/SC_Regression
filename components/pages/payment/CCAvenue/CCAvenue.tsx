@@ -51,7 +51,7 @@ const CCAvenue: React.FC = () => {
   }, [navigate]);
 
   const preparePayment = useCallback(async () => {
-    const checkInToken = getCheckInToken();
+    const checkInToken = await getCheckInToken();
     const orderId =
       Math.floor(Math.random() * 9000000000) + 1000000000 + '-' + reservationInfo?.confirmationId;
 
@@ -126,7 +126,7 @@ const CCAvenue: React.FC = () => {
 
   const paymentResponse = async () => {
     if (transactionId.current) {
-      const checkInToken = getCheckInToken();
+      const checkInToken = await getCheckInToken();
       const cardOptions = [
         { code: 'MC', value: 'Mastercard' },
         { code: 'VS', value: 'Visa' },

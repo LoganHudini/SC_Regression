@@ -64,7 +64,7 @@ export const Fiserv = () => {
 
   useEffect(() => {
     const preparePayment = async () => {
-      const checkInToken = getCheckInToken();
+      const checkInToken = await getCheckInToken();
       if (reservationInfo) {
         const initiatePaymentPayload = {
           currency: reservationInfo?.details?.holdAmount?.currency,
@@ -117,13 +117,15 @@ export const Fiserv = () => {
   }, [cardDetailsSections?.timeZone, cardDetailsSections?.txnType, reservationInfo, t]);
 
   const handleChange = () => {
-    const checkInToken = getCheckInToken();
     setTimeout(async () => {
       if (transactionId) {
         try {
           const { data: paymentStatusData } = await client.query({
             query: GET_PAYMENT_STATUS_WITHOUT_CONFIRMATIONID,
-            context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
+            context: {
+              clientName: 'rest',
+              headers: { Authorization: 'Bearer ' + (await getCheckInToken()) },
+            },
             fetchPolicy: 'network-only',
             variables: {
               paymentId: transactionId,
