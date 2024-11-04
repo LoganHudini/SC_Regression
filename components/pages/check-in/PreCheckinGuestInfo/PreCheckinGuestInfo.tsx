@@ -193,8 +193,10 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                   className={styles.guestDataInput}
                   options={field?.options?.map((item: any) => item?.name)}
                   value={
-                    field?.options?.find((item: any) => item?.value === formik?.values[field?.name])
-                      ?.name || null
+                    field?.options?.find(
+                      (item: any) =>
+                        item?.value?.toLowerCase() === formik?.values[field?.name]?.toLowerCase(),
+                    )?.name || null
                   }
                   autoComplete={true}
                   onChange={(e, selectedData) => {
