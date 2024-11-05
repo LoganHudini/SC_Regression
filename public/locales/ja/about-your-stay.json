@@ -22,7 +22,7 @@
   "Welcome to": "ようこそ",
   "Hotels!": "ホテル",
   "Check-In now to save time when you arrive.": "今すぐチェックインして、ご到着までの時間を節約しましょう",
-  "Register now to save time when you arrive.":"到着までの時間を節約するには、今すぐ登録してください。",
+  "Register now to save time when you arrive.": "到着までの時間を節約するには、今すぐ登録してください。",
   "If you live outside of Great Britain, you will need the following documents to finish online check-in": "英国以外にお住まいのお客様は、オンラインチェックインを完了するために以下の書類が必要です",
   "If you live outside of Japan, you will need the following documents to finish online check-in": "「日本国外にお住まいの方は、オンラインチェックインを完了するために以下の書類が必要です。」",
   "You will need the following documents handy to finish online check-in": "オンラインチェックインを完了するには、次の書類が必要です。",
@@ -74,5 +74,6 @@
   "Add Guest": "お客様を追加",
   "Complete your identity verification by filling out essential details.": "必要な情報を入力して、本人確認を完了してください。",
   "Scan your Passport/ID to verify your identity.": "パスポート/IDをスキャンして本人確認を行ってください。",
-  "Your information is protected by responsible data practices.": "あなたの情報は責任あるデータ管理によって保護されています。"
+  "Your information is protected by responsible data practices.": "あなたの情報は責任あるデータ管理によって保護されています。",
+  "below_age": "{{value}}歳未満"
 }

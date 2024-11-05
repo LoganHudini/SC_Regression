@@ -44,11 +44,13 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
   selectedGuest,
   guestInformationSection,
   type,
+  method,
 }) => {
   const { t } = useTranslation('check-in');
   const [cardOpened, setCardOpened] = useState(true);
   const [openPopup, setOpenPopup] = useState(false);
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
+  const newAccompanyGuestStorage = useReactiveVar(newAccompanyGuestDetails);
   const hotelInfo = useReactiveVar(hotelInformation);
   const hoursArray =
     hotelInfo &&
@@ -93,14 +95,29 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
         [inputField]: inputValue,
       });
 
-    type === PRIMARY
-      ? reservationGuestInfoStorageData({ ...selectedGuest, [inputField]: inputValue })
-      : type === SECONDARY
-      ? accompanyGuestDetails([...accompanyGuestData])
-      : newAccompanyGuestDetails({
-          ...selectedGuest,
-          [inputField]: inputValue,
-        });
+    const newAccompanyGuestIndex = newAccompanyGuestStorage?.[method]?.findIndex(
+      (item: any) => item?.id === selectedGuest?.id,
+    );
+
+    if (newAccompanyGuestIndex > -1) {
+      newAccompanyGuestStorage[method][newAccompanyGuestIndex] = {
+        ...selectedGuest,
+        [inputField]: inputValue,
+      };
+    }
+
+    if (type === PRIMARY) {
+      reservationGuestInfoStorageData({
+        ...selectedGuest,
+        [inputField]: inputValue,
+      });
+    } else if (type === SECONDARY) {
+      accompanyGuestDetails([...accompanyGuestData]);
+    } else {
+      newAccompanyGuestDetails({
+        ...newAccompanyGuestStorage,
+      });
+    }
   };
 
   useEffect(() => {
@@ -215,15 +232,15 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                       InputProps={{
                         ...params.InputProps,
                       }}
-                      onFocus={() => formik.setFieldTouched(field?.name, true)}
+                      onFocus={() => formik?.setFieldTouched(field?.name, true)}
                       error={
-                        (formik?.validateOnMount || formik.touched[field?.name]) &&
+                        (formik?.validateOnMount || formik?.touched[field?.name]) &&
                         Boolean(formik.errors[field?.name])
                       }
                       helperText={
-                        (formik?.validateOnMount || formik.touched[field?.name]) &&
-                        formik.errors[field?.name] &&
-                        t(String(formik.errors[field?.name]))
+                        (formik?.validateOnMount || formik?.touched[field?.name]) &&
+                        formik?.errors[field?.name] &&
+                        t(String(formik?.errors[field?.name]))
                       }
                     />
                   )}

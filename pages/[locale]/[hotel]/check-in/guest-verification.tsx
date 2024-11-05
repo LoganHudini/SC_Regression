@@ -51,8 +51,11 @@ import {
   OHIP,
   MANUAL,
   NEWGUESTSCAN,
+  BLANK,
+  OTA,
+  DOC_NO,
 } from 'utils/constants';
-import { updateDocTypeOptions } from 'utils/functions';
+import { updateDocTypeForNewGuestOptions, updateDocTypeOptions } from 'utils/functions';
 import { docTypeStorage } from 'storage/guest-information.storage';
 import { Stepper } from 'components/shared/Stepper/Stepper';
 import { StepperInformationStorage, profileIDStorage } from 'storage/check-in.storage';
@@ -84,6 +87,7 @@ import Popper from '@mui/material/Popper';
 import DangerIcon from '@icons/danger.svg';
 import DropDownIcon from '@icons/dropDownIcon.svg';
 import { Loader } from 'components/shared/Loaders/Loaders';
+import { isEmpty } from 'lodash';
 import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
 export { getStaticPaths };
@@ -93,26 +97,29 @@ const Guest: React.FC<any> = () => {
   const navigate = useLocalizedRouter();
   const [loading, setLoading] = useState(false);
   const [guestLoading, setGuestLoading] = useState(false);
-  const [newGuestAdded, setNewGuestAdded] = useState(false);
   const [countryDrawer, setCountryDrawer] = useState(true);
-  const addAccompanyGuest = useReactiveVar(setNewGuestFormData);
+  const addAccompanyGuest: any = useReactiveVar(setNewGuestFormData);
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const dayjsLocaleLoader = useReactiveVar(setDayjsLocale);
   const config = useConfig();
   const paymentConfig: any = usePaymentConfig();
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
   const availablePersonalizations = useReactiveVar(personalizationStorage);
-  const newGuestData = useReactiveVar(newAccompanyGuestDetails);
+  const newAccompanyGuestStorage = useReactiveVar(newAccompanyGuestDetails);
   const updatedGuestData = useReactiveVar(updateNewAccompanyGuestDetails);
   const primaryGuestButtonDisable = useReactiveVar(primaryGuestButtonDisabled);
   const secondaryGuestButtonDisable = useReactiveVar(secondaryGuestButtonDisabled);
   const newGuestButtonDisable = useReactiveVar(newGuestButtonDisabled);
-  const [openToggleNewGuest, setOpenToggleNewGuest] = useState(
-    new Array(updatedGuestData?.length)?.fill(false),
-  );
   const [openToggleAccompanyGuest, setOpenToggleAccompanyGuest] = useState(
-    new Array(accompanyGuestData?.length)?.fill(false),
+    new Array(newAccompanyGuestStorage?.child?.length)?.fill(false),
   );
+  const [openToggleAddNewGuest, setOpenToggleAddNewGuest] = useState(
+    new Array(newAccompanyGuestStorage?.child?.length)?.fill(false),
+  );
+  const [openToggleAddNewGuestForAdult, setOpenToggleAddNewGuestForAdult] = useState(
+    new Array(newAccompanyGuestStorage?.adult?.length)?.fill(false),
+  );
+
   const [openTogglePrimaryGuest, setOpenTogglePrimaryGuest] = useState(true);
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
@@ -120,6 +127,9 @@ const Guest: React.FC<any> = () => {
   });
 
   const reservationInfo: any = reservationData?.getReservation?.data;
+
+  const childGuestCount = reservationInfo?.details?.childGuestCount;
+  const adultGuestCount = reservationInfo?.details?.adultGuestCount;
 
   const checkInModule: any = config?.modules?.find((module: any) => module?.code === CHECK_IN);
 
@@ -144,6 +154,10 @@ const Guest: React.FC<any> = () => {
     documentTypes,
   );
 
+  // newguest configuration
+  const newGuestModules = structuredClone(accompanyingGuestSubmodule);
+  const newGuestConfigs = updateDocTypeForNewGuestOptions(newGuestModules, documentTypes);
+
   const upgradeRoomConfig = checkInModule?.submodules?.find(
     (submodule: any) => submodule?.name === UPGRADE_ROOM && submodule.isActive,
   );
@@ -165,12 +179,29 @@ const Guest: React.FC<any> = () => {
     (inputFieldName: string) => {
       let source: any = reservationInfo?.guests && reservationInfo?.guests[0];
 
+      const emailField = guestInformationSection?.details?.find(
+        (field: any) => field?.isActive && field?.name === EMAILS,
+      );
       if (source && source[inputFieldName]) {
-        (guestInformationSection?.type === YOUVERSE ||
-          guestInformationSection?.type === TRENTIAL) &&
-        inputFieldName === 'docNo'
-          ? (source = '')
-          : (source = source[inputFieldName]);
+        if (
+          (guestInformationSection?.type === YOUVERSE ||
+            guestInformationSection?.type === TRENTIAL) &&
+          inputFieldName === DOC_NO
+        ) {
+          source = '';
+        } else {
+          if (emailField && inputFieldName === EMAILS && emailField?.defaultValue === BLANK) {
+            source = '';
+          } else if (emailField && inputFieldName === EMAILS && emailField?.defaultValue === OTA) {
+            if (reservationInfo?.confirmationId === reservationInfo?.uniqueBookingId) {
+              source = source[inputFieldName];
+            } else {
+              source = '';
+            }
+          } else {
+            source = source[inputFieldName];
+          }
+        }
       } else {
         source = '';
       }
@@ -181,7 +212,13 @@ const Guest: React.FC<any> = () => {
 
       return source;
     },
-    [guestInformationSection?.type, reservationInfo?.guests],
+    [
+      guestInformationSection?.details,
+      guestInformationSection?.type,
+      reservationInfo?.confirmationId,
+      reservationInfo?.guests,
+      reservationInfo?.uniqueBookingId,
+    ],
   );
 
   useEffect(() => {
@@ -246,26 +283,48 @@ const Guest: React.FC<any> = () => {
 
   const generateAccompanyGuestDetails = useCallback(
     (accompanyGuestLists: any) => {
+      const emailField = accompanyGuestInformationSection?.find(
+        (field: any) => field?.isActive && field?.name === EMAILS,
+      );
       return accompanyGuestLists
         ?.map((accompanyGuest: any) => {
           const guestData: any = { id: accompanyGuest?.id };
 
           accompanyGuestInformationSection?.forEach((item: any) => {
             if (item?.name in accompanyGuest && item?.isActive) {
-              guestData[item?.name] = Array.isArray(accompanyGuest[item?.name])
-                ? accompanyGuest[item?.name][0] || ''
-                : (accompanyingGuestSubmodule?.type === YOUVERSE ||
-                    accompanyingGuestSubmodule?.type === TRENTIAL) &&
-                  item?.name === 'docNo'
-                ? ''
-                : accompanyGuest[item?.name] || '';
+              if (item?.name === EMAILS && emailField) {
+                if (emailField?.defaultValue === BLANK) {
+                  guestData[item?.name] = '';
+                } else if (emailField?.defaultValue === OTA) {
+                  if (reservationInfo?.confirmationId === reservationInfo?.uniqueBookingId) {
+                    guestData[item?.name] = accompanyGuest[item?.name][0] || '';
+                  } else {
+                    guestData[item?.name] = '';
+                  }
+                } else {
+                  guestData[item?.name] = accompanyGuest[item?.name][0] || '';
+                }
+              } else {
+                guestData[item?.name] = Array.isArray(accompanyGuest[item?.name])
+                  ? accompanyGuest[item?.name][0] || ''
+                  : (accompanyingGuestSubmodule?.type === YOUVERSE ||
+                      accompanyingGuestSubmodule?.type === TRENTIAL) &&
+                    item?.name === DOC_NO
+                  ? ''
+                  : accompanyGuest[item?.name] || '';
+              }
             }
           });
           return { guestData };
         })
         ?.map((item: any) => item?.guestData);
     },
-    [accompanyGuestInformationSection, accompanyingGuestSubmodule?.type],
+    [
+      accompanyGuestInformationSection,
+      accompanyingGuestSubmodule?.type,
+      reservationInfo?.confirmationId,
+      reservationInfo?.uniqueBookingId,
+    ],
   );
 
   // accompany guests initialization and validation
@@ -282,6 +341,38 @@ const Guest: React.FC<any> = () => {
   const accompanyGuestValidation = accompanyGuestData?.map((accompanyGuest: any) =>
     validateCompleteGuestDetails(accompanyGuest, accompanyGuestInformationSection),
   );
+
+  // new guests initialization and validation
+  useEffect(() => {
+    if (isEmpty(newAccompanyGuestStorage)) {
+      const guestFields = accompanyGuestInformationSection.reduce((acc: any, curr: any) => {
+        if (curr.label && curr.isActive) {
+          acc[curr.name] = '';
+        }
+        return acc;
+      }, {});
+
+      const childGuests = Array.from({ length: childGuestCount }, (_, index) => ({
+        ...guestFields,
+        id: `guest-${index + 1}`,
+        name: `Child Guest ${index + 1}`,
+      }));
+
+      const adultGuests = Array.from(
+        { length: adultGuestCount - reservationInfo?.guests?.length },
+        (_, index) => ({
+          ...guestFields,
+          id: `guest-${childGuestCount + index + 1}`,
+          name: `Adult Guest ${index + 1}`,
+        }),
+      );
+      newAccompanyGuestDetails({
+        child: childGuests,
+        adult: adultGuests,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // stepper component
   useEffect(() => {
@@ -494,36 +585,65 @@ const Guest: React.FC<any> = () => {
     t,
   ]);
 
-  const handleClickAccompanyGuest = () => {
-    const guestFields = accompanyGuestInformationSection.reduce((acc: any, curr: any) => {
-      if (curr.label && curr.isActive) {
-        acc[curr.name] = '';
-      }
-      return acc;
-    }, {});
-    newAccompanyGuestDetails(guestFields);
-    setNewGuestFormData(true);
-    setNewGuestAdded(false);
+  useEffect(() => {
+    if (childGuestCount > 0) {
+      handleManualGuestConfig(newGuestConfigs);
+    } else if (
+      reservationInfo?.guests?.length <=
+      reservationInfo?.details?.totalGuestCount - reservationInfo?.details?.childGuestCount
+    ) {
+      handleDefaultGuestConfig(newGuestConfigs);
+    }
+
+    setNewGuestFormData({
+      isActive: true,
+      configs: newGuestConfigs,
+    });
+  }, []);
+
+  const handleManualGuestConfig = (guestConfigs: any) => {
+    guestConfigs.type = 'manual';
+    guestConfigs?.details
+      ?.filter((detail: any) => detail?.isActive)
+      ?.forEach((fields: any) => {
+        if (['emails', 'phone']?.includes(fields?.name)) {
+          fields.required = false;
+        }
+      });
   };
 
-  const saveGuest = async () => {
+  const handleDefaultGuestConfig = (guestConfigs: any) => {
+    if (guestConfigs?.type === TRENTIAL) {
+      guestConfigs?.details
+        ?.filter((detail: any) => detail?.isActive)
+        ?.forEach((fields: any) => {
+          if (fields?.name === 'firstName') {
+            fields.isDisabled = false;
+          }
+        });
+    } else {
+      guestConfigs = accompanyingGuestSubmodule;
+    }
+  };
+
+  const saveGuest = async (index?: any, method?: any) => {
     const checkInToken = await getCheckInToken();
     const addAccompanyGuestDetailsPayload = {
       isRegisterNewProfile: true,
       guests: [
         {
-          firstName: newGuestData?.firstName,
-          lastName: newGuestData?.lastName,
-          phone: newGuestData?.phone,
-          email: newGuestData?.emails,
-          docType: newGuestData?.docType?.toUpperCase(),
-          docNumber: newGuestData?.docNo,
-          dob: newGuestData?.dob,
-          nationality: newGuestData?.nationality,
-          countryOfIssue: newGuestData?.issueCountry,
-          expiryDate: newGuestData?.expiryDate,
-          effectiveDate: newGuestData?.issueDate,
-          gender: newGuestData?.gender,
+          firstName: newAccompanyGuestStorage?.[method][index]?.firstName,
+          lastName: newAccompanyGuestStorage?.[method][index]?.lastName,
+          phone: newAccompanyGuestStorage?.[method][index]?.phone,
+          email: newAccompanyGuestStorage?.[method][index]?.emails,
+          docType: newAccompanyGuestStorage?.[method][index]?.docType?.toUpperCase(),
+          docNumber: newAccompanyGuestStorage?.[method][index]?.docNo,
+          dob: newAccompanyGuestStorage?.[method][index]?.dob,
+          nationality: newAccompanyGuestStorage?.[method][index]?.nationality,
+          countryOfIssue: newAccompanyGuestStorage?.[method][index]?.issueCountry,
+          expiryDate: newAccompanyGuestStorage?.[method][index]?.expiryDate,
+          effectiveDate: newAccompanyGuestStorage?.[method][index]?.issueDate,
+          gender: newAccompanyGuestStorage?.[method][index]?.gender,
           arrivalDate: dayjs(reservationInfo?.details?.checkInDate).format(
             timeFormats.YEAR_MONTH_DAY,
           ),
@@ -533,6 +653,7 @@ const Guest: React.FC<any> = () => {
         },
       ],
     };
+
     try {
       setGuestLoading(true);
       const res: any = await client.query({
@@ -546,13 +667,25 @@ const Guest: React.FC<any> = () => {
           body: addAccompanyGuestDetailsPayload,
         },
       });
-
-      setNewGuestAdded(true);
-      setNewGuestFormData(false);
+      newAccompanyGuestDetails({
+        child:
+          method === 'child'
+            ? newAccompanyGuestStorage?.[method]?.map((guest: any, i: any) =>
+                i === index ? { ...guest, isSaved: true } : guest,
+              )
+            : newAccompanyGuestStorage?.child,
+        adult:
+          method === 'adult'
+            ? newAccompanyGuestStorage?.[method]?.map((guest: any, i: any) =>
+                i === index ? { ...guest, isSaved: true } : guest,
+              )
+            : newAccompanyGuestStorage?.adult,
+      });
+      setNewGuestFormData({ isActive: false });
       updateNewAccompanyGuestDetails([
         ...updatedGuestData,
         {
-          ...newGuestData,
+          ...newAccompanyGuestStorage,
           id: res?.data?.addAccompanyDetails?.data?.at(-1)?.id,
         },
       ]);
@@ -796,9 +929,9 @@ const Guest: React.FC<any> = () => {
                                 guestType: ACCOMPANYINGGUEST,
                               });
                               navigate(
-                                guestInformationSection?.type === YOUVERSE
+                                accompanyingGuestSubmodule?.type === YOUVERSE
                                   ? availablePaths?.YOUVERSE
-                                  : guestInformationSection?.type === TRENTIAL
+                                  : accompanyingGuestSubmodule?.type === TRENTIAL
                                   ? availablePaths?.TRENTIAL
                                   : availablePaths?.INCODE,
                               );
@@ -910,21 +1043,151 @@ const Guest: React.FC<any> = () => {
                 ))}
             </div>
           )}
-          {updatedGuestData?.length > 0 && (
-            <div className={styles.boxWrapper}>
-              <p className={styles.guestType}>
-                {updatedGuestData?.length === 1
-                  ? t('Accompanying Guest')
-                  : t('Accompanying Guests')}{' '}
-              </p>
-              {updatedGuestData?.map((guestData: any, index: any) => (
+
+          {reservationInfo?.details?.adultGuestCount > 0 &&
+            newAccompanyGuestStorage?.adult?.map((newGuest: any, index: number) => {
+              const handleDetailsCardClick = () => {
+                setOpenToggleAddNewGuestForAdult((prev) => {
+                  const newState = [...prev];
+                  newState[index] = !newState[index];
+                  return newState;
+                });
+              };
+
+              const handleShrinkedCardClick = () => {
+                setOpenToggleAddNewGuestForAdult((prev) => {
+                  const newState = [...prev];
+                  newState[index] = !newState[index];
+                  return newState;
+                });
+              };
+
+              const handleScanDocumentClick = () => {
+                profileIDStorage({ id: newGuest?.id, guestType: NEWGUESTSCAN });
+                navigate(
+                  accompanyingGuestSubmodule?.type === YOUVERSE
+                    ? availablePaths?.YOUVERSE
+                    : accompanyingGuestSubmodule?.type === TRENTIAL
+                    ? availablePaths?.TRENTIAL
+                    : availablePaths?.INCODE,
+                );
+              };
+
+              return (
                 <div key={index}>
-                  {openToggleNewGuest[index] ? (
+                  {accompanyingGuestSubmodule?.type === YOUVERSE ||
+                  accompanyingGuestSubmodule?.type === TRENTIAL ? (
+                    !newGuest?.docNo ? (
+                      <DetailsCard
+                        title={t(`${t('Guest')} ${accompanyGuestData?.length + index + 1}`)}
+                      >
+                        <StyledButton
+                          variant='contained'
+                          className={styles.scanDocWrapper}
+                          onClick={handleScanDocumentClick}
+                        >
+                          <Camera />
+                          <span className={styles.scanDocText}>{t('Scan Document')}</span>
+                        </StyledButton>
+                      </DetailsCard>
+                    ) : openToggleAddNewGuestForAdult[index] ? (
+                      <DetailsCard
+                        title={`${t('Guest')} ${index + 1}`}
+                        handleClick={handleDetailsCardClick}
+                        icon
+                      >
+                        <div className={styles.margin}>
+                          <PreCheckinGuestInfo
+                            selectedGuest={newGuest}
+                            guestInformationSection={accompanyGuestInformationSection}
+                            type={newGuest?.isSaved ? NEWGUEST : NEWGUESTFORM}
+                            method='adult'
+                          />
+                          {!newGuest?.isSaved && (
+                            <StyledButton
+                              variant='contained'
+                              disabled={!newGuestButtonDisable}
+                              className={styles.button}
+                              loading={guestLoading}
+                              onClick={() => saveGuest(index, 'adult')}
+                            >
+                              {t('Save')}
+                            </StyledButton>
+                          )}
+                        </div>
+                      </DetailsCard>
+                    ) : (
+                      <DetailsCardShrinked
+                        error={newGuest?.isSaved ? true : false}
+                        title={`${newGuest?.firstName} ${newGuest?.lastName}`}
+                        handleClick={handleShrinkedCardClick}
+                      >
+                        <div className={styles.cardTitleWrapper}>
+                          {!newGuest?.isSaved && (
+                            <div className={styles.pendingDetails}>
+                              <DangerIcon className={styles.icon} />
+                              <div className={styles.pendingText}>{t('Pending Details')}</div>
+                            </div>
+                          )}
+                        </div>
+                      </DetailsCardShrinked>
+                    )
+                  ) : openToggleAddNewGuestForAdult[index] ? (
+                    <DetailsCard
+                      title={`${t('Guest')} ${index + 1}`}
+                      handleClick={handleDetailsCardClick}
+                      icon
+                    >
+                      <div className={styles.box}>
+                        <PreCheckinGuestInfo
+                          selectedGuest={newGuest}
+                          guestInformationSection={accompanyGuestInformationSection}
+                          type={NEWGUESTFORM}
+                          method='adult'
+                        />
+                        {!newGuest?.isSaved && (
+                          <StyledButton
+                            variant='contained'
+                            disabled={!newGuestButtonDisable}
+                            className={styles.button}
+                            loading={guestLoading}
+                            onClick={() => saveGuest(index, 'adult')}
+                          >
+                            {t('Save')}
+                          </StyledButton>
+                        )}
+                      </div>
+                    </DetailsCard>
+                  ) : (
+                    <DetailsCardShrinked
+                      error={accompanyGuestValidation[index]}
+                      title={`${t('Guest')} ${index + 1}`}
+                      handleClick={handleShrinkedCardClick}
+                    >
+                      <div className={styles.cardTitleWrapper}>
+                        <p className={styles.cardTitleAccompany}>
+                          {`${newGuest?.firstName} ${newGuest?.lastName}`}
+                        </p>
+                      </div>
+                    </DetailsCardShrinked>
+                  )}
+                </div>
+              );
+            })}
+
+          {childGuestCount > 0 && (
+            <>
+              <p className={cx(styles.guestType, styles.marginSpace)}>
+                {t('below_age', { value: accompanyingGuestSubmodule?.minorGuestAgeLimit ?? 18 })}
+              </p>
+              {newAccompanyGuestStorage?.child?.map((newGuest: any, index: any) => (
+                <div key={index}>
+                  {openToggleAddNewGuest[index] ? (
                     <DetailsCard
                       title={t(`${t('Guest')} ${accompanyGuestData?.length + index + 1}`)}
                       icon
                       handleClick={() =>
-                        setOpenToggleNewGuest((prev) => {
+                        setOpenToggleAddNewGuest((prev) => {
                           const newState = [...prev];
                           newState[index] = !newState[index];
                           return newState;
@@ -933,17 +1196,31 @@ const Guest: React.FC<any> = () => {
                     >
                       <div className={styles.margin}>
                         <PreCheckinGuestInfo
-                          selectedGuest={guestData}
-                          guestInformationSection={accompanyGuestInformationSection}
-                          type={NEWGUEST}
+                          selectedGuest={newGuest}
+                          method={'child'}
+                          guestInformationSection={addAccompanyGuest?.configs?.details}
+                          type={newGuest?.isSaved ? NEWGUEST : NEWGUESTFORM}
                         />
+
+                        {!newGuest?.isSaved && (
+                          <StyledButton
+                            variant='contained'
+                            disabled={!newGuestButtonDisable}
+                            className={styles.button}
+                            loading={guestLoading}
+                            onClick={() => saveGuest(index, 'child')}
+                          >
+                            {t('Save')}
+                          </StyledButton>
+                        )}
                       </div>
                     </DetailsCard>
                   ) : (
                     <DetailsCardShrinked
+                      error={newGuest?.isSaved ? true : false}
                       title={t(`${t('Guest')} ${accompanyGuestData?.length + index + 1}`)}
                       handleClick={() =>
-                        setOpenToggleNewGuest((prev) => {
+                        setOpenToggleAddNewGuest((prev) => {
                           const newState = [...prev];
                           newState[index] = !newState[index];
                           return newState;
@@ -951,91 +1228,24 @@ const Guest: React.FC<any> = () => {
                       }
                     >
                       <div className={styles.cardTitleWrapper}>
-                        <p className={styles.cardTitleAccompany}>
-                          {`${guestData?.firstName} ${guestData?.lastName}`}
-                        </p>
+                        {newGuest?.isSaved && (
+                          <p
+                            className={styles.cardTitleAccompany}
+                          >{`${newGuest?.firstName} ${newGuest?.lastName}`}</p>
+                        )}
                       </div>
+                      {!newGuest?.isSaved && (
+                        <div className={styles.pendingDetails}>
+                          <DangerIcon className={styles.icon} />
+                          <div className={styles.pendingText}>{t('Pending Details')}</div>
+                        </div>
+                      )}
                     </DetailsCardShrinked>
                   )}
                 </div>
               ))}
-            </div>
+            </>
           )}
-          {addAccompanyGuest && (
-            <div className={styles.boxWrapperForm}>
-              <p className={styles.guestType}>{t('Add Guest')}</p>
-              {accompanyingGuestSubmodule?.type === YOUVERSE ||
-              accompanyingGuestSubmodule?.type === TRENTIAL ? (
-                !newGuestData?.docType && !newGuestData?.docNo ? (
-                  <StyledButton
-                    variant='contained'
-                    className={styles.scanDocWrapper}
-                    onClick={() => {
-                      profileIDStorage({ guestType: NEWGUESTSCAN });
-                      navigate(
-                        accompanyingGuestSubmodule?.type === YOUVERSE
-                          ? availablePaths?.YOUVERSE
-                          : accompanyingGuestSubmodule?.type === TRENTIAL
-                          ? availablePaths?.TRENTIAL
-                          : availablePaths?.INCODE,
-                      );
-                    }}
-                  >
-                    <Camera />
-                    <span className={styles.scanDocText}>{t('Scan Document')}</span>
-                  </StyledButton>
-                ) : (
-                  <div className={styles.box}>
-                    <PreCheckinGuestInfo
-                      selectedGuest={newGuestData}
-                      guestInformationSection={accompanyGuestInformationSection}
-                      type={NEWGUESTSCAN}
-                    />
-                    {!newGuestAdded && (
-                      <StyledButton
-                        variant='contained'
-                        disabled={!newGuestButtonDisable}
-                        className={styles.button}
-                        loading={guestLoading}
-                        onClick={() => saveGuest()}
-                      >
-                        {t('Save')}
-                      </StyledButton>
-                    )}
-                  </div>
-                )
-              ) : (
-                <div className={styles.box}>
-                  <PreCheckinGuestInfo
-                    selectedGuest={newGuestData}
-                    guestInformationSection={accompanyGuestInformationSection}
-                    type={NEWGUESTFORM}
-                  />
-                  {!newGuestAdded && (
-                    <StyledButton
-                      variant='contained'
-                      disabled={!newGuestButtonDisable}
-                      className={styles.button}
-                      loading={guestLoading}
-                      onClick={() => saveGuest()}
-                    >
-                      {t('Save')}
-                    </StyledButton>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
-          {(accompanyingGuestSubmodule?.type !== YOUVERSE ||
-            guestInformationSection?.type !== TRENTIAL) &&
-            reservationInfo &&
-            reservationInfo?.guests?.length + updatedGuestData?.length <
-              reservationInfo?.details?.totalGuestCount &&
-            !addAccompanyGuest && (
-              <p className={styles.addGuestText} onClick={() => handleClickAccompanyGuest()}>
-                + {t('Add Guest')}
-              </p>
-            )}
 
           <div className={cx(styles.bottomMenuWrapper)}>
             <StyledButton

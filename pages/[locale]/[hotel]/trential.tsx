@@ -16,6 +16,7 @@ import { profileIDStorage } from 'storage/check-in.storage';
 import { accompanyGuestDetails, newAccompanyGuestDetails } from 'storage/accompany-guest-details';
 import {
   AADHAAR,
+  ACCOMPANYINGGUEST,
   CHECK_IN,
   COMPLETED,
   DL,
@@ -56,6 +57,7 @@ const Trential: React.FC = () => {
   const profileIDState = useReactiveVar(profileIDStorage);
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
+  const newAccompanyGuestStorage = useReactiveVar(newAccompanyGuestDetails);
   const documentConfig: any = useDocumentConfig();
   const [loading, setLoading] = useState(false);
   const config = useConfig();
@@ -213,21 +215,32 @@ const Trential: React.FC = () => {
             dayjs().isBefore(dayjs(expiryDate, timeFormats.YEAR_MONTH_DAY))
           ) {
             if (profileIDState?.guestType === NEWGUESTSCAN) {
+              const updatedData = newAccompanyGuestStorage?.adult?.map((guest: any) => {
+                if (guest?.id === profileIDState?.id) {
+                  return {
+                    ...guest,
+                    firstName: statusList?.response?.firstName || statusList?.response?.name,
+                    lastName: statusList?.response?.lastName || statusList?.response?.name,
+                    dob: dateOfBirth,
+                    docType: docType,
+                    docNo: docNoRes,
+                    expiryDate: expiryDate,
+                    issueCountry: issueCountry,
+                    gender:
+                      statusList?.response?.sex === 'M'
+                        ? 'MALE'
+                        : statusList?.response?.sex === 'F'
+                        ? 'FEMALE'
+                        : statusList?.response?.sex?.toUpperCase() ||
+                          statusList?.response?.gender?.toUpperCase(),
+                  };
+                }
+                return guest;
+              });
+
               newAccompanyGuestDetails({
-                firstName: statusList?.response?.firstName || statusList?.response?.name,
-                lastName: statusList?.response?.lastName || statusList?.response?.name,
-                dob: dateOfBirth,
-                docType: docType,
-                docNo: docNoRes,
-                expiryDate: expiryDate,
-                issueCountry: issueCountry,
-                gender:
-                  statusList?.response?.sex === 'M'
-                    ? 'MALE'
-                    : statusList?.response?.sex === 'F'
-                    ? 'FEMALE'
-                    : statusList?.response?.sex?.toUpperCase() ||
-                      statusList?.response?.gender?.toUpperCase(),
+                child: newAccompanyGuestStorage?.child,
+                adult: updatedData,
               });
             } else if (
               statusList?.response?.firstName &&
@@ -328,7 +341,8 @@ const Trential: React.FC = () => {
                   issueCountry: issueCountry,
                   docImage: statusList?.response?.photo || '',
                 });
-              } else {
+              }
+              if (profileIDState?.guestType === ACCOMPANYINGGUEST) {
                 const updatedData = accompanyGuestData?.map((guest: any) => {
                   if (guest?.id === reservationDataSelected?.id) {
                     return {

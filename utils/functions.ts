@@ -136,6 +136,22 @@ export const updateDocTypeOptions = (data: any, replaceData: any) => {
   });
 };
 
+export const updateDocTypeForNewGuestOptions = (data: any, replaceData: any) => {
+  if (!data || !data?.details) {
+    return data;
+  }
+  const updatedDetails = data?.details.map((item: any) => {
+    if (item?.name === DOCTYPE) {
+      return { ...item, options: replaceData };
+    }
+    return item;
+  });
+  return {
+    ...data,
+    details: updatedDetails,
+  };
+};
+
 export const isOfferActive = (offer: any) => {
   const currentTimestamp = Math.floor(Date.now() / 1000);
 

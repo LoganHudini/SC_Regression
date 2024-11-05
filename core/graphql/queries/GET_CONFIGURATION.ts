@@ -8577,6 +8577,7 @@ export const configuration: any = [
                     required: true,
                     isDisabled: false,
                     isActive: true,
+                    defaultValue: 'blank',
                   },
                   {
                     name: 'docType',
@@ -8691,6 +8692,7 @@ export const configuration: any = [
             type: 'trential',
             isActive: true,
             cardIcon: 'guest',
+            minorGuestAgeLimit: 17,
             mandatory: true,
             details: [
               {
@@ -8742,6 +8744,7 @@ export const configuration: any = [
                 required: true,
                 isDisabled: false,
                 isActive: true,
+                defaultValue: 'blank',
               },
               {
                 name: 'docType',

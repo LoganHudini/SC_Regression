@@ -7,7 +7,7 @@ const useValidate = (sections: any) => {
   const { t } = useTranslation('check-in');
 
   return yup.object().shape(
-    sections.reduce((schema: any, field: any) => {
+    sections?.reduce((schema: any, field: any) => {
       const isActive = field?.isActive;
       const isRequired = field?.required;
 

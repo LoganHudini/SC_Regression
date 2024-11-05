@@ -22,7 +22,7 @@
   "Welcome to": "مرحبًا بك في",
   "Hotels!": "الفنادق!",
   "Check-In now to save time when you arrive.": "قم بتسجيل الوصول الآن لتوفير الوقت عند وصولك.",
-  "Register now to save time when you arrive.":" سجل الآن لتوفير الوقت عند وصولك.",
+  "Register now to save time when you arrive.": " سجل الآن لتوفير الوقت عند وصولك.",
   "If you live outside of Great Britain, you will need the following documents to finish online check-in": "إذا كنت تعيش خارج بريطانيا العظمى ، فستحتاج إلى المستندات التالية لإنهاء تسجيل الوصول عبر الإنترنت",
   "If you live outside of Japan, you will need the following documents to finish online check-in": "إذا كنت تعيش خارج اليابان ، فستحتاج إلى المستندات التالية لإنهاء تسجيل الوصول عبر الإنترنت",
   "You will need the following documents handy to finish online check-in": "ستحتاج إلى المستندات التالية لإنهاء تسجيل الوصول عبر الإنترنت",
@@ -73,5 +73,6 @@
   "Pending Details": "تفاصيل معلقة",
   "Complete your identity verification by filling out essential details.": "أكمل التحقق من هويتك عن طريق تعبئة التفاصيل الأساسية.",
   "Scan your Passport/ID to verify your identity.": "امسح جواز سفرك/هويتك للتحقق من هويتك.",
-  "Your information is protected by responsible data practices.": "تُحمى معلوماتك بواسطة ممارسات بيانات مسؤولة."
+  "Your information is protected by responsible data practices.": "تُحمى معلوماتك بواسطة ممارسات بيانات مسؤولة.",
+  "below_age": "أقل من {{value}} سنة"
 }
