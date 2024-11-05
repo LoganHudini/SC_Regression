@@ -30,6 +30,7 @@ export interface ICheckInApiRequest {
   settlementType: string;
   documentType: string;
   documentNumber: string;
+  issueCountry: string;
   channel: string;
   upsell: any;
   guestSignature: string;

@@ -349,6 +349,9 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         documentNumber: guestReservationInfo?.docNo
           ? guestReservationInfo?.docNo
           : reservationInfo?.guests[0]?.docNo,
+        issueCountry: guestReservationInfo?.issueCountry
+          ? guestReservationInfo?.issueCountry
+          : reservationInfo?.guests[0]?.issueCountry,
         channel: 'PWA',
         upsell:
           personalisationConfig?.type === PMS
