@@ -52,6 +52,7 @@ export interface ICheckInApiRequest {
   currencyCode: string;
   group: string;
   agency: string;
+  pushEregToOpera: boolean;
   guests: [
     {
       firstName: string;

@@ -386,6 +386,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         currencyCode: currency || reservationInfo?.details?.holdAmount?.currency || '',
         group: reservationInfo?.group || '',
         agency: reservationInfo?.agency || '',
+        pushEregToOpera: true,
       };
       const checkIn = async () => {
         const checkInToken = await getCheckInToken();
