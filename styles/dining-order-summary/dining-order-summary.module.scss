@@ -69,14 +69,14 @@
   color: var(--tertiary-text-color);
 }
 
-.items+.items::before {
+.items + .items::before {
   display: inline-block;
   white-space: pre;
   content: ', ';
 }
 
 .itemPrice {
-  font: $medium var(--primary-font-medium);
+  font: $medium var(--primary-card-title-font-family);
   padding: 0.5rem;
 }
 
