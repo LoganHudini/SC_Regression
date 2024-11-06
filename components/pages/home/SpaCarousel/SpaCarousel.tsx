@@ -216,7 +216,7 @@ export const SpaCarousel: React.FC<ICarouselProps> = ({ data }) => {
     <>
       {spaInfoList?.length > 0 && (
         <div className={styles.spaCarouselWrapper}>
-          <p className={styles.spaTitle}>{t('Spa & Wellness')}</p>
+          <p className={styles.spaTitle}>{t('Wellness')}</p>
           <WithScrollbar
             className={cx(styles.carouselWrapper, {
               [styles.carouselWrapperSingleImageUl]: spaInfoList?.length === 1,

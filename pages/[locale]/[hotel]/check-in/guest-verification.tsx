@@ -636,7 +636,9 @@ const Guest: React.FC<any> = () => {
           lastName: newAccompanyGuestStorage?.[method][index]?.lastName,
           phone: newAccompanyGuestStorage?.[method][index]?.phone,
           email: newAccompanyGuestStorage?.[method][index]?.emails,
-          docType: newAccompanyGuestStorage?.[method][index]?.docType?.toUpperCase(),
+          docType: documentTypes?.find(
+            (option: any) => option?.value === newAccompanyGuestStorage?.[method][index]?.docType,
+          )?.code,
           docNumber: newAccompanyGuestStorage?.[method][index]?.docNo,
           dob: newAccompanyGuestStorage?.[method][index]?.dob,
           nationality: newAccompanyGuestStorage?.[method][index]?.nationality,

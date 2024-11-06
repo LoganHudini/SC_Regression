@@ -192,7 +192,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, ird
             [styles.diningSecondaryCarouselTitle]: uniqueFilteredDiningOptions?.length <= 1,
           })}
         >
-          {t('Dining')}
+          {t('Eat & Drink')}
         </p>
         {uniqueFilteredDiningOptions?.length > 1 && (
           <div className={cx(styles.diningOptions, 'globals-diningOptions')}>
