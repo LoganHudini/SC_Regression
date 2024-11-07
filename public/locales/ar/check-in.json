@@ -117,5 +117,6 @@
   "Invalid Document!": "وثيقة غير صالحة!",
   "Verification Failed!": "فشل التحقق!",
   "Failed to verify your face, please try again.": "فشل في التحقق من وجهك، يرجى المحاولة مرة أخرى.",
-  "Please enter valid characters": "يرجى إدخال أحرف صالحة"
+  "Please enter valid characters": "يرجى إدخال أحرف صالحة",
+  "Pre-Register": "التسجيل المسبق"
 }

@@ -117,5 +117,6 @@
   "Invalid Document!": "Document invalide!",
   "Verification Failed!": "Échec de la vérification !",
   "Failed to verify your face, please try again.": "Échec de la vérification de votre visage, veuillez réessayer.",
-  "Please enter valid characters": "Veuillez entrer des caractères valides"
+  "Please enter valid characters": "Veuillez entrer des caractères valides",
+  "Pre-Register": "Pré-inscription"
 }

@@ -590,6 +590,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     guestReservationInfo?.estimatedTime,
     guestReservationInfo?.firstName,
     guestReservationInfo?.gender,
+    guestReservationInfo?.issueCountry,
     guestReservationInfo?.lastName,
     guestReservationInfo?.nationality,
     guestReservationInfo?.paymentType,
@@ -1036,7 +1037,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               variant='contained'
               className={cx(styles.checkInButton)}
             >
-              {preCheckInStatus ? t('Confirm Pre-Register') : t('Confirm Check-In')}
+              {preCheckInStatus ? t('Pre-Register') : t('Check-In')}
             </StyledButton>
           </div>
         </PageWrapper>
