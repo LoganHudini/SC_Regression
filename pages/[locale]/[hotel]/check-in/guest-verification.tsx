@@ -516,7 +516,8 @@ const Guest: React.FC<any> = () => {
           lastName: newGuestData?.lastName,
           phone: newGuestData?.phone,
           email: newGuestData?.emails,
-          docType: newGuestData?.docType?.toUpperCase(),
+          docType: documentTypes?.find((option: any) => option?.value === newGuestData?.docType)
+            ?.code,
           docNumber: newGuestData?.docNo,
           dob: newGuestData?.dob,
           nationality: newGuestData?.nationality,
