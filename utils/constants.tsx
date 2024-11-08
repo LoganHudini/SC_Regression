@@ -41,6 +41,7 @@ export const AVA_RESORT_CANCUN = 'ava-resort-cancun';
 export const ITC_HOTELS_MARATHA = 'itc-hotels-maratha';
 export const PESTANA_CR7_LISBON = 'pestana-cr7-lisbon';
 export const THE_SAVOY_LONDON = 'the-savoy-london';
+export const RAFFLES_JAIPUR = 'raffles-jaipur';
 
 // configuration constants
 export const OPERA = 'OPERA';

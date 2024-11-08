@@ -28,6 +28,7 @@ import {
   ITC_HOTELS_MARATHA,
   PESTANA_CR7_LISBON,
   THE_SAVOY_LONDON,
+  RAFFLES_JAIPUR,
 } from './constants';
 
 const propertyList = [
@@ -59,6 +60,7 @@ const propertyList = [
   ITC_HOTELS_MARATHA,
   PESTANA_CR7_LISBON,
   THE_SAVOY_LONDON,
+  RAFFLES_JAIPUR,
 ];
 
 export const getI18nPaths = () =>
