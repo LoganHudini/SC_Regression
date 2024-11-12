@@ -5232,7 +5232,7 @@ export const configuration: any = [
                     type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
-                    isActive: true,
+                    isActive: false,
                     options: Countries,
                   },
                   {
@@ -5385,6 +5385,15 @@ export const configuration: any = [
                 isActive: true,
               },
               {
+                name: 'dob',
+                label: 'Date of Birth',
+                type: 'datePicker',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+                isDisableFuture: true,
+              },
+              {
                 name: 'emails',
                 label: 'Email',
                 type: 'Text',
@@ -5399,15 +5408,6 @@ export const configuration: any = [
                 required: true,
                 isDisabled: false,
                 isActive: true,
-              },
-              {
-                name: 'dob',
-                label: 'Date of Birth',
-                type: 'datePicker',
-                required: true,
-                isDisabled: false,
-                isActive: true,
-                isDisableFuture: true,
               },
               {
                 name: 'docType',
@@ -5620,7 +5620,7 @@ export const configuration: any = [
                     type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
-                    isActive: true,
+                    isActive: false,
                     options: Countries,
                   },
                   {
@@ -5773,6 +5773,15 @@ export const configuration: any = [
                 isActive: true,
               },
               {
+                name: 'dob',
+                label: 'Date of Birth',
+                type: 'datePicker',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+                isDisableFuture: true,
+              },
+              {
                 name: 'emails',
                 label: 'Email',
                 type: 'Text',
@@ -5788,15 +5797,7 @@ export const configuration: any = [
                 isDisabled: false,
                 isActive: true,
               },
-              {
-                name: 'dob',
-                label: 'Date of Birth',
-                type: 'datePicker',
-                required: true,
-                isDisabled: false,
-                isActive: true,
-                isDisableFuture: true,
-              },
+
               {
                 name: 'docType',
                 label: 'Document Type',
