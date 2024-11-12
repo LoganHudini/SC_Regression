@@ -9391,6 +9391,12 @@ export const configuration: any = [
                         code: 'D',
                         vendorDocType: 'dl',
                       },
+                      {
+                        name: 'National ID',
+                        value: 'ID',
+                        code: 'ID',
+                        vendorDocType: 'mexican-id-card',
+                      },
                     ],
                   },
                   {
