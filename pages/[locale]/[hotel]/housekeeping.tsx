@@ -107,10 +107,10 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
 
   useEffect(() => {
     serviceRequestArray(data?.getServiceRequestDetails, houseKeepingOptionSelected);
-    if (!serviceModule || !checkinData?.checkedIn) {
+    if (!loading ? !serviceModule || !checkinData?.checkedIn : false) {
       navigate(availablePaths?.HOME);
     }
-  }, [navigate, t, serviceModule, checkinData, data, houseKeepingOptionSelected]);
+  }, [navigate, t, serviceModule, checkinData, data, houseKeepingOptionSelected, loading]);
 
   useEffect(() => {
     if (!showSchedules?.isItemActive && !showSchedules?.maxQuantityActive) {
