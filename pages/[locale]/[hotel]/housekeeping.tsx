@@ -246,7 +246,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
             roomNo: checkinData?.roomNumber,
             bookingId: checkinData?.reservationId,
             guestEmail: checkinData?.email,
-            guestFirstName: checkinData?.lastName,
+            guestFirstName: checkinData?.firstName,
             items: combinedServiceRequestArray
               ?.filter((item: any) => item?.quantity > 0)
               ?.map((el: any) => ({
