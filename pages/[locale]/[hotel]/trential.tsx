@@ -23,11 +23,13 @@ import {
   DOCTYPE,
   FAILED,
   FAILURE,
+  GENDER,
   GUESTINFORMATION,
   INFORMATION,
   IN_PROGRESS,
   JAPANESE_RESIDENT_CARD,
   LIVENESS,
+  MEXICAN_ID,
   NEWGUESTSCAN,
   NOT_INITIALIZED,
   PASSPORT_SMALLCASE,
@@ -70,6 +72,7 @@ const Trential: React.FC = () => {
     (section: any) => section?.name === GUESTINFORMATION && section.isActive,
   );
   const docTypes = documentConfig?.details?.find((e: any) => e?.name === DOCTYPE)?.options;
+  const genderTypes = documentConfig?.details?.find((e: any) => e?.name === GENDER)?.options;
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
@@ -209,6 +212,20 @@ const Trential: React.FC = () => {
               ? statusList?.response?.documentNumber
               : '';
 
+          const gender =
+            statusList?.name === AADHAAR
+              ? genderTypes?.find(
+                  (e: any) => e.value === statusList?.response?.gender?.toUpperCase(),
+                )?.value
+              : statusList?.name === PASSPORT_SMALLCASE
+              ? genderTypes?.find((e: any) => e.value === statusList?.response?.sex?.toUpperCase())
+                  ?.value
+              : statusList?.name === JAPANESE_RESIDENT_CARD || statusList?.name === MEXICAN_ID
+              ? genderTypes?.find(
+                  (e: any) => e.vendorGenderType === statusList?.response?.sex?.toUpperCase(),
+                )?.value
+              : '';
+
           if (
             statusList?.name === AADHAAR ||
             dayjs().isSame(dayjs(expiryDate, timeFormats.YEAR_MONTH_DAY)) ||
@@ -329,13 +346,7 @@ const Trential: React.FC = () => {
                   dob: dateOfBirth,
                   docNo: docNoRes,
                   docType: docType,
-                  gender:
-                    statusList?.response?.sex === 'M'
-                      ? 'MALE'
-                      : statusList?.response?.sex === 'F'
-                      ? 'FEMALE'
-                      : statusList?.response?.sex?.toUpperCase() ||
-                        statusList?.response?.gender?.toUpperCase(),
+                  gender: gender,
                   issueDate: '',
                   expiryDate: expiryDate,
                   issueCountry: issueCountry,
@@ -350,12 +361,7 @@ const Trential: React.FC = () => {
                       dob: dateOfBirth,
                       docNo: docNoRes,
                       docType: docType,
-                      gender:
-                        statusList?.response?.sex === 'M'
-                          ? 'MALE'
-                          : statusList?.response?.sex === 'F'
-                          ? 'FEMALE'
-                          : statusList?.response?.sex?.toUpperCase(),
+                      gender: gender,
                       issueDate: '',
                       expiryDate: expiryDate,
                       issueCountry: issueCountry,

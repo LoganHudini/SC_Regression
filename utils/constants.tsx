@@ -208,6 +208,7 @@ export const AADHAAR = 'aadhaar';
 export const PASSPORT_SMALLCASE = 'passport';
 export const JAPANESE_RESIDENT_CARD = 'japanese-resident-card';
 export const DL = 'dl';
+export const MEXICAN_ID = 'mexican-id-card';
 export const INDIAN = 'Indian';
 export const FAILED = 'FAILED';
 export const IN_PROGRESS = 'IN_PROGRESS';
