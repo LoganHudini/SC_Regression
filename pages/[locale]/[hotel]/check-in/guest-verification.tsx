@@ -54,8 +54,9 @@ import {
   BLANK,
   OTA,
   DOC_NO,
+  GENDER,
 } from 'utils/constants';
-import { updateDocTypeForNewGuestOptions, updateDocTypeOptions } from 'utils/functions';
+import { updateDocTypeForNewGuestOptions, updateDocTypeOptionsOptionConfig } from 'utils/functions';
 import { docTypeStorage } from 'storage/guest-information.storage';
 import { Stepper } from 'components/shared/Stepper/Stepper';
 import { StepperInformationStorage, profileIDStorage } from 'storage/check-in.storage';
@@ -144,14 +145,18 @@ const Guest: React.FC<any> = () => {
   const documentTypes = guestInformationSection?.details?.find(
     (e: any) => e?.name === DOCTYPE,
   )?.options;
+  const genderTypes = guestInformationSection?.details?.find(
+    (e: any) => e?.name === GENDER,
+  )?.options;
 
   // accompanyguest configuration
   const accompanyingGuestSubmodule = checkInModule?.submodules?.find(
     (submodule: any) => submodule?.name === ACCOMPANYINGGUEST && submodule.isActive,
   );
-  const accompanyGuestInformationSection = updateDocTypeOptions(
+  const accompanyGuestInformationSection = updateDocTypeOptionsOptionConfig(
     accompanyingGuestSubmodule?.details,
     documentTypes,
+    genderTypes,
   );
 
   // newguest configuration
