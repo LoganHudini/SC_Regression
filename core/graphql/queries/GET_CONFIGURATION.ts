@@ -2925,7 +2925,9 @@ export const configuration: any = [
     code: 'itc-hotels-maratha',
     logo: '',
     name: 'ITC Hotels Maratha',
-    hotelId: '84c3ba14-ef7e-48a2-9290-def9645bf3dd',
+    // hotelId: '84c3ba14-ef7e-48a2-9290-def9645bf3dd',
+    // stage
+    hotelId: '21022bd7-41cc-4aea-8b43-390b2c725d11',
     pms: 'OPERA',
     fetchFromDb: 'yes',
     saveToDb: 'no',
