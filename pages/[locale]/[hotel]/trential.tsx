@@ -33,7 +33,6 @@ import {
   NEWGUESTSCAN,
   NOT_INITIALIZED,
   PASSPORT_SMALLCASE,
-  MEXICAN_ID,
   PRIMARY,
 } from 'utils/constants';
 import { STORE_RESERVATION } from 'core/graphql/queries/STORE_RESERVATION';
