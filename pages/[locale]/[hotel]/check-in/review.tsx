@@ -390,6 +390,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         group: reservationInfo?.group || '',
         agency: reservationInfo?.agency || '',
         pushEregToOpera: true,
+        placeOfStayArrival: guestReservationInfo?.placeOfStayArrival || '',
+        placeOfStayDeparture: guestReservationInfo?.placeOfStayDeparture || '',
       };
       const checkIn = async () => {
         const checkInToken = await getCheckInToken();

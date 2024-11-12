@@ -54,6 +54,8 @@ export interface ICheckInApiRequest {
   group: string;
   agency: string;
   pushEregToOpera: boolean;
+  placeOfStayDeparture: string;
+  placeOfStayArrival: string;
   guests: [
     {
       firstName: string;
