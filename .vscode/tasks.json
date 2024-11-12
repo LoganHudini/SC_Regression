@@ -133,6 +133,28 @@
     },
     {
       "type": "npm",
+      "script": "dev:itc-hotels-stage",
+      "problemMatcher": [],
+      "label": "Dev: ITC_HOTELS_STAGE",
+      "detail": "env-cmd -f .env.itc-hotels.stage yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:itc-hotels-stage",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: ITC_HOTELS_STAGE",
+      "detail": "env-cmd -f .env.itc-hotels.stage yarn next build"
+    },
+    {
+      "type": "npm",
+      "script": "start:itc-hotels-stage",
+      "problemMatcher": [],
+      "label": "Start: ITC_HOTELS_STAGE",
+      "detail": "env-cmd -f .env.itc-hotels.stage yarn next start"
+    },
+    {
+      "type": "npm",
       "script": "dev:raffles",
       "problemMatcher": [],
       "label": "Dev: RAFFLES",

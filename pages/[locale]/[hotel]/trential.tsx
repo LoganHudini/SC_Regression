@@ -167,12 +167,16 @@ const Trential: React.FC = () => {
           const expiryDate =
             statusList?.name === JAPANESE_RESIDENT_CARD
               ? statusList?.response?.dateOfExpiry
+              : statusList?.name === MEXICAN_ID
+              ? dayjs(statusList?.response?.dateOfExpiry.slice(-4), timeFormats.YEAR).format(
+                  timeFormats.YEAR_MONTH_DAY,
+                )
               : dayjs(statusList?.response?.expiryDate, timeFormats.DAY_MONTH_YEAR_2).format(
                   timeFormats.YEAR_MONTH_DAY,
                 );
 
           const dateOfBirth =
-            statusList?.name === PASSPORT_SMALLCASE
+            statusList?.name === PASSPORT_SMALLCASE || statusList?.name === MEXICAN_ID
               ? dayjs(statusList?.response?.birthDate, timeFormats.DAY_MONTH_YEAR_2).format(
                   timeFormats.YEAR_MONTH_DAY,
                 )
@@ -199,6 +203,8 @@ const Trential: React.FC = () => {
               ? getCountryCode(statusList?.response?.issuingState)
               : statusList?.name === JAPANESE_RESIDENT_CARD
               ? 'JP'
+              : statusList?.name === MEXICAN_ID
+              ? 'MX'
               : '';
 
           const docNoRes =
@@ -206,11 +212,7 @@ const Trential: React.FC = () => {
               ? statusList?.response?.aadhaarId
               : statusList?.name === DL
               ? statusList?.response?.licenseNumber
-              : statusList?.name === PASSPORT_SMALLCASE
-              ? statusList?.response?.documentNumber
-              : statusList?.name === JAPANESE_RESIDENT_CARD
-              ? statusList?.response?.documentNumber
-              : '';
+              : statusList?.response?.documentNumber;
 
           const gender =
             statusList?.name === AADHAAR

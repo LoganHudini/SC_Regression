@@ -9,6 +9,7 @@ import {
   RESTAURANT_BOOKING_FLOW,
   TEXTFIELD_REGEX,
   TIMINGS,
+  GENDER,
 } from './constants';
 import { tableReservationStorage } from 'storage/table-reservation.storage';
 import { housekeepingOptions, serviceRequestOptionsArray } from 'storage/housekeeping.storage';
@@ -127,10 +128,17 @@ export const activeItems = (list: any) =>
 // Timings
 export const getTimings = (data: any) => data && data?.find((item: any) => item?.key === TIMINGS);
 
-export const updateDocTypeOptions = (data: any, replaceData: any) => {
+export const updateDocTypeOptionsOptionConfig = (
+  data: any,
+  replaceDataDoc: any,
+  replaceDataGender?: any,
+) => {
   return data?.map((item: any) => {
-    if (item?.name === DOCTYPE) {
-      return { ...item, options: replaceData };
+    if (item?.name === DOCTYPE && replaceDataDoc?.length > 0) {
+      return { ...item, options: replaceDataDoc };
+    }
+    if (item?.name === GENDER && replaceDataGender?.length > 0) {
+      return { ...item, options: replaceDataGender };
     }
     return item;
   });

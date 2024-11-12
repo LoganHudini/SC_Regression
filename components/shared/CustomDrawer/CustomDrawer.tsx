@@ -85,6 +85,12 @@ export const CustomDrawer: React.FC<IDetailPageProps> = ({
     };
   }, [onClose, router]);
 
+  useEffect(() => {
+    if (open && contentRef.current) {
+      contentRef.current.scrollTop = 0;
+    }
+  }, [open]);
+
   return (
     <>
       <div

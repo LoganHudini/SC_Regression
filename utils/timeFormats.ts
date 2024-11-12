@@ -26,4 +26,5 @@ export const timeFormats = {
   YOUVERSE_EXPIRE_DATE: 'YYYY-MM-DDThh:mm',
   INFOR_ARRIVAL_DATE: 'YYYY-MM-DDThh:mm:ss',
   DATE_TIME: 'YYYY-MM-DD HH:mm',
+  YEAR: 'YYYY',
 };
