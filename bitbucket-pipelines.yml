@@ -286,7 +286,7 @@ pipelines:
             - rm -rf yarn.lock
             - rm -rf node_modules
             - yarn
-            - CI='' yarn build:itc-stage
+            - CI='' yarn build:itc-hotels-stage
             - CI='' yarn export
             - cd out
             - pipe: atlassian/aws-s3-deploy:0.4.1
