@@ -15,7 +15,7 @@ import {
   toggleHamburgerMenuDrawer,
   toggleNotification,
 } from 'storage/home.storage';
-import { activeItems, emptyFunction, moduleType, restaurantId, timeExtract } from 'utils/functions';
+import { activeItems, moduleType, restaurantId, timeExtract } from 'utils/functions';
 import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { GET_SPA_DETAILS } from 'core/graphql/queries/GET_SPA_DETAILS';
@@ -55,11 +55,11 @@ import { GET_SLOT_DETAILS } from 'core/graphql/queries/GET_AVAILABLE_SPA_SLOTS';
 import { isEmpty } from 'lodash';
 import { CREATE_SPA_BOOKING } from 'core/graphql/queries/CREATE_SPA_REQUEST';
 import { StyledFormControl } from 'components/shared/StyledFormControl/StyledFormControl';
-import { InputLabel, MenuItem, Select } from '@mui/material';
+import { FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
 import DropDown from '@icons/dropDownIcon.svg';
 import { StyledInput } from 'components/shared/StyledInput/StyledInput';
 import { useFormik } from 'formik';
-import { getEmailRoomValidation } from 'validation/get-reservation.validation';
+import { getPhoneEmailValidation } from 'validation/get-reservation.validation';
 import { analyticsEvent } from 'utils/gtag';
 import { PhoneEmail } from 'components/shared/PhoneEmail/PhoneEmail';
 import NoInformation from 'components/shared/NoInformation/NoInformation';
@@ -89,7 +89,6 @@ const Spa: React.FC = () => {
   const spaModule: any = moduleType(config?.modules, SPA);
   const [availableSlots, setAvailableSlots] = useState(false);
   const [selectedSpaSlots, setSelectedSpaSlots] = useState<any>({});
-  const [selectedGender, setSelectedGender] = useState<any>({});
   const [spaBookingLoading, setSpaBookingLoading] = useState<any>(false);
 
   const { data, loading } = useQuery(GET_SPA_DETAILS, {
@@ -165,7 +164,6 @@ const Spa: React.FC = () => {
     toggleDetailsDrawer(false);
     setAvailableSlots(false);
     setSelectedSpaSlots({});
-    setSelectedGender({});
     spaInformationStorage(
       produce(spaInformationStorage(), (draft) => {
         null;
@@ -302,7 +300,8 @@ const Spa: React.FC = () => {
       emailAddress:
         isCheckedIn?.checkedIn && isCheckedIn?.email ? isCheckedIn?.email : formik.values.email,
       roomNo: isCheckedIn?.checkedIn ? isCheckedIn?.roomNumber : '',
-      genderPreference: selectedGender?.value || '',
+      genderPreference: formik?.values?.gender || '',
+      mobileNumber: formik?.values?.phoneNumber || '',
     };
 
     try {
@@ -336,11 +335,14 @@ const Spa: React.FC = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: '',
+      email: isCheckedIn?.email || '',
+      phoneNumber: isCheckedIn?.phoneNumber || '',
+      gender: '',
     },
-    validationSchema: getEmailRoomValidation,
-    onSubmit: emptyFunction,
-    enableReinitialize: true,
+    validationSchema: getPhoneEmailValidation,
+    onSubmit: slotBookingHandler,
+    // enableReinitialize: true,
+    validateOnMount: true,
   });
 
   const SpaDetails = () => {
@@ -445,21 +447,25 @@ const Spa: React.FC = () => {
           <div className={styles.slotswrapper}>
             <div>
               <StyledFormControl
-                required={true}
+                required
                 className={styles.guestDataInput}
                 variant='standard'
                 sx={{ m: 1, minWidth: '100%' }}
+                error={
+                  (formik?.validateOnMount || formik.touched.gender) &&
+                  Boolean(formik.errors.gender)
+                }
               >
                 <InputLabel>{t('Gender')}</InputLabel>
                 <Select
                   className={styles.guestDataInput}
-                  label={t(selectedGender?.label)}
+                  label={t('Gender')}
                   variant='standard'
-                  name={selectedGender?.label}
-                  id={selectedGender?.value}
-                  value={selectedGender?.value || ''}
+                  name={'gender'}
+                  id={'gender'}
+                  value={formik?.values?.gender || ''}
                   onChange={(e: any) => {
-                    setSelectedGender({ value: e.target.value, label: e.target.label });
+                    formik.handleChange(e);
                   }}
                   IconComponent={DropDown}
                 >
@@ -471,6 +477,11 @@ const Spa: React.FC = () => {
                     );
                   })}
                 </Select>
+                <FormHelperText>
+                  {(formik?.validateOnMount || formik.touched.gender) &&
+                    formik.errors.gender &&
+                    t(String(formik.errors.gender))}
+                </FormHelperText>
               </StyledFormControl>
             </div>
             {!isCheckedIn?.email && (
@@ -485,11 +496,39 @@ const Spa: React.FC = () => {
                 value={formik.values.email}
                 onChange={(e) => {
                   formik.handleChange(e);
-                  formik.submitForm();
                 }}
-                error={formik.touched.email && Boolean(formik.errors.email)}
+                error={
+                  (formik?.validateOnMount || formik.touched.email) && Boolean(formik.errors.email)
+                }
                 helperText={
-                  formik.touched?.email && formik.errors.email ? t(formik.errors.email) : null
+                  (formik?.validateOnMount || formik.touched?.email) && formik.errors.email
+                    ? t(formik.errors.email)
+                    : null
+                }
+              />
+            )}
+            {!isCheckedIn?.phoneNumber && (
+              <StyledInput
+                autoComplete='off'
+                required
+                className={styles.reservationInput}
+                label={t('Phone Number')}
+                variant='standard'
+                name='phoneNumber'
+                id='phoneNumber'
+                value={formik.values.phoneNumber}
+                onChange={(e) => {
+                  formik.handleChange(e);
+                }}
+                error={
+                  (formik?.validateOnMount || formik.touched.phoneNumber) &&
+                  Boolean(formik.errors.phoneNumber)
+                }
+                helperText={
+                  (formik?.validateOnMount || formik.touched?.phoneNumber) &&
+                  formik.errors.phoneNumber
+                    ? t(formik.errors.phoneNumber)
+                    : null
                 }
               />
             )}
@@ -508,15 +547,8 @@ const Spa: React.FC = () => {
             </div>
             <StyledButton
               className={styles.slotBookingButton}
-              disabled={
-                !selectedGender?.value ||
-                isEmpty(selectedSpaSlots) ||
-                (!isCheckedIn?.email &&
-                  (!formik.values.email ||
-                    Boolean(formik.errors.email) ||
-                    (formik.values.email ? !isEmpty(formik.errors.email) : false)))
-              }
-              onClick={slotBookingHandler}
+              disabled={!(formik.isValid && formik.dirty) || isEmpty(selectedSpaSlots)}
+              onClick={() => formik.handleSubmit()}
               loading={spaBookingLoading}
             >
               {t('Book Slot')}

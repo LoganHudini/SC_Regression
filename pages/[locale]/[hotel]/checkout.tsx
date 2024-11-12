@@ -128,6 +128,7 @@ const CheckOut = () => {
           ...checkedInData,
           firstName: reservationInformation?.details.contactPerson.firstName,
           email: reservationInformation?.details.contactPerson.email,
+          phoneNumber: reservationInformation?.details?.contactPerson?.phoneNumber,
           reservationId: reservationInformation?.uniqueBookingId,
           invoiceId: reservationInformation?.reservationId,
         });
@@ -135,6 +136,7 @@ const CheckOut = () => {
           ...checkedInData,
           firstName: reservationInformation?.details.contactPerson.firstName,
           email: reservationInformation?.details.contactPerson.email,
+          phoneNumber: reservationInfo?.details?.contactPerson?.phoneNumber,
           reservationId: reservationInformation?.uniqueBookingId,
           invoiceId: reservationInformation?.reservationId,
           currency: reservationInformation?.details?.holdAmount?.currency,

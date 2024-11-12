@@ -143,6 +143,7 @@ export const handleReservation = async ({
                   values?.lastName?.toString().trim() ||
                   reservationInformation?.details.contactPerson.lastName,
                 email: reservationInformation?.details.contactPerson.email,
+                phoneNumber: reservationInformation?.details?.contactPerson?.phoneNumber,
                 roomNumber: roomNo,
                 invoiceId: reservationInformation?.reservationId,
                 hotelId: hotelId,
@@ -160,6 +161,7 @@ export const handleReservation = async ({
                   values?.lastName?.toString().trim() ||
                   reservationInformation?.details.contactPerson.lastName,
                 email: reservationInformation?.details.contactPerson.email,
+                phoneNumber: reservationInformation?.details?.contactPerson?.phoneNumber,
                 roomNumber: roomNo,
                 invoiceId: reservationInformation?.reservationId,
                 currency: reservationInformation?.details.holdAmount.currency,

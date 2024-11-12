@@ -11,6 +11,7 @@ export interface ICheckinStorageData {
   firstName?: string;
   lastName?: string;
   email?: string;
+  phoneNumber?: string;
   roomNumber?: string;
   invoiceId?: string;
   currency?: string;
@@ -38,6 +39,7 @@ export const useCheckedIn = () => {
         firstName: reservations?.firstName,
         lastName: reservations?.lastName,
         email: reservations?.email,
+        phoneNumber: reservations?.phoneNumber,
         roomNumber: reservations?.roomNumber,
         invoiceId: reservations?.invoiceId, // reservationId
         hotelId: hotelId,

@@ -9,6 +9,7 @@ export interface ISavedTrip {
   firstName?: string;
   lastName?: string;
   email?: string;
+  phoneNumber?: string;
   roomNumber?: string;
   invoiceId?: string;
   bookingId?: any;
@@ -28,6 +29,7 @@ export const checkoutTrip = () => {
     firstName: '',
     lastName: '',
     email: '',
+    phoneNumber: '',
     roomNumber: '',
     invoiceId: '',
     hotelId: '',
