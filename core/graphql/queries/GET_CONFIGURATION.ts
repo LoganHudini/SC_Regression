@@ -9370,7 +9370,7 @@ export const configuration: any = [
                     required: true,
                     isDisabled: false,
                     isActive: true,
-                    defaultValue: 'blank',
+                    defaultValue: 'ota',
                   },
                   {
                     name: 'docType',
@@ -9385,12 +9385,6 @@ export const configuration: any = [
                         value: 'PASSPORT',
                         code: 'PASSPORT',
                         vendorDocType: 'passport',
-                      },
-                      {
-                        name: 'Driving License',
-                        value: 'D',
-                        code: 'D',
-                        vendorDocType: 'dl',
                       },
                       {
                         name: 'National ID',
@@ -9543,7 +9537,7 @@ export const configuration: any = [
                 required: true,
                 isDisabled: false,
                 isActive: true,
-                defaultValue: 'blank',
+                defaultValue: 'ota',
               },
               {
                 name: 'docType',
