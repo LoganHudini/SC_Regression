@@ -45,9 +45,7 @@ import { client } from 'core/graphql/client';
 import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
 import { useCheckedIn } from 'storage/check-in.storage';
-import { ListCounter } from 'components/shared/ListCounter/ListCounter';
 import { CREATE_SPA_ORDER } from 'core/graphql/queries/CREATE_SPA_RESERVATION';
-import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 import { useCurrency } from 'utils/hooks/useCurrency';
 import cx from 'classnames';
@@ -409,6 +407,7 @@ const Spa: React.FC = () => {
 
         {timeSelectDrawer && (
           <div className={styles.timeSelectDrawerWrapper}>
+            {/* to be used later
             <div className={styles.counterWrapper}>
               <p className={styles.counterTitle}>{t('No. of people')}</p>
               <PlusMinusInput
@@ -430,6 +429,7 @@ const Spa: React.FC = () => {
                 currentIndex={currentIndex}
               />
             </div>
+            */}
             <div className={styles.timeWrapper}>
               <p className={styles.preferredTitle}>{t('Preferred Date & Time')}</p>
               <DateTimeSelect

@@ -3760,12 +3760,6 @@ export const configuration: any = [
                         vendorDocType: 'PASSPORT',
                       },
                       {
-                        name: 'Driving License',
-                        value: 'DRL',
-                        code: 'DRL',
-                        vendorDocType: 'DRIVING_LICENSE',
-                      },
-                      {
                         name: 'ID',
                         value: 'ID',
                         code: 'ID',
