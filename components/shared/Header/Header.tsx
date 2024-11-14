@@ -47,6 +47,7 @@ export const Header: React.FC<IHeaderProps> = ({
   const hotelId = config?.hotelId;
   const hotel = config?.code;
   const logo = config?.logo;
+  const languages = config?.languages || [];
   const checkinData = useCheckedIn();
   const filter = useReactiveVar(diningInformationStorage);
   const irdMenu = filter?.menuName || (header && header[0]?.name);
@@ -153,7 +154,7 @@ export const Header: React.FC<IHeaderProps> = ({
             </button>
           )}
 
-          {language && (
+          {languages.length > 1 && language && (
             <button
               className={styles.language}
               onClick={() => {
