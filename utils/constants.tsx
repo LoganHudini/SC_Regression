@@ -23,6 +23,8 @@ export const SOFITEL_MANILA = 'sofitel-manila';
 export const ITC_HOTELS_GRAND_CHOLA = 'itc-hotels-grand-chola';
 export const ITC_WELCOMHOTEL_CHENNAI = 'itc-welcomhotel-chennai';
 export const RAFFLES_THE_PALM_DUBAI = 'raffles-the-palm-dubai';
+export const RAFFLES_JAIPUR = 'raffles-jaipur';
+export const RAFFLES_MAKATI = 'raffles-makati';
 export const FAIRMONT_ROYAL_PALM_MARRAKECH = 'fairmont-royal-palm-marrakech';
 export const FAIRMONT_THE_PALM_DUBAI = 'fairmont-the-palm-dubai';
 export const FAIRMONT_MAKKAH_CLOCK_ROYAL_TOWER = 'fairmont-makkah-clock-royal-tower';
@@ -44,7 +46,6 @@ export const AVA_RESORT_CANCUN = 'ava-resort-cancun';
 export const ITC_HOTELS_MARATHA = 'itc-hotels-maratha';
 export const PESTANA_CR7_LISBON = 'pestana-cr7-lisbon';
 export const THE_SAVOY_LONDON = 'the-savoy-london';
-export const RAFFLES_JAIPUR = 'raffles-jaipur';
 
 // configuration constants
 export const OPERA = 'OPERA';

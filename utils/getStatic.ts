@@ -32,6 +32,7 @@ import {
   PESTANA_CR7_LISBON,
   THE_SAVOY_LONDON,
   RAFFLES_JAIPUR,
+  RAFFLES_MAKATI,
 } from './constants';
 
 const propertyList = [
@@ -67,6 +68,7 @@ const propertyList = [
   PESTANA_CR7_LISBON,
   THE_SAVOY_LONDON,
   RAFFLES_JAIPUR,
+  RAFFLES_MAKATI,
 ];
 
 export const getI18nPaths = () =>
