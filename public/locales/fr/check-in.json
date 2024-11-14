@@ -118,5 +118,7 @@
   "Verification Failed!": "Échec de la vérification !",
   "Failed to verify your face, please try again.": "Échec de la vérification de votre visage, veuillez réessayer.",
   "Please enter valid characters": "Veuillez entrer des caractères valides",
-  "Pre-Register": "Pré-inscription"
+  "Pre-Register": "Pré-inscription",
+  "Accompanying Guest Information": "Informations sur l'accompagnant",
+  "Accompanying Guests Information": "Informations sur les invités accompagnants"
 }

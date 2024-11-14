@@ -118,5 +118,7 @@
   "Verification Failed!": "فشل التحقق!",
   "Failed to verify your face, please try again.": "فشل في التحقق من وجهك، يرجى المحاولة مرة أخرى.",
   "Please enter valid characters": "يرجى إدخال أحرف صالحة",
-  "Pre-Register": "التسجيل المسبق"
+  "Pre-Register": "التسجيل المسبق",
+  "Accompanying Guest Information": "معلومات الضيف المرافق",
+  "Accompanying Guests Information": "معلومات الضيوف المرافقين"
 }

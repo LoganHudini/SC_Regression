@@ -261,3 +261,15 @@
   font-size: 13px;
   line-height: 1.4;
 }
+.titleText {
+  font-family: var(--primary-font-heading);
+  font-size: $medium;
+  height: 4vh;
+  text-align: start;
+  line-height: 4vh;
+  color: var(--primary-text-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 18px;
+}

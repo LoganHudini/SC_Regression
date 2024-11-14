@@ -718,6 +718,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     }
   };
 
+  const combinedAccArray = accompanyGuestInfo?.concat(updatedGuestData && updatedGuestData) ?? [];
+
   return (
     <>
       <Head>
@@ -851,39 +853,39 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               </DetailsCardShrinked>
             )}
           </div>
+          {combinedAccArray?.length > 0 && (
+            <p className={styles.titleText}>
+              {combinedAccArray?.length === 1
+                ? t('Accompanying Guest Information')
+                : t('Accompanying Guests Information')}
+            </p>
+          )}
 
-          {accompanyGuestInfo?.concat(updatedGuestData && updatedGuestData)?.length > 0 &&
-            accompanyGuestInfo
-              ?.concat(updatedGuestData && updatedGuestData)
-              ?.map((accompanyGuest: any, index: number) => (
-                <div
-                  key={accompanyGuest?.id}
-                  onClick={() => toggleAccompanyGuestInformation(index)}
-                >
-                  {accompanyGuestInformationState[index] ? (
-                    <div>
-                      <DetailsCard title={`${t('Guest')} ${index + 1}`} icon>
-                        <div className={styles.guestInformation}>
-                          {accompanyingGuestSubmodule?.details?.map(
-                            (details: any, index: number) => (
-                              <ItemFullWidth
-                                key={index}
-                                title={t(details?.label)}
-                                value={accompanyGuest?.[details?.name]}
-                                code={details?.name}
-                              />
-                            ),
-                          )}
-                        </div>
-                      </DetailsCard>
-                    </div>
-                  ) : (
-                    <DetailsCardShrinked title={`${t('Guest')} ${index + 1}`}>
-                      <ShrinkedItem value={accompanyGuest?.firstName} />
-                    </DetailsCardShrinked>
-                  )}
-                </div>
-              ))}
+          {combinedAccArray?.length > 0 &&
+            combinedAccArray?.map((accompanyGuest: any, index: number) => (
+              <div key={accompanyGuest?.id} onClick={() => toggleAccompanyGuestInformation(index)}>
+                {accompanyGuestInformationState[index] ? (
+                  <div>
+                    <DetailsCard title={`${t('Guest')} ${index + 1}`} icon>
+                      <div className={styles.guestInformation}>
+                        {accompanyingGuestSubmodule?.details?.map((details: any, index: number) => (
+                          <ItemFullWidth
+                            key={index}
+                            title={t(details?.label)}
+                            value={accompanyGuest?.[details?.name]}
+                            code={details?.name}
+                          />
+                        ))}
+                      </div>
+                    </DetailsCard>
+                  </div>
+                ) : (
+                  <DetailsCardShrinked title={`${t('Guest')} ${index + 1}`}>
+                    <ShrinkedItem value={accompanyGuest?.firstName} />
+                  </DetailsCardShrinked>
+                )}
+              </div>
+            ))}
 
           {paymentConfig?.type !== NONE &&
             (paymentConfig?.isTotalChargeActive

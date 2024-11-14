@@ -116,5 +116,7 @@
   "Verification Failed!": "認証に失敗しました！",
   "Failed to verify your face, please try again.": "顔認証に失敗しました。もう一度お試しください。",
   "Please enter valid characters": "有効な文字を入力してください",
-  "Pre-Register": "事前登録"
+  "Pre-Register": "事前登録",
+  "Accompanying Guest Information": "同伴ゲスト情報",
+  "Accompanying Guests Information": "同伴ゲスト情報"
 }
