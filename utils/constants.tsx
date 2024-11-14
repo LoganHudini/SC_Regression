@@ -31,6 +31,7 @@ export const FAIRMONT_MAKKAH_CLOCK_ROYAL_TOWER = 'fairmont-makkah-clock-royal-to
 export const FAIRMONT_NILE_CITY = 'fairmont-nile-city';
 export const FAIRMONT_SCOTTSDALE_PRINCESS = 'fairmont-scottsdale-princess';
 export const FAIRMONT_MAKATI = 'fairmont-makati';
+export const FAIRMONT_LE_MONTREUX_PALACE = 'fairmont-le-montreux-palace';
 export const ONE_HOTELS_SOUTH_BEACH = '1-hotel-south-beach';
 export const HARD_ROCK_HOTEL_CANCUN = 'hard-rock-hotel-cancun';
 export const ATLANTIS = 'atlantis';
