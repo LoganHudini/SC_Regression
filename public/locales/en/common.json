@@ -66,6 +66,7 @@
   "Checkout": "Checkout",
   "until": "until",
   "Everyday": "Everyday",
+  "Today": "Today",
   "Choose your category": "Choose your category",
   "Select up to option(s)": "Select up to {{value}} option(s)",
   "Duration": "Duration",
@@ -113,7 +114,7 @@
   "Connect to Room": "Connect to Room",
   "Explore": "Explore",
   "Check-In": "Check-In",
-  "Pre-Register":"Pre-Register",
+  "Pre-Register": "Pre-Register",
   "offers": "offers",
   "Availability": "Availability",
   "Offer Includes": "Offer Includes",
@@ -149,5 +150,5 @@
   "Days: ": "Days: ",
   "Please enter valid characters": "Please enter valid characters",
   "Elevate your stay with our exclusive app. Unlock your room, view your bill, control in-room settings, and stay updated on hotel events—all from your phone. \n\nDownload now to transform your stay into an unforgettable experience!": "Elevate your stay with our exclusive app. Unlock your room, view your bill, control in-room settings, and stay updated on hotel events—all from your phone. \n\nDownload now to transform your stay into an unforgettable experience!",
-   "At the moment, there are no activities available. Please check back later. We appreciate your understanding.": "At the moment, there are no activities available. Please check back later. We appreciate your understanding."
+  "At the moment, there are no activities available. Please check back later. We appreciate your understanding.": "At the moment, there are no activities available. Please check back later. We appreciate your understanding."
 }

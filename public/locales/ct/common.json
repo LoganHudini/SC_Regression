@@ -17,7 +17,7 @@
   "Are you a hotel guest?": "Ets un hoste de l'hotel?",
   "Special Requests": "Peticions especials",
   "BOOK NOW": "RESERVAR ARA",
-  "Book Now" : "Reservar ara",
+  "Book Now": "Reservar ara",
   "Thank you": "Gràcies",
   "Thank You": "Gràcies",
   "Your booking has been confirmed.": "La vostra reserva ha estat confirmada.",
@@ -66,6 +66,7 @@
   "Checkout": "Check-out",
   "until": "fins a",
   "Everyday": "Cada dia",
+  "Today": "Avui",
   "Choose your category": "Escull la teva categoria",
   "Select up to option(s)": "Selecciona fins a {{value}} opció(s)",
   "Duration": "Durada",
@@ -149,5 +150,5 @@
   "Days: ": "Dies: ",
   "Please enter valid characters": "Introduïu caràcters vàlids",
   "Elevate your stay with our exclusive app. Unlock your room, view your bill, control in-room settings, and stay updated on hotel events—all from your phone. \n\nDownload now to transform your stay into an unforgettable experience!": "Augmenta la teva estada amb la nostra aplicació exclusiva. Desbloqueja la teva habitació, consulta la teva factura, controla la configuració de l'habitació i estigues al dia dels esdeveniments de l'hotel, tot des del teu telèfon. \n\nDescarrega ara per transformar la teva estada en una experiència inoblidable!",
-   "At the moment, there are no activities available. Please check back later. We appreciate your understanding.":"En aquest moment, no hi ha activitats disponibles. Si us plau, torneu a consultar més tard. Agraïm la vostra comprensió."
+  "At the moment, there are no activities available. Please check back later. We appreciate your understanding.": "En aquest moment, no hi ha activitats disponibles. Si us plau, torneu a consultar més tard. Agraïm la vostra comprensió."
 }

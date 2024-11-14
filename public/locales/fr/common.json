@@ -66,6 +66,7 @@
   "Checkout": "Paiement",
   "until": "jusqu'à",
   "Everyday": "Tous les jours",
+  "Today": "Aujourd'hui",
   "Choose your category": "Choisissez votre catégorie",
   "Select up to option(s)": "Sélectionnez jusqu'à {{value}} option(s)",
   "Duration": "Durée",
@@ -148,5 +149,5 @@
   "Days: ": "Jours: ",
   "Please enter valid characters": "Veuillez entrer des caractères valides",
   "Elevate your stay with our exclusive app. Unlock your room, view your bill, control in-room settings, and stay updated on hotel events—all from your phone. \n\nDownload now to transform your stay into an unforgettable experience!": "Améliorez votre séjour avec notre application exclusive. Déverrouillez votre chambre, consultez votre facture, contrôlez les paramètres de la chambre et restez informé des événements de l'hôtel, le tout depuis votre téléphone. \n\nTéléchargez-la maintenant pour transformer votre séjour en une expérience inoubliable !",
-   "At the moment, there are no activities available. Please check back later. We appreciate your understanding.":"Pour le moment, il n'y a pas d'activités disponibles. Veuillez revenir plus tard. Nous vous remercions de votre compréhension."
+  "At the moment, there are no activities available. Please check back later. We appreciate your understanding.": "Pour le moment, il n'y a pas d'activités disponibles. Veuillez revenir plus tard. Nous vous remercions de votre compréhension."
 }

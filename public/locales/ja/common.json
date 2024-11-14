@@ -66,6 +66,7 @@
   "Checkout": "チェックアウト",
   "until": "まで",
   "Everyday": "毎日",
+  "Today": "今日",
   "Choose your category": "カテゴリを選択してください",
   "Select up to option(s)": "オプションを選択",
   "Duration": "期間",
@@ -149,5 +150,5 @@
   "Days: ": "日数: ",
   "Please enter valid characters": "有効な文字を入力してください",
   "Elevate your stay with our exclusive app. Unlock your room, view your bill, control in-room settings, and stay updated on hotel events—all from your phone. \n\nDownload now to transform your stay into an unforgettable experience!": "当ホテルの専用アプリで、ご滞在をさらに充実させましょう。お部屋のロック解除、請求書の確認、客室内の設定の管理、ホテルのイベントの最新情報の入手など、すべてスマートフォンから行えます。\n\n今すぐダウンロードして、ご滞在を忘れられない体験に変えましょう。",
-   "At the moment, there are no activities available. Please check back later. We appreciate your understanding.":"現在、利用可能なアクティビティはありません。後でもう一度ご確認ください。ご理解いただきありがとうございます。"
+  "At the moment, there are no activities available. Please check back later. We appreciate your understanding.": "現在、利用可能なアクティビティはありません。後でもう一度ご確認ください。ご理解いただきありがとうございます。"
 }

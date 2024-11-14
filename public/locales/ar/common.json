@@ -77,6 +77,7 @@
   "Email": "البريد الإلكتروني",
   "Things To Do": "الأشياء التي يمكن القيام بها",
   "Everyday": "كل يوم",
+  "Today": "اليوم",
   "Room": "غرفة",
   "CHECK-IN": "التحقق من الوصول",
   "CHECKOUT": "الخروج",
@@ -109,7 +110,7 @@
   "CONNECT TO ROOM": "الاتصال بالغرفة",
   "Explore": "استكشاف",
   "Check-In": "تسجيل الوصول",
-  "Pre-Register":"التسجيل المسبق",
+  "Pre-Register": "التسجيل المسبق",
   "offers": "العروض",
   "Availability": "التوفر",
   "Offer Includes": "تشمل العرض",
@@ -146,5 +147,5 @@
   "Days: ": "الأيام: ",
   "Please enter valid characters": "يرجى إدخال أحرف صالحة",
   "Elevate your stay with our exclusive app. Unlock your room, view your bill, control in-room settings, and stay updated on hotel events—all from your phone. \n\nDownload now to transform your stay into an unforgettable experience!": "ارتقِ بإقامتك مع تطبيقنا الحصري. افتح قفل غرفتك، واطلع على فاتورتك، وتحكم في إعدادات الغرفة، وابقَ على اطلاع دائم بأحداث الفندق — كل ذلك من هاتفك. \n\nقم بالتنزيل الآن لتحويل إقامتك إلى تجربة لا تُنسى!",
-   "At the moment, there are no activities available. Please check back later. We appreciate your understanding.":"في الوقت الحالي، لا توجد أنشطة متاحة. يرجى التحقق مرة أخرى في وقت لاحق. نحن نقدر تفهمك."
+  "At the moment, there are no activities available. Please check back later. We appreciate your understanding.": "في الوقت الحالي، لا توجد أنشطة متاحة. يرجى التحقق مرة أخرى في وقت لاحق. نحن نقدر تفهمك."
 }

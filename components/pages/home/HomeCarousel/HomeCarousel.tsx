@@ -90,10 +90,15 @@ const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
             <>
               <p className={styles.listComponentDataTitle}>{t('Availability')}</p>
               <p className={styles.listComponentDataText}>
-                {carouselItem?.duration?.alwaysActive ? t('Everyday') : timeDisplayed}
+                {carouselItem?.duration?.alwaysActive
+                  ? t('Everyday')
+                  : startDate.isSame(endDate, 'day') && !carouselItem.alwaysActive
+                  ? t('Today')
+                  : timeDisplayed}
               </p>
-              {carouselItem?.duration?.timings?.length &&
-                carouselItem?.duration?.timings?.length < 7 && (
+
+              {carouselItem?.duration?.timings?.length < 7 &&
+                !carouselItem?.duration.alwaysActive && (
                   <div className={styles.listComponentDataText}>
                     <span className={styles.daysLabel}>{t('Days: ')}</span>
                     <span className={styles.days}>
