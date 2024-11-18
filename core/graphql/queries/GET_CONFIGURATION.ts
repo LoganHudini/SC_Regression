@@ -11561,7 +11561,7 @@ export const configuration: any = [
     logo: 'le montreux palace',
     homePageHeader: true,
     name: 'Fairmont Le Montreux Palace',
-    hotelId: 'cd057f05-f95c-4db3-910d-07b523f03b4e ',
+    hotelId: 'cd057f05-f95c-4db3-910d-07b523f03b4e',
     pms: 'OHIP',
     fetchFromDb: 'yes',
     saveToDb: 'no',
