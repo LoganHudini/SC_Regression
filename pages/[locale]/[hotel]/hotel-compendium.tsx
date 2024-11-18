@@ -100,6 +100,12 @@ const HotelCompendium: React.FC = () => {
                 email={
                   showSelectedAmenity?.information?.find((e: any) => e?.type === EMAILCAPS)?.value
                 }
+                phoneTitle={
+                  showSelectedAmenity?.information?.find((e: any) => e?.type === PHONECAPS)?.field
+                }
+                emailTitle={
+                  showSelectedAmenity?.information?.find((e: any) => e?.type === EMAILCAPS)?.field
+                }
               />
             )}
           </div>
