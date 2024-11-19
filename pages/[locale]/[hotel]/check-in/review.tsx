@@ -62,6 +62,7 @@ import {
   CANCELLED,
   settlementType,
   INFOR,
+  DOCTYPE,
 } from 'utils/constants';
 import {
   notificationStorage,
@@ -102,7 +103,12 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const guests = useReactiveVar(guestInformationStorage);
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const accompanyGuestInfo = useReactiveVar(accompanyGuestDetails);
-  const updatedGuestData = useReactiveVar(updateNewAccompanyGuestDetails);
+  const updatedGuestInfo: any = useReactiveVar(updateNewAccompanyGuestDetails);
+  const updatedGuestData: any =
+    updatedGuestInfo?.length > 0 &&
+    updatedGuestInfo[0]?.adult
+      ?.concat(updatedGuestInfo[0]?.child)
+      ?.filter((item: any) => item?.lastName);
   const hotelInfo = useReactiveVar(hotelInformation);
   const dayjsLocaleLoader = useReactiveVar(setDayjsLocale);
   const [accompanyGuestInformationState, setAcccompanyGuestInformation] = useState(
@@ -599,6 +605,9 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     guestReservationInfo?.nationality,
     guestReservationInfo?.paymentType,
     guestReservationInfo?.phone,
+    guestReservationInfo?.phoneNumber,
+    guestReservationInfo?.placeOfStayArrival,
+    guestReservationInfo?.placeOfStayDeparture,
     guestReservationInfo?.portrait,
     guestReservationInfo?.postalCode,
     guestReservationInfo?.profession,
@@ -660,7 +669,11 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             <p className={styles.checkDatesText}>{title}</p>
             <p className={cx(styles.checkDatesDetails, styles.left)}>
               {options?.length > 0
-                ? options?.find((option: any) => option?.value === value)?.name
+                ? options?.find(
+                    (option: any) =>
+                      (code === DOCTYPE ? option?.code : option?.value)?.toLowerCase() ===
+                      value?.toLowerCase(),
+                  )?.name
                 : isValidDate(value)
                 ? dayjs(value).format(timeFormats.DAY_MONTH_YEAR_5)
                 : value}

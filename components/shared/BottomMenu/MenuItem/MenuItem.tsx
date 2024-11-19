@@ -334,6 +334,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                       });
                       toggleNotification(true);
                       toggleDetailsDrawer(false);
+                      activeCheckOutFlow(false);
                     }}
                   >
                     {t('Disconnect Room')}

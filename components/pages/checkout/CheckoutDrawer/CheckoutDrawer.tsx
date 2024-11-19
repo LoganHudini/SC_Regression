@@ -15,7 +15,7 @@ import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
 import { checkoutTrip, saveTrip } from 'storage/trips.storage';
 import { useConfig } from 'utils/hooks/useConfiguration';
-import { checkinStorage, useCheckedIn } from 'storage/check-in.storage';
+import { activeCheckOutFlow, checkinStorage, useCheckedIn } from 'storage/check-in.storage';
 import { processStatusCode } from 'utils/processError';
 import {
   getCheckInToken,
@@ -205,6 +205,7 @@ const CheckoutDrawer = (props: any) => {
     });
     toggleNotification(true);
     toggleDetailsDrawer(false);
+    activeCheckOutFlow(false);
   };
 
   const checkoutDrawerDetails = () => (
