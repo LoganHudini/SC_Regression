@@ -84,10 +84,7 @@ const Trential: React.FC = () => {
   const lastName = reservationData?.getReservation?.data?.guests[0]?.lastName;
   const checkInDate = reservationData?.getReservation?.data?.details?.checkInDate;
   const checkOutDate = reservationData?.getReservation?.data?.details?.checkOutDate;
-  const documentLists: any = [
-    ...new Set(docTypes?.map((opt: any) => opt?.vendorDocType)),
-    LIVENESS,
-  ];
+  const documentLists: any = [...new Set(docTypes?.map((opt: any) => opt?.vendorDocType))];
 
   useEffect(() => {
     const data = async () => {

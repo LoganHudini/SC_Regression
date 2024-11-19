@@ -65,7 +65,6 @@ import Camera from '@icons/cameraIcon.svg';
 import {
   accompanyGuestDetails,
   newAccompanyGuestDetails,
-  newGuestButtonDisabled,
   primaryGuestButtonDisabled,
   secondaryGuestButtonDisabled,
   setNewGuestFormData,
@@ -110,7 +109,6 @@ const Guest: React.FC<any> = () => {
   const updatedGuestData = useReactiveVar(updateNewAccompanyGuestDetails);
   const primaryGuestButtonDisable = useReactiveVar(primaryGuestButtonDisabled);
   const secondaryGuestButtonDisable = useReactiveVar(secondaryGuestButtonDisabled);
-  const newGuestButtonDisable = useReactiveVar(newGuestButtonDisabled);
   const [openToggleAccompanyGuest, setOpenToggleAccompanyGuest] = useState(
     new Array(newAccompanyGuestStorage?.child?.length)?.fill(false),
   );
@@ -1099,7 +1097,7 @@ const Guest: React.FC<any> = () => {
                       </DetailsCard>
                     ) : openToggleAddNewGuestForAdult[index] ? (
                       <DetailsCard
-                        title={`${t('Guest')} ${index + 1}`}
+                        title={`${t('Guest')} ${accompanyGuestData?.length + index + 1}`}
                         handleClick={handleDetailsCardClick}
                         icon
                       >
@@ -1113,7 +1111,7 @@ const Guest: React.FC<any> = () => {
                           {!newGuest?.isSaved && (
                             <StyledButton
                               variant='contained'
-                              disabled={!newGuestButtonDisable}
+                              disabled={newGuest?.disabled}
                               className={styles.button}
                               loading={guestLoading}
                               onClick={() => saveGuest(index, 'adult')}
@@ -1141,7 +1139,7 @@ const Guest: React.FC<any> = () => {
                     )
                   ) : openToggleAddNewGuestForAdult[index] ? (
                     <DetailsCard
-                      title={`${t('Guest')} ${index + 1}`}
+                      title={`${t('Guest')} ${accompanyGuestData?.length + index + 1}`}
                       handleClick={handleDetailsCardClick}
                       icon
                     >
@@ -1155,7 +1153,7 @@ const Guest: React.FC<any> = () => {
                         {!newGuest?.isSaved && (
                           <StyledButton
                             variant='contained'
-                            disabled={!newGuestButtonDisable}
+                            disabled={newGuest?.disabled}
                             className={styles.button}
                             loading={guestLoading}
                             onClick={() => saveGuest(index, 'adult')}
@@ -1167,8 +1165,8 @@ const Guest: React.FC<any> = () => {
                     </DetailsCard>
                   ) : (
                     <DetailsCardShrinked
-                      error={accompanyGuestValidation[index]}
-                      title={`${t('Guest')} ${index + 1}`}
+                      error={newGuest?.isSaved ? true : false}
+                      title={`${t('Guest')} ${accompanyGuestData?.length + index + 1}`}
                       handleClick={handleShrinkedCardClick}
                     >
                       <div className={styles.cardTitleWrapper}>
@@ -1212,7 +1210,7 @@ const Guest: React.FC<any> = () => {
                         {!newGuest?.isSaved && (
                           <StyledButton
                             variant='contained'
-                            disabled={!newGuestButtonDisable}
+                            disabled={newGuest?.disabled}
                             className={styles.button}
                             loading={guestLoading}
                             onClick={() => saveGuest(index, 'child')}

@@ -28,7 +28,6 @@ import { useReactiveVar } from '@apollo/client';
 import {
   accompanyGuestDetails,
   newAccompanyGuestDetails,
-  newGuestButtonDisabled,
   primaryGuestButtonDisabled,
   secondaryGuestButtonDisabled,
 } from 'storage/accompany-guest-details';
@@ -130,10 +129,21 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
         formik?.errors && Object.keys(formik.errors).length !== 0 ? false : true,
       );
     } else if (type === NEWGUESTFORM || type === NEWGUESTSCAN) {
-      newGuestButtonDisabled(
-        formik?.errors && Object.keys(formik.errors).length !== 0 ? false : true,
+      // assign disabled state
+      const newAccompanyGuestIndex = newAccompanyGuestStorage?.[method]?.findIndex(
+        (item: any) => item?.id === selectedGuest?.id,
       );
+      if (newAccompanyGuestIndex > -1) {
+        newAccompanyGuestStorage[method][newAccompanyGuestIndex] = {
+          ...selectedGuest,
+          disabled: formik?.errors && Object.keys(formik.errors).length > 0 ? true : false,
+        };
+      }
+      newAccompanyGuestDetails({
+        ...newAccompanyGuestStorage,
+      });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formik.errors, type]);
 
   const onChange = useCallback(

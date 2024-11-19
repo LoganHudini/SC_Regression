@@ -10173,7 +10173,7 @@ export const configuration: any = [
                     label: 'Nationality',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: Countries,
                   },

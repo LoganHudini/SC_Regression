@@ -65,7 +65,6 @@
   background-color: var(--primary-card-background-color);
   display: flex;
   flex-direction: column;
-  padding: 0 26px;
   gap: 10px;
   border: var(--primary-card-border);
   border-radius: var(--primary-card-border-radius);
@@ -240,11 +239,6 @@
 
 .confirmationWrapperBotton {
   margin-top: -20px;
-}
-
-.button {
-  padding-top: 10px;
-  padding-left: 22px;
 }
 
 .bottomMenuWrapper {
