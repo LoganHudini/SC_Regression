@@ -3570,7 +3570,7 @@ export const configuration: any = [
   },
   {
     code: 'raffles-the-palm-dubai',
-    logo: '',
+    logo: 'the palm dubai',
     homePageHeader: true,
     name: 'Raffles The Palm Dubai',
     hotelId: '4e67ef89-b1d7-42fd-9cf0-70001cae54fc',
@@ -10792,7 +10792,7 @@ export const configuration: any = [
   },
   {
     code: 'raffles-jaipur',
-    logo: '',
+    logo: 'jaipur',
     homePageHeader: true,
     name: 'Raffles Jaipur',
     hotelId: '6c492616-7a3e-41a7-afd3-d390824c1596',
@@ -11168,7 +11168,7 @@ export const configuration: any = [
   },
   {
     code: 'raffles-makati',
-    logo: '',
+    logo: 'makati',
     homePageHeader: true,
     name: 'Raffles Makati',
     hotelId: 'c0f4350f-7f26-4f22-b8f2-5db859280fc4',
