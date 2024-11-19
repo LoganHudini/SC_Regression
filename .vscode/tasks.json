@@ -177,6 +177,28 @@
     },
     {
       "type": "npm",
+      "script": "dev:raffles-stage",
+      "problemMatcher": [],
+      "label": "Dev: RAFFLES_STAGE",
+      "detail": "env-cmd -f .env.raffles.stage yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:raffles-stage",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: RAFFLES_STAGE",
+      "detail": "env-cmd -f .env.raffles.stage yarn next build"
+    },
+    {
+      "type": "npm",
+      "script": "start:raffles-stage",
+      "problemMatcher": [],
+      "label": "Start: RAFFLES_STAGE",
+      "detail": "env-cmd -f .env.raffles.stage yarn next start"
+    },
+    {
+      "type": "npm",
       "script": "dev:1hotels",
       "problemMatcher": [],
       "label": "Dev: 1HOTELS",
