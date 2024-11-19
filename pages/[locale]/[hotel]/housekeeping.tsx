@@ -452,7 +452,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
       </Head>
       <Header displayHome screenTitle={t('Services') as string} />
       <div className={styles.housekeepingWrapper}>
-        {loading ? (
+        {loading || showServiceRequest?.length === 0 ? (
           <>
             <div className={styles.container}>
               <Loader />
