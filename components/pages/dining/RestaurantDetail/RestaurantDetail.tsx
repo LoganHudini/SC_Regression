@@ -197,6 +197,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
               </h2>
             )}
           </div>
+
           <div className={styles.gapList}>
             {queryResultEntity?.primaryCuisine && (
               <div className={styles.cuisineRowPrimaryCuisine}>
@@ -247,8 +248,15 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
               />
             )}
           </div>
+
           {queryResultEntity?.cta?.status === ACTIVE && (
-            <div style={{ position: 'fixed' }}>
+            <div
+              style={{ position: 'fixed' }}
+              className={cx('globals-actionCtaWrapper', {
+                [styles.withoutImageButton]: !queryResultEntity?.images[0]?.ratio16to9,
+                [styles.buttonNone]: timeSelectDrawer,
+              })}
+            >
               <StyledButton
                 variant='contained'
                 onClick={() => {
@@ -259,11 +267,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
                     setIframeComponent,
                   );
                 }}
-                className={cx(styles.button, 'globals-actionCtaWrapper', {
-                  [styles.buttonNone]: timeSelectDrawer,
-                  [styles.withoutImageButton]:
-                    queryResultEntity && !queryResultEntity?.images[0]?.ratio16to9,
-                })}
+                className={styles.button}
               >
                 {queryResultEntity?.cta?.ctaTitle || t('Book Now')}
               </StyledButton>
