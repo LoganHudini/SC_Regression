@@ -113,7 +113,8 @@ export const offerDetails = (
                 : timeDisplayed(offerInfoDetails, t)}
             </p>
             {offerInfoDetails?.duration?.timings?.length &&
-              offerInfoDetails?.duration?.timings?.length < 7 && (
+              offerInfoDetails?.duration?.timings?.length < 7 &&
+              !offerInfoDetails?.duration.alwaysActive && (
                 <div className={styles.listComponentDataText}>
                   <span className={styles.daysLabel}>{t('Days: ')}</span>
                   <span className={styles.days}>
@@ -152,6 +153,10 @@ export const offerDetails = (
 export const timeDisplayed = (offerInfoDetails: any, t: any) => {
   const startDate = dayjs(offerInfoDetails?.duration?.startDate, 'DD-MM-YYYY');
   const endDate = dayjs(offerInfoDetails?.duration?.endDate, 'DD-MM-YYYY');
+
+  if (startDate.isSame(endDate, 'day')) {
+    return offerInfoDetails && !offerInfoDetails?.duration.alwaysActive ? t('Today') : '';
+  }
 
   const displayStartDate =
     startDate?.year() === endDate?.year()
