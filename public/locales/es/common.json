@@ -150,5 +150,14 @@
   "Days: ": "Días: ",
   "Please enter valid characters": "Por favor, ingrese caracteres válidos",
   "Elevate your stay with our exclusive app. Unlock your room, view your bill, control in-room settings, and stay updated on hotel events—all from your phone. \n\nDownload now to transform your stay into an unforgettable experience!": "Mejore su estadía con nuestra aplicación exclusiva. Desbloquee su habitación, vea su factura, controle la configuración de la habitación y manténgase actualizado sobre los eventos del hotel, todo desde su teléfono. \n\n¡Descárguela ahora para transformar su estadía en una experiencia inolvidable!",
-  "At the moment, there are no activities available. Please check back later. We appreciate your understanding.": "En este momento, no hay actividades disponibles. Por favor, vuelva a consultar más tarde. Agradecemos su comprensión."
+  "At the moment, there are no activities available. Please check back later. We appreciate your understanding.": "En este momento, no hay actividades disponibles. Por favor, vuelva a consultar más tarde. Agradecemos su comprensión.",
+  "Hi there! It seems your booking was cancelled. Please reach out to our front desk for assistance!": "¡Hola! Parece que tu reserva fue cancelada. Por favor, contacta con nuestra recepción para recibir asistencia.",
+  "Welcome back! It looks like you’ve already checked out. If you need further assistance, please reach out to our front desk!": "¡Bienvenido de nuevo! Parece que ya has realizado el check-out. Si necesitas más ayuda, por favor, contacta con nuestra recepción.",
+  "We’re having trouble finding your reservation. Please reach out to our front desk for assistance!": "Estamos teniendo problemas para encontrar tu reserva. Por favor, contacta con nuestra recepción para recibir ayuda.",
+  "We’re having trouble finding your reservation. Please verify your details and try again or stop by our front desk and we can assist you right away!": "Estamos teniendo problemas para encontrar tu reserva. Por favor, verifica tus datos y vuelve a intentarlo, o pasa por nuestra recepción y te ayudaremos de inmediato.",
+  "Name doesn’t Match": "El nombre no coincide",
+  "Already Checked Out": " Ya ha hecho el check-out",
+  "Booking Cancelled": "Reserva cancelada",
+  "Booking Not Found": "Reserva no encontrada",
+  "We couldn’t locate your booking with the provided details. Please verify them or stop by the front desk so we can assist you right away!": "No pudimos localizar su reserva con los detalles proporcionados. Por favor, verifique la información o acérquese a la recepción para que podamos asistirle de inmediato."
 }

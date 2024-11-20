@@ -6,28 +6,16 @@ import {
 import { client } from 'core/graphql/client';
 import { saveTrip } from 'storage/trips.storage';
 import { availablePaths } from './availablePaths';
-import {
-  CANCELED,
-  CHKOUT,
-  CHECKEDOUT,
-  NOSHOW,
-  INHOUSE,
-  FAILURE,
-  SUCCESS,
-  CANCELLED,
-} from './constants';
-import { getWelcomeDrawer } from './functions';
+import { INHOUSE, FAILURE, SUCCESS, reservationStatusMessages } from './constants';
+import { getWelcomeDrawer, errorStateHandler } from './functions';
 import {
   getInHouseToken,
   handleinHouseAuthenticationFailure,
 } from 'core/api/functions/getInHouseAuthentication';
 import { GET_RESERVATION, GET_RESERVATION_STATUS } from 'core/graphql/queries/GET_RESERVATION';
-import {
-  notificationStorage,
-  toggleCheckInDetailsDrawer,
-  toggleNotification,
-} from 'storage/home.storage';
+import { notificationStorage, toggleCheckInDetailsDrawer } from 'storage/home.storage';
 import { activeCheckOutFlow, checkinStorage, ICheckinStorageData } from 'storage/check-in.storage';
+import { processError } from './processError';
 
 export const handleReservation = async ({
   activeCheckInFlowInfo,
@@ -82,6 +70,7 @@ export const handleReservation = async ({
           },
       fetchPolicy: 'no-cache',
     });
+
     const reservationInformation = data?.getReservation?.data;
 
     if (reservationInformation) {
@@ -101,21 +90,8 @@ export const handleReservation = async ({
         ) {
           const reservationStatus = reservationInformation?.reservationStatus;
 
-          if ([CANCELLED, CANCELED, CHKOUT, CHECKEDOUT, NOSHOW].includes(reservationStatus)) {
-            notificationStorage({
-              type: FAILURE,
-              title: t('Reservation Not Found'),
-              description: t('Please proceed to the front desk for further assistance.'),
-              redirect: availablePaths?.HOME,
-            });
-            checkinStorage({
-              reservationId: reservationInformation?.confirmationId,
-              checkedIn: false,
-              preCheckedIn: false,
-            });
-            toggleNotification(true);
-            toggleCheckInDetailsDrawer(false);
-            setLoading(false);
+          if (reservationStatusMessages[reservationStatus]) {
+            errorStateHandler(reservationStatus, setLoading, t);
           } else if (reservationStatus === INHOUSE) {
             if (roomNo) {
               if (activeCheckInFlowInfo) {
@@ -170,15 +146,7 @@ export const handleReservation = async ({
 
               setLoading(false);
             } else {
-              notificationStorage({
-                type: FAILURE,
-                title: t('Room Unavailable'),
-                description: t('Please try after sometime'),
-                redirect: availablePaths?.HOME,
-              });
-              toggleNotification(true);
-              toggleCheckInDetailsDrawer(false);
-              setLoading(false);
+              errorStateHandler('NOROOM', setLoading, t);
             }
             // setButtonTitle && setButtonTitle(true);
             navigate && navigate(availablePaths.HOME);
@@ -202,44 +170,24 @@ export const handleReservation = async ({
             }, 2000);
           }
         } else {
-          notificationStorage({
-            type: FAILURE,
-            title: t('Invalid Room Type'),
-            description: t('Please proceed to the front desk for further assistance.'),
-            redirect: availablePaths?.HOME,
-          });
-          toggleNotification(true);
-          toggleCheckInDetailsDrawer(false);
-          setLoading(false);
+          errorStateHandler('INVALIDROOM', setLoading, t);
         }
       } else {
-        notificationStorage({
-          type: FAILURE,
-          title: t('Pre Checked-In'),
-          description: t('You have already completed the pre check-in process.'),
-          redirect: availablePaths?.HOME,
-        });
-        toggleNotification(true);
-        toggleCheckInDetailsDrawer(false);
-        setLoading(false);
+        errorStateHandler('PRECHECKEDIN', setLoading, t);
       }
     }
   } catch (error) {
     const statusCode = processStatusCode(error as ApolloError);
+    const errorMessage: any = processError(error as ApolloError);
+
     if (statusCode === 403) {
       activeCheckInFlowInfo
         ? handleCheckInAuthenticationFailure(goToTheNextStep, values)
         : handleinHouseAuthenticationFailure(goToTheNextStep, values);
+    } else if (reservationStatusMessages[errorMessage]) {
+      errorStateHandler(errorMessage, setLoading, t);
     } else {
-      notificationStorage({
-        type: FAILURE,
-        title: t('Reservation Not Found'),
-        description: t('Please proceed to the front desk for further assistance.'),
-        redirect: availablePaths?.HOME,
-      });
-      toggleNotification(true);
-      toggleCheckInDetailsDrawer(false);
-      setLoading(false);
+      errorStateHandler('RESERVATIONNOTFOUND', setLoading, t);
     }
   }
 };
@@ -271,14 +219,7 @@ export const handleCheckInToken = async ({
     navigate(availablePaths.BILL);
     toggleCheckInDetailsDrawer(false);
   } catch {
-    notificationStorage({
-      type: FAILURE,
-      title: t('Reservation Not Found'),
-      description: t('Please proceed to the front desk for further assistance.'),
-      redirect: null,
-    });
-    toggleNotification(true);
-    toggleCheckInDetailsDrawer(false);
+    errorStateHandler('RESERVATIONNOTFOUND', setLoading, t);
   }
   activeCheckOutFlow(false);
   setLoading(false);

@@ -147,5 +147,14 @@
   "Days: ": "الأيام: ",
   "Please enter valid characters": "يرجى إدخال أحرف صالحة",
   "Elevate your stay with our exclusive app. Unlock your room, view your bill, control in-room settings, and stay updated on hotel events—all from your phone. \n\nDownload now to transform your stay into an unforgettable experience!": "ارتقِ بإقامتك مع تطبيقنا الحصري. افتح قفل غرفتك، واطلع على فاتورتك، وتحكم في إعدادات الغرفة، وابقَ على اطلاع دائم بأحداث الفندق — كل ذلك من هاتفك. \n\nقم بالتنزيل الآن لتحويل إقامتك إلى تجربة لا تُنسى!",
-  "At the moment, there are no activities available. Please check back later. We appreciate your understanding.": "في الوقت الحالي، لا توجد أنشطة متاحة. يرجى التحقق مرة أخرى في وقت لاحق. نحن نقدر تفهمك."
+  "At the moment, there are no activities available. Please check back later. We appreciate your understanding.": "في الوقت الحالي، لا توجد أنشطة متاحة. يرجى التحقق مرة أخرى في وقت لاحق. نحن نقدر تفهمك.",
+  "Hi there! It seems your booking was cancelled. Please reach out to our front desk for assistance!": "مرحباً! يبدو أن حجزك قد تم إلغاؤه. يرجى التواصل مع مكتب الاستقبال للحصول على المساعدة.",
+  "Welcome back! It looks like you’ve already checked out. If you need further assistance, please reach out to our front desk!": "مرحباً بعودتك! يبدو أنك قد قمت بتسجيل المغادرة بالفعل. إذا كنت بحاجة إلى مزيد من المساعدة، يرجى التواصل مع مكتب الاستقبال.",
+  "We’re having trouble finding your reservation. Please reach out to our front desk for assistance!": "نواجه صعوبة في العثور على حجزك. يرجى التواصل مع مكتب الاستقبال للحصول على المساعدة.",
+  "We’re having trouble finding your reservation. Please verify your details and try again or stop by our front desk and we can assist you right away!": "نواجه صعوبة في العثور على حجزك. يرجى التحقق من بياناتك والمحاولة مرة أخرى، أو تفضل بزيارة مكتب الاستقبال وسنساعدك على الفور!",
+  "Name doesn’t Match": "الاسم لا يتطابق",
+  "Already Checked Out": "تم تسجيل الخروج بالفعل",
+  "Booking Cancelled": "تم إلغاء الحجز",
+  "Booking Not Found": "الحجز غير موجود",
+  "We couldn’t locate your booking with the provided details. Please verify them or stop by the front desk so we can assist you right away!": "لم نتمكن من العثور على حجزك باستخدام التفاصيل المقدمة. يرجى التحقق منها أو التوجه إلى مكتب الاستقبال حتى نتمكن من مساعدتك على الفور!"
 }

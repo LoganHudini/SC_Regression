@@ -352,6 +352,61 @@ export const CAROUSEL_RESPONSIVE = {
   },
 };
 
+export const reservationStatusMessages: any = {
+  CANCELLED: {
+    title: 'Booking Cancelled',
+    description:
+      'Hi there! It seems your booking was cancelled. Please reach out to our front desk for assistance!',
+  },
+  CANCELED: {
+    title: 'Booking Cancelled',
+    description:
+      'Hi there! It seems your booking was cancelled. Please reach out to our front desk for assistance!',
+  },
+  CHKOUT: {
+    title: 'Already Checked Out',
+    description:
+      'Welcome back! It looks like you’ve already checked out. If you need further assistance, please reach out to our front desk!',
+  },
+  CHECKEDOUT: {
+    title: 'Already Checked Out',
+    description:
+      'Welcome back! It looks like you’ve already checked out. If you need further assistance, please reach out to our front desk!',
+  },
+  NOSHOW: {
+    title: 'Reservation Not Found',
+    description:
+      'We’re having trouble finding your reservation. Please reach out to our front desk for assistance!',
+  },
+  NOROOM: {
+    title: 'Room Unavailable',
+    description: 'Please try after sometime',
+  },
+  INVALIDROOM: {
+    title: 'Invalid Room Type',
+    description: 'Please proceed to the front desk for further assistance.',
+  },
+  PRECHECKEDIN: {
+    title: 'Pre Checked-In',
+    description: 'You have already completed the pre check-in process.',
+  },
+  RESERVATIONNOTFOUND: {
+    title: 'Reservation Not Found',
+    description:
+      'We couldn’t locate your booking with the provided details. Please verify them or stop by the front desk so we can assist you right away!',
+  },
+  'invalid lastname': {
+    title: 'Name doesn’t Match',
+    description:
+      'We’re having trouble finding your reservation. Please verify your details and try again or stop by our front desk and we can assist you right away!',
+  },
+  'booking not found': {
+    title: 'Booking Not Found',
+    description:
+      'We couldn’t locate your booking with the provided details. Please verify them or stop by the front desk so we can assist you right away!',
+  },
+};
+
 // path constants
 export const HOUSEKEEPING = 'HOUSEKEEPING';
 export const DINING = 'DINING';

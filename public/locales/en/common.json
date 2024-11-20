@@ -150,5 +150,14 @@
   "Days: ": "Days: ",
   "Please enter valid characters": "Please enter valid characters",
   "Elevate your stay with our exclusive app. Unlock your room, view your bill, control in-room settings, and stay updated on hotel events—all from your phone. \n\nDownload now to transform your stay into an unforgettable experience!": "Elevate your stay with our exclusive app. Unlock your room, view your bill, control in-room settings, and stay updated on hotel events—all from your phone. \n\nDownload now to transform your stay into an unforgettable experience!",
-  "At the moment, there are no activities available. Please check back later. We appreciate your understanding.": "At the moment, there are no activities available. Please check back later. We appreciate your understanding."
+  "At the moment, there are no activities available. Please check back later. We appreciate your understanding.": "At the moment, there are no activities available. Please check back later. We appreciate your understanding.",
+  "Hi there! It seems your booking was cancelled. Please reach out to our front desk for assistance!": "Hi there! It seems your booking was cancelled. Please reach out to our front desk for assistance!",
+  "Welcome back! It looks like you’ve already checked out. If you need further assistance, please reach out to our front desk!": "Welcome back! It looks like you’ve already checked out. If you need further assistance, please reach out to our front desk!",
+  "We’re having trouble finding your reservation. Please reach out to our front desk for assistance!": "We’re having trouble finding your reservation. Please reach out to our front desk for assistance!",
+  "We’re having trouble finding your reservation. Please verify your details and try again or stop by our front desk and we can assist you right away!": "We’re having trouble finding your reservation. Please verify your details and try again or stop by our front desk and we can assist you right away!",
+  "Name doesn’t Match": "Name doesn’t Match",
+  "Already Checked Out": "Already Checked Out",
+  "Booking Cancelled": "Booking Cancelled",
+  "Booking Not Found": "Booking Not Found",
+  "We couldn’t locate your booking with the provided details. Please verify them or stop by the front desk so we can assist you right away!": "We couldn’t locate your booking with the provided details. Please verify them or stop by the front desk so we can assist you right away!"
 }

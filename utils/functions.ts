@@ -10,13 +10,21 @@ import {
   TEXTFIELD_REGEX,
   TIMINGS,
   GENDER,
+  FAILURE,
+  reservationStatusMessages,
 } from './constants';
 import { tableReservationStorage } from 'storage/table-reservation.storage';
 import { housekeepingOptions, serviceRequestOptionsArray } from 'storage/housekeeping.storage';
-import { toggleRestaurantDetailsDrawer } from 'storage/home.storage';
+import {
+  toggleRestaurantDetailsDrawer,
+  notificationStorage,
+  toggleCheckInDetailsDrawer,
+  toggleNotification,
+} from 'storage/home.storage';
 import { analyticsEvent } from './gtag';
 import * as yup from 'yup';
 import { Countries } from './countryList';
+import { availablePaths } from './availablePaths';
 
 // Extract data from local storage
 export const guestNameFandB = () =>
@@ -408,3 +416,22 @@ export const textFieldValidation = () => {
 export const getCountryCode = (CountryName: string) =>
   Countries?.find((item: any) => item?.name?.toLowerCase() === CountryName?.toLowerCase())?.value ||
   '';
+
+export const errorStateHandler = (
+  reservationStatus: any,
+  setLoading: (value: boolean) => void,
+  t: (key: string) => string,
+) => {
+  const { title, description } = reservationStatusMessages[reservationStatus];
+
+  notificationStorage({
+    type: FAILURE,
+    title: t(`${title}`),
+    description: t(`${description}`),
+    redirect: availablePaths?.HOME,
+  });
+
+  toggleNotification(true);
+  toggleCheckInDetailsDrawer(false);
+  setLoading(false);
+};

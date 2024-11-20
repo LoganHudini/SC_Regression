@@ -150,5 +150,14 @@
   "Days: ": "日数: ",
   "Please enter valid characters": "有効な文字を入力してください",
   "Elevate your stay with our exclusive app. Unlock your room, view your bill, control in-room settings, and stay updated on hotel events—all from your phone. \n\nDownload now to transform your stay into an unforgettable experience!": "当ホテルの専用アプリで、ご滞在をさらに充実させましょう。お部屋のロック解除、請求書の確認、客室内の設定の管理、ホテルのイベントの最新情報の入手など、すべてスマートフォンから行えます。\n\n今すぐダウンロードして、ご滞在を忘れられない体験に変えましょう。",
-  "At the moment, there are no activities available. Please check back later. We appreciate your understanding.": "現在、利用可能なアクティビティはありません。後でもう一度ご確認ください。ご理解いただきありがとうございます。"
+  "At the moment, there are no activities available. Please check back later. We appreciate your understanding.": "現在、利用可能なアクティビティはありません。後でもう一度ご確認ください。ご理解いただきありがとうございます。",
+  "Hi there! It seems your booking was cancelled. Please reach out to our front desk for assistance!": "こんにちは！ご予約がキャンセルされたようです。フロントデスクまでお問合せく",
+  "Welcome back! It looks like you’ve already checked out. If you need further assistance, please reach out to our front desk!": "おかえりなさい！すでにチェックアウトされたようです。さらにサポートが必要な場合は、フロントデスクまでお問合せください。",
+  "We’re having trouble finding your reservation. Please reach out to our front desk for assistance!": "ご予約が見つかりませんでした。フロントデスクまでお問合せください。",
+  "We’re having trouble finding your reservation. Please verify your details and try again or stop by our front desk and we can assist you right away!": "ご予約が見つかりませんでした。詳細をご確認の上、再度お試しいただくか、フロントデスクまでお越しいただければすぐにお手伝いさせていただきます！",
+  "Name doesn’t Match": "名前が一致しません",
+  "Already Checked Out": "すでにチェックアウト済みです",
+  "Booking Cancelled": "予約がキャンセルされました",
+  "Booking Not Found": "予約が見つかりません",
+  "We couldn’t locate your booking with the provided details. Please verify them or stop by the front desk so we can assist you right away!": "提供された詳細でご予約を見つけることができませんでした。情報を確認するか、フロントデスクにお立ち寄りいただければ、すぐに対応させていただきます。"
 }

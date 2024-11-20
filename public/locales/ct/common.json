@@ -150,5 +150,14 @@
   "Days: ": "Dies: ",
   "Please enter valid characters": "Introduïu caràcters vàlids",
   "Elevate your stay with our exclusive app. Unlock your room, view your bill, control in-room settings, and stay updated on hotel events—all from your phone. \n\nDownload now to transform your stay into an unforgettable experience!": "Augmenta la teva estada amb la nostra aplicació exclusiva. Desbloqueja la teva habitació, consulta la teva factura, controla la configuració de l'habitació i estigues al dia dels esdeveniments de l'hotel, tot des del teu telèfon. \n\nDescarrega ara per transformar la teva estada en una experiència inoblidable!",
-  "At the moment, there are no activities available. Please check back later. We appreciate your understanding.": "En aquest moment, no hi ha activitats disponibles. Si us plau, torneu a consultar més tard. Agraïm la vostra comprensió."
+  "At the moment, there are no activities available. Please check back later. We appreciate your understanding.": "En aquest moment, no hi ha activitats disponibles. Si us plau, torneu a consultar més tard. Agraïm la vostra comprensió.",
+  "Hi there! It seems your booking was cancelled. Please reach out to our front desk for assistance!": "Hola! Sembla que la teva reserva ha estat cancel·lada. Si us plau, contacta amb la nostra recepció per a assistència!",
+  "Welcome back! It looks like you’ve already checked out. If you need further assistance, please reach out to our front desk!": "Benvingut de nou! Sembla que ja has fet el check-out. Si necessites més assistència, si us plau, contacta amb la nostra recepció!",
+  "We’re having trouble finding your reservation. Please reach out to our front desk for assistance!": "Estem tenint problemes per trobar la teva reserva. Si us plau, contacta amb la nostra recepció per a assistència!",
+  "We’re having trouble finding your reservation. Please verify your details and try again or stop by our front desk and we can assist you right away!": "Estem tenint problemes per trobar la teva reserva. Si us plau, verifica les teves dades i torna-ho a intentar, o passa per la nostra recepció i t’ajudarem de seguida!",
+  "Name doesn’t Match": "El nom no coincideix",
+  "Already Checked Out": "Ja has fet el check-out",
+  "Booking Cancelled": "Reserva cancel·lada",
+  "Booking Not Found": "Reserva no trobada",
+  "We couldn’t locate your booking with the provided details. Please verify them or stop by the front desk so we can assist you right away!": "No hem pogut localitzar la teva reserva amb les dades proporcionades. Si us plau, verifica-les o passa per la recepció perquè puguem assistir-te immediatament!"
 }
