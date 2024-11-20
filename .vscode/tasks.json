@@ -111,6 +111,28 @@
     },
     {
       "type": "npm",
+      "script": "dev:fairmont-stage",
+      "problemMatcher": [],
+      "label": "Dev: FAIRMONT_STAGE",
+      "detail": "env-cmd -f .env.fairmont.stage yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:fairmont-stage",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: FAIRMONT_STAGE",
+      "detail": "env-cmd -f .env.fairmont.stage yarn next build"
+    },
+    {
+      "type": "npm",
+      "script": "start:fairmont-stage",
+      "problemMatcher": [],
+      "label": "Start: FAIRMONT_STAGE",
+      "detail": "env-cmd -f .env.fairmont.stage yarn next start"
+    },
+    {
+      "type": "npm",
       "script": "dev:itc-hotels",
       "problemMatcher": [],
       "label": "Dev: ITC_HOTELS",
