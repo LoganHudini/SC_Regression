@@ -2,7 +2,7 @@
 import Head from 'next/head';
 import SignatureCanvas from 'react-signature-canvas';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Header } from 'components/shared/Header/Header';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { StyledCheckBox } from 'components/shared/StyledCheckBox/StyledCheckBox';
@@ -104,11 +104,13 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const accompanyGuestInfo = useReactiveVar(accompanyGuestDetails);
   const updatedGuestInfo: any = useReactiveVar(updateNewAccompanyGuestDetails);
-  const updatedGuestData: any =
-    updatedGuestInfo?.length > 0 &&
-    updatedGuestInfo[0]?.adult
-      ?.concat(updatedGuestInfo[0]?.child)
-      ?.filter((item: any) => item?.lastName);
+  const updatedGuestData = useMemo(() => {
+    return updatedGuestInfo?.length > 0
+      ? (updatedGuestInfo[0]?.adult || [])
+          ?.concat(updatedGuestInfo[0]?.child || [])
+          ?.filter((item: any) => item?.lastName)
+      : [];
+  }, [updatedGuestInfo]);
   const hotelInfo = useReactiveVar(hotelInformation);
   const dayjsLocaleLoader = useReactiveVar(setDayjsLocale);
   const [accompanyGuestInformationState, setAcccompanyGuestInformation] = useState(
