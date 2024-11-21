@@ -48,6 +48,26 @@ export const AVA_RESORT_CANCUN = 'ava-resort-cancun';
 export const ITC_HOTELS_MARATHA = 'itc-hotels-maratha';
 export const PESTANA_CR7_LISBON = 'pestana-cr7-lisbon';
 export const THE_SAVOY_LONDON = 'the-savoy-london';
+export const MERCURE_KYOTO_MIYAZU_RESORT_SPA = 'mercure-kyoto-miyazu-resort-spa';
+export const MERCURE_SAGA_KARATSU_RESORT = 'mercure-saga-karatsu-resort';
+export const MERCURE_WAKAYAMA_KUSHIMOTO_RESORT_SPA = 'mercure-wakayama-kushimoto-resort-spa';
+export const MERCURE_TOYAMA_TONAMI_RESORT_SPA = 'mercure-toyama-tonami-resort-spa';
+export const MERCURE_KOCHI_TOSA_RESORT_SPA = 'mercure-kochi-tosa-resort-spa';
+export const MERCURE_MIYAGI_ZAO_RESORT_SPA = 'mercure-miyagi-zao-resort-spa';
+export const MERCURE_TOTTORI_DAISEN_RESORT_SPA = 'mercure-tottori-daisen-resort-spa';
+export const MERCURE_URABANDAI_RESORT_SPA = 'mercure-urabandai-resort-spa';
+export const MERCURE_FUKUOKA_MUNAKATA_RESORT_SPA = 'mercure-fukuoka-munakata-resort-spa';
+export const GRAND_MERCURE_BEPPU_BAY_RESORT_SPA = 'grand-mercure-beppu-bay-resort-spa';
+export const GRAND_MERCURE_NASU_HIGHLAND_RESORT_SPA = 'grand-mercure-nasu-highland-resort-spa';
+export const GRAND_MERCURE_YATSUGATAKE_RESORT_SPA = 'grand-mercure-yatsugatake-resort-spa';
+export const GRAND_MERCURE_AWAJI_ISLAND_RESORT_SPA = 'grand-mercure-awaji-island-resort-spa';
+export const GRAND_MERCURE_NARA_KASHIHARA = 'grand-mercure-nara-kashihara';
+export const GRAND_MERCURE_ISESHIMA_RESORT_SPA = 'grand-mercure-ise-shima-resort-spa';
+export const GRAND_MERCURE_LAKE_BIWA_RESORT_SPA = 'grand-mercure-lake-biwa-resort-spa';
+export const GRAND_MERCURE_MINAMIBOSO_RESORT_SPA = 'grand-mercure-minamiboso-resort-spa';
+export const GRAND_MERCURE_WAKAYAMA_MINABE_RESORT_SPA = 'grand-mercure-wakayama-minabe-resort-spa';
+export const GRAND_MERCURE_SAPPORO_ODORI_PARK = 'grand-mercure-sapporo-odori-park';
+export const GRAND_MERCURE_LAKE_HAMANA_RESORT_SPA = 'grand-mercure-lake-hamana-resort-spa';
 
 // configuration constants
 export const OPERA = 'OPERA';
