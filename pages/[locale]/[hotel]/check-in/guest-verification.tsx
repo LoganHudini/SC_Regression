@@ -126,7 +126,7 @@ const Guest: React.FC<any> = () => {
   });
 
   const reservationInfo: any = reservationData?.getReservation?.data;
-
+  const totalGuestCount = reservationInfo?.details?.totalGuestCount;
   const childGuestCount = reservationInfo?.details?.childGuestCount;
   const adultGuestCount = reservationInfo?.details?.adultGuestCount;
 
@@ -347,7 +347,11 @@ const Guest: React.FC<any> = () => {
 
   // new guests initialization and validation
   useEffect(() => {
-    if (isEmpty(newAccompanyGuestStorage)) {
+    if (
+      (totalGuestCount > 0 && isEmpty(newAccompanyGuestStorage)) ||
+      (adultGuestCount > 0 && isEmpty(newAccompanyGuestStorage?.adult)) ||
+      (childGuestCount > 0 && isEmpty(newAccompanyGuestStorage?.child))
+    ) {
       const guestFields = accompanyGuestInformationSection.reduce((acc: any, curr: any) => {
         if (curr.label && curr.isActive) {
           acc[curr.name] = '';
@@ -909,13 +913,16 @@ const Guest: React.FC<any> = () => {
               </div>
             </div>
           )}
+          {reservationInfo?.details?.totalGuestCount > 1 && (
+            <p className={styles.guestType}>
+              {reservationInfo?.details?.totalGuestCount === 2
+                ? t('Accompanying Guest')
+                : t('Accompanying Guests')}{' '}
+            </p>
+          )}
+
           {accompanyGuestData && accompanyGuestData?.length > 0 && (
             <div className={styles.boxWrapper}>
-              <p className={styles.guestType}>
-                {accompanyGuestData?.length + updatedGuestData?.length === 1
-                  ? t('Accompanying Guest')
-                  : t('Accompanying Guests')}{' '}
-              </p>
               {accompanyGuestData?.length > 0 &&
                 accompanyGuestData?.map((selectedAccompanyGuest: any, index: number) => (
                   <div key={index}>

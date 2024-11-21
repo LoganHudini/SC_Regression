@@ -507,14 +507,14 @@
     },
     {
       "type": "npm",
-      "script": "dev:pestana-cr7.stage",
+      "script": "dev:pestana-cr7-stage",
       "problemMatcher": [],
       "label": "Dev: PESTANA CR7 STAGE",
       "detail": "env-cmd -f .env.pestana-cr7.stage yarn next dev"
     },
     {
       "type": "npm",
-      "script": "build:pestana-cr7.stage",
+      "script": "build:pestana-cr7-stage",
       "group": "build",
       "problemMatcher": [],
       "label": "Build: PESTANA CR7 STAGE",
@@ -522,7 +522,7 @@
     },
     {
       "type": "npm",
-      "script": "start:pestana-cr7.stage",
+      "script": "start:pestana-cr7-stage",
       "problemMatcher": [],
       "label": "Start: PESTANA CR7 STAGE",
       "detail": "env-cmd -f .env.pestana-cr7.stage next start"
