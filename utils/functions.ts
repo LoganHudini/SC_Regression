@@ -10,6 +10,7 @@ import {
   TEXTFIELD_REGEX,
   TIMINGS,
   GENDER,
+  ALL_DAY,
   FAILURE,
   reservationStatusMessages,
 } from './constants';
@@ -416,6 +417,18 @@ export const textFieldValidation = () => {
 export const getCountryCode = (CountryName: string) =>
   Countries?.find((item: any) => item?.name?.toLowerCase() === CountryName?.toLowerCase())?.value ||
   '';
+
+export const getFormattedTime = (timeInMinutes: any) => {
+  if (!timeInMinutes.includes(ALL_DAY)) {
+    const timeArray = Array.isArray(timeInMinutes) ? timeInMinutes : [timeInMinutes];
+    return timeArray.map((time) => {
+      const [hours, minutes] = time && time.split(':').map(Number);
+      return hours * 60 + minutes;
+    });
+  } else {
+    return timeInMinutes;
+  }
+};
 
 export const errorStateHandler = (
   reservationStatus: any,

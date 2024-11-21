@@ -162,3 +162,9 @@ export interface IDiningCarouselProps {
     version: string;
   }[];
 }
+
+export interface RestaurantStatusProps {
+  currentTimes: number;
+  openingTimes: number[];
+  closingTimes: number[];
+}

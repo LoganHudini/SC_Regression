@@ -11,6 +11,7 @@ import {
   diningOptionList,
   activeItems,
   filterIRDMenuItems,
+  getFormattedTime,
 } from 'utils/functions';
 import {
   CAROUSEL_RESPONSIVE,
@@ -18,11 +19,13 @@ import {
   RESTAURANTS_AND_BARS,
   RESTAURANT,
   EVERYDAY,
+  ALL_DAY,
 } from 'utils/constants';
 import cx from 'classnames';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { availablePaths } from 'utils/availablePaths';
 import {
+  hotelInfoStorage,
   diningOptions,
   toggleDetailsDrawer,
   toggleRestaurantDetailsDrawer,
@@ -35,6 +38,12 @@ import { IframeComponent } from 'components/shared/IframeComponent/IframeCompone
 import { IRDMenuApiResponse } from 'core/graphql/queries/IRD_MENU';
 import { useReactiveVar } from '@apollo/client';
 import { RestaurantDetail } from 'components/pages/dining/RestaurantDetail/RestaurantDetail';
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import duration from 'dayjs/plugin/duration';
+import isBetween from 'dayjs/plugin/isBetween';
+import utc from 'dayjs/plugin/utc';
+import { timeFormats } from 'utils/timeFormats';
 
 interface ICarouselProps {
   ird: any;
@@ -54,6 +63,12 @@ interface ICarouselSlideProps {
 export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, irdModule }) => {
   const { t } = useTranslation(['common']);
   const isCheckedIn = useCheckedIn();
+  const hotelInformation = useReactiveVar(hotelInfoStorage);
+  const hotelTimeZone = hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone;
+  dayjs.extend(timezone);
+  dayjs.extend(duration);
+  dayjs.extend(utc);
+  dayjs.extend(isBetween);
 
   const [diningOptionsState, setDiningOption] = useState<any>();
   const [timeSelectDrawer, setTimeSelectDrawer] = useState(false);
@@ -109,6 +124,55 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, ird
       setIframeComponent(false);
     };
 
+    const restaurantOpenTime = slide?.hours?.map((time: any) => time?.open);
+    const restaurantCloseTime = slide?.hours?.map((time: any) => time?.close);
+    const isRestaurantOpen = slide?.hours?.map((time: any) => time?.day);
+
+    const toDay = dayjs().tz(hotelTimeZone).locale('en').format('dddd').toUpperCase();
+
+    const isDayFound = isRestaurantOpen?.includes(EVERYDAY) || isRestaurantOpen?.includes(toDay);
+    const isOpen = getFormattedTime(restaurantOpenTime);
+    const isClose = getFormattedTime(restaurantCloseTime);
+    const [status, setStatus] = useState<string>('');
+
+    const getRestaurantStatus = (currentTime: any) => {
+      let displayMessage = t('Closed');
+
+      if (!currentTime || isNaN(currentTime)) return displayMessage;
+
+      const restaurantOpeningSlot = isOpen.findIndex(
+        (openingTime: number, i: number) => openingTime <= currentTime && currentTime < isClose[i],
+      );
+
+      if (restaurantOpeningSlot !== -1 && isDayFound) {
+        const closingTime = isClose[restaurantOpeningSlot];
+        if (closingTime - currentTime <= 60) {
+          displayMessage = t('Closes in', { value: closingTime - currentTime });
+        } else {
+          displayMessage = t('Open');
+        }
+        return displayMessage;
+      }
+
+      const nextOpeningSlot = isOpen.findIndex(
+        (openingTime: number) => openingTime - currentTime >= 0 && openingTime - currentTime <= 60,
+      );
+
+      if (nextOpeningSlot !== -1 && isDayFound) {
+        displayMessage = t('Opens in', { value: isOpen[nextOpeningSlot] - currentTime });
+      }
+
+      return displayMessage;
+    };
+    const nowTimeIs = getFormattedTime(
+      dayjs().tz(hotelTimeZone).format(timeFormats.HOURS_MINUTES_2),
+    );
+
+    useEffect(() => {
+      const statusdisplayMessage = getRestaurantStatus(nowTimeIs);
+      setStatus(statusdisplayMessage);
+    }, [hotelTimeZone, nowTimeIs]);
+
     return (
       <>
         <div
@@ -127,6 +191,15 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, ird
             )}
           >
             <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>
+            {isOpen?.includes(ALL_DAY) && isClose?.includes(ALL_DAY) ? (
+              <div className={styles.carouselRestaurantTimeStatus}>
+                <p>{t('Open')}</p>
+              </div>
+            ) : (
+              <div className={styles.carouselRestaurantTimeStatus}>
+                <p>{status}</p>
+              </div>
+            )}
             <div className={cx(styles.content, 'globals-content')}>
               {time && (
                 <div className={styles.cuisineRowTime}>
