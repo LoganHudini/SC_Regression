@@ -3652,8 +3652,6 @@ export const configuration: any = [
     pms: 'OPERA',
     fetchFromDb: 'yes',
     saveToDb: 'no',
-    widgetId: '88cc3ab4-1a5d-4f4a-ad52-b7deea078078',
-    chatOption: 'MESSAGE_BIRD',
     languages: [
       { code: 'en', name: 'English' },
       { code: 'fr', name: 'FranÃ§ais' },
@@ -3667,10 +3665,12 @@ export const configuration: any = [
       'spa',
       'hotel-compendium',
     ],
-    allowedRoomtypes: ['TWA', 'VI2'],
+    // to be enabled for before live
+    // allowedRoomtypes: ['TWA', 'VI2'],
     hideImagePlaceholder: true,
     isAnimationActive: false,
     isLogoLoaderActive: false,
+    isFaceMatchdisabled: true,
     modules: [
       {
         code: 'Preferences',
@@ -3702,7 +3702,8 @@ export const configuration: any = [
               {
                 name: 'Guest Information',
                 isActive: true,
-                type: 'manual',
+                type: 'trential',
+                environment: 'development',
                 details: [
                   {
                     name: 'firstName',
@@ -3784,26 +3785,14 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: false,
+                    isDisabled: true,
                     isActive: true,
                     options: [
                       {
                         name: 'Passport',
                         value: 'PAS',
                         code: 'PAS',
-                        vendorDocType: 'PASSPORT',
-                      },
-                      {
-                        name: 'ID',
-                        value: 'ID',
-                        code: 'ID',
-                        vendorDocType: 'IDENTITY_CARD',
-                      },
-                      {
-                        name: 'Military ID',
-                        value: 'MID',
-                        code: 'MID',
-                        vendorDocType: 'IDENTITY_CARD',
+                        vendorDocType: 'passport',
                       },
                     ],
                   },
@@ -3812,7 +3801,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: false,
+                    isDisabled: true,
                     isActive: true,
                   },
                 ],
@@ -3864,7 +3853,7 @@ export const configuration: any = [
             title: '',
             type: 'manual',
             isActive: true,
-            cardIcon: 'guest',
+            mandatory: true,
             details: [
               {
                 name: 'firstName',
@@ -3911,7 +3900,7 @@ export const configuration: any = [
               {
                 name: 'phone',
                 label: 'Phone Number',
-                type: 'tel',
+                type: 'Tel',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -4036,7 +4025,7 @@ export const configuration: any = [
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'spa',
@@ -4055,18 +4044,20 @@ export const configuration: any = [
     pms: 'OPERA',
     fetchFromDb: 'yes',
     saveToDb: 'no',
+    skipQueueReservation: true,
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: [
       'offers',
       'check-in',
       'hotel-info',
-      'services',
       'dining',
+      'services',
       'spa',
       'hotel-compendium',
     ],
     isAnimationActive: false,
     isLogoLoaderActive: false,
+    preCheckInOnly: true,
     modules: [
       {
         code: 'Preferences',
@@ -4087,7 +4078,284 @@ export const configuration: any = [
       {
         code: 'Check-In',
         name: 'Check-In',
-        isActive: false,
+        isActive: true,
+        submodules: [
+          {
+            name: 'information',
+            label: 'Check-In',
+            title: 'Please Complete Your Check-In Process',
+            isActive: true,
+            details: [
+              {
+                name: 'Guest Information',
+                isActive: true,
+                type: 'youverse',
+                environment: 'development',
+                details: [
+                  {
+                    name: 'firstName',
+                    label: 'First Name',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'lastName',
+                    label: 'Last Name',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'gender',
+                    label: 'Gender',
+                    type: 'AutoComplete',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    options: [
+                      {
+                        name: 'Male',
+                        value: 'MALE',
+                        vendorGenderType: 'M',
+                      },
+                      {
+                        name: 'Female',
+                        value: 'FEMALE',
+                        vendorGenderType: 'F',
+                      },
+                      {
+                        name: 'Others',
+                        value: 'UNKNOWN',
+                        vendorGenderType: '',
+                      },
+                    ],
+                  },
+                  {
+                    name: 'nationality',
+                    label: 'Nationality',
+                    type: 'AutoComplete',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    options: Countries,
+                  },
+                  {
+                    name: 'dob',
+                    label: 'Date of Birth',
+                    type: 'datePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    isDisableFuture: true,
+                  },
+                  {
+                    name: 'phone',
+                    label: 'Phone Number',
+                    type: 'tel',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
+                    name: 'emails',
+                    label: 'Email',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
+                    name: 'docType',
+                    label: 'Document Type',
+                    type: 'AutoComplete',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                    options: [
+                      {
+                        name: 'Passport',
+                        value: 'PASSPORT',
+                        code: 'PASSPORT',
+                        vendorDocType: 'PASSPORT',
+                      },
+                      {
+                        name: 'ID',
+                        value: 'ID',
+                        code: 'ID',
+                        vendorDocType: 'IDENTITY_CARD',
+                      },
+                    ],
+                  },
+                  {
+                    name: 'docNo',
+                    label: 'Document Number',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: true,
+                    isActive: true,
+                  },
+                ],
+              },
+              {
+                name: 'Credit Card Info',
+                isActive: true,
+                type: 'NONE',
+              },
+            ],
+          },
+          {
+            name: 'accompanyingGuest',
+            label: 'Secondary Guest',
+            title: '',
+            type: 'manual',
+            isActive: true,
+            details: [
+              {
+                name: 'firstName',
+                label: 'First Name',
+                type: 'Text',
+                required: true,
+                isDisabled: true,
+                isActive: true,
+              },
+              {
+                name: 'lastName',
+                label: 'Last Name',
+                type: 'Text',
+                required: true,
+                isDisabled: true,
+                isActive: true,
+              },
+              {
+                name: 'gender',
+                label: 'Gender',
+                type: 'AutoComplete',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'nationality',
+                label: 'Nationality',
+                type: 'AutoComplete',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+                options: Countries,
+              },
+              {
+                name: 'dob',
+                label: 'Date of Birth',
+                type: 'datePicker',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+                isDisableFuture: true,
+              },
+              {
+                name: 'phone',
+                label: 'Phone Number',
+                type: 'Tel',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'emails',
+                label: 'Email',
+                type: 'Text',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'docType',
+                label: 'Document Type',
+                type: 'AutoComplete',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'docNo',
+                label: 'Document Number',
+                type: 'Text',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+            ],
+          },
+          {
+            name: 'personalisation',
+            label: 'Customize My Stay',
+            title: 'Check-In',
+            type: 'CMS',
+            isActive: true,
+          },
+          {
+            name: 'review',
+            label: 'Review & Sign',
+            title: 'Check-In',
+            buttonLabelCheckIn: 'Confirm Check-In',
+            // eslint-disable-next-line quotes
+            termsAndCondition:
+              'I have read, understood and agree to the Terms & Conditions and Privacy Laws.',
+            subTitle:
+              'Please review and confirm the below information to complete the Check-In process',
+            type: 'cms',
+            isActive: true,
+            guestInformationDetails: [
+              {
+                title: 'Guest Information',
+              },
+              {
+                checkIn: 'Check-In',
+                checkOut: 'Checkout',
+              },
+            ],
+            creditCardDetails: {
+              title: 'Payment Information',
+              details: [
+                {
+                  name: 'cardNumber',
+                  label: 'Card Number',
+                },
+                {
+                  name: 'cardType',
+                  label: 'Card Type',
+                },
+                {
+                  name: 'cardExpiryDate',
+                  label: 'Expiry Date',
+                },
+              ],
+            },
+            identityVerificationDetails: [
+              {
+                title: 'Identity Verification',
+              },
+              {
+                name: 'docType',
+                cmsName: 'DOCUMENT_TYPE',
+                label: 'Document Type',
+              },
+              {
+                name: 'docNo',
+                cmsName: 'DOCUMENT_NUMBER',
+                label: 'Document Number',
+              },
+            ],
+            personalizationDetails: [
+              {
+                title: 'Add-Ons',
+              },
+            ],
+          },
+        ],
       },
       {
         code: 'Pair-To-Room',
@@ -4097,7 +4365,7 @@ export const configuration: any = [
       {
         code: 'In-Room Dining',
         name: 'In-Room Dining',
-        isActive: true,
+        isActive: false,
         type: 'CMS',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
       },
@@ -4105,7 +4373,7 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: true,
-        type: 'CMS',
+        type: 'VENDOR',
       },
       {
         code: 'view-bill',
@@ -4115,12 +4383,13 @@ export const configuration: any = [
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'spa',
         name: 'Spa',
         isActive: true,
+        type: 'CMS',
       },
     ],
   },
@@ -4195,7 +4464,7 @@ export const configuration: any = [
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: false,
+        isActive: true,
       },
       {
         code: 'spa',
@@ -4270,6 +4539,31 @@ export const configuration: any = [
                     required: true,
                     isDisabled: true,
                     isActive: true,
+                  },
+                  {
+                    name: 'gender',
+                    label: 'Gender',
+                    type: 'AutoComplete',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    options: [
+                      {
+                        name: 'Male',
+                        value: 'MALE',
+                        vendorGenderType: 'M',
+                      },
+                      {
+                        name: 'Female',
+                        value: 'FEMALE',
+                        vendorGenderType: 'F',
+                      },
+                      {
+                        name: 'Others',
+                        value: 'UNKNOWN',
+                        vendorGenderType: '',
+                      },
+                    ],
                   },
                   {
                     name: 'nationality',
@@ -10811,6 +11105,7 @@ export const configuration: any = [
     ],
     isAnimationActive: false,
     isLogoLoaderActive: false,
+    isFaceMatchdisabled: true,
     preCheckInOnly: true,
     modules: [
       {
@@ -20277,6 +20572,7 @@ export const configuration: any = [
     hideImagePlaceholder: true,
     isAnimationActive: false,
     isLogoLoaderActive: false,
+    isFaceMatchdisabled: true,
     modules: [
       {
         code: 'Preferences',
