@@ -2308,7 +2308,7 @@ export const configuration: any = [
                         vendorDocType: 'DRIVING_LICENSE',
                       },
                       {
-                        name: 'Resident Card',
+                        name: 'Residence Card',
                         value: 'RES',
                         code: 'RES',
                         vendorDocType: 'RESIDENT_CARD',
@@ -4152,7 +4152,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -4162,10 +4162,22 @@ export const configuration: any = [
                         vendorDocType: 'PASSPORT',
                       },
                       {
-                        name: 'ID',
-                        value: 'ID',
-                        code: 'ID',
+                        name: 'State/Government Issued ID',
+                        value: 'IDC',
+                        code: 'IDC',
                         vendorDocType: 'IDENTITY_CARD',
+                      },
+                      {
+                        name: 'Driving License',
+                        value: 'DL',
+                        code: 'DL',
+                        vendorDocType: 'DRIVING_LICENSE',
+                      },
+                      {
+                        name: 'Residence Card',
+                        value: 'RES',
+                        code: 'RES',
+                        vendorDocType: 'RESIDENT_CARD',
                       },
                     ],
                   },
@@ -4174,7 +4186,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                 ],
