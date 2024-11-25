@@ -39,6 +39,9 @@
   font: $header var(--heading-font-regular);
   text-align: center;
   line-height: 1;
+  white-space: normal;
+  word-wrap: break-word;
+  width: 100%;
 }
 
 .body {

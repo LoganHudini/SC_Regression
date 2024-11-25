@@ -417,6 +417,9 @@
   font: $header var(--heading-font-regular);
   line-height: 1.2;
   text-align: center;
+  white-space: normal;
+  word-wrap: break-word;
+  width: 100%;
 }
 
 .gapList {

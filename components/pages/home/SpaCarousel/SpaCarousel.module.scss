@@ -120,6 +120,9 @@
   font: $header var(--heading-font-regular);
   margin: 1rem 0;
   text-align: center;
+  white-space: normal;
+  word-wrap: break-word;
+  width: 100%;
 }
 
 .detailComponentDuration {

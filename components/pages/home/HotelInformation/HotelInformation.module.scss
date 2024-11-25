@@ -24,6 +24,9 @@
   font-size: $xheader;
   text-align: center;
   font-family: var(--heading-font-regular);
+  white-space: normal;
+  word-wrap: break-word;
+  width: 100%;
 }
 
 .description {

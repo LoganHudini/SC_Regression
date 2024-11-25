@@ -41,6 +41,10 @@
   font: $header var(--heading-font-regular);
   text-align: center;
   margin: 0 0 8px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
 }
 
 .currency {

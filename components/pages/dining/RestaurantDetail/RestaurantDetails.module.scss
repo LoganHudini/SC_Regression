@@ -191,6 +191,9 @@
   margin: 1.5rem 0 1rem;
   font: $header var(--heading-font-regular);
   line-height: 1.2;
+  white-space: normal;
+  word-wrap: break-word;
+  width: 100%;
 }
 
 .titleWithoutCTA {
@@ -201,6 +204,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  width: 100%;
 }
 
 .listComponentDataText {

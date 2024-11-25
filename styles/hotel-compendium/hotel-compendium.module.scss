@@ -17,6 +17,9 @@
   font-size: $header;
   margin: 1rem 0;
   font-family: var(--heading-font-regular);
+  white-space: normal;
+  word-wrap: break-word;
+  width: 100%;
 }
 
 .description {
