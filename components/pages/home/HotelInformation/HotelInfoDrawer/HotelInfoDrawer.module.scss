@@ -48,6 +48,7 @@
   text-align: center;
   color: var(--tertiary-text-color);
   font-family: var(--primary-font-regular);
+  white-space: pre-wrap;
 }
 
 .phone {
@@ -136,14 +137,14 @@
 
 .linkIcon {
   width: 20px;
-    path {
+  path {
     fill: var(--secondary-text-color);
   }
 }
 
 .emailIcon {
   width: 20px;
-    path {
+  path {
     fill: var(--secondary-text-color);
   }
 }
