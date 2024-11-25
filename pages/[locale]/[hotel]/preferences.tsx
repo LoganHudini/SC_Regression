@@ -11,6 +11,9 @@ import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { ApolloError, useQuery } from '@apollo/client';
 import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
+import { StyledInput } from 'components/shared/StyledInput/StyledInput';
+import { typeHereValidation } from 'validation/feedback.validation';
+import { useFormik } from 'formik';
 import cx from 'classnames';
 import {
   CANCELED,
@@ -64,6 +67,7 @@ const Preferences = () => {
   });
 
   const reservationInfo = reservationData?.getReservation?.data;
+  const [commentText, setcommentText] = useState<any>();
 
   const getReservation = async () => {
     try {
@@ -230,6 +234,14 @@ const Preferences = () => {
     });
   };
 
+  const formik = useFormik({
+    initialValues: { typeHere: '' },
+    validationSchema: typeHereValidation,
+    onSubmit: (values) => {
+      setcommentText(values.typeHere);
+    },
+  });
+
   const submit = async () => {
     const checkInToken = await getCheckInToken();
     const commentStrings = [];
@@ -237,7 +249,11 @@ const Preferences = () => {
       const comment = `${categoryTitle}: ${selectedOptions[categoryTitle].join(', ')}`;
       commentStrings.push(comment);
     }
-    const comments = commentStrings.join(' | ');
+    const preferencesComments = commentStrings.join(' | ');
+
+    const comments = commentText
+      ? `${preferencesComments} | comments: ${commentText}`
+      : preferencesComments;
 
     const preferencesPayload = {
       bookingId: reservationInfo?.uniqueBookingId,
@@ -324,6 +340,39 @@ const Preferences = () => {
                     </div>
                   </div>
                 ))}
+            </div>
+
+            <div className={styles.commentTextWrapper}>
+              <span className={styles.categoryTitle}>{t('Comments')} </span>
+              <StyledInput
+                placeholder={`${t('Type here')}`}
+                multiline
+                id='typeHere'
+                onChange={(e) => {
+                  formik.handleChange(e);
+                  setcommentText(e.target.value);
+                }}
+                fullWidth
+                value={formik.values.typeHere}
+                autoComplete='off'
+                sx={{
+                  '& .MuiOutlinedInput-input': {
+                    textAlign: 'left',
+                  },
+                }}
+                className={cx(styles.guestDataInput, styles.demo)}
+                InputProps={{
+                  classes: {
+                    notchedOutline: styles.customUnderline,
+                  },
+                }}
+                variant='outlined'
+                error={Boolean(formik.errors.typeHere)}
+                helperText={formik.errors.typeHere ? t(formik.errors.typeHere) : null}
+                inputProps={{
+                  maxLength: 150,
+                }}
+              />
             </div>
 
             <div className={cx(styles.bottomMenuWrapper)}>
