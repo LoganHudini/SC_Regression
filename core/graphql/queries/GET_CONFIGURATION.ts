@@ -3571,6 +3571,7 @@ export const configuration: any = [
     ],
     isAnimationActive: false,
     isLogoLoaderActive: false,
+    retryEnabled: true,
     modules: [
       {
         code: 'Preferences',

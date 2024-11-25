@@ -164,5 +164,9 @@
   "Already Checked Out": "Ja has fet el check-out",
   "Booking Cancelled": "Reserva cancel·lada",
   "Booking Not Found": "Reserva no trobada",
-  "We couldn’t locate your booking with the provided details. Please verify them or stop by the front desk so we can assist you right away!": "No hem pogut localitzar la teva reserva amb les dades proporcionades. Si us plau, verifica-les o passa per la recepció perquè puguem assistir-te immediatament!"
+  "We couldn’t locate your booking with the provided details. Please verify them or stop by the front desk so we can assist you right away!": "No hem pogut localitzar la teva reserva amb les dades proporcionades. Si us plau, verifica-les o passa per la recepció perquè puguem assistir-te immediatament!",
+  "Pairing your device": "Emparellant el teu dispositiu",
+  "Connecting your device is taking longer than expected. Please explore the app in the meantime, and we’ll continue the pairing process.": "La connexió del teu dispositiu està tardant més del previst. Mentrestant, explora l'aplicació i continuarem amb el procés d'emparellament.",
+  "Your Device is Now Connected": "El teu dispositiu està ara connectat",
+  "Enjoy all the in-stay features and services at your fingertips.": "Gaudeix de totes les funcions i serveis durant l'estada a l'abast de la teva mà."
 }

@@ -57,6 +57,7 @@ const CheckInDrawer = () => {
 
   const [loading, setLoading] = useState(false);
   const isKeyboardVisible = useDetectKeyboardOpen();
+  const isRetryEnabled = config?.retryEnabled;
 
   const goToTheNextStep = useCallback(
     async (values: Values) => {
@@ -81,6 +82,7 @@ const CheckInDrawer = () => {
           goToTheNextStep,
           homeActiveRef,
           navigate,
+          isRetryEnabled,
         });
       }
     },

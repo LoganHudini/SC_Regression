@@ -164,5 +164,9 @@
   "Already Checked Out": "すでにチェックアウト済みです",
   "Booking Cancelled": "予約がキャンセルされました",
   "Booking Not Found": "予約が見つかりません",
-  "We couldn’t locate your booking with the provided details. Please verify them or stop by the front desk so we can assist you right away!": "提供された詳細でご予約を見つけることができませんでした。情報を確認するか、フロントデスクにお立ち寄りいただければ、すぐに対応させていただきます。"
+  "We couldn’t locate your booking with the provided details. Please verify them or stop by the front desk so we can assist you right away!": "提供された詳細でご予約を見つけることができませんでした。情報を確認するか、フロントデスクにお立ち寄りいただければ、すぐに対応させていただきます。",
+  "Pairing your device": "デバイスをペアリングしています",
+  "Connecting your device is taking longer than expected. Please explore the app in the meantime, and we’ll continue the pairing process.": "デバイスの接続に予想以上の時間がかかっています。その間にアプリを探索してください。ペアリングプロセスは引き続き行います。",
+  "Your Device is Now Connected": "あなたのデバイスは現在接続されています",
+  "Enjoy all the in-stay features and services at your fingertips.": "宿泊中のすべての機能とサービスを指先でお楽しみください。"
 }

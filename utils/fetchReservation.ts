@@ -29,7 +29,10 @@ export const handleReservation = async ({
   goToTheNextStep,
   homeActiveRef,
   navigate,
+  isRetryEnabled,
 }: any) => {
+  let tryCount: any = 0;
+
   try {
     setLoading(true);
     const checkInToken: { current?: string } = {};
@@ -97,10 +100,8 @@ export const handleReservation = async ({
               if (activeCheckInFlowInfo) {
                 notificationStorage({
                   type: SUCCESS,
-                  title: t('Hello Again!'),
-                  description: t(
-                    'Reservation validated successfully. You can now explore our in-stay services.',
-                  ),
+                  title: t('Your Device is Now Connected'),
+                  description: t('Enjoy all the in-stay features and services at your fingertips.'),
                 });
                 toggleNotification(true);
                 toggleCheckInDetailsDrawer(false);
@@ -177,17 +178,38 @@ export const handleReservation = async ({
       }
     }
   } catch (error) {
+    tryCount = tryCount + 1;
+
     const statusCode = processStatusCode(error as ApolloError);
-    const errorMessage: any = processError(error as ApolloError);
+    const errorCode: any = processError(error as ApolloError);
 
     if (statusCode === 403) {
       activeCheckInFlowInfo
         ? handleCheckInAuthenticationFailure(goToTheNextStep, values)
         : handleinHouseAuthenticationFailure(goToTheNextStep, values);
-    } else if (reservationStatusMessages[errorMessage]) {
-      errorStateHandler(errorMessage, setLoading, t);
+    } else if (reservationStatusMessages[errorCode]) {
+      errorStateHandler(errorCode, setLoading, t);
     } else {
-      errorStateHandler('RESERVATIONNOTFOUND', setLoading, t);
+      if (isRetryEnabled && tryCount < 3 && errorCode !== 401) {
+        errorStateHandler('PROCESSING', setLoading, t);
+
+        handleReservation({
+          activeCheckInFlowInfo,
+          values,
+          hotelId,
+          config,
+          toggleNotification,
+          setLoading,
+          t,
+          processStatusCode,
+          goToTheNextStep,
+          homeActiveRef,
+          navigate,
+          tryCount,
+        });
+      } else {
+        errorStateHandler('RESERVATIONNOTFOUND', setLoading, t);
+      }
     }
   }
 };

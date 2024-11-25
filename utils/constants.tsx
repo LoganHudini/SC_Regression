@@ -415,6 +415,11 @@ export const reservationStatusMessages: any = {
     description:
       'We couldn’t locate your booking with the provided details. Please verify them or stop by the front desk so we can assist you right away!',
   },
+  PROCESSING: {
+    title: 'Pairing your device',
+    description:
+      'Connecting your device is taking longer than expected. Please explore the app in the meantime, and we’ll continue the pairing process.',
+  },
   'invalid lastname': {
     title: 'Name doesn’t Match',
     description:
