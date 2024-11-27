@@ -296,6 +296,10 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                           formik.errors[field?.name] &&
                           t(String(formik.errors[field?.name]))
                         }
+                        inputProps={{
+                          ...params.inputProps,
+                          readOnly: true,
+                        }}
                       />
                     )}
                   />
