@@ -23,8 +23,6 @@ import { useRouter } from 'next/router';
 import { processStatusCode } from 'utils/processError';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { handleCheckInToken, handleReservation } from 'utils/fetchReservation';
-import cx from 'classnames';
-import useDetectKeyboardOpen from 'utils/hooks/useDetectKeyboardOpen';
 
 export interface Values {
   confirmationNumber?: string | string[];
@@ -56,7 +54,6 @@ const CheckInDrawer = () => {
   const activeCheckOutFlowInfo = useReactiveVar(activeCheckOutFlow);
 
   const [loading, setLoading] = useState(false);
-  const isKeyboardVisible = useDetectKeyboardOpen();
   const isRetryEnabled = config?.retryEnabled;
 
   const goToTheNextStep = useCallback(
@@ -232,9 +229,7 @@ const CheckInDrawer = () => {
             )}
             <StyledButton
               loading={loading}
-              className={cx(styles.findMyBookingBtn, {
-                [styles.inputOnFocus]: isKeyboardVisible,
-              })}
+              className={styles.findMyBookingBtn}
               onClick={formik.submitForm}
             >
               {activeCheckInFlowInfo || activeCheckOutFlowInfo ? t('Next') : t('Connect to Room')}
