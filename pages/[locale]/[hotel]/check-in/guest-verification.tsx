@@ -659,6 +659,10 @@ const Guest: React.FC<any> = () => {
           departureDate: dayjs(reservationInfo?.details?.checkOutDate).format(
             timeFormats.YEAR_MONTH_DAY,
           ),
+          address: {
+            addressLine1: newAccompanyGuestStorage?.[method][index]?.addressLine,
+            stateProv: newAccompanyGuestStorage?.[method][index]?.stateProv,
+          },
         },
       ],
     };

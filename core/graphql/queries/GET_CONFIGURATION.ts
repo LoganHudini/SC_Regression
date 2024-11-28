@@ -8007,6 +8007,14 @@ export const configuration: any = [
                     maxLength: 80,
                   },
                   {
+                    name: 'stateProv',
+                    label: 'State',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
                     name: 'countryCode',
                     label: 'Country',
                     type: 'AutoComplete',
@@ -8419,6 +8427,14 @@ export const configuration: any = [
                     isDisabled: false,
                     isActive: true,
                     maxLength: 80,
+                  },
+                  {
+                    name: 'stateProv',
+                    label: 'State',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
                   },
                   {
                     name: 'countryCode',
@@ -12480,6 +12496,14 @@ export const configuration: any = [
                     maxLength: 80,
                   },
                   {
+                    name: 'stateProv',
+                    label: 'State',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
                     name: 'countryCode',
                     label: 'Country',
                     type: 'AutoComplete',
@@ -12893,6 +12917,14 @@ export const configuration: any = [
                     isDisabled: false,
                     isActive: true,
                     maxLength: 80,
+                  },
+                  {
+                    name: 'stateProv',
+                    label: 'State',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
                   },
                   {
                     name: 'countryCode',
@@ -13310,6 +13342,14 @@ export const configuration: any = [
                     maxLength: 80,
                   },
                   {
+                    name: 'stateProv',
+                    label: 'State',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
                     name: 'countryCode',
                     label: 'Country',
                     type: 'AutoComplete',
@@ -13723,6 +13763,14 @@ export const configuration: any = [
                     isDisabled: false,
                     isActive: true,
                     maxLength: 80,
+                  },
+                  {
+                    name: 'stateProv',
+                    label: 'State',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
                   },
                   {
                     name: 'countryCode',
@@ -14140,6 +14188,14 @@ export const configuration: any = [
                     maxLength: 80,
                   },
                   {
+                    name: 'stateProv',
+                    label: 'State',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
                     name: 'countryCode',
                     label: 'Country',
                     type: 'AutoComplete',
@@ -14553,6 +14609,14 @@ export const configuration: any = [
                     isDisabled: false,
                     isActive: true,
                     maxLength: 80,
+                  },
+                  {
+                    name: 'stateProv',
+                    label: 'State',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
                   },
                   {
                     name: 'countryCode',
@@ -14970,6 +15034,14 @@ export const configuration: any = [
                     maxLength: 80,
                   },
                   {
+                    name: 'stateProv',
+                    label: 'State',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
                     name: 'countryCode',
                     label: 'Country',
                     type: 'AutoComplete',
@@ -15383,6 +15455,14 @@ export const configuration: any = [
                     isDisabled: false,
                     isActive: true,
                     maxLength: 80,
+                  },
+                  {
+                    name: 'stateProv',
+                    label: 'State',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
                   },
                   {
                     name: 'countryCode',
@@ -15800,6 +15880,14 @@ export const configuration: any = [
                     maxLength: 80,
                   },
                   {
+                    name: 'stateProv',
+                    label: 'State',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
                     name: 'countryCode',
                     label: 'Country',
                     type: 'AutoComplete',
@@ -16213,6 +16301,14 @@ export const configuration: any = [
                     isDisabled: false,
                     isActive: true,
                     maxLength: 80,
+                  },
+                  {
+                    name: 'stateProv',
+                    label: 'State',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
                   },
                   {
                     name: 'countryCode',
@@ -16630,6 +16726,14 @@ export const configuration: any = [
                     maxLength: 80,
                   },
                   {
+                    name: 'stateProv',
+                    label: 'State',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
                     name: 'countryCode',
                     label: 'Country',
                     type: 'AutoComplete',
@@ -17043,6 +17147,14 @@ export const configuration: any = [
                     isDisabled: false,
                     isActive: true,
                     maxLength: 80,
+                  },
+                  {
+                    name: 'stateProv',
+                    label: 'State',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
                   },
                   {
                     name: 'countryCode',
@@ -17460,6 +17572,14 @@ export const configuration: any = [
                     maxLength: 80,
                   },
                   {
+                    name: 'stateProv',
+                    label: 'State',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
                     name: 'countryCode',
                     label: 'Country',
                     type: 'AutoComplete',
@@ -17873,6 +17993,14 @@ export const configuration: any = [
                     isDisabled: false,
                     isActive: true,
                     maxLength: 80,
+                  },
+                  {
+                    name: 'stateProv',
+                    label: 'State',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
                   },
                   {
                     name: 'countryCode',
@@ -18290,6 +18418,14 @@ export const configuration: any = [
                     maxLength: 80,
                   },
                   {
+                    name: 'stateProv',
+                    label: 'State',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
                     name: 'countryCode',
                     label: 'Country',
                     type: 'AutoComplete',
@@ -18703,6 +18839,14 @@ export const configuration: any = [
                     isDisabled: false,
                     isActive: true,
                     maxLength: 80,
+                  },
+                  {
+                    name: 'stateProv',
+                    label: 'State',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
                   },
                   {
                     name: 'countryCode',
@@ -19120,6 +19264,14 @@ export const configuration: any = [
                     maxLength: 80,
                   },
                   {
+                    name: 'stateProv',
+                    label: 'State',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
                     name: 'countryCode',
                     label: 'Country',
                     type: 'AutoComplete',
@@ -19533,6 +19685,14 @@ export const configuration: any = [
                     isDisabled: false,
                     isActive: true,
                     maxLength: 80,
+                  },
+                  {
+                    name: 'stateProv',
+                    label: 'State',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
                   },
                   {
                     name: 'countryCode',
@@ -19950,6 +20110,14 @@ export const configuration: any = [
                     maxLength: 80,
                   },
                   {
+                    name: 'stateProv',
+                    label: 'State',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
                     name: 'countryCode',
                     label: 'Country',
                     type: 'AutoComplete',
@@ -20363,6 +20531,14 @@ export const configuration: any = [
                     isDisabled: false,
                     isActive: true,
                     maxLength: 80,
+                  },
+                  {
+                    name: 'stateProv',
+                    label: 'State',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
                   },
                   {
                     name: 'countryCode',
