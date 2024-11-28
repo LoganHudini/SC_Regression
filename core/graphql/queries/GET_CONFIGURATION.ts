@@ -10272,6 +10272,14 @@ export const configuration: any = [
                 isActive: true,
               },
               {
+                name: 'gender',
+                label: 'Gender',
+                type: 'AutoComplete',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
                 name: 'nationality',
                 label: 'Nationality',
                 type: 'AutoComplete',
