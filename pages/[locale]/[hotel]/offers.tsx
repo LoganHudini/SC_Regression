@@ -25,9 +25,9 @@ import { useConfig } from 'utils/hooks/useConfiguration';
 import { isOfferActive } from 'utils/functions';
 import Head from 'next/head';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
-import { offerDetails, timeDisplayed } from 'components/pages/home/OffersCarousel/OffersCarousel';
 import { flowPathMap } from 'utils/flowPathMap';
 import NoInformation from 'components/shared/NoInformation/NoInformation';
+import { OfferDetails } from 'components/pages/home/OffersDetail/OffersDetail';
 
 export { getStaticPaths };
 
@@ -67,8 +67,8 @@ const Offers: React.FC = () => {
     }
   }, [filteredOffers, offersOptionSelected]);
 
-  const filteredOffersWthCategory = filteredOffers?.filter((restaurant: any) => {
-    return restaurant?.isActive && restaurant?.type === offersOptionSelected?.type;
+  const filteredOffersWthCategory = filteredOffers?.filter((offer: any) => {
+    return offer?.isActive && offer?.type === offersOptionSelected?.type;
   });
 
   const selectedListItem = (selectedOffer: any) => {
@@ -148,7 +148,7 @@ const Offers: React.FC = () => {
         <CustomDrawer
           open={offerDetailStatus}
           onClose={closeDrawer}
-          content={offerDetails(selectedOffer, timeDisplayed, onCtaClick, t)}
+          content={<OfferDetails carouselItem={selectedOffer} onCtaClick={onCtaClick} />}
         />
       )}
     </>

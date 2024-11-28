@@ -7,7 +7,7 @@ import cx from 'classnames';
 import { useRouter } from 'next/router';
 
 interface ICustomReadMoreProps {
-  text?: string;
+  text?: any;
   className?: any;
 }
 

@@ -9,14 +9,9 @@ import { getTimings, restaurantCtaNavigation } from 'utils/functions';
 import { ASSETS_URL, HOTEL_ID } from 'core/graphql/endpoints';
 import DateTimeSelect from 'components/shared/DateTimeSelect/DateTimeSelect';
 import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
-import router from 'next/router';
 import { availablePaths } from 'utils/availablePaths';
 import {
   ACTIVE,
-  OK,
-  ENQUIRE,
-  EMAIL,
-  PHONE,
   ERRORMSG,
   FAILURE,
   SUCCESS,
@@ -300,33 +295,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
           </div>
         </>
       )}
-      {availableSlots && <></>}
-      {queryResultEntity?.CTA?.type && (
-        <StyledButton className={styles.bookTableBtn} variant='contained'>
-          <>
-            {queryResultEntity?.CTA?.type === OK && (
-              <div onClick={() => router.back()}>{queryResultEntity?.CTA?.type}</div>
-            )}
-            {(queryResultEntity?.CTA?.type === ENQUIRE &&
-              queryResultEntity?.CTA?.contact === EMAIL && (
-                <a
-                  href={`mailto:${queryResultEntity?.CTA?.emailId}`}
-                  className={styles.emailRowOffers}
-                >
-                  <span>{queryResultEntity?.CTA?.type}</span>
-                </a>
-              )) ||
-              (queryResultEntity?.CTA?.contact === PHONE && (
-                <a
-                  href={`tel:${queryResultEntity?.CTA?.phoneNumber}`}
-                  className={styles.callRowOffers}
-                >
-                  {queryResultEntity?.CTA?.type}
-                </a>
-              ))}
-          </>
-        </StyledButton>
-      )}
+
       {(iframeComponent || menu) && (
         <CustomDrawer
           open={iframeComponent ? iframeComponent : menu}

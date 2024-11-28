@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import React, { useState } from 'react';
 import Carousel from 'react-material-ui-carousel';
@@ -7,15 +6,11 @@ import styles from './HomeCarousel.module.scss';
 import { useTranslation } from 'react-i18next';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { CustomReadMore } from 'components/shared/CustomReadMore/CustomReadMore';
-import cx from 'classnames';
-import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
-import dayjs from 'dayjs';
-import { StyledButton } from 'components/shared/StyledButton/StyledButton';
-import { OFFERS, EXTERNAL_URL_CAPS, FLOW, ACTIVE } from 'utils/constants';
+import { EXTERNAL_URL_CAPS, FLOW, OFFERS } from 'utils/constants';
 import { flowPathMap } from 'utils/flowPathMap';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
-import { PhoneEmail } from 'components/shared/PhoneEmail/PhoneEmail';
+import { OfferDetails } from '../OffersDetail/OffersDetail';
 
 interface IHomeCarouselProps {
   data: any;
@@ -28,109 +23,25 @@ interface IHomeCarouselItemProps {
 const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
   const { t } = useTranslation('common');
   const navigate = useLocalizedRouter();
-  const [offerBooking, setofferBooking] = useState(false);
+  const [offerBooking, setOfferBooking] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const handleSelect = () => {
-    offerDetails();
     setOpenDrawer(true);
   };
-  const startDate = dayjs(carouselItem?.duration?.startDate, 'DD-MM-YYYY');
-  const endDate = dayjs(carouselItem?.duration?.endDate, 'DD-MM-YYYY');
-
-  const displayStartDate =
-    startDate?.year() === endDate?.year()
-      ? startDate.format('MMMM D')
-      : startDate.format('MMMM D, YYYY');
-
-  const displayEndDate = endDate.format('MMMM D, YYYY');
-  const timeDisplayed =
-    carouselItem &&
-    !carouselItem?.duration?.alwaysActive &&
-    `${displayStartDate} until ${displayEndDate}`;
 
   const onCtaClick = () => {
     if (carouselItem?.CTA?.redirectTo === EXTERNAL_URL_CAPS) {
-      setofferBooking(true);
+      setOfferBooking(true);
     }
     if (carouselItem?.CTA?.redirectTo === FLOW) {
       const redirectUrl = flowPathMap[carouselItem?.CTA?.redirectData as keyof typeof flowPathMap];
-
       if (redirectUrl) {
         navigate(redirectUrl);
       }
     }
     setOpenDrawer(false);
   };
-
-  const offerDetails = () => (
-    <div
-      className={cx(styles.listComponent, {
-        [styles.listComponentMargin]:
-          carouselItem?.CTA?.status === ACTIVE && carouselItem?.CTA?.URL,
-      })}
-    >
-      <div className={styles.imageWrapper}>
-        {carouselItem?.images?.length > 0 && <CustomCarousel imageData={carouselItem} />}
-      </div>
-      <div className={styles.contentWrapper}>
-        <div className={styles.listComponentData}>
-          {carouselItem?.name && (
-            <h2 className={styles.listComponentTitle}>{t(`${carouselItem?.name}`)}</h2>
-          )}
-        </div>
-        <div className={styles.gapList}>
-          {carouselItem?.description && (
-            <>
-              <p className={styles.listComponentDataTitle}>{t('Offer Includes')}</p>
-              <p className={styles.listComponentDataText}>{t(`${carouselItem?.description}`)}</p>
-            </>
-          )}
-          {carouselItem?.duration && (
-            <>
-              <p className={styles.listComponentDataTitle}>{t('Availability')}</p>
-              <p className={styles.listComponentDataText}>
-                {carouselItem?.duration?.alwaysActive
-                  ? t('Everyday')
-                  : startDate.isSame(endDate, 'day') && !carouselItem.alwaysActive
-                  ? t('Today')
-                  : timeDisplayed}
-              </p>
-
-              {carouselItem?.duration?.timings?.length < 7 &&
-                !carouselItem?.duration.alwaysActive && (
-                  <div className={styles.listComponentDataText}>
-                    <span className={styles.daysLabel}>{t('Days: ')}</span>
-                    <span className={styles.days}>
-                      {carouselItem?.duration?.timings?.map((days: any, index: number) => (
-                        <span className={styles.day} key={index}>
-                          {days?.day?.charAt(0)?.toUpperCase() + days?.day?.slice(1)?.toLowerCase()}
-                        </span>
-                      ))}
-                    </span>
-                  </div>
-                )}
-            </>
-          )}
-          {(carouselItem?.contact?.phoneNumber || carouselItem?.contact?.email) && (
-            <PhoneEmail
-              phone={carouselItem?.contact?.phoneNumber as string}
-              email={carouselItem?.contact?.email as string}
-            />
-          )}
-        </div>
-      </div>
-      {carouselItem?.CTA?.status === ACTIVE && carouselItem?.CTA?.URL && (
-        <StyledButton
-          variant='contained'
-          onClick={onCtaClick}
-          className={cx(styles.button, 'globals-actionCtaWrapper')}
-        >
-          {carouselItem?.CTA?.displayCTATitle || t('Book Now')}
-        </StyledButton>
-      )}
-    </div>
-  );
 
   return (
     <>
@@ -141,7 +52,7 @@ const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
         />
       </div>
 
-      <div className={styles.pageTitle} onClick={() => handleSelect()}>
+      <div className={styles.pageTitle} onClick={handleSelect}>
         {carouselItem?.name && <h1 className={styles.title}>{t(`${carouselItem?.name}`)}</h1>}
         {carouselItem?.description && (
           <p className={styles.description}>{t(`${carouselItem?.description}`)}</p>
@@ -151,14 +62,15 @@ const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
           className={styles.readMore}
         />
       </div>
+
       {offerBooking ? (
         <CustomDrawer
           open={offerBooking}
-          onClose={() => setofferBooking(false)}
+          onClose={() => setOfferBooking(false)}
           content={
             <IframeComponent
               src={carouselItem?.CTA?.URL}
-              handledrawerState={setofferBooking}
+              handledrawerState={setOfferBooking}
               name={OFFERS}
             />
           }
@@ -168,7 +80,7 @@ const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
         <CustomDrawer
           open={openDrawer}
           onClose={() => setOpenDrawer(false)}
-          content={offerDetails()}
+          content={<OfferDetails carouselItem={carouselItem} onCtaClick={onCtaClick} />}
         />
       )}
     </>
