@@ -30,6 +30,7 @@ export const handleReservation = async ({
   homeActiveRef,
   navigate,
   isRetryEnabled,
+  hotelInformation,
 }: any) => {
   let tryCount: any = 0;
 
@@ -97,7 +98,10 @@ export const handleReservation = async ({
             errorStateHandler(reservationStatus, setLoading, t);
           } else if (reservationStatus === INHOUSE) {
             if (roomNo) {
-              if (activeCheckInFlowInfo) {
+              if (
+                activeCheckInFlowInfo ||
+                !hotelInformation?.getPropertyDetailsByHotelId?.hotel?.wcMessage?.isWCMessageEnabled
+              ) {
                 notificationStorage({
                   type: SUCCESS,
                   title: t('Your Device is Now Connected'),

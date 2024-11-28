@@ -80,10 +80,21 @@ const CheckInDrawer = () => {
           homeActiveRef,
           navigate,
           isRetryEnabled,
+          hotelInformation,
         });
       }
     },
-    [activeCheckInFlowInfo, activeCheckOutFlowInfo, checkedInData, config, hotelId, navigate, t],
+    [
+      activeCheckInFlowInfo,
+      isRetryEnabled,
+      hotelInformation,
+      activeCheckOutFlowInfo,
+      checkedInData,
+      config,
+      hotelId,
+      navigate,
+      t,
+    ],
   );
 
   const formik = useFormik({
