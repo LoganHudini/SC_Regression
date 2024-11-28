@@ -18,7 +18,7 @@ import { DiningCheckboxItem } from 'components/pages/dining/DiningCheckboxItem/D
 import { InputAdornment } from '@mui/material';
 import { sortBy } from 'lodash';
 import { iconsMap } from 'utils/hamburger/hamburgerIconsMap';
-import { filterLiveMenu, formatPrice, irdActiveMenuList } from 'utils/functions';
+import { activeModule, filterLiveMenu, formatPrice, irdActiveMenuList } from 'utils/functions';
 import { addToCartEvent } from 'utils/gtag';
 import cx from 'classnames';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
@@ -28,6 +28,8 @@ import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 import { StyledInput } from 'components/shared/StyledInput/StyledInput';
 import { useFormik } from 'formik';
 import { instructionValidation } from 'validation/dining.validation';
+import { useConfig } from 'utils/hooks/useConfiguration';
+import { IN_ROOM_DINING } from 'utils/constants';
 
 const DiningDetailsDrawer = () => {
   const { t } = useTranslation(['dining', 'common']);
@@ -44,6 +46,8 @@ const DiningDetailsDrawer = () => {
   const [totalAddons, settotalAddons] = useState<number>(0);
   const [customisation, setCustomisation] = useState<any>([]);
   const [addonsWarning, setAddonsWarning] = useState(false);
+  const config = useConfig();
+  const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
 
   const [addons, setAddons] = useState<
     {
@@ -421,52 +425,53 @@ const DiningDetailsDrawer = () => {
               </>
             )}
 
-            {selectedItem?.customisation?.map(
-              (customisationItem: any, customizationIndex: number) => (
-                <div key={customizationIndex}>
-                  <div className={styles.customisationWrapper}>
-                    <p className={styles.customisationsText}>{customisationItem?.ingredient}</p>
+            {irdModule &&
+              selectedItem?.customisation?.map(
+                (customisationItem: any, customizationIndex: number) => (
+                  <div key={customizationIndex}>
+                    <div className={styles.customisationWrapper}>
+                      <p className={styles.customisationsText}>{customisationItem?.ingredient}</p>
 
-                    {!customisation?.some(
-                      (selected: any) =>
-                        selected.ingredient === customisationItem.ingredient &&
-                        selected.index === customizationIndex,
-                    ) && <p className={styles.optionalTextWarning}>{t('Required')}</p>}
+                      {!customisation?.some(
+                        (selected: any) =>
+                          selected.ingredient === customisationItem.ingredient &&
+                          selected.index === customizationIndex,
+                      ) && <p className={styles.optionalTextWarning}>{t('Required')}</p>}
+                    </div>
+                    <div className={styles.customisations}>
+                      {customisationItem?.customisations
+                        ?.filter((item: any) => item?.status)
+                        ?.map((el: any, index: any) => (
+                          <div key={index} className={styles.radioItemWrapper}>
+                            <StyledButton
+                              onClick={(e) =>
+                                handleSelectedCustomisation(
+                                  e,
+                                  customisationItem,
+                                  el,
+                                  customizationIndex,
+                                )
+                              }
+                              className={cx(styles.customizationInactive, {
+                                [styles.customizationActive]: customisation?.some(
+                                  (customization: any) =>
+                                    customization?.ingredient === customisationItem?.ingredient &&
+                                    customization?.name === el?.name,
+                                ),
+                              })}
+                              variant='contained'
+                              value={el.name}
+                            >
+                              {el.name}
+                            </StyledButton>
+                          </div>
+                        ))}
+                    </div>
                   </div>
-                  <div className={styles.customisations}>
-                    {customisationItem?.customisations
-                      ?.filter((item: any) => item?.status)
-                      ?.map((el: any, index: any) => (
-                        <div key={index} className={styles.radioItemWrapper}>
-                          <StyledButton
-                            onClick={(e) =>
-                              handleSelectedCustomisation(
-                                e,
-                                customisationItem,
-                                el,
-                                customizationIndex,
-                              )
-                            }
-                            className={cx(styles.customizationInactive, {
-                              [styles.customizationActive]: customisation?.some(
-                                (customization: any) =>
-                                  customization?.ingredient === customisationItem?.ingredient &&
-                                  customization?.name === el?.name,
-                              ),
-                            })}
-                            variant='contained'
-                            value={el.name}
-                          >
-                            {el.name}
-                          </StyledButton>
-                        </div>
-                      ))}
-                  </div>
-                </div>
-              ),
-            )}
+                ),
+              )}
 
-            {selectedItem?.addons && (
+            {selectedItem?.addons && irdModule && (
               <>
                 <div className={styles.addonsRow}>
                   <p className={styles.addonsText}>{t('Add-Ons')}</p>
@@ -499,42 +504,44 @@ const DiningDetailsDrawer = () => {
               </>
             )}
 
-            <StyledInput
-              variant='standard'
-              autoComplete='off'
-              fullWidth
-              color='success'
-              value={formik.values.instruction}
-              className={styles.textInput}
-              id='instruction'
-              placeholder={`${t('Add instructions')}`}
-              onChange={(e) => {
-                formik.handleChange(e);
-                setInstruction(e.target.value);
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position='start'>
-                    <Cookinginstructions />
-                  </InputAdornment>
-                ),
-                classes: {
-                  underline: styles.customUnderline,
-                },
-                inputProps: {
-                  maxLength: 30,
-                  style: {
-                    font: '14px var(--primary-font-regular)',
-                    color: 'var(--tertiary-text-color)',
-                    marginInlineStart: '0.5rem',
+            {irdModule && (
+              <StyledInput
+                variant='standard'
+                autoComplete='off'
+                fullWidth
+                color='success'
+                value={formik.values.instruction}
+                className={styles.textInput}
+                id='instruction'
+                placeholder={`${t('Add instructions')}`}
+                onChange={(e) => {
+                  formik.handleChange(e);
+                  setInstruction(e.target.value);
+                }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position='start'>
+                      <Cookinginstructions />
+                    </InputAdornment>
+                  ),
+                  classes: {
+                    underline: styles.customUnderline,
                   },
-                },
-              }}
-              error={Boolean(formik.errors.instruction)}
-              helperText={formik.errors.instruction ? t(formik.errors.instruction) : null}
-            />
+                  inputProps: {
+                    maxLength: 30,
+                    style: {
+                      font: '14px var(--primary-font-regular)',
+                      color: 'var(--tertiary-text-color)',
+                      marginInlineStart: '0.5rem',
+                    },
+                  },
+                }}
+                error={Boolean(formik.errors.instruction)}
+                helperText={formik.errors.instruction ? t(formik.errors.instruction) : null}
+              />
+            )}
 
-            {selectedItem?.price && (
+            {selectedItem?.price && irdModule && (
               <>
                 <p className={styles.priceText}>{t('total item price')}</p>
                 <p className={styles.totalItemPrice}>
@@ -546,32 +553,34 @@ const DiningDetailsDrawer = () => {
               </>
             )}
           </div>
-          <div className={styles.counterContainer}>
-            <PlusMinusInput
-              value={count}
-              className={styles.plusMinusInput}
-              onClickMinus={decrementCount}
-              onClickPlus={incrementCount}
-            />
+          {irdModule && (
+            <div className={styles.counterContainer}>
+              <PlusMinusInput
+                value={count}
+                className={styles.plusMinusInput}
+                onClickMinus={decrementCount}
+                onClickPlus={incrementCount}
+              />
 
-            <div>
-              <StyledButton
-                onClick={handleAdd}
-                className={styles.addToCart}
-                variant='contained'
-                disabled={
-                  Boolean(formik.errors.instruction) ||
-                  count === 0 ||
-                  (selectedItem?.customisation?.length > 0 &&
-                    filteredCustomisation?.length !== customisation?.length) ||
-                  addonsWarning ||
-                  filteredList?.length === 0
-                }
-              >
-                {editControlStatus ? t('Update Order') : t('Add to Cart')}
-              </StyledButton>
+              <div>
+                <StyledButton
+                  onClick={handleAdd}
+                  className={styles.addToCart}
+                  variant='contained'
+                  disabled={
+                    Boolean(formik.errors.instruction) ||
+                    count === 0 ||
+                    (selectedItem?.customisation?.length > 0 &&
+                      filteredCustomisation?.length !== customisation?.length) ||
+                    addonsWarning ||
+                    filteredList?.length === 0
+                  }
+                >
+                  {editControlStatus ? t('Update Order') : t('Add to Cart')}
+                </StyledButton>
+              </div>
             </div>
-          </div>
+          )}
         </>
       </>
     );

@@ -13,7 +13,9 @@ import { DiningCustomisationDrawer } from 'components/pages/dining/DiningCustomi
 import cx from 'classnames';
 import { addToCartEvent, viewItemEvent } from 'utils/gtag';
 import { useCurrency } from 'utils/hooks/useCurrency';
-import { formatPrice } from 'utils/functions';
+import { activeModule, formatPrice } from 'utils/functions';
+import { useConfig } from 'utils/hooks/useConfiguration';
+import { IN_ROOM_DINING } from 'utils/constants';
 
 export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
   title,
@@ -27,7 +29,9 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
   const { t } = useTranslation('dining');
   const [customisationDrawer, setCustomisationDrawer] = useState(false);
   const diningData = useReactiveVar(diningMenuStorage);
+  const config = useConfig();
   const currency = useCurrency();
+  const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
 
   const totalQuantity = diningData?.items
     ?.filter((el) => el.itemId === id && el.quantity > 0)
@@ -104,26 +108,27 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
         <div className={styles.pointer} onClick={handleDiningDetails}>
           {image && <StableImage className={styles.image} src={`${ASSETS_URL}/${image}`} />}
         </div>
-        {totalQuantity == 0 ? (
-          <StyledButton
-            onClick={handleDiningDetails}
-            className={cx(styles.addCta)}
-            variant='contained'
-            disabled={!menuAvailability}
-          >
-            {t('Add')}
-          </StyledButton>
-        ) : (
-          <div className={styles.counterStyle}>
-            <PlusMinusInput
-              value={totalQuantity || 0}
-              onClickPlus={onClickPlus}
-              onClickMinus={onClickMinus}
-              irdSummary
-            />
-          </div>
-        )}
-        {customisation && (
+        {irdModule &&
+          (totalQuantity == 0 ? (
+            <StyledButton
+              onClick={handleDiningDetails}
+              className={cx(styles.addCta)}
+              variant='contained'
+              disabled={!menuAvailability}
+            >
+              {t('Add')}
+            </StyledButton>
+          ) : (
+            <div className={styles.counterStyle}>
+              <PlusMinusInput
+                value={totalQuantity || 0}
+                onClickPlus={onClickPlus}
+                onClickMinus={onClickMinus}
+                irdSummary
+              />
+            </div>
+          ))}
+        {customisation && irdModule && (
           <p className={styles.customisableText} onClick={handleDiningDetails}>
             {t('customizable')}
           </p>

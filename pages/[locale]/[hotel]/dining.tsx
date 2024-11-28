@@ -21,7 +21,6 @@ import {
 import cx from 'classnames';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import {
-  activeModule,
   filterLiveMenu,
   filterIRDMenuItems,
   irdActiveMenuList,
@@ -97,13 +96,11 @@ const Dining = () => {
     (item: any) => item?.isActive && filterLiveMenu(item?.hours),
   );
 
-  const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
-
   useEffect(() => {
     diningOptions({ type: IN_ROOM_DINING });
     if (uniqueFilteredDiningOptions?.length > 0 && irdOption?.length === 0) {
       diningHeaders(
-        checkInData?.checkedIn && irdModule
+        checkInData?.checkedIn
           ? [...uniqueFilteredDiningOptions, { type: IN_ROOM_DINING }]
           : uniqueFilteredDiningOptions,
       );
@@ -133,12 +130,11 @@ const Dining = () => {
     if (
       data?.getIRDMenuOutputDetails &&
       (data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length === 0 ||
-        !irdModule ||
         !checkInData?.checkedIn)
     ) {
       navigate(availablePaths?.HOME);
     }
-  }, [data?.getIRDMenuOutputDetails, navigate, t, irdModule, checkInData?.checkedIn]);
+  }, [data?.getIRDMenuOutputDetails, navigate, t, checkInData?.checkedIn]);
 
   useEffect(() => {
     if (header[0]?.name == undefined && header[0].hours == undefined) {
