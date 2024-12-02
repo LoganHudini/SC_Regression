@@ -5,23 +5,24 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ASSETS_URL, BRAND_CODE } from '../../../../core/graphql/endpoints';
 import styles from './SpaCarousel.module.scss';
-import { activeItems, getTimings } from 'utils/functions';
+import { activeItems, getFormattedTime, getTimings } from 'utils/functions';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { spaInformationStorage } from 'storage/spa.storage';
 import { availablePaths } from 'utils/availablePaths';
 import cx from 'classnames';
 import { CustomReadMore } from 'components/shared/CustomReadMore/CustomReadMore';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
-import { toggleDetailsDrawer } from 'storage/home.storage';
+import { hotelInfoStorage, toggleDetailsDrawer } from 'storage/home.storage';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import ClockIcon from '@icons/clockIcon.svg';
 import LocationIcon from '@icons/location.svg';
-import { ACTIVE, EXTERNAL_URL, SPA_AND_WELLNESS } from 'utils/constants';
+import { ACTIVE, EXTERNAL_URL, SPA_AND_WELLNESS, ALL_DAY, SPA } from 'utils/constants';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 import { PhoneEmail } from 'components/shared/PhoneEmail/PhoneEmail';
 import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 import { analyticsEvent } from 'utils/gtag';
+import useTimeStatus from 'utils/hooks/useTimeStatus';
 
 interface ICarouselProps {
   data: any;
@@ -34,6 +35,7 @@ interface ICarouselSlideProps {
 
 export const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle }) => {
   const { t } = useTranslation(['common']);
+  const hotelInformation = useReactiveVar(hotelInfoStorage);
 
   const handleSpaInfo = () => {
     spaInformationStorage({
@@ -44,6 +46,16 @@ export const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle
   };
 
   const time = getTimings(slide?.customAttributes);
+
+  const getSpaStatus = useTimeStatus({
+    module: SPA,
+    slide: slide,
+    hotelInformation: hotelInformation,
+    t,
+  });
+
+  const isOpen = getFormattedTime(slide?.hours?.timings?.map((time: any) => time?.from));
+  const isClose = getFormattedTime(slide?.hours?.timings?.map((time: any) => time?.to));
 
   return (
     <>
@@ -65,10 +77,13 @@ export const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle
           )}
         >
           {slide?.name && <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>}
-          {time && (
-            <div className={cx(styles.cuisineRowTime, 'globals-spaTimings')}>
-              <ClockIcon className={styles.cuisineIcon} />
-              <p>{time?.value}</p>
+          {isOpen?.includes(ALL_DAY) && isClose?.includes(ALL_DAY) ? (
+            <div className={styles.carouselSpaTimeStatus}>
+              <p>{t('Open')}</p>
+            </div>
+          ) : (
+            <div className={styles.carouselSpaTimeStatus}>
+              <p>{getSpaStatus?.status}</p>
             </div>
           )}
           <CustomReadMore

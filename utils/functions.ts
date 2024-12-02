@@ -13,6 +13,7 @@ import {
   ALL_DAY,
   FAILURE,
   reservationStatusMessages,
+  EVERYDAY,
 } from './constants';
 import { tableReservationStorage } from 'storage/table-reservation.storage';
 import { housekeepingOptions, serviceRequestOptionsArray } from 'storage/housekeeping.storage';
@@ -417,7 +418,7 @@ export const textFieldValidation = () => {
 export const getCountryCode = (CountryName: string) =>
   Countries?.find((item: any) => item?.name?.toLowerCase() === CountryName?.toLowerCase())?.value ||
   '';
-
+// Formats time from 24-hour format to minutes
 export const getFormattedTime = (timeInMinutes: any) => {
   if (!timeInMinutes.includes(ALL_DAY)) {
     const timeArray = Array.isArray(timeInMinutes) ? timeInMinutes : [timeInMinutes];
@@ -448,3 +449,42 @@ export const errorStateHandler = (
   toggleCheckInDetailsDrawer(false);
   setLoading(false);
 };
+
+// Returns opening and closing hour status
+export const getTimeStatus = (
+  currentTime: any,
+  t: any,
+  isDayFound: any,
+  isOpen: any,
+  isClose: any,
+) => {
+  let displayMessage = t('Closed');
+  if (!currentTime || isNaN(currentTime)) return displayMessage;
+
+  const isOpenSlot = isOpen.findIndex(
+    (openingTime: number, i: number) => openingTime <= currentTime && currentTime < isClose[i],
+  );
+
+  if (isOpenSlot !== -1 && isDayFound) {
+    const closingTime = isClose[isOpenSlot];
+    if (closingTime - currentTime <= 60) {
+      displayMessage = t('Closes in', { value: closingTime - currentTime });
+    } else {
+      displayMessage = t('Open');
+    }
+    return displayMessage;
+  }
+
+  const nextOpeningSlot = isOpen.findIndex(
+    (openingTime: number) => openingTime - currentTime >= 0 && openingTime - currentTime <= 60,
+  );
+
+  if (nextOpeningSlot !== -1 && isDayFound) {
+    displayMessage = t('Opens in', { value: isOpen[nextOpeningSlot] - currentTime });
+  }
+  return displayMessage;
+};
+
+// Return is day found
+export const isDayFound = (openDays: any, today: any) =>
+  openDays?.includes(EVERYDAY) || openDays?.includes(today);

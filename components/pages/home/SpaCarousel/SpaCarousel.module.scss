@@ -377,3 +377,15 @@
 .locationicon {
   width: 16px;
 }
+
+.carouselSpaTimeStatus {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-decoration: none;
+  font-family: var(--primary-font-regular);
+  margin: 4px 0;
+  font-size: $xsmall;
+  justify-content: center;
+  gap: 0.1rem;
+}
