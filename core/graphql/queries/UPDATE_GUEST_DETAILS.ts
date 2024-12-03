@@ -25,7 +25,7 @@ export interface IUpdateGuestDetailsApiRequest {
       profession?: string;
     };
     address?: {
-      id: string;
+      id?: string;
       addressLine1?: string;
       addressLine2?: string;
       addressType?: string;

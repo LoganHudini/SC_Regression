@@ -541,6 +541,14 @@ const Guest: React.FC<any> = () => {
               phoneNumber: data?.phone ?? '',
               phoneRole: config?.pms === OHIP ? 'HOME' : 'PHONE',
             },
+            address: {
+              addressLine1: data?.addressLine,
+              addressType: 'HOME',
+              countryCode: data?.countryCode,
+              city: data?.cityName,
+              postalCode: data?.postalCode,
+              stateProv: data?.stateProv,
+            },
             email: {
               email: data?.emails,
             },
@@ -661,6 +669,7 @@ const Guest: React.FC<any> = () => {
           ),
           address: {
             addressLine1: newAccompanyGuestStorage?.[method][index]?.addressLine,
+            addressType: 'HOME',
             stateProv: newAccompanyGuestStorage?.[method][index]?.stateProv,
           },
         },
