@@ -286,9 +286,10 @@ const Guest: React.FC<any> = () => {
 
   const generateAccompanyGuestDetails = useCallback(
     (accompanyGuestLists: any) => {
-      const emailField = accompanyGuestInformationSection?.find(
-        (field: any) => field?.isActive && field?.name === EMAILS,
-      );
+      const emailField =
+        accompanyGuestInformationSection?.find(
+          (field: any) => field?.isActive && field?.name === EMAILS,
+        ) || {};
       return accompanyGuestLists
         ?.map((accompanyGuest: any) => {
           const guestData: any = { id: accompanyGuest?.id };
@@ -305,7 +306,7 @@ const Guest: React.FC<any> = () => {
                     guestData[item?.name] = '';
                   }
                 } else {
-                  guestData[item?.name] = accompanyGuest[item?.name][0] || '';
+                  guestData[item?.name] = accompanyGuest[item?.name]?.[0] || '';
                 }
               } else {
                 guestData[item?.name] = Array.isArray(accompanyGuest[item?.name])
@@ -611,7 +612,6 @@ const Guest: React.FC<any> = () => {
     }
 
     setNewGuestFormData({
-      isActive: true,
       configs: newGuestConfigs,
     });
   }, []);
@@ -703,7 +703,6 @@ const Guest: React.FC<any> = () => {
               )
             : newAccompanyGuestStorage?.adult,
       });
-      setNewGuestFormData({ isActive: false });
       updateNewAccompanyGuestDetails([
         ...updatedGuestData,
         {

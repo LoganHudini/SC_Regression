@@ -10,7 +10,6 @@ export const primaryGuestButtonDisabled = makeVar<boolean>(false);
 
 export const secondaryGuestButtonDisabled = makeVar<boolean>(true);
 
-export const setNewGuestFormData = makeVar<{ isActive: boolean; configs?: any }>({
-  isActive: false,
+export const setNewGuestFormData = makeVar<{ configs?: any }>({
   configs: null,
 });
