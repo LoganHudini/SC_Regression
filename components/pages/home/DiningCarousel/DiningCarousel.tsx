@@ -45,7 +45,6 @@ interface ICarouselProps {
   ird: any;
   restaurants: any;
   loading?: boolean;
-  irdModule?: boolean;
 }
 
 interface ICarouselSlideProps {
@@ -56,7 +55,7 @@ interface ICarouselSlideProps {
   slideStyle?: any;
 }
 
-export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, irdModule }) => {
+export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) => {
   const { t } = useTranslation(['common']);
   const isCheckedIn = useCheckedIn();
   const hotelInformation = useReactiveVar(hotelInfoStorage);
@@ -71,7 +70,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, ird
 
   const filteredOptionFunction = () => {
     const value = activeRestaurants?.length > 0 ? [{ type: RESTAURANT }] : [];
-    if (isCheckedIn?.checkedIn && irdModule && irdActiveMenu && irdActiveMenu?.length > 0) {
+    if (isCheckedIn?.checkedIn && irdActiveMenu && irdActiveMenu?.length > 0) {
       value?.unshift({ type: IN_ROOM_DINING });
     }
     return value;
@@ -207,7 +206,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants, ird
       setDiningOption(uniqueFilteredDiningOptions[0]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isCheckedIn?.checkedIn, irdModule, ird, queryResultsData]);
+  }, [isCheckedIn?.checkedIn, ird, queryResultsData]);
 
   return (
     slides?.length > 0 && (

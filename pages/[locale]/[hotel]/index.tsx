@@ -25,7 +25,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { useTranslation } from 'react-i18next';
 import { useCheckedIn } from 'storage/check-in.storage';
-import { CHECK_IN, IN_ROOM_DINING, PAIR_TO_ROOM, SERVICES } from 'utils/constants';
+import { CHECK_IN, PAIR_TO_ROOM, SERVICES } from 'utils/constants';
 import { activeModule, isOfferActive } from 'utils/functions';
 import { getStaticPaths } from 'utils/getStatic';
 import { useConfig } from 'utils/hooks/useConfiguration';
@@ -45,7 +45,6 @@ const Home: NextPage = () => {
   const hotelName = config?.name;
   const checkInModule = activeModule(config?.modules, CHECK_IN);
   const pairToRoomModule: boolean = activeModule(config?.modules, PAIR_TO_ROOM);
-  const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
   const serviceModule: any = activeModule(config?.modules, SERVICES);
 
   const checkInData = useCheckedIn();
@@ -181,7 +180,6 @@ const Home: NextPage = () => {
           ird={irdMenu}
           restaurants={restaurantList}
           loading={irdloading || restaurantloading}
-          irdModule={irdModule}
         />
       </>
     ),
