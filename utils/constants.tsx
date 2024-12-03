@@ -41,6 +41,7 @@ export const PROPER_SANTA_MONICA = 'proper-santa-monica';
 export const ONE_AND_ONLY_ROYAL_MIRAGE = 'one-and-only-royal-mirage';
 export const LONDONER_LEICESTER_SQ = 'londoner-leicester-sq';
 export const EDWARDIAN = 'edwardian';
+export const EDWARDIAN_MANCHESTER = 'edwardian-manchester';
 export const GRAND_MERCURE_OKINAWA_CAPE_ZANPA = 'grand-mercure-okinawa-cape-zanpa';
 export const MERCURE_NAGANO_MATSUSHIRO = 'mercure-nagano-matsushiro';
 export const MONDRIAN_DUXTON_SINGAPORE = 'mondrian-duxton-singapore';
