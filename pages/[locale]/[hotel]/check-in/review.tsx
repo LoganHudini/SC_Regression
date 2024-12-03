@@ -105,9 +105,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const accompanyGuestInfo = useReactiveVar(accompanyGuestDetails);
   const updatedGuestInfo: any = useReactiveVar(updateNewAccompanyGuestDetails);
   const updatedGuestData = useMemo(() => {
-    return updatedGuestInfo?.length > 0
-      ? (updatedGuestInfo[0]?.adult || [])
-          ?.concat(updatedGuestInfo[0]?.child || [])
+    const guestInfolength = updatedGuestInfo?.length;
+    return guestInfolength > 0
+      ? (updatedGuestInfo[guestInfolength - 1]?.adult || [])
+          ?.concat(updatedGuestInfo[guestInfolength - 1]?.child || [])
           ?.filter((item: any) => item?.lastName)
       : [];
   }, [updatedGuestInfo]);
