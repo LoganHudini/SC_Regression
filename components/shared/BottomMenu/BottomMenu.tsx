@@ -83,7 +83,8 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
   const restaurantAndBarsActive = router?.asPath?.includes(availablePaths?.RESTAURANTS_BARS);
   const irdActive = router?.asPath?.includes(availablePaths?.DINING);
   const housekeepingActive = router?.asPath?.includes(availablePaths.HOUSEKEEPING);
-  const spaActive = router?.asPath?.includes(availablePaths?.SPA);
+  const spaActive = router?.asPath === `/${router?.query?.locale}${availablePaths?.SPA}/`;
+  const spaInfoActive = router?.asPath === `/${router?.query?.locale}${availablePaths?.SPA_INFO}/`;
   const offersActive = router?.asPath?.includes(availablePaths?.OFFERS);
   const hotelCompendiumActive = router?.asPath?.includes(availablePaths?.HOTEL_COMPENDIUM);
   const checkOutActive = router?.asPath?.includes(availablePaths.BILL);
@@ -212,6 +213,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
         (spaActive && spaInformation?.selectedSpaCategoryName) ||
         (offersActive && offersOptionSelected?.type) ||
         (hotelCompendiumActive && hotelCompendiumSelected?.name) ||
+        spaInfoActive ||
         checkOutActive ||
         (irdActive && selectedDiningCategory?.menuName)) && (
         <div
@@ -257,6 +259,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
               {irdActive && t(`${selectedDiningCategory?.menuName}`)}
               {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
               {spaActive && t(`${spaInformation?.selectedSpaCategoryName}`)}
+              {spaInfoActive && t('Spa')}
               {offersActive && t(`${offersOptionSelected?.type}`)}
               {hotelCompendiumActive && hotelCompendiumSelected?.name}
               {checkOutActive &&

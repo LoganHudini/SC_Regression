@@ -5,7 +5,7 @@ export const flowPathMap = {
   IRD_BOOKING: availablePaths?.DINING,
   RESTAURANT_BOOKING: availablePaths?.RESTAURANTS_BARS,
   HOUSEKEEPING_BOOKING: availablePaths?.HOUSEKEEPING,
-  WELLNESS_BOOKING: availablePaths?.SPA,
+  WELLNESS_BOOKING: availablePaths?.SPA_INFO,
   HOTEL_COMPENDIUM_FLOW: availablePaths?.HOTEL_COMPENDIUM,
   OFFERS_FLOW: availablePaths?.OFFERS,
   VIEW_BILL_CHECKOUT_FLOW: availablePaths?.BILL,

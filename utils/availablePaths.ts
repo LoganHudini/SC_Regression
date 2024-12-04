@@ -36,6 +36,7 @@ export const availablePaths = {
 
   // Spa flow
   SPA: `/${hotel}/spa`,
+  SPA_INFO: `/${hotel}/spa-info`,
 
   // Housekeeping flow
   HOUSEKEEPING: `/${hotel}/housekeeping`,
