@@ -159,7 +159,11 @@ const Guest: React.FC<any> = () => {
 
   // newguest configuration
   const newGuestModules = structuredClone(accompanyingGuestSubmodule);
-  const newGuestConfigs = updateDocTypeForNewGuestOptions(newGuestModules, documentTypes);
+  const newGuestConfigs = updateDocTypeForNewGuestOptions(
+    newGuestModules,
+    documentTypes,
+    genderTypes,
+  );
 
   const upgradeRoomConfig = checkInModule?.submodules?.find(
     (submodule: any) => submodule?.name === UPGRADE_ROOM && submodule.isActive,
@@ -301,7 +305,7 @@ const Guest: React.FC<any> = () => {
                   guestData[item?.name] = '';
                 } else if (emailField?.defaultValue === OTA) {
                   if (reservationInfo?.confirmationId === reservationInfo?.uniqueBookingId) {
-                    guestData[item?.name] = accompanyGuest[item?.name][0] || '';
+                    guestData[item?.name] = accompanyGuest[item?.name]?.[0] || '';
                   } else {
                     guestData[item?.name] = '';
                   }
