@@ -6,7 +6,7 @@ import { getHotelCompendium, selectedCompendiumCategory } from 'storage/home.sto
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
 import { useTranslation } from 'react-i18next';
-import { filterHotelCompendiumCategories } from 'utils/functions';
+import { filterHotelCompendiumCategories, filterHotelCompendiumSections } from 'utils/functions';
 import cx from 'classnames';
 
 export const HotelCompendiumContainer = (props: any) => {
@@ -22,6 +22,7 @@ export const HotelCompendiumContainer = (props: any) => {
 
   const amenities = data?.getHotelAmenityDetails?.amenities;
   const categories = filterHotelCompendiumCategories(data);
+  const sections = filterHotelCompendiumSections(data);
 
   const handleClick = (id: any) => {
     selectedCompendiumCategory(categories?.find((category: any) => category?.id === id));
@@ -30,23 +31,40 @@ export const HotelCompendiumContainer = (props: any) => {
 
   return (
     <>
-      {categories?.length > 0 && (
+      {sections?.length > 0 && (
         <>
-          <div className={styles.title}>{t('Things To Do')}</div>
-          <div className={styles.container}>
-            {categories?.map((category: any, index: number) => (
-              <div key={index} className={styles.wrapper} onClick={() => handleClick(category?.id)}>
-                <div className={styles.imgWrapper}>
-                  <p className={cx(styles.name, 'globals-compendiumTitle')}>{category?.name}</p>
-                </div>
+          {sections?.map((section: any) => (
+            <div key={section?.id}>
+              <div className={styles.title}>{section?.name}</div>
 
-                <StableImage
-                  className={styles.image}
-                  src={category?.images?.length && `${ASSETS_URL}/${category?.images[0]?.master}`}
-                />
+              <div className={styles.container}>
+                {categories?.length > 0 &&
+                  categories
+                    ?.filter((category: any) => category?.sectionIds?.includes(section?.id))
+                    ?.map((category: any, index: number) => (
+                      <div
+                        key={index}
+                        className={styles.wrapper}
+                        onClick={() => handleClick(category?.id)}
+                      >
+                        <div className={styles.imgWrapper}>
+                          <p className={cx(styles.name, 'globals-compendiumTitle')}>
+                            {category?.name}
+                          </p>
+                        </div>
+
+                        <StableImage
+                          className={styles.image}
+                          src={
+                            category?.images?.length &&
+                            `${ASSETS_URL}/${category?.images[0]?.master}`
+                          }
+                        />
+                      </div>
+                    ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </>
       )}
     </>

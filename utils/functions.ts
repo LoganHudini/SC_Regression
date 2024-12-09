@@ -310,6 +310,19 @@ export const filterIRDMenuItems = (activeMenu: any) => {
   return [...new Set(irdMenu)];
 };
 
+export const filterHotelCompendiumSections = (data: any) => {
+  return data?.getHotelAmenityDetails?.section?.filter((section: any) => {
+    const relatedCategories = data?.getHotelAmenityDetails?.categories?.filter((category: any) =>
+      category?.sectionIds?.includes(section?.id),
+    );
+    return relatedCategories?.some((category: any) => {
+      return data?.getHotelAmenityDetails?.amenities?.some(
+        (amenity: any) => amenity?.categoryIds?.includes(category?.id) && amenity?.isActive,
+      );
+    });
+  });
+};
+
 export const filterHotelCompendiumCategories = (data: any) => {
   return data?.getHotelAmenityDetails?.categories?.filter((category: any) => {
     return data?.getHotelAmenityDetails?.amenities?.find(
