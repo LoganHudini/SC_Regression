@@ -23,7 +23,7 @@ import { useConfig } from 'utils/hooks/useConfiguration';
 import { filterHotelCompendiumCategories } from 'utils/functions';
 import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 import { PhoneEmail } from 'components/shared/PhoneEmail/PhoneEmail';
-import { EMAILCAPS, PHONECAPS } from 'utils/constants';
+import { EMAILCAPS, PHONECAPS, URL } from 'utils/constants';
 import NoInformation from 'components/shared/NoInformation/NoInformation';
 
 export { getStaticPaths };
@@ -91,7 +91,7 @@ const HotelCompendium: React.FC = () => {
             )}
 
             {showSelectedAmenity?.information?.some(
-              (e: any) => e?.type === PHONECAPS || e?.type === EMAILCAPS,
+              (e: any) => e?.type === PHONECAPS || e?.type === EMAILCAPS || e?.type === URL,
             ) && (
               <PhoneEmail
                 phone={
@@ -100,11 +100,26 @@ const HotelCompendium: React.FC = () => {
                 email={
                   showSelectedAmenity?.information?.find((e: any) => e?.type === EMAILCAPS)?.value
                 }
+                url={showSelectedAmenity?.information?.find((e: any) => e?.type === URL)?.value}
                 phoneTitle={
                   showSelectedAmenity?.information?.find((e: any) => e?.type === PHONECAPS)?.field
                 }
                 emailTitle={
                   showSelectedAmenity?.information?.find((e: any) => e?.type === EMAILCAPS)?.field
+                }
+                urlTitle={
+                  showSelectedAmenity?.information?.find((e: any) => e?.type === URL)?.field
+                }
+                phoneDisplayTitle={
+                  showSelectedAmenity?.information?.find((e: any) => e?.type === PHONECAPS)
+                    ?.displayTitle
+                }
+                emailDisplayTitle={
+                  showSelectedAmenity?.information?.find((e: any) => e?.type === EMAILCAPS)
+                    ?.displayTitle
+                }
+                urlDisplayTitle={
+                  showSelectedAmenity?.information?.find((e: any) => e?.type === URL)?.displayTitle
                 }
               />
             )}
