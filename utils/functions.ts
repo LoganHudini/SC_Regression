@@ -156,15 +156,15 @@ export const updateDocTypeOptionsOptionConfig = (
 
 export const updateDocTypeForNewGuestOptions = (
   data: any,
-  replaceData: any,
+  replaceDataDoc: any,
   replaceDataGender: any,
 ) => {
   if (!data || !data?.details) {
     return data;
   }
   const updatedDetails = data?.details.map((item: any) => {
-    if (item?.name === DOCTYPE && replaceData?.length > 0) {
-      return { ...item, options: replaceData };
+    if (item?.name === DOCTYPE && replaceDataDoc?.length > 0) {
+      return { ...item, options: replaceDataDoc };
     }
     if (item?.name === GENDER && replaceDataGender?.length > 0) {
       return { ...item, options: replaceDataGender };

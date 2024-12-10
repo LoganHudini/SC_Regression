@@ -354,8 +354,7 @@ const Guest: React.FC<any> = () => {
   useEffect(() => {
     if (
       (totalGuestCount > 0 && isEmpty(newAccompanyGuestStorage)) ||
-      (adultGuestCount > 0 && isEmpty(newAccompanyGuestStorage?.adult)) ||
-      (childGuestCount > 0 && isEmpty(newAccompanyGuestStorage?.child))
+      (adultGuestCount > 0 && isEmpty(newAccompanyGuestStorage?.adult))
     ) {
       const guestFields = accompanyGuestInformationSection.reduce((acc: any, curr: any) => {
         if (curr.label && curr.isActive) {
@@ -364,17 +363,17 @@ const Guest: React.FC<any> = () => {
         return acc;
       }, {});
 
-      const childGuests = Array.from({ length: childGuestCount }, (_, index) => ({
+      const childGuests = Array.from({ length: 0 }, (_, index) => ({
         ...guestFields,
         id: `guest-${index + 1}`,
         name: `Child Guest ${index + 1}`,
       }));
 
       const adultGuests = Array.from(
-        { length: adultGuestCount - reservationInfo?.guests?.length },
+        { length: adultGuestCount + childGuestCount - reservationInfo?.guests?.length },
         (_, index) => ({
           ...guestFields,
-          id: `guest-${childGuestCount + index + 1}`,
+          id: `guest-${index + 1}`,
           name: `Adult Guest ${index + 1}`,
         }),
       );
@@ -1203,7 +1202,7 @@ const Guest: React.FC<any> = () => {
               );
             })}
 
-          {childGuestCount > 0 && (
+          {childGuestCount > 0 && newAccompanyGuestStorage?.child?.length > 0 && (
             <>
               <p className={cx(styles.guestType, styles.marginSpace)}>
                 {t('below_age', { value: accompanyingGuestSubmodule?.minorGuestAgeLimit ?? 18 })}
