@@ -11,7 +11,7 @@ import styles from './Header.module.scss';
 import { IHeaderProps } from './Header.types';
 import { useRouter } from 'next/router';
 import ArrowBackIosIcon from '@icons/ArrowBack.svg';
-import { ALL_DAY } from 'utils/constants';
+import { ALL_DAY, FAIRMONT_MAKKAH_CLOCK_ROYAL_TOWER } from 'utils/constants';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { GET_ORDERS } from 'core/graphql/queries/GET_ORDERS_BY_ID';
@@ -141,10 +141,14 @@ export const Header: React.FC<IHeaderProps> = ({
               {' '}
               <img
                 className={styles.headerLogo}
-                src={`/images/${BRAND_CODE}/Logo.svg`}
+                src={`/images/${
+                  hotel === FAIRMONT_MAKKAH_CLOCK_ROYAL_TOWER ? hotel : BRAND_CODE
+                }/Logo.svg`}
                 onClick={goHome}
               />
-              {logo && <p className={cx(styles.propertyName, 'globals-propertyName')}>{logo}</p>}
+              {logo && hotel !== FAIRMONT_MAKKAH_CLOCK_ROYAL_TOWER && (
+                <p className={cx(styles.propertyName, 'globals-propertyName')}>{logo}</p>
+              )}
             </>
           )}
 
