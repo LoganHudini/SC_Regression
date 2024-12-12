@@ -5413,7 +5413,7 @@ export const configuration: any = [
                     isActive: true,
                   },
                   {
-                    name: 'expiryDate',
+                    name: 'expiry',
                     label: 'Expiry Date',
                     type: 'datePicker',
                     required: true,
@@ -9731,7 +9731,7 @@ export const configuration: any = [
                     isDisableFuture: true,
                   },
                   {
-                    name: 'expiryDate',
+                    name: 'expiry',
                     label: 'Expiry Date',
                     type: 'datePicker',
                     required: true,
@@ -9899,7 +9899,7 @@ export const configuration: any = [
                 isDisableFuture: true,
               },
               {
-                name: 'expiryDate',
+                name: 'expiry',
                 label: 'Expiry Date',
                 type: 'datePicker',
                 required: true,
@@ -11679,7 +11679,7 @@ export const configuration: any = [
                     isActive: true,
                   },
                   {
-                    name: 'expiryDate',
+                    name: 'expiry',
                     label: 'Expiry Date',
                     type: 'datePicker',
                     required: true,
