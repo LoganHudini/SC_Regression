@@ -1,0 +1,22 @@
+{
+  "theme_color": "#364F59",
+  "background_color": "#ffffff",
+  "display": "fullscreen",
+  "scope": "/",
+  "start_url": "/",
+  "name": "Como",
+  "short_name": "Como",
+  "icons": [
+    {
+      "src": "/images/como/Logo.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/como/Logo.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

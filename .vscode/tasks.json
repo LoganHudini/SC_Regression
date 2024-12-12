@@ -570,6 +570,50 @@
       "problemMatcher": [],
       "label": "Start: THE SAVOY",
       "detail": "env-cmd -f .env.the-savoy next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:como",
+      "problemMatcher": [],
+      "label": "Dev: COMO",
+      "detail": "env-cmd -f .env.como yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:como",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: COMO",
+      "detail": "env-cmd -f .env.como yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:como",
+      "problemMatcher": [],
+      "label": "Start: COMO",
+      "detail": "env-cmd -f .env.como next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:como-stage",
+      "problemMatcher": [],
+      "label": "Dev: COMO_STAGE",
+      "detail": "env-cmd -f .env.como.stage yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:como-stage",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: COMO_STAGE",
+      "detail": "env-cmd -f .env.como.stage yarn next build"
+    },
+    {
+      "type": "npm",
+      "script": "start:como-stage",
+      "problemMatcher": [],
+      "label": "Start: COMO_STAGE",
+      "detail": "env-cmd -f .env.como.stage yarn next start"
     }
   ]
 }
