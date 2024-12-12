@@ -47,6 +47,12 @@ export const OfferDetails: React.FC<IOfferDetailsProps> = ({ carouselItem, onCta
               <p className={styles.listComponentDataText}>{t(`${carouselItem?.description}`)}</p>
             </>
           )}
+          {carouselItem?.highLights && (
+            <>
+              <p className={styles.listComponentDataText}>{t(`${carouselItem?.highLights}`)}</p>
+            </>
+          )}
+
           {carouselItem?.duration && (
             <>
               <p className={styles.listComponentDataTitle}>{t('Availability')}</p>
