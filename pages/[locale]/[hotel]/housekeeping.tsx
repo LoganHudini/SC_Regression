@@ -203,7 +203,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
             bookingTime: dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2),
             guestName: checkinData?.lastName,
             serviceName: showSchedules?.name,
-            requestType: 'Housekeeping',
+            requestType: showSchedules?.__typename,
             hotelId: HOTEL_ID,
             roomNo: checkinData?.roomNumber,
             items: combinedServiceRequestArray

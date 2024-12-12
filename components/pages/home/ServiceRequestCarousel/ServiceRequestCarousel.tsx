@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { ASSETS_URL, BRAND_CODE } from '../../../../core/graphql/endpoints';
 import styles from './ServiceRequestCarousel.module.scss';
 import { housekeepingOptions, serviceRequestOptionsArray } from 'storage/housekeeping.storage';
-import { CAROUSEL_RESPONSIVE } from 'utils/constants';
+import { CAROUSEL_RESPONSIVE, HouseKeeping } from 'utils/constants';
 import { availablePaths } from 'utils/availablePaths';
 import cx from 'classnames';
 import { CustomReadMore } from 'components/shared/CustomReadMore/CustomReadMore';
@@ -30,7 +30,7 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle }) => 
 
   const handleClick = () => {
     const selectedData = serviceRequestOptions?.find(
-      (data: any) => data.carouselLabel === 'HouseKeeping' || data.carouselLabel === 'Concierge',
+      (data: any) => data.carouselLabel === slide?.__typename,
     );
     housekeepingOptions(selectedData);
     navigate(availablePaths.HOUSEKEEPING);
@@ -53,7 +53,7 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle }) => 
         })}
       >
         <h3 className={cx(styles.carouselSlideTitle, 'globals-carouselSlideTitle')}>
-          {t('Housekeeping')}
+          {slide?.__typename === HouseKeeping ? t('Housekeeping') : t(slide?.__typename)}
         </h3>
         <CustomReadMore text={t(BRAND_CODE === 'fairmont' ? 'Discover' : 'View More') as string} />
       </div>

@@ -35,23 +35,8 @@ import {
   INTEGRATION_API_KEY_G,
 } from './endpoints';
 import { onError } from '@apollo/client/link/error';
-import { visit } from 'graphql';
 import { GET_RESERVATION, IGetReservationApiResponse } from './queries/GET_RESERVATION';
 import { logError } from 'core/api/functions/errorLogs';
-
-const removeTypenameLink = new ApolloLink((operation, forward) => {
-  const modifiedQuery = visit(operation.query, {
-    Field: {
-      enter(node: any) {
-        if (node.name.value.startsWith('__')) {
-          return null;
-        }
-      },
-    },
-  });
-  operation.query = modifiedQuery;
-  return forward(operation);
-});
 
 const retryLink = new RetryLink({
   delay: {
@@ -230,7 +215,6 @@ const errorLink = onError((error?: any) => {
 export const client = new ApolloClient({
   link: ApolloLink.from([
     errorLink,
-    removeTypenameLink,
     retryLink,
     ApolloLink.split(
       (operation) => operation.getContext().clientName === 'property_a',
