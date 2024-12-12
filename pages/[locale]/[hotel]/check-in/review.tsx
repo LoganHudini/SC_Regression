@@ -91,6 +91,9 @@ import { getHotelId } from 'utils/fetchConfigs';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { Countries } from '../../../../utils/countryList';
 import { useCurrency } from 'utils/hooks/useCurrency';
+import { StyledInput } from 'components/shared/StyledInput/StyledInput';
+import { useFormik } from 'formik';
+import { instructionValidation } from 'validation/dining.validation';
 
 export { getStaticPaths };
 
@@ -124,6 +127,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const [signature, setSignature] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [signatureWidth, setSignatureWidth] = useState(340);
+  const [specialRequests, setSpecialRequests] = useState('');
   const currency = useCurrency();
   // card expansion states
   const [stayInformation, setStayInformation] = useState(false);
@@ -162,6 +166,14 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const personalisationConfig = checkInModule?.submodules?.find(
     (submodule: any) => submodule?.name === personalisation && submodule.isActive,
   );
+
+  const formik = useFormik({
+    initialValues: { instruction: '' },
+    validationSchema: instructionValidation,
+    onSubmit: (values) => {
+      setSpecialRequests(values.instruction);
+    },
+  });
 
   useEffect(() => {
     const signatureWidth = () => {
@@ -386,7 +398,9 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             : guestReservationInfo?.estimatedTime,
         depositAmount: paymentConfig?.type !== NONE ? String(fetchCharges(reservationInfo)) : '',
         specialInstructions:
-          payment + (personalisation ? 'Personalisations: ' + personalisation : ''),
+          payment +
+          (personalisation ? 'Personalisations: ' + personalisation : '') +
+          (specialRequests ? 'Special Request: ' + specialRequests : ''),
         primaryGuestDOB: guestReservationInfo?.dob as string,
         guestType: reservationInfo?.travelAgent?.name as string,
         voucherNumber: (reservationInfo?.packages[0]?.code as string) || '',
@@ -629,6 +643,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     reviewConfig?.checkInSuccessfulMessageDescription,
     reviewConfig?.checkInSuccessfulMessageTitle,
     roomNo,
+    specialRequests,
     t,
     updatedGuestData,
   ]);
@@ -992,6 +1007,38 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                 </div>
               </DetailsCard>
             </div>
+          )}
+
+          {config?.isSpecialRequestActive && (
+            <StyledInput
+              autoComplete='off'
+              variant='standard'
+              onChange={(e) => {
+                formik.handleChange(e);
+                setSpecialRequests(e.target.value);
+              }}
+              fullWidth
+              multiline
+              color='success'
+              value={formik.values.instruction}
+              className={styles.textInput}
+              id='instruction'
+              placeholder={`${t('Special Request')}`}
+              InputProps={{
+                classes: {
+                  underline: styles.customUnderline,
+                },
+                inputProps: {
+                  maxLength: 150,
+                  style: {
+                    font: '14px var(--primary-font-heading)',
+                    color: 'var(--tertiary-text-color)',
+                  },
+                },
+              }}
+              error={Boolean(formik.errors.instruction)}
+              helperText={formik.errors.instruction ? t(formik.errors.instruction) : null}
+            />
           )}
 
           {DOCUMENT_LIST?.some((document: any) => hotelInfo?.[document.code]?.type) && (
