@@ -4068,6 +4068,7 @@ export const configuration: any = [
     ],
     isAnimationActive: false,
     isLogoLoaderActive: false,
+    isSpecialRequestActive: true,
     preCheckInOnly: true,
     modules: [
       {

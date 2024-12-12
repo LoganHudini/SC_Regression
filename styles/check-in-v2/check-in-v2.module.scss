@@ -261,6 +261,7 @@
   font-size: 13px;
   line-height: 1.4;
 }
+
 .titleText {
   font-family: var(--primary-font-heading);
   font-size: $medium;
@@ -272,4 +273,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 18px;
+}
+
+.textInput {
+  margin-bottom: 1rem;
 }
