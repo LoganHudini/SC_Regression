@@ -4617,7 +4617,7 @@ export const configuration: any = [
                     options: [
                       {
                         name: 'Passport',
-                        value: 'PAS',
+                        value: 'PASSPORT',
                         code: 'PAS',
                         vendorDocType: 'PASSPORT',
                       },
