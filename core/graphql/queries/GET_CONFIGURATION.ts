@@ -140,6 +140,14 @@ export const configuration: any = [
                     isDisabled: true,
                     isActive: false,
                   },
+                  {
+                    name: 'estimatedTime',
+                    label: 'Estimated Time of Arrival',
+                    type: 'TimePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
                 ],
               },
               {
@@ -357,7 +365,7 @@ export const configuration: any = [
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'spa',
@@ -506,6 +514,14 @@ export const configuration: any = [
                     isDisabled: true,
                     isActive: false,
                   },
+                  {
+                    name: 'estimatedTime',
+                    label: 'Estimated Time of Arrival',
+                    type: 'TimePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
                 ],
               },
               {
@@ -723,7 +739,7 @@ export const configuration: any = [
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'spa',
@@ -863,6 +879,14 @@ export const configuration: any = [
                     isDisabled: true,
                     isActive: false,
                   },
+                  {
+                    name: 'estimatedTime',
+                    label: 'Estimated Time of Arrival',
+                    type: 'TimePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
                 ],
               },
               {
@@ -1080,7 +1104,7 @@ export const configuration: any = [
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'spa',
@@ -1220,6 +1244,14 @@ export const configuration: any = [
                     isDisabled: true,
                     isActive: false,
                   },
+                  {
+                    name: 'estimatedTime',
+                    label: 'Estimated Time of Arrival',
+                    type: 'TimePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
                 ],
               },
               {
@@ -1437,7 +1469,7 @@ export const configuration: any = [
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'spa',
@@ -1586,6 +1618,14 @@ export const configuration: any = [
                     isDisabled: true,
                     isActive: false,
                   },
+                  {
+                    name: 'estimatedTime',
+                    label: 'Estimated Time of Arrival',
+                    type: 'TimePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
                 ],
               },
               {
@@ -1803,7 +1843,7 @@ export const configuration: any = [
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'spa',
@@ -1959,6 +1999,14 @@ export const configuration: any = [
                     isDisabled: true,
                     isActive: false,
                   },
+                  {
+                    name: 'estimatedTime',
+                    label: 'Estimated Time of Arrival',
+                    type: 'TimePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
                 ],
               },
               {
@@ -2176,7 +2224,7 @@ export const configuration: any = [
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'spa',
@@ -2348,6 +2396,14 @@ export const configuration: any = [
                     required: false,
                     isDisabled: true,
                     isActive: false,
+                  },
+                  {
+                    name: 'estimatedTime',
+                    label: 'Estimated Time of Arrival',
+                    type: 'TimePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
                   },
                 ],
               },
@@ -2562,7 +2618,7 @@ export const configuration: any = [
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'spa',
@@ -2710,6 +2766,14 @@ export const configuration: any = [
                     type: 'text',
                     required: false,
                     isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'estimatedTime',
+                    label: 'Estimated Time of Arrival',
+                    type: 'TimePicker',
+                    required: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                 ],
@@ -3035,6 +3099,14 @@ export const configuration: any = [
                     isDisabled: true,
                     isActive: true,
                   },
+                  {
+                    name: 'estimatedTime',
+                    label: 'Estimated Time of Arrival',
+                    type: 'TimePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
                 ],
               },
               {
@@ -3349,6 +3421,14 @@ export const configuration: any = [
                     type: 'text',
                     required: false,
                     isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'estimatedTime',
+                    label: 'Estimated Time of Arrival',
+                    type: 'TimePicker',
+                    required: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                 ],
@@ -3783,6 +3863,14 @@ export const configuration: any = [
                     type: 'Text',
                     required: true,
                     isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'estimatedTime',
+                    label: 'Estimated Time of Arrival',
+                    type: 'TimePicker',
+                    required: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                 ],
@@ -4472,7 +4560,7 @@ export const configuration: any = [
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'spa',
@@ -4633,6 +4721,14 @@ export const configuration: any = [
                     name: 'docNo',
                     label: 'Document Number',
                     type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
+                    name: 'estimatedTime',
+                    label: 'Estimated Time of Arrival',
+                    type: 'TimePicker',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -5022,6 +5118,14 @@ export const configuration: any = [
                     isDisabled: false,
                     isActive: true,
                   },
+                  {
+                    name: 'estimatedTime',
+                    label: 'Estimated Time of Arrival',
+                    type: 'TimePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
                 ],
               },
               {
@@ -5243,7 +5347,7 @@ export const configuration: any = [
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'spa',
@@ -5797,6 +5901,14 @@ export const configuration: any = [
                     isDisabled: true,
                     isActive: true,
                   },
+                  {
+                    name: 'estimatedTime',
+                    label: 'Estimated Time of Arrival',
+                    type: 'TimePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
                 ],
               },
               {
@@ -6012,7 +6124,7 @@ export const configuration: any = [
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'spa',
@@ -6135,6 +6247,14 @@ export const configuration: any = [
                     type: 'Text',
                     required: true,
                     isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'estimatedTime',
+                    label: 'Estimated Time of Arrival',
+                    type: 'TimePicker',
+                    required: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                 ],
@@ -6742,7 +6862,7 @@ export const configuration: any = [
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: true,
+        isActive: false,
       },
     ],
   },
@@ -7145,7 +7265,7 @@ export const configuration: any = [
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: true,
+        isActive: false,
       },
     ],
   },
@@ -7278,6 +7398,14 @@ export const configuration: any = [
                     required: false,
                     isDisabled: true,
                     isActive: false,
+                  },
+                  {
+                    name: 'estimatedTime',
+                    label: 'Estimated Time of Arrival',
+                    type: 'TimePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
                   },
                 ],
               },
@@ -7492,7 +7620,7 @@ export const configuration: any = [
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'spa',
@@ -7632,6 +7760,14 @@ export const configuration: any = [
                     required: false,
                     isDisabled: true,
                     isActive: false,
+                  },
+                  {
+                    name: 'estimatedTime',
+                    label: 'Estimated Time of Arrival',
+                    type: 'TimePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
                   },
                 ],
               },
@@ -7845,7 +7981,7 @@ export const configuration: any = [
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'spa',
@@ -9739,6 +9875,14 @@ export const configuration: any = [
                     isActive: true,
                     isDisablePast: true,
                   },
+                  {
+                    name: 'estimatedTime',
+                    label: 'Estimated Time of Arrival',
+                    type: 'TimePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
                 ],
               },
               {
@@ -10012,7 +10156,7 @@ export const configuration: any = [
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'Checkout-Payment',
@@ -10216,6 +10360,14 @@ export const configuration: any = [
                     isDisabled: false,
                     isActive: true,
                     options: Countries,
+                  },
+                  {
+                    name: 'estimatedTime',
+                    label: 'Estimated Time of Arrival',
+                    type: 'TimePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
                   },
                 ],
               },
@@ -11305,6 +11457,14 @@ export const configuration: any = [
                     isDisabled: true,
                     isActive: true,
                   },
+                  {
+                    name: 'estimatedTime',
+                    label: 'Estimated Time of Arrival',
+                    type: 'TimePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
                 ],
               },
               {
@@ -12121,6 +12281,14 @@ export const configuration: any = [
                     isActive: true,
                     options: Countries,
                   },
+                  {
+                    name: 'estimatedTime',
+                    label: 'Estimated Time of Arrival',
+                    type: 'TimePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
                 ],
               },
               {
@@ -12342,7 +12510,7 @@ export const configuration: any = [
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'spa',
@@ -20975,6 +21143,14 @@ export const configuration: any = [
                     isDisabled: true,
                     isActive: true,
                   },
+                  {
+                    name: 'estimatedTime',
+                    label: 'Estimated Time of Arrival',
+                    type: 'TimePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
                 ],
               },
               {
@@ -21431,6 +21607,14 @@ export const configuration: any = [
                     type: 'Text',
                     required: true,
                     isDisabled: true,
+                    isActive: true,
+                  },
+                  {
+                    name: 'estimatedTime',
+                    label: 'Estimated Time of Arrival',
+                    type: 'TimePicker',
+                    required: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                 ],
