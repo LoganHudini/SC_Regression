@@ -10019,9 +10019,9 @@ export const configuration: any = [
   {
     code: 'ava-resort-cancun',
     name: 'AVA Resort Cancun',
-    // hotelId: 'bfa8d4c3-4af9-4203-91f5-0f8336ae591f',
+    hotelId: 'bfa8d4c3-4af9-4203-91f5-0f8336ae591f',
     // stage
-    hotelId: '367d06d4-4ad0-4034-9bce-d58e6c36ee03',
+    // hotelId: '367d06d4-4ad0-4034-9bce-d58e6c36ee03',
     pms: 'OPERA',
     fetchFromDb: 'yes',
     saveToDb: 'no',
