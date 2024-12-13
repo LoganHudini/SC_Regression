@@ -2969,9 +2969,7 @@ export const configuration: any = [
     code: 'itc-hotels-maratha',
     logo: '',
     name: 'ITC Hotels Maratha',
-    // hotelId: '84c3ba14-ef7e-48a2-9290-def9645bf3dd',
-    // stage
-    hotelId: '21022bd7-41cc-4aea-8b43-390b2c725d11',
+    hotelId: '84c3ba14-ef7e-48a2-9290-def9645bf3dd',
     pms: 'OPERA',
     fetchFromDb: 'yes',
     saveToDb: 'no',
@@ -4576,8 +4574,6 @@ export const configuration: any = [
     homePageHeader: true,
     name: 'Fairmont Nile City',
     hotelId: '8ab27d01-e926-45f5-879b-fc8de077f045',
-    // stage
-    // hotelId: 'd69867de-2a84-4816-9544-e71187d06637',
     pms: 'OHIP',
     fetchFromDb: 'yes',
     saveToDb: 'no',
@@ -4970,8 +4966,6 @@ export const configuration: any = [
     homePageHeader: true,
     name: 'Fairmont Scottsdale Princess',
     hotelId: '11e093a8-c3d0-4e48-bb5c-2f216d3f195c',
-    // stage
-    // hotelId: '6b21b26f-6faf-4ad3-a653-528ff538df36',
     pms: 'OPERA',
     fetchFromDb: 'yes',
     saveToDb: 'no',
@@ -6472,8 +6466,6 @@ export const configuration: any = [
     code: 'proper-downtown-la',
     name: 'Proper Downtown L.A.',
     hotelId: 'af33df72-467c-40f9-b2d3-ac9d56a7fb85',
-    // Stage
-    // hotelId: '4d9fcf15-4e4e-4eee-a7cb-2ad0df4f6300',
     pms: 'INFOR',
     fetchFromDb: 'yes',
     saveToDb: 'no',
@@ -10175,8 +10167,6 @@ export const configuration: any = [
     code: 'ava-resort-cancun',
     name: 'AVA Resort Cancun',
     hotelId: 'bfa8d4c3-4af9-4203-91f5-0f8336ae591f',
-    // stage
-    // hotelId: '367d06d4-4ad0-4034-9bce-d58e6c36ee03',
     pms: 'OPERA',
     fetchFromDb: 'yes',
     saveToDb: 'no',
@@ -10614,7 +10604,7 @@ export const configuration: any = [
     logo: '',
     name: 'Pestana CR7 Lisbon',
     homePageHeader: false,
-    // Stage hotelId
+    // stage
     hotelId: '86c348ee-3b14-47c8-98fb-a311f8c8c852',
     pms: 'OPERA',
     fetchFromDb: 'yes',
