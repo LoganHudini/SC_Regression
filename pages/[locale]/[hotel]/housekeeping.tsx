@@ -317,6 +317,11 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
       <div className={styles.wrapper}>
         <div className={styles.confirmationWrapper}>
           <h2 className={styles.title}>{showSchedules?.name}</h2>
+          {showSchedules?.description && (
+            <div className={styles.description}>
+              <p>{showSchedules?.description}</p>
+            </div>
+          )}
           <div className={styles.totalRequestsWrapper}>
             <div>
               {showSchedules && showSchedules?.maxQuantityActive && !showSchedules?.isItemActive ? (
