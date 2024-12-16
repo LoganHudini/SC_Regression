@@ -5,6 +5,7 @@ import { configuration } from 'core/graphql/queries/GET_CONFIGURATION';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { IsBiometricsSkipped } from 'storage/accompany-guest-details';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
 import {
   CHECK_IN,
@@ -21,6 +22,7 @@ import {
 export const useConfig = () => {
   const router = useRouter();
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
+  const enableIdVerificationStatus = useReactiveVar(IsBiometricsSkipped);
   useEffect(() => {
     if (router?.query?.hotel) {
       localStorage.setItem('hotel', JSON.stringify(router?.query?.hotel) ?? '');
@@ -36,6 +38,7 @@ export const useConfig = () => {
 
   const hotelConfigs: any = configuration?.find((config: any) => hotel && config?.code === hotel);
   const hotelConfigsBasedOnNationality = hotelConfigs && structuredClone(hotelConfigs);
+  const hotelConfigseEnableIdVerification = hotelConfigs && structuredClone(hotelConfigs);
 
   if (hotelConfigs?.idVerificationBasedOnNationality) {
     const updatedHotelConfigs: any = hotelConfigsBasedOnNationality?.modules
@@ -92,12 +95,13 @@ export const useConfig = () => {
       }
     }
   }
-
   return hotelConfigs?.idVerificationBasedOnNationality
     ? hotelConfigsBasedOnNationality?.idVerificationNationality?.includes(
         guestReservationInfo?.nationality,
       )
       ? hotelConfigsBasedOnNationality
+      : !enableIdVerificationStatus
+      ? hotelConfigseEnableIdVerification
       : hotelConfigs
     : hotelConfigs;
 };

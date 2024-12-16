@@ -13,3 +13,5 @@ export const secondaryGuestButtonDisabled = makeVar<boolean>(true);
 export const setNewGuestFormData = makeVar<{ configs?: any }>({
   configs: null,
 });
+
+export const IsBiometricsSkipped = makeVar<boolean>(true);

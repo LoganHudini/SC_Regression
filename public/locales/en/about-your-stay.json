@@ -74,5 +74,6 @@
   "Complete your identity verification by filling out essential details.": "Complete your identity verification by filling out essential details.",
   "Scan your Passport/ID to verify your identity.": "Scan your Passport/ID to verify your identity.",
   "Your information is protected by responsible data practices.": "Your information is protected by responsible data practices.",
-  "below_age": "Below {{value}} years old"
+  "below_age": "Below {{value}} years Old",
+  "Scan & Verify": "Scan & Verify"
 }

@@ -55,7 +55,11 @@ import {
   DOC_NO,
   GENDER,
 } from 'utils/constants';
-import { updateDocTypeForNewGuestOptions, updateDocTypeOptionsOptionConfig } from 'utils/functions';
+import {
+  updateFieldStatus,
+  updateDocTypeForNewGuestOptions,
+  updateDocTypeOptionsOptionConfig,
+} from 'utils/functions';
 import { docTypeStorage } from 'storage/guest-information.storage';
 import { Stepper } from 'components/shared/Stepper/Stepper';
 import { StepperInformationStorage, profileIDStorage } from 'storage/check-in.storage';
@@ -63,6 +67,7 @@ import produce from 'immer';
 import Camera from '@icons/cameraIcon.svg';
 import {
   accompanyGuestDetails,
+  IsBiometricsSkipped,
   newAccompanyGuestDetails,
   primaryGuestButtonDisabled,
   secondaryGuestButtonDisabled,
@@ -116,6 +121,7 @@ const Guest: React.FC<any> = () => {
   const [openToggleAddNewGuest, setOpenToggleAddNewGuest] = useState(
     new Array(newAccompanyGuestStorage?.child?.length)?.fill(false),
   );
+  const enableIdVerificationStatus = useReactiveVar(IsBiometricsSkipped);
   const [openToggleAddNewGuestForAdult, setOpenToggleAddNewGuestForAdult] = useState(
     new Array(newAccompanyGuestStorage?.adult?.length)?.fill(false),
   );
@@ -174,6 +180,7 @@ const Guest: React.FC<any> = () => {
     documentTypes,
     genderTypes,
   );
+  const disabledFields = updateFieldStatus(guestInformationSection);
 
   const upgradeRoomConfig = checkInModule?.submodules?.find(
     (submodule: any) => submodule?.name === UPGRADE_ROOM && submodule.isActive,
@@ -880,8 +887,19 @@ const Guest: React.FC<any> = () => {
                         }}
                       >
                         <Camera />
-                        <span className={styles.scanDocText}>{t('Scan Document')}</span>
+                        <span className={styles.scanDocText}>{t('Scan & Verify')}</span>
                       </StyledButton>
+                      {guestReservationInfo && guestInformationSection?.details && (
+                        <PreCheckinGuestInfo
+                          selectedGuest={guestReservationInfo}
+                          guestInformationSection={
+                            enableIdVerificationStatus
+                              ? guestInformationSection?.details
+                              : disabledFields?.details
+                          }
+                          type={PRIMARY}
+                        />
+                      )}
                     </DetailsCard>
                   ) : (
                     guestReservationInfo &&
@@ -895,7 +913,11 @@ const Guest: React.FC<any> = () => {
                         <div className={styles.margin}>
                           <PreCheckinGuestInfo
                             selectedGuest={guestReservationInfo}
-                            guestInformationSection={guestInformationSection?.details}
+                            guestInformationSection={
+                              enableIdVerificationStatus
+                                ? guestInformationSection?.details
+                                : disabledFields?.details
+                            }
                             type={PRIMARY}
                           />
                         </div>
@@ -927,7 +949,11 @@ const Guest: React.FC<any> = () => {
                       <div className={styles.margin}>
                         <PreCheckinGuestInfo
                           selectedGuest={guestReservationInfo}
-                          guestInformationSection={guestInformationSection?.details}
+                          guestInformationSection={
+                            enableIdVerificationStatus
+                              ? guestInformationSection?.details
+                              : disabledFields?.details
+                          }
                           type={PRIMARY}
                         />
                       </div>

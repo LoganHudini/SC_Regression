@@ -75,6 +75,7 @@ import { Stepper } from 'components/shared/Stepper/Stepper';
 import produce from 'immer';
 import {
   accompanyGuestDetails,
+  IsBiometricsSkipped,
   updateNewAccompanyGuestDetails,
 } from 'storage/accompany-guest-details';
 import {
@@ -120,6 +121,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const [accompanyGuestInformationState, setAcccompanyGuestInformation] = useState(
     new Array(accompanyGuestInfo?.length)?.fill(false),
   );
+  const IsBiometricsSkippedStatus = useReactiveVar(IsBiometricsSkipped);
   const personalizationEntities = useReactiveVar(personalizeYourRoomStorage);
   const upgradeRoomEntities = useReactiveVar(upgradeYourRoomStorage);
   const [conditionsAccepted, setConditionsAccepted] = useState(false);
@@ -415,6 +417,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         pushEregToOpera: true,
         placeOfStayArrival: guestReservationInfo?.placeOfStayArrival || '',
         placeOfStayDeparture: guestReservationInfo?.placeOfStayDeparture || '',
+        skipOCR: IsBiometricsSkippedStatus,
       };
       const checkIn = async () => {
         const checkInToken = await getCheckInToken();

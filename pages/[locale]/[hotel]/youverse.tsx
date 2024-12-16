@@ -15,7 +15,7 @@ import { ApolloError, useReactiveVar } from '@apollo/client';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
 import { useConfig, useDocumentConfig } from 'utils/hooks/useConfiguration';
 import { profileIDStorage } from 'storage/check-in.storage';
-import { accompanyGuestDetails } from 'storage/accompany-guest-details';
+import { accompanyGuestDetails, IsBiometricsSkipped } from 'storage/accompany-guest-details';
 import { DOCTYPE, FAILURE, GENDER, PRIMARY } from 'utils/constants';
 import { STORE_RESERVATION } from 'core/graphql/queries/STORE_RESERVATION';
 import { notificationStorage, toggleNotification } from 'storage/home.storage';
@@ -157,6 +157,7 @@ const Youverse: React.FC = () => {
                   type: FAILURE,
                 });
               } else {
+                IsBiometricsSkipped(false);
                 try {
                   client.mutate({
                     mutation: STORE_RESERVATION,
@@ -180,8 +181,8 @@ const Youverse: React.FC = () => {
                     docNo: res?.data?.getyoonikresponse?.data?.documentNumber,
                     docType: docTypes?.find(
                       (document: any) =>
-                        document?.vendorDocType ===
-                        res?.data?.getyoonikresponse?.data?.youverseType,
+                        document?.vendorDocType?.toLowerCase() ===
+                        res?.data?.getyoonikresponse?.data?.youverseType?.toLowerCase(),
                     )?.value,
                     gender: genderTypes?.find(
                       (gender: any) =>

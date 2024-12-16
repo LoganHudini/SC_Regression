@@ -13,7 +13,11 @@ import { useReactiveVar } from '@apollo/client';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
 import { useConfig, useDocumentConfig } from 'utils/hooks/useConfiguration';
 import { profileIDStorage } from 'storage/check-in.storage';
-import { accompanyGuestDetails, newAccompanyGuestDetails } from 'storage/accompany-guest-details';
+import {
+  accompanyGuestDetails,
+  IsBiometricsSkipped,
+  newAccompanyGuestDetails,
+} from 'storage/accompany-guest-details';
 import {
   AADHAAR,
   ACCOMPANYINGGUEST,
@@ -309,6 +313,7 @@ const Trential: React.FC = () => {
               });
               toggleNotification(true);
             } else {
+              IsBiometricsSkipped(false);
               if (profileIDState?.guestType === PRIMARY && guestInformationSection?.kioskEnabled) {
                 try {
                   await client.mutate({

@@ -2729,7 +2729,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -2757,7 +2757,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -3058,7 +3058,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -3086,7 +3086,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -3382,7 +3382,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -3410,7 +3410,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -3844,7 +3844,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -3860,7 +3860,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -5864,7 +5864,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -5892,7 +5892,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -6218,7 +6218,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -6240,7 +6240,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -6568,7 +6568,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -6590,7 +6590,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -6956,7 +6956,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -6978,7 +6978,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -8115,7 +8115,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -8137,7 +8137,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -9816,7 +9816,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -9838,7 +9838,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -10293,7 +10293,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -10315,7 +10315,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -10701,7 +10701,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -10723,7 +10723,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -11422,7 +11422,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -11444,7 +11444,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -12642,7 +12642,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -12664,7 +12664,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -13065,7 +13065,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -13087,7 +13087,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -13488,7 +13488,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -13510,7 +13510,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -13911,7 +13911,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -13933,7 +13933,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -14334,7 +14334,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -14356,7 +14356,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -14757,7 +14757,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -14779,7 +14779,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -15180,7 +15180,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -15202,7 +15202,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -15603,7 +15603,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -15625,7 +15625,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -16026,7 +16026,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -16048,7 +16048,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -16449,7 +16449,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -16471,7 +16471,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -16872,7 +16872,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -16894,7 +16894,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -17295,7 +17295,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -17317,7 +17317,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -17718,7 +17718,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -17740,7 +17740,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -18141,7 +18141,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -18163,7 +18163,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -18564,7 +18564,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -18586,7 +18586,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -18987,7 +18987,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -19009,7 +19009,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -19410,7 +19410,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -19432,7 +19432,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -19833,7 +19833,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -19855,7 +19855,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -20256,7 +20256,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -20278,7 +20278,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -20679,7 +20679,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -20701,7 +20701,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {
@@ -21108,7 +21108,7 @@ export const configuration: any = [
                     label: 'Document Type',
                     type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                     options: [
                       {
@@ -21130,7 +21130,7 @@ export const configuration: any = [
                     label: 'Document Number',
                     type: 'Text',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
                   },
                   {

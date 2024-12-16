@@ -14,6 +14,7 @@ import {
   FAILURE,
   reservationStatusMessages,
   EVERYDAY,
+  idVerificationFields,
 } from './constants';
 import { tableReservationStorage } from 'storage/table-reservation.storage';
 import { housekeepingOptions, serviceRequestOptionsArray } from 'storage/housekeeping.storage';
@@ -508,3 +509,19 @@ export const getTimeStatus = (
 // Return is day found
 export const isDayFound = (openDays: any, today: any) =>
   openDays?.includes(EVERYDAY) || openDays?.includes(today);
+
+export const updateFieldStatus = (data: any) => {
+  if (!data || !data?.details) {
+    return data;
+  }
+  const updatedDetails = data?.details.map((item: any) => {
+    if (idVerificationFields?.includes(item?.name)) {
+      return { ...item, isDisabled: true };
+    }
+    return item;
+  });
+  return {
+    ...data,
+    details: updatedDetails,
+  };
+};
