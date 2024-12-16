@@ -188,17 +188,18 @@ const Spa: React.FC = () => {
       setspaBooking(true);
     }
     if (spaInformation?.cta?.redirectOption === SPA_BOOKING_FLOW) {
-      if (!isCheckedIn?.checkedIn) {
-        notificationStorage({
-          type: FAILURE,
-          title: t('Access Denied.'),
-          description: t('Please connect to room to reserve spa treatments.') as string,
-        });
-        toggleNotification(true);
-      } else {
-        setDetailContent(false);
-        setTimeSelectDrawer(true);
-      }
+      // to be enabled later
+      // if (!isCheckedIn?.checkedIn) {
+      //   notificationStorage({
+      //     type: FAILURE,
+      //     title: t('Access Denied.'),
+      //     description: t('Please connect to room to reserve spa treatments.') as string,
+      //   });
+      //   toggleNotification(true);
+      // } else {
+      setDetailContent(false);
+      setTimeSelectDrawer(true);
+      // }
     }
   };
 
