@@ -28,7 +28,6 @@ import {
   GUESTINFORMATION,
   INFORMATION,
   PHONE,
-  PHONE_REGEX,
   EMAILS,
   STEPPER_REVIEW,
   STEPPER_PAYMENT,
@@ -90,6 +89,7 @@ import { Loader } from 'components/shared/Loaders/Loaders';
 import { isEmpty } from 'lodash';
 import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
+import { validatePhoneNumber } from 'utils/hooks/useValidate';
 export { getStaticPaths };
 
 const Guest: React.FC<any> = () => {
@@ -273,7 +273,7 @@ const Guest: React.FC<any> = () => {
       const infoValue = fieldItem?.name in guestDetails ? guestDetails[fieldItem?.name] : true;
 
       if (fieldItem?.name === PHONE) {
-        return PHONE_REGEX.test(infoValue);
+        return validatePhoneNumber(infoValue);
       }
       if (fieldItem?.name === EMAILS) {
         return EMAIL_REGEX.test(infoValue);

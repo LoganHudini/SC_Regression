@@ -11,6 +11,7 @@ import {
   NEWGUEST,
   NEWGUESTFORM,
   NEWGUESTSCAN,
+  PHONE_NUMBER_WITH_COUNTRYCODE,
   PRIMARY,
   SECONDARY,
   SELECTDROPDOWN,
@@ -38,7 +39,7 @@ import cx from 'classnames';
 import 'rmc-picker/assets/index.css';
 import Picker from 'rmc-picker/lib/Picker';
 import MultiPicker from 'rmc-picker/lib/MultiPicker';
-
+import MuiPhoneNumber from 'material-ui-phone-number';
 export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
   selectedGuest,
   guestInformationSection,
@@ -428,6 +429,36 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                     </div>
                   )}
                 </>
+              ) : field?.type === PHONE_NUMBER_WITH_COUNTRYCODE ? (
+                <div key={field?.name} className={styles.col_100}>
+                  <MuiPhoneNumber
+                    className={styles.guestDataInput}
+                    id={field?.name}
+                    name={field?.name}
+                    label={t(field?.label)}
+                    required={field?.required}
+                    countryCodeEditable={true}
+                    fullWidth
+                    defaultCountry='in'
+                    disableAreaCodes
+                    autoFormat={true}
+                    value={formik.values[field?.name] || ''}
+                    autoComplete='off'
+                    error={
+                      (formik?.validateOnMount || Boolean(formik.touched[field?.name])) &&
+                      Boolean(formik.errors[field?.name])
+                    }
+                    helperText={
+                      (formik?.validateOnMount || formik.touched[field?.name]) &&
+                      formik.errors[field?.name] &&
+                      t(String(formik.errors[field?.name]))
+                    }
+                    onChange={(e) => {
+                      formik.handleChange(e);
+                      updateGuestDetails(field?.name, e as string);
+                    }}
+                  />
+                </div>
               ) : (
                 <div key={field?.name} className={styles.col_100}>
                   <StyledInput

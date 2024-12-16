@@ -1,7 +1,19 @@
 import { useTranslation } from 'react-i18next';
-import { PHONE_REGEX, TEXT } from 'utils/constants';
+import { TEXT } from 'utils/constants';
 import { textFieldValidation } from 'utils/functions';
 import * as yup from 'yup';
+import parsePhoneNumber from 'libphonenumber-js';
+
+export const validatePhoneNumber = (values: string) => {
+  try {
+    const value = values?.toString() || '';
+    if (!value) return false;
+    const parsedNumber = parsePhoneNumber(value);
+    return parsedNumber?.isValid() || false;
+  } catch (error: any) {
+    return false;
+  }
+};
 
 const useValidate = (sections: any) => {
   const { t } = useTranslation('check-in');
@@ -24,14 +36,18 @@ const useValidate = (sections: any) => {
             requiredMessage: t('Email is required'),
           },
           phone: {
-            validation: yup.string().matches(PHONE_REGEX, t('Invalid phone number') as string),
-            requiredMessage: t('Phone Number is required'),
+            validation: yup
+              .string()
+              .test('isValidPhoneNumber', t('Invalid phone number') as string, (value) =>
+                validatePhoneNumber(value as string),
+              )
+              .required(t('Phone Number is required') as string),
           },
           // Add more validation
         };
 
         if (validationRules[field?.name]) {
-          schema[field?.name] = validationRules[field?.name].validation.when([`${isRequired}`], {
+          schema[field?.name] = validationRules[field?.name].validation?.when([`${isRequired}`], {
             is: true,
             then: schema[field?.name]?.required(validationRules[field?.name]?.requiredMessage),
           });
