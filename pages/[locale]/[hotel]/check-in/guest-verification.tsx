@@ -89,6 +89,7 @@ import { Loader } from 'components/shared/Loaders/Loaders';
 import { isEmpty } from 'lodash';
 import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
+import { StyledCheckBox } from 'components/shared/StyledCheckBox/StyledCheckBox';
 import { validatePhoneNumber } from 'utils/hooks/useValidate';
 export { getStaticPaths };
 
@@ -129,6 +130,15 @@ const Guest: React.FC<any> = () => {
   const totalGuestCount = reservationInfo?.details?.totalGuestCount;
   const childGuestCount = reservationInfo?.details?.childGuestCount;
   const adultGuestCount = reservationInfo?.details?.adultGuestCount;
+  const [checkChild, setCheckChild] = useState<boolean[]>(new Array(totalGuestCount).fill(false));
+
+  const handleCheckboxChange = (index: number) => {
+    setCheckChild((prev: any) => {
+      const newState = [...prev];
+      newState[index] = !newState[index];
+      return newState;
+    });
+  };
 
   const checkInModule: any = config?.modules?.find((module: any) => module?.code === CHECK_IN);
 
@@ -168,6 +178,8 @@ const Guest: React.FC<any> = () => {
   const upgradeRoomConfig = checkInModule?.submodules?.find(
     (submodule: any) => submodule?.name === UPGRADE_ROOM && submodule.isActive,
   );
+
+  const [guestInformation, setGuestInformation] = useState<any[]>(accompanyGuestInformationSection);
 
   useEffect(() => {
     if (documentTypes) {
@@ -800,6 +812,16 @@ const Guest: React.FC<any> = () => {
     );
   };
 
+  const updatedGuestInformation = accompanyGuestInformationSection?.map((field: any) => {
+    if (field?.name === PHONE || field?.name === EMAILS) {
+      return {
+        ...field,
+        isActive: false,
+      };
+    }
+    return field;
+  });
+
   return (
     <>
       <Head>
@@ -986,7 +1008,7 @@ const Guest: React.FC<any> = () => {
                             <div className={styles.margin}>
                               <PreCheckinGuestInfo
                                 selectedGuest={selectedAccompanyGuest}
-                                guestInformationSection={accompanyGuestInformationSection}
+                                guestInformationSection={guestInformation}
                                 type={SECONDARY}
                               />
                             </div>
@@ -1033,9 +1055,25 @@ const Guest: React.FC<any> = () => {
                           icon
                         >
                           <div className={styles.margin}>
+                            <div className={styles.checkboxWrapper}>
+                              <StyledCheckBox
+                                checked={checkChild[index]}
+                                onChange={() => handleCheckboxChange(index)}
+                              />
+                              <label>
+                                {t('below_age', {
+                                  value: accompanyingGuestSubmodule?.minorGuestAgeLimit ?? 18,
+                                })}
+                              </label>
+                            </div>
+
                             <PreCheckinGuestInfo
                               selectedGuest={selectedAccompanyGuest}
-                              guestInformationSection={accompanyGuestInformationSection}
+                              guestInformationSection={
+                                checkChild[index]
+                                  ? updatedGuestInformation
+                                  : accompanyGuestInformationSection
+                              }
                               type={SECONDARY}
                             />
                           </div>
@@ -1070,64 +1108,134 @@ const Guest: React.FC<any> = () => {
                 ))}
             </div>
           )}
+          {(reservationInfo?.details?.adultGuestCount > 0 ||
+            reservationInfo?.details?.childGuestCount > 0) && (
+            <>
+              {[
+                ...(newAccompanyGuestStorage?.adult || []),
+                ...(newAccompanyGuestStorage?.child || []),
+              ]?.map((newGuest: any, index: number) => {
+                const uniqueIndex = index + accompanyGuestData.length;
 
-          {reservationInfo?.details?.adultGuestCount > 0 &&
-            newAccompanyGuestStorage?.adult?.map((newGuest: any, index: number) => {
-              const handleDetailsCardClick = () => {
-                setOpenToggleAddNewGuestForAdult((prev) => {
-                  const newState = [...prev];
-                  newState[index] = !newState[index];
-                  return newState;
-                });
-              };
+                const handleDetailsCardClick = () => {
+                  setOpenToggleAddNewGuestForAdult((prev) => {
+                    const newState = [...prev];
+                    newState[uniqueIndex] = !newState[uniqueIndex];
+                    return newState;
+                  });
+                };
 
-              const handleShrinkedCardClick = () => {
-                setOpenToggleAddNewGuestForAdult((prev) => {
-                  const newState = [...prev];
-                  newState[index] = !newState[index];
-                  return newState;
-                });
-              };
+                const handleShrinkedCardClick = () => {
+                  setOpenToggleAddNewGuestForAdult((prev) => {
+                    const newState = [...prev];
+                    newState[uniqueIndex] = !newState[uniqueIndex];
+                    return newState;
+                  });
+                };
 
-              const handleScanDocumentClick = () => {
-                profileIDStorage({ id: newGuest?.id, guestType: NEWGUESTSCAN });
-                navigate(
-                  accompanyingGuestSubmodule?.type === YOUVERSE
-                    ? availablePaths?.YOUVERSE
-                    : accompanyingGuestSubmodule?.type === TRENTIAL
-                    ? availablePaths?.TRENTIAL
-                    : availablePaths?.INCODE,
-                );
-              };
+                const handleScanDocumentClick = () => {
+                  profileIDStorage({ id: newGuest?.id, guestType: NEWGUESTSCAN });
+                  navigate(
+                    accompanyingGuestSubmodule?.type === YOUVERSE
+                      ? availablePaths?.YOUVERSE
+                      : accompanyingGuestSubmodule?.type === TRENTIAL
+                      ? availablePaths?.TRENTIAL
+                      : availablePaths?.INCODE,
+                  );
+                };
 
-              return (
-                <div key={index}>
-                  {accompanyingGuestSubmodule?.type === YOUVERSE ||
-                  accompanyingGuestSubmodule?.type === TRENTIAL ? (
-                    !newGuest?.docNo ? (
-                      <DetailsCard
-                        title={t(`${t('Guest')} ${accompanyGuestData?.length + index + 1}`)}
-                      >
-                        <StyledButton
-                          variant='contained'
-                          className={styles.scanDocWrapper}
-                          onClick={handleScanDocumentClick}
+                return (
+                  <div key={index}>
+                    {accompanyingGuestSubmodule?.type === YOUVERSE ||
+                    accompanyingGuestSubmodule?.type === TRENTIAL ? (
+                      !newGuest?.docNo ? (
+                        <DetailsCard
+                          title={t(`${t('Guest')} ${accompanyGuestData?.length + index + 1}`)}
                         >
-                          <Camera />
-                          <span className={styles.scanDocText}>{t('Scan Document')}</span>
-                        </StyledButton>
-                      </DetailsCard>
-                    ) : openToggleAddNewGuestForAdult[index] ? (
+                          <StyledButton
+                            variant='contained'
+                            className={styles.scanDocWrapper}
+                            onClick={handleScanDocumentClick}
+                          >
+                            <Camera />
+                            <span className={styles.scanDocText}>{t('Scan Document')}</span>
+                          </StyledButton>
+                        </DetailsCard>
+                      ) : openToggleAddNewGuestForAdult[index] ? (
+                        <DetailsCard
+                          title={`${t('Guest')} ${accompanyGuestData?.length + index + 1}`}
+                          handleClick={handleDetailsCardClick}
+                          icon
+                        >
+                          <div className={styles.margin}>
+                            <div className={styles.checkboxWrapper}>
+                              <label>
+                                {t('below_age', {
+                                  value: accompanyingGuestSubmodule?.minorGuestAgeLimit ?? 18,
+                                })}
+                              </label>
+                            </div>
+                            <PreCheckinGuestInfo
+                              selectedGuest={newGuest}
+                              guestInformationSection={guestInformation}
+                              type={newGuest?.isSaved ? NEWGUEST : NEWGUESTFORM}
+                              method='adult'
+                            />
+                            {!newGuest?.isSaved && (
+                              <StyledButton
+                                variant='contained'
+                                disabled={newGuest?.disabled}
+                                className={styles.button}
+                                loading={guestLoading}
+                                onClick={() => saveGuest(uniqueIndex, 'adult')}
+                              >
+                                {t('Save')}
+                              </StyledButton>
+                            )}
+                          </div>
+                        </DetailsCard>
+                      ) : (
+                        <DetailsCardShrinked
+                          error={newGuest?.isSaved ? true : false}
+                          title={`${newGuest?.firstName} ${newGuest?.lastName}`}
+                          handleClick={handleShrinkedCardClick}
+                        >
+                          <div className={styles.cardTitleWrapper}>
+                            {!newGuest?.isSaved && (
+                              <div className={styles.pendingDetails}>
+                                <DangerIcon className={styles.icon} />
+                                <div className={styles.pendingText}>{t('Pending Details')}</div>
+                              </div>
+                            )}
+                          </div>
+                        </DetailsCardShrinked>
+                      )
+                    ) : openToggleAddNewGuestForAdult[uniqueIndex] ? (
                       <DetailsCard
                         title={`${t('Guest')} ${accompanyGuestData?.length + index + 1}`}
                         handleClick={handleDetailsCardClick}
                         icon
                       >
-                        <div className={styles.margin}>
+                        <div className={styles.box}>
+                          <div className={styles.checkboxWrapper}>
+                            <StyledCheckBox
+                              checked={checkChild[uniqueIndex]}
+                              onChange={() => handleCheckboxChange(uniqueIndex)}
+                            />
+                            <label>
+                              {t('below_age', {
+                                value: accompanyingGuestSubmodule?.minorGuestAgeLimit ?? 18,
+                              })}
+                            </label>
+                          </div>
                           <PreCheckinGuestInfo
                             selectedGuest={newGuest}
-                            guestInformationSection={accompanyGuestInformationSection}
-                            type={newGuest?.isSaved ? NEWGUEST : NEWGUESTFORM}
+                            guestInformationSection={
+                              checkChild[uniqueIndex]
+                                ? updatedGuestInformation
+                                : accompanyGuestInformationSection
+                            }
+                            type={NEWGUESTFORM}
                             method='adult'
                           />
                           {!newGuest?.isSaved && (
@@ -1146,131 +1254,19 @@ const Guest: React.FC<any> = () => {
                     ) : (
                       <DetailsCardShrinked
                         error={newGuest?.isSaved ? true : false}
-                        title={`${newGuest?.firstName} ${newGuest?.lastName}`}
+                        title={`${t('Guest')} ${accompanyGuestData?.length + index + 1}`}
                         handleClick={handleShrinkedCardClick}
                       >
                         <div className={styles.cardTitleWrapper}>
-                          {!newGuest?.isSaved && (
-                            <div className={styles.pendingDetails}>
-                              <DangerIcon className={styles.icon} />
-                              <div className={styles.pendingText}>{t('Pending Details')}</div>
-                            </div>
-                          )}
+                          <p className={styles.cardTitleAccompany}>
+                            {`${newGuest?.firstName} ${newGuest?.lastName}`}
+                          </p>
                         </div>
                       </DetailsCardShrinked>
-                    )
-                  ) : openToggleAddNewGuestForAdult[index] ? (
-                    <DetailsCard
-                      title={`${t('Guest')} ${accompanyGuestData?.length + index + 1}`}
-                      handleClick={handleDetailsCardClick}
-                      icon
-                    >
-                      <div className={styles.box}>
-                        <PreCheckinGuestInfo
-                          selectedGuest={newGuest}
-                          guestInformationSection={accompanyGuestInformationSection}
-                          type={NEWGUESTFORM}
-                          method='adult'
-                        />
-                        {!newGuest?.isSaved && (
-                          <StyledButton
-                            variant='contained'
-                            disabled={newGuest?.disabled}
-                            className={styles.button}
-                            loading={guestLoading}
-                            onClick={() => saveGuest(index, 'adult')}
-                          >
-                            {t('Save')}
-                          </StyledButton>
-                        )}
-                      </div>
-                    </DetailsCard>
-                  ) : (
-                    <DetailsCardShrinked
-                      error={newGuest?.isSaved ? true : false}
-                      title={`${t('Guest')} ${accompanyGuestData?.length + index + 1}`}
-                      handleClick={handleShrinkedCardClick}
-                    >
-                      <div className={styles.cardTitleWrapper}>
-                        <p className={styles.cardTitleAccompany}>
-                          {`${newGuest?.firstName} ${newGuest?.lastName}`}
-                        </p>
-                      </div>
-                    </DetailsCardShrinked>
-                  )}
-                </div>
-              );
-            })}
-
-          {childGuestCount > 0 && newAccompanyGuestStorage?.child?.length > 0 && (
-            <>
-              <p className={cx(styles.guestType, styles.marginSpace)}>
-                {t('below_age', { value: accompanyingGuestSubmodule?.minorGuestAgeLimit ?? 18 })}
-              </p>
-              {newAccompanyGuestStorage?.child?.map((newGuest: any, index: any) => (
-                <div key={index}>
-                  {openToggleAddNewGuest[index] ? (
-                    <DetailsCard
-                      title={t(`${t('Guest')} ${accompanyGuestData?.length + index + 1}`)}
-                      icon
-                      handleClick={() =>
-                        setOpenToggleAddNewGuest((prev) => {
-                          const newState = [...prev];
-                          newState[index] = !newState[index];
-                          return newState;
-                        })
-                      }
-                    >
-                      <div className={styles.margin}>
-                        <PreCheckinGuestInfo
-                          selectedGuest={newGuest}
-                          method={'child'}
-                          guestInformationSection={addAccompanyGuest?.configs?.details}
-                          type={newGuest?.isSaved ? NEWGUEST : NEWGUESTFORM}
-                        />
-
-                        {!newGuest?.isSaved && (
-                          <StyledButton
-                            variant='contained'
-                            disabled={newGuest?.disabled}
-                            className={styles.button}
-                            loading={guestLoading}
-                            onClick={() => saveGuest(index, 'child')}
-                          >
-                            {t('Save')}
-                          </StyledButton>
-                        )}
-                      </div>
-                    </DetailsCard>
-                  ) : (
-                    <DetailsCardShrinked
-                      error={newGuest?.isSaved ? true : false}
-                      title={t(`${t('Guest')} ${accompanyGuestData?.length + index + 1}`)}
-                      handleClick={() =>
-                        setOpenToggleAddNewGuest((prev) => {
-                          const newState = [...prev];
-                          newState[index] = !newState[index];
-                          return newState;
-                        })
-                      }
-                    >
-                      <div className={styles.cardTitleWrapper}>
-                        {newGuest?.isSaved && (
-                          <p
-                            className={styles.cardTitleAccompany}
-                          >{`${newGuest?.firstName} ${newGuest?.lastName}`}</p>
-                        )}
-                      </div>
-                      {!newGuest?.isSaved && (
-                        <div className={styles.pendingDetails}>
-                          <DangerIcon className={styles.icon} />
-                          <div className={styles.pendingText}>{t('Pending Details')}</div>
-                        </div>
-                      )}
-                    </DetailsCardShrinked>
-                  )}
-                </div>
-              ))}
+                    )}
+                  </div>
+                );
+              })}
             </>
           )}
 
