@@ -132,10 +132,6 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
     toggleHamburgerMenuDrawer(false);
   };
 
-  useEffect(() => {
-    hideOnScroll && toggleHamburgerMenuDrawer(false);
-  }, [hideOnScroll]);
-
   useOutsideAlerter(wrapperRef);
 
   const hamburgerMenuRender = () => {
