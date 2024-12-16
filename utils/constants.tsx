@@ -33,6 +33,7 @@ export const FAIRMONT_SCOTTSDALE_PRINCESS = 'fairmont-scottsdale-princess';
 export const FAIRMONT_MAKATI = 'fairmont-makati';
 export const FAIRMONT_LE_MONTREUX_PALACE = 'fairmont-le-montreux-palace';
 export const FAIRMONT_MUMBAI = 'fairmont-mumbai';
+export const FAIRMONT_MOUNT_KENYA_SAFARI_CLUB = 'fairmont-mount-kenya-safari-club';
 export const ONE_HOTELS_SOUTH_BEACH = '1-hotel-south-beach';
 export const HARD_ROCK_HOTEL_CANCUN = 'hard-rock-hotel-cancun';
 export const ATLANTIS = 'atlantis';
