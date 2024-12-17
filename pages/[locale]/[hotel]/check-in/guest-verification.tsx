@@ -1088,17 +1088,15 @@ const Guest: React.FC<any> = () => {
                           icon
                         >
                           <div className={styles.margin}>
-                            <div className={styles.checkboxWrapper}>
-                              <StyledCheckBox
-                                checked={checkChild[index]}
-                                onChange={() => handleCheckboxChange(index)}
-                              />
-                              <label>
-                                {t('below_age', {
-                                  value: accompanyingGuestSubmodule?.minorGuestAgeLimit ?? 18,
-                                })}
-                              </label>
-                            </div>
+                            <StyledCheckBox
+                              checked={checkChild[index]}
+                              onChange={() => handleCheckboxChange(index)}
+                            />
+                            <label className={styles.checkboxLabel}>
+                              {t('below_age', {
+                                value: accompanyingGuestSubmodule?.minorGuestAgeLimit ?? 18,
+                              })}
+                            </label>
 
                             <PreCheckinGuestInfo
                               selectedGuest={selectedAccompanyGuest}
@@ -1201,13 +1199,12 @@ const Guest: React.FC<any> = () => {
                           icon
                         >
                           <div className={styles.margin}>
-                            <div className={styles.checkboxWrapper}>
-                              <label>
-                                {t('below_age', {
-                                  value: accompanyingGuestSubmodule?.minorGuestAgeLimit ?? 18,
-                                })}
-                              </label>
-                            </div>
+                            <label>
+                              {t('below_age', {
+                                value: accompanyingGuestSubmodule?.minorGuestAgeLimit ?? 18,
+                              })}
+                            </label>
+
                             <PreCheckinGuestInfo
                               selectedGuest={newGuest}
                               guestInformationSection={guestInformation}
@@ -1250,17 +1247,16 @@ const Guest: React.FC<any> = () => {
                         icon
                       >
                         <div className={styles.box}>
-                          <div className={styles.checkboxWrapper}>
-                            <StyledCheckBox
-                              checked={checkChild[uniqueIndex]}
-                              onChange={() => handleCheckboxChange(uniqueIndex)}
-                            />
-                            <label>
-                              {t('below_age', {
-                                value: accompanyingGuestSubmodule?.minorGuestAgeLimit ?? 18,
-                              })}
-                            </label>
-                          </div>
+                          <StyledCheckBox
+                            checked={checkChild[uniqueIndex]}
+                            onChange={() => handleCheckboxChange(uniqueIndex)}
+                          />
+                          <label className={styles.checkboxLabel}>
+                            {t('below_age', {
+                              value: accompanyingGuestSubmodule?.minorGuestAgeLimit ?? 18,
+                            })}
+                          </label>
+
                           <PreCheckinGuestInfo
                             selectedGuest={newGuest}
                             guestInformationSection={
