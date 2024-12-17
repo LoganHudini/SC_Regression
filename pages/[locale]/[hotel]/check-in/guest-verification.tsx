@@ -560,13 +560,20 @@ const Guest: React.FC<any> = () => {
               dob: data?.dob,
             },
             phone: {
-              phoneType: config?.pms === OHIP ? 'PHONE' : 'HOME',
+              phoneType: data?.phone ? 'PHONE' : '',
               phoneNumber: data?.phone ?? '',
-              phoneRole: config?.pms === OHIP ? 'HOME' : 'PHONE',
+              phoneRole: data?.phone ? 'HOME' : '',
             },
             address: {
               addressLine1: data?.addressLine,
-              addressType: 'HOME',
+              addressType:
+                data?.addressLine ||
+                data?.countryCode ||
+                data?.cityName ||
+                data?.postalCode ||
+                data?.stateProv
+                  ? 'HOME'
+                  : '',
               countryCode: data?.countryCode,
               city: data?.cityName,
               postalCode: data?.postalCode,
