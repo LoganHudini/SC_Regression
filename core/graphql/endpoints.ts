@@ -5,6 +5,8 @@ import {
   getSaveToDb,
 } from 'utils/fetchConfigs';
 
+export const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
+
 export const PROPERTY_A = process.env.NEXT_PUBLIC_PROPERTY_A;
 export const API_KEY_PROPERTY_A = process.env.NEXT_PUBLIC_API_KEY_PROPERTY_A;
 
@@ -63,3 +65,4 @@ export const SAVE_TO_DB = getSaveToDb();
 export const THEME_COLOR = '#ffffff';
 export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 export const MESSAGE_BIRD_WIDGET_ID = getMessageBirdWidgetId();
+export const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;

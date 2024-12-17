@@ -2679,7 +2679,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'development',
                 collectionName: 'ITC_HOTELS_GRAND_CHOLA',
                 kioskEnabled: true,
                 details: [
@@ -3008,7 +3007,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'development',
                 collectionName: 'ITC_HOTELS_MARATHA',
                 kioskEnabled: true,
                 details: [
@@ -3762,7 +3760,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'development',
                 details: [
                   {
                     name: 'firstName',
@@ -4158,7 +4155,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'manual',
-                environment: 'development',
                 details: [
                   {
                     name: 'firstName',
@@ -6170,7 +6166,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'development',
                 details: [
                   {
                     name: 'firstName',
@@ -6511,7 +6506,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'youverse',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -6899,7 +6893,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'youverse',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -8033,7 +8026,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -8455,7 +8447,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -10210,7 +10201,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'development',
                 details: [
                   {
                     name: 'firstName',
@@ -11339,7 +11329,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'development',
                 details: [
                   {
                     name: 'firstName',
@@ -12560,7 +12549,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -12983,7 +12971,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -13406,7 +13393,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -13829,7 +13815,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -14252,7 +14237,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -14675,7 +14659,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -15098,7 +15081,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -15521,7 +15503,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -15944,7 +15925,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -16367,7 +16347,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -16790,7 +16769,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -17213,7 +17191,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -17636,7 +17613,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -18059,7 +18035,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -18482,7 +18457,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -18905,7 +18879,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -19328,7 +19301,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -19751,7 +19723,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -20174,7 +20145,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -20597,7 +20567,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
@@ -21026,7 +20995,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'development',
                 details: [
                   {
                     name: 'firstName',

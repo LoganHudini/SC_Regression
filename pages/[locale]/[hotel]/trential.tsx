@@ -53,6 +53,7 @@ import { Loader } from 'components/shared/Loaders/Loaders';
 import { timeFormats } from 'utils/timeFormats';
 import dayjs from 'dayjs';
 import { getCountryCode } from 'utils/functions';
+import { ENVIRONMENT } from 'core/graphql/endpoints';
 export { getStaticPaths };
 
 const Trential: React.FC = () => {
@@ -444,7 +445,7 @@ const Trential: React.FC = () => {
                 ? documentLists?.map((list: string) => (list === 'dl' ? 'drivingLicense' : list))
                 : documentLists
             }
-            environment={guestInformationSection?.environment}
+            environment={ENVIRONMENT}
             onError={() => {
               notificationStorage({
                 title: t('Please Try Again!') as string,
