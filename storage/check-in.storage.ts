@@ -61,3 +61,5 @@ export const profileIDStorage = makeVar<any>({ id: '', guestType: '' });
 export const activeCheckInFlow = makeVar<boolean>(true); // true for check-in flow, false for Connect to Room flow
 
 export const activeCheckOutFlow = makeVar<boolean>(false);
+
+export const reviewSignAndCheckBox = makeVar<any>({ checkBox: false, sign: null });

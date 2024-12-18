@@ -20,7 +20,11 @@ import { CHECKIN, ICheckInApiRequest, PRECHECKIN } from 'core/graphql/queries/CH
 import { ICheckinProps } from 'types/check-in.types';
 import { GetStaticProps } from 'next';
 import { saveTrip } from 'storage/trips.storage';
-import { StepperInformationStorage, checkinStorage } from 'storage/check-in.storage';
+import {
+  StepperInformationStorage,
+  checkinStorage,
+  reviewSignAndCheckBox,
+} from 'storage/check-in.storage';
 import {
   IPreSignDocUploadApiRequest,
   IPreSignDocUploadApiResponse,
@@ -124,9 +128,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const IsBiometricsSkippedStatus = useReactiveVar(IsBiometricsSkipped);
   const personalizationEntities = useReactiveVar(personalizeYourRoomStorage);
   const upgradeRoomEntities = useReactiveVar(upgradeYourRoomStorage);
-  const [conditionsAccepted, setConditionsAccepted] = useState(false);
+  const reviewAndSign = useReactiveVar(reviewSignAndCheckBox);
+  const [conditionsAccepted, setConditionsAccepted] = useState(reviewAndSign?.checkBox);
   const [btnStatus, setBtnStatus] = useState(false);
-  const [signature, setSignature] = useState<any>(null);
+  const [signature, setSignature] = useState<any>(reviewAndSign?.sign || null);
   const [loading, setLoading] = useState(false);
   const [signatureWidth, setSignatureWidth] = useState(340);
   const [specialRequests, setSpecialRequests] = useState('');
@@ -226,15 +231,31 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     sigCanvas?.current?.clear();
     setSignature(null);
     setBtnStatus(false);
+    reviewSignAndCheckBox(
+      produce(reviewSignAndCheckBox(), (draft: any) => {
+        draft.sign = null;
+      }),
+    );
   }, []);
 
   const toggleConditionsAccepted = useCallback(() => {
-    setConditionsAccepted((oldState) => !oldState);
+    setConditionsAccepted((oldState: any) => {
+      const newState = !oldState;
+      reviewSignAndCheckBox(
+        produce(reviewSignAndCheckBox(), (draft: any) => {
+          draft.checkBox = newState;
+        }),
+      );
+      return newState;
+    });
   }, []);
 
   const handleSignatureChange = () => {
     const signatureData = sigCanvas?.current?.toData();
     setSignature(signatureData);
+    const signvalue = { ...reviewAndSign };
+    signvalue.sign = signatureData;
+    reviewSignAndCheckBox(signvalue);
   };
 
   const goToCheckIn = useCallback(async () => {
@@ -741,7 +762,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
   useEffect(() => {
     restoreSignature();
-  }, [dayjsLocaleLoader]);
+  }, [dayjsLocaleLoader, signature]);
 
   const restoreSignature = () => {
     if (signature && sigCanvas?.current) {
