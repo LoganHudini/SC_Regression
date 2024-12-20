@@ -225,6 +225,7 @@ export const SPA = 'spa';
 export const INVALID_DATE = 'Invalid Date';
 export const LIVENESS = 'liveness';
 export const VIEW_BILL_CHECKOUT_FLOW = 'VIEW_BILL_CHECKOUT_FLOW';
+export const ESTIMATED_TIME = 'estimatedTime';
 
 // flow constants
 export const DAYS = [

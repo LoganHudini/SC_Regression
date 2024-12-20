@@ -8885,7 +8885,7 @@ export const configuration: any = [
                   {
                     name: 'estimatedTime',
                     label: 'Estimated Time of Arrival',
-                    type: 'TimePickerPopup',
+                    type: 'TimePicker',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -9324,7 +9324,7 @@ export const configuration: any = [
                   {
                     name: 'estimatedTime',
                     label: 'Estimated Time of Arrival',
-                    type: 'TimePickerPopup',
+                    type: 'TimePicker',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -9677,6 +9677,7 @@ export const configuration: any = [
                     name: 'estimatedTime',
                     label: 'Estimated Time of Arrival',
                     type: 'TimePicker',
+                    isCheckInTimeEnabled: true,
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -12926,7 +12927,7 @@ export const configuration: any = [
                   {
                     name: 'estimatedTime',
                     label: 'Estimated Time of Arrival',
-                    type: 'TimePickerPopup',
+                    type: 'TimePicker',
                     required: true,
                     isDisabled: false,
                     isActive: true,
