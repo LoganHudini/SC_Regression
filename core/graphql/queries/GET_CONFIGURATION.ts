@@ -5418,6 +5418,15 @@ export const configuration: any = [
                     isActive: true,
                   },
                   {
+                    name: 'issueDate',
+                    label: 'Issue Date',
+                    type: 'datePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    isDisableFuture: true,
+                  },
+                  {
                     name: 'expiryDate',
                     label: 'Expiry Date',
                     type: 'datePicker',
@@ -11657,6 +11666,15 @@ export const configuration: any = [
                     required: true,
                     isDisabled: false,
                     isActive: true,
+                  },
+                  {
+                    name: 'issueDate',
+                    label: 'Issue Date',
+                    type: 'datePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    isDisableFuture: true,
                   },
                   {
                     name: 'expiryDate',
