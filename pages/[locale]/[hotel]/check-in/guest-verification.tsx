@@ -917,9 +917,7 @@ const Guest: React.FC<any> = () => {
           )}
           {reservationInfo?.details?.totalGuestCount > 1 && (
             <p className={styles.guestType}>
-              {reservationInfo?.details?.totalGuestCount === 2
-                ? t('Accompanying Guest')
-                : t('Accompanying Guests')}{' '}
+              {reservationInfo?.details?.totalGuestCount === 2 ? t('Sharer') : t('Sharers')}{' '}
             </p>
           )}
 

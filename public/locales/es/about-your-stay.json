@@ -74,5 +74,7 @@
   "Complete your identity verification by filling out essential details.": "Complete su verificación de identidad llenando los detalles esenciales.",
   "Scan your Passport/ID to verify your identity.": "Escanea tu pasaporte/DNI para verificar tu identidad.",
   "Your information is protected by responsible data practices.": "Su información está protegida por prácticas responsables en el manejo de datos.",
-  "below_age": "Menor de {{value}} años"
+  "below_age": "Menor de {{value}} años",
+  "Sharer":"Compartidor",
+  "Sharers":"Comparte"
 }

@@ -75,5 +75,7 @@
   "Complete your identity verification by filling out essential details.": "必要な情報を入力して、本人確認を完了してください。",
   "Scan your Passport/ID to verify your identity.": "パスポート/IDをスキャンして本人確認を行ってください。",
   "Your information is protected by responsible data practices.": "あなたの情報は責任あるデータ管理によって保護されています。",
-  "below_age": "{{value}}歳未満"
+  "below_age": "{{value}}歳未満",
+  "Sharer":"シェアする人",
+  "Sharers":" 株式"
 }

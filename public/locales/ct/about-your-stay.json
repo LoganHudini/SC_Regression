@@ -74,5 +74,7 @@
   "Complete your identity verification by filling out essential details.": "Completa la verificació de la teva identitat omplint les dades essencials.",
   "Scan your Passport/ID to verify your identity.": "Escanegeu el vostre passaport/DNI per verificar la vostra identitat.",
   "Your information is protected by responsible data practices.": "Les vostres dades estan protegides per pràctiques de dades responsables.",
-  "below_age": "Menys de {{value}} anys"
+  "below_age": "Menys de {{value}} anys",
+  "Sharer":"Compartidor",
+  "Sharers":"Comparteix"
 }
