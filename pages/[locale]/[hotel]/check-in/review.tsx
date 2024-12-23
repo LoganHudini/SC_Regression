@@ -581,7 +581,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               ? reviewConfig?.checkInSuccessfulMessageDescription
                 ? reviewConfig?.checkInSuccessfulMessageDescription
                 : (t(
-                    'You have pre checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
+                    'You have pre-registered successfully. Please proceed to the reception to complete your check-in process.',
                   ) as string)
               : (t(
                   'You have checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
@@ -910,9 +910,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           </div>
           {combinedAccArray?.length > 0 && (
             <p className={styles.titleText}>
-              {combinedAccArray?.length === 1
-                ? t('Accompanying Guest Information')
-                : t('Accompanying Guests Information')}
+              {combinedAccArray?.length === 1 ? t('Sharer Information') : t('Sharers Information')}
             </p>
           )}
 

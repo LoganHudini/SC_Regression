@@ -249,6 +249,7 @@ export const LIVENESS = 'liveness';
 export const VIEW_BILL_CHECKOUT_FLOW = 'VIEW_BILL_CHECKOUT_FLOW';
 export const idVerificationFields = ['docNo', 'docType'];
 export const PHONE_NUMBER_WITH_COUNTRYCODE = 'Phone';
+export const ESTIMATED_TIME = 'estimatedTime';
 
 // flow constants
 export const DAYS = [

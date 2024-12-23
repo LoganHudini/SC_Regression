@@ -17,6 +17,7 @@ import {
   SELECTDROPDOWN,
   TIMEPICKER,
   TIMEPICKERPOPUP,
+  ESTIMATED_TIME,
 } from 'utils/constants';
 import { generateInitialFieldValues } from 'utils/functions';
 import { InputLabel, Select, MenuItem, FormHelperText, Autocomplete } from '@mui/material';
@@ -52,20 +53,27 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
   const newAccompanyGuestStorage = useReactiveVar(newAccompanyGuestDetails);
   const hotelInfo = useReactiveVar(hotelInformation);
+
+  const isCheckInTimeEnabled = guestInformationSection?.find(
+    (field: any) => field?.name === ESTIMATED_TIME,
+  )?.isCheckInTimeEnabled;
+
   const hoursArray =
-    hotelInfo &&
-    new Array(25 - Number(hotelInfo?.checkInTime?.split(':')[0]))
-      ?.fill(0)
-      ?.map((_el, index) =>
-        String(index + Number(hotelInfo?.checkInTime?.split(':')[0])).padStart(2, '0'),
-      );
+    hotelInfo && isCheckInTimeEnabled
+      ? new Array(25 - Number(hotelInfo?.checkInTime?.split(':')[0]))
+          ?.fill(0)
+          ?.map((_el, index) =>
+            String(index + Number(hotelInfo?.checkInTime?.split(':')[0])).padStart(2, '0'),
+          )
+      : new Array(25).fill(0).map((_el, index) => String(index).padStart(2, '0'));
   const minutesArray =
-    hotelInfo &&
-    new Array(60 - Number(hotelInfo?.checkInTime?.split(':')[1]))
-      ?.fill(0)
-      ?.map((_el, index) =>
-        String(index + Number(hotelInfo?.checkInTime?.split(':')[1])).padStart(2, '0'),
-      );
+    hotelInfo && isCheckInTimeEnabled
+      ? new Array(60 - Number(hotelInfo?.checkInTime?.split(':')[1]))
+          ?.fill(0)
+          ?.map((_el, index) =>
+            String(index + Number(hotelInfo?.checkInTime?.split(':')[1])).padStart(2, '0'),
+          )
+      : new Array(60).fill(0).map((_el, index) => String(index).padStart(2, '0'));
 
   const handleInputChange = () => {
     setCardOpened(!cardOpened);
@@ -334,9 +342,13 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                         updateGuestDetails(field?.name, '');
                       }
                     }}
-                    minTime={dayjs()
-                      .set('hour', Number(hotelInfo?.checkInTime?.split(':')[0]))
-                      .set('minute', hotelInfo?.checkInTime?.split(':')[1])}
+                    minTime={
+                      field?.isCheckInTimeEnabled
+                        ? dayjs()
+                            .set('hour', Number(hotelInfo?.checkInTime?.split(':')[0]))
+                            .set('minute', hotelInfo?.checkInTime?.split(':')[1])
+                        : null
+                    }
                     renderInput={(params) => (
                       <StyledInput
                         name={field?.name}

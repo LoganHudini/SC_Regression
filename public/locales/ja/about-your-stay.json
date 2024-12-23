@@ -76,5 +76,7 @@
   "Scan your Passport/ID to verify your identity.": "パスポート/IDをスキャンして本人確認を行ってください。",
   "Your information is protected by responsible data practices.": "あなたの情報は責任あるデータ管理によって保護されています。",
   "below_age": "{{value}}歳未満",
-  "Scan & Verify": "スキャンして確認"
+  "Scan & Verify": "スキャンして確認",
+  "Sharer": "シェアする人",
+  "Sharers": " 株式"
 }

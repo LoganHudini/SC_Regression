@@ -75,5 +75,7 @@
   "Scan your Passport/ID to verify your identity.": "Scan your Passport/ID to verify your identity.",
   "Your information is protected by responsible data practices.": "Your information is protected by responsible data practices.",
   "below_age": "Below {{value}} years old",
-  "Scan & Verify": "Scan & Verify"
+  "Scan & Verify": "Scan & Verify",
+  "Sharer": "Sharer",
+  "Sharers": "Sharers"
 }

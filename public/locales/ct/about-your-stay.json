@@ -75,5 +75,7 @@
   "Scan your Passport/ID to verify your identity.": "Escanegeu el vostre passaport/DNI per verificar la vostra identitat.",
   "Your information is protected by responsible data practices.": "Les vostres dades estan protegides per pràctiques de dades responsables.",
   "below_age": "Menys de {{value}} anys",
-  "Scan & Verify": "Escaneja i verifica"
+  "Scan & Verify": "Escaneja i verifica",
+  "Sharer": "Compartidor",
+  "Sharers": "Comparteix"
 }

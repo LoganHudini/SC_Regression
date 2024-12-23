@@ -75,5 +75,7 @@
   "Scan your Passport/ID to verify your identity.": "امسح جواز سفرك/هويتك للتحقق من هويتك.",
   "Your information is protected by responsible data practices.": "تُحمى معلوماتك بواسطة ممارسات بيانات مسؤولة.",
   "below_age": "أقل من {{value}} سنة",
-  "Scan & Verify": "مسح وتحقق"
+  "Scan & Verify": "مسح وتحقق",
+  "Sharer":"المشارك",
+  "Sharers":"مشاركات"
 }

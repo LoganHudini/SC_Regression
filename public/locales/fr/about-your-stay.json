@@ -75,5 +75,7 @@
   "Scan your Passport/ID to verify your identity.": "Scannez votre passeport/pièce d'identité pour vérifier votre identité.",
   "Your information is protected by responsible data practices.": "Vos informations sont protégées par des pratiques de données responsables.",
   "below_age": "Moins de {{value}} ans",
-  "Scan & Verify": "Scanner et vérifier"
+  "Scan & Verify": "Scanner et vérifier",
+  "Sharer": "Partageur",
+  "Sharers": "Partages"
 }
