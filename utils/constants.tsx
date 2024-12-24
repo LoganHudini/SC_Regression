@@ -363,4 +363,4 @@ export const RESTAURANTS_BARS = 'RESTAURANTS_BARS';
 export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const PHONE_REGEX =
   /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/;
-export const TEXTFIELD_REGEX = /^[a-zA-Z0-9\s\-:,.]*$/;
+export const TEXTFIELD_REGEX = /^[\p{L}\p{N}\s\-:,.']*$/u;
