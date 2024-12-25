@@ -21,16 +21,16 @@ import {
 
 export const useConfig = () => {
   const router = useRouter();
+  const hotelCode = router?.asPath?.split('/')[2]; // extract hotel code
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const enableIdVerificationStatus = useReactiveVar(IsBiometricsSkipped);
   useEffect(() => {
-    if (router?.query?.hotel) {
-      localStorage.setItem('hotel', JSON.stringify(router?.query?.hotel) ?? '');
+    if (hotelCode) {
+      localStorage.setItem('hotel', JSON.stringify(hotelCode) ?? '');
     }
-  }, [router.query]);
-
-  const hotel = router?.query?.hotel
-    ? router?.query?.hotel
+  }, [hotelCode]);
+  const hotel = hotelCode
+    ? hotelCode
     : (typeof window !== 'undefined' &&
         localStorage.getItem('hotel') &&
         JSON.parse(localStorage.getItem('hotel') ?? '')) ??

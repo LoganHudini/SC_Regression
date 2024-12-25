@@ -11,17 +11,13 @@ export const useRedirect = () => {
   // language detection
   useEffect(() => {
     const detectedLng = languageDetector.detect();
-    if (to?.startsWith('/' + detectedLng) && router.route === '/404') {
-      // prevent endless loop
-      router.replace('/' + detectedLng + '/' + hotel + router?.route);
-      return;
-    }
-
     if (languageDetector.cache && detectedLng) {
       languageDetector.cache(detectedLng);
     }
-    router.replace('/' + detectedLng + '/' + hotel + to);
-  });
+    hotel
+      ? router.replace('/' + detectedLng + '/' + hotel + '/404')
+      : router.replace('/' + detectedLng + '/404');
+  }, [hotel, router, to]);
 
   return <></>;
 };
