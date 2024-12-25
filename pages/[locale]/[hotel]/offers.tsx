@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { getStaticPaths } from 'utils/getStatic';
 import styles from '@styles/offers/offers.module.scss';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
@@ -41,6 +42,7 @@ const Offers: React.FC = () => {
   const selectedOffer: any = useReactiveVar(selectedOfferDetails);
   const navigate = useLocalizedRouter();
   const [offerBooking, setofferBooking] = useState(false);
+  const router = useRouter();
 
   const { data, loading } = useQuery(GET_OFFERS, {
     skip: !hotelId,
@@ -66,6 +68,18 @@ const Offers: React.FC = () => {
       selectedOfferOption(filteredOffers && filteredOffers[0]);
     }
   }, [filteredOffers, offersOptionSelected]);
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      offerDetailDrawerStatus(false);
+    };
+
+    router.events.on('routeChangeStart', handleRouteChange);
+
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange);
+    };
+  }, [router]);
 
   const filteredOffersWthCategory = filteredOffers?.filter((offer: any) => {
     return offer?.isActive && offer?.type === offersOptionSelected?.type;
