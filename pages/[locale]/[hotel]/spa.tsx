@@ -83,6 +83,7 @@ const Spa: React.FC = () => {
   const currentYear = new Date().getFullYear();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [guestCount, setGuestCount] = useState(1);
+  const [timeExtractedArray, settimeExtractedArray] = useState([]);
   const [spaBooking, setspaBooking] = useState(false);
   const spaModule: any = moduleType(config?.modules, SPA);
   const [availableSlots, setAvailableSlots] = useState(false);
@@ -256,7 +257,24 @@ const Spa: React.FC = () => {
       }
       toggleNotification(true);
     } else {
-      await getSlots();
+      const isSlotAvailable = await getSlots();
+      if (!isSlotAvailable?.data) {
+        toggleNotification(true);
+        notificationStorage({
+          title: t('No Slots Available') as string,
+          description: t('Please select another time or date to continue. '),
+          redirect: null,
+          type: FAILURE,
+        });
+        closeDrawer();
+        return;
+      } else {
+        settimeExtractedArray(
+          spaSlot?.getSpaSlotAvailability?.length > 0
+            ? timeExtract(spaSlot?.getSpaSlotAvailability)
+            : [],
+        );
+      }
       setAvailableSlots(true);
       setTimeSelectDrawer(false);
     }
@@ -279,9 +297,6 @@ const Spa: React.FC = () => {
     },
     fetchPolicy: 'no-cache',
   });
-
-  const timeExtractedArray: any =
-    spaSlot?.getSpaSlotAvailability?.length > 0 ? timeExtract(spaSlot?.getSpaSlotAvailability) : [];
 
   const slotBookingHandler = async () => {
     setSpaBookingLoading(true);
