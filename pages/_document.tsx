@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/next-script-for-ga */
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import i18nextConfig from '../next-i18next.config';
-import { BRAND_CODE, GOOGLE_MAPS_API_KEY, THEME_COLOR } from 'core/graphql/endpoints';
+import { BRAND_CODE, THEME_COLOR } from 'core/graphql/endpoints';
 
 class MyDocument extends Document {
   render() {
@@ -9,12 +9,6 @@ class MyDocument extends Document {
     return (
       <Html lang={currentLocale as string}>
         <Head>
-          {GOOGLE_MAPS_API_KEY && (
-            <script
-              async
-              src={`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places,geometry,drawing,localContext,visualization`}
-            />
-          )}
           <script src='/gtm/gtm-script.js' async></script>
           <link rel='icon' type='image/png' href={`/${BRAND_CODE}.ico`} />
           <link rel='apple-touch-icon' type='image/png' href={`/${BRAND_CODE}.ico`} />

@@ -1,5 +1,6 @@
 import React, { memo, useState, useCallback, useEffect } from 'react';
-import { GoogleMap, Data, Marker } from '@react-google-maps/api';
+import { GoogleMap, Data, Marker, useJsApiLoader } from '@react-google-maps/api';
+import { GOOGLE_MAPS_API_KEY } from 'core/graphql/endpoints';
 
 const containerStyle = {
   height: '255px',
@@ -26,6 +27,11 @@ const LocationMap = (props: any) => {
     lng: props?.lng && Number(props?.lng),
   };
 
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-maps-api-key',
+    googleMapsApiKey: GOOGLE_MAPS_API_KEY ?? '',
+  });
+
   const onLoad = useCallback(function callback(map: any) {
     const bounds = new window.google.maps.LatLngBounds();
     map?.fitBounds(bounds);
@@ -46,18 +52,20 @@ const LocationMap = (props: any) => {
   }, [initialViewPoint]);
 
   return (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={center}
-      zoom={initialViewPoint}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
-      options={{ streetViewControl: false, disableDefaultUI: true }}
-      clickableIcons
-    >
-      <Data options={dataOptions} />
-      {props.lat && props.lng && <Marker position={{ lat: center.lat, lng: center.lng }} />}
-    </GoogleMap>
+    isLoaded && (
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={initialViewPoint}
+        onLoad={onLoad}
+        onUnmount={onUnmount}
+        options={{ streetViewControl: false, disableDefaultUI: true }}
+        clickableIcons
+      >
+        <Data options={dataOptions} />
+        {props.lat && props.lng && <Marker position={{ lat: center.lat, lng: center.lng }} />}
+      </GoogleMap>
+    )
   );
 };
 

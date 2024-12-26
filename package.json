@@ -97,7 +97,7 @@
     "@mui/material": "^5.14.11",
     "@mui/styles": "^5.10.15",
     "@mui/x-date-pickers": "^5.0.9",
-    "@react-google-maps/api": "^2.19.2",
+    "@react-google-maps/api": "^2.20.4",
     "@svgr/webpack": "^6.5.1",
     "@types/react-signature-canvas": "^1.0.2",
     "@typescript-eslint/eslint-plugin": "^5.44.0",
