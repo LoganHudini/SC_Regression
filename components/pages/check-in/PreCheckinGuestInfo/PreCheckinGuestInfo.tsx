@@ -469,6 +469,7 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                       formik.handleChange(e);
                       updateGuestDetails(field?.name, e as string);
                     }}
+                    sx={{ '& svg': { height: '1.25rem' } }}
                   />
                 </div>
               ) : (
