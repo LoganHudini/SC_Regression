@@ -209,24 +209,16 @@ const Guest: React.FC<any> = () => {
         (field: any) => field?.isActive && field?.name === EMAILS,
       );
       if (source && source[inputFieldName]) {
-        if (
-          (guestInformationSection?.type === YOUVERSE ||
-            guestInformationSection?.type === TRENTIAL) &&
-          inputFieldName === DOC_NO
-        ) {
+        if (emailField && inputFieldName === EMAILS && emailField?.defaultValue === BLANK) {
           source = '';
-        } else {
-          if (emailField && inputFieldName === EMAILS && emailField?.defaultValue === BLANK) {
-            source = '';
-          } else if (emailField && inputFieldName === EMAILS && emailField?.defaultValue === OTA) {
-            if (reservationInfo?.confirmationId === reservationInfo?.uniqueBookingId) {
-              source = source[inputFieldName];
-            } else {
-              source = '';
-            }
-          } else {
+        } else if (emailField && inputFieldName === EMAILS && emailField?.defaultValue === OTA) {
+          if (reservationInfo?.confirmationId === reservationInfo?.uniqueBookingId) {
             source = source[inputFieldName];
+          } else {
+            source = '';
           }
+        } else {
+          source = source[inputFieldName];
         }
       } else {
         source = '';
