@@ -21146,6 +21146,12 @@ export const configuration: any = [
                         code: 'DRL',
                         vendorDocType: 'dl',
                       },
+                      {
+                        name: 'Aadhaar Card',
+                        value: 'AAC',
+                        code: 'AAC',
+                        vendorDocType: 'aadhaar',
+                      },
                     ],
                   },
                   {
