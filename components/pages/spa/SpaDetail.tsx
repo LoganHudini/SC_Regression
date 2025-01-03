@@ -10,7 +10,7 @@ import cx from 'classnames';
 import { toggleDetailsDrawer } from 'storage/home.storage';
 import { analyticsEvent } from 'utils/gtag';
 import { availablePaths } from 'utils/availablePaths';
-import { EXTERNAL_URL, S3, WEBURL2 } from 'utils/constants';
+import { BOOKING_URL, EXTERNAL_URL, S3, WEBURL2 } from 'utils/constants';
 import { ASSETS_URL } from 'core/graphql/endpoints';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 
@@ -63,6 +63,7 @@ const SpaDetails: React.FC<SpaDetailsProps> = ({
     }
     setmenuLink(link);
   };
+
   return (
     <div
       className={cx({
@@ -103,10 +104,15 @@ const SpaDetails: React.FC<SpaDetailsProps> = ({
           <p className={styles.detailComponentDescription}>{t(`${spaInfoDetails?.description}`)}</p>
         )}
 
-        {(spaInfoDetails?.contact?.phone || spaInfoDetails?.contact?.email) && (
+        {(spaInfoDetails?.contact?.phone ||
+          spaInfoDetails?.contact?.email ||
+          spaInfoDetails?.contact?.information?.some((e: any) => e?.type === BOOKING_URL)) && (
           <PhoneEmail
             phone={spaInfoDetails?.contact?.phone}
             email={spaInfoDetails?.contact?.email}
+            url={spaInfoDetails?.contact?.information?.url}
+            urlTitle={spaInfoDetails?.contact?.information?.reviewerTitle}
+            urlDisplayTitle={spaInfoDetails?.contact?.information?.displayTitle}
           />
         )}
       </div>

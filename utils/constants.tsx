@@ -160,6 +160,7 @@ export const ENQUIRE = 'ENQUIRE';
 export const PHONECAPS = 'PHONE';
 export const EMAILCAPS = 'EMAIL';
 export const URL = 'URL';
+export const BOOKING_URL = 'BOOKING_URL';
 export const SPA_TREATMENT_LINK = 'spa_treatment_link';
 export const ABOUT_US = 'About Us';
 export const EXTERNAL = 'EXTERNAL';

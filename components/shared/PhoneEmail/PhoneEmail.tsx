@@ -3,6 +3,7 @@ import PhoneIcon from '@icons/phone.svg';
 import EmailIcon from '@icons/email.svg';
 import URLIcon from '@icons/url.svg';
 import { useTranslation } from 'react-i18next';
+import { EMAILCAPS, PHONECAPS, URL } from 'utils/constants';
 
 export const PhoneEmail = (props: any) => {
   const {
@@ -23,13 +24,17 @@ export const PhoneEmail = (props: any) => {
         {phone && (
           <a aria-label={`${t('Phone')}`} href={`tel:${phone}`} className={styles.callRow}>
             <PhoneIcon />{' '}
-            <span className={styles.icon_contact}>{phoneDisplayTitle || phoneTitle}</span>
+            <span className={styles.icon_contact}>
+              {phoneDisplayTitle || phoneTitle || PHONECAPS}
+            </span>
           </a>
         )}
         {email && (
           <a aria-label={`${t('Email')}`} href={`mailto:${email}`} className={styles.emailRow}>
             <EmailIcon />{' '}
-            <span className={styles.icon_contact}>{emailDisplayTitle || emailTitle}</span>
+            <span className={styles.icon_contact}>
+              {emailDisplayTitle || emailTitle || EMAILCAPS}
+            </span>
           </a>
         )}
         {url && (
@@ -41,7 +46,7 @@ export const PhoneEmail = (props: any) => {
             rel='noopener noreferrer'
           >
             <URLIcon className={styles.check} />{' '}
-            <span className={styles.icon_contact}>{urlDisplayTitle || urlTitle}</span>
+            <span className={styles.icon_contact}>{urlDisplayTitle || urlTitle || URL}</span>
           </a>
         )}
       </>
