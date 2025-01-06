@@ -41,6 +41,8 @@ import 'rmc-picker/assets/index.css';
 import Picker from 'rmc-picker/lib/Picker';
 import MultiPicker from 'rmc-picker/lib/MultiPicker';
 import MuiPhoneNumber from 'material-ui-phone-number';
+import { Countries } from 'utils/countryList';
+
 export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
   selectedGuest,
   guestInformationSection,
@@ -54,6 +56,9 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
   const newAccompanyGuestStorage = useReactiveVar(newAccompanyGuestDetails);
   const hotelInfo = useReactiveVar(hotelInformation);
 
+  const countryCode = Countries?.find(
+    (item: any) => item?.name?.toLowerCase() === hotelInfo?.location?.country?.toLowerCase(),
+  )?.value?.toLowerCase();
   const isCheckInTimeEnabled = guestInformationSection?.find(
     (field: any) => field?.name === ESTIMATED_TIME,
   )?.isCheckInTimeEnabled;
@@ -451,7 +456,7 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                     required={field?.required}
                     countryCodeEditable={true}
                     fullWidth
-                    defaultCountry='in'
+                    defaultCountry={countryCode || 'in'}
                     disableAreaCodes
                     autoFormat={true}
                     value={formik.values[field?.name] || ''}
