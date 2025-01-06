@@ -95,6 +95,9 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
     validateOnMount: true,
     enableReinitialize: true,
   });
+  useEffect(() => {
+    formik.submitForm();
+  }, [selectedGuest.isChild]);
 
   const updateGuestDetails = (name: string, value: string) => {
     const inputField = name;

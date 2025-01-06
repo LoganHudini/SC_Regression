@@ -15,6 +15,8 @@ import {
   reservationStatusMessages,
   EVERYDAY,
   idVerificationFields,
+  EMAILS,
+  PHONE,
 } from './constants';
 import { tableReservationStorage } from 'storage/table-reservation.storage';
 import { housekeepingOptions, serviceRequestOptionsArray } from 'storage/housekeeping.storage';
@@ -150,6 +152,18 @@ export const updateDocTypeOptionsOptionConfig = (
     }
     if (item?.name === GENDER && replaceDataGender?.length > 0) {
       return { ...item, options: replaceDataGender };
+    }
+    return item;
+  });
+};
+
+export const filterChildDetails = (data: any) => {
+  return data?.map((item: any) => {
+    if (item?.name === EMAILS) {
+      return { ...item, isActive: false, required: false };
+    }
+    if (item?.name === PHONE) {
+      return { ...item, isActive: false, required: false };
     }
     return item;
   });

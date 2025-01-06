@@ -316,6 +316,12 @@
   font-size: $small;
 }
 
+.checkboxWrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
 .scanPaymentButton {
   width: fit-content;
   display: flex;

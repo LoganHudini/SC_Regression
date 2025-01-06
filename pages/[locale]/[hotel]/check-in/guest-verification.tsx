@@ -59,6 +59,7 @@ import {
   updateFieldStatus,
   updateDocTypeForNewGuestOptions,
   updateDocTypeOptionsOptionConfig,
+  filterChildDetails,
 } from 'utils/functions';
 import { docTypeStorage } from 'storage/guest-information.storage';
 import { Stepper } from 'components/shared/Stepper/Stepper';
@@ -110,11 +111,14 @@ const Guest: React.FC<any> = () => {
   const config = useConfig();
   const paymentConfig: any = usePaymentConfig();
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
+
   const availablePersonalizations = useReactiveVar(personalizationStorage);
   const newAccompanyGuestStorage = useReactiveVar(newAccompanyGuestDetails);
+
   const updatedGuestData = useReactiveVar(updateNewAccompanyGuestDetails);
   const primaryGuestButtonDisable = useReactiveVar(primaryGuestButtonDisabled);
   const secondaryGuestButtonDisable = useReactiveVar(secondaryGuestButtonDisabled);
+
   const [openToggleAccompanyGuest, setOpenToggleAccompanyGuest] = useState(
     new Array(newAccompanyGuestStorage?.child?.length)?.fill(false),
   );
@@ -136,14 +140,29 @@ const Guest: React.FC<any> = () => {
   const totalGuestCount = reservationInfo?.details?.totalGuestCount;
   const childGuestCount = reservationInfo?.details?.childGuestCount;
   const adultGuestCount = reservationInfo?.details?.adultGuestCount;
-  const [checkChild, setCheckChild] = useState<boolean[]>(new Array(totalGuestCount).fill(false));
 
   const handleCheckboxChange = (index: number) => {
-    setCheckChild((prev: any) => {
-      const newState = [...prev];
-      newState[index] = !newState[index];
-      return newState;
-    });
+    const updatedState =
+      accompanyGuestData?.length > 0 &&
+      accompanyGuestData?.map((guest: any, idx: any) => {
+        if (idx === index) {
+          return {
+            ...guest,
+            isChild: !guest?.isChild,
+            emails: !guest?.isChild ? '' : guest?.emails,
+            phone: !guest?.isChild ? '' : guest?.phone,
+          };
+        }
+        return guest;
+      });
+    accompanyGuestDetails(updatedState);
+  };
+
+  const newGuestHandleCheckboxChange = (index: number) => {
+    const newAccompanyGuestData = { ...newAccompanyGuestStorage };
+
+    newAccompanyGuestData.adult[index].isChild = !newAccompanyGuestData?.adult[index]?.isChild;
+    newAccompanyGuestDetails(newAccompanyGuestData);
   };
 
   const checkInModule: any = config?.modules?.find((module: any) => module?.code === CHECK_IN);
@@ -334,6 +353,13 @@ const Guest: React.FC<any> = () => {
               }
             }
           });
+
+          if ('isChild' in accompanyGuest) {
+            guestData.isChild = accompanyGuest?.isChild;
+          } else {
+            guestData.isChild = false;
+          }
+
           return { guestData };
         })
         ?.map((item: any) => item?.guestData);
@@ -357,9 +383,16 @@ const Guest: React.FC<any> = () => {
     }
   }, [accompanyGuestData, generateAccompanyGuestDetails, reservationInfo]);
 
-  const accompanyGuestValidation = accompanyGuestData?.map((accompanyGuest: any) =>
-    validateCompleteGuestDetails(accompanyGuest, accompanyGuestInformationSection),
-  );
+  const validDetails = Array.isArray(accompanyingGuestSubmodule?.details)
+    ? accompanyingGuestSubmodule?.details
+    : [];
+
+  const accompanyGuestValidation = accompanyGuestData?.map((accompanyGuest: any) => {
+    return validateCompleteGuestDetails(
+      accompanyGuest,
+      accompanyGuest?.isChild ? filterChildDetails(validDetails) : accompanyGuestInformationSection,
+    );
+  });
 
   // new guests initialization and validation
   useEffect(() => {
@@ -371,6 +404,7 @@ const Guest: React.FC<any> = () => {
         if (curr.label && curr.isActive) {
           acc[curr.name] = '';
         }
+        acc.isChild = false;
         return acc;
       }, {});
 
@@ -425,7 +459,7 @@ const Guest: React.FC<any> = () => {
     );
   }, [paymentConfig?.type]);
 
-  const nextStep = useCallback(() => {
+  const nextStep = useCallback(async () => {
     if (
       (paymentConfig?.type === NONE ||
         (paymentConfig?.isTotalChargeActive &&
@@ -530,7 +564,7 @@ const Guest: React.FC<any> = () => {
     successFlag = (await updateGuestDetails(updateGuestDetailsPayload)) && successFlag;
 
     if (accompanyGuestData.length > 0) {
-      for (const data of accompanyGuestData) {
+      for (const [index, data] of accompanyGuestData.entries()) {
         const updateAccompanyGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
           docType: documentTypes?.find((option: any) => option?.value === data?.docType)?.code,
           docNumber: data?.docNo,
@@ -818,16 +852,6 @@ const Guest: React.FC<any> = () => {
     );
   };
 
-  const updatedGuestInformation = accompanyGuestInformationSection?.map((field: any) => {
-    if (field?.name === PHONE || field?.name === EMAILS) {
-      return {
-        ...field,
-        isActive: false,
-      };
-    }
-    return field;
-  });
-
   return (
     <>
       <Head>
@@ -983,85 +1007,35 @@ const Guest: React.FC<any> = () => {
 
           {accompanyGuestData && accompanyGuestData?.length > 0 && (
             <div className={styles.boxWrapper}>
-              {accompanyGuestData?.length > 0 &&
-                accompanyGuestData?.map((selectedAccompanyGuest: any, index: number) => (
-                  <div key={index}>
-                    {accompanyingGuestSubmodule?.type === YOUVERSE ||
-                    accompanyingGuestSubmodule?.type === TRENTIAL ? (
-                      !selectedAccompanyGuest?.docNo || !selectedAccompanyGuest?.docType ? (
-                        <DetailsCard
-                          title={`${selectedAccompanyGuest?.firstName}  ${selectedAccompanyGuest?.lastName}`}
+              {accompanyGuestData?.map((selectedAccompanyGuest: any, index: number) => (
+                <div key={index}>
+                  {accompanyingGuestSubmodule?.type === YOUVERSE ||
+                  accompanyingGuestSubmodule?.type === TRENTIAL ? (
+                    !selectedAccompanyGuest?.docNo || !selectedAccompanyGuest?.docType ? (
+                      <DetailsCard
+                        title={`${selectedAccompanyGuest?.firstName}  ${selectedAccompanyGuest?.lastName}`}
+                      >
+                        <StyledButton
+                          variant='contained'
+                          className={styles.scanDocWrapper}
+                          onClick={() => {
+                            profileIDStorage({
+                              id: selectedAccompanyGuest?.id,
+                              guestType: ACCOMPANYINGGUEST,
+                            });
+                            navigate(
+                              accompanyingGuestSubmodule?.type === YOUVERSE
+                                ? availablePaths?.YOUVERSE
+                                : accompanyingGuestSubmodule?.type === TRENTIAL
+                                ? availablePaths?.TRENTIAL
+                                : availablePaths?.INCODE,
+                            );
+                          }}
                         >
-                          <StyledButton
-                            variant='contained'
-                            className={styles.scanDocWrapper}
-                            onClick={() => {
-                              profileIDStorage({
-                                id: selectedAccompanyGuest?.id,
-                                guestType: ACCOMPANYINGGUEST,
-                              });
-                              navigate(
-                                accompanyingGuestSubmodule?.type === YOUVERSE
-                                  ? availablePaths?.YOUVERSE
-                                  : accompanyingGuestSubmodule?.type === TRENTIAL
-                                  ? availablePaths?.TRENTIAL
-                                  : availablePaths?.INCODE,
-                              );
-                            }}
-                          >
-                            <Camera />
-                            <span className={styles.scanDocText}>{t('Scan Document')}</span>
-                          </StyledButton>
-                        </DetailsCard>
-                      ) : (
-                        selectedAccompanyGuest &&
-                        accompanyGuestInformationSection?.length > 0 &&
-                        (openToggleAccompanyGuest[index] ? (
-                          <DetailsCard
-                            title={`${t('Guest')} ${index + 1}`}
-                            handleClick={() =>
-                              setOpenToggleAccompanyGuest((prev) => {
-                                const newState = [...prev];
-                                newState[index] = !newState[index];
-                                return newState;
-                              })
-                            }
-                            icon
-                          >
-                            <div className={styles.margin}>
-                              <PreCheckinGuestInfo
-                                selectedGuest={selectedAccompanyGuest}
-                                guestInformationSection={guestInformation}
-                                type={SECONDARY}
-                              />
-                            </div>
-                          </DetailsCard>
-                        ) : (
-                          <DetailsCardShrinked
-                            error={accompanyGuestValidation[index]}
-                            title={`${t('Guest')} ${index + 1}`}
-                            handleClick={() =>
-                              setOpenToggleAccompanyGuest((prev) => {
-                                const newState = [...prev];
-                                newState[index] = !newState[index];
-                                return newState;
-                              })
-                            }
-                          >
-                            <div className={styles.cardTitleWrapper}>
-                              <p className={styles.cardTitleAccompany}>
-                                {`${selectedAccompanyGuest?.firstName} ${selectedAccompanyGuest?.lastName}`}
-                              </p>
-                            </div>
-                            {!accompanyGuestValidation[index] && (
-                              <div className={styles.pendingDetails}>
-                                <DangerIcon className={styles.icon} />
-                                <div className={styles.pendingText}>{t('Pending Details')}</div>
-                              </div>
-                            )}
-                          </DetailsCardShrinked>
-                        ))
-                      )
+                          <Camera />
+                          <span className={styles.scanDocText}>{t('Scan Document')}</span>
+                        </StyledButton>
+                      </DetailsCard>
                     ) : (
                       selectedAccompanyGuest &&
                       accompanyGuestInformationSection?.length > 0 &&
@@ -1078,21 +1052,16 @@ const Guest: React.FC<any> = () => {
                           icon
                         >
                           <div className={styles.margin}>
-                            <StyledCheckBox
-                              checked={checkChild[index]}
-                              onChange={() => handleCheckboxChange(index)}
-                            />
-                            <label className={styles.checkboxLabel}>
-                              {t('below_age', {
-                                value: accompanyingGuestSubmodule?.minorGuestAgeLimit ?? 18,
-                              })}
-                            </label>
-
                             <PreCheckinGuestInfo
                               selectedGuest={selectedAccompanyGuest}
                               guestInformationSection={
-                                checkChild[index]
-                                  ? updatedGuestInformation
+                                selectedAccompanyGuest?.isChild
+                                  ? accompanyGuestInformationSection?.map((field: any) => {
+                                      if (field?.name === PHONE || field?.name === EMAILS) {
+                                        return { ...field, isActive: false };
+                                      }
+                                      return field;
+                                    })
                                   : accompanyGuestInformationSection
                               }
                               type={SECONDARY}
@@ -1124,9 +1093,78 @@ const Guest: React.FC<any> = () => {
                           )}
                         </DetailsCardShrinked>
                       ))
-                    )}
-                  </div>
-                ))}
+                    )
+                  ) : (
+                    selectedAccompanyGuest &&
+                    accompanyGuestInformationSection?.length > 0 &&
+                    (openToggleAccompanyGuest[index] ? (
+                      <DetailsCard
+                        title={`${t('Guest')} ${index + 1}`}
+                        handleClick={() =>
+                          setOpenToggleAccompanyGuest((prev) => {
+                            const newState = [...prev];
+                            newState[index] = !newState[index];
+                            return newState;
+                          })
+                        }
+                        icon
+                      >
+                        <div className={styles.margin}>
+                          <div className={styles.checkboxWrapper}>
+                            <StyledCheckBox
+                              checked={selectedAccompanyGuest?.isChild}
+                              onChange={() => handleCheckboxChange(index)}
+                            />
+                            <label className={styles.checkboxLabel}>
+                              {t('below_age', {
+                                value: accompanyingGuestSubmodule?.minorGuestAgeLimit ?? 18,
+                              })}
+                            </label>
+                          </div>
+                          <PreCheckinGuestInfo
+                            selectedGuest={selectedAccompanyGuest}
+                            guestInformationSection={
+                              selectedAccompanyGuest?.isChild
+                                ? accompanyGuestInformationSection?.map((field: any) => {
+                                    if (field?.name === PHONE || field?.name === EMAILS) {
+                                      return { ...field, isActive: false };
+                                    }
+                                    return field;
+                                  })
+                                : accompanyGuestInformationSection
+                            }
+                            type={SECONDARY}
+                          />
+                        </div>
+                      </DetailsCard>
+                    ) : (
+                      <DetailsCardShrinked
+                        error={accompanyGuestValidation[index]}
+                        title={`${t('Guest')} ${index + 1}`}
+                        handleClick={() =>
+                          setOpenToggleAccompanyGuest((prev) => {
+                            const newState = [...prev];
+                            newState[index] = !newState[index];
+                            return newState;
+                          })
+                        }
+                      >
+                        <div className={styles.cardTitleWrapper}>
+                          <p className={styles.cardTitleAccompany}>
+                            {`${selectedAccompanyGuest?.firstName} ${selectedAccompanyGuest?.lastName}`}
+                          </p>
+                        </div>
+                        {!accompanyGuestValidation[index] && (
+                          <div className={styles.pendingDetails}>
+                            <DangerIcon className={styles.icon} />
+                            <div className={styles.pendingText}>{t('Pending Details')}</div>
+                          </div>
+                        )}
+                      </DetailsCardShrinked>
+                    ))
+                  )}
+                </div>
+              ))}
             </div>
           )}
           {(reservationInfo?.details?.adultGuestCount > 0 ||
@@ -1165,6 +1203,15 @@ const Guest: React.FC<any> = () => {
                   );
                 };
 
+                const updatedGuestInformation = newGuest?.isChild
+                  ? guestInformation?.map((field) => {
+                      if (field?.name === PHONE || field?.name === EMAILS) {
+                        return { ...field, isActive: false, required: false };
+                      }
+                      return field;
+                    })
+                  : guestInformation;
+
                 return (
                   <div key={index}>
                     {accompanyingGuestSubmodule?.type === YOUVERSE ||
@@ -1189,15 +1236,21 @@ const Guest: React.FC<any> = () => {
                           icon
                         >
                           <div className={styles.margin}>
-                            <label>
-                              {t('below_age', {
-                                value: accompanyingGuestSubmodule?.minorGuestAgeLimit ?? 18,
-                              })}
-                            </label>
+                            <div className={styles.checkboxWrapper}>
+                              <StyledCheckBox
+                                checked={newGuest?.isChild}
+                                onChange={() => newGuestHandleCheckboxChange(index)}
+                              />
+                              <label className={styles.checkboxLabel}>
+                                {t('below_age', {
+                                  value: accompanyingGuestSubmodule?.minorGuestAgeLimit ?? 18,
+                                })}
+                              </label>
+                            </div>
 
                             <PreCheckinGuestInfo
                               selectedGuest={newGuest}
-                              guestInformationSection={guestInformation}
+                              guestInformationSection={updatedGuestInformation}
                               type={newGuest?.isSaved ? NEWGUEST : NEWGUESTFORM}
                               method='adult'
                             />
@@ -1237,23 +1290,21 @@ const Guest: React.FC<any> = () => {
                         icon
                       >
                         <div className={styles.box}>
-                          <StyledCheckBox
-                            checked={checkChild[uniqueIndex]}
-                            onChange={() => handleCheckboxChange(uniqueIndex)}
-                          />
-                          <label className={styles.checkboxLabel}>
-                            {t('below_age', {
-                              value: accompanyingGuestSubmodule?.minorGuestAgeLimit ?? 18,
-                            })}
-                          </label>
+                          <div className={styles.checkboxWrapper}>
+                            <StyledCheckBox
+                              checked={newGuest?.isChild}
+                              onChange={() => newGuestHandleCheckboxChange(index)}
+                            />
+                            <label className={styles.checkboxLabel}>
+                              {t('below_age', {
+                                value: accompanyingGuestSubmodule?.minorGuestAgeLimit ?? 18,
+                              })}
+                            </label>
+                          </div>
 
                           <PreCheckinGuestInfo
                             selectedGuest={newGuest}
-                            guestInformationSection={
-                              checkChild[uniqueIndex]
-                                ? updatedGuestInformation
-                                : accompanyGuestInformationSection
-                            }
+                            guestInformationSection={updatedGuestInformation}
                             type={NEWGUESTFORM}
                             method='adult'
                           />
@@ -1288,19 +1339,16 @@ const Guest: React.FC<any> = () => {
               })}
             </>
           )}
-
           <div className={cx(styles.bottomMenuWrapper)}>
             <StyledButton
               variant='contained'
               loading={loading}
               disabled={
                 !primaryGuestButtonDisable ||
-                (accompanyGuestValidation.every((item: boolean) => item)
-                  ? !secondaryGuestButtonDisable
-                  : !accompanyGuestValidation.every((item: boolean) => item)) ||
+                accompanyGuestValidation.some((item: boolean) => !item) ||
                 (accompanyingGuestSubmodule?.mandatory
                   ? (accompanyGuestData || []).concat(updatedGuestData || [])?.length <
-                    (reservationInfo && reservationInfo?.details?.totalGuestCount - 1)
+                    reservationInfo?.details?.totalGuestCount - 1
                   : false)
               }
               onClick={goToTheNextStep}
