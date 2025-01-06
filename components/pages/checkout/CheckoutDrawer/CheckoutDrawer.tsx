@@ -5,7 +5,11 @@ import { notificationStorage, toggleDetailsDrawer, toggleNotification } from 'st
 import styles from './CheckoutDrawer.module.scss';
 import { useTranslation } from 'react-i18next';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
-import { ICheckoutApiRequest, MAKE_CHECKOUT_PAYMENT } from 'core/graphql/queries/CHECKOUT';
+import {
+  CHECKOUT,
+  ICheckoutApiRequest,
+  MAKE_CHECKOUT_PAYMENT,
+} from 'core/graphql/queries/CHECKOUT';
 import { client } from 'core/graphql/client';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
@@ -24,7 +28,7 @@ import {
   FAILURE,
   SUCCESS,
   PAIR_TO_ROOM,
-  CHECKOUT,
+  CHECKOUT_TEXT,
 } from 'utils/constants';
 import { activeItems, activeModule } from 'utils/functions';
 import { availablePaths } from 'utils/availablePaths';
@@ -40,7 +44,7 @@ const CheckoutDrawer = (props: any) => {
   const checkedInData = useCheckedIn();
   const checkoutPayment: boolean = activeModule(config?.modules, CHECKOUT_PAYMENT);
   const pairToRoomModule: boolean = activeModule(config?.modules, PAIR_TO_ROOM);
-  const checkOutModule: boolean = activeModule(config?.modules, CHECKOUT);
+  const checkOutModule: boolean = activeModule(config?.modules, CHECKOUT_TEXT);
 
   const { data: feedBackList } = useQuery(GET_FEEDBACK, {
     skip: !hotelId,

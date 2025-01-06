@@ -38,7 +38,7 @@ import { ASSETS_URL } from 'core/graphql/endpoints';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { activeModule, diningOptionList, getHamburgerIcons } from 'utils/functions';
-import { CHECK_IN, MESSAGE_BOX, URL, PAIR_TO_ROOM, CHECKOUT } from 'utils/constants';
+import { CHECK_IN, MESSAGE_BOX, URL, PAIR_TO_ROOM, CHECKOUT_TEXT } from 'utils/constants';
 import { IBottomMenuProps } from './BottomMenu.types';
 import {
   IDiningMenuStorageData,
@@ -72,7 +72,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
   const hotelCompendiumSelected: any = useReactiveVar(selectedCompendiumCategory);
   const checkInModule: boolean = activeModule(config?.modules, CHECK_IN);
   const pairToRoomModule: boolean = activeModule(config?.modules, PAIR_TO_ROOM);
-  const checkOutModule: boolean = activeModule(config?.modules, CHECKOUT);
+  const checkOutModule: boolean = activeModule(config?.modules, CHECKOUT_TEXT);
   const diningCategoryOptions = useReactiveVar(diningCategoryStorage);
   const hotelCompendiumInfo: any = useReactiveVar(getHotelCompendium);
   const spaCategories = useReactiveVar(spaCategoryList);
