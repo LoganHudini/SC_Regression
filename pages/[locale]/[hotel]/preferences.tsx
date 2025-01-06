@@ -203,7 +203,9 @@ const Preferences = () => {
 
   const hotelImages = homeCarouselDetails?.getPropertyDetailsByHotelId?.hotel?.images[0];
 
-  const preferencesData = data?.listFeedback?.filter((item: any) => item?.destination === CHECKIN);
+  const preferencesData = data?.listFeedback?.filter(
+    (item: any) => item?.destination === CHECKIN && item?.isActive,
+  );
 
   useEffect(() => {
     preferencesData?.length === 0 && navigate(availablePaths.HOME);
