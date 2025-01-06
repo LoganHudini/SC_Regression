@@ -25,6 +25,7 @@ const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
   const navigate = useLocalizedRouter();
   const [offerBooking, setOfferBooking] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const handleSelect = () => {
     setOpenDrawer(true);
@@ -49,6 +50,8 @@ const HeroBannerItem: React.FC<IHomeCarouselItemProps> = ({ carouselItem }) => {
         <StableImage
           className={styles.bannerImage}
           src={`${ASSETS_URL}/${carouselItem?.images[0]?.master}`}
+          onLoad={() => setImageLoaded(true)}
+          style={{ display: imageLoaded ? 'block' : 'none' }}
         />
       </div>
 

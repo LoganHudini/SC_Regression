@@ -1,11 +1,47 @@
-import React from 'react';
-import Carousel from 'react-material-ui-carousel';
+import React, { useState, useRef } from 'react';
 import styles from './CustomCarousel.module.scss';
 import { StableImage } from '../StableImage/StableImage';
 import { ASSETS_URL } from 'core/graphql/endpoints';
+import cx from 'classnames';
 
 const CustomCarousel = (props: any) => {
   const { imageData } = props;
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const touchStartRef = useRef<number | null>(null);
+  const touchEndRef = useRef<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartRef.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    touchEndRef.current = e.changedTouches[0].clientX;
+    handleSwipe();
+  };
+
+  const handleSwipe = () => {
+    if (touchStartRef.current !== null && touchEndRef.current !== null) {
+      const distance = touchStartRef.current - touchEndRef.current;
+      if (distance > 50) {
+        handleNext();
+      } else if (distance < -50) {
+        handlePrev();
+      }
+    }
+
+    touchStartRef.current = null;
+    touchEndRef.current = null;
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % imageData.images.length);
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex(
+      (prevIndex) => (prevIndex - 1 + imageData.images.length) % imageData.images.length,
+    );
+  };
 
   return (
     <>
@@ -15,27 +51,29 @@ const CustomCarousel = (props: any) => {
           src={`${ASSETS_URL}/${imageData?.images[0]?.ratio16to9}`}
         />
       ) : (
-        <Carousel
-          navButtonsAlwaysInvisible
-          indicatorContainerProps={{ className: styles.indicatorIconContainer }}
-          indicatorIconButtonProps={{ style: { opacity: 0.5 } }}
-          activeIndicatorIconButtonProps={{
-            className: styles.activeIndicatorIcon,
-          }}
-          IndicatorIcon={<div className={styles.indicatorIcon} />}
-          indicators={(imageData?.images?.length || 0) > 1}
+        <div
           className={styles.Carousel}
-          autoPlay={false}
-          animation={'slide'}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
-          {imageData?.images?.map((image: any, index: number) => (
-            <StableImage
-              className={styles.bannerImage}
-              key={index}
-              src={`${ASSETS_URL}/${image?.ratio16to9}`}
-            />
-          ))}
-        </Carousel>
+          <StableImage
+            className={styles.bannerImage}
+            src={`${ASSETS_URL}/${imageData?.images[currentIndex]?.ratio16to9}`}
+          />
+          <div className={styles.indicatorIconContainer}>
+            {imageData?.images?.length > 0 &&
+              imageData?.images?.map((image: any, index: any) => (
+                <div
+                  key={index}
+                  className={cx(
+                    styles.indicatorIcon,
+                    currentIndex === index ? styles.activeIndicator : styles.inactiveIndicator,
+                  )}
+                  onClick={() => setCurrentIndex(index)}
+                />
+              ))}
+          </div>
+        </div>
       )}
     </>
   );

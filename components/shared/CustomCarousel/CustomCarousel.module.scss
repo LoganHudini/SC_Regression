@@ -1,7 +1,11 @@
 .indicatorIconContainer {
   position: absolute;
   bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 1;
+  display: flex;
+  gap: 5px;
 }
 
 .activeIndicatorIcon {
@@ -12,10 +16,6 @@
 .indicatorIcon {
   width: 5px;
   height: 5px;
-  background: var(--primary-indicator-color);
-  &:not(:last-child) {
-    margin: 0 3px;
-  }
 }
 
 .bannerImage {
@@ -23,4 +23,16 @@
   height: 100%;
   width: 100%;
   object-fit: cover;
+}
+
+.Carousel {
+  position: relative;
+}
+
+.activeIndicator {
+  background-color: var(--primary-indicator-color);
+}
+
+.inactiveIndicator {
+  background-color: var(--primary-image-transition-background-color);
 }
