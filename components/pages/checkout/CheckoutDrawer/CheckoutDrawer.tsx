@@ -5,11 +5,7 @@ import { notificationStorage, toggleDetailsDrawer, toggleNotification } from 'st
 import styles from './CheckoutDrawer.module.scss';
 import { useTranslation } from 'react-i18next';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
-import {
-  CHECKOUT,
-  ICheckoutApiRequest,
-  MAKE_CHECKOUT_PAYMENT,
-} from 'core/graphql/queries/CHECKOUT';
+import { ICheckoutApiRequest, MAKE_CHECKOUT_PAYMENT } from 'core/graphql/queries/CHECKOUT';
 import { client } from 'core/graphql/client';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { GET_FEEDBACK } from 'core/graphql/queries/GET_FEEDBACK';
@@ -21,7 +17,15 @@ import {
   getCheckInToken,
   handleCheckInAuthenticationFailure,
 } from 'core/api/functions/getCheckInAuthentication';
-import { CHECKOUT_PAYMENT, CHECK_IN, CHECK_OUT, ERRORMSG, FAILURE, SUCCESS } from 'utils/constants';
+import {
+  CHECKOUT_PAYMENT,
+  CHECK_OUT,
+  ERRORMSG,
+  FAILURE,
+  SUCCESS,
+  PAIR_TO_ROOM,
+  CHECKOUT,
+} from 'utils/constants';
 import { activeItems, activeModule } from 'utils/functions';
 import { availablePaths } from 'utils/availablePaths';
 
@@ -34,9 +38,9 @@ const CheckoutDrawer = (props: any) => {
   const [checkoutLoader, setCheckoutLoader] = useState(false);
   const detailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
   const checkedInData = useCheckedIn();
-
   const checkoutPayment: boolean = activeModule(config?.modules, CHECKOUT_PAYMENT);
-  const checkInModule: boolean = activeModule(config?.modules, CHECK_IN);
+  const pairToRoomModule: boolean = activeModule(config?.modules, PAIR_TO_ROOM);
+  const checkOutModule: boolean = activeModule(config?.modules, CHECKOUT);
 
   const { data: feedBackList } = useQuery(GET_FEEDBACK, {
     skip: !hotelId,
@@ -210,13 +214,15 @@ const CheckoutDrawer = (props: any) => {
 
   const checkoutDrawerDetails = () => (
     <div className={styles.wrapper}>
-      <p className={styles.title}>{checkInModule ? t('Confirm Checkout') : t('Disconnect Room')}</p>
+      <p className={styles.title}>
+        {!checkOutModule && pairToRoomModule ? t('Disconnect Room') : t('Confirm Checkout')}
+      </p>
       <p className={styles.content}>
-        {checkInModule
-          ? t('This action cannot be reversed. Your room access will be disabled after Checkout.')
-          : t(
-              'This action is irreversible.Your device will no longer have access to in-room features, including In-Room Dining, Services, and others',
-            )}
+        {!checkOutModule && pairToRoomModule
+          ? t(
+              'This action is irreversible. Your device will no longer have access to in-room features, including In-Room Dining, Services, and others',
+            )
+          : t('This action is irreversible. Your room access will be disabled after Checkout.')}
       </p>
       <div className={styles.buttonWrapper}>
         <StyledButton className={styles.buttonNo} variant='outlined' onClick={() => closeDrawer()}>
@@ -226,7 +232,13 @@ const CheckoutDrawer = (props: any) => {
           loading={checkoutLoader}
           className={styles.buttonYes}
           variant='contained'
-          onClick={() => (checkInModule ? handleCheckout() : handleDeviceDeactivate())}
+          onClick={() => {
+            if (!checkOutModule && pairToRoomModule) {
+              handleDeviceDeactivate();
+            } else if (checkOutModule) {
+              handleCheckout();
+            }
+          }}
         >
           {t('YES')}
         </StyledButton>

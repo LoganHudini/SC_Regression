@@ -38,7 +38,7 @@ import { ASSETS_URL } from 'core/graphql/endpoints';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { activeModule, diningOptionList, getHamburgerIcons } from 'utils/functions';
-import { CHECK_IN, MESSAGE_BOX, URL } from 'utils/constants';
+import { CHECK_IN, MESSAGE_BOX, URL, PAIR_TO_ROOM, CHECKOUT } from 'utils/constants';
 import { IBottomMenuProps } from './BottomMenu.types';
 import {
   IDiningMenuStorageData,
@@ -71,6 +71,8 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
   const spaInformation = useReactiveVar(spaInformationStorage);
   const hotelCompendiumSelected: any = useReactiveVar(selectedCompendiumCategory);
   const checkInModule: boolean = activeModule(config?.modules, CHECK_IN);
+  const pairToRoomModule: boolean = activeModule(config?.modules, PAIR_TO_ROOM);
+  const checkOutModule: boolean = activeModule(config?.modules, CHECKOUT);
   const diningCategoryOptions = useReactiveVar(diningCategoryStorage);
   const hotelCompendiumInfo: any = useReactiveVar(getHotelCompendium);
   const spaCategories = useReactiveVar(spaCategoryList);
@@ -258,12 +260,13 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
               {spaInfoActive && t('Spa')}
               {offersActive && t(`${offersOptionSelected?.type}`)}
               {hotelCompendiumActive && hotelCompendiumSelected?.name}
-              {checkOutActive &&
-                (checkInModule
-                  ? amountDue
-                    ? t('Checkout')
-                    : t('Pay & Checkout')
-                  : t('Disconnect Room'))}
+              {checkOutActive
+                ? !checkOutModule && pairToRoomModule
+                  ? t('Disconnect Room')
+                  : checkOutModule && amountDue
+                  ? t('Pay & Checkout')
+                  : t('Checkout')
+                : null}
             </span>
 
             {availableItems && (

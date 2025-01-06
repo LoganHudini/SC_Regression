@@ -249,7 +249,7 @@ const CheckOut = () => {
       <PageWrapper
         displayBottomMenu
         amountDue={
-          invoiceData && (invoiceData?.invoice?.data?.currentBalance as any) > 0 ? false : true
+          invoiceData && (invoiceData?.invoice?.data?.currentBalance as any) > 0 ? true : false
         }
         disabled={reservationData && invoiceData ? false : true}
         className={styles.pageWrapper}

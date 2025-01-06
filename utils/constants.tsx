@@ -116,6 +116,7 @@ export const REVIEW = 'review';
 export const CANCELED = 'CANCELED';
 export const CANCELLED = 'CANCELLED';
 export const CHECKEDOUT = 'CHECKEDOUT';
+export const CHECKOUT = 'checkout';
 export const CHKOUT = 'CHKOUT';
 export const NOSHOW = 'NOSHOW';
 export const personalisation = 'personalisation';
