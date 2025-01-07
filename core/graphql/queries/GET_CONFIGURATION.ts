@@ -3041,6 +3041,31 @@ export const configuration: any = [
                     isActive: true,
                   },
                   {
+                    name: 'gender',
+                    label: 'Gender',
+                    type: 'AutoComplete',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    options: [
+                      {
+                        name: 'Male',
+                        value: 'MALE',
+                        vendorGenderType: 'M',
+                      },
+                      {
+                        name: 'Female',
+                        value: 'FEMALE',
+                        vendorGenderType: 'F',
+                      },
+                      {
+                        name: 'Others',
+                        value: 'UNKNOWN',
+                        vendorGenderType: '',
+                      },
+                    ],
+                  },
+                  {
                     name: 'emails',
                     label: 'Email',
                     type: 'Text',
@@ -3055,6 +3080,15 @@ export const configuration: any = [
                     required: true,
                     isDisabled: false,
                     isActive: true,
+                  },
+                  {
+                    name: 'dob',
+                    label: 'Date of Birth',
+                    type: 'datePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    isDisableFuture: true,
                   },
                   {
                     name: 'nationality',
@@ -3122,7 +3156,7 @@ export const configuration: any = [
               {
                 name: 'Credit Card Info',
                 isActive: true,
-                type: 'CCAVENUE',
+                type: 'NONE',
                 details: [
                   {
                     name: 'paymentType',
@@ -3158,6 +3192,14 @@ export const configuration: any = [
                 type: 'Text',
                 required: true,
                 isDisabled: true,
+                isActive: true,
+              },
+              {
+                name: 'gender',
+                label: 'Gender',
+                type: 'AutoComplete',
+                required: true,
+                isDisabled: false,
                 isActive: true,
               },
               {
