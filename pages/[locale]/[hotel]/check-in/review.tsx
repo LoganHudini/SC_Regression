@@ -762,7 +762,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
   useEffect(() => {
     restoreSignature();
-  }, [dayjsLocaleLoader, signature]);
+  }, [dayjsLocaleLoader, signature, sigCanvas?.current]);
 
   const restoreSignature = () => {
     if (signature && sigCanvas?.current) {
