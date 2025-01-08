@@ -907,161 +907,174 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                   ))}
               </DetailsCardShrinked>
             )}
-          </div>
-          {combinedAccArray?.length > 0 && (
-            <p className={styles.titleText}>
-              {combinedAccArray?.length === 1 ? t('Sharer Information') : t('Sharers Information')}
-            </p>
-          )}
+            {combinedAccArray?.length > 0 && (
+              <p className={styles.titleText}>
+                {combinedAccArray?.length === 1
+                  ? t('Sharer Information')
+                  : t('Sharers Information')}
+              </p>
+            )}
 
-          {combinedAccArray?.length > 0 &&
-            combinedAccArray?.map((accompanyGuest: any, index: number) => (
-              <div key={accompanyGuest?.id} onClick={() => toggleAccompanyGuestInformation(index)}>
-                {accompanyGuestInformationState[index] ? (
-                  <div>
-                    <DetailsCard title={`${t('Guest')} ${index + 1}`} icon>
-                      <div className={styles.guestInformation}>
-                        {accompanyingGuestSubmodule?.details?.map((details: any, index: number) => (
-                          <ItemFullWidth
-                            key={index}
-                            title={t(details?.label)}
-                            value={accompanyGuest?.[details?.name]}
-                            code={details?.name}
-                          />
-                        ))}
+            {combinedAccArray?.length > 0 &&
+              combinedAccArray?.map((accompanyGuest: any, index: number) => (
+                <div
+                  key={accompanyGuest?.id}
+                  onClick={() => toggleAccompanyGuestInformation(index)}
+                >
+                  {accompanyGuestInformationState[index] ? (
+                    <div>
+                      <DetailsCard title={`${t('Guest')} ${index + 1}`} icon>
+                        <div className={styles.guestInformation}>
+                          {accompanyingGuestSubmodule?.details?.map(
+                            (details: any, index: number) => (
+                              <ItemFullWidth
+                                key={index}
+                                title={t(details?.label)}
+                                value={accompanyGuest?.[details?.name]}
+                                code={details?.name}
+                              />
+                            ),
+                          )}
+                        </div>
+                      </DetailsCard>
+                    </div>
+                  ) : (
+                    <DetailsCardShrinked title={`${t('Guest')} ${index + 1}`}>
+                      <ShrinkedItem value={accompanyGuest?.firstName} />
+                    </DetailsCardShrinked>
+                  )}
+                </div>
+              ))}
+
+            {paymentConfig?.type !== NONE &&
+              (paymentConfig?.isTotalChargeActive
+                ? Number(reservationInfo?.roomTypes[0]?.totalCharge) > 0
+                : true) && (
+                <div onClick={toggleCreditCardInformation}>
+                  {creditCardInformation ? (
+                    <DetailsCard title={t(`${reviewConfig?.creditCardDetails?.title}`)} icon>
+                      <div>
+                        {reviewConfig?.creditCardDetails?.details?.map(
+                          (detail: any, index: number) => (
+                            <div key={index} className={styles.checkDatesColumn}>
+                              <p className={styles.checkDatesText}>{t(`${detail?.label}`)}</p>
+                              <p className={cx(styles.checkDatesDetails, styles.left)}>
+                                {detail?.name === CARD_TYPE
+                                  ? cardType
+                                  : guestReservationInfo?.[detail?.name] ??
+                                    data?.getReservation?.data?.reservePayments[0]?.[
+                                      detail?.name
+                                    ] ??
+                                    ''}
+                              </p>
+                            </div>
+                          ),
+                        )}
                       </div>
                     </DetailsCard>
-                  </div>
-                ) : (
-                  <DetailsCardShrinked title={`${t('Guest')} ${index + 1}`}>
-                    <ShrinkedItem value={accompanyGuest?.firstName} />
-                  </DetailsCardShrinked>
-                )}
-              </div>
-            ))}
-
-          {paymentConfig?.type !== NONE &&
-            (paymentConfig?.isTotalChargeActive
-              ? Number(reservationInfo?.roomTypes[0]?.totalCharge) > 0
-              : true) && (
-              <div onClick={toggleCreditCardInformation}>
-                {creditCardInformation ? (
-                  <DetailsCard title={t(`${reviewConfig?.creditCardDetails?.title}`)} icon>
-                    <div>
+                  ) : (
+                    <DetailsCardShrinked title={t(`${reviewConfig?.creditCardDetails?.title}`)}>
                       {reviewConfig?.creditCardDetails?.details?.map(
                         (detail: any, index: number) => (
                           <div key={index} className={styles.checkDatesColumn}>
-                            <p className={styles.checkDatesText}>{t(`${detail?.label}`)}</p>
-                            <p className={cx(styles.checkDatesDetails, styles.left)}>
-                              {detail?.name === CARD_TYPE
-                                ? cardType
-                                : guestReservationInfo?.[detail?.name] ??
-                                  data?.getReservation?.data?.reservePayments[0]?.[detail?.name] ??
-                                  ''}
-                            </p>
+                            <ShrinkedItem
+                              value={
+                                detail?.name === 'cardType'
+                                  ? cardType
+                                  : guestReservationInfo?.[detail?.name] ??
+                                    data?.getReservation?.data?.reservePayments[0]?.[
+                                      detail?.name
+                                    ] ??
+                                    ''
+                              }
+                            />
                           </div>
                         ),
                       )}
-                    </div>
-                  </DetailsCard>
-                ) : (
-                  <DetailsCardShrinked title={t(`${reviewConfig?.creditCardDetails?.title}`)}>
-                    {reviewConfig?.creditCardDetails?.details?.map((detail: any, index: number) => (
-                      <div key={index} className={styles.checkDatesColumn}>
-                        <ShrinkedItem
-                          value={
-                            detail?.name === 'cardType'
-                              ? cardType
-                              : guestReservationInfo?.[detail?.name] ??
-                                data?.getReservation?.data?.reservePayments[0]?.[detail?.name] ??
-                                ''
-                          }
-                        />
+                    </DetailsCardShrinked>
+                  )}
+                </div>
+              )}
+
+            {personalizationEntities?.length > 0 && (
+              <div className={styles.cardWrapper}>
+                <DetailsCard title={t(`${reviewConfig?.personalizationDetails[0]?.title}`)}>
+                  <div className={styles.personalzizationWrapper}>
+                    <div className={styles.border}></div>
+                    {personalizationEntities?.map((personalizationEntity) => (
+                      <div key={personalizationEntity?.id} className={styles.personalizationData}>
+                        <p className={styles.personalizationText}>
+                          {personalizationEntity?.quantity} x {personalizationEntity?.title}
+                        </p>
+                        <p className={styles.personalizationQuantity}>
+                          {personalizationEntity?.currency}{' '}
+                          <span className={styles.price}>
+                            {formatPrice(
+                              Number(personalizationEntity?.price) *
+                                Number(personalizationEntity?.quantity),
+                            )}
+                          </span>
+                        </p>
                       </div>
                     ))}
-                  </DetailsCardShrinked>
-                )}
+                  </div>
+                </DetailsCard>
               </div>
             )}
 
-          {personalizationEntities?.length > 0 && (
-            <div className={styles.cardWrapper}>
-              <DetailsCard title={t(`${reviewConfig?.personalizationDetails[0]?.title}`)}>
-                <div className={styles.personalzizationWrapper}>
-                  <div className={styles.border}></div>
-                  {personalizationEntities?.map((personalizationEntity) => (
-                    <div key={personalizationEntity?.id} className={styles.personalizationData}>
-                      <p className={styles.personalizationText}>
-                        {personalizationEntity?.quantity} x {personalizationEntity?.title}
-                      </p>
-                      <p className={styles.personalizationQuantity}>
-                        {personalizationEntity?.currency}{' '}
-                        <span className={styles.price}>
-                          {formatPrice(
-                            Number(personalizationEntity?.price) *
-                              Number(personalizationEntity?.quantity),
-                          )}
-                        </span>
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </DetailsCard>
-            </div>
-          )}
+            {upgradeRoomEntities?.length > 0 && (
+              <div className={styles.cardWrapper}>
+                <DetailsCard title={t(`${reviewConfig?.RoomUpgradeDetails[0]?.title}`)}>
+                  <div className={styles.personalzizationWrapper}>
+                    <div className={styles.border}></div>
+                    {upgradeRoomEntities?.map((personalizationEntity) => (
+                      <div key={personalizationEntity?.id} className={styles.personalizationData}>
+                        <p className={styles.personalizationText}>{personalizationEntity?.title}</p>
+                        <p className={styles.personalizationQuantity}>
+                          {personalizationEntity?.currency}{' '}
+                          <span className={styles.price}>
+                            {formatPrice(Number(personalizationEntity?.price))}
+                          </span>
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </DetailsCard>
+              </div>
+            )}
 
-          {upgradeRoomEntities?.length > 0 && (
-            <div className={styles.cardWrapper}>
-              <DetailsCard title={t(`${reviewConfig?.RoomUpgradeDetails[0]?.title}`)}>
-                <div className={styles.personalzizationWrapper}>
-                  <div className={styles.border}></div>
-                  {upgradeRoomEntities?.map((personalizationEntity) => (
-                    <div key={personalizationEntity?.id} className={styles.personalizationData}>
-                      <p className={styles.personalizationText}>{personalizationEntity?.title}</p>
-                      <p className={styles.personalizationQuantity}>
-                        {personalizationEntity?.currency}{' '}
-                        <span className={styles.price}>
-                          {formatPrice(Number(personalizationEntity?.price))}
-                        </span>
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </DetailsCard>
-            </div>
-          )}
-
-          {config?.isSpecialRequestActive && (
-            <StyledInput
-              autoComplete='off'
-              variant='standard'
-              onChange={(e) => {
-                formik.handleChange(e);
-                setSpecialRequests(e.target.value);
-              }}
-              fullWidth
-              multiline
-              color='success'
-              value={formik.values.instruction}
-              className={styles.textInput}
-              id='instruction'
-              placeholder={`${t('Special Request')}`}
-              InputProps={{
-                classes: {
-                  underline: styles.customUnderline,
-                },
-                inputProps: {
-                  maxLength: 150,
-                  style: {
-                    font: '14px var(--primary-font-heading)',
-                    color: 'var(--tertiary-text-color)',
+            {config?.isSpecialRequestActive && (
+              <StyledInput
+                autoComplete='off'
+                variant='standard'
+                onChange={(e) => {
+                  formik.handleChange(e);
+                  setSpecialRequests(e.target.value);
+                }}
+                fullWidth
+                multiline
+                color='success'
+                value={formik.values.instruction}
+                className={styles.textInput}
+                id='instruction'
+                placeholder={`${t('Special Request')}`}
+                InputProps={{
+                  classes: {
+                    underline: styles.customUnderline,
                   },
-                },
-              }}
-              error={Boolean(formik.errors.instruction)}
-              helperText={formik.errors.instruction ? t(formik.errors.instruction) : null}
-            />
-          )}
+                  inputProps: {
+                    maxLength: 150,
+                    style: {
+                      font: '14px var(--primary-font-heading)',
+                      color: 'var(--tertiary-text-color)',
+                    },
+                  },
+                }}
+                error={Boolean(formik.errors.instruction)}
+                helperText={formik.errors.instruction ? t(formik.errors.instruction) : null}
+              />
+            )}
+          </div>
 
           {DOCUMENT_LIST?.some((document: any) => hotelInfo?.[document.code]?.type) && (
             <div className={styles.agrementWrapper}>
