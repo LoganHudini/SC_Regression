@@ -10073,7 +10073,7 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
-                environment: 'development',
+                environment: 'production',
                 details: [
                   {
                     name: 'firstName',
