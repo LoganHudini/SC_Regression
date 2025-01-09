@@ -29,6 +29,7 @@ import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { RestaurantDetail } from 'components/pages/dining/RestaurantDetail/RestaurantDetail';
 import NoInformation from 'components/shared/NoInformation/NoInformation';
+import { useBackwardNavigation } from 'utils/hooks/useBackwardNavigation';
 
 export { getStaticPaths };
 
@@ -94,6 +95,8 @@ const RestaurantAndBars: React.FC = () => {
     toggleDetailsDrawer(false);
     setSelectedRestaurantData('');
   };
+
+  useBackwardNavigation(restaurantDetailsDrawerStatus, closeDrawer);
 
   return (
     <>
