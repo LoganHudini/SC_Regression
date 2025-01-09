@@ -258,7 +258,8 @@ const Spa: React.FC = () => {
       toggleNotification(true);
     } else {
       const isSlotAvailable = await getSlots();
-      if (!isSlotAvailable?.data) {
+
+      if (!isSlotAvailable?.data?.getSpaSlotAvailability) {
         toggleNotification(true);
         notificationStorage({
           title: t('No Slots Available') as string,
@@ -270,8 +271,8 @@ const Spa: React.FC = () => {
         return;
       } else {
         settimeExtractedArray(
-          spaSlot?.getSpaSlotAvailability?.length > 0
-            ? timeExtract(spaSlot?.getSpaSlotAvailability)
+          isSlotAvailable?.data?.getSpaSlotAvailability?.length > 0
+            ? timeExtract(isSlotAvailable?.data?.getSpaSlotAvailability)
             : [],
         );
       }
@@ -287,7 +288,7 @@ const Spa: React.FC = () => {
     guestCount,
   ]);
 
-  const [getSlots, { data: spaSlot, loading: spaLoading }] = useLazyQuery(GET_SLOT_DETAILS, {
+  const [getSlots, { loading: spaLoading }] = useLazyQuery(GET_SLOT_DETAILS, {
     context: { clientName: 'integration_d' },
     variables: {
       date: dayjs(selectedTime).year(currentYear).format(timeFormats.YEAR_MONTH_DAY),
@@ -449,6 +450,7 @@ const Spa: React.FC = () => {
             <div className={styles.timeWrapper}>
               <p className={styles.preferredTitle}>{t('Preferred Date & Time')}</p>
               <DateTimeSelect
+                loading={spaLoading}
                 setSelectedTime={setSelectedTime}
                 selectedTime={selectedTime}
                 handleSave={handleSpaReservation}
@@ -583,7 +585,7 @@ const Spa: React.FC = () => {
         </title>
       </Head>
       <Header screenTitle={t('Spa') as string} displayHome />
-      {loading || spaLoading ? (
+      {loading ? (
         <Loader />
       ) : (
         <PageWrapper

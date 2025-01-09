@@ -32,6 +32,7 @@ const hoursArray = new Array(13).fill(0).map((_el, index) => String(index).padSt
 const minutesArray = new Array(4).fill(0).map((_el, index) => String(index * 15).padStart(2, '0'));
 
 const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
+  loading,
   setSelectedTime,
   selectedTime,
   handleSave,
@@ -161,7 +162,12 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
           </MultiPicker>
         </div>
 
-        <StyledButton disabled={!disable} onClick={() => handleSave()} className={cx(buttonStyle)}>
+        <StyledButton
+          disabled={!disable}
+          loading={loading}
+          onClick={() => handleSave()}
+          className={cx(buttonStyle)}
+        >
           {buttonTitle || t('Save')}
         </StyledButton>
       </>
