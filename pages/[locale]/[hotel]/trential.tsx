@@ -168,9 +168,13 @@ const Trential: React.FC = () => {
               ? dayjs(statusList?.response?.dateOfExpiry.slice(-4), timeFormats.YEAR).format(
                   timeFormats.YEAR_MONTH_DAY,
                 )
-              : dayjs(statusList?.response?.expiryDate, timeFormats.DAY_MONTH_YEAR_2).format(
+              : statusList?.name === AADHAAR
+              ? ''
+              : statusList?.response?.expiryDate
+              ? dayjs(statusList?.response?.expiryDate, timeFormats.DAY_MONTH_YEAR_2).format(
                   timeFormats.YEAR_MONTH_DAY,
-                );
+                )
+              : '';
 
           const dateOfBirth =
             statusList?.name === PASSPORT_SMALLCASE || statusList?.name === MEXICAN_ID
