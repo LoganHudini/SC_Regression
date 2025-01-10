@@ -21513,7 +21513,6 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'youverse',
-                environment: 'development',
                 details: [
                   {
                     name: 'firstName',

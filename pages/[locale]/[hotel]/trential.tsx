@@ -178,9 +178,11 @@ const Trential: React.FC = () => {
                 )
               : statusList?.name === AADHAAR
               ? ''
-              : dayjs(statusList?.response?.expiryDate, timeFormats.DAY_MONTH_YEAR_2).format(
+              : statusList?.response?.expiryDate
+              ? dayjs(statusList?.response?.expiryDate, timeFormats.DAY_MONTH_YEAR_2).format(
                   timeFormats.YEAR_MONTH_DAY,
-                ) || '';
+                )
+              : '';
 
           const dateOfBirth =
             statusList?.name === PASSPORT_SMALLCASE || statusList?.name === MEXICAN_ID
