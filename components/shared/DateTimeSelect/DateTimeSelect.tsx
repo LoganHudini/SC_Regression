@@ -28,6 +28,7 @@ for (let month = 0; month < 12; month++) {
     dayMonthArray.push(formattedDate);
   }
 }
+const tomorrow = dayjs()?.add(1, DAY).format(timeFormats.DAY_MONTH);
 const hoursArray = new Array(13).fill(0).map((_el, index) => String(index).padStart(2, '0'));
 const minutesArray = new Array(4).fill(0).map((_el, index) => String(index * 15).padStart(2, '0'));
 
@@ -110,17 +111,22 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
             <Picker
               indicatorClassName='my-picker-indicator'
               className={
-                ((!scheduledToday && !scheduledImmediate && scheduledTomorrow) ||
-                  (scheduledToday && !scheduledImmediate && !scheduledTomorrow) ||
+                ((scheduledToday && !scheduledImmediate && !scheduledTomorrow) ||
                   (scheduledCustom && showSchedules?.customSchedule === TIME)) &&
                 styles.disabled
               }
             >
-              {dayMonthArray?.map((day: any) => (
-                <Picker.Item className='my-picker-view-item day' key={day} value={day}>
-                  {day === dayjs().format(timeFormats.DAY_MONTH) ? TODAY : day}
+              {!scheduledToday && !scheduledImmediate && scheduledTomorrow ? (
+                <Picker.Item className='my-picker-view-item day' key={tomorrow} value={tomorrow}>
+                  {tomorrow}
                 </Picker.Item>
-              ))}
+              ) : (
+                dayMonthArray?.map((day: any) => (
+                  <Picker.Item className='my-picker-view-item day' key={day} value={day}>
+                    {day === dayjs().format(timeFormats.DAY_MONTH) ? TODAY : day}
+                  </Picker.Item>
+                ))
+              )}
             </Picker>
             <Picker
               indicatorClassName='my-picker-indicator'
