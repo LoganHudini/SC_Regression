@@ -1,5 +1,5 @@
 export interface IDateTimeSelectProps {
-  loading: any;
+  loading?: any;
   selectedTime: string;
   setSelectedTime: any;
   handleSave: any;
