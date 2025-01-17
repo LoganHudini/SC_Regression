@@ -38,7 +38,7 @@ import { ASSETS_URL } from 'core/graphql/endpoints';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { activeModule, diningOptionList, getHamburgerIcons } from 'utils/functions';
-import { CHECK_IN, MESSAGE_BOX, URL } from 'utils/constants';
+import { CHECK_IN, MESSAGE_BOX, PAIR_TO_ROOM, URL } from 'utils/constants';
 import { IBottomMenuProps } from './BottomMenu.types';
 import {
   IDiningMenuStorageData,
@@ -87,6 +87,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
   const offersActive = router?.asPath?.includes(availablePaths?.OFFERS);
   const hotelCompendiumActive = router?.asPath?.includes(availablePaths?.HOTEL_COMPENDIUM);
   const checkOutActive = router?.asPath?.includes(availablePaths.BILL);
+  const pairToRoomModule: boolean = activeModule(config?.modules, PAIR_TO_ROOM);
   const selectedDiningCategory = useReactiveVar(diningInformationStorage);
   const webUrl = hotelInfo?.getPropertyDetailsByHotelId?.hotel?.information?.find(
     (url: any) => url?.type === URL,
@@ -236,7 +237,11 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
                     : null
                   : checkInModule
                   ? (toggleCheckInDetailsDrawer(true), activeCheckInFlow(true))
-                  : (toggleCheckInDetailsDrawer(true), activeCheckInFlow(false))
+                  : pairToRoomModule
+                  ? (toggleCheckInDetailsDrawer(true), activeCheckInFlow(false))
+                  : webUrl?.value
+                  ? window.open(webUrl?.value)
+                  : null
                 : null;
             }}
           >
@@ -252,7 +257,11 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
                   ? config?.preCheckInOnly
                     ? t('Pre-Register')
                     : t('Check-In')
-                  : t('Connect to room'))}
+                  : pairToRoomModule
+                  ? t('Connect to room')
+                  : webUrl?.value
+                  ? t('Visit Website')
+                  : t('Home'))}
               {restaurantAndBarsActive && t(diningOptionList(diningOptionSelected?.type))}
               {irdActive && t(`${selectedDiningCategory?.menuName}`)}
               {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
