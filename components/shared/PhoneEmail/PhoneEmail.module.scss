@@ -4,7 +4,8 @@
   width: 100%;
 }
 .callRow,
-.emailRow {
+.emailRow,
+.urlRow {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -12,7 +13,7 @@
   text-decoration: none;
   color: var(--primary-text-color);
   span {
-    margin-inline-start: 10px;
+    margin-inline-start: 6px;
     font-size: 1rem;
     color: var(--primary-text-color);
     text-align: start;
@@ -24,4 +25,10 @@
   color: var(--primary-theme-color) !important;
   font-size: $small !important;
   text-transform: uppercase;
+}
+
+.check {
+  path {
+    fill: var(--primary-theme-color);
+  }
 }
