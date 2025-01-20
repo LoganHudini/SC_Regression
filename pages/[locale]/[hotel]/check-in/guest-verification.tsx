@@ -456,7 +456,7 @@ const Guest: React.FC<any> = () => {
       profileId: reservationInfo?.guests[0]?.id as string,
       isPrimary: 'Y',
       effectiveDate: guestReservationInfo?.issueDate,
-      expiryDate: guestReservationInfo?.expiryDate,
+      expiryDate: guestReservationInfo?.expiry,
       countryOfIssue: guestReservationInfo?.issueCountry,
       channel: 'PWA',
       updateGuestDetails: {
@@ -528,7 +528,7 @@ const Guest: React.FC<any> = () => {
           profileId: data?.id as string,
           isPrimary: 'N',
           effectiveDate: data?.issueDate,
-          expiryDate: data?.expiryDate || '',
+          expiryDate: data?.expiry || '',
           countryOfIssue: data?.issueCountry || '',
           channel: 'PWA',
           updateGuestDetails: {
@@ -577,7 +577,7 @@ const Guest: React.FC<any> = () => {
     guestReservationInfo?.docNo,
     guestReservationInfo?.docType,
     guestReservationInfo?.emails,
-    guestReservationInfo?.expiryDate,
+    guestReservationInfo?.expiry,
     guestReservationInfo?.firstName,
     guestReservationInfo?.gender,
     guestReservationInfo?.issueCountry,
@@ -653,7 +653,7 @@ const Guest: React.FC<any> = () => {
           dob: newAccompanyGuestStorage?.[method][index]?.dob,
           nationality: newAccompanyGuestStorage?.[method][index]?.nationality,
           countryOfIssue: newAccompanyGuestStorage?.[method][index]?.issueCountry,
-          expiryDate: newAccompanyGuestStorage?.[method][index]?.expiryDate,
+          expiryDate: newAccompanyGuestStorage?.[method][index]?.expiry,
           effectiveDate: newAccompanyGuestStorage?.[method][index]?.issueDate,
           gender: newAccompanyGuestStorage?.[method][index]?.gender,
           arrivalDate: dayjs(reservationInfo?.details?.checkInDate).format(
