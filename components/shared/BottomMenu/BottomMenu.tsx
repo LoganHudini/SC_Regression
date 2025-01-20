@@ -90,7 +90,6 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
   const offersActive = router?.asPath?.includes(availablePaths?.OFFERS);
   const hotelCompendiumActive = router?.asPath?.includes(availablePaths?.HOTEL_COMPENDIUM);
   const checkOutActive = router?.asPath?.includes(availablePaths.BILL);
-  const pairToRoomModule: boolean = activeModule(config?.modules, PAIR_TO_ROOM);
   const selectedDiningCategory = useReactiveVar(diningInformationStorage);
   const webUrl = hotelInfo?.getPropertyDetailsByHotelId?.hotel?.information?.find(
     (url: any) => url?.type === URL,
