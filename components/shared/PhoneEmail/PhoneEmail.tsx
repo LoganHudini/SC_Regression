@@ -25,7 +25,7 @@ export const PhoneEmail = (props: any) => {
           <a aria-label={`${t('Phone')}`} href={`tel:${phone}`} className={styles.callRow}>
             <PhoneIcon />{' '}
             <span className={styles.icon_contact}>
-              {phoneDisplayTitle || phoneTitle || EMAILCAPS}
+              {phoneDisplayTitle || phoneTitle || PHONECAPS}
             </span>
           </a>
         )}
@@ -33,7 +33,7 @@ export const PhoneEmail = (props: any) => {
           <a aria-label={`${t('Email')}`} href={`mailto:${email}`} className={styles.emailRow}>
             <EmailIcon />{' '}
             <span className={styles.icon_contact}>
-              {emailDisplayTitle || emailTitle || PHONECAPS}
+              {emailDisplayTitle || emailTitle || EMAILCAPS}
             </span>
           </a>
         )}
