@@ -60,6 +60,7 @@ function App({ Component, pageProps }: AppProps) {
     es: import('dayjs/locale/es-us'),
     ct: import('dayjs/locale/ca'),
     ja: import('dayjs/locale/ja'),
+    de: import('dayjs/locale/de'),
   };
 
   useEffect(() => {

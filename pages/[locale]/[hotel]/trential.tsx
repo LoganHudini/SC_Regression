@@ -252,7 +252,7 @@ const Trential: React.FC = () => {
                     dob: dateOfBirth,
                     docType: docType,
                     docNo: docNoRes,
-                    expiryDate: expiryDate,
+                    expiry: expiryDate,
                     issueCountry: issueCountry,
                     gender:
                       statusList?.response?.sex === 'M'
@@ -360,7 +360,7 @@ const Trential: React.FC = () => {
                   docType: docType,
                   gender: gender,
                   issueDate: '',
-                  expiryDate: expiryDate,
+                  expiry: expiryDate,
                   issueCountry: issueCountry,
                   docImage: statusList?.response?.photo || '',
                 });
@@ -375,7 +375,7 @@ const Trential: React.FC = () => {
                       docType: docType,
                       gender: gender,
                       issueDate: '',
-                      expiryDate: expiryDate,
+                      expiry: expiryDate,
                       issueCountry: issueCountry,
                       docImage: statusList?.response?.photo || '',
                     };

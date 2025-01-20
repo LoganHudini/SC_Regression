@@ -122,7 +122,7 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
         profileId: reservationInfo?.guests[0]?.id as string,
         isPrimary: 'Y',
         effectiveDate: guestReservationInfo?.issueDate,
-        expiryDate: guestReservationInfo?.expiryDate,
+        expiryDate: guestReservationInfo?.expiry,
         countryOfIssue: guestReservationInfo?.issueCountry,
         channel: 'PWA',
         updateGuestDetails: {
@@ -221,7 +221,7 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
     guestReservationInfo?.dob,
     guestReservationInfo?.docNo,
     guestReservationInfo?.emails,
-    guestReservationInfo?.expiryDate,
+    guestReservationInfo?.expiry,
     guestReservationInfo?.firstName,
     guestReservationInfo?.gender,
     guestReservationInfo?.issueCountry,
