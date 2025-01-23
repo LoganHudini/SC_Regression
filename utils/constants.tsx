@@ -71,6 +71,7 @@ export const GRAND_MERCURE_WAKAYAMA_MINABE_RESORT_SPA = 'grand-mercure-wakayama-
 export const GRAND_MERCURE_SAPPORO_ODORI_PARK = 'grand-mercure-sapporo-odori-park';
 export const GRAND_MERCURE_LAKE_HAMANA_RESORT_SPA = 'grand-mercure-lake-hamana-resort-spa';
 export const COMO_METROPOLITAN_SINGAPORE = 'como-metropolitan-singapore';
+export const FAIRMONT_AUSTIN = 'fairmont-austin';
 
 // configuration constants
 export const OPERA = 'OPERA';
