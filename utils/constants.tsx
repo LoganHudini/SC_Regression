@@ -34,6 +34,7 @@ export const FAIRMONT_MAKATI = 'fairmont-makati';
 export const FAIRMONT_LE_MONTREUX_PALACE = 'fairmont-le-montreux-palace';
 export const FAIRMONT_MUMBAI = 'fairmont-mumbai';
 export const FAIRMONT_MOUNT_KENYA_SAFARI_CLUB = 'fairmont-mount-kenya-safari-club';
+export const FAIRMONT_AUSTIN = 'fairmont-austin';
 export const ONE_HOTELS_SOUTH_BEACH = '1-hotel-south-beach';
 export const HARD_ROCK_HOTEL_CANCUN = 'hard-rock-hotel-cancun';
 export const ATLANTIS = 'atlantis';
@@ -71,7 +72,6 @@ export const GRAND_MERCURE_WAKAYAMA_MINABE_RESORT_SPA = 'grand-mercure-wakayama-
 export const GRAND_MERCURE_SAPPORO_ODORI_PARK = 'grand-mercure-sapporo-odori-park';
 export const GRAND_MERCURE_LAKE_HAMANA_RESORT_SPA = 'grand-mercure-lake-hamana-resort-spa';
 export const COMO_METROPOLITAN_SINGAPORE = 'como-metropolitan-singapore';
-export const FAIRMONT_AUSTIN = 'fairmont-austin';
 
 // configuration constants
 export const OPERA = 'OPERA';
