@@ -21223,6 +21223,15 @@ export const configuration: any = [
                     isActive: true,
                   },
                   {
+                    name: 'expiry',
+                    label: 'Expiry Date',
+                    type: 'datePicker',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    isDisablePast: true,
+                  },
+                  {
                     name: 'estimatedTime',
                     label: 'Estimated Time of Arrival',
                     type: 'TimePicker',
