@@ -36,6 +36,8 @@ import {
   THE_SAVOY_LONDON,
   RAFFLES_JAIPUR,
   RAFFLES_MAKATI,
+  FAIRMONT_MOUNT_KENYA_SAFARI_CLUB,
+  FAIRMONT_AUSTIN,
 } from './constants';
 
 const propertyList = [
@@ -75,6 +77,8 @@ const propertyList = [
   THE_SAVOY_LONDON,
   RAFFLES_JAIPUR,
   RAFFLES_MAKATI,
+  FAIRMONT_MOUNT_KENYA_SAFARI_CLUB,
+  FAIRMONT_AUSTIN,
 ];
 
 export const getI18nPaths = () =>
