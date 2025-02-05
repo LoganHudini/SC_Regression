@@ -38,6 +38,7 @@ import {
   RAFFLES_MAKATI,
   FAIRMONT_MOUNT_KENYA_SAFARI_CLUB,
   FAIRMONT_AUSTIN,
+  FAIRMONT_LA_HACIENDA_COSTA_DEL_SOL,
 } from './constants';
 
 const propertyList = [
@@ -79,6 +80,7 @@ const propertyList = [
   RAFFLES_MAKATI,
   FAIRMONT_MOUNT_KENYA_SAFARI_CLUB,
   FAIRMONT_AUSTIN,
+  FAIRMONT_LA_HACIENDA_COSTA_DEL_SOL,
 ];
 
 export const getI18nPaths = () =>
