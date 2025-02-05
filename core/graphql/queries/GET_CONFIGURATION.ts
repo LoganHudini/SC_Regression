@@ -11283,6 +11283,12 @@ export const configuration: any = [
                         code: 'DL',
                         vendorDocType: 'dl',
                       },
+                      {
+                        name: 'Aadhaar Card',
+                        value: 'AAD',
+                        code: 'AAD',
+                        vendorDocType: 'aadhaar',
+                      },
                     ],
                   },
                   {
