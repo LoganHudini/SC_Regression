@@ -919,7 +919,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               combinedAccArray?.map((accompanyGuest: any, index: number) => (
                 <div
                   key={accompanyGuest?.id}
-                  onClick={() => toggleAccompanyGuestInformation(index)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleAccompanyGuestInformation(index);
+                  }}
                 >
                   {accompanyGuestInformationState[index] ? (
                     <div>
