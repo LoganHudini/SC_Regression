@@ -52,6 +52,7 @@ export const THE_SAVOY_LONDON = 'the-savoy-london';
 export const FAIRMONT_AUSTIN = 'fairmont-austin';
 export const FAIRMONT_MOUNT_KENYA_SAFARI_CLUB = 'fairmont-mount-kenya-safari-club';
 export const FAIRMONT_LA_HACIENDA_COSTA_DEL_SOL = 'fairmont-la-hacienda-costa-del-sol';
+export const FAIRMONT_GOLDEN_PRAGUE = 'fairmont-golden-prague';
 
 // configuration constants
 export const OPERA = 'OPERA';

@@ -39,6 +39,7 @@ import {
   FAIRMONT_MOUNT_KENYA_SAFARI_CLUB,
   FAIRMONT_AUSTIN,
   FAIRMONT_LA_HACIENDA_COSTA_DEL_SOL,
+  FAIRMONT_GOLDEN_PRAGUE,
 } from './constants';
 
 const propertyList = [
@@ -81,6 +82,7 @@ const propertyList = [
   FAIRMONT_MOUNT_KENYA_SAFARI_CLUB,
   FAIRMONT_AUSTIN,
   FAIRMONT_LA_HACIENDA_COSTA_DEL_SOL,
+  FAIRMONT_GOLDEN_PRAGUE,
 ];
 
 export const getI18nPaths = () =>
