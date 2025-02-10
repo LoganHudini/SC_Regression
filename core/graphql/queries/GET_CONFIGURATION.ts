@@ -4493,7 +4493,7 @@ export const configuration: any = [
     ],
   },
   {
-    code: 'fairmont-nile-city',
+    code: 'fairmont-nile-city-hotel',
     logo: 'nile city',
     homePageHeader: true,
     name: 'Fairmont Nile City',
