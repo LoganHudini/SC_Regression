@@ -489,7 +489,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                   };
                 });
               });
-            const docImage = await fetch(S3_URL + '/' + guestReservationInfo?.docImage)
+            const photo = await fetch(S3_URL + '/' + guestReservationInfo?.photo)
               .then((response) => response.blob())
               .then((blob) => {
                 const reader = new FileReader();
@@ -526,11 +526,11 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                       },
                       {
                         name: 'scanned',
-                        base64Content: docImage,
+                        base64Content: photo,
                       },
                       {
                         name: 'cropped',
-                        base64Content: docImage,
+                        base64Content: photo,
                       },
                     ],
                   },
@@ -635,7 +635,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     guestReservationInfo?.cardType,
     guestReservationInfo?.cityName,
     guestReservationInfo?.dob,
-    guestReservationInfo?.docImage,
+    guestReservationInfo?.photo,
     guestReservationInfo?.docNo,
     guestReservationInfo?.docType,
     guestReservationInfo?.emails,

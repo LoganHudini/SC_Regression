@@ -191,8 +191,9 @@ const Youverse: React.FC = () => {
                     issueDate: res?.data?.getyoonikresponse?.data?.issueDate,
                     expiry: res?.data?.getyoonikresponse?.data?.expiryDate,
                     issueCountry: getCountryCode(res?.data?.getyoonikresponse?.data?.state),
-                    docImage: res.data?.getyoonikresponse?.data?.frontPage,
+                    photo: res.data?.getyoonikresponse?.data?.frontPage,
                     portrait: res.data?.getyoonikresponse?.data?.portrait,
+                    documentFrontImage: res.data?.getyoonikresponse?.data?.frontPage,
                   });
                 } else {
                   const updatedData = accompanyGuestData?.map((guest: any) => {
@@ -214,8 +215,9 @@ const Youverse: React.FC = () => {
                         issueDate: res?.data?.getyoonikresponse?.data?.issueDate,
                         expiry: res?.data?.getyoonikresponse?.data?.expiryDate,
                         issueCountry: getCountryCode(res?.data?.getyoonikresponse?.data?.state),
-                        docImage: res.data?.getyoonikresponse?.data?.frontPage,
+                        photo: res.data?.getyoonikresponse?.data?.frontPage,
                         portrait: res.data?.getyoonikresponse?.data?.portrait,
+                        documentFrontImage: res.data?.getyoonikresponse?.data?.frontPage,
                       };
                     }
                     return guest;

@@ -8432,10 +8432,10 @@ client-only@0.0.1:
   resolved "https://registry.yarnpkg.com/client-only/-/client-only-0.0.1.tgz#38bba5d403c41ab150bff64a95c85013cf73bca1"
   integrity sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==
 
-client-verification-trential-next-sdk@^0.0.11:
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/client-verification-trential-next-sdk/-/client-verification-trential-next-sdk-0.0.11.tgz#b3f20ca8491bc032ab2f2d25660211dbdb16a9d5"
-  integrity sha512-gJQO0YlFdKog5EbhrznpDuz3ptQj856BAtv1CtyR55xZ5YpaGvdHYC3QD84WnTEedGRqkI+HJEzme41jue0sWw==
+client-verification-trential-next-sdk@^0.0.15:
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/client-verification-trential-next-sdk/-/client-verification-trential-next-sdk-0.0.15.tgz#1711f04c72679e95b37f692ac6721cb1bb07e8c8"
+  integrity sha512-7COjbXxQltStj2v0GNQfPIbUcdFdnoV7u4e67Sre1no59H9Cg0g7rCkFgF+Mb/IYVy3nOM+9eZO8U8BGSZH3Sg==
   dependencies:
     "@aws-amplify/ui-react" "^5.3.1"
     "@aws-amplify/ui-react-liveness" "^2.0.10"

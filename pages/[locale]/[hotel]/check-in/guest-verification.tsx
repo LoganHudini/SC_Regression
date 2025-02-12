@@ -513,6 +513,9 @@ const Guest: React.FC<any> = () => {
       effectiveDate: guestReservationInfo?.issueDate,
       expiryDate: guestReservationInfo?.expiry,
       countryOfIssue: guestReservationInfo?.issueCountry,
+      documentImage: guestInformationSection?.uploadId
+        ? guestReservationInfo?.documentFrontImage
+        : '',
       channel: 'PWA',
       updateGuestDetails: {
         name: {
@@ -589,6 +592,7 @@ const Guest: React.FC<any> = () => {
             isPrimary: 'N',
             effectiveDate: data?.issueDate,
             expiryDate: data?.expiryDate || '',
+            documentImage: guestInformationSection?.uploadId ? data?.documentFrontImage : '',
             countryOfIssue: data?.issueCountry || '',
             channel: 'PWA',
             updateGuestDetails: {
@@ -655,6 +659,7 @@ const Guest: React.FC<any> = () => {
           expiryDate: data?.expiry || '',
           countryOfIssue: data?.issueCountry || '',
           channel: 'PWA',
+          documentImage: guestInformationSection?.uploadId ? data?.documentFrontImage : '',
           updateGuestDetails: {
             name: {
               firstName: data?.firstName,
@@ -808,6 +813,9 @@ const Guest: React.FC<any> = () => {
             addressType: 'HOME',
             stateProv: newAccompanyGuestStorage?.[method][index]?.stateProv,
           },
+          documentImage: guestInformationSection?.uploadId
+            ? newAccompanyGuestStorage?.[method][index]?.documentFrontImage
+            : '',
         },
       ],
     };

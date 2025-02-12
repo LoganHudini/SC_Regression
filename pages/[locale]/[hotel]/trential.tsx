@@ -261,6 +261,10 @@ const Trential: React.FC = () => {
                         ? 'FEMALE'
                         : statusList?.response?.sex?.toUpperCase() ||
                           statusList?.response?.gender?.toUpperCase(),
+                    documentFrontImage:
+                      statusList?.name === PASSPORT_SMALLCASE
+                        ? data?.InitiateToken?.data?.frontPageLink || ''
+                        : '',
                   };
                 }
                 return guest;
@@ -362,7 +366,11 @@ const Trential: React.FC = () => {
                   issueDate: '',
                   expiry: expiryDate,
                   issueCountry: issueCountry,
-                  docImage: statusList?.response?.photo || '',
+                  photo: statusList?.response?.photo || '',
+                  documentFrontImage:
+                    statusList?.name === PASSPORT_SMALLCASE
+                      ? data?.InitiateToken?.data?.frontPageLink || ''
+                      : '',
                 });
               }
               if (profileIDState?.guestType === ACCOMPANYINGGUEST) {
@@ -377,7 +385,11 @@ const Trential: React.FC = () => {
                       issueDate: '',
                       expiry: expiryDate,
                       issueCountry: issueCountry,
-                      docImage: statusList?.response?.photo || '',
+                      photo: statusList?.response?.photo || '',
+                      documentFrontImage:
+                        statusList?.name === PASSPORT_SMALLCASE
+                          ? data?.InitiateToken?.data?.frontPageLink || ''
+                          : '',
                     };
                   }
                   return guest;
@@ -466,6 +478,7 @@ const Trential: React.FC = () => {
             token={token}
             disclaimer={t('I provide my consent to share my details with Hudini') as string}
             enableDlCaptcha={true}
+            passportBackSkipAllowed={guestInformationSection?.enablePassportSkipOption ?? false}
           />
         )}
       </div>

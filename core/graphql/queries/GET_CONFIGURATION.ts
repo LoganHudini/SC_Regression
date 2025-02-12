@@ -10285,6 +10285,7 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
+                enablePassportSkipOption: true,
                 details: [
                   {
                     name: 'firstName',
@@ -21109,6 +21110,7 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
+                uploadId: true,
                 details: [
                   {
                     name: 'firstName',
