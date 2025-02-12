@@ -62,6 +62,57 @@ function App({ Component, pageProps }: AppProps) {
     ja: import('dayjs/locale/ja'),
     de: import('dayjs/locale/de'),
   };
+  const hotelCode = router?.asPath?.split('/')[2];
+  const lang = router?.asPath?.split('/')[1];
+
+  useEffect(() => {
+    if (!hotelCode || !lang) return;
+    const updateManifest = async () => {
+      try {
+        const response = await fetch(`/manifest.${BRAND_CODE}.json`);
+        if (!response.ok) throw new Error('Failed to load manifest');
+        const manifest = await response.json();
+        const startUrl = `/${lang}/${hotelCode}`?.replace(/\/+/g, '/');
+        if (!startUrl || startUrl === '/') {
+          return;
+        }
+
+        const updatedManifest = {
+          ...manifest,
+          start_url: startUrl,
+          id: startUrl,
+          scope: '/',
+        };
+
+        const blob = new Blob([JSON.stringify(updatedManifest)], { type: 'application/json' });
+        const blobUrl = URL.createObjectURL(blob);
+
+        const oldManifest = document.querySelector('link[rel="manifest"]');
+        if (oldManifest) {
+          document.head.removeChild(oldManifest);
+        }
+
+        const newManifest = document.createElement('link');
+        newManifest.rel = 'manifest';
+        newManifest.href = blobUrl;
+
+        document.head.appendChild(newManifest);
+
+        navigator.serviceWorker?.getRegistration().then((reg) => reg?.update());
+      } catch (error) {
+        console.error('err update manifest', error);
+      }
+    };
+
+    updateManifest();
+
+    return () => {
+      const manifestElement = document.querySelector('link[rel="manifest"]') as any;
+      if (manifestElement?.href?.startsWith('blob:')) {
+        URL.revokeObjectURL(manifestElement.href);
+      }
+    };
+  }, [hotelCode, lang]);
 
   useEffect(() => {
     (async () => {
@@ -75,14 +126,6 @@ function App({ Component, pageProps }: AppProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
-  useEffect(() => {
-    const manifestMeta: any = document.querySelector('link[rel="manifest"]');
-    if (manifestMeta && window.location.pathname) {
-      manifestMeta.href = `/manifest.${BRAND_CODE}.json?start_url=${window.location.pathname}`;
-      // console.log(manifestMeta.href);
-    }
-  }, []);
-
   const customLabel: Partial<PickersLocaleText<any>> = {
     okButtonLabel: t('Ok') as string,
     cancelButtonLabel: t('Cancel') as string,
@@ -91,7 +134,7 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <link rel='manifest' href={`/manifest.${BRAND_CODE}.json`} />
+        <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1' />
       </Head>
       <StyledEngineProvider injectFirst>
         <LocalizationProvider dateAdapter={AdapterDayjs} localeText={customLabel}>
