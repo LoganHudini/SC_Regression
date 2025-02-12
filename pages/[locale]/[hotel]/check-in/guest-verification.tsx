@@ -54,6 +54,8 @@ import {
   OTA,
   DOC_NO,
   GENDER,
+  FIRST_NAME,
+  LAST_NAME,
 } from 'utils/constants';
 import {
   updateFieldStatus,
@@ -162,6 +164,13 @@ const Guest: React.FC<any> = () => {
     const newAccompanyGuestData = { ...newAccompanyGuestStorage };
 
     newAccompanyGuestData.adult[index].isChild = !newAccompanyGuestData?.adult[index]?.isChild;
+    newAccompanyGuestData.adult[index].phone = newAccompanyGuestData?.adult[index]?.isChild
+      ? ''
+      : newAccompanyGuestData?.adult[index]?.phone;
+    newAccompanyGuestData.adult[index].emails = newAccompanyGuestData?.adult[index]?.isChild
+      ? ''
+      : newAccompanyGuestData?.adult[index]?.emails;
+    newAccompanyGuestData.adult[index].isSaved = false;
     newAccompanyGuestDetails(newAccompanyGuestData);
   };
 
@@ -563,8 +572,77 @@ const Guest: React.FC<any> = () => {
 
     successFlag = (await updateGuestDetails(updateGuestDetailsPayload)) && successFlag;
 
-    if (accompanyGuestData.length > 0) {
-      for (const [index, data] of accompanyGuestData.entries()) {
+    if (newAccompanyGuestStorage?.adult?.length > 0) {
+      const filteredAdultArray = newAccompanyGuestStorage?.adult?.filter(
+        (item: any) => item?.profileId && !item?.isSaved,
+      );
+
+      if (filteredAdultArray?.length > 0) {
+        for (const data of filteredAdultArray) {
+          const updateAccompanyGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
+            docType: documentTypes?.find((option: any) => option?.value === data?.docType)?.code,
+            docNumber: data?.docNo,
+            reservationId: reservationInfo?.reservationId as string,
+            firstName: data?.firstName,
+            lastName: data?.lastName,
+            profileId: data?.profileId as string,
+            isPrimary: 'N',
+            effectiveDate: data?.issueDate,
+            expiryDate: data?.expiryDate || '',
+            countryOfIssue: data?.issueCountry || '',
+            channel: 'PWA',
+            updateGuestDetails: {
+              name: {
+                firstName: data?.firstName,
+                lastName: data?.lastName,
+                gender: data?.gender,
+                nationality: data?.nationality,
+                dob: data?.dob,
+              },
+              phone: {
+                phoneType: data?.phone ? 'PHONE' : '',
+                phoneNumber: data?.phone ?? '',
+                phoneRole: data?.phone ? 'HOME' : '',
+                id: data?.phoneOperaId ? data?.phoneOperaId[0] : '',
+              },
+              address: {
+                addressLine1: data?.addressLine,
+                addressType:
+                  data?.addressLine ||
+                  data?.countryCode ||
+                  data?.cityName ||
+                  data?.postalCode ||
+                  data?.stateProv
+                    ? 'HOME'
+                    : '',
+                countryCode: data?.countryCode,
+                city: data?.cityName,
+                postalCode: data?.postalCode,
+                stateProv: data?.stateProv,
+              },
+              email: {
+                email: data?.emails,
+                id: data?.emailOperaId ? data?.emailOperaId[0] : '',
+              },
+            },
+          };
+          const newAccompanyGuestData = { ...newAccompanyGuestStorage };
+
+          newAccompanyGuestData.adult.forEach((adult: any) => {
+            if (adult?.profileId === data?.profileId) {
+              adult.isSaved = true;
+            }
+          });
+
+          newAccompanyGuestDetails(newAccompanyGuestData);
+          successFlag =
+            (await updateGuestDetails(updateAccompanyGuestDetailsPayload)) && successFlag;
+        }
+      }
+    }
+
+    if (accompanyGuestData?.length > 0) {
+      for (const data of accompanyGuestData) {
         const updateAccompanyGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
           docType: documentTypes?.find((option: any) => option?.value === data?.docType)?.code,
           docNumber: data?.docNo,
@@ -589,6 +667,7 @@ const Guest: React.FC<any> = () => {
               phoneType: data?.phone ? 'PHONE' : '',
               phoneNumber: data?.phone ?? '',
               phoneRole: data?.phone ? 'HOME' : '',
+              id: data?.phoneOperaId ? data?.phoneOperaId[0] : '',
             },
             address: {
               addressLine1: data?.addressLine,
@@ -607,6 +686,7 @@ const Guest: React.FC<any> = () => {
             },
             email: {
               email: data?.emails,
+              id: data?.emailOperaId ? data?.emailOperaId[0] : '',
             },
           },
         };
@@ -614,6 +694,7 @@ const Guest: React.FC<any> = () => {
         successFlag = (await updateGuestDetails(updateAccompanyGuestDetailsPayload)) && successFlag;
       }
     }
+
     if (successFlag) {
       nextStep();
     } else {
@@ -748,13 +829,27 @@ const Guest: React.FC<any> = () => {
         child:
           method === 'child'
             ? newAccompanyGuestStorage?.[method]?.map((guest: any, i: any) =>
-                i === index ? { ...guest, isSaved: true } : guest,
+                i === index
+                  ? {
+                      ...guest,
+                      isSaved: true,
+                      profileId: res?.data?.addAccompanyDetails?.data?.at(-1)?.id,
+                      status: 'updated',
+                    }
+                  : guest,
               )
             : newAccompanyGuestStorage?.child,
         adult:
           method === 'adult'
             ? newAccompanyGuestStorage?.[method]?.map((guest: any, i: any) =>
-                i === index ? { ...guest, isSaved: true } : guest,
+                i === index
+                  ? {
+                      ...guest,
+                      isSaved: true,
+                      profileId: res?.data?.addAccompanyDetails?.data?.at(-1)?.id,
+                      status: 'updated',
+                    }
+                  : guest,
               )
             : newAccompanyGuestStorage?.adult,
       });
@@ -1205,12 +1300,26 @@ const Guest: React.FC<any> = () => {
 
                 const updatedGuestInformation = newGuest?.isChild
                   ? guestInformation?.map((field) => {
+                      if (field?.name === FIRST_NAME || field?.name === LAST_NAME) {
+                        return {
+                          ...field,
+                          isDisabled: newGuest?.status == 'updated' ? true : false,
+                        };
+                      }
                       if (field?.name === PHONE || field?.name === EMAILS) {
                         return { ...field, isActive: false, required: false };
                       }
                       return field;
                     })
-                  : guestInformation;
+                  : guestInformation?.map((field) => {
+                      if (field?.name === FIRST_NAME || field?.name === LAST_NAME) {
+                        return {
+                          ...field,
+                          isDisabled: newGuest?.status == 'updated' ? true : false,
+                        };
+                      }
+                      return field;
+                    });
 
                 return (
                   <div key={index}>
@@ -1254,7 +1363,7 @@ const Guest: React.FC<any> = () => {
                               type={newGuest?.isSaved ? NEWGUEST : NEWGUESTFORM}
                               method='adult'
                             />
-                            {!newGuest?.isSaved && (
+                            {!newGuest?.isSaved && !newGuest?.profileId && (
                               <StyledButton
                                 variant='contained'
                                 disabled={newGuest?.disabled}
@@ -1274,7 +1383,7 @@ const Guest: React.FC<any> = () => {
                           handleClick={handleShrinkedCardClick}
                         >
                           <div className={styles.cardTitleWrapper}>
-                            {!newGuest?.isSaved && (
+                            {!newGuest?.isSaved && !newGuest?.profileId && (
                               <div className={styles.pendingDetails}>
                                 <DangerIcon className={styles.icon} />
                                 <div className={styles.pendingText}>{t('Pending Details')}</div>
@@ -1308,7 +1417,7 @@ const Guest: React.FC<any> = () => {
                             type={NEWGUESTFORM}
                             method='adult'
                           />
-                          {!newGuest?.isSaved && (
+                          {!newGuest?.isSaved && !newGuest?.profileId && (
                             <StyledButton
                               variant='contained'
                               disabled={newGuest?.disabled}

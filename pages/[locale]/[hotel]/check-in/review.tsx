@@ -80,7 +80,7 @@ import produce from 'immer';
 import {
   accompanyGuestDetails,
   IsBiometricsSkipped,
-  updateNewAccompanyGuestDetails,
+  newAccompanyGuestDetails,
 } from 'storage/accompany-guest-details';
 import {
   getCheckInToken,
@@ -111,13 +111,14 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const guests = useReactiveVar(guestInformationStorage);
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const accompanyGuestInfo = useReactiveVar(accompanyGuestDetails);
-  const updatedGuestInfo: any = useReactiveVar(updateNewAccompanyGuestDetails);
+  const updatedGuestInfo: any = useReactiveVar(newAccompanyGuestDetails);
+
   const updatedGuestData = useMemo(() => {
-    const guestInfolength = updatedGuestInfo?.length;
+    const guestInfolength = updatedGuestInfo?.adult?.length;
     return guestInfolength > 0
-      ? (updatedGuestInfo[guestInfolength - 1]?.adult || [])
-          ?.concat(updatedGuestInfo[guestInfolength - 1]?.child || [])
-          ?.filter((item: any) => item?.lastName)
+      ? (updatedGuestInfo?.adult || [])?.filter(
+          (item: any) => item?.lastName && item?.profileId && item?.isSaved,
+        )
       : [];
   }, [updatedGuestInfo]);
   const hotelInfo = useReactiveVar(hotelInformation);

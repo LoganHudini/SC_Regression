@@ -119,6 +119,7 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
       newAccompanyGuestStorage[method][newAccompanyGuestIndex] = {
         ...selectedGuest,
         [inputField]: inputValue,
+        isSaved: false,
       };
     }
 
@@ -493,9 +494,7 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                     name={field?.name}
                     id={field?.name}
                     value={formik.values[field?.name]}
-                    disabled={
-                      type === NEWGUESTFORM ? false : type === NEWGUEST ? true : field?.isDisabled
-                    }
+                    disabled={field?.isDisabled}
                     onChange={(e) => {
                       formik.handleChange(e);
                       updateGuestDetails(e.target.id, e.target.value);
