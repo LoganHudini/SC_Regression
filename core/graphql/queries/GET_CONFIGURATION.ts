@@ -12888,7 +12888,7 @@ export const configuration: any = [
                   {
                     name: 'phone',
                     label: 'Phone Number',
-                    type: 'Phone',
+                    type: 'Tel',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -13035,7 +13035,7 @@ export const configuration: any = [
               {
                 name: 'phone',
                 label: 'Phone Number',
-                type: 'Phone',
+                type: 'Tel',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -13289,7 +13289,7 @@ export const configuration: any = [
                   {
                     name: 'phone',
                     label: 'Phone Number',
-                    type: 'Phone',
+                    type: 'Tel',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -13436,7 +13436,7 @@ export const configuration: any = [
               {
                 name: 'phone',
                 label: 'Phone Number',
-                type: 'Phone',
+                type: 'Tel',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -13690,7 +13690,7 @@ export const configuration: any = [
                   {
                     name: 'phone',
                     label: 'Phone Number',
-                    type: 'Phone',
+                    type: 'Tel',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -13837,7 +13837,7 @@ export const configuration: any = [
               {
                 name: 'phone',
                 label: 'Phone Number',
-                type: 'Phone',
+                type: 'Tel',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -14091,7 +14091,7 @@ export const configuration: any = [
                   {
                     name: 'phone',
                     label: 'Phone Number',
-                    type: 'Phone',
+                    type: 'Tel',
                     required: true,
                     isDisabled: false,
                     isActive: true,
@@ -14238,7 +14238,7 @@ export const configuration: any = [
               {
                 name: 'phone',
                 label: 'Phone Number',
-                type: 'Phone',
+                type: 'Tel',
                 required: true,
                 isDisabled: false,
                 isActive: true,
