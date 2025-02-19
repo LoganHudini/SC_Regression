@@ -122,7 +122,7 @@
     "immer": "9.0.19",
     "libphonenumber-js": "^1.11.15",
     "lodash": "^4.17.21",
-    "material-ui-phone-number": "^3.0.0",
+    "mui-phone-number": "^3.0.3",
     "next": "13.0.4",
     "next-i18next": "^13.0.2",
     "next-language-detector": "^1.0.2",

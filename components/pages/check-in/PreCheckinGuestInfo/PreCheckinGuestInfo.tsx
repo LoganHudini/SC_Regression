@@ -40,8 +40,8 @@ import cx from 'classnames';
 import 'rmc-picker/assets/index.css';
 import Picker from 'rmc-picker/lib/Picker';
 import MultiPicker from 'rmc-picker/lib/MultiPicker';
-import MuiPhoneNumber from 'material-ui-phone-number';
 import { Countries } from 'utils/countryList';
+import MuiPhoneNumber from 'mui-phone-number';
 
 export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
   selectedGuest,
