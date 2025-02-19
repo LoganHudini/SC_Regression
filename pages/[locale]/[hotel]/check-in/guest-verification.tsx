@@ -513,8 +513,11 @@ const Guest: React.FC<any> = () => {
       effectiveDate: guestReservationInfo?.issueDate,
       expiryDate: guestReservationInfo?.expiry,
       countryOfIssue: guestReservationInfo?.issueCountry,
-      documentImage: guestInformationSection?.uploadId
+      documentFrontImage: guestInformationSection?.uploadId
         ? guestReservationInfo?.documentFrontImage
+        : '',
+      documentBackImage: guestInformationSection?.uploadId
+        ? guestReservationInfo?.documentBackImage
         : '',
       channel: 'PWA',
       updateGuestDetails: {
@@ -592,7 +595,8 @@ const Guest: React.FC<any> = () => {
             isPrimary: 'N',
             effectiveDate: data?.issueDate,
             expiryDate: data?.expiryDate || '',
-            documentImage: guestInformationSection?.uploadId ? data?.documentFrontImage : '',
+            documentFrontImage: guestInformationSection?.uploadId ? data?.documentFrontImage : '',
+            documentBackImage: guestInformationSection?.uploadId ? data?.documentBackImage : '',
             countryOfIssue: data?.issueCountry || '',
             channel: 'PWA',
             updateGuestDetails: {
@@ -659,7 +663,8 @@ const Guest: React.FC<any> = () => {
           expiryDate: data?.expiry || '',
           countryOfIssue: data?.issueCountry || '',
           channel: 'PWA',
-          documentImage: guestInformationSection?.uploadId ? data?.documentFrontImage : '',
+          documentFrontImage: guestInformationSection?.uploadId ? data?.documentFrontImage : '',
+          documentBackImage: guestInformationSection?.uploadId ? data?.documentBackImage : '',
           updateGuestDetails: {
             name: {
               firstName: data?.firstName,
@@ -813,8 +818,11 @@ const Guest: React.FC<any> = () => {
             addressType: 'HOME',
             stateProv: newAccompanyGuestStorage?.[method][index]?.stateProv,
           },
-          documentImage: guestInformationSection?.uploadId
+          documentFrontImage: guestInformationSection?.uploadId
             ? newAccompanyGuestStorage?.[method][index]?.documentFrontImage
+            : '',
+          documentBackImage: guestInformationSection?.uploadId
+            ? newAccompanyGuestStorage?.[method][index]?.documentBackImage
             : '',
         },
       ],

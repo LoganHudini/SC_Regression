@@ -15,7 +15,8 @@ export interface IUpdateGuestDetailsApiRequest {
   isPrimary: string;
   guestDocument?: string;
   channel: string;
-  documentImage: string;
+  documentFrontImage: string;
+  documentBackImage: string;
   updateGuestDetails: {
     name?: {
       firstName: string;

@@ -194,6 +194,7 @@ const Youverse: React.FC = () => {
                     photo: res.data?.getyoonikresponse?.data?.frontPage,
                     portrait: res.data?.getyoonikresponse?.data?.portrait,
                     documentFrontImage: res.data?.getyoonikresponse?.data?.frontPage,
+                    documentBackImage: res.data?.getyoonikresponse?.data?.backPage,
                   });
                 } else {
                   const updatedData = accompanyGuestData?.map((guest: any) => {
@@ -218,6 +219,7 @@ const Youverse: React.FC = () => {
                         photo: res.data?.getyoonikresponse?.data?.frontPage,
                         portrait: res.data?.getyoonikresponse?.data?.portrait,
                         documentFrontImage: res.data?.getyoonikresponse?.data?.frontPage,
+                        documentBackImage: res.data?.getyoonikresponse?.data?.backPage,
                       };
                     }
                     return guest;

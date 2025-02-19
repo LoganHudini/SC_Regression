@@ -261,10 +261,8 @@ const Trential: React.FC = () => {
                         ? 'FEMALE'
                         : statusList?.response?.sex?.toUpperCase() ||
                           statusList?.response?.gender?.toUpperCase(),
-                    documentFrontImage:
-                      statusList?.name === PASSPORT_SMALLCASE
-                        ? data?.InitiateToken?.data?.frontPageLink || ''
-                        : '',
+                    documentFrontImage: data?.InitiateToken?.data?.frontPageLink || '',
+                    documentBackImage: data?.InitiateToken?.data?.backPageLink || '',
                   };
                 }
                 return guest;
@@ -367,10 +365,8 @@ const Trential: React.FC = () => {
                   expiry: expiryDate,
                   issueCountry: issueCountry,
                   photo: statusList?.response?.photo || '',
-                  documentFrontImage:
-                    statusList?.name === PASSPORT_SMALLCASE
-                      ? data?.InitiateToken?.data?.frontPageLink || ''
-                      : '',
+                  documentFrontImage: data?.InitiateToken?.data?.frontPageLink || '',
+                  documentBackImage: data?.InitiateToken?.data?.backPageLink || '',
                 });
               }
               if (profileIDState?.guestType === ACCOMPANYINGGUEST) {
@@ -386,10 +382,8 @@ const Trential: React.FC = () => {
                       expiry: expiryDate,
                       issueCountry: issueCountry,
                       photo: statusList?.response?.photo || '',
-                      documentFrontImage:
-                        statusList?.name === PASSPORT_SMALLCASE
-                          ? data?.InitiateToken?.data?.frontPageLink || ''
-                          : '',
+                      documentFrontImage: data?.InitiateToken?.data?.frontPageLink || '',
+                      documentBackImage: data?.InitiateToken?.data?.backPageLink || '',
                     };
                   }
                   return guest;
