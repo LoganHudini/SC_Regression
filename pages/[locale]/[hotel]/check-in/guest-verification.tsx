@@ -999,7 +999,7 @@ const Guest: React.FC<any> = () => {
                 {guestInformationSection?.type === YOUVERSE ||
                 guestInformationSection?.type === INCODE ||
                 guestInformationSection?.type === TRENTIAL ? (
-                  !guestReservationInfo?.docNo ? (
+                  !guestReservationInfo?.docNo || !guestReservationInfo?.docType ? (
                     <DetailsCard
                       title={`${guestReservationInfo?.firstName}  ${guestReservationInfo?.lastName}`}
                     >
