@@ -12357,7 +12357,7 @@ export const configuration: any = [
       {
         code: 'Services',
         name: 'Services',
-        isActive: true,
+        isActive: false,
         type: 'CMS',
       },
       {
