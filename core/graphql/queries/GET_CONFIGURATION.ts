@@ -4559,6 +4559,31 @@ export const configuration: any = [
                     isActive: true,
                   },
                   {
+                    name: 'gender',
+                    label: 'Gender',
+                    type: 'AutoComplete',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    options: [
+                      {
+                        name: 'Male',
+                        value: 'MALE',
+                        vendorGenderType: 'M',
+                      },
+                      {
+                        name: 'Female',
+                        value: 'FEMALE',
+                        vendorGenderType: 'F',
+                      },
+                      {
+                        name: 'Others',
+                        value: 'UNKNOWN',
+                        vendorGenderType: '',
+                      },
+                    ],
+                  },
+                  {
                     name: 'nationality',
                     label: 'Nationality',
                     type: 'AutoComplete',
