@@ -8140,23 +8140,6 @@ export const configuration: any = [
                 required: true,
                 isDisabled: false,
                 isActive: true,
-                options: [
-                  {
-                    name: 'Male',
-                    value: 'MALE',
-                    vendorGenderType: 'M',
-                  },
-                  {
-                    name: 'Female',
-                    value: 'FEMALE',
-                    vendorGenderType: 'F',
-                  },
-                  {
-                    name: 'Others',
-                    value: 'UNKNOWN',
-                    vendorGenderType: '',
-                  },
-                ],
               },
               {
                 name: 'dob',
@@ -8554,23 +8537,6 @@ export const configuration: any = [
                 required: true,
                 isDisabled: false,
                 isActive: true,
-                options: [
-                  {
-                    name: 'Male',
-                    value: 'MALE',
-                    vendorGenderType: 'M',
-                  },
-                  {
-                    name: 'Female',
-                    value: 'FEMALE',
-                    vendorGenderType: 'F',
-                  },
-                  {
-                    name: 'Others',
-                    value: 'UNKNOWN',
-                    vendorGenderType: '',
-                  },
-                ],
               },
               {
                 name: 'dob',
@@ -8987,23 +8953,6 @@ export const configuration: any = [
                 required: false,
                 isDisabled: false,
                 isActive: false,
-                options: [
-                  {
-                    name: 'Male',
-                    value: 'MALE',
-                    vendorGenderType: 'M',
-                  },
-                  {
-                    name: 'Female',
-                    value: 'FEMALE',
-                    vendorGenderType: 'F',
-                  },
-                  {
-                    name: 'Others',
-                    value: 'UNKNOWN',
-                    vendorGenderType: '',
-                  },
-                ],
               },
               {
                 name: 'dob',
@@ -9426,23 +9375,6 @@ export const configuration: any = [
                 required: false,
                 isDisabled: false,
                 isActive: false,
-                options: [
-                  {
-                    name: 'Male',
-                    value: 'MALE',
-                    vendorGenderType: 'M',
-                  },
-                  {
-                    name: 'Female',
-                    value: 'FEMALE',
-                    vendorGenderType: 'F',
-                  },
-                  {
-                    name: 'Others',
-                    value: 'UNKNOWN',
-                    vendorGenderType: '',
-                  },
-                ],
               },
               {
                 name: 'dob',
@@ -9672,6 +9604,31 @@ export const configuration: any = [
                     isActive: true,
                   },
                   {
+                    name: 'gender',
+                    label: 'Gender',
+                    type: 'AutoComplete',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    options: [
+                      {
+                        name: 'Male',
+                        value: 'MALE',
+                        vendorGenderType: 'M',
+                      },
+                      {
+                        name: 'Female',
+                        value: 'FEMALE',
+                        vendorGenderType: 'F',
+                      },
+                      {
+                        name: 'Others',
+                        value: 'UNKNOWN',
+                        vendorGenderType: '',
+                      },
+                    ],
+                  },
+                  {
                     name: 'emails',
                     label: 'Email',
                     type: 'Text',
@@ -9831,55 +9788,9 @@ export const configuration: any = [
                 isActive: true,
               },
               {
-                name: 'emails',
-                label: 'Email',
-                type: 'Text',
-                required: true,
-                isDisabled: false,
-                isActive: true,
-              },
-              {
-                name: 'phone',
-                label: 'Phone Number',
-                type: 'Tel',
-                required: true,
-                isDisabled: false,
-                isActive: true,
-              },
-              {
                 name: 'gender',
                 label: 'Gender',
                 type: 'AutoComplete',
-                required: true,
-                isDisabled: false,
-                isActive: true,
-                options: [
-                  {
-                    name: 'Male',
-                    value: 'MALE',
-                  },
-                  {
-                    name: 'Female',
-                    value: 'FEMALE',
-                  },
-                  {
-                    name: 'Others',
-                    value: 'UNKNOWN',
-                  },
-                ],
-              },
-              {
-                name: 'docType',
-                label: 'Document Type',
-                type: 'AutoComplete',
-                required: true,
-                isDisabled: false,
-                isActive: true,
-              },
-              {
-                name: 'docNo',
-                label: 'Document Number',
-                type: 'Text',
                 required: true,
                 isDisabled: false,
                 isActive: true,
@@ -9901,6 +9812,38 @@ export const configuration: any = [
                 isDisabled: false,
                 isActive: true,
                 isDisableFuture: true,
+              },
+              {
+                name: 'phone',
+                label: 'Phone Number',
+                type: 'Tel',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'emails',
+                label: 'Email',
+                type: 'Text',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'docType',
+                label: 'Document Type',
+                type: 'AutoComplete',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+              },
+              {
+                name: 'docNo',
+                label: 'Document Number',
+                type: 'Text',
+                required: true,
+                isDisabled: false,
+                isActive: true,
               },
               {
                 name: 'issueCountry',
@@ -10535,6 +10478,31 @@ export const configuration: any = [
                     isActive: true,
                   },
                   {
+                    name: 'gender',
+                    label: 'Gender',
+                    type: 'AutoComplete',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    options: [
+                      {
+                        name: 'Male',
+                        value: 'MALE',
+                        vendorGenderType: 'M',
+                      },
+                      {
+                        name: 'Female',
+                        value: 'FEMALE',
+                        vendorGenderType: 'F',
+                      },
+                      {
+                        name: 'Others',
+                        value: 'UNKNOWN',
+                        vendorGenderType: '',
+                      },
+                    ],
+                  },
+                  {
                     name: 'nationality',
                     label: 'Nationality',
                     type: 'AutoComplete',
@@ -10656,23 +10624,6 @@ export const configuration: any = [
                 required: true,
                 isDisabled: false,
                 isActive: true,
-                options: [
-                  {
-                    name: 'Male',
-                    value: 'MALE',
-                    vendorGenderType: 'M',
-                  },
-                  {
-                    name: 'Female',
-                    value: 'FEMALE',
-                    vendorGenderType: 'F',
-                  },
-                  {
-                    name: 'Others',
-                    value: 'UNKNOWN',
-                    vendorGenderType: '',
-                  },
-                ],
               },
               {
                 name: 'dob',
@@ -11365,23 +11316,6 @@ export const configuration: any = [
                 required: false,
                 isDisabled: false,
                 isActive: true,
-                options: [
-                  {
-                    name: 'Male',
-                    value: 'MALE',
-                    vendorGenderType: 'M',
-                  },
-                  {
-                    name: 'Female',
-                    value: 'FEMALE',
-                    vendorGenderType: 'F',
-                  },
-                  {
-                    name: 'Others',
-                    value: 'UNKNOWN',
-                    vendorGenderType: '',
-                  },
-                ],
               },
               {
                 name: 'nationality',
