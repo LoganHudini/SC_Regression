@@ -996,116 +996,64 @@ const Guest: React.FC<any> = () => {
             <div className={styles.boxWrapper}>
               <p className={styles.guestType}>{t('Primary Guest')}</p>
               <div>
-                {guestInformationSection?.type === YOUVERSE ||
-                guestInformationSection?.type === INCODE ||
-                guestInformationSection?.type === TRENTIAL ? (
-                  !guestReservationInfo?.docNo || !guestReservationInfo?.docType ? (
-                    <DetailsCard
-                      title={`${guestReservationInfo?.firstName}  ${guestReservationInfo?.lastName}`}
-                    >
-                      <StyledButton
-                        variant='contained'
-                        className={styles.scanDocWrapper}
-                        onClick={() => {
-                          profileIDStorage({
-                            id: reservationInfo?.guests[0]?.id,
-                            guestType: PRIMARY,
-                          });
-                          navigate(
-                            guestInformationSection?.type === YOUVERSE
-                              ? availablePaths?.YOUVERSE
-                              : guestInformationSection?.type === TRENTIAL
-                              ? availablePaths?.TRENTIAL
-                              : availablePaths?.INCODE,
-                          );
-                        }}
-                      >
-                        <Camera />
-                        <span className={styles.scanDocText}>{t('Scan & Verify')}</span>
-                      </StyledButton>
-                      {guestReservationInfo && guestInformationSection?.details && (
-                        <PreCheckinGuestInfo
-                          selectedGuest={guestReservationInfo}
-                          guestInformationSection={
-                            enableIdVerificationStatus
-                              ? guestInformationSection?.details
-                              : disabledFields?.details
-                          }
-                          type={PRIMARY}
-                        />
+                {openTogglePrimaryGuest ? (
+                  <DetailsCard
+                    title={`${guestReservationInfo?.firstName}  ${guestReservationInfo?.lastName}`}
+                    handleClick={() =>
+                      guestValidation && setOpenTogglePrimaryGuest((prev) => !prev)
+                    }
+                    icon={guestValidation}
+                  >
+                    {!guestReservationInfo?.docNo &&
+                      (guestInformationSection?.type === YOUVERSE ||
+                        guestInformationSection?.type === TRENTIAL ||
+                        guestInformationSection?.type === INCODE) && (
+                        <StyledButton
+                          variant='contained'
+                          className={styles.scanDocWrapper}
+                          onClick={() => {
+                            profileIDStorage({
+                              id: reservationInfo?.guests[0]?.id,
+                              guestType: PRIMARY,
+                            });
+                            navigate(
+                              guestInformationSection?.type === YOUVERSE
+                                ? availablePaths?.YOUVERSE
+                                : guestInformationSection?.type === TRENTIAL
+                                ? availablePaths?.TRENTIAL
+                                : availablePaths?.INCODE,
+                            );
+                          }}
+                        >
+                          <Camera />
+                          <span className={styles.scanDocText}>{t('Scan & Verify')}</span>
+                        </StyledButton>
                       )}
-                    </DetailsCard>
-                  ) : (
-                    guestReservationInfo &&
-                    guestInformationSection?.details &&
-                    (openTogglePrimaryGuest ? (
-                      <DetailsCard
-                        title={`${guestReservationInfo?.firstName}  ${guestReservationInfo?.lastName}`}
-                        icon
-                        handleClick={() => setOpenTogglePrimaryGuest((prev) => !prev)}
-                      >
-                        <div className={styles.margin}>
-                          <PreCheckinGuestInfo
-                            selectedGuest={guestReservationInfo}
-                            guestInformationSection={
-                              enableIdVerificationStatus
-                                ? guestInformationSection?.details
-                                : disabledFields?.details
-                            }
-                            type={PRIMARY}
-                          />
-                        </div>
-                      </DetailsCard>
-                    ) : (
-                      <DetailsCardShrinked
-                        error={guestValidation}
-                        title={`${guestReservationInfo?.firstName}  ${guestReservationInfo?.lastName}`}
-                        handleClick={() => setOpenTogglePrimaryGuest((prev) => !prev)}
-                      >
-                        {!guestValidation && (
-                          <div className={styles.pendingDetails}>
-                            <DangerIcon className={styles.icon} />
-                            <div className={styles.pendingText}>{t('Pending Details')}</div>
-                          </div>
-                        )}
-                      </DetailsCardShrinked>
-                    ))
-                  )
+                    {guestReservationInfo && guestInformationSection?.details && (
+                      <PreCheckinGuestInfo
+                        selectedGuest={guestReservationInfo}
+                        guestInformationSection={
+                          enableIdVerificationStatus
+                            ? guestInformationSection?.details
+                            : disabledFields?.details
+                        }
+                        type={PRIMARY}
+                      />
+                    )}
+                  </DetailsCard>
                 ) : (
-                  guestReservationInfo?.lastName &&
-                  guestInformationSection?.details?.length > 0 &&
-                  (openTogglePrimaryGuest ? (
-                    <DetailsCard
-                      title={`${guestReservationInfo?.firstName}  ${guestReservationInfo?.lastName}`}
-                      handleClick={() => setOpenTogglePrimaryGuest((prev) => !prev)}
-                      icon
-                    >
-                      <div className={styles.margin}>
-                        <PreCheckinGuestInfo
-                          selectedGuest={guestReservationInfo}
-                          guestInformationSection={
-                            enableIdVerificationStatus
-                              ? guestInformationSection?.details
-                              : disabledFields?.details
-                          }
-                          type={PRIMARY}
-                        />
+                  <DetailsCardShrinked
+                    error={guestValidation}
+                    title={`${guestReservationInfo?.firstName}  ${guestReservationInfo?.lastName}`}
+                    handleClick={() => setOpenTogglePrimaryGuest((prev) => !prev)}
+                  >
+                    {!guestValidation && (
+                      <div className={styles.pendingDetails}>
+                        <DangerIcon className={styles.icon} />
+                        <div className={styles.pendingText}>{t('Pending Details')}</div>
                       </div>
-                    </DetailsCard>
-                  ) : (
-                    <DetailsCardShrinked
-                      error={guestValidation}
-                      title={`${guestReservationInfo?.firstName}  ${guestReservationInfo?.lastName}`}
-                      handleClick={() => setOpenTogglePrimaryGuest((prev) => !prev)}
-                    >
-                      {!guestValidation && (
-                        <div className={styles.pendingDetails}>
-                          <DangerIcon className={styles.icon} />
-                          <div className={styles.pendingText}>{t('Pending Details')}</div>
-                        </div>
-                      )}
-                    </DetailsCardShrinked>
-                  ))
+                    )}
+                  </DetailsCardShrinked>
                 )}
               </div>
             </div>
