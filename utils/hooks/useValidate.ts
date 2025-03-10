@@ -38,9 +38,14 @@ const useValidate = (sections: any) => {
           phone: {
             validation: yup
               .string()
-              .test('isValidPhoneNumber', t('Invalid phone number') as string, (value) =>
-                validatePhoneNumber(value as string),
-              )
+              .test('isValidPhoneNumber', t('Invalid phone number') as string, (value) => {
+                const parsedPhone = parsePhoneNumber(value as string);
+                return isRequired
+                  ? validatePhoneNumber(value as string)
+                  : parsedPhone?.nationalNumber || value?.split(' ')[1]
+                  ? validatePhoneNumber(value as string)
+                  : true;
+              })
               .required(t('Phone Number is required') as string),
           },
           // Add more validation

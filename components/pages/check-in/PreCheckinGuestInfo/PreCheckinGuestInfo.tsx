@@ -18,6 +18,7 @@ import {
   TIMEPICKER,
   TIMEPICKERPOPUP,
   ESTIMATED_TIME,
+  PHONENUMBER,
 } from 'utils/constants';
 import { generateInitialFieldValues } from 'utils/functions';
 import { InputLabel, Select, MenuItem, FormHelperText, Autocomplete } from '@mui/material';
@@ -154,7 +155,11 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
       if (newAccompanyGuestIndex > -1) {
         newAccompanyGuestStorage[method][newAccompanyGuestIndex] = {
           ...selectedGuest,
-          disabled: formik?.errors && Object.keys(formik.errors).length > 0 ? true : false,
+          disabled: guestInformationSection?.some((field: any) =>
+            field?.required || (field?.name === PHONENUMBER && formik?.values[field?.name])
+              ? Object?.keys(formik?.errors)?.includes(field?.name)
+              : false,
+          ),
         };
       }
       newAccompanyGuestDetails({
