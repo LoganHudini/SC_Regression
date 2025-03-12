@@ -11365,6 +11365,7 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
+                uploadId: true,
                 details: [
                   {
                     name: 'firstName',
