@@ -25,6 +25,7 @@ export const ITC_WELCOMHOTEL_CHENNAI = 'itc-welcomhotel-chennai';
 export const RAFFLES_THE_PALM_DUBAI = 'raffles-the-palm-dubai';
 export const RAFFLES_JAIPUR = 'raffles-jaipur';
 export const RAFFLES_MAKATI = 'raffles-makati';
+export const RAFFLES_SENTOSA = 'raffles-sentosa';
 export const FAIRMONT_ROYAL_PALM_MARRAKECH = 'fairmont-royal-palm-marrakech';
 export const FAIRMONT_THE_PALM_DUBAI = 'fairmont-the-palm-dubai';
 export const FAIRMONT_MAKKAH_CLOCK_ROYAL_TOWER = 'fairmont-makkah-clock-royal-tower';
