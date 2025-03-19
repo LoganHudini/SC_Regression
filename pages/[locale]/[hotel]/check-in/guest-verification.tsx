@@ -1096,7 +1096,7 @@ const Guest: React.FC<any> = () => {
                           }}
                         >
                           <Camera />
-                          <span className={styles.scanDocText}>{t('Scan Document')}</span>
+                          <span className={styles.scanDocText}>{t('Scan & Verify')}</span>
                         </StyledButton>
                       </DetailsCard>
                     ) : (
@@ -1303,7 +1303,7 @@ const Guest: React.FC<any> = () => {
                             onClick={handleScanDocumentClick}
                           >
                             <Camera />
-                            <span className={styles.scanDocText}>{t('Scan Document')}</span>
+                            <span className={styles.scanDocText}>{t('Scan & Verify')}</span>
                           </StyledButton>
                         </DetailsCard>
                       ) : openToggleAddNewGuestForAdult[index] ? (
