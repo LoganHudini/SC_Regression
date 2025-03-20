@@ -23,6 +23,7 @@ export interface IRDOrderApiResponse {
     startTime: string;
     status: string;
     totalAmount: number;
+    guestSignature: string;
   };
 }
 
@@ -39,6 +40,7 @@ export const IRD_ORDER = gql`
     $paymentMethod: String!,
     $roomNo: String!,
     $startTime: String!
+    $guestSignature: String!
     $items: [ItemDetailsInput]!
   ) {
     createOrder(
@@ -55,7 +57,8 @@ export const IRD_ORDER = gql`
         startTime: $startTime,
         totalAmount: $totalAmount,
         hotelId:  "${HOTEL_ID}",
-        noOfGuests: $noOfGuests
+        noOfGuests: $noOfGuests,
+        guestSignature: $guestSignature
       }
     ) {
       additionalNote

@@ -5,7 +5,7 @@ import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styles from '@styles/dining-order-summary/dining-order-summary.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
@@ -40,9 +40,9 @@ import { addToCartEvent } from 'utils/gtag';
 import { findModule, formatPrice, setScrollPosition } from 'utils/functions';
 import { diningInformationStorage } from 'storage/dining.storage';
 import DiningDetailsDrawer from 'components/pages/dining/DiningDetailsDrawer/DiningDetailsDrawer';
-import { notificationStorage, toggleNotification } from 'storage/home.storage';
+import { hotelInformation, notificationStorage, toggleNotification } from 'storage/home.storage';
 import { DiningMenuElementUpsell } from 'components/pages/dining/DiningMenuElementUpsell/DiningMenuElementUpsell';
-import { useCheckedIn } from 'storage/check-in.storage';
+import { reviewSignAndCheckBox, useCheckedIn } from 'storage/check-in.storage';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { IRD_ORDER_TRANSACTION_POS } from 'core/graphql/queries/IRD_ORDER_TRANSACTION_POS';
 import EditIcon from '@icons/commonEditIcon.svg';
@@ -56,6 +56,7 @@ import { processStatusCode } from 'utils/processError';
 import { StyledInput } from 'components/shared/StyledInput/StyledInput';
 import { useFormik } from 'formik';
 import { instructionValidation } from 'validation/dining.validation';
+import SignatureCanvas from 'react-signature-canvas';
 
 export { getStaticPaths };
 
@@ -68,6 +69,7 @@ const DiningOrderSummary = () => {
   const hotelId = config?.hotelId;
   const hotelName = config?.name;
   const irdOrderType: any = findModule(config?.modules, IN_ROOM_DINING);
+  const hotelInfo = useReactiveVar(hotelInformation);
   const [customisationDrawer, setCustomisationDrawer] = useState(false);
   const [specialRequests, setSpecialRequests] = useState('');
   const [loading, setLoading] = useState(false);
@@ -77,8 +79,12 @@ const DiningOrderSummary = () => {
   const [guestNumber, setguestNumber] = useState(1);
   const [totalAmount, setTotalAmount] = useState(0);
   const currency = useCurrency();
-
+  const reviewAndSign = useReactiveVar(reviewSignAndCheckBox);
+  const sigCanvas = useRef<SignatureCanvas>(null);
+  const [signature, setSignature] = useState<any>(reviewAndSign?.sign || null);
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
+  const [signatureWidth, setSignatureWidth] = useState(340);
+  const [btnStatus, setBtnStatus] = useState(false);
 
   const items = diningData?.items?.filter((item) => item?.quantity > 0);
 
@@ -99,6 +105,17 @@ const DiningOrderSummary = () => {
       navigate(availablePaths.DINING);
     }
   }, [items, navigate]);
+
+  const clearCanvas = useCallback(() => {
+    sigCanvas?.current?.clear();
+    setSignature(null);
+    setBtnStatus(false);
+    reviewSignAndCheckBox(
+      produce(reviewSignAndCheckBox(), (draft: any) => {
+        draft.sign = null;
+      }),
+    );
+  }, []);
 
   const formik = useFormik({
     initialValues: { instruction: '' },
@@ -222,6 +239,9 @@ const DiningOrderSummary = () => {
         })),
         cookingInstructions: el?.cookingInstruction,
       })),
+      guestSignature: irdOrderType?.signatureRequired
+        ? (sigCanvas?.current?.toDataURL() as string)?.replace('data:image/png;base64,', '')
+        : '',
     };
 
     const irdOrderPOSPayload = {
@@ -252,6 +272,9 @@ const DiningOrderSummary = () => {
         })),
       })),
       additionalNote: specialRequests,
+      guestSignature: irdOrderType?.signatureRequired
+        ? (sigCanvas?.current?.toDataURL() as string)?.replace('data:image/png;base64,', '')
+        : '',
     };
 
     let response;
@@ -292,6 +315,7 @@ const DiningOrderSummary = () => {
         redirect: availablePaths?.DINING,
       });
       toggleNotification(true);
+      reviewSignAndCheckBox({ checkBox: false, sign: null });
     } catch (getUpdatedReservationError) {
       const networkError = getUpdatedReservationError as ApolloError;
       const statusCode = processStatusCode(networkError);
@@ -355,6 +379,52 @@ const DiningOrderSummary = () => {
           />
         </React.Fragment>
       ));
+  };
+
+  const handleSignatureChange = () => {
+    const signatureData = sigCanvas?.current?.toData();
+    setSignature(signatureData);
+    const signvalue = { ...reviewAndSign };
+    signvalue.sign = signatureData;
+    reviewSignAndCheckBox(signvalue);
+  };
+
+  useEffect(() => {
+    if (sigCanvas?.current && signature !== null) {
+      setBtnStatus(true);
+    } else {
+      setBtnStatus(false);
+    }
+  }, [signature]);
+
+  useEffect(() => {
+    const signatureWidth = () => {
+      const div = document.getElementById('signatureWrapper');
+      if (div) {
+        setSignatureWidth(div.offsetWidth);
+      }
+    };
+    signatureWidth();
+    window.addEventListener('resize', signatureWidth);
+
+    return () => {
+      window.removeEventListener('resize', signatureWidth);
+    };
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      restoreSignature();
+    }, 500);
+  }, [signature, sigCanvas?.current]);
+
+  const restoreSignature = () => {
+    if (signature && sigCanvas?.current) {
+      requestAnimationFrame(() => {
+        sigCanvas?.current?.clear();
+        sigCanvas?.current?.fromData(signature);
+      });
+    }
   };
 
   return (
@@ -541,13 +611,37 @@ const DiningOrderSummary = () => {
           )}
         </p>
 
+        {irdOrderType?.signatureRequired && (
+          <>
+            <div className={styles.guestSignatureWrapper}>
+              <p className={styles.guestSignature}>{t('Guest Signature')}</p>
+              <p className={styles.clearBtn} onClick={clearCanvas}>
+                {t('Clear')}
+              </p>
+            </div>
+            <div id='signatureWrapper' className={styles.agrementSignatureWrapper}>
+              <SignatureCanvas
+                ref={sigCanvas}
+                penColor='#3D3C3C'
+                canvasProps={{
+                  height: 100,
+                  width: signatureWidth,
+                }}
+                clearOnResize={false}
+                onEnd={() => handleSignatureChange()}
+              />
+            </div>
+          </>
+        )}
+
         {items?.length > 0 && (
           <div className={styles.confirmOrderButtonWrapper}>
             <StyledButton
               disabled={
                 Boolean(formik.errors.instruction) ||
                 items?.length === 0 ||
-                paymentType?.length === 0
+                paymentType?.length === 0 ||
+                (irdOrderType?.signatureRequired && !btnStatus)
               }
               loading={loading}
               className={styles.confirmButton}

@@ -122,7 +122,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 150px;
+  margin-bottom: 17px;
 }
 
 .upsellWrapper {
@@ -164,7 +164,7 @@
 .paymentContainer {
   flex-direction: column;
   display: flex;
-  margin: 1rem 0.5rem;
+  margin: 2rem 0.5rem;
 }
 
 .paymentTitle {
@@ -310,4 +310,38 @@
 .buttonWrapper {
   display: flex;
   align-items: center;
+}
+.guestSignatureWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 40px 0 10px 0;
+}
+
+.guestSignature {
+  font-size: $medium;
+  font-family: var(--primary-font-heading);
+}
+
+.clearBtn {
+  color: var(--primary-theme-color);
+  font-size: $medium;
+  text-transform: none;
+  width: fit-content;
+  font-family: var(--primary-font-medium);
+  cursor: pointer;
+}
+
+.agrementSignatureWrapper {
+  canvas {
+    background: #0f1b2a19;
+  }
+
+  margin: auto;
+  margin-bottom: 100px;
+  border-radius: 3px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
