@@ -141,6 +141,10 @@ export const activeItems = (list: any) =>
 // Timings
 export const getTimings = (data: any) => data && data?.find((item: any) => item?.key === TIMINGS);
 
+// Payment Message
+export const getPaymentMessage = (data: any) =>
+  data && data?.find((item: any) => item?.key === 'paymentMessage')?.value;
+
 export const updateDocTypeOptionsOptionConfig = (
   data: any,
   replaceDataDoc: any,

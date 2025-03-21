@@ -43,6 +43,7 @@ export interface IGetReservationApiResponse {
           depositAmount: number;
         };
       };
+      paymentRule: any;
       roomTypes: {
         roomNumber: string;
         code: string;

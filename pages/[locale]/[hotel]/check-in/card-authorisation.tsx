@@ -35,6 +35,7 @@ import {
   ROOM,
   ADDON,
   OHIP,
+  DEFAULT_PAYMENT_MESSAGE,
 } from 'utils/constants';
 import { Stepper } from 'components/shared/Stepper/Stepper';
 import { StepperInformationStorage } from 'storage/check-in.storage';
@@ -56,12 +57,13 @@ import {
   GET_PAYMENT_STATUS,
   IGetPaymentStatusApiResponse,
 } from 'core/graphql/queries/GET_PAYMENT_STATUS';
-import { notificationStorage, toggleNotification } from 'storage/home.storage';
+import { hotelInformation, notificationStorage, toggleNotification } from 'storage/home.storage';
 import { processStatusCode } from 'utils/processError';
 import { personalizationStorage } from 'storage/personalize-your-room.storage';
 import { UPDATE_GUEST_DETAILS } from 'core/graphql/queries/UPDATE_GUEST_DETAILS';
 import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
+import { getPaymentMessage } from 'utils/functions';
 
 export { getStaticPaths };
 
@@ -80,7 +82,15 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
     query: GET_RESERVATION,
   });
 
+  const hotelInfo = useReactiveVar(hotelInformation);
   const reservationInfo = reservationData?.getReservation?.data;
+  const getPaymentRule = reservationInfo?.paymentRule;
+  const details = hotelInfo?.detailsCustomAttributes;
+  const paymentMessage = getPaymentMessage(details);
+
+  const PaymentMessage = typeof paymentMessage === 'string' ? JSON.parse(paymentMessage) : {};
+
+  const displayMessage = PaymentMessage[getPaymentRule] || DEFAULT_PAYMENT_MESSAGE;
 
   const checkInModule: any = config?.modules?.find((module: any) => module?.code === CHECK_IN);
   const personalisationConfig = checkInModule?.submodules?.find(
@@ -427,10 +437,8 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
         <Stepper />
         {!guestReservationInfo?.paymentType && (
           <div className={styles.cardAuthorisationTitleWrapper}>
-            <p className={styles.title}>{t('Choose Payment Method')}</p>
-            <p className={styles.description}>
-              {t('Click ‘Proceed to Payment’ to begin your payment process.')}
-            </p>
+            <p className={styles.title}>{t(`${displayMessage?.title}`)}</p>
+            <p className={styles.description}>{t(`${displayMessage?.message}`)}</p>
           </div>
         )}
         {creditCardInfoSection &&
