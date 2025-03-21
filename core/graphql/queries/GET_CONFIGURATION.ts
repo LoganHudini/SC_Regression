@@ -21232,7 +21232,7 @@ export const configuration: any = [
             name: 'accompanyingGuest',
             label: 'Secondary Guest',
             title: '',
-            type: 'manual',
+            type: 'trential',
             isActive: true,
             cardIcon: 'guest',
             details: [
