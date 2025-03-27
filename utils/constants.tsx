@@ -260,6 +260,8 @@ export const DEFAULT_PAYMENT_MESSAGE = {
   title: 'Choose Payment Method',
   message: 'Click ‘Proceed to Payment’ to begin your payment process.',
 };
+export const DEFAULT_SERVICE_CHARGE_MESSAGE =
+  '* Rates are inclusive of applicable government taxes and subject to 10% service charge.';
 
 // flow constants
 export const DAYS = [

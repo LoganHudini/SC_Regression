@@ -25,6 +25,7 @@ import dayjs from 'dayjs';
 import { DiningCustomisationDrawer } from 'components/pages/dining/DiningCustomisationDrawer/DiningCustomisationDrawer';
 import {
   CMS,
+  DEFAULT_SERVICE_CHARGE_MESSAGE,
   ERRORMSG,
   FAILED_TO_FETCH_BOOKING_DETAILS,
   FAILURE,
@@ -85,6 +86,14 @@ const DiningOrderSummary = () => {
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
   const [signatureWidth, setSignatureWidth] = useState(340);
   const [btnStatus, setBtnStatus] = useState(false);
+
+  const information = hotelInfo?.informationCustomAttributes;
+
+  const getServiceCharges = (data: any) =>
+    data?.find((item: any) => item?.key === 'serviceCharges')?.value ||
+    DEFAULT_SERVICE_CHARGE_MESSAGE;
+
+  const servicechargeDisplay = getServiceCharges(information);
 
   const items = diningData?.items?.filter((item) => item?.quantity > 0);
 
@@ -604,12 +613,7 @@ const DiningOrderSummary = () => {
           </div>
         )}
 
-        <p className={styles.taxText}>
-          {' '}
-          {t(
-            '* Rates are inclusive of applicable government taxes and subject to 10% service charge.',
-          )}
-        </p>
+        <p className={styles.taxText}>{t(`${servicechargeDisplay}`)}</p>
 
         {irdOrderType?.signatureRequired && (
           <>
