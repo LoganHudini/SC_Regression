@@ -22619,7 +22619,7 @@ export const configuration: any = [
     ],
   },
   {
-    code: 'fairmont-la-hacienda-costa-del-sol',
+    code: 'fairmont-la-hacienda',
     logo: 'La Hacienda Costa Del Sol',
     homePageHeader: true,
     name: 'Fairmont La Hacienda Costa Del Sol',
