@@ -36,7 +36,7 @@ export const FAIRMONT_LE_MONTREUX_PALACE = 'fairmont-le-montreux-palace';
 export const FAIRMONT_MUMBAI = 'fairmont-mumbai';
 export const FAIRMONT_AUSTIN = 'fairmont-austin';
 export const FAIRMONT_MOUNT_KENYA_SAFARI_CLUB = 'fairmont-mount-kenya-safari-club';
-export const FAIRMONT_LA_HACIENDA_COSTA_DEL_SOL = 'fairmont-la-hacienda-costa-del-sol';
+export const FAIRMONT_LA_HACIENDA = 'fairmont-la-hacienda';
 export const FAIRMONT_GOLDEN_PRAGUE = 'fairmont-golden-prague';
 export const ONE_HOTELS_SOUTH_BEACH = '1-hotel-south-beach';
 export const HARD_ROCK_HOTEL_CANCUN = 'hard-rock-hotel-cancun';
@@ -260,6 +260,8 @@ export const DEFAULT_PAYMENT_MESSAGE = {
   title: 'Choose Payment Method',
   message: 'Click ‘Proceed to Payment’ to begin your payment process.',
 };
+export const DEFAULT_SERVICE_CHARGE_MESSAGE =
+  '* Rates are inclusive of applicable government taxes and subject to 10% service charge.';
 
 // flow constants
 export const DAYS = [

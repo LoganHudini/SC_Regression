@@ -77,7 +77,12 @@ import {
   setNewGuestFormData,
   updateNewAccompanyGuestDetails,
 } from 'storage/accompany-guest-details';
-import { notificationStorage, setDayjsLocale, toggleNotification } from 'storage/home.storage';
+import {
+  hotelInformation,
+  notificationStorage,
+  setDayjsLocale,
+  toggleNotification,
+} from 'storage/home.storage';
 import {
   getCheckInToken,
   handleCheckInAuthenticationFailure,
@@ -113,6 +118,13 @@ const Guest: React.FC<any> = () => {
   const config = useConfig();
   const paymentConfig: any = usePaymentConfig();
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
+  const hotelInfo = useReactiveVar(hotelInformation);
+  const information = hotelInfo?.detailsCustomAttributes;
+
+  const getBiometricsDisclaimer = (data: any) =>
+    data?.find((item: any) => item?.key === 'biometricsDisclaimer')?.value || '';
+
+  const disclaimerDisplayText = getBiometricsDisclaimer(information);
 
   const availablePersonalizations = useReactiveVar(personalizationStorage);
   const newAccompanyGuestStorage = useReactiveVar(newAccompanyGuestDetails);
@@ -992,7 +1004,8 @@ const Guest: React.FC<any> = () => {
                 guestInformationSection?.type === MANUAL
                   ? t('Complete your identity verification by filling out essential details.')
                   : t('Scan your Passport/ID to verify your identity.')
-              } ${t('Your information is protected by responsible data practices.')}`}
+              } ${t('Your information is protected by responsible data practices.')}
+               ${t(`${disclaimerDisplayText}`)}`}
             </p>
           </div>
           {(reservationInfo?.details?.contactPerson?.firstName ||
