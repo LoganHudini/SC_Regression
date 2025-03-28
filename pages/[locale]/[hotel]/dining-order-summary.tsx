@@ -87,7 +87,7 @@ const DiningOrderSummary = () => {
   const [signatureWidth, setSignatureWidth] = useState(340);
   const [btnStatus, setBtnStatus] = useState(false);
 
-  const information = hotelInfo?.informationCustomAttributes;
+  const information = hotelInfo?.detailsCustomAttributes;
 
   const getServiceCharges = (data: any) =>
     data?.find((item: any) => item?.key === 'serviceCharges')?.value ||
