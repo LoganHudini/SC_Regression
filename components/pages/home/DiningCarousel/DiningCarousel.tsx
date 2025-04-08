@@ -12,6 +12,7 @@ import {
   activeItems,
   filterIRDMenuItems,
   getFormattedTime,
+  convertTo12HourFormat,
 } from 'utils/functions';
 import {
   CAROUSEL_RESPONSIVE,
@@ -142,27 +143,34 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
             )}
           >
             <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>
-            {isOpen?.includes(ALL_DAY) && isClose?.includes(ALL_DAY) ? (
-              <div className={styles.carouselRestaurantTimeStatus}>
-                <p>{t('Open')}</p>
-              </div>
-            ) : (
-              <div className={styles.carouselRestaurantTimeStatus}>
-                <p>{getRestaurantStatus?.status}</p>
-              </div>
-            )}
-            <div className={cx(styles.content, 'globals-content')}>
-              {time && (
-                <div className={styles.cuisineRowTime}>
-                  <p>{time?.value}</p>
+            {!module &&
+              (isOpen?.includes(ALL_DAY) && isClose?.includes(ALL_DAY) ? (
+                <div className={styles.carouselRestaurantTimeStatus}>
+                  <p>{t('Open')}</p>
                 </div>
-              )}
-            </div>
-            {slide.hours[0]?.day && module && (
+              ) : (
+                <div className={styles.carouselRestaurantTimeStatus}>
+                  <p>{getRestaurantStatus?.status}</p>
+                </div>
+              ))}
+            {slide?.hours[0]?.day && module && (
               <p className={styles.carouselSlideTimings}>
-                {slide.hours[0]?.day === EVERYDAY ? t('Open 24x7') : slide.hours[0]?.day}
+                {slide.hours[0]?.day === EVERYDAY &&
+                slide.hours[0]?.open === ALL_DAY &&
+                slide.hours[0]?.close === ALL_DAY ? (
+                  t('Open 24x7')
+                ) : (
+                  <>
+                    {t('From')}{' '}
+                    <span className={styles.timingCase}>
+                      {convertTo12HourFormat(slide?.hours[0]?.open)} -{' '}
+                      {convertTo12HourFormat(slide?.hours[0]?.close)}
+                    </span>
+                  </>
+                )}
               </p>
             )}
+
             <CustomReadMore
               text={t(BRAND_CODE === 'fairmont' ? 'Discover' : 'View More') as string}
             />

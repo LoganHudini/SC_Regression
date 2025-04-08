@@ -10321,12 +10321,6 @@ export const configuration: any = [
                         code: 'PASSPORT',
                         vendorDocType: 'passport',
                       },
-                      {
-                        name: 'National ID',
-                        value: 'ID',
-                        code: 'ID',
-                        vendorDocType: 'mexican-id-card',
-                      },
                     ],
                   },
                   {
