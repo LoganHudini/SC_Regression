@@ -81,24 +81,47 @@ export const convertTo12HourFormat = (time24: string) => {
 };
 
 // Filter items based on the time of the day
-export const filterLiveMenu = (hours: any) => {
-  if (!hours || hours?.length === 0) {
-    return false;
-  }
-  const currentDay = dayjs().format('dddd').toUpperCase();
-  const currentTime = dayjs().format('HH:mm');
-  for (const hour of hours) {
-    const closingTime = hour?.close === '00:00' ? '24:00' : hour?.close;
 
-    if (hour.day === 'EVERYDAY' || hour.day === currentDay) {
-      if (
-        (hour.open === 'all day' && closingTime === 'all day') ||
-        (currentTime >= hour.open && currentTime <= closingTime)
-      ) {
-        return true;
-      }
+export const filterLiveMenu = (hours: any[]) => {
+  if (!hours || hours.length === 0) return false;
+
+  const now = dayjs();
+  const currentDay = now.format('dddd').toUpperCase();
+
+  for (const hour of hours) {
+    if (hour.day !== 'EVERYDAY' && hour.day !== currentDay) continue;
+
+    if (hour.open === 'all day' && hour.close === 'all day') {
+      return true;
+    }
+
+    const openTime = dayjs(hour.open, 'HH:mm');
+    const closeTimeRaw = hour.close === '00:00' ? '24:00' : hour.close;
+    let closeTime = dayjs(closeTimeRaw, 'HH:mm');
+
+    // Rebuild open and close times on the correct date
+    let openDateTime = now
+      .set('hour', openTime.hour())
+      .set('minute', openTime.minute())
+      .startOf('minute');
+    let closeDateTime = now
+      .set('hour', closeTime.hour())
+      .set('minute', closeTime.minute())
+      .startOf('minute');
+
+    if (closeDateTime.isBefore(openDateTime)) {
+      closeDateTime = closeDateTime.add(1, 'day');
+    }
+
+    if (now.isBefore(openDateTime)) {
+      openDateTime = openDateTime.subtract(1, 'day');
+    }
+
+    if (now.isAfter(openDateTime) && now.isBefore(closeDateTime)) {
+      return true;
     }
   }
+
   return false;
 };
 

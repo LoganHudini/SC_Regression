@@ -163,5 +163,6 @@
   "All your device features are now connected to your room. You can now access in-room services through this device.": "Alle Ihre Gerätefunktionen sind jetzt mit Ihrem Zimmer verbunden. Sie können nun Zimmerdienste über dieses Gerät nutzen.",
   "Features": "Funktionen",
   "Your account is temporarily blocked!": "Ihr Konto ist vorübergehend gesperrt!",
-  "Too many login attempts detected. Your account has been temporarily locked as a security measure. Please try again after sometime.": "Zu viele Anmeldeversuche festgestellt. Ihr Konto wurde aus Sicherheitsgründen vorübergehend gesperrt. Bitte versuchen Sie es später erneut."
+  "Too many login attempts detected. Your account has been temporarily locked as a security measure. Please try again after sometime.": "Zu viele Anmeldeversuche festgestellt. Ihr Konto wurde aus Sicherheitsgründen vorübergehend gesperrt. Bitte versuchen Sie es später erneut.",
+  "From": "Aus"
 }
