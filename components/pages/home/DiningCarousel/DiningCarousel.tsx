@@ -42,7 +42,6 @@ import { IRDMenuApiResponse } from 'core/graphql/queries/IRD_MENU';
 import { useReactiveVar } from '@apollo/client';
 import { RestaurantDetail } from 'components/pages/dining/RestaurantDetail/RestaurantDetail';
 import useTimeStatus from 'utils/hooks/useTimeStatus';
-import { isEmpty } from 'lodash';
 
 interface ICarouselProps {
   ird: any;
