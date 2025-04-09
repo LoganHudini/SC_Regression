@@ -21011,7 +21011,7 @@ export const configuration: any = [
       'spa',
       'hotel-compendium',
     ],
-    preCheckInOnly: true,
+    preCheckInOnly: false,
     hideImagePlaceholder: true,
     isAnimationActive: false,
     isLogoLoaderActive: false,

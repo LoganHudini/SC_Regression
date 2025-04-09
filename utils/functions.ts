@@ -71,7 +71,8 @@ export const getWelcomeDrawer = () =>
 
 // Convert time format from 24H to 12H
 export const convertTo12HourFormat = (time24: string) => {
-  const [hours, minutes] = time24.split(':');
+  if (!time24) return time24 || '';
+  const [hours, minutes] = time24?.split(':');
 
   let hoursNum = parseInt(hours, 10);
   const meridiem = hoursNum >= 12 ? 'PM' : 'AM';
@@ -104,10 +105,20 @@ export const filterLiveMenu = (hours: any[]) => {
 
     if (closeDateTime.isBefore(openDateTime)) {
       closeDateTime = closeDateTime.add(1, 'day');
-    }
 
-    if (now.isAfter(openDateTime) && now.isBefore(closeDateTime)) {
-      return true;
+      const openYesterday = openDateTime.subtract(1, 'day');
+      const closeYesterday = closeDateTime.subtract(1, 'day');
+
+      const isInYesterdayRange = now.isAfter(openYesterday) && now.isBefore(closeYesterday);
+      const isInTodayRange = now.isAfter(openDateTime) && now.isBefore(closeDateTime);
+
+      if (isInYesterdayRange || isInTodayRange) {
+        return true;
+      }
+    } else {
+      if (now.isAfter(openDateTime) && now.isBefore(closeDateTime)) {
+        return true;
+      }
     }
   }
 

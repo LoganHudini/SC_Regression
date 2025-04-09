@@ -165,15 +165,11 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
                   t('Open 24x7')
                 ) : (
                   <>
-                    {!isEmpty(currentOpenPeriod) && (
-                      <>
-                        {t('From')}{' '}
-                        <span className={styles.timingCase}>
-                          {convertTo12HourFormat(currentOpenPeriod?.open)} -{' '}
-                          {convertTo12HourFormat(currentOpenPeriod?.close)}
-                        </span>
-                      </>
-                    )}
+                    {t('From')}{' '}
+                    <span className={styles.timingCase}>
+                      {convertTo12HourFormat(currentOpenPeriod?.open || slide?.hours[0]?.open)} -{' '}
+                      {convertTo12HourFormat(currentOpenPeriod?.close || slide?.hours[0]?.close)}
+                    </span>
                   </>
                 )}
               </p>
