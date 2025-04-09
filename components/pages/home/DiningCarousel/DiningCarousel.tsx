@@ -13,6 +13,7 @@ import {
   filterIRDMenuItems,
   getFormattedTime,
   convertTo12HourFormat,
+  getCurrentOpenPeriod,
 } from 'utils/functions';
 import {
   CAROUSEL_RESPONSIVE,
@@ -41,6 +42,7 @@ import { IRDMenuApiResponse } from 'core/graphql/queries/IRD_MENU';
 import { useReactiveVar } from '@apollo/client';
 import { RestaurantDetail } from 'components/pages/dining/RestaurantDetail/RestaurantDetail';
 import useTimeStatus from 'utils/hooks/useTimeStatus';
+import { isEmpty } from 'lodash';
 
 interface ICarouselProps {
   ird: any;
@@ -125,6 +127,8 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
     const isOpen = getFormattedTime(slide?.hours?.map((time: any) => time?.open));
     const isClose = getFormattedTime(slide?.hours?.map((time: any) => time?.close));
 
+    const currentOpenPeriod: any = getCurrentOpenPeriod(slide?.hours);
+
     return (
       <>
         <div
@@ -161,11 +165,15 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
                   t('Open 24x7')
                 ) : (
                   <>
-                    {t('From')}{' '}
-                    <span className={styles.timingCase}>
-                      {convertTo12HourFormat(slide?.hours[0]?.open)} -{' '}
-                      {convertTo12HourFormat(slide?.hours[0]?.close)}
-                    </span>
+                    {!isEmpty(currentOpenPeriod) && (
+                      <>
+                        {t('From')}{' '}
+                        <span className={styles.timingCase}>
+                          {convertTo12HourFormat(currentOpenPeriod?.open)} -{' '}
+                          {convertTo12HourFormat(currentOpenPeriod?.close)}
+                        </span>
+                      </>
+                    )}
                   </>
                 )}
               </p>

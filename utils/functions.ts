@@ -99,22 +99,11 @@ export const filterLiveMenu = (hours: any[]) => {
     const closeTimeRaw = hour.close === '00:00' ? '24:00' : hour.close;
     let closeTime = dayjs(closeTimeRaw, 'HH:mm');
 
-    // Rebuild open and close times on the correct date
-    let openDateTime = now
-      .set('hour', openTime.hour())
-      .set('minute', openTime.minute())
-      .startOf('minute');
-    let closeDateTime = now
-      .set('hour', closeTime.hour())
-      .set('minute', closeTime.minute())
-      .startOf('minute');
+    let openDateTime = now.set('hour', openTime.hour()).set('minute', openTime.minute());
+    let closeDateTime = now.set('hour', closeTime.hour()).set('minute', closeTime.minute());
 
     if (closeDateTime.isBefore(openDateTime)) {
       closeDateTime = closeDateTime.add(1, 'day');
-    }
-
-    if (now.isBefore(openDateTime)) {
-      openDateTime = openDateTime.subtract(1, 'day');
     }
 
     if (now.isAfter(openDateTime) && now.isBefore(closeDateTime)) {
@@ -565,4 +554,29 @@ export const updateFieldStatus = (data: any) => {
     ...data,
     details: updatedDetails,
   };
+};
+
+export const getCurrentOpenPeriod = (hours: any) => {
+  const now = new Date();
+  const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+  for (const period of hours) {
+    const [openHour, openMinute] = period.open.split(':').map(Number);
+    const [closeHour, closeMinute] = period.close.split(':').map(Number);
+
+    const openMinutes = openHour * 60 + openMinute;
+    const closeMinutes = closeHour * 60 + closeMinute;
+
+    const isOvernight = closeMinutes < openMinutes;
+
+    const isOpenNow = !isOvernight
+      ? currentMinutes >= openMinutes && currentMinutes < closeMinutes
+      : currentMinutes >= openMinutes || currentMinutes < closeMinutes;
+
+    if (isOpenNow) {
+      return period;
+    }
+  }
+
+  return null;
 };
