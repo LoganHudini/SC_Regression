@@ -97,9 +97,9 @@ export const filterLiveMenu = (hours: any[]) => {
 
     const openTime = dayjs(hour.open, 'HH:mm');
     const closeTimeRaw = hour.close === '00:00' ? '24:00' : hour.close;
-    let closeTime = dayjs(closeTimeRaw, 'HH:mm');
+    const closeTime = dayjs(closeTimeRaw, 'HH:mm');
 
-    let openDateTime = now.set('hour', openTime.hour()).set('minute', openTime.minute());
+    const openDateTime = now.set('hour', openTime.hour()).set('minute', openTime.minute());
     let closeDateTime = now.set('hour', closeTime.hour()).set('minute', closeTime.minute());
 
     if (closeDateTime.isBefore(openDateTime)) {
@@ -503,36 +503,54 @@ export const errorStateHandler = (
 
 // Returns opening and closing hour status
 export const getTimeStatus = (
-  currentTime: any,
+  currentTime: number,
   t: any,
-  isDayFound: any,
-  isOpen: any,
-  isClose: any,
+  isDayFound: boolean,
+  isOpen: number[],
+  isClose: number[],
 ) => {
   let displayMessage = t('Closed');
   if (!currentTime || isNaN(currentTime)) return displayMessage;
 
-  const isOpenSlot = isOpen.findIndex(
-    (openingTime: number, i: number) => openingTime <= currentTime && currentTime < isClose[i],
-  );
+  const isOpenSlot = isOpen.findIndex((openingTime: number, i: number) => {
+    const closingTime = isClose[i];
+    // Case 1: Normal opening/closing (same day)
+    if (openingTime <= closingTime) {
+      return openingTime <= currentTime && currentTime < closingTime;
+    }
+    // Case 2: Overnight opening (closing is on next day)
+    return currentTime >= openingTime || currentTime < closingTime;
+  });
 
   if (isOpenSlot !== -1 && isDayFound) {
     const closingTime = isClose[isOpenSlot];
-    if (closingTime - currentTime <= 60) {
-      displayMessage = t('Closes in', { value: closingTime - currentTime });
+    let remainingTime;
+
+    // Handle overnight closing time
+    if (closingTime < isOpen[isOpenSlot]) {
+      remainingTime = (closingTime + 1440 - currentTime) % 1440;
+    } else {
+      remainingTime = closingTime - currentTime;
+    }
+
+    if (remainingTime <= 60 && remainingTime > 0) {
+      displayMessage = t('Closes in', { value: remainingTime });
     } else {
       displayMessage = t('Open');
     }
     return displayMessage;
   }
 
-  const nextOpeningSlot = isOpen.findIndex(
-    (openingTime: number) => openingTime - currentTime >= 0 && openingTime - currentTime <= 60,
-  );
+  const nextOpeningSlot = isOpen.findIndex((openingTime: number, i: number) => {
+    const timeUntilOpen = (openingTime - currentTime + 1440) % 1440;
+    return timeUntilOpen > 0 && timeUntilOpen <= 60;
+  });
 
   if (nextOpeningSlot !== -1 && isDayFound) {
-    displayMessage = t('Opens in', { value: isOpen[nextOpeningSlot] - currentTime });
+    const minutesUntilOpen = (isOpen[nextOpeningSlot] - currentTime + 1440) % 1440;
+    displayMessage = t('Opens in', { value: minutesUntilOpen });
   }
+
   return displayMessage;
 };
 
