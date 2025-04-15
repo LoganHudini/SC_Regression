@@ -13,6 +13,7 @@ import {
   filterIRDMenuItems,
   getFormattedTime,
   convertTo12HourFormat,
+  getCurrentOpenPeriod,
 } from 'utils/functions';
 import {
   CAROUSEL_RESPONSIVE,
@@ -125,6 +126,8 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
     const isOpen = getFormattedTime(slide?.hours?.map((time: any) => time?.open));
     const isClose = getFormattedTime(slide?.hours?.map((time: any) => time?.close));
 
+    const currentOpenPeriod: any = getCurrentOpenPeriod(slide?.hours);
+
     return (
       <>
         <div
@@ -163,8 +166,8 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
                   <>
                     {t('From')}{' '}
                     <span className={styles.timingCase}>
-                      {convertTo12HourFormat(slide?.hours[0]?.open)} -{' '}
-                      {convertTo12HourFormat(slide?.hours[0]?.close)}
+                      {convertTo12HourFormat(currentOpenPeriod?.open || slide?.hours[0]?.open)} -{' '}
+                      {convertTo12HourFormat(currentOpenPeriod?.close || slide?.hours[0]?.close)}
                     </span>
                   </>
                 )}

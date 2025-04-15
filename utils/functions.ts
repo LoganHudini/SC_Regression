@@ -71,7 +71,8 @@ export const getWelcomeDrawer = () =>
 
 // Convert time format from 24H to 12H
 export const convertTo12HourFormat = (time24: string) => {
-  const [hours, minutes] = time24.split(':');
+  if (!time24) return time24 || '';
+  const [hours, minutes] = time24?.split(':');
 
   let hoursNum = parseInt(hours, 10);
   const meridiem = hoursNum >= 12 ? 'PM' : 'AM';
@@ -97,28 +98,27 @@ export const filterLiveMenu = (hours: any[]) => {
 
     const openTime = dayjs(hour.open, 'HH:mm');
     const closeTimeRaw = hour.close === '00:00' ? '24:00' : hour.close;
-    let closeTime = dayjs(closeTimeRaw, 'HH:mm');
+    const closeTime = dayjs(closeTimeRaw, 'HH:mm');
 
-    // Rebuild open and close times on the correct date
-    let openDateTime = now
-      .set('hour', openTime.hour())
-      .set('minute', openTime.minute())
-      .startOf('minute');
-    let closeDateTime = now
-      .set('hour', closeTime.hour())
-      .set('minute', closeTime.minute())
-      .startOf('minute');
+    const openDateTime = now.set('hour', openTime.hour()).set('minute', openTime.minute());
+    let closeDateTime = now.set('hour', closeTime.hour()).set('minute', closeTime.minute());
 
     if (closeDateTime.isBefore(openDateTime)) {
       closeDateTime = closeDateTime.add(1, 'day');
-    }
 
-    if (now.isBefore(openDateTime)) {
-      openDateTime = openDateTime.subtract(1, 'day');
-    }
+      const openYesterday = openDateTime.subtract(1, 'day');
+      const closeYesterday = closeDateTime.subtract(1, 'day');
 
-    if (now.isAfter(openDateTime) && now.isBefore(closeDateTime)) {
-      return true;
+      const isInYesterdayRange = now.isAfter(openYesterday) && now.isBefore(closeYesterday);
+      const isInTodayRange = now.isAfter(openDateTime) && now.isBefore(closeDateTime);
+
+      if (isInYesterdayRange || isInTodayRange) {
+        return true;
+      }
+    } else {
+      if (now.isAfter(openDateTime) && now.isBefore(closeDateTime)) {
+        return true;
+      }
     }
   }
 
@@ -514,36 +514,54 @@ export const errorStateHandler = (
 
 // Returns opening and closing hour status
 export const getTimeStatus = (
-  currentTime: any,
+  currentTime: number,
   t: any,
-  isDayFound: any,
-  isOpen: any,
-  isClose: any,
+  isDayFound: boolean,
+  isOpen: number[],
+  isClose: number[],
 ) => {
   let displayMessage = t('Closed');
   if (!currentTime || isNaN(currentTime)) return displayMessage;
 
-  const isOpenSlot = isOpen.findIndex(
-    (openingTime: number, i: number) => openingTime <= currentTime && currentTime < isClose[i],
-  );
+  const isOpenSlot = isOpen.findIndex((openingTime: number, i: number) => {
+    const closingTime = isClose[i];
+    // Case 1: Normal opening/closing (same day)
+    if (openingTime <= closingTime) {
+      return openingTime <= currentTime && currentTime < closingTime;
+    }
+    // Case 2: Overnight opening (closing is on next day)
+    return currentTime >= openingTime || currentTime < closingTime;
+  });
 
   if (isOpenSlot !== -1 && isDayFound) {
     const closingTime = isClose[isOpenSlot];
-    if (closingTime - currentTime <= 60) {
-      displayMessage = t('Closes in', { value: closingTime - currentTime });
+    let remainingTime;
+
+    // Handle overnight closing time
+    if (closingTime < isOpen[isOpenSlot]) {
+      remainingTime = (closingTime + 1440 - currentTime) % 1440;
+    } else {
+      remainingTime = closingTime - currentTime;
+    }
+
+    if (remainingTime <= 60 && remainingTime > 0) {
+      displayMessage = t('Closes in', { value: remainingTime });
     } else {
       displayMessage = t('Open');
     }
     return displayMessage;
   }
 
-  const nextOpeningSlot = isOpen.findIndex(
-    (openingTime: number) => openingTime - currentTime >= 0 && openingTime - currentTime <= 60,
-  );
+  const nextOpeningSlot = isOpen.findIndex((openingTime: number, i: number) => {
+    const timeUntilOpen = (openingTime - currentTime + 1440) % 1440;
+    return timeUntilOpen > 0 && timeUntilOpen <= 60;
+  });
 
   if (nextOpeningSlot !== -1 && isDayFound) {
-    displayMessage = t('Opens in', { value: isOpen[nextOpeningSlot] - currentTime });
+    const minutesUntilOpen = (isOpen[nextOpeningSlot] - currentTime + 1440) % 1440;
+    displayMessage = t('Opens in', { value: minutesUntilOpen });
   }
+
   return displayMessage;
 };
 
@@ -565,4 +583,29 @@ export const updateFieldStatus = (data: any) => {
     ...data,
     details: updatedDetails,
   };
+};
+
+export const getCurrentOpenPeriod = (hours: any) => {
+  const now = new Date();
+  const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+  for (const period of hours) {
+    const [openHour, openMinute] = period.open.split(':').map(Number);
+    const [closeHour, closeMinute] = period.close.split(':').map(Number);
+
+    const openMinutes = openHour * 60 + openMinute;
+    const closeMinutes = closeHour * 60 + closeMinute;
+
+    const isOvernight = closeMinutes < openMinutes;
+
+    const isOpenNow = !isOvernight
+      ? currentMinutes >= openMinutes && currentMinutes < closeMinutes
+      : currentMinutes >= openMinutes || currentMinutes < closeMinutes;
+
+    if (isOpenNow) {
+      return period;
+    }
+  }
+
+  return null;
 };

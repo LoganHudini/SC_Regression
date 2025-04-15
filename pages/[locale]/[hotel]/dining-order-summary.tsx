@@ -41,7 +41,7 @@ import { addToCartEvent } from 'utils/gtag';
 import { findModule, formatPrice, setScrollPosition } from 'utils/functions';
 import { diningInformationStorage } from 'storage/dining.storage';
 import DiningDetailsDrawer from 'components/pages/dining/DiningDetailsDrawer/DiningDetailsDrawer';
-import { hotelInformation, notificationStorage, toggleNotification } from 'storage/home.storage';
+import { hotelInfoStorage, notificationStorage, toggleNotification } from 'storage/home.storage';
 import { DiningMenuElementUpsell } from 'components/pages/dining/DiningMenuElementUpsell/DiningMenuElementUpsell';
 import { reviewSignAndCheckBox, useCheckedIn } from 'storage/check-in.storage';
 import { useConfig } from 'utils/hooks/useConfiguration';
@@ -70,7 +70,7 @@ const DiningOrderSummary = () => {
   const hotelId = config?.hotelId;
   const hotelName = config?.name;
   const irdOrderType: any = findModule(config?.modules, IN_ROOM_DINING);
-  const hotelInfo = useReactiveVar(hotelInformation);
+  const hotelInfo = useReactiveVar(hotelInfoStorage);
   const [customisationDrawer, setCustomisationDrawer] = useState(false);
   const [specialRequests, setSpecialRequests] = useState('');
   const [loading, setLoading] = useState(false);
@@ -87,7 +87,7 @@ const DiningOrderSummary = () => {
   const [signatureWidth, setSignatureWidth] = useState(340);
   const [btnStatus, setBtnStatus] = useState(false);
 
-  const information = hotelInfo?.detailsCustomAttributes;
+  const information = hotelInfo?.getPropertyDetailsByHotelId?.hotel?.detailsCustomAttributes;
 
   const getServiceCharges = (data: any) =>
     data?.find((item: any) => item?.key === 'serviceCharges')?.value ||

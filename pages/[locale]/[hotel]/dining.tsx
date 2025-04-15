@@ -127,14 +127,10 @@ const Dining = () => {
   }, [irdActiveMenu]);
 
   useEffect(() => {
-    if (
-      data?.getIRDMenuOutputDetails &&
-      (data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length === 0 ||
-        !checkInData?.checkedIn)
-    ) {
+    if (!checkInData?.checkedIn) {
       navigate(availablePaths?.HOME);
     }
-  }, [data?.getIRDMenuOutputDetails, navigate, t, checkInData?.checkedIn]);
+  }, [navigate, t, checkInData?.checkedIn]);
 
   useEffect(() => {
     if (header[0]?.name == undefined && header[0].hours == undefined) {

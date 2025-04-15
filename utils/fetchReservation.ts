@@ -6,7 +6,7 @@ import {
 import { client } from 'core/graphql/client';
 import { saveTrip } from 'storage/trips.storage';
 import { availablePaths } from './availablePaths';
-import { INHOUSE, FAILURE, SUCCESS, reservationStatusMessages } from './constants';
+import { INHOUSE, FAILURE, SUCCESS, reservationStatusMessages, RESERVED } from './constants';
 import { getWelcomeDrawer, errorStateHandler } from './functions';
 import {
   getInHouseToken,
@@ -85,15 +85,17 @@ export const handleReservation = async ({
       const roomNo = activeCheckInFlowInfo
         ? reservationInformation?.roomTypes[0]?.roomNumber
         : values?.roomNo?.toString()?.trim();
-
-      if (config?.preCheckInOnly ? !reservationInformation?.isPreCheckedIn : true) {
+      const reservationStatus = reservationInformation?.reservationStatus;
+      if (
+        reservationStatus === RESERVED && config?.preCheckInOnly
+          ? !reservationInformation?.isPreCheckedIn
+          : true
+      ) {
         if (
           roomNo && config?.allowedRoomtypes && config?.allowedRoomtypes?.length > 0
             ? config?.allowedRoomtypes.includes(reservationInformation?.roomTypes[0].code)
             : true
         ) {
-          const reservationStatus = reservationInformation?.reservationStatus;
-
           if (reservationStatusMessages[reservationStatus]) {
             errorStateHandler(reservationStatus, setLoading, t);
           } else if (reservationStatus === INHOUSE) {

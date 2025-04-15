@@ -66,9 +66,7 @@ const RestaurantAndBars: React.FC = () => {
   };
 
   useEffect(() => {
-    queryResultsData?.length != 0 &&
-      isEmpty(diningOptionSelected) &&
-      diningOptions(data?.getRestaurantDetails?.restaurant[0]);
+    queryResultsData?.length !== 0 && diningOptions(data?.getRestaurantDetails?.restaurant[0]);
     if (!isEmpty(initialSelected)) {
       diningOptions(initialSelected);
       setSelectedRestaurantData(initialSelected);
