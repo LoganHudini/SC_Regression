@@ -33,6 +33,7 @@ import { useConfig } from 'utils/hooks/useConfiguration';
 import { useCurrency } from 'utils/hooks/useCurrency';
 import { ALLERGENS, TAGS } from 'utils/constants';
 import { iconsMap } from 'utils/hamburger/hamburgerIconsMap';
+import { hotelInfoStorage } from 'storage/home.storage';
 
 export { getStaticPaths };
 interface DiningMenuProps {
@@ -69,6 +70,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   const [irdItemsList, setIrdItemsList] = useState<any[]>([]);
   const [orderDrawer, setOrderDrawer] = useState(false);
   const [loading, setLoading] = useState(false);
+  const hotelInformation = useReactiveVar(hotelInfoStorage);
 
   const [scrollHide, setScrollHide] = useState(true);
   const [scrollPosition] = useState(scrollData);
@@ -93,7 +95,10 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     fetchPolicy: 'no-cache',
   });
 
-  const irdMenu = irdActiveMenuList(data);
+  const irdMenu = irdActiveMenuList(
+    data,
+    hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone,
+  );
 
   useLayoutEffect(() => {
     const tags: string[] = [];

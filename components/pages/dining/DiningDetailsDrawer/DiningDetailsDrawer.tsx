@@ -30,6 +30,7 @@ import { useFormik } from 'formik';
 import { instructionValidation } from 'validation/dining.validation';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { IN_ROOM_DINING } from 'utils/constants';
+import { hotelInfoStorage } from 'storage/home.storage';
 
 const DiningDetailsDrawer = () => {
   const { t } = useTranslation(['dining', 'common']);
@@ -37,7 +38,7 @@ const DiningDetailsDrawer = () => {
   const selectedItemId = useReactiveVar(diningMenuStorage)?.selectedItemId;
   const selectedItemIndex = useReactiveVar(diningMenuStorage)?.selectedIndex;
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
-
+  const hotelInformation = useReactiveVar(hotelInfoStorage);
   const diningDetailsDrawerStatus = useReactiveVar(toggleDiningDetailsDrawer);
   const editControlStatus = useReactiveVar(editControl);
   const [count, setCount] = useState<number>(1);
@@ -62,7 +63,10 @@ const DiningDetailsDrawer = () => {
 
   const data = client.readQuery<IRDMenuApiResponse>({ query: IRD_MENU });
 
-  const irdMenu = irdActiveMenuList(data);
+  const irdMenu = irdActiveMenuList(
+    data,
+    hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone,
+  );
   const currency = useCurrency();
 
   let irdItemsList: any = [];
@@ -379,7 +383,12 @@ const DiningDetailsDrawer = () => {
     });
 
     const filteredList = data?.getIRDMenuOutputDetails?.filter(
-      (item: any) => item?.isActive && filterLiveMenu(item?.hours),
+      (item: any) =>
+        item?.isActive &&
+        filterLiveMenu(
+          item?.hours,
+          hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone,
+        ),
     );
 
     return (
