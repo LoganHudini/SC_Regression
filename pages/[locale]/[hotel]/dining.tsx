@@ -37,7 +37,7 @@ import {
   IGetRestaurantDetailsResponse,
   GET_RESTAURANT_DETAILS,
 } from 'core/graphql/queries/GET_RESTAURTANT_DETAILS';
-import { diningOptions, diningHeaders } from 'storage/home.storage';
+import { diningOptions, diningHeaders, hotelInfoStorage } from 'storage/home.storage';
 
 export { getStaticPaths };
 
@@ -57,6 +57,7 @@ const Dining = () => {
   const checkInData = useCheckedIn();
   const irdOption = useReactiveVar(diningHeaders);
   const diningOptionSelected = useReactiveVar(diningOptions);
+  const hotelInformation = useReactiveVar(hotelInfoStorage);
 
   const { data: restaurantList, loading } = useQuery<IGetRestaurantDetailsResponse>(
     GET_RESTAURANT_DETAILS,
@@ -93,7 +94,12 @@ const Dining = () => {
   const uniqueFilteredDiningOptions = uniqueDiningOption(queryResultsData);
 
   const filteredList = data?.getIRDMenuOutputDetails?.filter(
-    (item: any) => item?.isActive && filterLiveMenu(item?.hours),
+    (item: any) =>
+      item?.isActive &&
+      filterLiveMenu(
+        item?.hours,
+        hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone,
+      ),
   );
 
   useEffect(() => {
@@ -107,7 +113,10 @@ const Dining = () => {
     }
   }, [queryResultsData]);
 
-  const irdMenu: IRDMenuApiResponse = irdActiveMenuList(data);
+  const irdMenu: IRDMenuApiResponse = irdActiveMenuList(
+    data,
+    hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone,
+  );
   const irdActiveMenu: any = filterIRDMenuItems(irdMenu);
   const menuName = irdActiveMenu && irdActiveMenu[0]?.name;
   const menuHours = irdActiveMenu && irdActiveMenu[0]?.hours;

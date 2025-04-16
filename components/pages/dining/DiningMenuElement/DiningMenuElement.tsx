@@ -13,7 +13,7 @@ import { DiningCustomisationDrawer } from 'components/pages/dining/DiningCustomi
 import cx from 'classnames';
 import { addToCartEvent, viewItemEvent } from 'utils/gtag';
 import { useCurrency } from 'utils/hooks/useCurrency';
-import { activeModule, formatPrice } from 'utils/functions';
+import { activeModule, formatPriceIRD } from 'utils/functions';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { IN_ROOM_DINING } from 'utils/constants';
 
@@ -101,7 +101,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
           </p>
         )}
         <p className={styles.currency}>
-          {currency} <span className={styles.price}>{formatPrice(price)}</span>
+          {currency} <span className={styles.price}>{formatPriceIRD(price)}</span>
         </p>
       </div>
       <div className={styles.imageWrapper}>

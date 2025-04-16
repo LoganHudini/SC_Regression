@@ -65,7 +65,10 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
   const [diningOptionsState, setDiningOption] = useState<any>();
   const [timeSelectDrawer, setTimeSelectDrawer] = useState(false);
 
-  const irdMenuActive: IRDMenuApiResponse = irdActiveMenuList(ird);
+  const irdMenuActive: IRDMenuApiResponse = irdActiveMenuList(
+    ird,
+    hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone,
+  );
   const irdActiveMenu = filterIRDMenuItems(irdMenuActive);
   const queryResultsData: any = restaurants?.getRestaurantDetails?.restaurant;
   const activeRestaurants = activeItems(restaurants?.getRestaurantDetails?.restaurant);

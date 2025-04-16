@@ -30,7 +30,8 @@ import { analyticsEvent } from './gtag';
 import * as yup from 'yup';
 import { Countries } from './countryList';
 import { availablePaths } from './availablePaths';
-
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 // Extract data from local storage
 export const guestNameFandB = () =>
   (typeof window !== 'undefined' &&
@@ -83,10 +84,12 @@ export const convertTo12HourFormat = (time24: string) => {
 
 // Filter items based on the time of the day
 
-export const filterLiveMenu = (hours: any[]) => {
+export const filterLiveMenu = (hours: any[], hotelInformation: any) => {
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
   if (!hours || hours.length === 0) return false;
+  const now = dayjs().tz(hotelInformation);
 
-  const now = dayjs();
   const currentDay = now.format('dddd').toUpperCase();
 
   for (const hour of hours) {
@@ -126,9 +129,9 @@ export const filterLiveMenu = (hours: any[]) => {
 };
 
 // Return menu based on the time of the day
-export const irdActiveMenuList = (data: any) => {
+export const irdActiveMenuList = (data: any, hotelInformation: any) => {
   let filteredMenuList = data?.getIRDMenuOutputDetails?.filter(
-    (item: any) => item?.isActive && filterLiveMenu(item?.hours),
+    (item: any) => item?.isActive && filterLiveMenu(item?.hours, hotelInformation),
   );
 
   filteredMenuList?.length === 0
@@ -452,6 +455,12 @@ export const getHamburgerIcons = () => {
 
 export const formatPrice = (value: any) =>
   Number(value)?.toLocaleString('en-US', { minimumFractionDigits: 2 });
+
+export const formatPriceIRD = (price: number): string => {
+  return Number(price) % 1 === 0
+    ? price?.toLocaleString('en-US', { maximumFractionDigits: 0 })
+    : Number(price)?.toLocaleString('en-US', { minimumFractionDigits: 2 });
+};
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const emptyFunction = () => {};

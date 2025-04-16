@@ -9,7 +9,7 @@ import { timeFormats } from 'utils/timeFormats';
 import { useTranslation } from 'react-i18next';
 import { useCurrency } from 'utils/hooks/useCurrency';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
-import { formatPrice } from 'utils/functions';
+import { formatPriceIRD } from 'utils/functions';
 
 export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
   ordersDrawer,
@@ -121,7 +121,7 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
                                   <p className={styles.itemDescription}>
                                     {item?.addOns?.map((item: any, index: number) => (
                                       <span key={index} className={styles.grayText}>
-                                        {item?.name} ({currency} {formatPrice(item?.price)})
+                                        {item?.name} ({currency} {formatPriceIRD(item?.price)})
                                       </span>
                                     ))}
                                   </p>
@@ -139,7 +139,7 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
                             <p className={styles.total}>{t('Total')} </p>
                             <p className={styles.totalPrice}>
                               <span className={styles.currency}>{currency} </span>
-                              {formatPrice(orderCategory?.totalAmount)}
+                              {formatPriceIRD(orderCategory?.totalAmount)}
                             </p>
                           </div>
                         </div>
@@ -152,7 +152,7 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
                 <p className={styles.totalTitle}>{t('Total to be paid')}</p>
                 <p className={styles.totalTitlePrice}>
                   <span className={styles.currency}>{currency} </span>
-                  {formatPrice(totalToBePaid)}
+                  {formatPriceIRD(totalToBePaid)}
                 </p>
               </div>
             </div>
