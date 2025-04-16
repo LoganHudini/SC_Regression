@@ -18,7 +18,7 @@ import { DiningCheckboxItem } from 'components/pages/dining/DiningCheckboxItem/D
 import { InputAdornment } from '@mui/material';
 import { sortBy } from 'lodash';
 import { iconsMap } from 'utils/hamburger/hamburgerIconsMap';
-import { activeModule, filterLiveMenu, formatPrice, irdActiveMenuList } from 'utils/functions';
+import { activeModule, filterLiveMenu, formatPriceIRD, irdActiveMenuList } from 'utils/functions';
 import { addToCartEvent } from 'utils/gtag';
 import cx from 'classnames';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
@@ -556,7 +556,7 @@ const DiningDetailsDrawer = () => {
                 <p className={styles.totalItemPrice}>
                   {currency}{' '}
                   <span className={styles.price}>
-                    {formatPrice(selectedItem?.price + totalAddons)}
+                    {formatPriceIRD(selectedItem?.price + totalAddons)}
                   </span>
                 </p>
               </>

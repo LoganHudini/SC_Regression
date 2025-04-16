@@ -456,6 +456,12 @@ export const getHamburgerIcons = () => {
 export const formatPrice = (value: any) =>
   Number(value)?.toLocaleString('en-US', { minimumFractionDigits: 2 });
 
+export const formatPriceIRD = (price: number): string => {
+  return Number(price) % 1 === 0
+    ? price?.toLocaleString('en-US', { maximumFractionDigits: 0 })
+    : Number(price)?.toLocaleString('en-US', { minimumFractionDigits: 2 });
+};
+
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const emptyFunction = () => {};
 

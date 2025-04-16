@@ -5,7 +5,7 @@ import { IDiningCheckboxItemProps } from './DiningCheckboxItem.types';
 import { useReactiveVar } from '@apollo/client';
 import { editControl } from 'storage/dining-menu.storage';
 import { useCurrency } from 'utils/hooks/useCurrency';
-import { formatPrice } from 'utils/functions';
+import { formatPriceIRD } from 'utils/functions';
 
 export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
   element,
@@ -52,7 +52,7 @@ export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
       <>
         <p className={styles.price}>
           <span className={styles.currency}>{currency}</span>
-          {formatPrice(element?.price)}
+          {formatPriceIRD(element?.price)}
         </p>
       </>
     );

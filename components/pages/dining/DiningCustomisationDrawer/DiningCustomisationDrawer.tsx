@@ -13,7 +13,7 @@ import produce from 'immer';
 import { useTranslation } from 'react-i18next';
 import { addToCartEvent } from 'utils/gtag';
 import { useCurrency } from 'utils/hooks/useCurrency';
-import { formatPrice } from 'utils/functions';
+import { formatPriceIRD } from 'utils/functions';
 
 export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps> = ({
   customisationDrawer,
@@ -113,7 +113,7 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
                 {item?.name}
                 {' - '}
                 <span className={styles.currencyItems}>
-                  {currency} {formatPrice(item?.price)}
+                  {currency} {formatPriceIRD(item?.price)}
                 </span>
               </span>
             ))}
@@ -126,7 +126,7 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
               <div>
                 <span className={styles.currency}>{currency} </span>{' '}
                 <span className={styles.currencyValue}>
-                  {formatPrice(selectedItem?.price + totalAddons)}
+                  {formatPriceIRD(selectedItem?.price + totalAddons)}
                 </span>
               </div>
             </p>

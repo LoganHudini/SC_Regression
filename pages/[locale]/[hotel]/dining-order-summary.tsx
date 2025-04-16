@@ -38,7 +38,7 @@ import { InputAdornment } from '@mui/material';
 import Cookinginstructions from '@icons/cooking_instructions.svg';
 import { IRD_ORDER } from 'core/graphql/queries/IRD_ORDER';
 import { addToCartEvent } from 'utils/gtag';
-import { findModule, formatPrice, setScrollPosition } from 'utils/functions';
+import { findModule, formatPriceIRD, setScrollPosition } from 'utils/functions';
 import { diningInformationStorage } from 'storage/dining.storage';
 import DiningDetailsDrawer from 'components/pages/dining/DiningDetailsDrawer/DiningDetailsDrawer';
 import { hotelInfoStorage, notificationStorage, toggleNotification } from 'storage/home.storage';
@@ -491,7 +491,7 @@ const DiningOrderSummary = () => {
                               <span key={index} className={styles.itemsCurrency}>
                                 {currency}{' '}
                               </span>
-                              {formatPrice(items?.price)}{' '}
+                              {formatPriceIRD(items?.price)}{' '}
                               {index !== item?.addons?.length - 1 ? ',' : ''}{' '}
                             </span>
                           </div>
@@ -512,7 +512,7 @@ const DiningOrderSummary = () => {
                     />
                     <p className={styles.itemPrice}>
                       <span className={styles.itemCurrency}>{currency} </span>
-                      {formatPrice(
+                      {formatPriceIRD(
                         isNaN(totalPrice) ? item.quantity * item.price : item.quantity * totalPrice,
                       )}
                     </p>
@@ -657,7 +657,7 @@ const DiningOrderSummary = () => {
                   {items?.length > 0 && <span className={styles.itemCount}>{items?.length}</span>}
                   <span className={styles.currency}>
                     <span className={styles.currencyTitle}> {currency} </span>
-                    {formatPrice(totalAmount)}
+                    {formatPriceIRD(totalAmount)}
                   </span>
                 </div>
                 <div>{t('Confirm')}</div>
