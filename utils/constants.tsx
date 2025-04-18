@@ -76,6 +76,12 @@ export const GRAND_MERCURE_SAPPORO_ODORI_PARK = 'grand-mercure-sapporo-odori-par
 export const GRAND_MERCURE_LAKE_HAMANA_RESORT_SPA = 'grand-mercure-lake-hamana-resort-spa';
 export const COMO_METROPOLITAN_SINGAPORE = 'como-metropolitan-singapore';
 
+// CMS detailsCustomAttributes config constants
+export const MULTIPLE_PRIVACY_OPTIONS = 'multiplePrivacyOptions';
+export const SERVICE_CHARGES = 'serviceCharges';
+export const PAYMENT_MESSAGE = 'paymentMessage';
+export const BIOMETRICS_DISCLAIMER = 'biometricsDisclaimer';
+
 // configuration constants
 export const OPERA = 'OPERA';
 export const INFOR = 'INFOR';

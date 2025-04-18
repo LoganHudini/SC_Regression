@@ -66,6 +66,7 @@ export interface ICheckInApiRequest {
       dob: string;
     },
   ];
+  termsAndConditions?: any;
 }
 
 export const CHECKIN = gql`

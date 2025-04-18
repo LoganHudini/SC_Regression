@@ -56,6 +56,7 @@ import {
   GENDER,
   FIRST_NAME,
   LAST_NAME,
+  BIOMETRICS_DISCLAIMER,
 } from 'utils/constants';
 import {
   updateFieldStatus,
@@ -122,7 +123,7 @@ const Guest: React.FC<any> = () => {
   const information = hotelInfo?.detailsCustomAttributes;
 
   const getBiometricsDisclaimer = (data: any) =>
-    data?.find((item: any) => item?.key === 'biometricsDisclaimer')?.value || '';
+    data?.find((item: any) => item?.key === BIOMETRICS_DISCLAIMER)?.value || '';
 
   const disclaimerDisplayText = getBiometricsDisclaimer(information);
 

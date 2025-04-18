@@ -67,6 +67,7 @@ import {
   settlementType,
   INFOR,
   DOCTYPE,
+  MULTIPLE_PRIVACY_OPTIONS,
 } from 'utils/constants';
 import {
   notificationStorage,
@@ -122,6 +123,27 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       : [];
   }, [updatedGuestInfo]);
   const hotelInfo = useReactiveVar(hotelInformation);
+  const information = hotelInfo?.detailsCustomAttributes;
+  const termsAndConditions =
+    information?.find((item: any) => item?.key === MULTIPLE_PRIVACY_OPTIONS)?.value || '';
+
+  let termsAndConditionsValue = [];
+
+  if (
+    termsAndConditions &&
+    typeof termsAndConditions === 'string' &&
+    termsAndConditions?.trim() !== ''
+  ) {
+    try {
+      const parsed = JSON.parse(termsAndConditions);
+      if (Array.isArray(parsed)) {
+        termsAndConditionsValue = parsed;
+      }
+    } catch (error) {
+      console.error('Failed to parse termsAndConditions JSON:', error);
+    }
+  }
+
   const dayjsLocaleLoader = useReactiveVar(setDayjsLocale);
   const [accompanyGuestInformationState, setAcccompanyGuestInformation] = useState(
     new Array(accompanyGuestInfo?.length)?.fill(false),
@@ -157,6 +179,50 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const checkInModule: any = config?.modules?.find((module: any) => module?.code === CHECK_IN);
   const reviewConfig = checkInModule?.submodules?.find(
     (submodule: any) => submodule?.name === REVIEW && submodule.isActive,
+  );
+
+  const [checkboxStates, setCheckboxStates] = useState<{ [key: number]: boolean }>({});
+
+  useEffect(() => {
+    const initialState: { [key: number]: boolean } = {};
+
+    termsAndConditionsValue?.forEach((item: any, idx: number) => {
+      const isChecked = reviewSignAndCheckBox()?.multipleTerms?.includes(idx);
+      initialState[idx] = isChecked || item?.defaultChecked || false;
+    });
+
+    setCheckboxStates(initialState);
+  }, [reviewConfig]);
+
+  const toggleCheckbox = (index: number, viewed?: any) => {
+    setCheckboxStates((prev) => {
+      const updated = {
+        ...prev,
+        [index]: !prev[index],
+      };
+
+      const checkedIndices = Object.entries(updated)
+        ?.filter(([_, checked]) => checked)
+        ?.map(([idx]) => Number(idx));
+
+      reviewSignAndCheckBox(
+        produce(reviewSignAndCheckBox(), (draft: any) => {
+          draft.multipleTerms = checkedIndices;
+          if (viewed) {
+            draft.viewed = Array.isArray(draft?.viewed) ? draft?.viewed : [];
+            if (!draft?.viewed?.includes(index)) {
+              draft?.viewed?.push(index);
+            }
+          }
+        }),
+      );
+
+      return updated;
+    });
+  };
+
+  const allMandatoryAccepted = termsAndConditionsValue?.every(
+    (option: any, idx: number) => !option.mandatory || checkboxStates[idx],
   );
 
   const guestSubmodule = checkInModule?.submodules?.find(
@@ -219,12 +285,17 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     : false;
 
   useEffect(() => {
-    if (conditionsAccepted && sigCanvas?.current && signature !== null) {
+    if (
+      conditionsAccepted &&
+      sigCanvas?.current &&
+      signature !== null &&
+      (termsAndConditionsValue?.length > 0 ? allMandatoryAccepted : true)
+    ) {
       setBtnStatus(true);
     } else {
       setBtnStatus(false);
     }
-  }, [conditionsAccepted, signature]);
+  }, [conditionsAccepted, signature, allMandatoryAccepted]);
 
   const sigCanvas = useRef<SignatureCanvas>(null);
 
@@ -440,6 +511,17 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         placeOfStayArrival: guestReservationInfo?.placeOfStayArrival || '',
         placeOfStayDeparture: guestReservationInfo?.placeOfStayDeparture || '',
         skipOCR: IsBiometricsSkippedStatus,
+        termsAndConditions:
+          termsAndConditionsValue?.length > 0 &&
+          termsAndConditionsValue.map((terms: any, index: any) => {
+            return {
+              text: terms?.text,
+              isChecked: checkboxStates?.[index.toString()] || false,
+              url: terms?.url || '',
+              printInEreg: terms?.printInEreg || false,
+              privacyNotes: terms?.privacyNotes,
+            };
+          }),
       };
       const checkIn = async () => {
         const checkInToken = await getCheckInToken();
@@ -1118,6 +1200,49 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               </p>
             </div>
           )}
+          {termsAndConditionsValue?.length > 0 &&
+            termsAndConditionsValue.map((option: any, idx: number) => (
+              <div
+                key={idx}
+                className={styles.agrementWrapper}
+                onClick={() => {
+                  if (
+                    option?.mustView &&
+                    option?.policyLink &&
+                    !reviewAndSign?.viewed?.includes(idx)
+                  ) {
+                    toggleCheckbox(idx, true);
+                    window.open(option.policyLink, '_blank', 'noopener,noreferrer');
+                  }
+                }}
+              >
+                <div className={styles.checkBoxAlign}>
+                  <StyledCheckBox
+                    onClick={() => {
+                      if (
+                        !(
+                          option?.mustView &&
+                          option?.policyLink &&
+                          !reviewAndSign?.viewed?.includes(idx)
+                        )
+                      ) {
+                        toggleCheckbox(idx);
+                      }
+                    }}
+                    value={checkboxStates[idx] || false}
+                    checked={checkboxStates[idx] || false}
+                  />
+                </div>
+
+                <p className={styles.agrementText}>
+                  {option.text}{' '}
+                  <Link href={option.policyLink} target='_blank' rel='noopener noreferrer'>
+                    {t('View')}
+                  </Link>
+                </p>
+              </div>
+            ))}
+
           <div className={styles.guestSignatureWrapper}>
             <p className={styles.guestSignature}>{t('Guest Signature')}</p>
             <p className={styles.clearBtn} onClick={clearCanvas}>

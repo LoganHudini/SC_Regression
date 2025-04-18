@@ -31,6 +31,7 @@ import {
   FAILURE,
   INVALID_BOOKING_STATUS,
   IN_ROOM_DINING,
+  SERVICE_CHARGES,
   SUCCESS,
   VENDOR,
 } from 'utils/constants';
@@ -90,7 +91,7 @@ const DiningOrderSummary = () => {
   const information = hotelInfo?.getPropertyDetailsByHotelId?.hotel?.detailsCustomAttributes;
 
   const getServiceCharges = (data: any) =>
-    data?.find((item: any) => item?.key === 'serviceCharges')?.value ||
+    data?.find((item: any) => item?.key === SERVICE_CHARGES)?.value ||
     DEFAULT_SERVICE_CHARGE_MESSAGE;
 
   const servicechargeDisplay = getServiceCharges(information);
