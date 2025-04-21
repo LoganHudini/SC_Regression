@@ -42,7 +42,6 @@
   "Online requests presently unavailable": "Las solicitudes en línea no están disponibles en este momento",
   "Search for items": "Buscar artículos",
   "There are no menus available right now!": "¡En este momento no hay menús disponibles!",
-  "There are no menus available right now! You can still check out the upcoming menu items in the list below.": "¡En este momento no hay menús disponibles! Sin embargo, aún puedes ver los próximos artículos del menú en la lista a continuación.",
   "Oops, Item Not Found": "Ups, Artículo no Encontrado",
   "Current Order": "Pedido Actual",
   "items": "artículos",
@@ -76,5 +75,6 @@
   "Try rewording your search or entering a new keyword.": "Intenta reformular tu búsqueda o ingresar una nueva palabra clave.",
   "Total Item Price :": "Precio Total del Artículo :",
   "Repeat last used customization?": "¿Repetir la última personalización utilizada?",
-  "Add to Cart": "añadir a la cesta"
+  "Add to Cart": "añadir a la cesta",
+  "This menu is unavailable right now! You can still check it out below.": "¡Este menú no está disponible en este momento! Aún puedes revisarlo más abajo."
 }

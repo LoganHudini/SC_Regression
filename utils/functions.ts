@@ -130,9 +130,7 @@ export const filterLiveMenu = (hours: any[], hotelInformation: any) => {
 
 // Return menu based on the time of the day
 export const irdActiveMenuList = (data: any, hotelInformation: any) => {
-  let filteredMenuList = data?.getIRDMenuOutputDetails?.filter(
-    (item: any) => item?.isActive && filterLiveMenu(item?.hours, hotelInformation),
-  );
+  let filteredMenuList = data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive);
 
   filteredMenuList?.length === 0
     ? (filteredMenuList = data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive))

@@ -42,7 +42,6 @@
   "Online requests presently unavailable": "Online requests presently unavailable",
   "Search for items": "Search for items",
   "There are no menus available right now!": "There are no menus available right now!",
-  "There are no menus available right now! You can still check out the upcoming menu items in the list below.": "There are no menus available right now! You can still check out the upcoming menu items in the list below.",
   "Oops, Item Not Found": "Oops, Item Not Found",
   "Current Order": "Current Order",
   "items": "items",
@@ -76,5 +75,6 @@
   "Try rewording your search or entering a new keyword.": "Try rewording your search or entering a new keyword.",
   "Total Item Price :": "Total Item Price :",
   "Repeat last used customization?": "Repeat last used customization?",
-  "Add to Cart": "Add to Cart"
+  "Add to Cart": "Add to Cart",
+  "This menu is unavailable right now! You can still check it out below.": "This menu is unavailable right now! You can still check it out below."
 }

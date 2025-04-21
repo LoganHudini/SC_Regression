@@ -32,7 +32,10 @@ import { useConfig } from 'utils/hooks/useConfiguration';
 import { IN_ROOM_DINING } from 'utils/constants';
 import { hotelInfoStorage } from 'storage/home.storage';
 
-const DiningDetailsDrawer = () => {
+type DiningDetailsDrawerProps = {
+  menuAvailability?: any;
+};
+const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailability }) => {
   const { t } = useTranslation(['dining', 'common']);
   const navigate = useLocalizedRouter();
   const selectedItemId = useReactiveVar(diningMenuStorage)?.selectedItemId;
@@ -582,7 +585,7 @@ const DiningDetailsDrawer = () => {
                     (selectedItem?.customisation?.length > 0 &&
                       filteredCustomisation?.length !== customisation?.length) ||
                     addonsWarning ||
-                    filteredList?.length === 0
+                    !menuAvailability
                   }
                 >
                   {editControlStatus ? t('Update Order') : t('Add to Cart')}

@@ -42,7 +42,6 @@
   "Online requests presently unavailable": "Les sol·licituds en línia no estan disponibles en aquest moment",
   "Search for items": "Cercar articles",
   "There are no menus available right now!": "No hi ha menús disponibles ara mateix!",
-  "There are no menus available right now! You can still check out the upcoming menu items in the list below.": "No hi ha menús disponibles ara mateix! No obstant això, encara pots consultar els pròxims articles del menú a la llista següent.",
   "Oops, Item Not Found": "Oops, Article No Trobat",
   "Current Order": "Comanda Actual",
   "items": "articles",
@@ -76,5 +75,6 @@
   "Try rewording your search or entering a new keyword.": "Prova a reformular la teva cerca o introduir una paraula clau nova.",
   "Total Item Price :": "Preu Total de l'Article :",
   "Repeat last used customization?": "Repetir la personalització utilitzada anteriorment?",
-  "Add to Cart": "Afegeix a la cistella"
+  "Add to Cart": "Afegeix a la cistella",
+  "This menu is unavailable right now! You can still check it out below.": "Aquest menú no està disponible ara mateix! Encara el pots consultar a continuació."
 }
