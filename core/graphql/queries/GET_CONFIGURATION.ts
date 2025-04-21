@@ -5253,7 +5253,7 @@ export const configuration: any = [
                 type: 'AutoComplete',
                 required: true,
                 isDisabled: false,
-                isActive: true,
+                isActive: false,
                 options: Countries,
               },
               {
