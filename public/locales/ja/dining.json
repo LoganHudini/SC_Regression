@@ -42,7 +42,6 @@
   "Online requests presently unavailable": "オンラインリクエストは現在利用できません",
   "Search for items": "アイテムを検索する",
   "There are no menus available right now!": "現在ご利用いただけるメニューはありません！",
-  "There are no menus available right now! You can still check out the upcoming menu items in the list below.": "現在ご利用いただけるメニューはありません！今後のメニュー項目は以下のリストで引き続き確認できます。",
   "Oops, Item Not Found": "おっと、アイテムが見つかりませんでした",
   "Current Order": "現在の注文",
   "items": "アイテム",
@@ -76,5 +75,6 @@
   "Try rewording your search or entering a new keyword.": "検索語を言い換えるか、新しいキーワードを入力してください。",
   "Total Item Price :": "商品合計価格 :",
   "Repeat last used customization?": "最後に使用したカスタマイズを繰り返しますか?",
-  "Add to Cart": "カートに追加"
+  "Add to Cart": "カートに追加",
+  "This menu is unavailable right now! You can still check it out below.": "このメニューは現在利用できませんが、下から確認することはできます。"
 }

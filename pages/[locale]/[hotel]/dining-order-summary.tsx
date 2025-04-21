@@ -670,7 +670,7 @@ const DiningOrderSummary = () => {
           customisationDrawer={customisationDrawer}
           closeCustomisationDrawer={closeCustomisationDrawer}
         />
-        <DiningDetailsDrawer />
+        <DiningDetailsDrawer menuAvailability />
       </PageWrapper>
     </>
   );

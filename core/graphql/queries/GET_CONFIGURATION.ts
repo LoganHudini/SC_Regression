@@ -21428,7 +21428,7 @@ export const configuration: any = [
       'spa',
       'hotel-compendium',
     ],
-    preCheckInOnly: true,
+    preCheckInOnly: false,
     hideImagePlaceholder: true,
     isAnimationActive: false,
     isLogoLoaderActive: false,
@@ -21453,7 +21453,7 @@ export const configuration: any = [
       {
         code: 'Check-In',
         name: 'Check-In',
-        isActive: true,
+        isActive: false,
         submodules: [
           {
             name: 'information',

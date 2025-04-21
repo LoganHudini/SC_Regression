@@ -21,7 +21,7 @@ import SearchText from '@icons/search_text_delete.svg';
 import { DiningOrders } from 'components/pages/dining/DiningOrders/DiningOrders';
 import { DiningOrdersDrawer } from 'components/pages/dining/DiningOrdersDrawer/DiningOrdersDrawer';
 import { GET_ORDERS } from 'core/graphql/queries/GET_ORDERS_BY_ID';
-import { convertTo12HourFormat, irdActiveMenuList } from 'utils/functions';
+import { convertTo12HourFormat, filterLiveMenu, irdActiveMenuList } from 'utils/functions';
 import { DiningCategoryOptions } from 'components/pages/dining/DiningCategoryOptions/DiningCategoryOptions';
 import produce from 'immer';
 import { ItemNotFoundLoader, Loader } from 'components/shared/Loaders/Loaders';
@@ -41,14 +41,8 @@ interface DiningMenuProps {
   search?: any;
   setsearch?: any;
   openCategory?: boolean;
-  menuAvailability?: boolean;
 }
-const DiningMenu: React.FC<DiningMenuProps> = ({
-  search,
-  setsearch,
-  openCategory,
-  menuAvailability,
-}) => {
+const DiningMenu: React.FC<DiningMenuProps> = ({ search, setsearch, openCategory }) => {
   const { t } = useTranslation('dining');
   const navigate = useLocalizedRouter();
   const checkinData = useCheckedIn();
@@ -154,24 +148,20 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   const filteredIrdItemsList = irdItemsList?.length > 0 && filterItems(irdItemsList);
 
   const currentTime = new Date().getHours();
-  const hoursDifference =
-    irdMenu &&
-    irdMenu
-      ?.map((item: any) => parseInt(item?.hours[0]?.open) - currentTime)
-      ?.map((item: any) => (item > 0 ? item : 24));
-
-  const menuStartingTime =
-    irdMenu &&
-    hoursDifference &&
-    convertTo12HourFormat(
-      irdMenu[hoursDifference?.indexOf(Math.min(...hoursDifference))]?.hours[0]?.open || '00:00',
-    );
 
   const initialFilter = irdMenu && irdMenu[0];
 
   const selectedMenu = selectedFilter?.selectedMenu
     ? irdMenu?.find((item: any) => item?.id === selectedFilter?.selectedMenu)
     : initialFilter;
+
+  const menuAvailability = filterLiveMenu(
+    selectedMenu?.hours,
+    hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone,
+  );
+
+  const menuStartingTime =
+    irdMenu && convertTo12HourFormat(selectedMenu?.hours[0]?.open || '00:00');
 
   const ordersData = myOrders?.getOrdersByBookingId;
 
@@ -470,9 +460,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                     {t('Online requests will be available from')} {menuStartingTime}
                   </div>
                   <div className={styles.menuUnavailableDescription}>
-                    {t(
-                      'There are no menus available right now! You can still check out the upcoming menu items in the list below.',
-                    )}
+                    {t('This menu is unavailable right now! You can still check it out below.')}
                   </div>
                 </div>
               )}
@@ -501,7 +489,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
           </div>
         </>
       )}
-      <DiningDetailsDrawer />
+      <DiningDetailsDrawer menuAvailability={menuAvailability} />{' '}
     </>
   );
 };

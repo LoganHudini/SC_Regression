@@ -42,7 +42,6 @@
   "Online requests presently unavailable": "الطلبات عبر الإنترنت غير مُتاحَة حاليًا",
   "Search for items": "البحث عن العناصر",
   "There are no menus available right now!": "لا تُوجَد قوائم متاحة في الوقت الحالي!",
-  "There are no menus available right now! You can still check out the upcoming menu items in the list below.": "لا توجد قوائم متاحة في الوقت الحالي! يُمكنك التحقُّق من العناصر القادمة في القائمة أدناه.",
   "Oops, Item Not Found": "عذرًا، العنصر غير موجود",
   "Try rewording your search or entering a new keyword.": "حاوِل إعادة صياغة البحث أو إدخال كلمة مفتاحية جديدة.",
   "Current Order": "الطلب الحالي",
@@ -72,5 +71,6 @@
   "Total Item Price :": "ا لسعر الإجمالي للعناصر:",
   "Update Order": "أجل التحديث",
   "Repeat last used customization?": "هل ترغب في تكرار التخصيص الذي استخدمته آخر مرة؟",
-  "Add to Cart": "أضف إلى السلة"
+  "Add to Cart": "أضف إلى السلة",
+  "This menu is unavailable right now! You can still check it out below.": "هذه القائمة غير متوفرة حالياً! لا يزال بإمكانك الاطلاع عليها أدناه."
 }

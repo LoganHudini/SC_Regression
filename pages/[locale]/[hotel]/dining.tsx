@@ -271,7 +271,6 @@ const Dining = () => {
             categoryId={categoryId1}
             search={search}
             setsearch={setsearch}
-            menuAvailability={filteredList?.length === 0 ? false : true}
           />
         </div>
       </PageWrapper>
