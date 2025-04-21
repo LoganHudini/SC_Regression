@@ -73,7 +73,7 @@ export const getWelcomeDrawer = () =>
 // Convert time format from 24H to 12H
 export const convertTo12HourFormat = (time24: string) => {
   if (!time24) return time24 || '';
-  const [hours, minutes] = time24?.split(':');
+  const [hours, minutes] = time24 && time24.split(':');
 
   let hoursNum = parseInt(hours, 10);
   const meridiem = hoursNum >= 12 ? 'PM' : 'AM';
