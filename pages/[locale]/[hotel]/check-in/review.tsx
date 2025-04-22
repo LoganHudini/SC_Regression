@@ -512,17 +512,18 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         placeOfStayDeparture: guestReservationInfo?.placeOfStayDeparture || '',
         skipOCR: IsBiometricsSkippedStatus,
         termsAndConditions:
-          termsAndConditionsValue?.length > 0 &&
-          termsAndConditionsValue.map((terms: any, index: number) => {
-            const indexKey: any = index?.toString();
-            return {
-              text: terms?.text,
-              isChecked: checkboxStates?.[indexKey] ?? false,
-              url: terms?.url || '',
-              printInEreg: terms?.printInEreg || false,
-              privacyNotes: terms?.privacyNotes,
-            };
-          }),
+          (termsAndConditionsValue?.length > 0 &&
+            termsAndConditionsValue.map((terms: any, index: number) => {
+              const indexKey: any = index?.toString();
+              return {
+                text: terms?.text,
+                isChecked: checkboxStates?.[indexKey] ?? false,
+                url: terms?.url || '',
+                printInEreg: terms?.printInEreg || false,
+                privacyNotes: terms?.privacyNotes,
+              };
+            })) ||
+          [],
       };
       const checkIn = async () => {
         const checkInToken = await getCheckInToken();
