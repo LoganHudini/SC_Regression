@@ -513,10 +513,11 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         skipOCR: IsBiometricsSkippedStatus,
         termsAndConditions:
           termsAndConditionsValue?.length > 0 &&
-          termsAndConditionsValue.map((terms: any, index: any) => {
+          termsAndConditionsValue.map((terms: any, index: number) => {
+            const indexKey: any = index?.toString();
             return {
               text: terms?.text,
-              isChecked: checkboxStates?.[index.toString()] || false,
+              isChecked: checkboxStates?.[indexKey] ?? false,
               url: terms?.url || '',
               printInEreg: terms?.printInEreg || false,
               privacyNotes: terms?.privacyNotes,
@@ -753,6 +754,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     specialRequests,
     t,
     updatedGuestData,
+    checkboxStates,
+    termsAndConditionsValue,
   ]);
 
   useEffect(() => {
