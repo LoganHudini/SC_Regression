@@ -5022,7 +5022,15 @@ export const configuration: any = [
     fetchFromDb: 'yes',
     saveToDb: 'no',
     languages: [{ code: 'en', name: 'English' }],
-    orderOfModules: ['offers', 'check-in', 'hotel-info', 'dining', 'spa', 'hotel-compendium'],
+    orderOfModules: [
+      'offers',
+      'check-in',
+      'hotel-info',
+      'services',
+      'dining',
+      'spa',
+      'hotel-compendium',
+    ],
     hideImagePlaceholder: true,
     isAnimationActive: false,
     isLogoLoaderActive: false,
@@ -5369,14 +5377,14 @@ export const configuration: any = [
       {
         code: 'In-Room Dining',
         name: 'In-Room Dining',
-        isActive: false,
+        isActive: true,
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
       },
       {
         code: 'Services',
         name: 'Services',
-        isActive: false,
+        isActive: true,
         type: 'VENDOR',
       },
       {

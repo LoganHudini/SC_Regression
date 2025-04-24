@@ -621,9 +621,9 @@ const Guest: React.FC<any> = () => {
                 dob: data?.dob,
               },
               phone: {
-                phoneType: data?.phone ? 'PHONE' : '',
+                phoneType: data?.phone ? (config?.pms === OHIP ? 'PHONE' : 'HOME') : '',
                 phoneNumber: data?.phone ?? '',
-                phoneRole: data?.phone ? 'HOME' : '',
+                phoneRole: data?.phone ? (config?.pms === OHIP ? 'HOME' : 'PHONE') : '',
                 id: data?.phoneOperaId ? data?.phoneOperaId[0] : '',
               },
               address: {
@@ -687,9 +687,9 @@ const Guest: React.FC<any> = () => {
               dob: data?.dob,
             },
             phone: {
-              phoneType: data?.phone ? 'PHONE' : '',
+              phoneType: data?.phone ? (config?.pms === OHIP ? 'PHONE' : 'HOME') : '',
               phoneNumber: data?.phone ?? '',
-              phoneRole: data?.phone ? 'HOME' : '',
+              phoneRole: data?.phone ? (config?.pms === OHIP ? 'HOME' : 'PHONE') : '',
               id: data?.phoneOperaId ? data?.phoneOperaId[0] : '',
             },
             address: {
