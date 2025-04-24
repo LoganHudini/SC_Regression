@@ -5106,7 +5106,7 @@ export const configuration: any = [
                     type: 'AutoComplete',
                     required: true,
                     isDisabled: false,
-                    isActive: true,
+                    isActive: false,
                     options: Countries,
                   },
                   {
@@ -5147,12 +5147,6 @@ export const configuration: any = [
                         value: 'PAS',
                         code: 'PAS',
                         vendorDocType: 'PASSPORT',
-                      },
-                      {
-                        name: 'Driving License',
-                        value: 'DRL',
-                        code: 'DRL',
-                        vendorDocType: 'DRIVING_LICENSE',
                       },
                     ],
                   },
