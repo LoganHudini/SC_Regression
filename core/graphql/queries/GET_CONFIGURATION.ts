@@ -5019,6 +5019,7 @@ export const configuration: any = [
     name: 'Fairmont Scottsdale Princess',
     hotelId: '11e093a8-c3d0-4e48-bb5c-2f216d3f195c',
     pms: 'OPERA',
+    preCheckInOnly: true,
     fetchFromDb: 'yes',
     saveToDb: 'no',
     languages: [{ code: 'en', name: 'English' }],
