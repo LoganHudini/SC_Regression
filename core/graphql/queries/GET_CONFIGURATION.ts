@@ -23893,6 +23893,7 @@ export const configuration: any = [
                 isActive: true,
                 type: 'trential',
                 uploadId: true,
+                enablePassportSkipOption: true,
                 details: [
                   {
                     name: 'firstName',
@@ -23983,12 +23984,6 @@ export const configuration: any = [
                         value: 'PAS',
                         code: 'PAS',
                         vendorDocType: 'passport',
-                      },
-                      {
-                        name: 'Resident Card',
-                        value: 'RES',
-                        code: 'RES',
-                        vendorDocType: 'japanese-resident-card',
                       },
                     ],
                   },
