@@ -419,7 +419,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         lastName: guestReservationInfo?.lastName as string,
         primaryGuestMobileNumber: guestReservationInfo?.phone as string,
         primaryGuestAddress: guestReservationInfo?.addressLine,
-        country: guestReservationInfo?.nationality,
+        nationality: guestReservationInfo?.nationality,
         profession: guestReservationInfo?.profession,
         guests: accompanyGuestInfo
           ?.concat(updatedGuestData && updatedGuestData)

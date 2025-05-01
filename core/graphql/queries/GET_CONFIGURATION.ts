@@ -21976,6 +21976,15 @@ export const configuration: any = [
                     isActive: true,
                   },
                   {
+                    name: 'addressLine',
+                    label: 'Address',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    maxLength: 80,
+                  },
+                  {
                     name: 'estimatedTime',
                     label: 'Estimated Time of Arrival',
                     type: 'TimePicker',

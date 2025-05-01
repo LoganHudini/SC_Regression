@@ -40,7 +40,7 @@ export interface ICheckInApiRequest {
   specialInstructions: string;
   arrivalFlight: string;
   primaryGuestAddress: string;
-  country: string;
+  nationality: string;
   profession: string;
   primaryGuestDOB: string;
   guestType: string;
