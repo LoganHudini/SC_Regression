@@ -534,7 +534,7 @@ export const configuration: any = [
               {
                 name: 'Credit Card Info',
                 isActive: true,
-                type: 'SHIFT4',
+                type: 'NONE',
                 details: [
                   {
                     name: 'cardNumber',
@@ -9065,7 +9065,7 @@ export const configuration: any = [
               {
                 name: 'Credit Card Info',
                 isActive: true,
-                type: 'NONE',
+                type: 'PLANET',
                 details: [
                   {
                     name: 'cardNumber',
@@ -9912,7 +9912,7 @@ export const configuration: any = [
               {
                 name: 'Credit Card Info',
                 isActive: true,
-                type: 'Fiserv',
+                type: 'FISERV',
                 txnType: 'preauth',
                 timeZone: 'Asia/Singapore',
                 details: [

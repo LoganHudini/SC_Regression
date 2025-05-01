@@ -94,7 +94,8 @@ export const CCAVENUE = 'CCAVENUE';
 export const FREEDOMPAY = 'FREEDOMPAY';
 export const DSP = 'DSP';
 export const OGONE = 'OGONE';
-export const FISERV = 'Fiserv';
+export const FISERV = 'FISERV';
+export const PLANET = 'PLANET';
 
 // flow constants
 export const CHAT_FLOW = 'CHAT_FLOW';

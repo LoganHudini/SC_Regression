@@ -8,7 +8,16 @@ import { getStaticPaths } from 'utils/getStatic';
 import i18nConfig from 'next-i18next.config';
 import Shift4 from 'components/pages/payment/Shift4/Shift4';
 import { useConfig, usePaymentConfig } from 'utils/hooks/useConfiguration';
-import { CYBERSOURCE, SHIFT4, CCAVENUE, FREEDOMPAY, OGONE, DSP, FISERV } from 'utils/constants';
+import {
+  CYBERSOURCE,
+  SHIFT4,
+  CCAVENUE,
+  FREEDOMPAY,
+  OGONE,
+  DSP,
+  FISERV,
+  PLANET,
+} from 'utils/constants';
 import CyberSource from 'components/pages/payment/CyberSource/CyberSource';
 import { availablePaths } from 'utils/availablePaths';
 import CCAvenue from 'components/pages/payment/CCAvenue/CCAvenue';
@@ -16,6 +25,7 @@ import FreedomPay from 'components/pages/payment/FreedomPay/FreedomPay';
 import DSPIntegration from 'components/pages/payment/DSP/DSP';
 import { Ogone } from 'components/pages/payment/Ogone/Ogone';
 import { Fiserv } from 'components/pages/payment/Fiserv/Fiserv';
+import { Planet } from 'components/pages/payment/Planet/Planet';
 
 export { getStaticPaths };
 
@@ -41,6 +51,8 @@ const Payment: React.FC = () => {
         return <Ogone />;
       case FISERV:
         return <Fiserv />;
+      case PLANET:
+        return <Planet />;
       default:
         break;
     }

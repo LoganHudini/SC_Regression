@@ -137,3 +137,19 @@ query InitiatePayment( $body: InitiatePaymentPayload) {
   }
 }
 `;
+
+export const INITIATE_PAYMENT_PLANET = gql`
+query InitiatePayment($body: InitiatePaymentPayload) {
+  InitiatePaymentPayload(body: $body)
+    @rest(
+      type: "InitiatePaymentPayload"
+      path: "/web2pay/getToken/hotel/${HOTEL_ID}"
+      method: "POST"
+      bodyKey: "body"
+    ) {
+    errors
+    data
+    status
+  }
+}
+`;

@@ -309,14 +309,14 @@
     },
     {
       "type": "npm",
-      "script": "dev:proper.stage",
+      "script": "dev:proper-stage",
       "problemMatcher": [],
       "label": "Dev: PROPER_STAGE",
       "detail": "env-cmd -f .env.proper.stage yarn next dev"
     },
     {
       "type": "npm",
-      "script": "build:proper.stage",
+      "script": "build:proper-stage",
       "group": "build",
       "problemMatcher": [],
       "label": "Build: PROPER_STAGE",
@@ -324,7 +324,7 @@
     },
     {
       "type": "npm",
-      "script": "start:proper.stage",
+      "script": "start:proper-stage",
       "problemMatcher": [],
       "label": "Start: PROPER_STAGE",
       "detail": "env-cmd -f .env.proper.stage next start"
@@ -372,6 +372,28 @@
       "problemMatcher": [],
       "label": "Start: LONDONER",
       "detail": "env-cmd -f .env.londoner next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:londoner-stage",
+      "problemMatcher": [],
+      "label": "Dev: LONDONER_STAGE",
+      "detail": "env-cmd -f .env.londoner.stage yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:londoner-stage",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: LONDONER_STAGE",
+      "detail": "env-cmd -f .env.londoner.stage yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:londoner-stage",
+      "problemMatcher": [],
+      "label": "Start: LONDONER_STAGE",
+      "detail": "env-cmd -f .env.londoner.stage next start"
     },
     {
       "type": "npm",
