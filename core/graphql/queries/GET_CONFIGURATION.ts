@@ -9769,7 +9769,9 @@ export const configuration: any = [
               {
                 name: 'Guest Information',
                 isActive: true,
+                uploadId: true,
                 type: 'youverse',
+                disableManualFlow: true,
                 details: [
                   {
                     name: 'firstName',
@@ -9838,15 +9840,6 @@ export const configuration: any = [
                     options: Countries,
                   },
                   {
-                    name: 'estimatedTime',
-                    label: 'Estimated Time of Arrival',
-                    type: 'TimePicker',
-                    isCheckInTimeEnabled: true,
-                    required: true,
-                    isDisabled: false,
-                    isActive: true,
-                  },
-                  {
                     name: 'docType',
                     label: 'Document Type',
                     type: 'AutoComplete',
@@ -9879,10 +9872,11 @@ export const configuration: any = [
                   {
                     name: 'issueCountry',
                     label: 'Country of Issue',
-                    type: 'Text',
+                    type: 'AutoComplete',
                     required: true,
-                    isDisabled: true,
+                    isDisabled: false,
                     isActive: true,
+                    options: Countries,
                   },
                   {
                     name: 'issueDate',

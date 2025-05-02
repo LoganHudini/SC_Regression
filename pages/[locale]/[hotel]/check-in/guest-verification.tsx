@@ -980,6 +980,8 @@ const Guest: React.FC<any> = () => {
     );
   };
 
+  const isBiometricType = [YOUVERSE, TRENTIAL, INCODE]?.includes(guestInformationSection?.type);
+
   return (
     <>
       <Head>
@@ -1022,10 +1024,9 @@ const Guest: React.FC<any> = () => {
                     }
                     icon={guestValidation}
                   >
-                    {!guestReservationInfo?.docNo &&
-                      (guestInformationSection?.type === YOUVERSE ||
-                        guestInformationSection?.type === TRENTIAL ||
-                        guestInformationSection?.type === INCODE) && (
+                    {isBiometricType &&
+                      ((guestInformationSection?.disableManualFlow && enableIdVerificationStatus) ||
+                        !guestReservationInfo?.docNo) && (
                         <StyledButton
                           variant='contained'
                           className={styles.scanDocWrapper}
@@ -1047,17 +1048,21 @@ const Guest: React.FC<any> = () => {
                           <span className={styles.scanDocText}>{t('Scan & Verify')}</span>
                         </StyledButton>
                       )}
-                    {guestReservationInfo && guestInformationSection?.details && (
-                      <PreCheckinGuestInfo
-                        selectedGuest={guestReservationInfo}
-                        guestInformationSection={
-                          enableIdVerificationStatus
-                            ? guestInformationSection?.details
-                            : disabledFields?.details
-                        }
-                        type={PRIMARY}
-                      />
-                    )}
+                    {guestReservationInfo &&
+                      guestInformationSection?.details &&
+                      (guestInformationSection?.disableManualFlow
+                        ? !enableIdVerificationStatus
+                        : true) && (
+                        <PreCheckinGuestInfo
+                          selectedGuest={guestReservationInfo}
+                          guestInformationSection={
+                            enableIdVerificationStatus
+                              ? guestInformationSection?.details
+                              : disabledFields?.details
+                          }
+                          type={PRIMARY}
+                        />
+                      )}
                   </DetailsCard>
                 ) : (
                   <DetailsCardShrinked

@@ -485,6 +485,28 @@
     },
     {
       "type": "npm",
+      "script": "dev:mondrian-stage",
+      "problemMatcher": [],
+      "label": "Dev: MONDRIAN STAGE",
+      "detail": "env-cmd -f .env.mondrian.stage yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:mondrian-stage",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: MONDRIAN STAGE",
+      "detail": "env-cmd -f .env.mondrian.stage yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:mondrian-stage",
+      "problemMatcher": [],
+      "label": "Start: MONDRIAN STAGE",
+      "detail": "env-cmd -f .env.mondrian.stage next start"
+    },
+    {
+      "type": "npm",
       "script": "dev:ava-resorts",
       "problemMatcher": [],
       "label": "Dev: AVA RESORTS",

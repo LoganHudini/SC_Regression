@@ -18,7 +18,6 @@ import { CHECK_IN, CREDIT_CARD_INFO, FAILURE, INFORMATION, SUCCESS } from 'utils
 import cx from 'classnames';
 import { notificationStorage, toggleNotification } from 'storage/home.storage';
 import { useConfig } from 'utils/hooks/useConfiguration';
-import { fetchCharges } from 'utils/functions';
 import { processStatusCode } from 'utils/processError';
 
 interface IInitiatePaymentApiResponse {
@@ -68,7 +67,7 @@ export const Fiserv = () => {
       if (reservationInfo) {
         const initiatePaymentPayload = {
           currency: reservationInfo?.details?.holdAmount?.currency,
-          amount: fetchCharges(reservationInfo),
+          amount: 0,
           bookingId: reservationInfo?.confirmationId,
           txnType: cardDetailsSections?.txnType,
           timeZone: cardDetailsSections?.timeZone,
@@ -119,6 +118,11 @@ export const Fiserv = () => {
   const handleChange = () => {
     setTimeout(async () => {
       if (transactionId) {
+        const cardOptions = [
+          { code: 'MC', value: 'M' },
+          { code: 'VA', value: 'V' },
+          { code: 'AX', value: 'A' },
+        ];
         try {
           const { data: paymentStatusData } = await client.query({
             query: GET_PAYMENT_STATUS_WITHOUT_CONFIRMATIONID,
@@ -141,10 +145,16 @@ export const Fiserv = () => {
               token: paymentStatusData?.getPaymentStatus?.data['token'],
               cardNumber: paymentStatusData?.getPaymentStatus?.data['cardNumber '],
               cardHolderName: paymentStatusData?.getPaymentStatus?.data['cardHolderName '],
-              cardType: paymentStatusData?.getPaymentStatus?.data['paymentMethod '],
+              cardType: cardOptions?.find(
+                (option: any) =>
+                  option?.value === paymentStatusData?.getPaymentStatus?.data['paymentMethod '],
+              )?.code,
               cardExpiryDate: paymentStatusData?.getPaymentStatus?.data['cardExpiry'],
               approvalCode: paymentStatusData?.getPaymentStatus?.data['approvalCode'],
-              paymentType: paymentStatusData?.getPaymentStatus?.data['cardType '],
+              paymentType: cardOptions?.find(
+                (option: any) =>
+                  option?.value === paymentStatusData?.getPaymentStatus?.data['paymentMethod '],
+              )?.code,
             });
             notificationStorage({
               title: t('Thank You!') as string as string,
