@@ -470,7 +470,9 @@ const Trential: React.FC = () => {
               verificationStatusHandler();
             }}
             token={token}
-            disclaimer={t('I provide my consent to share my details with Hudini') as string}
+            disclaimer={`${t('I provide my consent to share my details with')} ${
+              hotel?.toString() || 'Hudini'
+            }`}
             enableDlCaptcha={true}
             passportBackSkipAllowed={guestInformationSection?.enablePassportSkipOption ?? false}
           />
