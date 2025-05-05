@@ -80,7 +80,7 @@ export const Planet = () => {
               toggleNotification(true));
         }
 
-        if (transactionId) {
+        if (randomTransactionId) {
           const html = paymentData?.InitiatePaymentPayload?.data?.tokenForm;
           const doc = iframeRef?.current?.contentWindow?.document;
 
