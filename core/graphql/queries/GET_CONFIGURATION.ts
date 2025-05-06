@@ -23901,6 +23901,7 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'trential',
+                disableManualFlow: true,
                 uploadId: true,
                 enablePassportSkipOption: true,
                 details: [

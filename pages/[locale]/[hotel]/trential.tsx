@@ -364,7 +364,8 @@ const Trential: React.FC = () => {
                   issueDate: '',
                   expiry: expiryDate,
                   issueCountry: issueCountry,
-                  photo: statusList?.response?.photo || '',
+                  photo: data?.InitiateToken?.data?.frontPageLink || '',
+                  portrait: data?.InitiateToken?.data?.portraitLink || '',
                   documentFrontImage: data?.InitiateToken?.data?.frontPageLink || '',
                   documentBackImage: data?.InitiateToken?.data?.backPageLink || '',
                 });
