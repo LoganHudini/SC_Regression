@@ -364,7 +364,8 @@ const Trential: React.FC = () => {
                   issueDate: '',
                   expiry: expiryDate,
                   issueCountry: issueCountry,
-                  photo: statusList?.response?.photo || '',
+                  photo: data?.InitiateToken?.data?.frontPageLink || '',
+                  portrait: data?.InitiateToken?.data?.portraitLink || '',
                   documentFrontImage: data?.InitiateToken?.data?.frontPageLink || '',
                   documentBackImage: data?.InitiateToken?.data?.backPageLink || '',
                 });
@@ -470,7 +471,9 @@ const Trential: React.FC = () => {
               verificationStatusHandler();
             }}
             token={token}
-            disclaimer={t('I provide my consent to share my details with Hudini') as string}
+            disclaimer={`${t('I provide my consent to share my details with')} ${
+              hotel?.toString() || 'Hudini'
+            }`}
             enableDlCaptcha={true}
             passportBackSkipAllowed={guestInformationSection?.enablePassportSkipOption ?? false}
           />
