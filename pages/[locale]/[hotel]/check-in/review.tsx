@@ -538,11 +538,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           });
 
           // EVA integration
-          if (
-            checkInModule?.eva &&
-            (guestReservationInfo?.nationality !== 'SG' ||
-              guestReservationInfo?.nationality?.toLowerCase() !== 'singapore')
-          ) {
+          if (checkInModule?.eva && guestReservationInfo?.nationality !== 'SG') {
             const resizeFile = (file: any) =>
               new Promise((resolve) => {
                 Resizer.imageFileResizer(
