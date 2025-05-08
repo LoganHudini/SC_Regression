@@ -254,12 +254,16 @@ const Guest: React.FC<any> = () => {
           source = '';
         } else if (emailField && inputFieldName === EMAILS && emailField?.defaultValue === OTA) {
           if (reservationInfo?.confirmationId === reservationInfo?.uniqueBookingId) {
-            source = source[inputFieldName];
+            source = source[inputFieldName]?.[0];
           } else {
             source = '';
           }
         } else {
-          source = source[inputFieldName];
+          if (emailField && inputFieldName === EMAILS) {
+            source = source[inputFieldName]?.[0];
+          } else {
+            source = source[inputFieldName];
+          }
         }
       } else {
         source = '';
@@ -366,7 +370,7 @@ const Guest: React.FC<any> = () => {
                 }
               } else {
                 guestData[item?.name] = Array.isArray(accompanyGuest[item?.name])
-                  ? accompanyGuest[item?.name][0] || ''
+                  ? accompanyGuest[item?.name]?.[0] || ''
                   : (accompanyingGuestSubmodule?.type === YOUVERSE ||
                       accompanyingGuestSubmodule?.type === TRENTIAL) &&
                     item?.name === DOC_NO
@@ -517,7 +521,10 @@ const Guest: React.FC<any> = () => {
     const updateGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
       docType: documentTypes?.find((option: any) => option?.value === guestReservationInfo?.docType)
         ?.code,
-      docNumber: guestReservationInfo?.docNo,
+      docNumber:
+        reservationInfo?.guests[0]?.docNo === guestReservationInfo?.docNo
+          ? ''
+          : guestReservationInfo?.docNo,
       reservationId: reservationInfo?.confirmationId as string,
       firstName: guestReservationInfo?.firstName,
       lastName: guestReservationInfo?.lastName,
@@ -535,6 +542,7 @@ const Guest: React.FC<any> = () => {
       channel: 'PWA',
       updateGuestDetails: {
         name: {
+          nameTitle: reservationInfo?.guests[0]?.title,
           firstName: guestReservationInfo?.firstName,
           lastName: guestReservationInfo?.lastName,
           gender: guestReservationInfo?.gender,
@@ -553,7 +561,7 @@ const Guest: React.FC<any> = () => {
         },
         phone: {
           id: reservationInfo?.guests[0]?.phoneOperaId
-            ? reservationInfo?.guests[0]?.phoneOperaId[0]
+            ? reservationInfo?.guests[0]?.phoneOperaId?.[0]
             : '',
           phoneType: config?.pms === OHIP ? 'PHONE' : 'HOME',
           phoneNumber: guestReservationInfo?.phone ?? '',
@@ -561,7 +569,7 @@ const Guest: React.FC<any> = () => {
         },
         email: {
           id: reservationInfo?.guests[0]?.emailOperaId
-            ? reservationInfo?.guests[0]?.emailOperaId[0]
+            ? reservationInfo?.guests[0]?.emailOperaId?.[0]
             : '',
           email: guestReservationInfo?.emails,
         },
@@ -643,7 +651,7 @@ const Guest: React.FC<any> = () => {
               },
               email: {
                 email: data?.emails,
-                id: data?.emailOperaId ? data?.emailOperaId[0] : '',
+                id: data?.emailOperaId ? data?.emailOperaId?.[0] : '',
               },
             },
           };
@@ -663,10 +671,11 @@ const Guest: React.FC<any> = () => {
     }
 
     if (accompanyGuestData?.length > 0) {
-      for (const data of accompanyGuestData) {
+      for (let i = 0; i < accompanyGuestData.length; i++) {
+        const data = accompanyGuestData[i];
         const updateAccompanyGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
           docType: documentTypes?.find((option: any) => option?.value === data?.docType)?.code,
-          docNumber: data?.docNo,
+          docNumber: data?.docNo === reservationInfo?.guests[i + 1]?.docNo ? '' : data?.docNo,
           reservationId: reservationInfo?.reservationId as string,
           firstName: data?.firstName,
           lastName: data?.lastName,
@@ -680,6 +689,7 @@ const Guest: React.FC<any> = () => {
           documentBackImage: guestInformationSection?.uploadId ? data?.documentBackImage : '',
           updateGuestDetails: {
             name: {
+              nameTitle: reservationInfo?.guests[i + 1]?.title,
               firstName: data?.firstName,
               lastName: data?.lastName,
               gender: data?.gender,
@@ -709,7 +719,7 @@ const Guest: React.FC<any> = () => {
             },
             email: {
               email: data?.emails,
-              id: data?.emailOperaId ? data?.emailOperaId[0] : '',
+              id: data?.emailOperaId ? data?.emailOperaId?.[0] : '',
             },
           },
         };
@@ -1441,7 +1451,8 @@ const Guest: React.FC<any> = () => {
               loading={loading}
               disabled={
                 !primaryGuestButtonDisable ||
-                accompanyGuestValidation.some((item: boolean) => !item) ||
+                (accompanyGuestValidation?.length > 0 &&
+                  accompanyGuestValidation?.some((item: boolean) => !item)) ||
                 (accompanyingGuestSubmodule?.mandatory
                   ? (accompanyGuestData || []).concat(updatedGuestData || [])?.length <
                     reservationInfo?.details?.totalGuestCount - 1

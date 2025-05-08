@@ -442,6 +442,11 @@ img {
     content: url('/images/sofitel/ArrowCta.png');
     padding-bottom: 6px;
   }
+  @media (prefers-color-scheme: dark) {
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
 }
 
 .MuiButton-outlinedPrimary {
