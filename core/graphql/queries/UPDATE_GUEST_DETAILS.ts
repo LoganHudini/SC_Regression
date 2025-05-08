@@ -19,6 +19,7 @@ export interface IUpdateGuestDetailsApiRequest {
   documentBackImage: string;
   updateGuestDetails: {
     name?: {
+      nameTitle?: string;
       firstName: string;
       lastName: string;
       gender?: string;

@@ -125,7 +125,10 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
   const goToTheNextStep = useCallback(async () => {
     if (paymentConfig?.guaranteeCard) {
       const updateGuestDetailsPayload: any = {
-        docNumber: guestReservationInfo?.docNo,
+        docNumber:
+          reservationInfo?.guests[0]?.docNo === guestReservationInfo?.docNo
+            ? ''
+            : guestReservationInfo?.docNo,
         reservationId: reservationInfo?.confirmationId as string,
         firstName: guestReservationInfo?.firstName,
         lastName: guestReservationInfo?.lastName,
@@ -137,6 +140,7 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
         channel: 'PWA',
         updateGuestDetails: {
           name: {
+            nameTitle: reservationInfo?.guests[0]?.title,
             firstName: guestReservationInfo?.firstName,
             lastName: guestReservationInfo?.lastName,
             gender: guestReservationInfo?.gender,

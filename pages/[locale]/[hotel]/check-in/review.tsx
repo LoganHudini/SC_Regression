@@ -113,6 +113,9 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const accompanyGuestInfo = useReactiveVar(accompanyGuestDetails);
   const updatedGuestInfo: any = useReactiveVar(newAccompanyGuestDetails);
+  const reviewAndSign = useReactiveVar(reviewSignAndCheckBox);
+  const sigCanvas = useRef<SignatureCanvas>(null);
+  const [signature, setSignature] = useState<any>(reviewAndSign?.sign || null);
 
   const updatedGuestData = useMemo(() => {
     const guestInfolength = updatedGuestInfo?.adult?.length;
@@ -144,6 +147,38 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     }
   }
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const matchDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+    const applyWhiteBackground = () => {
+      if (!sigCanvas?.current) return;
+      const canvas = sigCanvas.current.getCanvas();
+      const ctx: any = canvas.getContext('2d');
+
+      ctx.globalCompositeOperation = 'destination-over';
+      ctx.fillStyle = 'white';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.globalCompositeOperation = 'source-over';
+    };
+
+    const handleInitialPaint = () => {
+      requestAnimationFrame(() => {
+        if (matchDark.matches) {
+          applyWhiteBackground();
+        }
+      });
+    };
+
+    handleInitialPaint();
+    matchDark.addEventListener('change', applyWhiteBackground);
+
+    return () => {
+      matchDark.removeEventListener('change', applyWhiteBackground);
+    };
+  }, [signature, sigCanvas?.current]);
+
   const dayjsLocaleLoader = useReactiveVar(setDayjsLocale);
   const [accompanyGuestInformationState, setAcccompanyGuestInformation] = useState(
     new Array(accompanyGuestInfo?.length)?.fill(false),
@@ -151,10 +186,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const IsBiometricsSkippedStatus = useReactiveVar(IsBiometricsSkipped);
   const personalizationEntities = useReactiveVar(personalizeYourRoomStorage);
   const upgradeRoomEntities = useReactiveVar(upgradeYourRoomStorage);
-  const reviewAndSign = useReactiveVar(reviewSignAndCheckBox);
   const [conditionsAccepted, setConditionsAccepted] = useState(reviewAndSign?.checkBox);
   const [btnStatus, setBtnStatus] = useState(false);
-  const [signature, setSignature] = useState<any>(reviewAndSign?.sign || null);
   const [loading, setLoading] = useState(false);
   const [signatureWidth, setSignatureWidth] = useState(340);
   const [specialRequests, setSpecialRequests] = useState('');
@@ -297,8 +330,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     }
   }, [conditionsAccepted, signature, allMandatoryAccepted]);
 
-  const sigCanvas = useRef<SignatureCanvas>(null);
-
   const clearCanvas = useCallback(() => {
     sigCanvas?.current?.clear();
     setSignature(null);
@@ -309,6 +340,48 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       }),
     );
   }, []);
+
+  const applyWhiteBackground = () => {
+    if (!sigCanvas?.current) return;
+    const canvas = sigCanvas.current.getCanvas();
+    const ctx: any = canvas.getContext('2d');
+
+    ctx.globalCompositeOperation = 'destination-over';
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.globalCompositeOperation = 'source-over';
+  };
+
+  const fixSignatureBackground = () => {
+    if (typeof window === 'undefined' || !sigCanvas?.current) return;
+
+    const matchDark = window.matchMedia('(prefers-color-scheme: dark)');
+    if (!matchDark.matches) return;
+
+    const originalCanvas = sigCanvas.current.getCanvas();
+    const width = originalCanvas.width;
+    const height = originalCanvas.height;
+
+    const imageData = originalCanvas.toDataURL();
+
+    const img = new Image();
+    img.onload = () => {
+      const offscreen = document.createElement('canvas');
+      offscreen.width = width;
+      offscreen.height = height;
+
+      const offCtx: any = offscreen.getContext('2d');
+      offCtx.fillStyle = 'white';
+      offCtx.fillRect(0, 0, width, height);
+      offCtx.drawImage(img, 0, 0);
+
+      const ctx: any = originalCanvas.getContext('2d');
+      ctx.clearRect(0, 0, width, height);
+      ctx.drawImage(offscreen, 0, 0);
+    };
+
+    img.src = imageData;
+  };
 
   const toggleConditionsAccepted = useCallback(() => {
     setConditionsAccepted((oldState: any) => {
@@ -1259,7 +1332,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                 width: signatureWidth,
               }}
               clearOnResize={false}
-              onEnd={() => handleSignatureChange()}
+              onEnd={() => {
+                fixSignatureBackground();
+                handleSignatureChange();
+              }}
             />
           </div>
           <div className={styles.btnWrapper}>
