@@ -5,7 +5,6 @@ import { IDiningMenuFilterProps } from './DiningCategoryOptions.types';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { useReactiveVar } from '@apollo/client';
 import cx from 'classnames';
-import produce from 'immer';
 import { setScrollPosition } from 'utils/functions';
 
 export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
@@ -51,8 +50,8 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
     window.addEventListener('scroll', fixedHeader);
   }, [setScroll]);
 
-  const handleCategoryChange = (event: any, el: any) => {
-    const categoryElement = document.getElementById(`Category${el?.id}`);
+  const handleCategoryChange = (categoryId: string, categoryName: string) => {
+    const categoryElement = document.getElementById(`CategorySection${categoryId}`);
     if (categoryElement) {
       setScrollHide(false);
       const headerOffset = 150;
@@ -68,15 +67,13 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
     setTimeout(() => {
       setScrollHide(true);
     }, 1000);
+
     setScrollPosition(0, 0);
-    diningInformationStorage(
-      produce(diningInformationStorage(), (draft) => {
-        if (draft) {
-          draft.selectedCategory = el?.id ?? '';
-          draft.categoryName = el?.value ?? '';
-        }
-      }),
-    );
+    diningInformationStorage({
+      ...diningInformation,
+      selectedCategory: categoryId,
+      categoryName: categoryName,
+    });
   };
 
   return (
@@ -88,9 +85,7 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
               className={cx(styles.DiningCategoryOptionInActive, {
                 [styles.DiningCategoryOptionActive]: el?.id === diningInformation?.selectedCategory,
               })}
-              onClick={(e) => {
-                handleCategoryChange(e, el);
-              }}
+              onClick={() => handleCategoryChange(el?.id, el?.name)}
             >
               {el?.name}
             </StyledButton>
