@@ -100,6 +100,11 @@ export const Planet = () => {
   const handleChange = async () => {
     setTimeout(async () => {
       if (transactionId) {
+        const cardOptions = [
+          { code: 'MC', value: 'MC' },
+          { code: 'VA', value: 'VS' },
+          { code: 'AX', value: 'AX' },
+        ];
         try {
           const { data: paymentStatusData } = await client.query({
             query: GET_PAYMENT_STATUS,
@@ -122,10 +127,16 @@ export const Planet = () => {
               token: paymentStatusData?.getPaymentStatus?.data['token'],
               cardNumber: paymentStatusData?.getPaymentStatus?.data['cardNumber '],
               cardHolderName: paymentStatusData?.getPaymentStatus?.data['cardHolderName '],
-              cardType: paymentStatusData?.getPaymentStatus?.data['paymentMethod '],
+              cardType: cardOptions?.find(
+                (option: any) =>
+                  option?.value === paymentStatusData?.getPaymentStatus?.data['paymentMethod '],
+              )?.code,
               cardExpiryDate: paymentStatusData?.getPaymentStatus?.data['cardExpiry'],
               approvalCode: paymentStatusData?.getPaymentStatus?.data['approvalCode'],
-              paymentType: paymentStatusData?.getPaymentStatus?.data['cardType '],
+              paymentType: cardOptions?.find(
+                (option: any) =>
+                  option?.value === paymentStatusData?.getPaymentStatus?.data['cardType '],
+              )?.code,
             });
             notificationStorage({
               title: t('Thank You!') as string as string,
