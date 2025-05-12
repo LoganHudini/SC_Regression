@@ -130,7 +130,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const termsAndConditions =
     information?.find((item: any) => item?.key === MULTIPLE_PRIVACY_OPTIONS)?.value || '';
 
-  let termsAndConditionsValue = [];
+  let termsAndConditionsValue: any = useMemo(() => [], []);
 
   if (
     termsAndConditions &&
@@ -177,6 +177,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     return () => {
       matchDark.removeEventListener('change', applyWhiteBackground);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [signature, sigCanvas?.current]);
 
   const dayjsLocaleLoader = useReactiveVar(setDayjsLocale);
@@ -225,6 +226,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     });
 
     setCheckboxStates(initialState);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reviewConfig]);
 
   const toggleCheckbox = (index: number, viewed?: any) => {
@@ -328,7 +330,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     } else {
       setBtnStatus(false);
     }
-  }, [conditionsAccepted, signature, allMandatoryAccepted]);
+  }, [conditionsAccepted, signature, allMandatoryAccepted, termsAndConditionsValue?.length]);
 
   const clearCanvas = useCallback(() => {
     sigCanvas?.current?.clear();
@@ -340,17 +342,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       }),
     );
   }, []);
-
-  const applyWhiteBackground = () => {
-    if (!sigCanvas?.current) return;
-    const canvas = sigCanvas.current.getCanvas();
-    const ctx: any = canvas.getContext('2d');
-
-    ctx.globalCompositeOperation = 'destination-over';
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.globalCompositeOperation = 'source-over';
-  };
 
   const fixSignatureBackground = () => {
     if (typeof window === 'undefined' || !sigCanvas?.current) return;
@@ -573,6 +564,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         guestType: reservationInfo?.travelAgent?.name as string,
         voucherNumber: (reservationInfo?.packages[0]?.code as string) || '',
         rate: (reservationInfo?.roomTypes[0]?.price as string) || '',
+        roomRate: (reservationInfo?.roomTypes[0]?.totalCharge as string) || '',
+        country: (guestReservationInfo?.countryCode as string) || '',
         state: guestReservationInfo?.stateProv as string,
         city: guestReservationInfo?.cityName,
         postalCode: guestReservationInfo?.postalCode,
@@ -772,60 +765,62 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       await checkIn();
     }
   }, [
-    accompanyGuestInfo,
-    adult,
-    cardType,
-    checkInModule?.eva,
-    children,
-    config?.pms,
-    config?.skipQueueReservation,
-    currency,
-    guestReservationInfo?.addressLine,
-    guestReservationInfo?.approvalCode,
-    guestReservationInfo?.cardExpiryDate,
-    guestReservationInfo?.cardHolderName,
-    guestReservationInfo?.cardNumber,
-    guestReservationInfo?.cardType,
-    guestReservationInfo?.cityName,
-    guestReservationInfo?.dob,
-    guestReservationInfo?.photo,
-    guestReservationInfo?.docNo,
-    guestReservationInfo?.docType,
-    guestReservationInfo?.emails,
-    guestReservationInfo?.estimatedTime,
-    guestReservationInfo?.firstName,
-    guestReservationInfo?.gender,
-    guestReservationInfo?.issueCountry,
-    guestReservationInfo?.lastName,
-    guestReservationInfo?.nationality,
-    guestReservationInfo?.paymentType,
-    guestReservationInfo?.phone,
-    guestReservationInfo?.phoneNumber,
-    guestReservationInfo?.placeOfStayArrival,
-    guestReservationInfo?.placeOfStayDeparture,
-    guestReservationInfo?.portrait,
-    guestReservationInfo?.postalCode,
-    guestReservationInfo?.profession,
-    guestReservationInfo?.stateProv,
-    guestReservationInfo?.token,
-    guests,
-    hotelId,
     hotelInfo?.groupId,
-    paymentConfig?.paymentMethod,
-    paymentConfig?.settlementType,
-    paymentConfig?.type,
+    reservationInfo,
+    guests,
     personalisationConfig?.type,
     personalizationEntities,
-    preCheckInStatus,
-    reservationInfo,
-    reviewConfig?.checkInSuccessfulMessageDescription,
-    reviewConfig?.checkInSuccessfulMessageTitle,
-    roomNo,
-    specialRequests,
+    paymentConfig?.type,
+    paymentConfig?.paymentMethod,
+    paymentConfig?.settlementType,
+    guestReservationInfo?.token,
+    guestReservationInfo?.cardNumber,
+    guestReservationInfo?.cardExpiryDate,
+    guestReservationInfo?.approvalCode,
+    guestReservationInfo?.emails,
+    guestReservationInfo?.firstName,
+    guestReservationInfo?.lastName,
+    guestReservationInfo?.phone,
+    guestReservationInfo?.addressLine,
+    guestReservationInfo?.nationality,
+    guestReservationInfo?.profession,
+    guestReservationInfo?.paymentType,
+    guestReservationInfo?.cardHolderName,
+    guestReservationInfo?.cardType,
+    guestReservationInfo?.docType,
+    guestReservationInfo?.docNo,
+    guestReservationInfo?.issueCountry,
+    guestReservationInfo?.estimatedTime,
+    guestReservationInfo?.dob,
+    guestReservationInfo?.countryCode,
+    guestReservationInfo?.stateProv,
+    guestReservationInfo?.cityName,
+    guestReservationInfo?.postalCode,
+    guestReservationInfo?.gender,
+    guestReservationInfo?.placeOfStayArrival,
+    guestReservationInfo?.placeOfStayDeparture,
+    guestReservationInfo?.phoneNumber,
+    guestReservationInfo?.portrait,
+    guestReservationInfo?.photo,
+    cardType,
     t,
+    config?.skipQueueReservation,
+    config?.pms,
+    roomNo,
+    accompanyGuestInfo,
     updatedGuestData,
-    checkboxStates,
+    adult,
+    children,
+    specialRequests,
+    currency,
+    IsBiometricsSkippedStatus,
     termsAndConditionsValue,
+    checkboxStates,
+    preCheckInStatus,
+    checkInModule?.eva,
+    hotelId,
+    reviewConfig?.checkInSuccessfulMessageTitle,
+    reviewConfig?.checkInSuccessfulMessageDescription,
   ]);
 
   useEffect(() => {
@@ -1251,7 +1246,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                 {DOCUMENT_LIST?.map((document, index) => {
                   if (hotelInfo?.[document.code]?.type) {
                     return (
-                      <>
+                      <React.Fragment key={index}>
                         <Link
                           href={
                             hotelInfo?.[document.code]?.type === WEBURL2
@@ -1266,7 +1261,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                         {index === DOCUMENT_LIST.length - 2
                           ? ` ${t('and')} `
                           : index !== DOCUMENT_LIST.length - 1 && ', '}
-                      </>
+                      </React.Fragment>
                     );
                   }
                 })}

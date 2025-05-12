@@ -249,6 +249,11 @@ const Guest: React.FC<any> = () => {
       const emailField = guestInformationSection?.details?.find(
         (field: any) => field?.isActive && field?.name === EMAILS,
       );
+
+      const phoneField = guestInformationSection?.details?.find(
+        (field: any) => field?.isActive && field?.name === PHONE,
+      );
+
       if (source && source[inputFieldName]) {
         if (emailField && inputFieldName === EMAILS && emailField?.defaultValue === BLANK) {
           source = '';
@@ -259,7 +264,10 @@ const Guest: React.FC<any> = () => {
             source = '';
           }
         } else {
-          if (emailField && inputFieldName === EMAILS) {
+          if (
+            (emailField && inputFieldName === EMAILS) ||
+            (phoneField && inputFieldName === PHONE)
+          ) {
             source = source[inputFieldName]?.[0];
           } else {
             source = source[inputFieldName];
@@ -632,7 +640,7 @@ const Guest: React.FC<any> = () => {
                 phoneType: data?.phone ? (config?.pms === OHIP ? 'PHONE' : 'HOME') : '',
                 phoneNumber: data?.phone ?? '',
                 phoneRole: data?.phone ? (config?.pms === OHIP ? 'HOME' : 'PHONE') : '',
-                id: data?.phoneOperaId ? data?.phoneOperaId[0] : '',
+                id: data?.phoneOperaId ? data?.phoneOperaId?.[0] : '',
               },
               address: {
                 addressLine1: data?.addressLine,
@@ -700,7 +708,7 @@ const Guest: React.FC<any> = () => {
               phoneType: data?.phone ? (config?.pms === OHIP ? 'PHONE' : 'HOME') : '',
               phoneNumber: data?.phone ?? '',
               phoneRole: data?.phone ? (config?.pms === OHIP ? 'HOME' : 'PHONE') : '',
-              id: data?.phoneOperaId ? data?.phoneOperaId[0] : '',
+              id: data?.phoneOperaId ? data?.phoneOperaId?.[0] : '',
             },
             address: {
               addressLine1: data?.addressLine,

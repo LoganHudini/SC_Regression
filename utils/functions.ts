@@ -491,6 +491,11 @@ export const textFieldValidation = () => {
 export const getCountryCode = (CountryName: string) =>
   Countries?.find((item: any) => item?.name?.toLowerCase() === CountryName?.toLowerCase())?.value ||
   '';
+
+export const getCountryName = (CountryName: string) =>
+  Countries?.find((item: any) => item?.value?.toLowerCase() === CountryName?.toLowerCase())?.name ||
+  '';
+
 // Formats time from 24-hour format to minutes
 export const getFormattedTime = (timeInMinutes: any) => {
   if (!timeInMinutes.includes(ALL_DAY)) {
