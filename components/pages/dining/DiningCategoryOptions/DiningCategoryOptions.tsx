@@ -5,6 +5,7 @@ import { IDiningMenuFilterProps } from './DiningCategoryOptions.types';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { useReactiveVar } from '@apollo/client';
 import cx from 'classnames';
+import produce from 'immer';
 import { setScrollPosition } from 'utils/functions';
 
 export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
@@ -50,8 +51,8 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
     window.addEventListener('scroll', fixedHeader);
   }, [setScroll]);
 
-  const handleCategoryChange = (categoryId: string, categoryName: string) => {
-    const categoryElement = document.getElementById(`CategorySection${categoryId}`);
+  const handleCategoryChange = (event: any, el: any) => {
+    const categoryElement = document.getElementById(`Category${el?.id}`);
     if (categoryElement) {
       setScrollHide(false);
       const headerOffset = 150;
@@ -67,25 +68,37 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
     setTimeout(() => {
       setScrollHide(true);
     }, 1000);
-
     setScrollPosition(0, 0);
-    diningInformationStorage({
-      ...diningInformation,
-      selectedCategory: categoryId,
-      categoryName: categoryName,
-    });
+    diningInformationStorage(
+      produce(diningInformationStorage(), (draft) => {
+        if (draft) {
+          draft.selectedCategory = el?.id ?? '';
+          draft.categoryName = el?.value ?? '';
+        }
+      }),
+    );
   };
+
+  const filteredCategories = categories?.filter(
+    (category: any) =>
+      category?.items?.filter((item: any) => item?.isActive)?.length > 0 ||
+      category?.subCategories?.some(
+        (subCategory: any) => subCategory?.items?.filter((item: any) => item?.isActive)?.length > 0,
+      ),
+  );
 
   return (
     <>
       <div ref={stickyHeader} className={cx(styles.menuOptionsWrapper)}>
-        {categories?.map((el: any, index: number) => (
+        {filteredCategories?.map((el: any, index: number) => (
           <div id={el?.id} className={styles.diningMenuFilterButtonWrapper} key={`${el}-${index}`}>
             <StyledButton
               className={cx(styles.DiningCategoryOptionInActive, {
                 [styles.DiningCategoryOptionActive]: el?.id === diningInformation?.selectedCategory,
               })}
-              onClick={() => handleCategoryChange(el?.id, el?.name)}
+              onClick={(e) => {
+                handleCategoryChange(e, el);
+              }}
             >
               {el?.name}
             </StyledButton>
