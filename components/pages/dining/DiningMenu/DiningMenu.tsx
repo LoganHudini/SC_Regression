@@ -3,9 +3,9 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from '@styles/dining-menu/dining-menu.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
-import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
+import { IRDMenuApiResponse } from 'core/graphql/queries/IRD_MENU';
 import { useQuery, useReactiveVar } from '@apollo/client';
-import { diningInformationStorage } from 'storage/dining.storage';
+import { diningInformationStorage, irdMenuOutputDetailsStorage } from 'storage/dining.storage';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import cx from 'classnames';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
@@ -28,7 +28,7 @@ import { ItemNotFoundLoader, Loader } from 'components/shared/Loaders/Loaders';
 import DiningDetailsDrawer from '../DiningDetailsDrawer/DiningDetailsDrawer';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { useHideOnScroll } from 'utils/hooks/useHideOnScroll';
-import { client } from 'core/graphql/client';
+// import { client } from 'core/graphql/client';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useCurrency } from 'utils/hooks/useCurrency';
 import { ALLERGENS, TAGS } from 'utils/constants';
@@ -76,8 +76,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({ search, setsearch, openCategory
     }, 1500);
   }, []);
 
-  const data = client.readQuery<IRDMenuApiResponse>({ query: IRD_MENU });
-
+  const data = useReactiveVar(irdMenuOutputDetailsStorage) as IRDMenuApiResponse;
   const { data: myOrders } = useQuery(GET_ORDERS, {
     skip: !hotelId || !checkinData?.reservationId,
     context: { clientName: 'host_v3' },
