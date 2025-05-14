@@ -50,7 +50,7 @@ export const Planet = () => {
 
       if (reservationInfo) {
         const initiatePaymentPayload = {
-          confirmationId: reservationInfo?.confirmationId,
+          confirmationId: reservationInfo?.reservationId,
           referenceNumber: randomTransactionId,
         };
         let paymentData: IInitiatePaymentApiRequest | null = null;
