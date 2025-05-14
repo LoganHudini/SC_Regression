@@ -34,6 +34,9 @@ import { useCurrency } from 'utils/hooks/useCurrency';
 import { ALLERGENS, TAGS } from 'utils/constants';
 import { iconsMap } from 'utils/hamburger/hamburgerIconsMap';
 import { hotelInfoStorage } from 'storage/home.storage';
+import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
+import Viewless from '@icons/viwLessIconIrd.svg';
+import ViewlAll from '@icons/viewAllIconIrd.svg';
 
 export { getStaticPaths };
 interface DiningMenuProps {
@@ -41,8 +44,16 @@ interface DiningMenuProps {
   search?: any;
   setsearch?: any;
   openCategory?: boolean;
+  setFilterDrawer?: any;
+  filterDrawer?: any;
 }
-const DiningMenu: React.FC<DiningMenuProps> = ({ search, setsearch, openCategory }) => {
+const DiningMenu: React.FC<DiningMenuProps> = ({
+  search,
+  setsearch,
+  openCategory,
+  filterDrawer,
+  setFilterDrawer,
+}) => {
   const { t } = useTranslation('dining');
   const navigate = useLocalizedRouter();
   const checkinData = useCheckedIn();
@@ -58,6 +69,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({ search, setsearch, openCategory
   const [scrollSearch, setScrollSearch] = useState(false);
   const [totalAmount, setTotalAmount] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
+  const [appliedFilter, setAppliedFilter] = useState<string[]>([]);
   const [filteredOptions, setFilteredOptions] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [allergens, setAllergens] = useState<string[]>([]);
@@ -138,9 +150,9 @@ const DiningMenu: React.FC<DiningMenuProps> = ({ search, setsearch, openCategory
         item?.price > 0 &&
         item?.isActive &&
         item?.name?.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        (filteredOptions?.length === 0 ||
-          item?.allergens?.some((allergen: any) => filteredOptions?.includes(allergen?.name)) ||
-          item?.tags?.some((tag: any) => filteredOptions?.includes(tag?.name)))
+        (appliedFilter?.length === 0 ||
+          item?.allergens?.some((allergen: any) => appliedFilter?.includes(allergen?.name)) ||
+          item?.tags?.some((tag: any) => appliedFilter?.includes(tag?.name)))
       );
     });
   };
@@ -330,38 +342,122 @@ const DiningMenu: React.FC<DiningMenuProps> = ({ search, setsearch, openCategory
     document.body.style.overflow = '';
   }
 
-  const renderFilterOptions = (items: string[], allergenCheck: boolean) => {
-    return items.map((itemName, index) => {
-      const IconComponent = iconsMap[itemName.toLowerCase() as keyof typeof iconsMap];
-      return (
-        <div key={index} className={styles.wrapper}>
-          <StyledButton
-            className={cx(
-              styles.FilterButtonInActive,
-              {
-                [styles.FilterButtonActive]: filteredOptions.includes(itemName) && !allergenCheck,
-              },
-              styles.FilterButtonInActive,
-              {
-                [styles.FilterButtonActiveAllergen]:
-                  filteredOptions.includes(itemName) && allergenCheck,
-              },
-            )}
-            onClick={() =>
-              setFilteredOptions((prev) =>
-                filteredOptions.includes(itemName)
-                  ? prev.filter((item) => item !== itemName)
-                  : [...prev, itemName],
-              )
-            }
+  const [viewAllTags, setViewAllTags] = useState(false);
+  const [viewAllAllergens, setViewAllAllergens] = useState(false);
+
+  const renderFilterOptions = (
+    items: string[],
+    allergenCheck: boolean,
+    showAll?: boolean,
+    setShowAll?: (val: boolean) => void,
+  ) => {
+    const displayItems = showAll ? items : items.slice(0, 6);
+    return (
+      <>
+        {' '}
+        <div className={styles.filterTagWrapper}>
+          {displayItems?.map((itemName, index) => {
+            const IconComponent = iconsMap[itemName.toLowerCase() as keyof typeof iconsMap];
+            return (
+              <div key={index} className={styles.wrapper}>
+                <StyledButton
+                  className={cx(
+                    styles.FilterButtonInActive,
+                    {
+                      [styles.FilterButtonActive]:
+                        filteredOptions.includes(itemName) && !allergenCheck,
+                    },
+                    styles.FilterButtonInActive,
+                    {
+                      [styles.FilterButtonActiveAllergen]:
+                        filteredOptions.includes(itemName) && allergenCheck,
+                    },
+                  )}
+                  onClick={() =>
+                    setFilteredOptions((prev) =>
+                      filteredOptions.includes(itemName)
+                        ? prev.filter((item) => item !== itemName)
+                        : [...prev, itemName],
+                    )
+                  }
+                >
+                  {IconComponent && <IconComponent />}
+                  {itemName}
+                </StyledButton>
+              </div>
+            );
+          })}
+        </div>
+        {items.length > 6 && (
+          <button
+            className={styles.viewAllButton}
+            onClick={() => setShowAll && setShowAll(!showAll)}
           >
-            {IconComponent && <IconComponent />}
-            {itemName}
+            {showAll ? (
+              <>
+                {' '}
+                View Less
+                <Viewless />
+              </>
+            ) : (
+              <>
+                {' '}
+                View All
+                <ViewlAll />{' '}
+              </>
+            )}
+          </button>
+        )}
+      </>
+    );
+  };
+
+  const FilterDetails = () => (
+    <>
+      <div className={styles.drawerWrapper}>
+        <div className={styles.filterWrapper}>
+          <div className={styles.filterHeader}>
+            <h3 className={styles.welcomeTitle}>{t('Filter By')}</h3>
+          </div>
+          <div className={styles.filterOptions}>
+            {tags?.length > 0 && (
+              <div className={styles.indredientWrapper}>
+                <p className={styles.indredient}>Tags</p>
+                {renderFilterOptions(tags, false, viewAllTags, setViewAllTags)}
+              </div>
+            )}
+            {allergens?.length > 0 && (
+              <div className={styles.indredientWrapper}>
+                <p className={styles.indredient}>Allergens</p>
+                {renderFilterOptions(allergens, true, viewAllAllergens, setViewAllAllergens)}{' '}
+              </div>
+            )}
+          </div>
+        </div>
+        <div className={styles.btnWrapper}>
+          <StyledButton
+            className={styles.clearFilter}
+            onClick={() => {
+              setAppliedFilter([]);
+              setFilteredOptions([]);
+            }}
+            variant='outlined'
+          >
+            {t('Clear All')}
+          </StyledButton>
+          <StyledButton
+            className={styles.beginCheckIn}
+            onClick={() => {
+              setAppliedFilter(filteredOptions);
+              setsearch(false);
+            }}
+          >
+            {t('Apply')}
           </StyledButton>
         </div>
-      );
-    });
-  };
+      </div>
+    </>
+  );
 
   return (
     <>
@@ -431,15 +527,6 @@ const DiningMenu: React.FC<DiningMenuProps> = ({ search, setsearch, openCategory
                   ),
                 }}
               />
-              {tags?.length > 0 && (
-                <div className={styles.buttonWrapper}>{renderFilterOptions(tags, false)}</div>
-              )}
-              {allergens?.length > 0 && (
-                <>
-                  <p className={styles.indredient}>Allergens</p>
-                  <div className={styles.buttonWrapper}>{renderFilterOptions(allergens, true)}</div>
-                </>
-              )}
             </div>
           ) : (
             <DiningCategoryOptions
@@ -490,6 +577,11 @@ const DiningMenu: React.FC<DiningMenuProps> = ({ search, setsearch, openCategory
         </>
       )}
       <DiningDetailsDrawer menuAvailability={menuAvailability} />{' '}
+      <CustomDrawer
+        open={filterDrawer}
+        onClose={() => setFilterDrawer(false)}
+        content={<FilterDetails />}
+      />
     </>
   );
 };

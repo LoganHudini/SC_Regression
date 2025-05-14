@@ -29,6 +29,7 @@ export const availablePaths = {
 
   // Dining flow
   DINING: `/${hotel}/dining`,
+  DINING_MENU: `/${hotel}/dining-menu`,
   DINING_ORDER_SUMMARY: `/${hotel}/dining-order-summary`,
 
   // Retaurants flow

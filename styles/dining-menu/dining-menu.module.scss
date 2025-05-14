@@ -176,9 +176,8 @@
   text-align: start;
 }
 
-.searchWrapper {
+.filterTagWrapper {
   flex-direction: row;
-  justify-content: space-between;
   align-items: baseline;
   display: flex;
   flex: 1px;
@@ -267,8 +266,10 @@
 }
 
 .indredient {
-  font: $medium var(--primary-font-heading);
+  font: $xlarge var(--primary-font-heading);
   color: var(--primary-text-color);
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--primary-border-color);
 }
 
 .FilterButtonActive {
@@ -293,16 +294,15 @@
 }
 
 .FilterButtonActiveAllergen {
-  height: 30px;
+  height: 25px;
   font: $medium var(--primary-font-heading);
   padding: 0 10px;
   text-transform: capitalize;
   color: var(--secondary-text-color) !important;
   background: var(--primary-theme-color) !important;
   border: none;
-  width: auto;
   white-space: nowrap;
-  box-sizing: content-box;
+  width: 100px;
   path {
     fill: var(--primary-button-color);
     stroke: var(--primary-button-color);
@@ -318,18 +318,16 @@
 }
 
 .FilterButtonInActive {
-  height: 30px;
+  height: 25px;
   background: var(--primary-background-color);
-  font: $medium var(--primary-font-heading);
-  padding: 0 10px;
+  font: $xsmall var(--primary-font-heading);
   text-transform: capitalize;
   box-shadow: none;
   width: auto;
   white-space: nowrap;
   color: var(--primary-theme-color);
   border: 1px solid var(--primary-border-color);
-  box-sizing: content-box;
-  gap: 10px;
+  width: 100px;
 
   &:hover:enabled {
     color: var(--primary-theme-color);
@@ -343,5 +341,64 @@
 }
 
 .wrapper {
-  margin: 0 5px;
+  margin: 5px;
+}
+
+.welcomeTitle {
+  font: $large var(--heading-font-regular);
+  text-align: center;
+  text-transform: capitalize;
+  margin-top: 15px;
+  margin-bottom: 45px;
+}
+
+.drawerWrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 20px;
+}
+
+.searchWrapper {
+  align-items: baseline;
+  display: flex;
+  flex: 1px;
+  margin-top: 0px;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.filterTagWrapper {
+  align-items: baseline;
+  display: flex;
+  flex: 1px;
+  margin-top: 0px;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.indredientWrapper {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.btnWrapper {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.viewAllButton {
+  font: $medium var(--primary-font-regular);
+  align-self: baseline;
+  gap: 6px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10px;
 }

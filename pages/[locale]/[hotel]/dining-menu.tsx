@@ -25,24 +25,29 @@ import {
   filterIRDMenuItems,
   irdActiveMenuList,
   uniqueDiningOption,
+  getCurrentOpenPeriod,
+  convertTo12HourFormat,
 } from 'utils/functions';
 import { availablePaths } from 'utils/availablePaths';
 import DiningMenu from 'components/pages/dining/DiningMenu/DiningMenu';
 import ScrollDown from '@icons/scrollDown.svg';
-import FilterIcon from '@icons/filterIrd.svg';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { client } from 'core/graphql/client';
-import { IN_ROOM_DINING } from 'utils/constants';
+import { ALL_DAY, EVERYDAY, IN_ROOM_DINING } from 'utils/constants';
 import { useCheckedIn } from 'storage/check-in.storage';
 import {
   IGetRestaurantDetailsResponse,
   GET_RESTAURANT_DETAILS,
 } from 'core/graphql/queries/GET_RESTAURTANT_DETAILS';
 import { diningOptions, diningHeaders, hotelInfoStorage } from 'storage/home.storage';
+import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
+import { ASSETS_URL } from 'core/graphql/endpoints';
+import { StableImage } from 'components/shared/StableImage/StableImage';
+import { Loader } from 'components/shared/Loaders/Loaders';
 
 export { getStaticPaths };
 
-const Dining = () => {
+const Menu = () => {
   const { t } = useTranslation('dining');
   const locale = useLocale();
   const hotelId = useConfig()?.hotelId;
@@ -52,7 +57,6 @@ const Dining = () => {
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
   const filter = useReactiveVar(diningInformationStorage);
   const [openCategory, setOpencategory] = useState(false);
-  const [filterDrawer, setFilterDrawer] = useState(false);
   const [categoryId1, setcategoryId] = useState('');
   const dropdownRef: any = useRef();
   const [scrollTop, setScrollTop] = useState(0);
@@ -129,8 +133,6 @@ const Dining = () => {
     },
   ]);
 
-  const [search, setsearch] = useState(false);
-
   useEffect(() => {
     if (irdActiveMenu?.length > 0 && !irdMenuLoading) {
       diningCategoryStorage(irdActiveMenu);
@@ -155,54 +157,6 @@ const Dining = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [menuHours, menuName]);
 
-  const openSearch = useCallback(() => {
-    setsearch(!search);
-    setOpencategory(false);
-  }, [search]);
-
-  const openFilterFunc = useCallback(() => {
-    setFilterDrawer(!filterDrawer);
-    setOpencategory(false);
-  }, [filterDrawer]);
-
-  const selectMenu = useCallback(
-    (category: string, name: string, hours: any) => {
-      setOpencategory(!openCategory);
-      setcategoryId(category);
-      setcategoryIdheader([{ name: filter?.menuName, hours: hours }]);
-      diningInformationStorage({
-        menuName: name,
-      });
-      window.scrollTo(0, 0);
-    },
-    [filter, openCategory],
-  );
-
-  function disableScroll() {
-    document.body.style.overflow = 'hidden';
-  }
-  function enableScroll() {
-    document.body.style.overflow = '';
-  }
-
-  useEffect(() => {
-    if (openCategory) {
-      disableScroll();
-    } else {
-      enableScroll();
-    }
-  }, [openCategory]);
-
-  const scrollToBottom = () => {
-    dropdownRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  if (typeof window !== 'undefined') {
-    document
-      ?.getElementById('container')
-      ?.addEventListener('scroll', (evt: any) => setScrollTop(evt?.target?.scrollTop));
-  }
-
   return (
     <>
       <Head>
@@ -210,83 +164,64 @@ const Dining = () => {
           {hotelName} | {t('Dining')}
         </title>
       </Head>
-      <Header
-        className={styles.header}
-        displaySearchButton
-        openCategory={openCategory}
-        header={header}
-        setOpencategory={setOpencategory}
-        onSearchBtnClick={openSearch}
-        search
-        displayHome
-      />
-      <PageWrapper
-        className={cx(styles.pageWrapper, {
-          [styles.pageWrapperSecondary]: diningData?.items?.length > 0,
-        })}
-        displayBottomMenu
-      >
-        <div className={styles.wrapper}>
-          <div className={styles.filterContentWrapper}>
-            <div></div>
-            <h3 className={styles.welcomeTitle}>{filter?.menuName}</h3>
-            <FilterIcon onClick={openFilterFunc} />
-          </div>
-          {irdMenuLoading ? (
-            <>
-              {irdActiveMenu?.map(() => {
-                <DiningCategorySkeleton />;
-              })}
-            </>
-          ) : (
-            openCategory && (
-              <>
-                <div
-                  className={styles.backdrop}
-                  onClick={() => setOpencategory(!openCategory)}
-                ></div>
-                <div className={styles.menuDropdown}>
-                  <div id='container' className={styles.menuList}>
-                    {irdActiveMenu?.map((el: any) => (
-                      <div
-                        key={el.id}
-                        ref={dropdownRef}
-                        className={cx(styles.scrollContainer, {
-                          [styles.notScrollContainer]: irdActiveMenu?.length < 3,
-                        })}
-                      >
-                        <DiningMenuOptions
-                          name={el?.name}
-                          image={el.images[0] ? el.images[0].master : null}
-                          categoryId={el.id}
-                          selectMenu={selectMenu}
-                          hours={el.hours}
-                        />
-                      </div>
-                    ))}
-                  </div>
+      <Header className={styles.header} header={header} displayHome />
+      <PageWrapper className={cx(styles.pageWrapper, {})} displayBottomMenu>
+        {irdMenuLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <div className={styles.title}>In-Room Dining</div>
+            <div className={styles.cardWrapper}>
+              {irdActiveMenu?.map((item: any, index: any) => {
+                const currentOpenPeriod: any = getCurrentOpenPeriod(item?.hours);
 
+                return (
                   <div
-                    className={cx(styles.bottomScrollIcon, {
-                      [styles.removeScroll]: irdActiveMenu?.length < 3,
-                    })}
+                    key={index}
+                    className={styles.carouselSlide}
+                    onClick={() => {
+                      diningInformationStorage({
+                        selectedMenu: item?.id,
+                        menuName: item?.name,
+                        selectedCategory: item?.categories[0]?.id,
+                        categoryName: item?.categories[0]?.name,
+                      });
+                      navigate(availablePaths?.DINING);
+                    }}
                   >
-                    {scrollTop !== 369 && <ScrollDown onClick={scrollToBottom} />}
+                    <StableImage
+                      className={cx(styles.carouselSlideImage, 'globals-carouselSlideImage')}
+                      src={`${ASSETS_URL}/${item?.images?.[0]?.master}`}
+                    />
+                    <div className={styles.itemTitle}>{item?.name}</div>
+                    {item?.hours[0]?.day && module && (
+                      <p className={styles.itemTime}>
+                        {item.hours[0]?.day === EVERYDAY &&
+                        item.hours[0]?.open === ALL_DAY &&
+                        item.hours[0]?.close === ALL_DAY ? (
+                          t('Open 24x7')
+                        ) : (
+                          <>
+                            {t('From')}{' '}
+                            <span className={styles.timingCase}>
+                              {convertTo12HourFormat(
+                                currentOpenPeriod?.open || item?.hours[0]?.open,
+                              )}{' '}
+                              -{' '}
+                              {convertTo12HourFormat(
+                                currentOpenPeriod?.close || item?.hours[0]?.close,
+                              )}
+                            </span>
+                          </>
+                        )}
+                      </p>
+                    )}
                   </div>
-                </div>
-              </>
-            )
-          )}
-
-          <DiningMenu
-            openCategory={openCategory}
-            categoryId={categoryId1}
-            search={search}
-            setsearch={setsearch}
-            filterDrawer={filterDrawer}
-            setFilterDrawer={setFilterDrawer}
-          />
-        </div>
+                );
+              })}
+            </div>
+          </>
+        )}
       </PageWrapper>
     </>
   );
@@ -306,4 +241,4 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   };
 };
 
-export default Dining;
+export default Menu;
