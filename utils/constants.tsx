@@ -39,6 +39,7 @@ export const FAIRMONT_MOUNT_KENYA_SAFARI_CLUB = 'fairmont-mount-kenya-safari-clu
 export const FAIRMONT_LA_HACIENDA = 'fairmont-la-hacienda';
 export const FAIRMONT_GOLDEN_PRAGUE = 'fairmont-golden-prague';
 export const FAIRMONT_TOKYO = 'fairmont-tokyo';
+export const FAIRMONT_CENTURY_PLAZA = 'fairmont-century-plaza';
 export const ONE_HOTELS_SOUTH_BEACH = '1-hotel-south-beach';
 export const HARD_ROCK_HOTEL_CANCUN = 'hard-rock-hotel-cancun';
 export const ATLANTIS = 'atlantis';
