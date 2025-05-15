@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import styles from '@styles/dining/dining.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
 import { DiningMenuOptions } from 'components/pages/dining/DiningMenuOptions/DiningMenuOptions';
-import { diningInformationStorage } from 'storage/dining.storage';
+import { diningInformationStorage, irdMenuOutputDetailsStorage } from 'storage/dining.storage';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { DiningCategorySkeleton } from 'components/pages/dining/DiningCategorySkeleton/DiningCategorySkeleton';
 import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
@@ -31,7 +31,7 @@ import DiningMenu from 'components/pages/dining/DiningMenu/DiningMenu';
 import ScrollDown from '@icons/scrollDown.svg';
 import FilterIcon from '@icons/filterIrd.svg';
 import { useConfig } from 'utils/hooks/useConfiguration';
-import { client } from 'core/graphql/client';
+// import { client } from 'core/graphql/client';
 import { IN_ROOM_DINING } from 'utils/constants';
 import { useCheckedIn } from 'storage/check-in.storage';
 import {
@@ -85,10 +85,7 @@ const Dining = () => {
   });
 
   if (data) {
-    client.writeQuery({
-      query: IRD_MENU,
-      data,
-    });
+    irdMenuOutputDetailsStorage(data);
   }
 
   const queryResultsData: any = restaurantList?.getRestaurantDetails?.restaurant;

@@ -31,6 +31,7 @@ import { instructionValidation } from 'validation/dining.validation';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { IN_ROOM_DINING } from 'utils/constants';
 import { hotelInfoStorage } from 'storage/home.storage';
+import { irdMenuOutputDetailsStorage } from 'storage/dining.storage';
 
 type DiningDetailsDrawerProps = {
   menuAvailability?: any;
@@ -376,14 +377,12 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
     },
   });
 
-  const diningDetails = () => {
+  const DiningDetails = () => {
     const filteredCustomisation = selectedItem?.customisation?.map((customisationItem: any) =>
       customisationItem?.customisations?.filter((item: any) => item?.status),
     );
 
-    const data = client.readQuery({
-      query: IRD_MENU,
-    });
+    const data = useReactiveVar(irdMenuOutputDetailsStorage) as IRDMenuApiResponse;
 
     const filteredList = data?.getIRDMenuOutputDetails?.filter(
       (item: any) =>
@@ -602,7 +601,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
     <CustomDrawer
       open={diningDetailsDrawerStatus}
       onClose={closeDrawer}
-      content={diningDetails()}
+      content={DiningDetails()}
     />
   );
 };

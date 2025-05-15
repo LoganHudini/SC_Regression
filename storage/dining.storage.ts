@@ -8,3 +8,4 @@ export type IDiningStorageData = {
 };
 
 export const diningInformationStorage = makeVar<IDiningStorageData | null>(null);
+export const irdMenuOutputDetailsStorage = makeVar<any>(null);
