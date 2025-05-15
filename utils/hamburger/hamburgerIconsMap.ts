@@ -56,7 +56,7 @@ export const hamburgerIconsMap = {
   Help: ChatIcon,
 };
 
-export const iconsMap = {
+export const iconsMap: any = {
   gluten: Gluten,
   nuts: Nuts,
   egg: Egg,

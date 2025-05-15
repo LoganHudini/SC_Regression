@@ -1,7 +1,7 @@
 import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import Cookinginstructions from '@icons/cooking_instructions.svg';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './DiningDetailsDrawer.module.scss';
 import { useTranslation } from 'react-i18next';
 import { useReactiveVar } from '@apollo/client';
@@ -42,6 +42,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
   const selectedItemId = useReactiveVar(diningMenuStorage)?.selectedItemId;
   const selectedItemIndex = useReactiveVar(diningMenuStorage)?.selectedIndex;
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
+  console.log('🚀 ~ diningData:', diningData);
   const hotelInformation = useReactiveVar(hotelInfoStorage);
   const diningDetailsDrawerStatus = useReactiveVar(toggleDiningDetailsDrawer);
   const editControlStatus = useReactiveVar(editControl);
@@ -62,10 +63,12 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
       price: number;
       comment?: string;
       quantity?: number;
+      index?: any;
     }[]
   >();
 
-  const data = client.readQuery<IRDMenuApiResponse>({ query: IRD_MENU });
+  const [groupedAddons, setGroupedAddons] = useState<any>([]);
+  const data = useReactiveVar(irdMenuOutputDetailsStorage) as IRDMenuApiResponse;
 
   const irdMenu = irdActiveMenuList(
     data,
@@ -100,6 +103,9 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
       }
       if (selectedItemWithIndex?.addons?.length > 0) {
         setAddons(selectedItemWithIndex?.addons);
+      }
+      if (selectedItemWithIndex?.groupedAddons?.length > 0) {
+        setGroupedAddons(selectedItemWithIndex?.groupedAddons);
       }
       setCount(selectedItemWithIndex.quantity || 1);
       setInstruction(selectedItemWithIndex?.cookingInstruction);
@@ -176,6 +182,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
     toggleDiningDetailsDrawer(false);
     setCustomisation([]);
     setAddons([]);
+    setGroupedAddons([]);
     editControl(false);
     setInstruction('');
     formik.resetForm();
@@ -186,10 +193,14 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
       }),
     );
   }, []);
-
   const handleAdd = useCallback(() => {
-    const customisationData: any = sortBy(customisation, (item) => item?.name);
-    const addOnsData = sortBy(addons, (item) => item?.name);
+    const sortedCustomisation: any = sortBy(customisation, (item) => item?.name);
+    const sortedAddons = sortBy(addons, (item) => item?.name);
+    const sortedGroupedAddons = sortBy(groupedAddons, (item) => item?.name);
+
+    const customisationString = JSON.stringify(sortedCustomisation);
+    const addonsString = JSON.stringify(sortedAddons);
+    const groupedAddonsString = JSON.stringify(sortedGroupedAddons);
 
     if (editControlStatus) {
       diningMenuStorage(
@@ -197,23 +208,47 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
           const selectedItem = draft?.items.find(
             (el, index) =>
               el?.itemId === selectedItemId &&
-              el?.customisation?.ingredient === customisationData?.ingredient &&
-              el?.customisation?.code === customisationData?.code &&
+              el?.customisation?.ingredient === sortedCustomisation?.ingredient &&
+              el?.customisation?.code === sortedCustomisation?.code &&
               index === selectedItemIndex,
           );
 
           if (selectedItem) {
-            const areAddonsEqual =
-              JSON.stringify(sortBy(selectedItem?.addons, (item) => item?.name)) ===
-              JSON.stringify(sortBy(addons, (item) => item?.name));
-            const areCustomisationsEqual =
-              JSON.stringify(sortBy(selectedItem?.customisation, (item) => item?.name)) ===
-              JSON.stringify(sortBy(customisation, (item) => item?.name));
+            const existingAddons = selectedItem?.addons || [];
+            const existingCustomisation = selectedItem?.customisation || [];
+            const existingGroupedAddons = selectedItem?.groupedAddons || [];
 
-            if (!areAddonsEqual || !areCustomisationsEqual) {
-              selectedItem.addons = sortBy(addons, (item) => item?.name);
-              selectedItem.customisation = sortBy(customisation, (item) => item?.name);
+            const selectedItemAddonsString = JSON.stringify(
+              sortBy(existingAddons, (item) => item?.name),
+            );
+            const selectedItemCustomisationString = JSON.stringify(
+              sortBy(existingCustomisation, (item) => item?.name),
+            );
+            const selectedItemGroupedAddonsString = JSON.stringify(
+              sortBy(existingGroupedAddons, (item) => item?.name),
+            );
+
+            const needsUpdate =
+              (sortedAddons?.length > 0 && selectedItemAddonsString !== addonsString) ||
+              (sortedCustomisation?.length > 0 &&
+                selectedItemCustomisationString !== customisationString) ||
+              (sortedGroupedAddons?.length > 0 &&
+                selectedItemGroupedAddonsString !== groupedAddonsString);
+
+            if (needsUpdate) {
+              if (selectedItem.addons !== undefined || (addons && addons?.length > 0)) {
+                selectedItem.addons = sortedAddons;
+              }
+
+              if (selectedItem.customisation !== undefined || customisation?.length > 0) {
+                selectedItem.customisation = sortedCustomisation;
+              }
+
+              if (selectedItem.groupedAddons !== undefined || groupedAddons?.length > 0) {
+                selectedItem.groupedAddons = sortedGroupedAddons;
+              }
             }
+
             selectedItem.cookingInstruction = instruction ?? '';
             selectedItem.quantity = count || 1;
           }
@@ -222,127 +257,99 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
     } else {
       diningMenuStorage(
         produce(diningMenuStorage(), (draft) => {
-          const item = draft?.items?.find(
-            (el) =>
+          const existingItem = draft?.items?.find((el) => {
+            //  no customization or addons
+            if (
               el?.itemId === selectedItemId &&
-              (el?.customisation ?? [])?.length === 0 &&
-              (el?.addons ?? [])?.length === 0 &&
-              customisation?.length === 0 &&
-              addOnsData?.length === 0,
-          );
-
-          const itemBoth = draft?.items.find(
-            (el) =>
-              el.itemId === selectedItemId &&
-              addOnsData?.length === 0 &&
-              (el?.addons ?? [])?.length > 0 &&
-              JSON.stringify(addOnsData) ===
-                JSON.stringify(sortBy(el?.addons, (item) => item?.name)) &&
-              JSON.stringify(customisationData) ===
-                JSON.stringify(sortBy(el?.customisation, (item) => item?.name)),
-
-            // customisation?.ingredient &&
-            // el?.customisation?.ingredient &&
-            // el?.customisation?.ingredient === customisation?.ingredient &&
-            // el?.customisation?.code === customisation?.code,
-          );
-
-          const itemCustomisation = draft?.items.find(
-            (el) =>
-              el.itemId === selectedItemId &&
-              customisation?.ingredient &&
-              (el?.customisation ?? [])?.length > 0 &&
-              el?.customisation?.ingredient === customisation?.ingredient &&
-              el?.customisation?.code === customisation?.code &&
-              addOnsData?.length === 0,
-          );
-
-          const itemAddons = draft?.items.find(
-            (el) =>
-              el.itemId === selectedItemId &&
-              addOnsData?.length > 0 &&
-              (el?.addons ?? [])?.length > 0 &&
-              el?.customisation?.ingredient === customisation?.ingredient &&
-              JSON.stringify(addOnsData) ===
-                JSON.stringify(sortBy(el?.addons, (item) => item?.name)),
-          );
-
-          if (itemBoth) {
-            itemBoth.quantity += count;
-            // console.log('Both matches');
-          } else if (itemCustomisation) {
-            itemCustomisation.quantity += count;
-            // console.log('Cust matches');
-          } else if (itemAddons) {
-            itemAddons.quantity += count;
-            // console.log('Addons matches');
-          } else {
-            // console.log('No match');
-            if (customisation?.length > 0 || addOnsData?.length > 0) {
-              if (addOnsData?.length > 0 && customisation?.length > 0) {
-                draft.items.push({
-                  itemId: selectedItem?.id,
-                  quantity: count,
-                  code: selectedItem?.code ?? '',
-                  price: selectedItem?.price ?? 0,
-                  title: selectedItem?.name ?? '',
-                  cookingInstruction: instruction ?? '',
-                  customisation: customisationData,
-                  addons: addOnsData,
-                  upsell: selectedItem?.upsell ?? [],
-                });
-                // console.log('Customisation & Addons only');
-              } else if (customisation?.length > 0) {
-                draft.items.push({
-                  itemId: selectedItem?.id,
-                  quantity: count,
-                  code: selectedItem?.code ?? '',
-                  price: selectedItem?.price ?? 0,
-                  title: selectedItem?.name ?? '',
-                  cookingInstruction: instruction ?? '',
-                  customisation: customisation,
-                  upsell: selectedItem?.upsell ?? [],
-                });
-                // console.log('Customisation only');
-              } else if (addOnsData?.length > 0) {
-                draft.items.push({
-                  itemId: selectedItem?.id,
-                  quantity: count,
-                  code: selectedItem?.code ?? '',
-                  price: selectedItem?.price ?? 0,
-                  title: selectedItem?.name ?? '',
-                  cookingInstruction: instruction ?? '',
-                  addons: addOnsData,
-                  upsell: selectedItem?.upsell ?? [],
-                });
-                // console.log('Addons only');
-              }
-            } else {
-              if (item) {
-                if (!customisation?.ingredient && addOnsData.length === 0) {
-                  // console.log(
-                  //   'No customisation or addons selected or Customisation or addons does not exist',
-                  // );
-                  item.quantity += count;
-                  // console.log(item.quantity);
-                }
-              } else {
-                draft.items.push({
-                  itemId: selectedItem?.id,
-                  quantity: count,
-                  price: selectedItem?.price ?? 0,
-                  cookingInstruction: instruction ?? '',
-                  title: selectedItem?.name ?? '',
-                  code: selectedItem?.code ?? '',
-                  upsell: selectedItem?.upsell ?? [],
-                });
-                // console.log('Added');
-              }
+              !(el?.customisation?.length || 0) &&
+              !(el?.addons?.length || 0) &&
+              !sortedCustomisation?.length &&
+              !sortedAddons?.length
+            ) {
+              return true;
             }
+
+            // matching customization and addons
+            if (
+              el?.itemId === selectedItemId &&
+              JSON.stringify(sortBy(el?.addons || [], (item) => item?.name)) === addonsString &&
+              JSON.stringify(sortBy(el?.groupedAddons || [], (item) => item?.name)) ===
+                groupedAddonsString &&
+              JSON.stringify(sortBy(el?.customisation || [], (item) => item?.name)) ===
+                customisationString
+            ) {
+              return true;
+            }
+
+            // matching customization only
+            if (
+              el?.itemId === selectedItemId &&
+              sortedCustomisation?.ingredient &&
+              (el?.customisation?.length || 0) > 0 &&
+              el?.customisation?.ingredient === sortedCustomisation?.ingredient &&
+              el?.customisation?.code === sortedCustomisation?.code &&
+              !sortedAddons?.length
+            ) {
+              return true;
+            }
+
+            //  matching addons only
+            if (
+              el?.itemId === selectedItemId &&
+              sortedAddons?.length > 0 &&
+              (el?.addons?.length || 0) > 0 &&
+              el?.customisation?.ingredient === sortedCustomisation?.ingredient &&
+              JSON.stringify(sortBy(el?.addons || [], (item) => item?.name)) === addonsString
+            ) {
+              return true;
+            }
+
+            // matching grouped addons only
+            if (
+              el?.itemId === selectedItemId &&
+              sortedGroupedAddons?.length > 0 &&
+              (el?.groupedAddons?.length || 0) > 0 &&
+              el?.customisation?.ingredient === sortedCustomisation?.ingredient &&
+              JSON.stringify(sortBy(el?.groupedAddons || [], (item) => item?.name)) ===
+                groupedAddonsString
+            ) {
+              return true;
+            }
+
+            return false;
+          });
+
+          if (existingItem) {
+            existingItem.quantity += count;
+          } else {
+            const baseItem: any = {
+              itemId: selectedItem?.id,
+              quantity: count,
+              code: selectedItem?.code ?? '',
+              price: selectedItem?.price ?? 0,
+              title: selectedItem?.name ?? '',
+              cookingInstruction: instruction ?? '',
+              upsell: selectedItem?.upsell ?? [],
+            };
+
+            if (sortedCustomisation?.length > 0) {
+              baseItem.customisation = sortedCustomisation;
+            }
+
+            if (sortedAddons?.length > 0) {
+              baseItem.addons = sortedAddons;
+            }
+
+            if (sortedGroupedAddons?.length > 0) {
+              baseItem.groupedAddons = sortedGroupedAddons;
+            }
+
+            draft.items.push(baseItem);
           }
         }),
       );
     }
+
     const item = {
       id: selectedItem?.id,
       name: selectedItem?.name,
@@ -350,10 +357,12 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
       quantity: count,
       currency: currency,
     };
+
     addToCartEvent(item);
     closeDrawer();
   }, [
     addons,
+    groupedAddons,
     closeDrawer,
     count,
     currency,
@@ -512,6 +521,41 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
                       </div>
                     ))}
                 </div>
+              </>
+            )}
+
+            {selectedItem?.groupedAddon && selectedItem?.groupedAddon?.length > 0 && irdModule && (
+              <>
+                {selectedItem?.groupedAddon?.map((groupedAddon: any, groupedAddonIndex: any) => (
+                  <React.Fragment key={groupedAddonIndex}>
+                    <div className={styles.addonsRow}>
+                      <p className={styles.addonsText}>{groupedAddon?.title}</p>
+                    </div>
+                    <div className={styles.irdCheckboxItemWrapper}>
+                      {groupedAddon?.addons?.map((el: any, index: any) => (
+                        <div key={el?.id || index}>
+                          <DiningCheckboxItem
+                            setupdateAddons={setupdateAddons}
+                            updateAddons={updateAddons}
+                            element={el}
+                            selectedItemId={selectedItemId}
+                            addons={groupedAddons ?? []}
+                            setAddons={setGroupedAddons}
+                            checked={
+                              groupedAddons?.some(
+                                (item: any) =>
+                                  item?.id === el?.id && item?.index === groupedAddonIndex,
+                              )
+                                ? true
+                                : false
+                            }
+                            groupedAddonIndex={groupedAddonIndex}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </React.Fragment>
+                ))}
               </>
             )}
 

@@ -26,6 +26,17 @@ export type IDiningMenuStorageData = {
           quantity?: number;
         }[]
       | any;
+    groupedAddons?:
+      | {
+          code: string;
+          id: string;
+          name: string;
+          price: number;
+          comment?: string;
+          quantity?: number;
+          index?: number;
+        }[]
+      | any;
     upsell?: {
       code?: string;
       description?: string;
