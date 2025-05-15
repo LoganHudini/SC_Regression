@@ -379,7 +379,11 @@ const DiningOrderSummary = () => {
             key={el?.id}
             id={el?.id}
             title={el?.name}
-            image={el?.images[0]?.ratio1to1 || null}
+            image={
+              el?.images && Array.isArray(el.images) && el.images.length > 0
+                ? el.images[0]?.ratio1to1
+                : null
+            }
             description={el?.description}
             price={el?.price}
             customisation={el?.customisation}
