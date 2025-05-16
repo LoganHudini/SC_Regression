@@ -6,6 +6,7 @@ import { useReactiveVar } from '@apollo/client';
 import { editControl } from 'storage/dining-menu.storage';
 import { useCurrency } from 'utils/hooks/useCurrency';
 import { formatPriceIRD } from 'utils/functions';
+import cx from 'classnames';
 
 export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
   element,
@@ -55,7 +56,7 @@ export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
   const showCurrency = () => {
     return (
       <>
-        <p className={styles.price}>
+        <p className={cx(styles.price, 'showCurrencyInCheckbox')}>
           <span className={styles.currency}>{currency}</span>
           {formatPriceIRD(element?.price)}
         </p>
@@ -65,7 +66,13 @@ export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
 
   return (
     <div className={styles.irdCheckboxItem}>
-      <div className={styles.name}>{element?.name}</div>
+      <div className={styles.name}>
+        {element?.name}
+        <span className={cx(styles.v2Price, 'irdV2FLowShow')}>
+          {formatPriceIRD(element?.price)}
+        </span>
+      </div>
+
       <WhiteStyledCheckbox
         onChange={toggleRequested}
         value={element.id}

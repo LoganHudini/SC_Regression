@@ -19,6 +19,7 @@ import {
   diningMenuStorage,
 } from 'storage/dining-menu.storage';
 import cx from 'classnames';
+import { availablePaths } from 'utils/availablePaths';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import {
   filterLiveMenu,
