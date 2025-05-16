@@ -1,7 +1,7 @@
 import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import Cookinginstructions from '@icons/cooking_instructions.svg';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styles from './DiningDetailsDrawer.module.scss';
 import { useTranslation } from 'react-i18next';
 import { useReactiveVar } from '@apollo/client';
@@ -13,7 +13,7 @@ import {
 } from 'storage/dining-menu.storage';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import produce from 'immer';
-import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
+import { IRDMenuApiResponse } from 'core/graphql/queries/IRD_MENU';
 import { DiningCheckboxItem } from 'components/pages/dining/DiningCheckboxItem/DiningCheckboxItem';
 import { InputAdornment } from '@mui/material';
 import { sortBy } from 'lodash';
@@ -22,7 +22,6 @@ import { activeModule, filterLiveMenu, formatPriceIRD, irdActiveMenuList } from 
 import { addToCartEvent } from 'utils/gtag';
 import cx from 'classnames';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
-import { client } from 'core/graphql/client';
 import { useCurrency } from 'utils/hooks/useCurrency';
 import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 import { StyledInput } from 'components/shared/StyledInput/StyledInput';
@@ -32,6 +31,7 @@ import { useConfig } from 'utils/hooks/useConfiguration';
 import { IN_ROOM_DINING } from 'utils/constants';
 import { hotelInfoStorage } from 'storage/home.storage';
 import { irdMenuOutputDetailsStorage } from 'storage/dining.storage';
+import { DiningMenuElementUpsell } from '../DiningMenuElementUpsell/DiningMenuElementUpsell';
 
 type DiningDetailsDrawerProps = {
   menuAvailability?: any;
@@ -386,12 +386,10 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
     },
   });
 
-  const DiningDetails = () => {
+  const diningDetails = () => {
     const filteredCustomisation = selectedItem?.customisation?.map((customisationItem: any) =>
       customisationItem?.customisations?.filter((item: any) => item?.status),
     );
-
-    const data = useReactiveVar(irdMenuOutputDetailsStorage) as IRDMenuApiResponse;
 
     const filteredList = data?.getIRDMenuOutputDetails?.filter(
       (item: any) =>
@@ -440,7 +438,6 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
 
             {selectedItem?.ingredients && (
               <>
-                <h4 className={styles.ingredientsText}>{t('Ingredients')}</h4>
                 <p className={styles.ingredientsDescription}>{selectedItem?.ingredients}</p>
               </>
             )}
@@ -568,7 +565,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
                 value={formik.values.instruction}
                 className={styles.textInput}
                 id='instruction'
-                placeholder={`${t('Add instructions')}`}
+                placeholder={`${t('Add special instructions')}`}
                 onChange={(e) => {
                   formik.handleChange(e);
                   setInstruction(e.target.value);
@@ -594,6 +591,52 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
                 error={Boolean(formik.errors.instruction)}
                 helperText={formik.errors.instruction ? t(formik.errors.instruction) : null}
               />
+            )}
+
+            {/* {selectedItem?.upsell?.length > 0 && (
+              <>
+                <div className={styles.upsellWrapper}>
+                  <h4 className={styles.addonsText}>{t('You May Also Like')}</h4>
+                  {selectedItem?.upsell?.map((upsellItem: any, index: number) => (
+                    <DiningMenuElementUpsell
+                      key={index}
+                      title={upsellItem?.name}
+                      price={upsellItem?.price}
+                      id={upsellItem?.id}
+                      image={upsellItem?.image}
+                      code={upsellItem?.code}
+                      description={upsellItem?.description || ''}
+                      customisation={upsellItem?.customisation || []}
+                      index={index}
+                    />
+                  ))}
+                </div>
+              </>
+            )} */}
+            {selectedItem?.upsell?.length > 0 && (
+              <>
+                <div className={styles.upsellWrapper}>
+                  <h4 className={styles.addonsText}>{t('You May Also Like')}</h4>
+                  <div className={styles.horizontalScrollContainer}>
+                    <div className={styles.horizontalScrollContent}>
+                      {selectedItem?.upsell?.map((upsellItem: any, index: number) => (
+                        <div className={styles.scrollItem} key={index}>
+                          <DiningMenuElementUpsell
+                            title={upsellItem?.name}
+                            price={upsellItem?.price}
+                            id={upsellItem?.id}
+                            image={upsellItem?.image}
+                            code={upsellItem?.code}
+                            description={upsellItem?.description || ''}
+                            customisation={upsellItem?.customisation || []}
+                            index={index}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </>
             )}
 
             {selectedItem?.price && irdModule && (
@@ -645,7 +688,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
     <CustomDrawer
       open={diningDetailsDrawerStatus}
       onClose={closeDrawer}
-      content={DiningDetails()}
+      content={diningDetails()}
     />
   );
 };

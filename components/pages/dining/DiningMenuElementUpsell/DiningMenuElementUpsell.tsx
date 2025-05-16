@@ -39,7 +39,7 @@ export const DiningMenuElementUpsell: React.FC<IDiningMenuElementProps> = ({
           });
         }
 
-        draft.selectedItemId = id;
+        // draft.selectedItemId = id;
       }),
     );
   }, [code, id, price, title]);
@@ -79,7 +79,7 @@ export const DiningMenuElementUpsell: React.FC<IDiningMenuElementProps> = ({
           item.quantity--;
         }
         draft.items = draft.items?.filter((item) => item.quantity > 0);
-        draft.selectedItemId = id;
+        // draft.selectedItemId = id;
       }),
     );
   }, [id]);

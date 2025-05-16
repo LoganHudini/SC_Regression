@@ -26,7 +26,6 @@ import {
   irdActiveMenuList,
   uniqueDiningOption,
 } from 'utils/functions';
-import { availablePaths } from 'utils/availablePaths';
 import DiningMenu from 'components/pages/dining/DiningMenu/DiningMenu';
 import ScrollDown from '@icons/scrollDown.svg';
 import FilterIcon from '@icons/filterIrd.svg';
@@ -136,7 +135,7 @@ const Dining = () => {
 
   useEffect(() => {
     if (!checkInData?.checkedIn) {
-      navigate(availablePaths?.HOME);
+      // navigate(availablePaths?.HOME);
     }
   }, [navigate, t, checkInData?.checkedIn]);
 
