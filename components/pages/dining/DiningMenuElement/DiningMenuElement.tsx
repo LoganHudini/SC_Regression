@@ -1,5 +1,5 @@
 import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './DiningMenuElement.module.scss';
 import { IDiningMenuElementProps } from './DiningMenuElement.types';
