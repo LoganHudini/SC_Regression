@@ -291,6 +291,9 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                 code={el?.code}
                 addons={el?.addons}
                 menuAvailability={menuAvailability}
+                ingredients={el?.ingredients}
+                tags={el?.tags ? el?.tags?.[0] : {}}
+                allergens={el?.allergens}
               />
             </React.Fragment>
           ))}

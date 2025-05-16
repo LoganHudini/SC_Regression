@@ -379,7 +379,11 @@ const DiningOrderSummary = () => {
             key={el?.id}
             id={el?.id}
             title={el?.name}
-            image={el?.images[0]?.ratio1to1 || null}
+            image={
+              el?.images && Array.isArray(el.images) && el.images.length > 0
+                ? el.images[0]?.ratio1to1
+                : null
+            }
             description={el?.description}
             price={el?.price}
             customisation={el?.customisation}
@@ -494,6 +498,25 @@ const DiningOrderSummary = () => {
                               </span>
                               {formatPriceIRD(items?.price)}{' '}
                               {index !== item?.addons?.length - 1 ? ',' : ''}{' '}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {(item?.groupedAddons ?? [])?.length > 0 && (
+                      <div className={styles.addonsWrapperCols}>
+                        {item?.groupedAddons?.map((items: any, index: any) => (
+                          <div className={styles.addonsWrapperRows} key={index}>
+                            <span className={styles.itemDescription}>
+                              {items?.name}
+                              {' - '}
+                            </span>
+                            <span key={index} className={styles.items}>
+                              <span key={index} className={styles.itemsCurrency}>
+                                {currency}{' '}
+                              </span>
+                              {formatPriceIRD(items?.price)}{' '}
+                              {index !== item?.groupedAddons?.length - 1 ? ',' : ''}{' '}
                             </span>
                           </div>
                         ))}

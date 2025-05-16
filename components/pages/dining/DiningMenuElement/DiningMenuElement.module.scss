@@ -9,6 +9,17 @@
   background-color: var(--primary-card-background-color);
 }
 
+.cardV2 {
+  display: flex;
+  margin: 0.75rem 0 0.75rem;
+  padding: 0.8rem;
+  text-align: start;
+  border-radius: var(--primary-card-border-radius);
+  box-shadow: 0px 3px 6px var(--primary-card-shadow-color);
+  background-color: var(--primary-card-background-color);
+  flex-direction: column;
+}
+
 .contentWrapper {
   cursor: pointer;
   display: flex;
@@ -23,6 +34,19 @@
   color: var(--primary-text-color);
   margin: 5px 0;
   width: 140%;
+}
+
+.titleV2 {
+  font: $medium var(--primary-card-title-font-family);
+  color: var(--primary-text-color);
+}
+
+.tagTitleV2 {
+  font: $xsmall var(--primary-font-regular);
+  color: var(--primary-text-color);
+  padding: 5px;
+  background-color: var(--primary-card-shadow-color);
+  width: fit-content;
 }
 
 .titleWithImage {
@@ -40,13 +64,32 @@
   -webkit-line-clamp: 3;
 }
 
+.descriptionV2 {
+  font: $small var(--primary-card-desc-font-family);
+  color: var(--tertiary-text-color);
+  width: 140%;
+  min-height: 1rem;
+  line-height: 1.5;
+  max-height: 4rem;
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .descriptionWithImage {
-  width: 90%;
+  width: 100%;
 }
 
 .currency {
   font: $xsmall var(--primary-card-title-font-family);
   margin: 20px 0 5px;
+}
+
+.currencyV2 {
+  font: $small var(--primary-card-desc-font-family);
+  color: var(--tertiary-text-color);
 }
 
 .price {
@@ -109,4 +152,43 @@
 
 .pointer {
   cursor: pointer;
+}
+
+.contentV2Wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-align: start;
+  width: 284px;
+  gap: 10px;
+}
+
+.detailsWrapperContentV2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: start;
+  width: 70%;
+}
+
+.imageV2 {
+  width: 120px;
+  height: 120px;
+  border-radius: var(--primary-card-border-radius);
+  position: relative;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.V2BtnWrapper {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.allergensWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }

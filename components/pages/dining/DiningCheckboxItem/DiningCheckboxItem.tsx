@@ -14,6 +14,7 @@ export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
   setupdateAddons,
   updateAddons,
   checked,
+  groupedAddonIndex,
 }) => {
   const editControlStatus = useReactiveVar(editControl);
   const currency = useCurrency();
@@ -22,7 +23,9 @@ export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
     if (editControlStatus) {
       setupdateAddons(!updateAddons);
 
-      const IndexOfItem: any = addons?.findIndex((item) => item?.id === element?.id);
+      const IndexOfItem: any = addons?.findIndex(
+        (item) => item?.id === element?.id && item?.index === groupedAddonIndex,
+      );
 
       if (IndexOfItem !== -1) {
         setAddons((AddonsAdded: any) => {
@@ -31,18 +34,20 @@ export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
           return newAddons;
         });
       } else {
-        setAddons([...(addons ?? []), element]);
+        setAddons([...(addons ?? []), { ...element, index: groupedAddonIndex }]);
       }
     } else {
       setupdateAddons(!updateAddons);
-      const item = addons?.find((item) => item?.id === element?.id);
+      const item = addons?.find(
+        (item) => item?.id === element?.id && item?.index === groupedAddonIndex,
+      );
       if (item) {
         const index = (addons ?? [])?.indexOf(item);
         if (index > -1) {
           addons?.splice(index, 1);
         }
       } else {
-        setAddons([...(addons ?? []), element]);
+        setAddons([...(addons ?? []), { ...element, index: groupedAddonIndex }]);
       }
     }
   }, [addons, editControlStatus, element, setAddons, setupdateAddons, updateAddons]);

@@ -1,11 +1,14 @@
 export interface IDiningMenuElementProps {
   menuAvailability?: boolean;
   title: string;
+  ingredients?: string;
   description: string;
   price: number;
   id: string;
   image: string | null;
   code: string;
+  tags?: any;
+  allergens?: any;
   customisation: {
     ingredient: string;
     customisations: {
