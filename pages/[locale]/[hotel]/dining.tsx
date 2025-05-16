@@ -19,6 +19,7 @@ import {
   diningMenuStorage,
 } from 'storage/dining-menu.storage';
 import cx from 'classnames';
+import { availablePaths } from 'utils/availablePaths';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import {
   filterLiveMenu,
@@ -26,7 +27,6 @@ import {
   irdActiveMenuList,
   uniqueDiningOption,
 } from 'utils/functions';
-import { availablePaths } from 'utils/availablePaths';
 import DiningMenu from 'components/pages/dining/DiningMenu/DiningMenu';
 import ScrollDown from '@icons/scrollDown.svg';
 import FilterIcon from '@icons/filterIrd.svg';

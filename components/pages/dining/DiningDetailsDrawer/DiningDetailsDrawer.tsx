@@ -22,7 +22,6 @@ import { activeModule, filterLiveMenu, formatPriceIRD, irdActiveMenuList } from 
 import { addToCartEvent } from 'utils/gtag';
 import cx from 'classnames';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
-// import { client } from 'core/graphql/client';
 import { useCurrency } from 'utils/hooks/useCurrency';
 import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 import { StyledInput } from 'components/shared/StyledInput/StyledInput';
@@ -32,6 +31,7 @@ import { useConfig } from 'utils/hooks/useConfiguration';
 import { IN_ROOM_DINING } from 'utils/constants';
 import { hotelInfoStorage } from 'storage/home.storage';
 import { irdMenuOutputDetailsStorage } from 'storage/dining.storage';
+import { DiningMenuElementUpsell } from '../DiningMenuElementUpsell/DiningMenuElementUpsell';
 
 type DiningDetailsDrawerProps = {
   menuAvailability?: any;
@@ -390,6 +390,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
     const filteredCustomisation = selectedItem?.customisation?.map((customisationItem: any) =>
       customisationItem?.customisations?.filter((item: any) => item?.status),
     );
+
     const filteredList = data?.getIRDMenuOutputDetails?.filter(
       (item: any) =>
         item?.isActive &&
@@ -437,7 +438,6 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
 
             {selectedItem?.ingredients && (
               <>
-                <h4 className={styles.ingredientsText}>{t('Ingredients')}</h4>
                 <p className={styles.ingredientsDescription}>{selectedItem?.ingredients}</p>
               </>
             )}
@@ -565,7 +565,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
                 value={formik.values.instruction}
                 className={styles.textInput}
                 id='instruction'
-                placeholder={`${t('Add instructions')}`}
+                placeholder={`${t('Add special instructions')}`}
                 onChange={(e) => {
                   formik.handleChange(e);
                   setInstruction(e.target.value);
@@ -591,6 +591,32 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
                 error={Boolean(formik.errors.instruction)}
                 helperText={formik.errors.instruction ? t(formik.errors.instruction) : null}
               />
+            )}
+
+            {selectedItem?.upsell?.length > 0 && (
+              <>
+                <div className={styles.upsellWrapper}>
+                  <h4 className={styles.addonsText}>{t('You May Also Like')}</h4>
+                  <div className={styles.horizontalScrollContainer}>
+                    <div className={styles.horizontalScrollContent}>
+                      {selectedItem?.upsell?.map((upsellItem: any, index: number) => (
+                        <div className={styles.scrollItem} key={index}>
+                          <DiningMenuElementUpsell
+                            title={upsellItem?.name}
+                            price={upsellItem?.price}
+                            id={upsellItem?.id}
+                            image={upsellItem?.image}
+                            code={upsellItem?.code}
+                            description={upsellItem?.description || ''}
+                            customisation={upsellItem?.customisation || []}
+                            index={index}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </>
             )}
 
             {selectedItem?.price && irdModule && (

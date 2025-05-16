@@ -16,7 +16,7 @@
   width: 100%;
   margin: auto;
   max-width: 768px;
-  background-color: var(--primary-background-color);
+  background-color: white;
   z-index: 1;
   display: flex;
   align-items: center;
@@ -42,18 +42,16 @@
 
 .tags {
   display: flex;
-  border: 1px solid #d0d0d0;
-  border-radius: var(--primary-card-border-radius);
   height: 23px;
   color: var(--tertiary-text-color);
-  background-color: #f4f4f4;
-  font: $extraSmall var(--primary-font-regular);
+  font:  $small var(--primary-font-regular);
   margin-inline-end: 10px;
   width: auto;
   min-width: 50px;
-  padding: 2px 10px 0 10px;
-  justify-content: center;
+  padding: 0px 1px 0px 1px;
+  justify-content: start;
   align-items: center;
+  text-transform: capitalize;
 }
 
 .allergens {
@@ -145,6 +143,9 @@
 .addonsText {
   font: $medium var(--primary-font-heading);
 }
+.upsellWrapper {
+  margin: 1.5rem 0rem 1rem;
+}
 
 .optionalText {
   font: $xsmall var(--primary-font-regular);
@@ -232,4 +233,27 @@
   &:after {
     display: none;
   }
+}
+.horizontalScrollContainer {
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin; 
+}
+
+.horizontalScrollContainer::-webkit-scrollbar {
+  height: 6px;
+}
+
+.horizontalScrollContainer::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.horizontalScrollContent {
+  display: flex;
+  gap: 1rem;
+}
+
+.scrollItem {
+  flex-shrink: 0;
 }
