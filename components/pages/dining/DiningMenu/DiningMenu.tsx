@@ -452,6 +452,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             onClick={() => {
               setAppliedFilter(filteredOptions);
               setsearch(false);
+              setFilterDrawer(false);
             }}
           >
             {t('Apply')}

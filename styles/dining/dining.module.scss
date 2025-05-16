@@ -3,6 +3,7 @@
   align-items: center;
   padding: 10px 10px !important;
   margin-top: 4rem;
+  background: #F8F8F8;
 }
 
 .pageWrapperSecondary {
@@ -120,13 +121,13 @@
 
 .carouselSlideImage {
   width: 100%;
-  height: 170px;
+  height: 250px;
   object-fit: cover;
 }
 
 .cardWrapper {
   width: 100%;
-  margin-top: 15px;
+  margin-top: 80px;
 }
 
 .carouselSlide {
@@ -135,13 +136,23 @@
 
 .itemTitle {
   margin-top: 10px;
+  font-family: var(--primary-card-title-font-family);
   font: $header var(--heading-font-regular);
   text-align: center;
 }
 
 .title {
-  font: $xlarge var(--heading-font-regular);
-  margin-bottom: 10px;
+  font-family: var(--primary-title-font-family);
+  font: 1.5rem var(--heading-font-regular);
+  position: fixed;
+  top: 4rem;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  background: var( --primary-card-background-color);
+  z-index: 10;
+  padding: 10px 30px;
+  box-sizing: border-box;
 }
 
 .itemTime {
