@@ -4,14 +4,12 @@ import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from '@styles/dining/dining.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
-import { DiningMenuOptions } from 'components/pages/dining/DiningMenuOptions/DiningMenuOptions';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { useQuery, useReactiveVar } from '@apollo/client';
-import { DiningCategorySkeleton } from 'components/pages/dining/DiningCategorySkeleton/DiningCategorySkeleton';
 import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
 import {
   IDiningMenuStorageData,
@@ -29,8 +27,6 @@ import {
   convertTo12HourFormat,
 } from 'utils/functions';
 import { availablePaths } from 'utils/availablePaths';
-import DiningMenu from 'components/pages/dining/DiningMenu/DiningMenu';
-import ScrollDown from '@icons/scrollDown.svg';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { client } from 'core/graphql/client';
 import { ALL_DAY, EVERYDAY, IN_ROOM_DINING } from 'utils/constants';
@@ -40,7 +36,6 @@ import {
   GET_RESTAURANT_DETAILS,
 } from 'core/graphql/queries/GET_RESTAURTANT_DETAILS';
 import { diningOptions, diningHeaders, hotelInfoStorage } from 'storage/home.storage';
-import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
 import { ASSETS_URL } from 'core/graphql/endpoints';
 import { StableImage } from 'components/shared/StableImage/StableImage';
 import { Loader } from 'components/shared/Loaders/Loaders';

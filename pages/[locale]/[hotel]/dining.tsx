@@ -135,7 +135,7 @@ const Dining = () => {
 
   useEffect(() => {
     if (!checkInData?.checkedIn) {
-      // navigate(availablePaths?.HOME);
+      navigate(availablePaths?.HOME);
     }
   }, [navigate, t, checkInData?.checkedIn]);
 
