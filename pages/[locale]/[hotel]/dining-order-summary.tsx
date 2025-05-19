@@ -55,6 +55,7 @@ import {
   handleinHouseAuthenticationFailure,
 } from 'core/api/functions/getInHouseAuthentication';
 import { processStatusCode } from 'utils/processError';
+import cx from 'classnames';
 import { StyledInput } from 'components/shared/StyledInput/StyledInput';
 import { useFormik } from 'formik';
 import { instructionValidation } from 'validation/dining.validation';
@@ -535,7 +536,7 @@ const DiningOrderSummary = () => {
                       onClick={() => editFunction(item?.itemId, index)}
                     />
                     <p className={styles.itemPrice}>
-                      <span className={`${styles.currency} irdV2FLow`}>{currency} </span>
+                      <span className={cx(styles.currencyV2, 'irdV2FLow')}>{currency} </span>
                       {formatPriceIRD(
                         isNaN(totalPrice) ? item.quantity * item.price : item.quantity * totalPrice,
                       )}
