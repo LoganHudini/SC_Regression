@@ -37,6 +37,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
   const config = useConfig();
   const currency = useCurrency();
   const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
+  /*eslint-disable*/
   const isChefSpecial = categoryName === "Chef's Special";
 
   const totalQuantity = diningData?.items

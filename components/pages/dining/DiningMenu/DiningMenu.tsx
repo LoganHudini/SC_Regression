@@ -81,6 +81,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   const [scrollHide, setScrollHide] = useState(true);
   const [scrollPosition] = useState(scrollData);
   const currency = useCurrency();
+  const [backToTopClicked, setBackToTopClicked] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -304,6 +305,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
 
   const renderCategory = (category: any) => {
     const categoryItems = filterItems(category?.items);
+    /*eslint-disable*/
     const isChefSpecial = category?.name === "Chef's Special";
     return (
       <div
@@ -582,6 +584,46 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             {selectedMenu?.categories
               ?.filter((item: any) => item?.isActive)
               ?.map((category: any) => renderCategory(category))}
+            {selectedMenu?.categories?.filter((item: any) => item?.isActive)?.length > 0 && (
+              <div className={cx(styles.bottomContainer, 'irdV2FLowShow')}>
+                <div className={styles.backToTopContainer}>
+                  <StyledButton
+                    className={cx(styles.backToTopButton, {
+                      [styles.backToTopButtonClicked]: backToTopClicked,
+                    })}
+                    onClick={() => {
+                      setBackToTopClicked(true);
+                      const firstCategory = selectedMenu?.categories?.filter(
+                        (item: any) => item?.isActive,
+                      )[0];
+
+                      if (firstCategory) {
+                        window.scrollTo({
+                          top: 0,
+                          behavior: 'smooth',
+                        });
+                        diningInformationStorage(
+                          produce(diningInformationStorage(), (draft) => {
+                            if (draft) {
+                              draft.selectedCategory = firstCategory?.id ?? '';
+                              draft.categoryName = firstCategory?.name ?? '';
+                            }
+                          }),
+                        );
+                        setTimeout(() => {
+                          setBackToTopClicked(false);
+                        }, 500);
+                      }
+                    }}
+                    variant='contained'
+                  >
+                    {t('Back to Top')}
+                  </StyledButton>
+
+                  <p className={styles.priceDisclaimer}>All prices are in {currency}</p>
+                </div>
+              </div>
+            )}
           </div>
         </>
       )}
