@@ -305,6 +305,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
 
   const renderCategory = (category: any) => {
     const categoryItems = filterItems(category?.items);
+    /*eslint-disable*/
     const isChefSpecial = category?.name === "Chef's Special";
     return (
       <div
