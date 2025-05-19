@@ -76,5 +76,10 @@
   "Total Item Price :": "Prix total de l'article :",
   "Repeat last used customization?": "Répéter la dernière personnalisation utilisée ?",
   "Add to Cart": "Ajouter au panier",
-  "This menu is unavailable right now! You can still check it out below.": "Ce menu n’est pas disponible pour le moment ! Vous pouvez quand même le consulter ci-dessous."
+  "This menu is unavailable right now! You can still check it out below.": "Ce menu n’est pas disponible pour le moment ! Vous pouvez quand même le consulter ci-dessous.",
+  "Filter By": "Filtrer par",
+  "Clear All": "Tout effacer",
+  "Apply": "Appliquer",
+  "Back to Top": "Retour en haut",
+  "Place Order": "Passer la commande"
 }
