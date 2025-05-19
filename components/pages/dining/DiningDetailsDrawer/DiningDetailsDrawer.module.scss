@@ -146,6 +146,11 @@
 .upsellWrapper {
   margin: 1.5rem 0rem 1rem;
 }
+.upsell {
+  cursor: pointer;
+  overflow-x: scroll;
+  display: flex;
+}
 
 .optionalText {
   font: $xsmall var(--primary-font-regular);

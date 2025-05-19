@@ -535,7 +535,7 @@ const DiningOrderSummary = () => {
                       onClick={() => editFunction(item?.itemId, index)}
                     />
                     <p className={styles.itemPrice}>
-                      <span className={styles.itemCurrency}>{currency} </span>
+                      <span className={`${styles.currency} irdV2FLow`}>{currency} </span>
                       {formatPriceIRD(
                         isNaN(totalPrice) ? item.quantity * item.price : item.quantity * totalPrice,
                       )}
@@ -679,7 +679,7 @@ const DiningOrderSummary = () => {
               <div className={styles.buttonContentWrapper}>
                 <div className={styles.buttonWrapper}>
                   {items?.length > 0 && <span className={styles.itemCount}>{items?.length}</span>}
-                  <span className={styles.currency}>
+                  <span className={`${styles.currency} irdV2FLow`}>
                     <span className={styles.currencyTitle}> {currency} </span>
                     {formatPriceIRD(totalAmount)}
                   </span>
