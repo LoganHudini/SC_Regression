@@ -552,7 +552,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
           <div ref={scrollRef} className={cx(styles.listContainer)}>
             {!menuAvailability &&
               data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length !==
-                0 && (
+              0 && (
                 <div className={styles.menuUnavailableContainer}>
                   <div className={styles.menuTimingsText}>
                     {t('Online requests will be available from')} {menuStartingTime}
@@ -574,7 +574,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             )}
             {filteredIrdItemsList?.length === 0 &&
               data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length !==
-                0 && (
+              0 && (
                 <div className={styles.noItems}>
                   <ItemNotFoundLoader />
                   <div className={styles.noItemsText}>{t('Oops, Item Not Found')}</div>
@@ -585,7 +585,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
               ?.filter((item: any) => item?.isActive)
               ?.map((category: any) => renderCategory(category))}
             {selectedMenu?.categories?.filter((item: any) => item?.isActive)?.length > 0 && (
-              <div className={cx(styles.bottomContainer, 'irdV2FLowShow')}>
+              <div className={cx(styles.bottomContainer, 'irdV2FlowShow')}>
                 <div className={styles.backToTopContainer}>
                   <StyledButton
                     className={cx(styles.backToTopButton, {

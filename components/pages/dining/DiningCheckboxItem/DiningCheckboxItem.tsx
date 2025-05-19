@@ -68,7 +68,7 @@ export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
     <div className={styles.irdCheckboxItem}>
       <div className={styles.name}>
         {element?.name}
-        <span className={cx(styles.v2Price, 'irdV2FLowShow')}>
+        <span className={cx(styles.v2Price, 'irdV2FlowShow')}>
           {formatPriceIRD(element?.price)}
         </span>
       </div>

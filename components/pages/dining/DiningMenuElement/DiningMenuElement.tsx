@@ -149,7 +149,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
       </div>
 
       <div
-        className={cx(styles.cardV2, 'irdV2FLowShow', { [styles.chefSpecialCard]: isChefSpecial })}
+        className={cx(styles.cardV2, 'irdV2FlowShow', { [styles.chefSpecialCard]: isChefSpecial })}
       >
         <div className={styles.contentV2Wrapper}>
           <StableImage
