@@ -596,24 +596,21 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
             {selectedItem?.upsell?.length > 0 && (
               <>
                 <div className={styles.upsellWrapper}>
-                  <h4 className={styles.addonsText}>{t('You May Also Like')}</h4>
-                  <div className={styles.horizontalScrollContainer}>
-                    <div className={styles.horizontalScrollContent}>
-                      {selectedItem?.upsell?.map((upsellItem: any, index: number) => (
-                        <div className={styles.scrollItem} key={index}>
-                          <DiningMenuElementUpsell
-                            title={upsellItem?.name}
-                            price={upsellItem?.price}
-                            id={upsellItem?.id}
-                            image={upsellItem?.image}
-                            code={upsellItem?.code}
-                            description={upsellItem?.description || ''}
-                            customisation={upsellItem?.customisation || []}
-                            index={index}
-                          />
-                        </div>
-                      ))}
-                    </div>
+                  <h4 className={styles.youMayAlsoLikeText}>{t('You May Also Like')}</h4>
+                  <div className={styles.upsell}>
+                    {selectedItem?.upsell?.map((upsellItem: any, index: number) => (
+                      <DiningMenuElementUpsell
+                        key={index}
+                        title={upsellItem?.name}
+                        price={upsellItem?.price}
+                        id={upsellItem?.id}
+                        image={upsellItem?.image}
+                        code={upsellItem?.code}
+                        description={upsellItem?.description || ''}
+                        customisation={upsellItem?.customisation || []}
+                        index={index}
+                      />
+                    ))}
                   </div>
                 </div>
               </>
