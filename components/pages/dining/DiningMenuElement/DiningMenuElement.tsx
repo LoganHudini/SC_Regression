@@ -29,6 +29,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
   ingredients,
   tags,
   allergens,
+  categoryName,
 }) => {
   const { t } = useTranslation('dining');
   const [customisationDrawer, setCustomisationDrawer] = useState(false);
@@ -36,6 +37,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
   const config = useConfig();
   const currency = useCurrency();
   const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
+  const isChefSpecial = categoryName === "Chef's Special";
 
   const totalQuantity = diningData?.items
     ?.filter((el) => el.itemId === id && el.quantity > 0)
@@ -145,7 +147,9 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
         />
       </div>
 
-      <div className={cx(styles.cardV2, 'irdV2FLowShow')}>
+      <div
+        className={cx(styles.cardV2, 'irdV2FLowShow', { [styles.chefSpecialCard]: isChefSpecial })}
+      >
         <div className={styles.contentV2Wrapper}>
           <StableImage
             className={styles.imageV2}
@@ -154,7 +158,11 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
           />
 
           <div className={styles.detailsWrapperContentV2} onClick={handleDiningDetails}>
-            {tags?.name && <span className={styles.tagTitleV2}>{tags?.name}</span>}
+            {tags?.name && (
+              <span className={cx(styles.tagTitleV2, { [styles.chefSpecialTag]: isChefSpecial })}>
+                {tags?.name}
+              </span>
+            )}
             <p className={styles.titleV2}>{title}</p>
 
             <p className={cx(styles.descriptionV2, { [styles.descriptionWithImage]: image })}>
