@@ -273,7 +273,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     }
   }, [search, openCategory]);
 
-  const renderMenuElements = (items: any[]) => {
+  const renderMenuElements = (items: any[], categoryName: string) => {
     return (
       <>
         {items?.length > 0 &&
@@ -294,6 +294,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                 ingredients={el?.ingredients}
                 tags={el?.tags ? el?.tags?.[0] : {}}
                 allergens={el?.allergens}
+                categoryName={categoryName}
               />
             </React.Fragment>
           ))}
@@ -303,12 +304,17 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
 
   const renderCategory = (category: any) => {
     const categoryItems = filterItems(category?.items);
+    const isChefSpecial = category?.name === "Chef's Special";
     return (
-      <div id={`Category${category?.id}`} className='category-element' key={category?.id}>
+      <div
+        id={`Category${category?.id}`}
+        className={cx('category-element', { [styles.chefSpecialCategory]: isChefSpecial })}
+        key={category?.id}
+      >
         {categoryItems?.length > 0 && (
           <h2 className={styles.subCategoriesText}>{category?.name}</h2>
         )}
-        {renderMenuElements(categoryItems)}
+        {renderMenuElements(categoryItems, category?.name)}
         {category?.subCategories
           ?.filter((item: any) => item?.isActive)
           ?.map((subCategory: any) => {
@@ -320,7 +326,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                     {category?.name} - {subCategory?.name}
                   </h2>
                 )}
-                {renderMenuElements(subCategoryItems)}
+                {renderMenuElements(subCategoryItems, `${category?.name} - ${subCategory?.name}`)}
               </div>
             );
           })}
@@ -424,7 +430,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
           <div className={styles.filterOptions}>
             {tags?.length > 0 && (
               <div className={styles.indredientWrapper}>
-                <p className={styles.indredient}>Tags</p>
+                <p className={styles.indredient}>Special Features</p>
                 {renderFilterOptions(tags, false, viewAllTags, setViewAllTags)}
               </div>
             )}

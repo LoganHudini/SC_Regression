@@ -227,7 +227,10 @@ const Dining = () => {
           <div className={styles.filterContentWrapper}>
             <div></div>
             <h3 className={styles.welcomeTitle}>{filter?.menuName}</h3>
-            <FilterIcon onClick={openFilterFunc} />
+            <FilterIcon
+              onClick={openFilterFunc}
+              style={{ paddingRight: '10px', padingLeft: '100px' }}
+            />
           </div>
           {irdMenuLoading ? (
             <>

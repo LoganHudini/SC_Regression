@@ -15,9 +15,13 @@
   padding: 0.8rem;
   text-align: start;
   border-radius: var(--primary-card-border-radius);
-  box-shadow: 0px 3px 6px var(--primary-card-shadow-color);
+  box-shadow: 0px 1px 2px var(--primary-card-shadow-color);
   background-color: var(--primary-card-background-color);
   flex-direction: column;
+}
+
+.chefSpecialCard {
+  background-color: #D8D9DB;
 }
 
 .contentWrapper {
@@ -37,7 +41,7 @@
 }
 
 .titleV2 {
-  font: $medium var(--primary-card-title-font-family);
+  // font: $medium var(--primary-card-title-font-family);
   color: var(--primary-text-color);
 }
 
@@ -46,7 +50,12 @@
   color: var(--primary-text-color);
   padding: 5px;
   background-color: var(--primary-card-shadow-color);
+  line-height: 1.1;
   width: fit-content;
+}
+
+.chefSpecialTag {
+  background-color: var(--primary-card-background-color);
 }
 
 .titleWithImage {
@@ -69,7 +78,7 @@
   color: var(--tertiary-text-color);
   width: 140%;
   min-height: 1rem;
-  line-height: 1.5;
+  line-height: 1.3;
   max-height: 4rem;
   -webkit-line-clamp: 3;
   display: -webkit-box;
@@ -118,6 +127,7 @@
   font: $extraSmall var(--primary-card-desc-font-family);
   color: var(--tertiary-text-color);
   margin: 4px 0 0 0;
+  padding-right: 15px;
 }
 
 .addCta {
@@ -166,8 +176,7 @@
 .detailsWrapperContentV2 {
   display: flex;
   flex-direction: column;
-  // justify-content: space-between;
-  gap: 10px;
+gap: 5px;
   text-align: start;
   width: 70%;
 }
@@ -191,4 +200,10 @@
 .allergensWrapper {
   display: flex;
   flex-direction: row;
+}
+
+.backToTopBtn {
+  margin-top: 10px;
+  width: 100%;
+  background-color: red;
 }

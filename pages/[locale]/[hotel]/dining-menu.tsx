@@ -203,7 +203,7 @@ const Menu = () => {
                               {convertTo12HourFormat(
                                 currentOpenPeriod?.open || item?.hours[0]?.open,
                               )}{' '}
-                              -{' '}
+                              to{' '}
                               {convertTo12HourFormat(
                                 currentOpenPeriod?.close || item?.hours[0]?.close,
                               )}

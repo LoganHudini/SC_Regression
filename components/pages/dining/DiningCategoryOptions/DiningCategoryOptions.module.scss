@@ -6,8 +6,8 @@
   width: 91%;
   max-width: 768px;
   margin: auto;
-  position: sticky;
-  top: 63px;
+  position: fixed;
+  top: 85px;
   left: 0;
   right: 0;
   z-index: 3;
@@ -25,9 +25,7 @@
 
 .DiningCategoryOptionActive {
   height: 30px;
-  line-height: 30px;
   font: $extraSmall var(--primary-font-extd-regular);
-  font-weight: 100;
   padding: 1px 10px 0 10px;
   text-transform: capitalize;
   border-bottom: 1px solid var(--primary-theme-color) !important;
