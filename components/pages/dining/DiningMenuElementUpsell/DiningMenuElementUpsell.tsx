@@ -85,56 +85,32 @@ export const DiningMenuElementUpsell: React.FC<IDiningMenuElementProps> = ({
   }, [id]);
 
   return (
-    <div>
-      <div className={cx(styles.card, 'irdV2FLow')}>
-        <div className={styles.contentWrapper} onClick={onClickPlus}>
-          <h4 className={cx(styles.title, { [styles.titleWithImage]: image })}>{title}</h4>
-          <p className={styles.currency}>
-            {currency} <span className={styles.price}>{formatPriceIRD(price)}</span>
-          </p>
-        </div>
-
-        <div className={styles.imageWrapper}>
-          {totalQuantity == 0 ? (
-            <span onClick={onClickPlus} className={cx(styles.addCta)}>
-              +
-            </span>
-          ) : (
-            <div className={styles.counterStyle}>
-              <PlusMinusInput
-                value={totalQuantity || 0}
-                onClickPlus={onClickPlus}
-                onClickMinus={onClickMinus}
-                irdSummary
-              />
-            </div>
-          )}
-        </div>
+    <div className={styles.card}>
+      <div className={styles.contentWrapper} onClick={onClickPlus}>
+        <h4 className={cx(styles.title, { [styles.titleWithImage]: image })}>{title}</h4>
+        <p className={cx(styles.currency, 'irdV2FLow')}>
+          {currency} <span className={styles.price}>{formatPriceIRD(price)}</span>
+        </p>
+        <p className={cx(styles.currency, 'irdV2FLowShow')}>
+          <span className={styles.price}>{formatPriceIRD(price)}</span>
+        </p>
       </div>
-      <div className={cx(styles.card, 'irdV2FLowShow')}>
-        <div className={styles.contentWrapper} onClick={onClickPlus}>
-          <h4 className={cx(styles.title, { [styles.titleWithImage]: image })}>{title}</h4>
-          <p className={styles.currency}>
-            <span className={styles.price}>{formatPriceIRD(price)}</span>
-          </p>
-        </div>
 
-        <div className={styles.imageWrapper}>
-          {totalQuantity == 0 ? (
-            <span onClick={onClickPlus} className={cx(styles.addCta)}>
-              +
-            </span>
-          ) : (
-            <div className={styles.counterStyle}>
-              <PlusMinusInput
-                value={totalQuantity || 0}
-                onClickPlus={onClickPlus}
-                onClickMinus={onClickMinus}
-                irdSummary
-              />
-            </div>
-          )}
-        </div>
+      <div className={styles.imageWrapper}>
+        {totalQuantity == 0 ? (
+          <span onClick={onClickPlus} className={cx(styles.addCta)}>
+            +
+          </span>
+        ) : (
+          <div className={styles.counterStyle}>
+            <PlusMinusInput
+              value={totalQuantity || 0}
+              onClickPlus={onClickPlus}
+              onClickMinus={onClickMinus}
+              irdSummary
+            />
+          </div>
+        )}
       </div>
     </div>
   );
