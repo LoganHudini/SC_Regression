@@ -344,8 +344,8 @@ const DiningOrderSummary = () => {
           description:
             FailureCheck1 || FailureCheck2
               ? t(
-                  'Reservation status is invalid. Please try again with a valid reservation details',
-                )
+                'Reservation status is invalid. Please try again with a valid reservation details',
+              )
               : t('Your order was not confirmed.'),
           redirect: FailureCheck1 || FailureCheck2 ? availablePaths.HOME : null,
         });
@@ -495,7 +495,7 @@ const DiningOrderSummary = () => {
                             </span>
                             <span key={index} className={styles.items}>
                               <span key={index} className={styles.itemsCurrency}>
-                                {currency}{' '}
+                                <span className='irdPrice'>{currency}{' '}</span>
                               </span>
                               {formatPriceIRD(items?.price)}{' '}
                               {index !== item?.addons?.length - 1 ? ',' : ''}{' '}
@@ -514,7 +514,7 @@ const DiningOrderSummary = () => {
                             </span>
                             <span key={index} className={styles.items}>
                               <span key={index} className={styles.itemsCurrency}>
-                                {currency}{' '}
+                                <span className='irdPrice'>{currency}{' '}</span>
                               </span>
                               {formatPriceIRD(items?.price)}{' '}
                               {index !== item?.groupedAddons?.length - 1 ? ',' : ''}{' '}
@@ -677,15 +677,16 @@ const DiningOrderSummary = () => {
               onClick={handleOrder}
               variant='contained'
             >
-              <div className={styles.buttonContentWrapper}>
+              <div className={`${styles.buttonContentWrapper} irdV2DiningConfirmButton`}>
                 <div className={styles.buttonWrapper}>
                   {items?.length > 0 && <span className={styles.itemCount}>{items?.length}</span>}
-                  <span className={`${styles.currency} irdV2FLow`}>
+                  <span className={`${styles.currency} irdPrice`}>
                     <span className={styles.currencyTitle}> {currency} </span>
                     {formatPriceIRD(totalAmount)}
                   </span>
                 </div>
-                <div>{t('Confirm')}</div>
+                <div className='irdV2FLow'>{t('Confirm')}</div>
+                <div className='irdV2FlowShow'>{t('Place Order')}</div>
               </div>
             </StyledButton>
           </div>
