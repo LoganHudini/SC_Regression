@@ -42,7 +42,6 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
   const selectedItemId = useReactiveVar(diningMenuStorage)?.selectedItemId;
   const selectedItemIndex = useReactiveVar(diningMenuStorage)?.selectedIndex;
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
-  console.log('🚀 ~ diningData:', diningData);
   const hotelInformation = useReactiveVar(hotelInfoStorage);
   const diningDetailsDrawerStatus = useReactiveVar(toggleDiningDetailsDrawer);
   const editControlStatus = useReactiveVar(editControl);

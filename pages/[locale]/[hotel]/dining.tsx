@@ -31,7 +31,6 @@ import DiningMenu from 'components/pages/dining/DiningMenu/DiningMenu';
 import ScrollDown from '@icons/scrollDown.svg';
 import FilterIcon from '@icons/filterIrd.svg';
 import { useConfig } from 'utils/hooks/useConfiguration';
-// import { client } from 'core/graphql/client';
 import { IN_ROOM_DINING } from 'utils/constants';
 import { useCheckedIn } from 'storage/check-in.storage';
 import {
