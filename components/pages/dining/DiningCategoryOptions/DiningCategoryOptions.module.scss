@@ -25,14 +25,15 @@
 
 .DiningCategoryOptionActive {
   height: 30px;
-  font: $extraSmall var(--primary-font-extd-regular);
+  font: $extraSmall var(--primary-font-heading);
   padding: 1px 10px 0 10px;
   text-transform: capitalize;
   border-bottom: 1px solid var(--primary-theme-color) !important;
   width: auto;
   white-space: nowrap;
   color: var(--primary-theme-color);
-  font-weight: 600;
+  font-weight: 900 !important;
+  -webkit-text-stroke: 0.5px currentColor !important;
 
   &:hover:enabled {
     border: none;

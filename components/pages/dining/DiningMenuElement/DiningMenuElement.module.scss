@@ -21,7 +21,7 @@
 }
 
 .chefSpecialCard {
-  background-color: #D8D9DB;
+  background-color: #d8d9db;
 }
 
 .contentWrapper {
@@ -176,7 +176,7 @@
 .detailsWrapperContentV2 {
   display: flex;
   flex-direction: column;
-gap: 5px;
+  gap: 5px;
   text-align: start;
   width: 70%;
 }
@@ -200,10 +200,4 @@ gap: 5px;
 .allergensWrapper {
   display: flex;
   flex-direction: row;
-}
-
-.backToTopBtn {
-  margin-top: 10px;
-  width: 100%;
-  background-color: red;
 }
