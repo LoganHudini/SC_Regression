@@ -344,8 +344,8 @@ const DiningOrderSummary = () => {
           description:
             FailureCheck1 || FailureCheck2
               ? t(
-                'Reservation status is invalid. Please try again with a valid reservation details',
-              )
+                  'Reservation status is invalid. Please try again with a valid reservation details',
+                )
               : t('Your order was not confirmed.'),
           redirect: FailureCheck1 || FailureCheck2 ? availablePaths.HOME : null,
         });
@@ -495,7 +495,7 @@ const DiningOrderSummary = () => {
                             </span>
                             <span key={index} className={styles.items}>
                               <span key={index} className={styles.itemsCurrency}>
-                                <span className='irdPrice'>{currency}{' '}</span>
+                                <span className='irdPrice'>{currency} </span>
                               </span>
                               {formatPriceIRD(items?.price)}{' '}
                               {index !== item?.addons?.length - 1 ? ',' : ''}{' '}
@@ -514,7 +514,7 @@ const DiningOrderSummary = () => {
                             </span>
                             <span key={index} className={styles.items}>
                               <span key={index} className={styles.itemsCurrency}>
-                                <span className='irdPrice'>{currency}{' '}</span>
+                                <span className='irdPrice'>{currency} </span>
                               </span>
                               {formatPriceIRD(items?.price)}{' '}
                               {index !== item?.groupedAddons?.length - 1 ? ',' : ''}{' '}
@@ -530,13 +530,24 @@ const DiningOrderSummary = () => {
                     )}
                   </div>
 
-                  <div className={styles.priceEditWrapper}>
+                  <div className={cx(styles.priceEditWrapper, 'irdV2FLow')}>
                     <EditIcon
                       className={styles.edit}
                       onClick={() => editFunction(item?.itemId, index)}
                     />
                     <p className={styles.itemPrice}>
-                      <span className={cx(styles.currencyV2, 'irdV2FLow')}>{currency} </span>
+                      <span className={styles.itemCurrency}>{currency} </span>
+                      {formatPriceIRD(
+                        isNaN(totalPrice) ? item.quantity * item.price : item.quantity * totalPrice,
+                      )}
+                    </p>
+                  </div>
+                  <div className={cx(styles.priceEditWrapper, 'irdV2FLowShow')}>
+                    <EditIcon
+                      className={styles.edit}
+                      onClick={() => editFunction(item?.itemId, index)}
+                    />
+                    <p className={styles.itemPrice}>
                       {formatPriceIRD(
                         isNaN(totalPrice) ? item.quantity * item.price : item.quantity * totalPrice,
                       )}
