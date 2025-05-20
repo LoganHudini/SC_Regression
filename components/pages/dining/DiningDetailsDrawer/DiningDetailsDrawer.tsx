@@ -273,9 +273,9 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
               el?.itemId === selectedItemId &&
               JSON.stringify(sortBy(el?.addons || [], (item) => item?.name)) === addonsString &&
               JSON.stringify(sortBy(el?.groupedAddons || [], (item) => item?.name)) ===
-              groupedAddonsString &&
+                groupedAddonsString &&
               JSON.stringify(sortBy(el?.customisation || [], (item) => item?.name)) ===
-              customisationString
+                customisationString
             ) {
               return true;
             }
@@ -310,7 +310,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
               (el?.groupedAddons?.length || 0) > 0 &&
               el?.customisation?.ingredient === sortedCustomisation?.ingredient &&
               JSON.stringify(sortBy(el?.groupedAddons || [], (item) => item?.name)) ===
-              groupedAddonsString
+                groupedAddonsString
             ) {
               return true;
             }

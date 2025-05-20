@@ -344,8 +344,8 @@ const DiningOrderSummary = () => {
           description:
             FailureCheck1 || FailureCheck2
               ? t(
-                'Reservation status is invalid. Please try again with a valid reservation details',
-              )
+                  'Reservation status is invalid. Please try again with a valid reservation details',
+                )
               : t('Your order was not confirmed.'),
           redirect: FailureCheck1 || FailureCheck2 ? availablePaths.HOME : null,
         });
@@ -496,8 +496,8 @@ const DiningOrderSummary = () => {
                             <span key={index} className={styles.items}>
                               <span key={index} className={cx(styles.itemsCurrency, 'irdPrice')}>
                                 {`${currency} `}
-                              </span>
-                              {' '} {formatPriceIRD(items?.price)}
+                              </span>{' '}
+                              {formatPriceIRD(items?.price)}
                               {index !== item?.addons?.length - 1 ? ',' : ''}{' '}
                             </span>
                           </div>
