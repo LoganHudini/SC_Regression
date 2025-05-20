@@ -202,6 +202,8 @@
 .totalItemPrice {
   margin-top: 5px;
   font: $xsmall var(--primary-font-medium);
+  display: flex;
+  align-items: center;
 }
 
 .price {

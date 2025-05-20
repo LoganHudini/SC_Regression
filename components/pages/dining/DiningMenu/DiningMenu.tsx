@@ -310,7 +310,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     return (
       <div
         id={`Category${category?.id}`}
-        className={cx('category-element', { [styles.chefSpecialCategory]: isChefSpecial })}
+        className={`category-element ${isChefSpecial ? 'chef-special' : ''}`}
         key={category?.id}
       >
         {categoryItems?.length > 0 && (
