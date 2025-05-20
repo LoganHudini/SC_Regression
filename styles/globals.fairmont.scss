@@ -168,10 +168,6 @@
   text-align: left;
 }
 
-.irdV2FlowShow {
-  display: block;
-}
-
 .showCurrencyInCheckbox {
   display: none !important;
 }
@@ -185,4 +181,95 @@
   width: 58% !important;
   left: 0;
   padding-left: 15px;
+}
+
+// dining v2 flow
+
+.irdV2FlowShow {
+  display: block !important;
+}
+
+.irdV2FLow {
+  display: none !important;
+}
+
+.cardV2 {
+  display: flex;
+  margin: 0.75rem 0 0.75rem;
+  padding: 0.8rem;
+  text-align: start;
+  border-radius: var(--primary-card-border-radius);
+  box-shadow: 0px 1px 2px var(--primary-card-shadow-color);
+  background-color: var(--primary-card-background-color);
+  flex-direction: column;
+}
+
+.titleV2 {
+  color: var(--primary-text-color);
+}
+
+.tagTitleV2 {
+  font: $xsmall var(--primary-font-regular);
+  color: var(--primary-text-color);
+  padding: 5px;
+  background-color: var(--primary-card-shadow-color);
+  line-height: 1.1;
+  width: fit-content;
+}
+
+.currencyV2 {
+  font: $small var(--primary-card-desc-font-family);
+  color: var(--tertiary-text-color);
+}
+
+.descriptionV2 {
+  font: $small var(--primary-card-desc-font-family);
+  color: var(--tertiary-text-color);
+  width: 140%;
+  min-height: 1rem;
+  line-height: 1.3;
+  max-height: 4rem;
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contentV2Wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-align: start;
+  width: 284px;
+  gap: 10px;
+}
+
+.detailsWrapperContentV2 {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-align: start;
+  width: 70%;
+}
+
+.imageV2 {
+  width: 120px;
+  height: 120px;
+  border-radius: var(--primary-card-border-radius);
+  position: relative;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.V2BtnWrapper {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.allergensWrapper {
+  display: flex;
+  flex-direction: row;
 }

@@ -149,27 +149,27 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
       </div>
 
       <div
-        className={cx(styles.cardV2, 'irdV2FlowShow', { [styles.chefSpecialCard]: isChefSpecial })}
+        className={cx('cardV2', 'irdV2FlowShow', { [styles.chefSpecialCard]: isChefSpecial })}
       >
-        <div className={styles.contentV2Wrapper}>
+        <div className={'contentV2Wrapper'}>
           <StableImage
-            className={styles.imageV2}
+            className={'imageV2'}
             src={`${ASSETS_URL}/${image}`}
             onClick={handleDiningDetails}
           />
 
-          <div className={styles.detailsWrapperContentV2} onClick={handleDiningDetails}>
+          <div className={'detailsWrapperContentV2'} onClick={handleDiningDetails}>
             {tags?.name && (
-              <span className={cx(styles.tagTitleV2, { [styles.chefSpecialTag]: isChefSpecial })}>
+              <span className={cx('tagTitleV2', { [styles.chefSpecialTag]: isChefSpecial })}>
                 {tags?.name}
               </span>
             )}
-            <p className={styles.titleV2}>{title}</p>
+            <p className={'titleV2'}>{title}</p>
 
-            <p className={cx(styles.descriptionV2, { [styles.descriptionWithImage]: image })}>
+            <p className={cx('descriptionV2', { [styles.descriptionWithImage]: image })}>
               {ingredients} {formatPriceIRD(price)}
             </p>
-            <div className={styles.allergensWrapper}>
+            <div className={'allergensWrapper'}>
               {allergens &&
                 allergens.length > 0 &&
                 allergens.map((tag: any, index: number) => {
@@ -180,7 +180,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
             </div>
           </div>
         </div>
-        <div className={styles.V2BtnWrapper}>
+        <div className={'V2BtnWrapper'}>
           {irdModule &&
             (totalQuantity == 0 ? (
               <StyledButton

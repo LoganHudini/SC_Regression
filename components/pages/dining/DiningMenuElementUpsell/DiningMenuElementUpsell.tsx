@@ -38,8 +38,6 @@ export const DiningMenuElementUpsell: React.FC<IDiningMenuElementProps> = ({
             code,
           });
         }
-
-        draft.selectedItemId = id;
       }),
     );
   }, [code, id, price, title]);
@@ -79,7 +77,6 @@ export const DiningMenuElementUpsell: React.FC<IDiningMenuElementProps> = ({
           item.quantity--;
         }
         draft.items = draft.items?.filter((item) => item.quantity > 0);
-        draft.selectedItemId = id;
       }),
     );
   }, [id]);
@@ -88,10 +85,8 @@ export const DiningMenuElementUpsell: React.FC<IDiningMenuElementProps> = ({
     <div className={styles.card}>
       <div className={styles.contentWrapper} onClick={onClickPlus}>
         <h4 className={cx(styles.title, { [styles.titleWithImage]: image })}>{title}</h4>
-        <p className={cx(styles.currency, 'irdV2FLow')}>
-          {currency} <span className={styles.price}>{formatPriceIRD(price)}</span>
-        </p>
-        <p className={cx(styles.currency, 'irdV2FLowShow')}>
+        <p className={cx(styles.currency)}>
+          <span className='irdPrice'>{currency} </span>
           <span className={styles.price}>{formatPriceIRD(price)}</span>
         </p>
       </div>

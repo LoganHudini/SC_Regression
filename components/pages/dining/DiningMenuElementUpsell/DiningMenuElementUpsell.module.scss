@@ -45,6 +45,9 @@
 .currency {
   font: $xsmall var(--primary-card-title-font-family);
   margin: 5px 0;
+  flex-direction: row;
+  display: flex;
+  align-items: center;
 }
 
 .price {
