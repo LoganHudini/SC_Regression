@@ -40,7 +40,7 @@ export const Planet = () => {
 
   const reservationInfo = reservationData && reservationData?.getReservation?.data;
   const randomTransactionId =
-    Math.floor(Math.random() * 9000000000) + 1000000000 + '-' + reservationInfo?.confirmationId;
+    Math.floor(Math.random() * 9000000000) + 1000000000 + '-' + reservationInfo?.reservationId;
 
   const [transactionId, setTransactionId] = useState('');
 
@@ -50,7 +50,7 @@ export const Planet = () => {
 
       if (reservationInfo) {
         const initiatePaymentPayload = {
-          confirmationId: reservationInfo?.reservationId,
+          confirmationId: reservationInfo.confirmationId,
           referenceNumber: randomTransactionId,
         };
         let paymentData: IInitiatePaymentApiRequest | null = null;
