@@ -11733,7 +11733,7 @@ export const configuration: any = [
               {
                 name: 'Guest Information',
                 isActive: true,
-                type: 'manual',
+                type: 'trential',
                 uploadId: true,
                 details: [
                   {
@@ -11869,7 +11869,7 @@ export const configuration: any = [
             name: 'accompanyingGuest',
             label: 'Secondary Guest',
             title: '',
-            type: 'manual',
+            type: 'trential',
             isActive: true,
             cardIcon: 'guest',
             mandatory: true,
@@ -12044,7 +12044,7 @@ export const configuration: any = [
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: false,
+        isActive: true,
       },
       {
         code: 'spa',
