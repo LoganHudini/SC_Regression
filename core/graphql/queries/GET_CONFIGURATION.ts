@@ -11706,7 +11706,7 @@ export const configuration: any = [
       {
         code: 'Preferences',
         name: 'Preferences',
-        isActive: true,
+        isActive: false,
         submodules: [
           {
             code: 'Headers',
@@ -11822,21 +11822,15 @@ export const configuration: any = [
                     options: [
                       {
                         name: 'Passport',
-                        value: 'Passport',
-                        code: 'PASSPORT',
+                        value: 'PAS',
+                        code: 'PAS',
                         vendorDocType: 'passport',
                       },
                       {
                         name: 'Driving License',
-                        value: 'DL',
-                        code: 'DL',
+                        value: 'DRL',
+                        code: 'DRL',
                         vendorDocType: 'dl',
-                      },
-                      {
-                        name: 'Aadhaar Card',
-                        value: 'AAD',
-                        code: 'AAD',
-                        vendorDocType: 'aadhaar',
                       },
                     ],
                   },
@@ -11955,7 +11949,7 @@ export const configuration: any = [
             label: 'Customize My Stay',
             title: 'Check-In',
             type: 'CMS',
-            isActive: true,
+            isActive: false,
           },
           {
             name: 'review',
@@ -12044,7 +12038,7 @@ export const configuration: any = [
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'spa',
