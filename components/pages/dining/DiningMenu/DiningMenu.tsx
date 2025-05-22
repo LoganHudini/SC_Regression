@@ -163,17 +163,85 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
 
   const initialFilter = irdMenu && irdMenu[0];
 
-  const selectedMenu = selectedFilter?.selectedMenu
+  const selectedMenu1 = selectedFilter?.selectedMenu
     ? irdMenu?.find((item: any) => item?.id === selectedFilter?.selectedMenu)
     : initialFilter;
 
+  function extractChefsSpecialCategory(selectedMenu: any) {
+    const chefTagName = "Chef's Special";
+    const chefSpecialItems: any = [];
+
+    const updatedCategories = selectedMenu.categories.map((category: any) => {
+      // Filter main items
+      const filteredItems =
+        category.items?.filter((item: any) => {
+          const isChefSpecial = item.tags?.some((tag: any) => tag.name === chefTagName);
+          if (isChefSpecial) chefSpecialItems.push(item);
+          return !isChefSpecial;
+        }) || [];
+
+      // Filter subcategory items
+      const filteredSubCategories =
+        category.subCategories?.map((sub: any) => {
+          const filteredSubItems =
+            sub.items?.filter((item: any) => {
+              const isChefSpecial = item.tags?.some((tag: any) => tag.name === chefTagName);
+              if (isChefSpecial) chefSpecialItems.push(item);
+              return !isChefSpecial;
+            }) || [];
+          return { ...sub, items: filteredSubItems };
+        }) || null;
+
+      return {
+        ...category,
+        items: filteredItems,
+        subCategories: filteredSubCategories,
+      };
+    });
+
+    if (chefSpecialItems.length > 0) {
+      const chefsSpecialCategory = {
+        id: '80a96e5d-6f15-49ac-a14a-0sabf34234239bc70c1c5',
+        name: chefTagName,
+        isActive: true,
+        items: chefSpecialItems,
+        images: [],
+        subCategories: null,
+        hours: {
+          allTime: true,
+          everyday: false,
+          timings: [
+            {
+              day: 'EVERYDAY',
+              from: 'all day',
+              to: 'all day',
+            },
+          ],
+        },
+      };
+
+      // Prepend to categories
+      return {
+        ...selectedMenu,
+        categories: [chefsSpecialCategory, ...updatedCategories],
+      };
+    }
+
+    // No Chef's Special items found, return original (filtered) menu
+    return {
+      ...selectedMenu,
+      categories: updatedCategories,
+    };
+  }
+  const selectedMenu = selectedMenu1 && extractChefsSpecialCategory(selectedMenu1);
+
   const menuAvailability = filterLiveMenu(
-    selectedMenu?.hours,
+    selectedMenu1?.hours,
     hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone,
   );
 
   const menuStartingTime =
-    irdMenu && convertTo12HourFormat(selectedMenu?.hours[0]?.open || '00:00');
+    irdMenu && convertTo12HourFormat(selectedMenu1?.hours[0]?.open || '00:00');
 
   const ordersData = myOrders?.getOrdersByBookingId;
 
@@ -250,7 +318,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     selectedFilter?.menuName,
     selectedFilter?.selectedCategory,
     selectedFilter?.selectedMenu,
-    selectedMenu?.categories,
+    // selectedMenu?.categories,
     selectedMenu?.id,
     selectedMenu?.name,
   ]);
