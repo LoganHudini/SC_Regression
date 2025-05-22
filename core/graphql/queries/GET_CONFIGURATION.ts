@@ -11689,15 +11689,7 @@ export const configuration: any = [
     fetchFromDb: 'no',
     saveToDb: 'yes',
     languages: [{ code: 'en', name: 'English' }],
-    orderOfModules: [
-      'offers',
-      'check-in',
-      'hotel-info',
-      'services',
-      'dining',
-      'spa',
-      'hotel-compendium',
-    ],
+    orderOfModules: ['offers', 'check-in', 'hotel-info', 'services', 'dining', 'hotel-compendium'],
     isAnimationActive: false,
     isLogoLoaderActive: false,
     isFaceMatchdisabled: true,
@@ -11706,7 +11698,7 @@ export const configuration: any = [
       {
         code: 'Preferences',
         name: 'Preferences',
-        isActive: false,
+        isActive: true,
         submodules: [
           {
             code: 'Headers',
@@ -12021,14 +12013,14 @@ export const configuration: any = [
         code: 'In-Room Dining',
         name: 'In-Room Dining',
         isActive: true,
-        type: 'VENDOR',
+        type: 'CMS',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
       },
       {
         code: 'Services',
         name: 'Services',
         isActive: true,
-        type: 'VENDOR',
+        type: 'CMS',
       },
       {
         code: 'view-bill',
@@ -12043,7 +12035,7 @@ export const configuration: any = [
       {
         code: 'spa',
         name: 'spa',
-        isActive: true,
+        isActive: false,
         type: 'VENDOR',
       },
     ],
