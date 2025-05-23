@@ -31,7 +31,7 @@ import { useHideOnScroll } from 'utils/hooks/useHideOnScroll';
 // import { client } from 'core/graphql/client';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useCurrency } from 'utils/hooks/useCurrency';
-import { ALLERGENS, TAGS } from 'utils/constants';
+import { ALLERGENS, CHEF_TAG_NAME, TAGS } from 'utils/constants';
 import { iconsMap } from 'utils/hamburger/hamburgerIconsMap';
 import { hotelInfoStorage } from 'storage/home.storage';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
@@ -163,34 +163,52 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
 
   const initialFilter = irdMenu && irdMenu[0];
 
-  const selectedMenu1 = selectedFilter?.selectedMenu
+  const CHEF_SPECIAL_CATEGORY = {
+    id: '80a96e5d-6f15-49ac-a14a-0sabf34234239bc70c1c5',
+    name: 'Chef\'s Special',
+    isActive: true,
+    images: [],
+    subCategories: null,
+    hours: {
+      allTime: true,
+      everyday: false,
+      timings: [
+        {
+          day: 'EVERYDAY',
+          from: 'all day',
+          to: 'all day',
+        },
+      ],
+    },
+  };
+
+  const baseSelectedMenu = selectedFilter?.selectedMenu
     ? irdMenu?.find((item: any) => item?.id === selectedFilter?.selectedMenu)
     : initialFilter;
 
-  function extractChefsSpecialCategory(selectedMenu: any) {
-    const chefTagName = "Chef's Special";
+  const extractChefsSpecialCategory = (selectedMenu: any) => {
+    if (!selectedMenu?.categories) return selectedMenu;
+
     const chefSpecialItems: any = [];
 
     const updatedCategories = selectedMenu.categories.map((category: any) => {
-      // Filter main items
       const filteredItems =
         category.items?.filter((item: any) => {
-          const isChefSpecial = item.tags?.some((tag: any) => tag.name === chefTagName);
+          const isChefSpecial = item.tags?.some((tag: any) => tag.name === CHEF_TAG_NAME);
           if (isChefSpecial) chefSpecialItems.push(item);
           return !isChefSpecial;
         }) || [];
 
-      // Filter subcategory items
       const filteredSubCategories =
-        category.subCategories?.map((sub: any) => {
-          const filteredSubItems =
+        category.subCategories?.map((sub: any) => ({
+          ...sub,
+          items:
             sub.items?.filter((item: any) => {
-              const isChefSpecial = item.tags?.some((tag: any) => tag.name === chefTagName);
+              const isChefSpecial = item.tags?.some((tag: any) => tag.name === CHEF_TAG_NAME);
               if (isChefSpecial) chefSpecialItems.push(item);
               return !isChefSpecial;
-            }) || [];
-          return { ...sub, items: filteredSubItems };
-        }) || null;
+            }) || [],
+        })) || null;
 
       return {
         ...category,
@@ -199,49 +217,33 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
       };
     });
 
-    if (chefSpecialItems.length > 0) {
-      const chefsSpecialCategory = {
-        id: '80a96e5d-6f15-49ac-a14a-0sabf34234239bc70c1c5',
-        name: chefTagName,
-        isActive: true,
-        items: chefSpecialItems,
-        images: [],
-        subCategories: null,
-        hours: {
-          allTime: true,
-          everyday: false,
-          timings: [
-            {
-              day: 'EVERYDAY',
-              from: 'all day',
-              to: 'all day',
-            },
-          ],
-        },
-      };
-
-      // Prepend to categories
+    if (chefSpecialItems.length === 0) {
       return {
         ...selectedMenu,
-        categories: [chefsSpecialCategory, ...updatedCategories],
+        categories: updatedCategories,
       };
     }
 
-    // No Chef's Special items found, return original (filtered) menu
+    const chefsSpecialCategory = {
+      ...CHEF_SPECIAL_CATEGORY,
+      items: chefSpecialItems,
+    };
+
     return {
       ...selectedMenu,
-      categories: updatedCategories,
+      categories: [chefsSpecialCategory, ...updatedCategories],
     };
-  }
-  const selectedMenu = selectedMenu1 && extractChefsSpecialCategory(selectedMenu1);
+  };
+
+  const selectedMenu = baseSelectedMenu && extractChefsSpecialCategory(baseSelectedMenu);
 
   const menuAvailability = filterLiveMenu(
-    selectedMenu1?.hours,
+    baseSelectedMenu?.hours,
     hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone,
   );
 
   const menuStartingTime =
-    irdMenu && convertTo12HourFormat(selectedMenu1?.hours[0]?.open || '00:00');
+    irdMenu && convertTo12HourFormat(baseSelectedMenu?.hours[0]?.open || '00:00');
 
   const ordersData = myOrders?.getOrdersByBookingId;
 
