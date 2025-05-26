@@ -10,7 +10,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { notificationStorage, toggleNotification } from 'storage/home.storage';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
-import { FAILURE, SUCCESS } from 'utils/constants';
+import { FAILURE, PAY_BY_LINK, SUCCESS } from 'utils/constants';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { processStatusCode } from 'utils/processError';
 import styles from './Planet.module.scss';
@@ -27,7 +27,7 @@ interface IInitiatePaymentApiRequest {
   };
 }
 
-export const Planet = () => {
+export const Planet: React.FC<any> = ({ paymentFlow }) => {
   const { t } = useTranslation(['check-in-payment', 'common']);
   const navigate = useLocalizedRouter();
   const iframeRef: any = useRef<HTMLIFrameElement>(null);
@@ -73,11 +73,12 @@ export const Planet = () => {
           statusCode === 403
             ? handleCheckInAuthenticationFailure(preparePayment)
             : (notificationStorage({
-                title: t('Payment Failed!') as string,
-                description: t('Card Authentication Failed!') as string,
-                type: FAILURE,
-              }),
-              toggleNotification(true));
+              title: t('Payment Failed!') as string,
+              description: t('Card Authentication Failed!') as string,
+              type: FAILURE,
+            }),
+              toggleNotification(true),
+              paymentFlow === PAY_BY_LINK && navigate(availablePaths?.HOME));
         }
 
         if (randomTransactionId) {
@@ -122,30 +123,34 @@ export const Planet = () => {
           const status = paymentStatusData?.getPaymentStatus?.data['status '];
 
           if (status === 'Success') {
-            reservationGuestInfoStorageData({
-              ...guestReservationInfo,
-              token: paymentStatusData?.getPaymentStatus?.data['token'],
-              cardNumber: paymentStatusData?.getPaymentStatus?.data['cardNumber '],
-              cardHolderName: paymentStatusData?.getPaymentStatus?.data['cardHolderName '],
-              cardType: cardOptions?.find(
-                (option: any) =>
-                  option?.value === paymentStatusData?.getPaymentStatus?.data['paymentMethod '],
-              )?.code,
-              cardExpiryDate: paymentStatusData?.getPaymentStatus?.data['cardExpiry'],
-              approvalCode: paymentStatusData?.getPaymentStatus?.data['approvalCode'],
-              paymentType: cardOptions?.find(
-                (option: any) =>
-                  option?.value === paymentStatusData?.getPaymentStatus?.data['cardType '],
-              )?.code,
-            });
             notificationStorage({
               title: t('Thank You!') as string as string,
               description: t('Card Authentication Completed') as string,
               type: SUCCESS,
             });
             toggleNotification(true);
-
-            navigate(availablePaths?.CARD_AUTHORISATION);
+            if (paymentFlow === PAY_BY_LINK) {
+              client.clearStore();
+              navigate(availablePaths?.HOME);
+            } else {
+              reservationGuestInfoStorageData({
+                ...guestReservationInfo,
+                token: paymentStatusData?.getPaymentStatus?.data['token'],
+                cardNumber: paymentStatusData?.getPaymentStatus?.data['cardNumber '],
+                cardHolderName: paymentStatusData?.getPaymentStatus?.data['cardHolderName '],
+                cardType: cardOptions?.find(
+                  (option: any) =>
+                    option?.value === paymentStatusData?.getPaymentStatus?.data['paymentMethod '],
+                )?.code,
+                cardExpiryDate: paymentStatusData?.getPaymentStatus?.data['cardExpiry'],
+                approvalCode: paymentStatusData?.getPaymentStatus?.data['approvalCode'],
+                paymentType: cardOptions?.find(
+                  (option: any) =>
+                    option?.value === paymentStatusData?.getPaymentStatus?.data['cardType '],
+                )?.code,
+              });
+              navigate(availablePaths?.CARD_AUTHORISATION);
+            }
           } else if (status === 'Failed') {
             notificationStorage({
               title: t('Payment Failed!') as string,
@@ -153,17 +158,17 @@ export const Planet = () => {
               type: FAILURE,
             });
             toggleNotification(true);
-            navigate(availablePaths?.CARD_AUTHORISATION);
+            paymentFlow === PAY_BY_LINK ? navigate(availablePaths?.HOME) : navigate(availablePaths?.CARD_AUTHORISATION);
           }
         } catch (paymentStatusError) {
           const statusCode = processStatusCode(paymentStatusError as ApolloError);
           statusCode === 403
             ? handleCheckInAuthenticationFailure(handleChange)
             : (notificationStorage({
-                title: t('Payment Failed!') as string,
-                description: t('Card Authentication Failed!') as string,
-                type: FAILURE,
-              }),
+              title: t('Payment Failed!') as string,
+              description: t('Card Authentication Failed!') as string,
+              type: FAILURE,
+            }),
               toggleNotification(true));
         }
       }
@@ -178,7 +183,7 @@ export const Planet = () => {
         className={cx(styles.paymentWindow, { [styles.paymentWindowHidden]: loading })}
         ref={iframeRef}
         onLoad={handleChange}
-        // sandbox='allow-scripts allow-forms allow-top-navigation allow-same-origin'git
+      // sandbox='allow-scripts allow-forms allow-top-navigation allow-same-origin'git
       />
     </div>
   );

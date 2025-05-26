@@ -9077,6 +9077,7 @@ export const configuration: any = [
                 name: 'Credit Card Info',
                 isActive: true,
                 type: 'PLANET',
+                payByLink: true,
                 details: [
                   {
                     name: 'cardNumber',
