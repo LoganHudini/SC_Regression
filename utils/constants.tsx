@@ -267,6 +267,7 @@ export const idVerificationFields = ['docNo', 'docType'];
 export const PHONE_NUMBER_WITH_COUNTRYCODE = 'Phone';
 export const ESTIMATED_TIME = 'estimatedTime';
 export const RESERVED = 'RESERVED';
+export const PAY_BY_LINK = 'payment_link';
 export const DEFAULT_PAYMENT_MESSAGE = {
   title: 'Choose Payment Method',
   message: 'Click ‘Proceed to Payment’ to begin your payment process.',

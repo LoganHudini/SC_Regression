@@ -252,3 +252,88 @@ export const handleCheckInToken = async ({
   activeCheckOutFlow(false);
   setLoading(false);
 };
+
+export const handleReservationPayment = async ({
+  values,
+  hotelId,
+  setLoading,
+  t,
+  processStatusCode,
+  goToTheNextStep,
+  navigate,
+  isRetryEnabled,
+}: any) => {
+  let tryCount: any = 0;
+
+  try {
+    setLoading(true);
+    const checkInToken: { current?: string } = {};
+
+    checkInToken.current = await getCheckInToken(
+      values?.confirmationNumber?.toString()?.trim(),
+      values?.lastName?.toString()?.trim(),
+    );
+
+    const { data } = await client.query({
+      query: GET_RESERVATION,
+      context: {
+        clientName: 'rest',
+        headers: {
+          Authorization: 'Bearer ' + checkInToken.current,
+        },
+      },
+      variables: {
+        confirmationNumber: values?.confirmationNumber?.toString()?.trim(),
+        lastName: values?.lastName?.toString()?.trim(),
+        hotelId: hotelId,
+      },
+      fetchPolicy: 'no-cache',
+    });
+
+    const reservationInformation = data?.getReservation?.data;
+
+    if (reservationInformation) {
+      client.writeQuery({
+        query: GET_RESERVATION,
+        data,
+      });
+
+      const reservationStatus = reservationInformation?.reservationStatus;
+
+      if (reservationStatusMessages[reservationStatus]) {
+        errorStateHandler(reservationStatus, setLoading, t);
+        navigate && navigate(availablePaths.HOME);
+      } else {
+        return setLoading(false);
+      }
+    }
+  } catch (error) {
+    tryCount = tryCount + 1;
+
+    const statusCode = processStatusCode(error as ApolloError);
+    const errorCode: any = processError(error as ApolloError);
+
+    if (statusCode === 403) {
+      handleCheckInAuthenticationFailure(goToTheNextStep, values);
+    } else if (reservationStatusMessages[errorCode]) {
+      errorStateHandler(errorCode, setLoading, t);
+    } else {
+      if (isRetryEnabled && tryCount < 3 && errorCode !== 401) {
+        errorStateHandler('PROCESSING', setLoading, t);
+
+        handleReservationPayment({
+          values,
+          hotelId,
+          setLoading,
+          t,
+          processStatusCode,
+          goToTheNextStep,
+          navigate,
+          isRetryEnabled,
+        });
+      } else {
+        errorStateHandler('RESERVATIONNOTFOUND', setLoading, t);
+      }
+    }
+  }
+};
