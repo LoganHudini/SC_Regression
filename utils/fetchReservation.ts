@@ -298,14 +298,7 @@ export const handleReservationPayment = async ({
         data,
       });
 
-      const reservationStatus = reservationInformation?.reservationStatus;
-
-      if (reservationStatusMessages[reservationStatus]) {
-        errorStateHandler(reservationStatus, setLoading, t);
-        navigate && navigate(availablePaths.HOME);
-      } else {
-        return setLoading(false);
-      }
+      return setLoading(false);
     }
   } catch (error) {
     tryCount = tryCount + 1;

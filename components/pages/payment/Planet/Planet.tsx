@@ -17,6 +17,7 @@ import styles from './Planet.module.scss';
 import cx from 'classnames';
 import { availablePaths } from 'utils/availablePaths';
 import { GET_PAYMENT_STATUS } from 'core/graphql/queries/GET_PAYMENT_STATUS';
+import { convertYYMMToLastDate } from 'utils/functions';
 
 interface IInitiatePaymentApiRequest {
   InitiatePaymentPayload: {
@@ -52,6 +53,8 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
         const initiatePaymentPayload = {
           confirmationId: reservationInfo.confirmationId,
           referenceNumber: randomTransactionId,
+          // eslint-disable-next-line camelcase
+          payment_flow: paymentFlow ?? '',
         };
         let paymentData: IInitiatePaymentApiRequest | null = null;
         try {
@@ -73,10 +76,10 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
           statusCode === 403
             ? handleCheckInAuthenticationFailure(preparePayment)
             : (notificationStorage({
-              title: t('Payment Failed!') as string,
-              description: t('Card Authentication Failed!') as string,
-              type: FAILURE,
-            }),
+                title: t('Payment Failed!') as string,
+                description: t('Card Authentication Failed!') as string,
+                type: FAILURE,
+              }),
               toggleNotification(true),
               paymentFlow === PAY_BY_LINK && navigate(availablePaths?.HOME));
         }
@@ -122,6 +125,10 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
 
           const status = paymentStatusData?.getPaymentStatus?.data['status '];
 
+          const formattedExpiryDate = convertYYMMToLastDate(
+            paymentStatusData.getPaymentStatus.data['cardExpiry'],
+          );
+
           if (status === 'Success') {
             notificationStorage({
               title: t('Thank You!') as string as string,
@@ -142,7 +149,7 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
                   (option: any) =>
                     option?.value === paymentStatusData?.getPaymentStatus?.data['paymentMethod '],
                 )?.code,
-                cardExpiryDate: paymentStatusData?.getPaymentStatus?.data['cardExpiry'],
+                cardExpiryDate: formattedExpiryDate,
                 approvalCode: paymentStatusData?.getPaymentStatus?.data['approvalCode'],
                 paymentType: cardOptions?.find(
                   (option: any) =>
@@ -158,17 +165,19 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
               type: FAILURE,
             });
             toggleNotification(true);
-            paymentFlow === PAY_BY_LINK ? navigate(availablePaths?.HOME) : navigate(availablePaths?.CARD_AUTHORISATION);
+            paymentFlow === PAY_BY_LINK
+              ? navigate(availablePaths?.HOME)
+              : navigate(availablePaths?.CARD_AUTHORISATION);
           }
         } catch (paymentStatusError) {
           const statusCode = processStatusCode(paymentStatusError as ApolloError);
           statusCode === 403
             ? handleCheckInAuthenticationFailure(handleChange)
             : (notificationStorage({
-              title: t('Payment Failed!') as string,
-              description: t('Card Authentication Failed!') as string,
-              type: FAILURE,
-            }),
+                title: t('Payment Failed!') as string,
+                description: t('Card Authentication Failed!') as string,
+                type: FAILURE,
+              }),
               toggleNotification(true));
         }
       }
@@ -183,7 +192,7 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
         className={cx(styles.paymentWindow, { [styles.paymentWindowHidden]: loading })}
         ref={iframeRef}
         onLoad={handleChange}
-      // sandbox='allow-scripts allow-forms allow-top-navigation allow-same-origin'git
+        // sandbox='allow-scripts allow-forms allow-top-navigation allow-same-origin'git
       />
     </div>
   );

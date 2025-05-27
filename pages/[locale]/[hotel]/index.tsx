@@ -156,22 +156,23 @@ const Home: NextPage = () => {
             buttonTitle={t('Check-In Now')}
           />
         )}
-        {!checkInData?.checkedIn && pairToRoomModule && (
-          <Checkin
-            title={t('Checked in already?')}
-            description={t(
-              'To pair your device with your room, please press the ‘Connect to Room’ button below. This will enable you to access in-room services conveniently from your device. Enjoy your stay with us!',
-            )}
-            buttonTitle={t('Connect to Room')}
-            downloadText={
-              config?.nativeAppRedirection?.isActive
-                ? (t(
-                    'Elevate your stay with our exclusive app. Unlock your room, view your bill, control in-room settings, and stay updated on hotel events—all from your phone. \n\nDownload now to transform your stay into an unforgettable experience!',
-                  ) as string)
-                : null
-            }
-          />
-        )}
+        {(config?.nativeAppRedirection?.isActive ? true : !checkInData?.checkedIn) &&
+          pairToRoomModule && (
+            <Checkin
+              title={t('Checked in already?')}
+              description={t(
+                'To pair your device with your room, please press the ‘Connect to Room’ button below. This will enable you to access in-room services conveniently from your device. Enjoy your stay with us!',
+              )}
+              buttonTitle={t('Connect to Room')}
+              downloadText={
+                config?.nativeAppRedirection?.isActive
+                  ? (t(
+                      'Elevate your stay with our exclusive app. Unlock your room, view your bill, control in-room settings, and stay updated on hotel events—all from your phone. \n\nDownload now to transform your stay into an unforgettable experience!',
+                    ) as string)
+                  : null
+              }
+            />
+          )}
       </>
     ),
     dining: () => (
