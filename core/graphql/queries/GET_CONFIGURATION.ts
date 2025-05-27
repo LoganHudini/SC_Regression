@@ -8886,7 +8886,7 @@ export const configuration: any = [
     fieldsToBeRemoved: ['docNo', 'docType'],
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: ['hotel-info', 'check-in'],
-    preCheckInOnly: true,
+    preCheckInOnly: false,
     nativeAppRedirection: {
       isActive: true,
       playStoreRedirection:
