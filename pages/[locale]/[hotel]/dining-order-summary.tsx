@@ -239,11 +239,12 @@ const DiningOrderSummary = () => {
         code: el?.code,
         count: el?.quantity,
         amount: el?.price,
-        addOns: el?.addons?.map((item: any) => ({
-          code: item?.code,
-          name: item?.name,
-          price: item?.price,
-        })),
+        addOns: [...(el?.groupedAddons
+          || []), ...(el?.addons || [])]?.map((item: any) => ({
+            code: item?.code,
+            name: item?.name,
+            price: item?.price,
+          })),
         customisations: el?.customisation?.map((item: any) => ({
           code: item?.code,
           name: item?.name,
@@ -270,13 +271,14 @@ const DiningOrderSummary = () => {
         quantity: el?.quantity,
         price: el?.price,
         comment: el?.cookingInstruction || '',
-        addons: el?.addons?.map((item: any) => ({
-          code: item?.code,
-          name: item?.name,
-          price: item?.price,
-          quantity: 1,
-          comment: '',
-        })),
+        addons: [...(el?.groupedAddons
+          || []), ...(el?.addons || [])]?.map((item: any) => ({
+            code: item?.code,
+            name: item?.name,
+            price: item?.price,
+            quantity: 1,
+            comment: '',
+          })),
         customisations: el?.customisation?.map((item: any) => ({
           code: item?.code,
           name: item?.name,
@@ -344,8 +346,8 @@ const DiningOrderSummary = () => {
           description:
             FailureCheck1 || FailureCheck2
               ? t(
-                  'Reservation status is invalid. Please try again with a valid reservation details',
-                )
+                'Reservation status is invalid. Please try again with a valid reservation details',
+              )
               : t('Your order was not confirmed.'),
           redirect: FailureCheck1 || FailureCheck2 ? availablePaths.HOME : null,
         });
