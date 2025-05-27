@@ -166,7 +166,7 @@ const Menu = () => {
         ) : (
           <>
             <Header className={styles.header} header={header} displayHome />
-            <div className={styles.title}>In-Room Dining</div>
+            <div className={styles.title}>{t('In-Room Dining')}</div>
             <div className={styles.cardWrapper}>
               {irdActiveMenu?.map((item: any, index: any) => {
                 const currentOpenPeriod: any = getCurrentOpenPeriod(item?.hours);
@@ -193,8 +193,8 @@ const Menu = () => {
                     {item?.hours[0]?.day && module && (
                       <p className={styles.itemTime}>
                         {item.hours[0]?.day === EVERYDAY &&
-                        item.hours[0]?.open === ALL_DAY &&
-                        item.hours[0]?.close === ALL_DAY ? (
+                          item.hours[0]?.open === ALL_DAY &&
+                          item.hours[0]?.close === ALL_DAY ? (
                           t('Open 24x7')
                         ) : (
                           <>

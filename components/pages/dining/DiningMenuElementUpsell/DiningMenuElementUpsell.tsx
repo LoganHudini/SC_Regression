@@ -86,7 +86,7 @@ export const DiningMenuElementUpsell: React.FC<IDiningMenuElementProps> = ({
       <div className={styles.contentWrapper} onClick={onClickPlus}>
         <h4 className={cx(styles.title, { [styles.titleWithImage]: image })}>{title}</h4>
         <p className={cx(styles.currency)}>
-          <span className='irdPrice'>{currency} </span>
+          <span className='globals-irdv2-irdPrice'>{currency} </span>
           <span className={styles.price}>{formatPriceIRD(price)}</span>
         </p>
       </div>

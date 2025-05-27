@@ -56,7 +56,7 @@ export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
   const showCurrency = () => {
     return (
       <>
-        <p className={cx(styles.price, 'showCurrencyInCheckbox')}>
+        <p className={cx(styles.price, 'globals-irdv2-showCurrencyInCheckbox')}>
           <span className={styles.currency}>{currency}</span>
           {formatPriceIRD(element?.price)}
         </p>
@@ -68,7 +68,7 @@ export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
     <div className={styles.irdCheckboxItem}>
       <div className={styles.name}>
         {element?.name}
-        <span className={cx(styles.v2Price, 'irdV2FlowShow')}>
+        <span className={cx(styles.priceCurrency, 'globals-irdv2-irdFlowShow')}>
           {formatPriceIRD(element?.price)}
         </span>
       </div>

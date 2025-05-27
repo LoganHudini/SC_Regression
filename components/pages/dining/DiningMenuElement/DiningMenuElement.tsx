@@ -100,7 +100,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
 
   return (
     <div>
-      <div className={cx(styles.card, 'irdV2FLow')}>
+      <div className={cx(styles.card, 'globals-irdv2-irdFlow')}>
         <div className={styles.contentWrapper} onClick={handleDiningDetails}>
           <h4 className={cx(styles.title, { [styles.titleWithImage]: image })}>{title}</h4>
           {description && (
@@ -148,26 +148,26 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
         />
       </div>
 
-      <div className={cx('cardV2', 'irdV2FlowShow', { [styles.chefSpecialCard]: isChefSpecial })}>
-        <div className={'contentV2Wrapper'}>
+      <div className={cx('globals-irdv2-card', 'globals-irdv2-irdFlowShow', { [styles.chefSpecialCard]: isChefSpecial })}>
+        <div className={'globals-irdv2-contentWrapper'}>
           <StableImage
-            className={'imageV2'}
+            className={'globals-irdv2-image'}
             src={`${ASSETS_URL}/${image}`}
             onClick={handleDiningDetails}
           />
 
-          <div className={'detailsWrapperContentV2'} onClick={handleDiningDetails}>
+          <div className={'globals-irdv2-detailsWrapperContent'} onClick={handleDiningDetails}>
             {tags?.name && (
-              <span className={cx('tagTitleV2', { [styles.chefSpecialTag]: isChefSpecial })}>
+              <span className={cx('globals-irdv2-tagTitle', { [styles.chefSpecialTag]: isChefSpecial })}>
                 {tags?.name}
               </span>
             )}
-            <p className={'titleV2'}>{title}</p>
+            <p className={'globals-irdv2-title'}>{title}</p>
 
-            <p className={cx('descriptionV2', { [styles.descriptionWithImage]: image })}>
+            <p className={cx('globals-irdv2-description', { [styles.descriptionWithImage]: image })}>
               {ingredients} {formatPriceIRD(price)}
             </p>
-            <div className={'allergensWrapper'}>
+            <div className={'globals-irdv2-allergensWrapper'}>
               {allergens &&
                 allergens.length > 0 &&
                 allergens.map((tag: any, index: number) => {
@@ -178,7 +178,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
             </div>
           </div>
         </div>
-        <div className={'V2BtnWrapper'}>
+        <div className={'globals-irdv2-btnWrapper'}>
           {irdModule &&
             (totalQuantity == 0 ? (
               <StyledButton

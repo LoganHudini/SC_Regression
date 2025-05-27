@@ -174,7 +174,7 @@
   font: $xlarge var(--heading-font-regular);
   margin: 18px 12px 0px;
   text-align: start;
-  padding-top: 24px;;
+  padding-top: 24px;
 }
 
 .filterTagWrapper {
@@ -344,12 +344,11 @@
 .FilterButtonInActive,
 .FilterButtonActive,
 .FilterButtonActiveAllergen {
-  display: flex;               
-  align-items: center;        
-  justify-content: center;    
-  gap: 6px;                    
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
-
 
 .wrapper {
   margin: 5px;
@@ -416,7 +415,6 @@
   text-transform: uppercase;
 }
 
-
 .bottomContainer {
   width: 100%;
   display: flex;
@@ -436,7 +434,6 @@
   margin-top: 10px;
   color: var(--tertiary-text-color);
 }
-
 
 .backToTopButton {
   background-color: transparent;

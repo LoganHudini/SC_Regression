@@ -496,7 +496,7 @@ const DiningOrderSummary = () => {
                               {' - '}
                             </span>
                             <span key={index} className={styles.items}>
-                              <span key={index} className={cx(styles.itemsCurrency, 'irdPrice')}>
+                              <span key={index} className={cx(styles.itemsCurrency, 'globals-irdv2-irdPrice')}>
                                 {`${currency} `}
                               </span>{' '}
                               {formatPriceIRD(items?.price)}
@@ -515,8 +515,8 @@ const DiningOrderSummary = () => {
                               {' - '}
                             </span>
                             <span key={index} className={styles.items}>
-                              <span key={index} className={cx(styles.itemsCurrency, 'irdPrice')}>
-                                {`${currency}  ghvh`}
+                              <span key={index} className={cx(styles.itemsCurrency, 'globals-irdv2-irdPrice')}>
+                                {`${currency}`}
                               </span>
                               {formatPriceIRD(items?.price)}
                               {index !== item?.groupedAddons?.length - 1 ? ',' : ''}{' '}
@@ -538,7 +538,7 @@ const DiningOrderSummary = () => {
                       onClick={() => editFunction(item?.itemId, index)}
                     />
                     <p className={styles.itemPrice}>
-                      <span className={cx(styles.itemCurrency, 'irdPrice')}>{currency} </span>
+                      <span className={cx(styles.itemCurrency, 'globals-irdv2-irdPrice')}>{currency} </span>
                       {formatPriceIRD(
                         isNaN(totalPrice) ? item.quantity * item.price : item.quantity * totalPrice,
                       )}
@@ -679,16 +679,16 @@ const DiningOrderSummary = () => {
               onClick={handleOrder}
               variant='contained'
             >
-              <div className={`${styles.buttonContentWrapper} irdV2DiningConfirmButton`}>
+              <div className={`${styles.buttonContentWrapper} global-irdv2-diningConfirmButton`}>
                 <div className={styles.buttonWrapper}>
                   {items?.length > 0 && <span className={styles.itemCount}>{items?.length}</span>}
-                  <span className={`${styles.currency} irdPrice`}>
+                  <span className={`${styles.currency} globals-irdv2-irdPrice`}>
                     <span className={styles.currencyTitle}> {currency} </span>
                     {formatPriceIRD(totalAmount)}
                   </span>
                 </div>
-                <div className='irdV2FLow'>{t('Confirm')}</div>
-                <div className='irdV2FlowShow'>{t('Place Order')}</div>
+                <div className='globals-irdv2-irdFlow'>{t('Confirm')}</div>
+                <div className='globals-irdv2-irdFlowShow'>{t('Place Order')}</div>
               </div>
             </StyledButton>
           </div>

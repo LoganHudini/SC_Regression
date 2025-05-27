@@ -168,32 +168,32 @@
   text-align: left;
 }
 
-.showCurrencyInCheckbox {
+// dining v2 flow
+
+.globals-irdv2-showCurrencyInCheckbox {
   display: none !important;
 }
 
-.irdPrice {
+.globals-irdv2-irdPrice {
   display: none;
 }
 
-.irdV2DiningConfirmButton {
+.global-irdv2-diningConfirmButton {
   position: absolute;
   width: 58% !important;
   left: 0;
   padding-left: 15px;
 }
 
-// dining v2 flow
-
-.irdV2FlowShow {
+.globals-irdv2-irdFlowShow {
   display: block !important;
 }
 
-.irdV2FLow {
+.globals-irdv2-irdFlow {
   display: none !important;
 }
 
-.cardV2 {
+.globals-irdv2-card {
   display: flex;
   margin: 0.75rem 0 0.75rem;
   padding: 0.8rem;
@@ -204,11 +204,11 @@
   flex-direction: column;
 }
 
-.titleV2 {
+.globals-irdv2-title {
   color: var(--primary-text-color);
 }
 
-.tagTitleV2 {
+.globals-irdv2-tagTitle {
   font: $xsmall var(--primary-font-regular);
   color: var(--primary-text-color);
   padding: 5px;
@@ -217,12 +217,12 @@
   width: fit-content;
 }
 
-.currencyV2 {
+.globals-irdv2-currency {
   font: $small var(--primary-card-desc-font-family);
   color: var(--tertiary-text-color);
 }
 
-.descriptionV2 {
+.globals-irdv2-description {
   font: $small var(--primary-card-desc-font-family);
   color: var(--tertiary-text-color);
   width: 140%;
@@ -236,7 +236,7 @@
   text-overflow: ellipsis;
 }
 
-.contentV2Wrapper {
+.globals-irdv2-contentWrapper {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -245,7 +245,7 @@
   gap: 10px;
 }
 
-.detailsWrapperContentV2 {
+.globals-irdv2-detailsWrapperContent {
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -253,7 +253,7 @@
   width: 70%;
 }
 
-.imageV2 {
+.globals-irdv2-image {
   width: 120px;
   height: 120px;
   border-radius: var(--primary-card-border-radius);
@@ -262,18 +262,18 @@
   cursor: pointer;
 }
 
-.V2BtnWrapper {
+.globals-irdv2-btnWrapper {
   display: flex;
   justify-content: flex-end;
   flex-direction: column;
   align-items: flex-end;
 }
 
-.allergensWrapper {
+.globals-irdv2-allergensWrapper {
   display: flex;
   flex-direction: row;
 }
 
-.category-element.chef-special {
+.globals-irdv2-category-element.globals-irdv2-chef-special {
   background-color: #d8d9db;
 }

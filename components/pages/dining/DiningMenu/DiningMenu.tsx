@@ -28,15 +28,14 @@ import { ItemNotFoundLoader, Loader } from 'components/shared/Loaders/Loaders';
 import DiningDetailsDrawer from '../DiningDetailsDrawer/DiningDetailsDrawer';
 import { useCheckedIn } from 'storage/check-in.storage';
 import { useHideOnScroll } from 'utils/hooks/useHideOnScroll';
-// import { client } from 'core/graphql/client';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useCurrency } from 'utils/hooks/useCurrency';
 import { ALLERGENS, CHEF_TAG_NAME, TAGS } from 'utils/constants';
 import { iconsMap } from 'utils/hamburger/hamburgerIconsMap';
 import { hotelInfoStorage } from 'storage/home.storage';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
-import Viewless from '@icons/viwLessIconIrd.svg';
-import ViewlAll from '@icons/viewAllIconIrd.svg';
+import Viewless from '@icons/viewLessIconIrd.svg';
+import ViewAll from '@icons/viewAllIconIrd.svg';
 
 export { getStaticPaths };
 interface DiningMenuProps {
@@ -164,7 +163,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   const initialFilter = irdMenu && irdMenu[0];
 
   const CHEF_SPECIAL_CATEGORY = {
-    id: '80a96e5d-6f15-49ac-a14a-0sabf34234239bc70c1c5',
+    id: 'chefSpecialCategoryId',
     name: 'Chef\'s Special',
     isActive: true,
     images: [],
@@ -315,12 +314,12 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
       selectedCategory: selectedFilter?.selectedCategory || selectedMenu?.categories[0]?.id,
       categoryName: selectedFilter?.categoryName || selectedMenu?.categories[0]?.name,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     selectedFilter?.categoryName,
     selectedFilter?.menuName,
     selectedFilter?.selectedCategory,
     selectedFilter?.selectedMenu,
-    // selectedMenu?.categories,
     selectedMenu?.id,
     selectedMenu?.name,
   ]);
@@ -380,7 +379,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     return (
       <div
         id={`Category${category?.id}`}
-        className={`category-element ${isChefSpecial ? 'chef-special' : ''}`}
+        className={`globals-irdv2-category-element ${isChefSpecial ? 'globals-irdv2-chef-special' : ''}`}
         key={category?.id}
       >
         {categoryItems?.length > 0 && (
@@ -483,7 +482,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
               <>
                 {' '}
                 View All
-                <ViewlAll />{' '}
+                <ViewAll />{' '}
               </>
             )}
           </button>
@@ -502,7 +501,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
           <div className={styles.filterOptions}>
             {tags?.length > 0 && (
               <div className={styles.indredientWrapper}>
-                <p className={styles.indredient}>Special Features</p>
+                <p className={styles.indredient}>{t('Special Features')}</p>
                 {renderFilterOptions(tags, false, viewAllTags, setViewAllTags)}
               </div>
             )}
@@ -622,7 +621,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
           <div ref={scrollRef} className={cx(styles.listContainer)}>
             {!menuAvailability &&
               data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length !==
-                0 && (
+              0 && (
                 <div className={styles.menuUnavailableContainer}>
                   <div className={styles.menuTimingsText}>
                     {t('Online requests will be available from')} {menuStartingTime}
@@ -644,7 +643,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             )}
             {filteredIrdItemsList?.length === 0 &&
               data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length !==
-                0 && (
+              0 && (
                 <div className={styles.noItems}>
                   <ItemNotFoundLoader />
                   <div className={styles.noItemsText}>{t('Oops, Item Not Found')}</div>
@@ -655,7 +654,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
               ?.filter((item: any) => item?.isActive)
               ?.map((category: any) => renderCategory(category))}
             {selectedMenu?.categories?.filter((item: any) => item?.isActive)?.length > 0 && (
-              <div className={cx(styles.bottomContainer, 'irdV2FlowShow')}>
+              <div className={cx(styles.bottomContainer, 'globals-irdv2-irdFlowShow')}>
                 <div className={styles.backToTopContainer}>
                   <StyledButton
                     className={cx(styles.backToTopButton, {
