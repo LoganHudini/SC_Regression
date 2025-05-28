@@ -31,6 +31,7 @@ export const handleReservation = async ({
   navigate,
   isRetryEnabled,
   hotelInformation,
+  preventDrawerOpen = false,
 }: any) => {
   let tryCount: any = 0;
 
@@ -109,10 +110,14 @@ export const handleReservation = async ({
                   title: t('Your Device is Now Connected'),
                   description: t('Enjoy all the in-stay features and services at your fingertips.'),
                 });
-                toggleNotification(true);
-                toggleCheckInDetailsDrawer(false);
+                toggleNotification && toggleNotification(true);
+                if (!preventDrawerOpen) {
+                  toggleCheckInDetailsDrawer(false);
+                }
               } else {
-                toggleCheckInDetailsDrawer(true);
+                if (!preventDrawerOpen) {
+                  toggleCheckInDetailsDrawer(true);
+                }
               }
               saveTrip({
                 reservationId:
@@ -154,9 +159,9 @@ export const handleReservation = async ({
               setLoading(false);
             } else {
               errorStateHandler('NOROOM', setLoading, t);
+              navigate && navigate(availablePaths.HOME);
             }
             // setButtonTitle && setButtonTitle(true);
-            navigate && navigate(availablePaths.HOME);
           } else {
             activeCheckInFlowInfo && getWelcomeDrawer();
             homeActiveRef && homeActiveRef.current && navigate && navigate(availablePaths.CHECK_IN);
@@ -169,7 +174,7 @@ export const handleReservation = async ({
                 ),
                 redirect: availablePaths?.HOME,
               });
-              toggleNotification(true);
+              toggleNotification && toggleNotification(true);
             }
             setLoading(false);
             setTimeout(() => {
@@ -212,6 +217,7 @@ export const handleReservation = async ({
           homeActiveRef,
           navigate,
           tryCount,
+          preventDrawerOpen: true,
         });
       } else {
         errorStateHandler('RESERVATIONNOTFOUND', setLoading, t);
