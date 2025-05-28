@@ -41,14 +41,13 @@ const Payment: React.FC = () => {
   const { t } = useTranslation(['check-in-payment', 'common', 'check-in']);
   const config = useConfig();
   const hotelName = config?.name;
-  const paymentConfig: any = usePaymentConfig();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-
   const resId = router?.query?.resId ?? '';
   const lastName = router?.query?.lastName ?? '';
   const paymentFlow = router?.query?.paymentFlow ?? '';
   const hotelId = config?.hotelId;
+  const paymentConfig: any = usePaymentConfig();
   const navigate = useLocalizedRouter();
 
   useEffect(() => {

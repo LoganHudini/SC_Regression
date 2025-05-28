@@ -76,10 +76,10 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
           statusCode === 403
             ? handleCheckInAuthenticationFailure(preparePayment)
             : (notificationStorage({
-                title: t('Payment Failed!') as string,
-                description: t('Card Authentication Failed!') as string,
-                type: FAILURE,
-              }),
+              title: t('Payment Failed!') as string,
+              description: t('Card Authentication Failed!') as string,
+              type: FAILURE,
+            }),
               toggleNotification(true),
               paymentFlow === PAY_BY_LINK && navigate(availablePaths?.HOME));
         }
@@ -99,7 +99,7 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
     };
     preparePayment();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reservationInfo, t]);
+  }, [reservationInfo]);
 
   const handleChange = async () => {
     setTimeout(async () => {
@@ -174,10 +174,10 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
           statusCode === 403
             ? handleCheckInAuthenticationFailure(handleChange)
             : (notificationStorage({
-                title: t('Payment Failed!') as string,
-                description: t('Card Authentication Failed!') as string,
-                type: FAILURE,
-              }),
+              title: t('Payment Failed!') as string,
+              description: t('Card Authentication Failed!') as string,
+              type: FAILURE,
+            }),
               toggleNotification(true));
         }
       }
@@ -192,7 +192,7 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
         className={cx(styles.paymentWindow, { [styles.paymentWindowHidden]: loading })}
         ref={iframeRef}
         onLoad={handleChange}
-        // sandbox='allow-scripts allow-forms allow-top-navigation allow-same-origin'git
+      // sandbox='allow-scripts allow-forms allow-top-navigation allow-same-origin'git
       />
     </div>
   );
