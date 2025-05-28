@@ -5,7 +5,7 @@ import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState, useMemo } from 'react';
 import styles from '@styles/dining-order-summary/dining-order-summary.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
@@ -66,7 +66,7 @@ const DiningOrderSummary = () => {
   const { t } = useTranslation(['dining-order-summary', 'dining']);
   const navigate = useLocalizedRouter();
   const checkinData = useCheckedIn();
-  const renderedItemIds: any = [];
+  // const renderedItemIds: any = [];
   const config = useConfig();
   const hotelId = config?.hotelId;
   const hotelName = config?.name;
@@ -97,6 +97,27 @@ const DiningOrderSummary = () => {
   const servicechargeDisplay = getServiceCharges(information);
 
   const items = diningData?.items?.filter((item) => item?.quantity > 0);
+  const uniqueUpsellItems = useMemo(() => {
+    const mainCartItemTitles = items
+      .filter((item) => Array.isArray(item.upsell) && item.upsell.length > 0)
+      .map((item) => item.title);
+
+    const allUpsellItems = new Map();
+
+    items.forEach((item) => {
+      if (Array.isArray(item.upsell) && item.upsell.length > 0) {
+        item.upsell.forEach((upsellItem) => {
+          const isMainCartItem = mainCartItemTitles.includes(upsellItem?.name || '');
+
+          if (!isMainCartItem && !allUpsellItems.has(upsellItem?.id)) {
+            allUpsellItems.set(upsellItem?.id, upsellItem);
+          }
+        });
+      }
+    });
+
+    return Array.from(allUpsellItems.values());
+  }, [items]);
 
   useEffect(() => {
     const totalAmount = diningData?.items?.reduce((allTotal, item) => {
@@ -524,22 +545,11 @@ const DiningOrderSummary = () => {
           })}
         </div>
 
-        {items?.some((item: any) => item?.upsell?.length > 0) && (
+        {uniqueUpsellItems.length > 0 && (
           <>
             <div className={styles.upsellWrapper}>
               <p className={styles.youMayAlsoLikeText}>{t('You May Also Like')}</p>
-              <div className={styles.upsell}>
-                {items?.map((item) => {
-                  if (!renderedItemIds.includes(item.itemId)) {
-                    renderedItemIds.push(item.itemId);
-                    return (
-                      <React.Fragment key={item.itemId}>
-                        {renderMenuElements(item?.upsell ?? [])}
-                      </React.Fragment>
-                    );
-                  }
-                })}
-              </div>
+              <div className={styles.upsell}>{renderMenuElements(uniqueUpsellItems)}</div>
             </div>
           </>
         )}
