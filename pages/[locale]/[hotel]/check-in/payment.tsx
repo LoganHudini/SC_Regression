@@ -74,7 +74,7 @@ const Payment: React.FC = () => {
       goToTheNextStep();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lastName, paymentFlow, resId,]);
+  }, [lastName, paymentFlow, resId]);
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
@@ -110,10 +110,12 @@ const Payment: React.FC = () => {
           {hotelName} | {t('Payment')}
         </title>
       </Head>
-      {paymentFlow === PAY_BY_LINK ? <Header displayHome /> : <Header displayBackButton backRoute={availablePaths?.CARD_AUTHORISATION} />}
-      {loading || !reservationData ? (
-        <Loader />
-      ) : redirectPayment()}
+      {paymentFlow === PAY_BY_LINK ? (
+        <Header displayHome />
+      ) : (
+        <Header displayBackButton backRoute={availablePaths?.CARD_AUTHORISATION} />
+      )}
+      {loading || !reservationData ? <Loader /> : redirectPayment()}
     </>
   );
 };

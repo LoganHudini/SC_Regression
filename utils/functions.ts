@@ -625,3 +625,21 @@ export const getCurrentOpenPeriod = (hours: any) => {
 
   return null;
 };
+
+export const convertYYMMToLastDate = (yyMM: any) => {
+  const yearPart = yyMM.slice(0, 2);
+  const monthPart = yyMM.slice(2, 4);
+
+  const year = Number(yearPart) >= 70 ? 1900 + Number(yearPart) : 2000 + Number(yearPart);
+  const month = Number(monthPart);
+
+  // Create a date of the 0th day of the next month = last day of this month
+  const lastDayDate = new Date(year, month, 0); // JS month is 0-indexed
+
+  // Format to YYYY-MM-DD
+  const yyyy = lastDayDate.getFullYear();
+  const mm = String(lastDayDate.getMonth() + 1).padStart(2, '0');
+  const dd = String(lastDayDate.getDate()).padStart(2, '0');
+
+  return `${yyyy}-${mm}-${dd}`;
+};
