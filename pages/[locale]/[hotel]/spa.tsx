@@ -180,7 +180,7 @@ const Spa: React.FC = () => {
   )?.value;
 
   const onCtaClick = () => {
-    if (treatmentLink) {
+    if (treatmentLink || spaInformation?.cta?.redirectUrl) {
       analyticsEvent({
         action: 'spa_redirect',
         category: 'Spa',
@@ -618,7 +618,7 @@ const Spa: React.FC = () => {
           onClose={closeSpa}
           content={
             <IframeComponent
-              src={treatmentLink ?? spaInformation?.cta?.redirectUrl}
+              src={spaInformation?.cta?.redirectUrl || treatmentLink}
               handledrawerState={setspaBooking}
               name={SPA_TREATMENTS}
             />
