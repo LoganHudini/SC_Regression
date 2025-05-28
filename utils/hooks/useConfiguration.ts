@@ -135,7 +135,7 @@ export const usePaymentConfig = () => {
         ...reservationGuestInfoStorageData(),
         roomStatus: roomStatus,
       });
-      if (!roomStatus) {
+      if (!roomStatus && !paymentStatus?.paymentMandatory) {
         paymentStatus.type = NONE;
       }
       paymentStatus.loader = false;

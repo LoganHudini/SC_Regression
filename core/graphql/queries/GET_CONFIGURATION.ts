@@ -9072,6 +9072,7 @@ export const configuration: any = [
                 isActive: true,
                 type: 'PLANET',
                 payByLink: true,
+                paymentMandatory: true,
                 details: [
                   {
                     name: 'cardNumber',
