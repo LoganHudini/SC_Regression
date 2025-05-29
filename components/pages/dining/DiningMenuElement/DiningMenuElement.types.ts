@@ -9,6 +9,7 @@ export interface IDiningMenuElementProps {
   code: string;
   tags?: any;
   allergens?: any;
+  categoryId?: any;
   categoryName?: string;
   customisation: {
     ingredient: string;

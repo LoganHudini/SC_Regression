@@ -21,7 +21,7 @@ import SearchText from '@icons/search_text_delete.svg';
 import { DiningOrders } from 'components/pages/dining/DiningOrders/DiningOrders';
 import { DiningOrdersDrawer } from 'components/pages/dining/DiningOrdersDrawer/DiningOrdersDrawer';
 import { GET_ORDERS } from 'core/graphql/queries/GET_ORDERS_BY_ID';
-import { convertTo12HourFormat, filterLiveMenu, irdActiveMenuList } from 'utils/functions';
+import { convertTo12HourFormat, filterLiveMenu, irdActiveMenuList, isIRDOpenNow } from 'utils/functions';
 import { DiningCategoryOptions } from 'components/pages/dining/DiningCategoryOptions/DiningCategoryOptions';
 import produce from 'immer';
 import { ItemNotFoundLoader, Loader } from 'components/shared/Loaders/Loaders';
@@ -343,7 +343,14 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     }
   }, [search, openCategory]);
 
-  const renderMenuElements = (items: any[], categoryName: string) => {
+  const baseSelectedCat = selectedFilter?.selectedCategory
+    ? selectedMenu?.categories?.find((item: any) => item?.id === diningData?.selectedCategoryId
+    )
+    : initialFilter;
+
+  const catAvailabilityDisable = isIRDOpenNow(baseSelectedCat?.hours?.timings, hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone);
+
+  const renderMenuElements = (items: any[], categoryName: string, catAvailability?: any, categoryId?: any) => {
     return (
       <>
         {items?.length > 0 &&
@@ -360,11 +367,12 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                 index={index}
                 code={el?.code}
                 addons={el?.addons}
-                menuAvailability={menuAvailability}
+                menuAvailability={menuAvailability ? catAvailability : menuAvailability}
                 ingredients={el?.ingredients}
                 tags={el?.tags ? el?.tags?.[0] : {}}
                 allergens={el?.allergens}
                 categoryName={categoryName}
+                categoryId={categoryId}
               />
             </React.Fragment>
           ))}
@@ -376,6 +384,13 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     const categoryItems = filterItems(category?.items);
     /*eslint-disable*/
     const isChefSpecial = category?.name === "Chef's Special";
+
+    const catAvailability =
+      isIRDOpenNow(
+        category?.hours?.timings,
+        hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone,
+      )
+
     return (
       <div
         id={`Category${category?.id}`}
@@ -385,7 +400,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
         {categoryItems?.length > 0 && (
           <h2 className={styles.subCategoriesText}>{category?.name}</h2>
         )}
-        {renderMenuElements(categoryItems, category?.name)}
+        {renderMenuElements(categoryItems, category?.name, catAvailability, category?.id)}
         {category?.subCategories
           ?.filter((item: any) => item?.isActive)
           ?.map((subCategory: any) => {
@@ -397,7 +412,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                     {category?.name} - {subCategory?.name}
                   </h2>
                 )}
-                {renderMenuElements(subCategoryItems, `${category?.name} - ${subCategory?.name}`)}
+                {renderMenuElements(subCategoryItems, `${category?.name} - ${subCategory?.name}`, catAvailability, category?.id)}
               </div>
             );
           })}
@@ -696,7 +711,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
           </div>
         </>
       )}
-      <DiningDetailsDrawer menuAvailability={menuAvailability} />{' '}
+      <DiningDetailsDrawer menuAvailability={menuAvailability ? catAvailabilityDisable : menuAvailability} />{' '}
       <CustomDrawer
         open={filterDrawer}
         onClose={() => setFilterDrawer(false)}

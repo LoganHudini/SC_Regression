@@ -189,6 +189,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
     diningMenuStorage(
       produce(diningMenuStorage(), (draft) => {
         draft.selectedItemId = '';
+        draft.selectedCategoryId = '';
       }),
     );
   }, []);

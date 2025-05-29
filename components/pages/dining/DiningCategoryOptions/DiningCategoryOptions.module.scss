@@ -1,7 +1,7 @@
 .menuOptionsWrapper {
   display: flex;
   overflow: scroll;
-  padding: 1.6rem 1rem 1.4rem;
+  padding: 1.6rem 1rem 0.35rem 1rem;
   background-color: var(--primary-background-color);
   width: 91%;
   max-width: 768px;
@@ -79,4 +79,12 @@
   align-items: center;
   justify-content: center;
   margin-top: 5px;
+}
+
+.catTiming {
+  line-height: 1.2;
+  font-family: var(--primary-font-extd-regular);
+  font-size: $extraSmall;
+  text-align: center;
+  margin-top: 4px;
 }

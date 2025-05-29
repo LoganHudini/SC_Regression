@@ -32,6 +32,7 @@ import * as yup from 'yup';
 import { Countries } from './countryList';
 import { availablePaths } from './availablePaths';
 import timezone from 'dayjs/plugin/timezone';
+import isBetween from 'dayjs/plugin/isBetween';
 import utc from 'dayjs/plugin/utc';
 // Extract data from local storage
 export const guestNameFandB = () =>
@@ -94,9 +95,9 @@ export const filterLiveMenu = (hours: any[], hotelInformation: any) => {
   const currentDay = now.format('dddd').toUpperCase();
 
   for (const hour of hours) {
-    if (hour.day !== 'EVERYDAY' && hour.day !== currentDay) continue;
+    if (hour.day !== EVERYDAY && hour.day !== currentDay) continue;
 
-    if (hour.open === 'all day' && hour.close === 'all day') {
+    if (hour.open === ALL_DAY && hour.close === ALL_DAY) {
       return true;
     }
 
@@ -642,4 +643,68 @@ export const convertYYMMToLastDate = (yyMM: any) => {
   const dd = String(lastDayDate.getDate()).padStart(2, '0');
 
   return `${yyyy}-${mm}-${dd}`;
+};
+
+export function getIRDStatus(timings: any, timezoneProp: any) {
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
+  dayjs.extend(isBetween);
+  const now = dayjs().tz(timezoneProp);
+  const currentDay = now.format('dddd').toUpperCase();
+  const currentMinutes = now.hour() * 60 + now.minute();
+
+  if (
+    timings.length === 1 &&
+    timings[0].day === EVERYDAY &&
+    timings[0].from === ALL_DAY &&
+    timings[0].to === ALL_DAY
+  ) {
+    return '';
+  }
+
+  const todayTiming = timings.find((t: any) => t.day === currentDay);
+  if (!todayTiming) {
+    return 'unavailable now';
+  }
+
+  const [fromHour, fromMinute] = todayTiming.from.split(':').map(Number);
+  const [toHour, toMinute] = todayTiming.to.split(':').map(Number);
+  const fromMinutes = fromHour * 60 + fromMinute;
+  const toMinutes = toHour * 60 + toMinute;
+
+  const fromFormatted = dayjs().hour(fromHour).minute(fromMinute).format('hh:mm A');
+  const toFormatted = dayjs().hour(toHour).minute(toMinute).format('hh:mm A');
+
+  if (currentMinutes < fromMinutes) {
+    return `from ${fromFormatted}`;
+  } else if (currentMinutes >= fromMinutes && currentMinutes < toMinutes) {
+    return `until ${toFormatted}`;
+  } else {
+    return 'unavailable now';
+  }
+}
+
+export const isIRDOpenNow = (timings: any, timezone: any) => {
+  const now = dayjs().tz(timezone);
+  const currentDay = now.format('dddd').toUpperCase();
+  const currentTime = now.format('HH:mm');
+
+  if (!Array.isArray(timings) || timings.length === 0) return false;
+
+  const alwaysOpen = timings.find(
+    (t) => t.allTime === true || (t.day === EVERYDAY && t.from === ALL_DAY && t.to === ALL_DAY),
+  );
+  if (alwaysOpen) return true;
+
+  const todayTimings = timings.filter((t) => t.day === currentDay || t.day === EVERYDAY);
+
+  for (const t of todayTimings) {
+    if (!t.from || !t.to || t.from === ALL_DAY || t.to === ALL_DAY) continue;
+
+    if (currentTime >= t.from && currentTime <= t.to) {
+      return true;
+    }
+  }
+
+  return false;
 };

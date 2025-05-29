@@ -30,6 +30,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
   tags,
   allergens,
   categoryName,
+  categoryId
 }) => {
   const { t } = useTranslation('dining');
   const [customisationDrawer, setCustomisationDrawer] = useState(false);
@@ -48,6 +49,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
     diningMenuStorage(
       produce(diningMenuStorage(), (draft) => {
         draft.selectedItemId = id;
+        draft.selectedCategoryId = categoryId;
       }),
     );
     const item = { id: id, name: title, price: price, currency: currency };

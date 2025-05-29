@@ -53,6 +53,7 @@ export type IDiningMenuStorageData = {
   selectedItemId?: string;
   selectedIndex?: number;
   orderId?: string;
+  selectedCategoryId?: string;
 };
 
 export const diningMenuStorage = makeVar<IDiningMenuStorageData>({ items: [] });

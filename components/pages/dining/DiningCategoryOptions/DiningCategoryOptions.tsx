@@ -6,7 +6,8 @@ import { diningInformationStorage } from 'storage/dining.storage';
 import { useReactiveVar } from '@apollo/client';
 import cx from 'classnames';
 import produce from 'immer';
-import { setScrollPosition } from 'utils/functions';
+import { getIRDStatus, setScrollPosition } from 'utils/functions';
+import { hotelInfoStorage } from 'storage/home.storage';
 
 export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
   categories,
@@ -18,6 +19,7 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
   const stickyHeader: any = useRef();
   const diningInformation = useReactiveVar(diningInformationStorage);
   const [userScrolling, setUserScrolling] = useState(false);
+  const hotelInformation = useReactiveVar(hotelInfoStorage);
 
   useEffect(() => {
     const scrollContainer = stickyHeader.current;
@@ -137,21 +139,32 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
       ),
   );
 
+  const CatogoryTimingsView: React.FC<{ el: any }> = ({ el }) => {
+    const category = getIRDStatus(el?.hours?.timings, hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone);
+
+    return (
+      <>
+        <StyledButton
+          className={cx(styles.DiningCategoryOptionInActive, {
+            [styles.DiningCategoryOptionActive]: el?.id === diningInformation?.selectedCategory,
+          })}
+          onClick={(e) => {
+            handleCategoryChange(e, el);
+          }}
+        >
+          {el?.name}
+        </StyledButton>
+        <p className={cx(styles.catTiming)}> {category}</p>
+      </>
+    );
+  };
+
   return (
     <>
       <div ref={stickyHeader} className={cx(styles.menuOptionsWrapper)}>
         {filteredCategories?.map((el: any, index: number) => (
           <div id={el?.id} className={styles.diningMenuFilterButtonWrapper} key={`${el}-${index}`}>
-            <StyledButton
-              className={cx(styles.DiningCategoryOptionInActive, {
-                [styles.DiningCategoryOptionActive]: el?.id === diningInformation?.selectedCategory,
-              })}
-              onClick={(e) => {
-                handleCategoryChange(e, el);
-              }}
-            >
-              {el?.name}
-            </StyledButton>
+            <CatogoryTimingsView el={el} />
           </div>
         ))}
       </div>
