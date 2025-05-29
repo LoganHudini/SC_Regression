@@ -457,6 +457,7 @@ const Spa: React.FC = () => {
                 showSchedules={undefined}
                 buttonTitle={t('Find available slots')}
                 buttonStyle={styles.buttonPicker}
+                module={'spa'}
               />
             </div>
           </div>
