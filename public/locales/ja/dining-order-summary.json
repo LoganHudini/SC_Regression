@@ -43,5 +43,9 @@
   "Confirm": "確認",
   "ITEMS": "アイテム",
   "Something Went Wrong!": "何かがうまくいきませんでした！",
-  "Invalid Reservation": "無効な予約"
+  "Invalid Reservation": "無効な予約",
+  "Delivery Time": "配達時間",
+  "Next": "次へ",
+  "Schedule for later": "後で予定する",
+  "NOW": "今"
 }

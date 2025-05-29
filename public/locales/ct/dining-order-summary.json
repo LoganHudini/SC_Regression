@@ -43,5 +43,9 @@
   "Confirm": "Confirmar",
   "ITEMS": "ARTICLES",
   "Invalid Reservation": "Reserva no vàlida",
-  "Something Went Wrong!": "Alguna cosa ha anat malament!"
+  "Something Went Wrong!": "Alguna cosa ha anat malament!",
+  "Next": "Següent",
+  "Delivery Time": "Hora de lliurament",
+  "Schedule for later": "Programa per més tard",
+  "NOW": "Ara"
 }
