@@ -9206,7 +9206,8 @@ export const configuration: any = [
             label: 'Review & Sign',
             title: 'Check-In',
             buttonLabelCheckIn: 'Confirm Check-In',
-            checkInSuccessfulMessageTitle: 'Pre Check-In Successful!',
+            preCheckInSuccessfulMessageTitle: 'Pre Check-In Successful!',
+            checkInSuccessfulMessageTitle: 'Check-In Successful!',
             checkInSuccessfulMessageDescription:
               'When your room is ready, you will receive an email with the room number and a link to download our app to digitise your key.\n If you do not wish to download the app, please proceed to the hotel lobby to collect your room key.',
             // eslint-disable-next-line quotes
@@ -9628,7 +9629,8 @@ export const configuration: any = [
             label: 'Review & Sign',
             title: 'Check-In',
             buttonLabelCheckIn: 'Confirm Check-In',
-            checkInSuccessfulMessageTitle: 'Pre Check-In Successful!',
+            preCheckInSuccessfulMessageTitle: 'Pre Check-In Successful!',
+            checkInSuccessfulMessageTitle: 'Check-In Successful!',
             checkInSuccessfulMessageDescription:
               'When your room is ready, you will receive an email with the room number and a link to download our app to digitise your key.\n If you do not wish to download the app, please proceed to the hotel lobby to collect your room key.',
             // eslint-disable-next-line quotes
@@ -24538,7 +24540,8 @@ export const configuration: any = [
             label: 'Review & Sign',
             title: 'Check-In',
             buttonLabelCheckIn: 'Confirm Check-In',
-            checkInSuccessfulMessageTitle: 'Pre Check-In Successful!',
+            preCheckInSuccessfulMessageTitle: 'Pre Check-In Successful!',
+            checkInSuccessfulMessageTitle: 'Check-In Successful!',
             checkInSuccessfulMessageDescription:
               'When your room is ready, you will receive an email with the room number and a link to download our app to digitise your key.\n If you do not wish to download the app, please proceed to the hotel lobby to collect your room key.',
             // eslint-disable-next-line quotes

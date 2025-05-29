@@ -32,6 +32,7 @@ import { StyledInput } from 'components/shared/StyledInput/StyledInput';
 import { useFormik } from 'formik';
 import { typeHereValidation } from 'validation/feedback.validation';
 import { useCheckedIn } from 'storage/check-in.storage';
+import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
 
 export { getStaticPaths };
 
@@ -122,6 +123,7 @@ const Feedback = () => {
       });
       setTimeout(() => {
         checkoutTrip();
+        reservationGuestInfoStorageData(null);
       }, 5000);
       toggleNotification(true);
       notificationStorage({

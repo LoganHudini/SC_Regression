@@ -59,6 +59,7 @@ import { StyledInput } from 'components/shared/StyledInput/StyledInput';
 import { useFormik } from 'formik';
 import { instructionValidation } from 'validation/dining.validation';
 import SignatureCanvas from 'react-signature-canvas';
+import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
 
 export { getStaticPaths };
 
@@ -364,14 +365,15 @@ const DiningOrderSummary = () => {
           description:
             FailureCheck1 || FailureCheck2
               ? t(
-                  'Reservation status is invalid. Please try again with a valid reservation details',
-                )
+                'Reservation status is invalid. Please try again with a valid reservation details',
+              )
               : t('Your order was not confirmed.'),
           redirect: FailureCheck1 || FailureCheck2 ? availablePaths.HOME : null,
         });
         toggleNotification(true);
         if (FailureCheck1 || FailureCheck2) {
           checkoutTrip();
+          reservationGuestInfoStorageData(null);
         }
       }
     }

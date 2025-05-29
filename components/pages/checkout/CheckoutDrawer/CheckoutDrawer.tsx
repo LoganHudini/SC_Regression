@@ -32,6 +32,7 @@ import {
 } from 'utils/constants';
 import { activeItems, activeModule } from 'utils/functions';
 import { availablePaths } from 'utils/availablePaths';
+import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
 
 const CheckoutDrawer = (props: any) => {
   const { reservationData, amountDue } = props;
@@ -146,6 +147,7 @@ const CheckoutDrawer = (props: any) => {
       setTimeout(() => {
         if (feedbackData?.length === 0) {
           checkoutTrip();
+          reservationGuestInfoStorageData(null);
         } else {
           feedbackStorage();
         }
@@ -176,9 +178,8 @@ const CheckoutDrawer = (props: any) => {
             type: FAILURE,
             title: t('Unable to checkout'),
             redirect: feedbackData?.length === 0 ? availablePaths?.HOME : availablePaths?.FEEDBACK,
-            description: `${
-              amountDue > 0 ? t('There are outstanding payments to settle. ') : ''
-            }${t('Kindly proceed to the front desk to complete the checkout process.')}`,
+            description: `${amountDue > 0 ? t('There are outstanding payments to settle. ') : ''
+              }${t('Kindly proceed to the front desk to complete the checkout process.')}`,
           });
         } else {
           toggleNotification(true);
@@ -199,6 +200,7 @@ const CheckoutDrawer = (props: any) => {
     setTimeout(() => {
       if (feedbackData?.length === 0) {
         checkoutTrip();
+        reservationGuestInfoStorageData(null);
       } else {
         feedbackStorage();
       }
@@ -224,8 +226,8 @@ const CheckoutDrawer = (props: any) => {
       <p className={styles.content}>
         {!checkOutModule && pairToRoomModule
           ? t(
-              'This action is irreversible. Your device will no longer have access to in-room features, including In-Room Dining, Services, and others',
-            )
+            'This action is irreversible. Your device will no longer have access to in-room features, including In-Room Dining, Services, and others',
+          )
           : t('This action is irreversible. Your room access will be disabled after Checkout.')}
       </p>
       <div className={styles.buttonWrapper}>
