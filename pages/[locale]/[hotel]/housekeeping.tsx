@@ -185,17 +185,17 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
           ? showSchedules?.customSchedule === DATE
             ? dayjs(selectedTime, timeFormats.DAY_MONTH).format(timeFormats.DAY_MONTH)
             : showSchedules?.customSchedule === TIME
-              ? dayjs(selectedTime, timeFormats.HOURS_MINUTES_AM).format(timeFormats.HOURS_MINUTES_AM)
-              : showSchedules?.customSchedule === DATETIME
-                ? dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2).format(
-                  timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2,
-                )
-                : dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2).format(
-                  timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2,
-                )
+            ? dayjs(selectedTime, timeFormats.HOURS_MINUTES_AM).format(timeFormats.HOURS_MINUTES_AM)
+            : showSchedules?.customSchedule === DATETIME
+            ? dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2).format(
+                timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2,
+              )
+            : dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2).format(
+                timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2,
+              )
           : dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2).format(
-            timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2,
-          )
+              timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2,
+            )
         : '';
 
       if (serviceType?.type === CMS) {
@@ -225,12 +225,12 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
         );
         combinedServiceRequestArray?.length === 0
           ? combinedServiceRequestArray.push({
-            itemId: showSchedules?.code,
-            priorityId: '11',
-            name: showSchedules?.name,
-            quantity: 1,
-            scheduled: scheduledDateTimePayload,
-          })
+              itemId: showSchedules?.code,
+              priorityId: '11',
+              name: showSchedules?.name,
+              quantity: 1,
+              scheduled: scheduledDateTimePayload,
+            })
           : null;
 
         const response = await client.mutate({
@@ -296,8 +296,8 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
           description:
             FailureCheck1 || FailureCheck2
               ? t(
-                'Reservation status is invalid. Please try again with a valid reservation details',
-              )
+                  'Reservation status is invalid. Please try again with a valid reservation details',
+                )
               : t('Your request was not confirmed.'),
           redirect: FailureCheck1 || FailureCheck2 ? availablePaths?.HOME : null,
           type: FAILURE,
@@ -397,8 +397,8 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
 
                         {showText
                           ? t(
-                            'The scheduler is set to begin 15 minutes from now, as this aligns with our standard delivery time.',
-                          )
+                              'The scheduler is set to begin 15 minutes from now, as this aligns with our standard delivery time.',
+                            )
                           : t('Your items will be delivered in 15 minutes or less!')}
                       </span>
                       <div

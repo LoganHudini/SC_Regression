@@ -76,10 +76,13 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
           statusCode === 403
             ? handleCheckInAuthenticationFailure(preparePayment)
             : (notificationStorage({
-              title: t('Payment Failed!') as string,
-              description: paymentFlow === PAY_BY_LINK ? t('Please contact front desk for assistance') as string : t('Card Authentication Failed!') as string,
-              type: FAILURE,
-            }),
+                title: t('Payment Failed!') as string,
+                description:
+                  paymentFlow === PAY_BY_LINK
+                    ? (t('Please contact front desk for assistance') as string)
+                    : (t('Card Authentication Failed!') as string),
+                type: FAILURE,
+              }),
               toggleNotification(true),
               paymentFlow === PAY_BY_LINK && navigate(availablePaths?.HOME));
         }
@@ -132,7 +135,10 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
           if (status === 'Success') {
             notificationStorage({
               title: t('Thank You!') as string as string,
-              description: paymentFlow === PAY_BY_LINK ? t('Payment Success') as string : t('Card Authentication Completed') as string,
+              description:
+                paymentFlow === PAY_BY_LINK
+                  ? (t('Payment Success') as string)
+                  : (t('Card Authentication Completed') as string),
               type: SUCCESS,
             });
             toggleNotification(true);
@@ -161,7 +167,10 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
           } else if (status === 'Failed') {
             notificationStorage({
               title: t('Payment Failed!') as string,
-              description: paymentFlow === PAY_BY_LINK ? t('Please contact front desk for assistance') as string : t('Card Authentication Failed!') as string,
+              description:
+                paymentFlow === PAY_BY_LINK
+                  ? (t('Please contact front desk for assistance') as string)
+                  : (t('Card Authentication Failed!') as string),
               type: FAILURE,
             });
             toggleNotification(true);
@@ -174,10 +183,13 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
           statusCode === 403
             ? handleCheckInAuthenticationFailure(handleChange)
             : (notificationStorage({
-              title: t('Payment Failed!') as string,
-              description: paymentFlow === PAY_BY_LINK ? t('Please contact front desk for assistance') as string : t('Card Authentication Failed!') as string,
-              type: FAILURE,
-            }),
+                title: t('Payment Failed!') as string,
+                description:
+                  paymentFlow === PAY_BY_LINK
+                    ? (t('Please contact front desk for assistance') as string)
+                    : (t('Card Authentication Failed!') as string),
+                type: FAILURE,
+              }),
               toggleNotification(true));
         }
       }
@@ -192,7 +204,7 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
         className={cx(styles.paymentWindow, { [styles.paymentWindowHidden]: loading })}
         ref={iframeRef}
         onLoad={handleChange}
-      // sandbox='allow-scripts allow-forms allow-top-navigation allow-same-origin'git
+        // sandbox='allow-scripts allow-forms allow-top-navigation allow-same-origin'git
       />
     </div>
   );

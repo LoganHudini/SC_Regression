@@ -80,15 +80,12 @@ const Payment: React.FC = () => {
     query: GET_RESERVATION,
   });
 
-
   useEffect(() => {
-
     if (isReady && paymentFlow != PAY_BY_LINK && !reservationData) {
       navigate(availablePaths?.HOME);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reservationData, paymentFlow, isReady, navigate]);
-
 
   const redirectPayment = () => {
     switch (paymentConfig?.type) {

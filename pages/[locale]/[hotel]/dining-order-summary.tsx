@@ -99,25 +99,30 @@ const DiningOrderSummary = () => {
 
   const items = diningData?.items?.filter((item) => item?.quantity > 0);
   const uniqueUpsellItems = useMemo(() => {
-    const mainCartItemTitles = items
-      .filter((item) => Array.isArray(item.upsell) && item.upsell.length > 0)
-      .map((item) => item.title);
+    const itemsInCart = items.map((item) => item.title);
 
-    const allUpsellItems = new Map();
+    const allUpsellSuggestions: any = [];
 
-    items.forEach((item) => {
-      if (Array.isArray(item.upsell) && item.upsell.length > 0) {
-        item.upsell.forEach((upsellItem) => {
-          const isMainCartItem = mainCartItemTitles.includes(upsellItem?.name || '');
-
-          if (!isMainCartItem && !allUpsellItems.has(upsellItem?.id)) {
-            allUpsellItems.set(upsellItem?.id, upsellItem);
-          }
+    items.forEach((cartItem) => {
+      if (cartItem.upsell && cartItem.upsell.length > 0) {
+        cartItem.upsell.forEach((suggestion) => {
+          allUpsellSuggestions.push(suggestion);
         });
       }
     });
 
-    return Array.from(allUpsellItems.values());
+    const uniqueSuggestions = new Map();
+
+    allUpsellSuggestions.forEach((suggestion: any) => {
+      const isAlreadyInCart = itemsInCart.includes(suggestion.name);
+      const isAlreadyAdded = uniqueSuggestions.has(suggestion.id);
+
+      if (!isAlreadyInCart && !isAlreadyAdded) {
+        uniqueSuggestions.set(suggestion.id, suggestion);
+      }
+    });
+
+    return Array.from(uniqueSuggestions.values());
   }, [items]);
 
   useEffect(() => {
@@ -365,8 +370,8 @@ const DiningOrderSummary = () => {
           description:
             FailureCheck1 || FailureCheck2
               ? t(
-                'Reservation status is invalid. Please try again with a valid reservation details',
-              )
+                  'Reservation status is invalid. Please try again with a valid reservation details',
+                )
               : t('Your order was not confirmed.'),
           redirect: FailureCheck1 || FailureCheck2 ? availablePaths.HOME : null,
         });
