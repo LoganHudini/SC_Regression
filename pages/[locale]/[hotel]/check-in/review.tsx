@@ -725,6 +725,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             redirect: availablePaths?.HOME,
             delay: 9000,
           });
+          reviewSignAndCheckBox({ checkBox: false, sign: null });
+          reservationGuestInfoStorageData(null);
           guestInformationStorage(null);
           accompanyGuestDetails(null);
           reservationGuestInfoStorageData(null);
