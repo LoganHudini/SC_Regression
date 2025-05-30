@@ -5,7 +5,7 @@ import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styles from '@styles/dining-order-summary/dining-order-summary.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
@@ -98,6 +98,23 @@ const DiningOrderSummary = () => {
   const servicechargeDisplay = getServiceCharges(information);
 
   const items = diningData?.items?.filter((item) => item?.quantity > 0);
+  const uniqueUpsellItems = useMemo(() => {
+    const mainCartItemTitles = items
+      .filter((item) => Array.isArray(item.upsell) && item.upsell.length > 0)
+      .map((item) => item.title);
+    const allUpsellItems = new Map();
+    items.forEach((item) => {
+      if (Array.isArray(item.upsell) && item.upsell.length > 0) {
+        item.upsell.forEach((upsellItem) => {
+          const isMainCartItem = mainCartItemTitles.includes(upsellItem?.name || '');
+          if (!isMainCartItem && !allUpsellItems.has(upsellItem?.id)) {
+            allUpsellItems.set(upsellItem?.id, upsellItem);
+          }
+        });
+      }
+    });
+    return Array.from(allUpsellItems.values());
+  }, [items]);
 
   useEffect(() => {
     const totalAmount = diningData?.items?.reduce((allTotal, item) => {
@@ -239,12 +256,11 @@ const DiningOrderSummary = () => {
         code: el?.code,
         count: el?.quantity,
         amount: el?.price,
-        addOns: [...(el?.groupedAddons
-          || []), ...(el?.addons || [])]?.map((item: any) => ({
-            code: item?.code,
-            name: item?.name,
-            price: item?.price,
-          })),
+        addOns: [...(el?.groupedAddons || []), ...(el?.addons || [])]?.map((item: any) => ({
+          code: item?.code,
+          name: item?.name,
+          price: item?.price,
+        })),
         customisations: el?.customisation?.map((item: any) => ({
           code: item?.code,
           name: item?.name,
@@ -271,14 +287,13 @@ const DiningOrderSummary = () => {
         quantity: el?.quantity,
         price: el?.price,
         comment: el?.cookingInstruction || '',
-        addons: [...(el?.groupedAddons
-          || []), ...(el?.addons || [])]?.map((item: any) => ({
-            code: item?.code,
-            name: item?.name,
-            price: item?.price,
-            quantity: 1,
-            comment: '',
-          })),
+        addons: [...(el?.groupedAddons || []), ...(el?.addons || [])]?.map((item: any) => ({
+          code: item?.code,
+          name: item?.name,
+          price: item?.price,
+          quantity: 1,
+          comment: '',
+        })),
         customisations: el?.customisation?.map((item: any) => ({
           code: item?.code,
           name: item?.name,
@@ -346,8 +361,8 @@ const DiningOrderSummary = () => {
           description:
             FailureCheck1 || FailureCheck2
               ? t(
-                'Reservation status is invalid. Please try again with a valid reservation details',
-              )
+                  'Reservation status is invalid. Please try again with a valid reservation details',
+                )
               : t('Your order was not confirmed.'),
           redirect: FailureCheck1 || FailureCheck2 ? availablePaths.HOME : null,
         });
@@ -496,7 +511,10 @@ const DiningOrderSummary = () => {
                               {' - '}
                             </span>
                             <span key={index} className={styles.items}>
-                              <span key={index} className={cx(styles.itemsCurrency, 'globals-irdv2-irdPrice')}>
+                              <span
+                                key={index}
+                                className={cx(styles.itemsCurrency, 'globals-irdv2-irdPrice')}
+                              >
                                 {`${currency} `}
                               </span>{' '}
                               {formatPriceIRD(items?.price)}
@@ -515,7 +533,10 @@ const DiningOrderSummary = () => {
                               {' - '}
                             </span>
                             <span key={index} className={styles.items}>
-                              <span key={index} className={cx(styles.itemsCurrency, 'globals-irdv2-irdPrice')}>
+                              <span
+                                key={index}
+                                className={cx(styles.itemsCurrency, 'globals-irdv2-irdPrice')}
+                              >
                                 {`${currency}`}
                               </span>
                               {formatPriceIRD(items?.price)}
@@ -538,7 +559,9 @@ const DiningOrderSummary = () => {
                       onClick={() => editFunction(item?.itemId, index)}
                     />
                     <p className={styles.itemPrice}>
-                      <span className={cx(styles.itemCurrency, 'globals-irdv2-irdPrice')}>{currency} </span>
+                      <span className={cx(styles.itemCurrency, 'globals-irdv2-irdPrice')}>
+                        {currency}{' '}
+                      </span>
                       {formatPriceIRD(
                         isNaN(totalPrice) ? item.quantity * item.price : item.quantity * totalPrice,
                       )}
@@ -550,23 +573,9 @@ const DiningOrderSummary = () => {
           })}
         </div>
 
-        {items?.some((item: any) => item?.upsell?.length > 0) && (
+        {uniqueUpsellItems.length > 0 && (
           <>
-            <div className={styles.upsellWrapper}>
-              <p className={styles.youMayAlsoLikeText}>{t('You May Also Like')}</p>
-              <div className={styles.upsell}>
-                {items?.map((item) => {
-                  if (!renderedItemIds.includes(item.itemId)) {
-                    renderedItemIds.push(item.itemId);
-                    return (
-                      <React.Fragment key={item.itemId}>
-                        {renderMenuElements(item?.upsell ?? [])}
-                      </React.Fragment>
-                    );
-                  }
-                })}
-              </div>
-            </div>
+            <div className={styles.upsell}>{renderMenuElements(uniqueUpsellItems)}</div>
           </>
         )}
 
