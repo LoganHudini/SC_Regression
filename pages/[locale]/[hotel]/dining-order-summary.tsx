@@ -91,6 +91,7 @@ const DiningOrderSummary = () => {
   const information = hotelInfo?.getPropertyDetailsByHotelId?.hotel?.detailsCustomAttributes;
 
   const getServiceCharges = (data: any) =>
+    irdOrderType?.customServiceChargeMessage ||
     data?.find((item: any) => item?.key === SERVICE_CHARGES)?.value ||
     DEFAULT_SERVICE_CHARGE_MESSAGE;
 

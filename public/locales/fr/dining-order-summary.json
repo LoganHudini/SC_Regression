@@ -43,5 +43,6 @@
   "Confirm": "Confirmer",
   "ITEMS": "ARTICLES",
   "Something Went Wrong!": "Quelque chose s'est mal passé !",
-  "Invalid Reservation": "Réservation invalide"
+  "Invalid Reservation": "Réservation invalide",
+  "serviceChargeMessage": "Les tarifs incluent les taxes gouvernementales applicables et sont soumis à des frais de service de 22 % ainsi qu'à des frais de livraison de 6,00 $"
 }

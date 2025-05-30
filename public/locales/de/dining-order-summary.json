@@ -43,5 +43,6 @@
   "Confirm": "Bestätigen",
   "ITEMS": "ARTIKEL",
   "Something Went Wrong!": "Etwas ist schiefgelaufen!",
-  "Invalid Reservation": "Ungültige Reservierung"
+  "Invalid Reservation": "Ungültige Reservierung",
+  "serviceChargeMessage": "Die Preise beinhalten die geltenden staatlichen Steuern und unterliegen einer Servicegebühr von 22 % sowie einer Liefergebühr von 6,00 $"
 }

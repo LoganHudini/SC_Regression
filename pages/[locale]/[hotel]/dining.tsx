@@ -26,7 +26,6 @@ import {
   irdActiveMenuList,
   uniqueDiningOption,
 } from 'utils/functions';
-import { availablePaths } from 'utils/availablePaths';
 import DiningMenu from 'components/pages/dining/DiningMenu/DiningMenu';
 import ScrollDown from '@icons/scrollDown.svg';
 import { useConfig } from 'utils/hooks/useConfiguration';
@@ -135,11 +134,11 @@ const Dining = () => {
     }
   }, [irdActiveMenu]);
 
-  useEffect(() => {
-    if (!checkInData?.checkedIn) {
-      navigate(availablePaths?.HOME);
-    }
-  }, [navigate, t, checkInData?.checkedIn]);
+  // useEffect(() => {
+  //   if (!checkInData?.checkedIn) {
+  //     navigate(availablePaths?.HOME);
+  //   }
+  // }, [navigate, t, checkInData?.checkedIn]);
 
   useEffect(() => {
     if (header[0]?.name == undefined && header[0].hours == undefined) {

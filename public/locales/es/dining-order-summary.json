@@ -43,5 +43,6 @@
   "Confirm": "Confirmar",
   "ITEMS": "ARTÍCULOS",
   "Invalid Reservation": "Reserva inválida",
-  "Something Went Wrong!": "¡Algo salió mal!"
+  "Something Went Wrong!": "¡Algo salió mal!",
+  "serviceChargeMessage": "Las tarifas incluyen los impuestos gubernamentales aplicables, están sujetas a un cargo por servicio del 22% y una tarifa de entrega de $6.00"
 }

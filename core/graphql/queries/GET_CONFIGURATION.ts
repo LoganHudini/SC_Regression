@@ -22145,6 +22145,7 @@ export const configuration: any = [
         isActive: true,
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
+        customServiceChargeMessage: 'serviceChargeMessage',
       },
       {
         code: 'Services',

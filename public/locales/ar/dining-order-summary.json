@@ -34,5 +34,6 @@
   "Confirm": "تأكيد",
   "ITEMS": "العناصر",
   "Something Went Wrong!": "حدث خطأ ما!",
-  "Invalid Reservation": "حجز غير صالح"
+  "Invalid Reservation": "حجز غير صالح",
+  "serviceChargeMessage": "الأسعار تشمل الضرائب الحكومية المعمول بها، وتخضع لرسوم خدمة بنسبة 22% ورسوم توصيل قدرها 6.00 دولارات."
 }

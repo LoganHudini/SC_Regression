@@ -43,5 +43,6 @@
   "Confirm": "Confirm",
   "ITEMS": "ITEMS",
   "Something Went Wrong!": "Something Went Wrong!",
-  "Invalid Reservation": "Invalid Reservation"
+  "Invalid Reservation": "Invalid Reservation",
+  "serviceChargeMessage": "Rates are inclusive of applicable government taxes, subject to 22% Service Charge and $6.00 Delivery Fee"
 }
