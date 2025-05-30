@@ -51,6 +51,8 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
   const [totalAddons, settotalAddons] = useState<number>(0);
   const [customisation, setCustomisation] = useState<any>([]);
   const [addonsWarning, setAddonsWarning] = useState(false);
+  const [groupedAddonsWarning, setGroupedAddonsWarning] = useState(false);
+  const [groupedAddonLimitMap, setGroupedAddonLimitMap] = useState<Record<string, number>>({});
   const config = useConfig();
   const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
 
@@ -121,6 +123,39 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
     }
     settotalAddons((addons ?? [])?.reduce((acc, addon) => acc + addon?.price, 0));
   }, [addons, updateAddons, totalAddons, selectedItem?.addOnLimit, selectedItem?.addOnValue]);
+
+  useEffect(() => {
+    if (selectedItem?.groupedAddon && selectedItem?.groupedAddon.length > 0) {
+      const groupCounts: Record<string, number> = {};
+      const groupLimits: Record<string, number> = {};
+
+      selectedItem.groupedAddon.forEach((group: any, index: number) => {
+        const indexKey = index.toString();
+        groupLimits[indexKey] = group.limit;
+        groupCounts[indexKey] = 0;
+      });
+
+      (groupedAddons ?? []).forEach((addon: any) => {
+        if (addon.index !== undefined) {
+          const indexKey = addon.index.toString();
+          groupCounts[indexKey] = (groupCounts[indexKey] || 0) + 1;
+        }
+      });
+
+      let hasWarning = false;
+      Object.keys(groupLimits).forEach((groupIndex) => {
+        if ((groupCounts[groupIndex] || 0) > groupLimits[groupIndex]) {
+          hasWarning = true;
+        }
+      });
+
+      setGroupedAddonLimitMap(groupCounts);
+      setGroupedAddonsWarning(hasWarning);
+    } else {
+      setGroupedAddonsWarning(false);
+      setGroupedAddonLimitMap({});
+    }
+  }, [groupedAddons, selectedItem?.groupedAddon, updateAddons]);
 
   useEffect(() => {
     if (!selectedItemId || count === 0) {
@@ -274,9 +309,9 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
               el?.itemId === selectedItemId &&
               JSON.stringify(sortBy(el?.addons || [], (item) => item?.name)) === addonsString &&
               JSON.stringify(sortBy(el?.groupedAddons || [], (item) => item?.name)) ===
-              groupedAddonsString &&
+                groupedAddonsString &&
               JSON.stringify(sortBy(el?.customisation || [], (item) => item?.name)) ===
-              customisationString
+                customisationString
             ) {
               return true;
             }
@@ -311,7 +346,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
               (el?.groupedAddons?.length || 0) > 0 &&
               el?.customisation?.ingredient === sortedCustomisation?.ingredient &&
               JSON.stringify(sortBy(el?.groupedAddons || [], (item) => item?.name)) ===
-              groupedAddonsString
+                groupedAddonsString
             ) {
               return true;
             }
@@ -527,6 +562,14 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
                   <React.Fragment key={groupedAddonIndex}>
                     <div className={styles.addonsRow}>
                       <p className={styles.addonsText}>{groupedAddon?.title}</p>
+                      {(groupedAddonLimitMap[groupedAddonIndex.toString()] || 0) >
+                      groupedAddon?.limit ? (
+                        <p className={styles.optionalTextWarning}>{t('Limit exceeded')}</p>
+                      ) : (
+                        <p className={styles.optionalText}>
+                          {t('Select up to')} {groupedAddon?.limit} {t('option(s)')}
+                        </p>
+                      )}
                     </div>
                     <div className={styles.irdCheckboxItemWrapper}>
                       {groupedAddon?.addons?.map((el: any, index: any) => (
@@ -648,6 +691,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
                     (selectedItem?.customisation?.length > 0 &&
                       filteredCustomisation?.length !== customisation?.length) ||
                     addonsWarning ||
+                    groupedAddonsWarning ||
                     !menuAvailability
                   }
                 >
