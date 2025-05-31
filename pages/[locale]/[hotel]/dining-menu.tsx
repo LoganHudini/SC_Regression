@@ -136,7 +136,7 @@ const Menu = () => {
 
   useEffect(() => {
     if (!checkInData?.checkedIn) {
-      navigate(availablePaths?.HOME);
+      // navigate(availablePaths?.HOME);
     }
   }, [navigate, t, checkInData?.checkedIn]);
 
@@ -160,7 +160,7 @@ const Menu = () => {
         </title>
       </Head>
 
-      <PageWrapper className={cx(styles.pageWrapper, {})} displayBottomMenu>
+      <PageWrapper className={cx(styles.pageWrapper, {})} >
         {irdMenuLoading ? (
           <Loader />
         ) : (

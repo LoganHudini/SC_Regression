@@ -75,6 +75,10 @@
   text-align: center;
   background-color: var(--primary-theme-color);
   font: $xheader var(--primary-font-regular);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5px;
   &:after {
     display: none;
   }

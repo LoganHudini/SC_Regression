@@ -63,8 +63,10 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
       produce(diningMenuStorage(), (draft) => {
         const items = draft?.items?.filter((el) => el.itemId === id);
         const item = items[items.length - 1];
+        console.log("🚀 ~ produce ~ item:", item)
+
         if (item) {
-          customisation || (item?.addons ?? []).length > 0
+          customisation || (item?.addons ?? []).length > 0 || (item?.groupedAddons ?? []).length > 0
             ? setCustomisationDrawer((state) => !state)
             : (item.quantity++,
               addToCartEvent({
@@ -116,7 +118,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
         </div>
         <div className={styles.imageWrapper}>
           <div className={styles.pointer} onClick={handleDiningDetails}>
-            {image && <StableImage className={styles.image} src={`${ASSETS_URL}/${image}`} />}
+            {image && <StableImage className={styles.image} src={`${ASSETS_URL}/${image}`} onClick={handleDiningDetails} />}
           </div>
           {irdModule &&
             (totalQuantity == 0 ? (
@@ -151,7 +153,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
       </div>
 
       <div className={cx('globals-irdv2-card', 'globals-irdv2-irdFlowShow', { [styles.chefSpecialCard]: isChefSpecial })}>
-        <div className={'globals-irdv2-contentWrapper'}>
+        <div className={'globals-irdv2-contentWrapper'} onClick={handleDiningDetails}>
           <StableImage
             className={'globals-irdv2-image'}
             src={`${ASSETS_URL}/${image}`}
@@ -170,13 +172,18 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
               {ingredients} {formatPriceIRD(price)}
             </p>
             <div className={'globals-irdv2-allergensWrapper'}>
-              {allergens &&
-                allergens.length > 0 &&
-                allergens.map((tag: any, index: number) => {
-                  const key: any = tag?.name?.toLowerCase();
-                  const Icon = iconsMap[key] as any;
-                  return Icon ? <Icon key={index} /> : null;
-                })}
+              {allergens && allergens.length > 0 && (
+                <>
+                  {allergens.slice(0, 4).map((tag: any, index: number) => {
+                    const key: any = tag?.name?.toLowerCase();
+                    const Icon = iconsMap[key] as any;
+                    return Icon ? <Icon key={index} /> : null;
+                  })}
+                  {allergens.length > 4 && (
+                    <span className={cx('globals-irdv2-description')} style={{ marginInlineStart: '10px' }}>+{allergens.length - 4} more</span>
+                  )}
+                </>
+              )}
             </div>
           </div>
         </div>

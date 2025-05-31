@@ -69,6 +69,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
   >();
 
   const [groupedAddons, setGroupedAddons] = useState<any>([]);
+  const totalGroupedAddonsPrice = groupedAddons?.length > 0 ? groupedAddons.reduce((total: any, item: any) => total + item.price, 0) : 0;
   const data = useReactiveVar(irdMenuOutputDetailsStorage) as IRDMenuApiResponse;
 
   const irdMenu = irdActiveMenuList(
@@ -309,9 +310,9 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
               el?.itemId === selectedItemId &&
               JSON.stringify(sortBy(el?.addons || [], (item) => item?.name)) === addonsString &&
               JSON.stringify(sortBy(el?.groupedAddons || [], (item) => item?.name)) ===
-                groupedAddonsString &&
+              groupedAddonsString &&
               JSON.stringify(sortBy(el?.customisation || [], (item) => item?.name)) ===
-                customisationString
+              customisationString
             ) {
               return true;
             }
@@ -346,7 +347,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
               (el?.groupedAddons?.length || 0) > 0 &&
               el?.customisation?.ingredient === sortedCustomisation?.ingredient &&
               JSON.stringify(sortBy(el?.groupedAddons || [], (item) => item?.name)) ===
-                groupedAddonsString
+              groupedAddonsString
             ) {
               return true;
             }
@@ -563,7 +564,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
                     <div className={styles.addonsRow}>
                       <p className={styles.addonsText}>{groupedAddon?.title}</p>
                       {(groupedAddonLimitMap[groupedAddonIndex.toString()] || 0) >
-                      groupedAddon?.limit ? (
+                        groupedAddon?.limit ? (
                         <p className={styles.optionalTextWarning}>{t('Limit exceeded')}</p>
                       ) : (
                         <p className={styles.optionalText}>
@@ -641,7 +642,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
                 <div className={styles.upsellWrapper}>
                   <h4 className={styles.youMayAlsoLikeText}>{t('You May Also Like')}</h4>
                   <div className={styles.upsell}>
-                    {selectedItem?.upsell?.map((upsellItem: any, index: number) => (
+                    {selectedItem?.upsell?.map((upsellItem: any, index: number) => upsellItem?.price > 0 && (
                       <DiningMenuElementUpsell
                         key={index}
                         title={upsellItem?.name}
@@ -665,7 +666,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
                 <p className={styles.totalItemPrice}>
                   <span className='globals-irdv2-irdPrice'>{currency} </span>
                   <span className={styles.price}>
-                    {formatPriceIRD(selectedItem?.price + totalAddons)}
+                    {formatPriceIRD(selectedItem?.price + totalAddons + totalGroupedAddonsPrice)}
                   </span>
                 </p>
               </>

@@ -211,9 +211,9 @@
 .globals-irdv2-tagTitle {
   font: $xsmall var(--primary-font-regular);
   color: var(--primary-text-color);
-  padding: 5px;
+  padding: 5px 4px 1px 4px;
   background-color: var(--primary-card-shadow-color);
-  line-height: 1.1;
+  // line-height: 1.1;
   width: fit-content;
 }
 
@@ -254,7 +254,7 @@
 }
 
 .globals-irdv2-image {
-  width: 120px;
+  width: 150px;
   height: 120px;
   border-radius: var(--primary-card-border-radius);
   position: relative;
@@ -272,6 +272,7 @@
 .globals-irdv2-allergensWrapper {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .globals-irdv2-category-element.globals-irdv2-chef-special {

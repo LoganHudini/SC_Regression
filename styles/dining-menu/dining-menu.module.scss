@@ -62,8 +62,12 @@
 
 .listContainer {
   width: 100%;
-  margin-top: 4rem;
+  margin-top: 5rem;
   text-align: center;
+}
+
+.searchDic {
+  margin-top: 1rem;
 }
 
 .noItems {
@@ -202,7 +206,7 @@
 .searchDiv {
   overflow: scroll;
   padding: 1.6rem 1rem 0;
-  width: 91%;
+  width: 96%;
   max-width: 768px;
   margin: auto;
   position: sticky;
@@ -439,4 +443,5 @@
   background-color: transparent;
   color: var(--primary-theme-color);
   border: 1px solid var(--primary-theme-color);
+  width: 11rem;
 }

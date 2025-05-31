@@ -49,15 +49,16 @@ import { activeCheckOutFlow, useCheckedIn } from 'storage/check-in.storage';
 import { ReactSVG } from 'react-svg';
 import { isFunction } from 'lodash';
 import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
-import { activeModule, diningOptionList } from 'utils/functions';
+import { activeModule, diningOptionList, irdActiveMenuList } from 'utils/functions';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
-import { diningInformationStorage } from 'storage/dining.storage';
+import { diningInformationStorage, irdMenuOutputDetailsStorage } from 'storage/dining.storage';
 import { checkoutTrip } from 'storage/trips.storage';
 import { setHighLightCheckOut } from 'storage/menu-item';
 import { LanguageDrawer } from '../LanguageDrawer/LanguageDrawer';
 import { messageBoxURL } from 'storage/chats';
 import { getCheckInTokenSession } from 'core/api/functions/getCheckInAuthentication';
+import { IRDMenuApiResponse } from 'core/graphql/queries/IRD_MENU';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
   title,
@@ -81,6 +82,11 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
   const closeBooking = () => {
     setExternalURL(false);
   };
+  const data = useReactiveVar(irdMenuOutputDetailsStorage) as IRDMenuApiResponse;
+
+  const irdMenu = irdActiveMenuList(
+    data,
+  );
   const chatURL = useReactiveVar(messageBoxURL);
   const onClick = useCallback(() => {
     if (redirectOptions === EXTERNAL) {
@@ -105,6 +111,9 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
         ) {
           toggleCheckInDetailsDrawer(true);
           activeCheckOutFlow(true);
+          toggleOption();
+        } else if ((flow === 'IRD_BOOKING' || flow === 'IRD') && irdMenu?.length === 1) {
+          navigate(availablePaths?.DINING);
           toggleOption();
         } else {
           toggleOption();
@@ -233,6 +242,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   const offersOptionSelected: any = useReactiveVar(selectedOfferOption);
   const highLightCheckOut = useReactiveVar(setHighLightCheckOut);
   const config = useConfig();
+  const data = useReactiveVar(irdMenuOutputDetailsStorage) as IRDMenuApiResponse;
 
   const pairToRoomModule: boolean = activeModule(config?.modules, PAIR_TO_ROOM);
   const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
@@ -265,6 +275,11 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   };
 
   const modulesOptionsRender = () => {
+
+    const irdLength = data?.getIRDMenuOutputDetails?.filter(
+      (item: any) =>
+        item?.isActive
+    );
     return (
       <div className={styles.wrapper}>
         {' '}
@@ -283,7 +298,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                     onClick={() => {
                       setHighLightIRD(true);
                       setHighLightCheckOut(false);
-                      navigate(availablePaths.DINING);
+                      irdLength?.length <= 1 ? navigate(availablePaths.DINING) : navigate(availablePaths.DINING_MENU);
                       closeDrawer();
                     }}
                   >

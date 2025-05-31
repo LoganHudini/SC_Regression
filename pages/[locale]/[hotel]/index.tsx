@@ -34,6 +34,7 @@ import { Checkin } from 'components/pages/home/Checkin/Checkin';
 import React from 'react';
 import HotelInformation from 'components/pages/home/HotelInformation/HotelInformation';
 import { HomeCarousel } from 'components/pages/home/HomeCarousel/HomeCarousel';
+import { irdMenuOutputDetailsStorage } from 'storage/dining.storage';
 
 export { getStaticPaths };
 
@@ -81,6 +82,9 @@ const Home: NextPage = () => {
       lang: locale === 'en' ? '' : locale,
     },
     fetchPolicy: 'no-cache',
+    onCompleted(data) {
+      irdMenuOutputDetailsStorage(data);
+    },
   });
 
   const { data: restaurantList, loading: restaurantloading } =
@@ -167,8 +171,8 @@ const Home: NextPage = () => {
               downloadText={
                 config?.nativeAppRedirection?.isActive
                   ? (t(
-                      'Elevate your stay with our exclusive app. Unlock your room, view your bill, control in-room settings, and stay updated on hotel events—all from your phone. \n\nDownload now to transform your stay into an unforgettable experience!',
-                    ) as string)
+                    'Elevate your stay with our exclusive app. Unlock your room, view your bill, control in-room settings, and stay updated on hotel events—all from your phone. \n\nDownload now to transform your stay into an unforgettable experience!',
+                  ) as string)
                   : null
               }
             />
@@ -204,11 +208,11 @@ const Home: NextPage = () => {
       {config?.homePageHeader && <Header screenTitle={t('Home') as string} />}
       <PageWrapper displayBottomMenu homePageHeader={config?.homePageHeader}>
         {homeCarouselLoading ||
-        serviceCarouselLoading ||
-        irdloading ||
-        restaurantloading ||
-        spaloading ||
-        offersListLoading ? (
+          serviceCarouselLoading ||
+          irdloading ||
+          restaurantloading ||
+          spaloading ||
+          offersListLoading ? (
           config?.isLogoLoaderActive === false ? (
             <Loader />
           ) : (

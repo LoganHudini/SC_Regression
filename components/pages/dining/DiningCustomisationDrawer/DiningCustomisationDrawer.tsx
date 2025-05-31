@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { addToCartEvent } from 'utils/gtag';
 import { useCurrency } from 'utils/hooks/useCurrency';
 import { formatPriceIRD } from 'utils/functions';
+import cx from 'classnames';
 
 export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps> = ({
   customisationDrawer,
@@ -111,9 +112,23 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
             {selectedItem?.addons?.map((item: any, index: any) => (
               <span key={index} className={styles.item}>
                 {item?.name}
-                {' - '}
+                {' :'}
                 <span className={styles.currencyItems}>
-                  {currency} {formatPriceIRD(item?.price)}
+                  <span className='globals-irdv2-irdPrice'>{currency} </span> {formatPriceIRD(item?.price)}
+                </span>
+              </span>
+            ))}
+          </p>
+        )}
+        {(selectedItem?.groupedAddons ?? [])?.length > 0 && (
+          <p className={styles.itemDescription}>
+            <span className={styles.addonsTitle}>{t('Grouped Add-ons')} :</span>
+            {selectedItem?.groupedAddons?.map((item: any, index: any) => (
+              <span key={index} className={styles.item}>
+                {item?.name}
+                {' : '}
+                <span className={styles.currencyItems}>
+                  <span className='globals-irdv2-irdPrice'>{currency} </span>{formatPriceIRD(item?.price)}
                 </span>
               </span>
             ))}
@@ -124,7 +139,7 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
             <p className={styles.itemPrice}>
               <span className={styles.addonsTitle}>{t('Total Item Price :')}</span>
               <div>
-                <span className={styles.currency}>{currency} </span>{' '}
+                <span className={cx(styles.currency, 'globals-irdv2-irdPrice')}>{currency} </span>{' '}
                 <span className={styles.currencyValue}>
                   {formatPriceIRD(selectedItem?.price + totalAddons)}
                 </span>

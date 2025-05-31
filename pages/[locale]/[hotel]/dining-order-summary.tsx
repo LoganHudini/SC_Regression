@@ -118,14 +118,23 @@ const DiningOrderSummary = () => {
 
   useEffect(() => {
     const totalAmount = diningData?.items?.reduce((allTotal, item) => {
-      const addonsTotal =
-        item?.addons?.length > 0 &&
-        item?.addons?.reduce((acc: any, addon: any) => {
-          return acc + addon?.price * item?.quantity;
-        }, 0);
-      return allTotal + item?.quantity * item?.price + addonsTotal;
+      const quantity = item?.quantity || 1;
+      const basePrice = item?.price || 0;
+
+      const addonsTotal = (item?.addons || []).reduce((sum: any, addon: any) => {
+        return sum + (addon?.price || 0);
+      }, 0);
+
+      const groupedAddonsTotal = (item?.groupedAddons || []).reduce((sum: any, addon: any) => {
+        return sum + (addon?.price || 0);
+      }, 0);
+
+      const totalPerItem = (basePrice + addonsTotal + groupedAddonsTotal) * quantity;
+
+      return allTotal + totalPerItem;
     }, 0);
-    setTotalAmount(totalAmount);
+
+    setTotalAmount(Number(totalAmount.toFixed(2)));
   }, [diningData?.items]);
 
   useEffect(() => {
@@ -163,7 +172,7 @@ const DiningOrderSummary = () => {
           const item = draft?.items?.find((el, i) => el?.itemId === itemId && i === index);
 
           if (item) {
-            (item?.customisation ?? []).length > 0 || (item?.addons ?? []).length > 0
+            (item?.customisation ?? []).length > 0 || (item?.addons ?? []).length > 0 || (item?.groupedAddons ?? []).length > 0
               ? setCustomisationDrawer((state) => !state)
               : (item.quantity++,
                 addToCartEvent({
@@ -361,8 +370,8 @@ const DiningOrderSummary = () => {
           description:
             FailureCheck1 || FailureCheck2
               ? t(
-                  'Reservation status is invalid. Please try again with a valid reservation details',
-                )
+                'Reservation status is invalid. Please try again with a valid reservation details',
+              )
               : t('Your order was not confirmed.'),
           redirect: FailureCheck1 || FailureCheck2 ? availablePaths.HOME : null,
         });
@@ -508,7 +517,7 @@ const DiningOrderSummary = () => {
                           <div className={styles.addonsWrapperRows} key={index}>
                             <span className={styles.itemDescription}>
                               {items?.name}
-                              {' - '}
+                              {' : '}
                             </span>
                             <span key={index} className={styles.items}>
                               <span
@@ -530,7 +539,7 @@ const DiningOrderSummary = () => {
                           <div className={styles.addonsWrapperRows} key={index}>
                             <span className={styles.itemDescription}>
                               {items?.name}
-                              {' - '}
+                              {' : '}
                             </span>
                             <span key={index} className={styles.items}>
                               <span

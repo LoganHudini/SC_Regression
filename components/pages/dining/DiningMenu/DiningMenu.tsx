@@ -21,7 +21,12 @@ import SearchText from '@icons/search_text_delete.svg';
 import { DiningOrders } from 'components/pages/dining/DiningOrders/DiningOrders';
 import { DiningOrdersDrawer } from 'components/pages/dining/DiningOrdersDrawer/DiningOrdersDrawer';
 import { GET_ORDERS } from 'core/graphql/queries/GET_ORDERS_BY_ID';
-import { convertTo12HourFormat, filterLiveMenu, irdActiveMenuList, isIRDOpenNow } from 'utils/functions';
+import {
+  convertTo12HourFormat,
+  filterLiveMenu,
+  irdActiveMenuList,
+  isIRDOpenNow,
+} from 'utils/functions';
 import { DiningCategoryOptions } from 'components/pages/dining/DiningCategoryOptions/DiningCategoryOptions';
 import produce from 'immer';
 import { ItemNotFoundLoader, Loader } from 'components/shared/Loaders/Loaders';
@@ -45,6 +50,8 @@ interface DiningMenuProps {
   openCategory?: boolean;
   setFilterDrawer?: any;
   filterDrawer?: any;
+  appliedFilter?: any;
+  setAppliedFilter?: any;
 }
 const DiningMenu: React.FC<DiningMenuProps> = ({
   search,
@@ -52,6 +59,8 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   openCategory,
   filterDrawer,
   setFilterDrawer,
+  appliedFilter,
+  setAppliedFilter,
 }) => {
   const { t } = useTranslation('dining');
   const navigate = useLocalizedRouter();
@@ -68,7 +77,11 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   const [scrollSearch, setScrollSearch] = useState(false);
   const [totalAmount, setTotalAmount] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
-  const [appliedFilter, setAppliedFilter] = useState<string[]>([]);
+  useEffect(() => {
+    setsearch(false);
+    setSearchQuery('');
+  }, [selectedFilter?.selectedMenu]);
+  // const [appliedFilter, setAppliedFilter] = useState<string[]>([]);
   const [filteredOptions, setFilteredOptions] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [allergens, setAllergens] = useState<string[]>([]);
@@ -110,7 +123,8 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     const allergens: string[] = [];
     irdMenu?.forEach((irdItem: any) => {
       if (irdItem?.name === selectedFilter?.menuName) {
-        irdItem?.categories?.forEach((category: any) =>
+        irdItem?.categories?.forEach((category: any) => {
+          // Handle items directly under category
           category?.items?.forEach((item: any) => {
             [TAGS, ALLERGENS].forEach((filterOption: string) => {
               if (item?.[filterOption]?.length > 0) {
@@ -123,8 +137,26 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                 });
               }
             });
-          }),
-        );
+          });
+
+          // Handle items under subcategories
+          category?.subcategories?.forEach((subcategory: any) => {
+            subcategory?.items?.forEach((item: any) => {
+              [TAGS, ALLERGENS].forEach((filterOption: string) => {
+                if (item?.[filterOption]?.length > 0) {
+                  item[filterOption].forEach((option: any) => {
+                    if (filterOption === TAGS) {
+                      tags.push(option?.name);
+                    } else {
+                      allergens.push(option?.name);
+                    }
+                  });
+                }
+              });
+            });
+          });
+        });
+
         irdItem?.categories?.forEach((categoryItem: any) => {
           if (categoryItem?.items?.length > 0) {
             setIrdItemsList((prevItemsList) => [...prevItemsList, ...categoryItem.items]);
@@ -344,13 +376,20 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   }, [search, openCategory]);
 
   const baseSelectedCat = selectedFilter?.selectedCategory
-    ? selectedMenu?.categories?.find((item: any) => item?.id === diningData?.selectedCategoryId
-    )
+    ? selectedMenu?.categories?.find((item: any) => item?.id === diningData?.selectedCategoryId)
     : initialFilter;
 
-  const catAvailabilityDisable = isIRDOpenNow(baseSelectedCat?.hours?.timings, hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone);
+  const catAvailabilityDisable = isIRDOpenNow(
+    baseSelectedCat?.hours?.timings,
+    hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone,
+  );
 
-  const renderMenuElements = (items: any[], categoryName: string, catAvailability?: any, categoryId?: any) => {
+  const renderMenuElements = (
+    items: any[],
+    categoryName: string,
+    catAvailability?: any,
+    categoryId?: any,
+  ) => {
     return (
       <>
         {items?.length > 0 &&
@@ -380,21 +419,23 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     );
   };
 
+  // useEffect(()=>{},[])
+
   const renderCategory = (category: any) => {
     const categoryItems = filterItems(category?.items);
     /*eslint-disable*/
     const isChefSpecial = category?.name === "Chef's Special";
 
-    const catAvailability =
-      isIRDOpenNow(
-        category?.hours?.timings,
-        hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone,
-      )
+    const catAvailability = isIRDOpenNow(
+      category?.hours?.timings,
+      hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone,
+    );
 
     return (
       <div
         id={`Category${category?.id}`}
-        className={`globals-irdv2-category-element ${isChefSpecial ? 'globals-irdv2-chef-special' : ''}`}
+        className={`globals-irdv2-category-element ${isChefSpecial ? 'globals-irdv2-chef-special' : ''
+          }`}
         key={category?.id}
       >
         {categoryItems?.length > 0 && (
@@ -412,7 +453,12 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                     {category?.name} - {subCategory?.name}
                   </h2>
                 )}
-                {renderMenuElements(subCategoryItems, `${category?.name} - ${subCategory?.name}`, catAvailability, category?.id)}
+                {renderMenuElements(
+                  subCategoryItems,
+                  `${category?.name} - ${subCategory?.name}`,
+                  catAvailability,
+                  category?.id,
+                )}
               </div>
             );
           })}
@@ -483,7 +529,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
           })}
         </div>
         {items.length > 6 && (
-          <button
+          <span
             className={styles.viewAllButton}
             onClick={() => setShowAll && setShowAll(!showAll)}
           >
@@ -500,11 +546,29 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                 <ViewAll />{' '}
               </>
             )}
-          </button>
+          </span>
         )}
       </>
     );
   };
+
+  const backToTopBtn: any = () => {
+    let count = 0;
+    selectedMenu?.categories
+      ?.filter((category: any) => category?.isActive)
+      ?.forEach((category: any) => {
+        const categoryItems = filterItems(category?.items);
+        if (categoryItems?.length > 0) {
+          count += categoryItems.length;
+        }
+      });
+
+    return count;
+  };
+
+  const backToTopBtnVar = backToTopBtn();
+  console.log("🚀 ~ backToTopBtn:", backToTopBtnVar)
+
 
   const FilterDetails = () => (
     <>
@@ -633,19 +697,22 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             />
           )}
 
-          <div ref={scrollRef} className={cx(styles.listContainer)}>
-            {!menuAvailability &&
-              data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length !==
-              0 && (
-                <div className={styles.menuUnavailableContainer}>
-                  <div className={styles.menuTimingsText}>
-                    {t('Online requests will be available from')} {menuStartingTime}
-                  </div>
-                  <div className={styles.menuUnavailableDescription}>
-                    {t('This menu is unavailable right now! You can still check it out below.')}
-                  </div>
+          <div ref={scrollRef}
+
+            className={cx(styles.listContainer, {
+              [styles.searchDic]: search,
+            })}
+          >
+            {true && (
+              <div className={styles.menuUnavailableContainer}>
+                <div className={styles.menuTimingsText}>
+                  {t('Online requests will be available from')} {menuStartingTime}
                 </div>
-              )}
+                <div className={styles.menuUnavailableDescription}>
+                  {t('This menu is unavailable right now! You can still check it out below.')}
+                </div>
+              </div>
+            )}
             {data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length === 0 && (
               <div className={styles.menuUnavailableContainer}>
                 <div className={styles.menuUnavailableTitle}>
@@ -671,7 +738,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             {selectedMenu?.categories?.filter((item: any) => item?.isActive)?.length > 0 && (
               <div className={cx(styles.bottomContainer, 'globals-irdv2-irdFlowShow')}>
                 <div className={styles.backToTopContainer}>
-                  <StyledButton
+                  {backToTopBtnVar >= 4 && <StyledButton
                     className={cx(styles.backToTopButton, {
                       [styles.backToTopButtonClicked]: backToTopClicked,
                     })}
@@ -699,10 +766,10 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                         }, 500);
                       }
                     }}
-                    variant='contained'
+                    variant='outlined'
                   >
                     {t('Back to Top')}
-                  </StyledButton>
+                  </StyledButton>}
 
                   <p className={styles.priceDisclaimer}>All prices are in {currency}</p>
                 </div>
@@ -711,10 +778,15 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
           </div>
         </>
       )}
-      <DiningDetailsDrawer menuAvailability={menuAvailability ? catAvailabilityDisable : menuAvailability} />{' '}
+      <DiningDetailsDrawer
+        menuAvailability={menuAvailability ? catAvailabilityDisable : menuAvailability}
+      />{' '}
       <CustomDrawer
         open={filterDrawer}
-        onClose={() => setFilterDrawer(false)}
+        onClose={() => {
+          setFilteredOptions([]);
+          setFilterDrawer(false);
+        }}
         content={<FilterDetails />}
       />
     </>

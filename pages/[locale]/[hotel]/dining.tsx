@@ -17,6 +17,7 @@ import {
   IDiningMenuStorageData,
   diningCategoryStorage,
   diningMenuStorage,
+  setAppliedFilter,
 } from 'storage/dining-menu.storage';
 import cx from 'classnames';
 import { availablePaths } from 'utils/availablePaths';
@@ -59,6 +60,7 @@ const Dining = () => {
   const irdOption = useReactiveVar(diningHeaders);
   const diningOptionSelected = useReactiveVar(diningOptions);
   const hotelInformation = useReactiveVar(hotelInfoStorage);
+  const appliedFilter = useReactiveVar(setAppliedFilter);
 
   const { data: restaurantList, loading } = useQuery<IGetRestaurantDetailsResponse>(
     GET_RESTAURANT_DETAILS,
@@ -87,9 +89,19 @@ const Dining = () => {
     irdMenuOutputDetailsStorage(data);
   }
 
+  const irdLength = data?.getIRDMenuOutputDetails?.filter(
+    (item: any) =>
+      item?.isActive
+  );
+
   const queryResultsData: any = restaurantList?.getRestaurantDetails?.restaurant;
 
   const uniqueFilteredDiningOptions = uniqueDiningOption(queryResultsData);
+
+  useEffect(() => {
+    setsearch(false);
+  }, [filter?.selectedMenu]);
+
 
   const filteredList = data?.getIRDMenuOutputDetails?.filter(
     (item: any) =>
@@ -135,7 +147,7 @@ const Dining = () => {
 
   useEffect(() => {
     if (!checkInData?.checkedIn) {
-      navigate(availablePaths?.HOME);
+      // navigate(availablePaths?.HOME);
     }
   }, [navigate, t, checkInData?.checkedIn]);
 
@@ -215,6 +227,7 @@ const Dining = () => {
         onSearchBtnClick={openSearch}
         search
         displayHome
+        backRoute={irdLength && irdLength?.length <= 1 ? availablePaths.HOME : availablePaths.DINING_MENU}
       />
       <PageWrapper
         className={cx(styles.pageWrapper, {
@@ -226,10 +239,13 @@ const Dining = () => {
           <div className={styles.filterContentWrapper}>
             <div></div>
             <h3 className={styles.welcomeTitle}>{filter?.menuName}</h3>
-            <FilterIcon
-              onClick={openFilterFunc}
-              style={{ marginInlineEnd: '10px' }}
-            />
+            <div className={styles.filterWrapper}>
+              <FilterIcon
+                onClick={openFilterFunc}
+                style={{ marginInlineEnd: '15px' }}
+              />
+              {appliedFilter?.length > 0 && <div className={styles.filterWrapperApplied}></div>}
+            </div>
           </div>
           {irdMenuLoading ? (
             <>
@@ -284,6 +300,8 @@ const Dining = () => {
             setsearch={setsearch}
             filterDrawer={filterDrawer}
             setFilterDrawer={setFilterDrawer}
+            appliedFilter={appliedFilter}
+            setAppliedFilter={setAppliedFilter}
           />
         </div>
       </PageWrapper>
