@@ -196,7 +196,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
 
   const CHEF_SPECIAL_CATEGORY = {
     id: 'chefSpecialCategoryId',
-    name: 'Chef\'s Special',
+    name: "Chef's Special",
     isActive: true,
     images: [],
     subCategories: null,
@@ -434,8 +434,9 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     return (
       <div
         id={`Category${category?.id}`}
-        className={`globals-irdv2-category-element ${isChefSpecial ? 'globals-irdv2-chef-special' : ''
-          }`}
+        className={`globals-irdv2-category-element ${
+          isChefSpecial ? 'globals-irdv2-chef-special' : ''
+        }`}
         key={category?.id}
       >
         {categoryItems?.length > 0 && (
@@ -507,7 +508,6 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                       [styles.FilterButtonActive]:
                         filteredOptions.includes(itemName) && !allergenCheck,
                     },
-                    styles.FilterButtonInActive,
                     {
                       [styles.FilterButtonActiveAllergen]:
                         filteredOptions.includes(itemName) && allergenCheck,
@@ -521,18 +521,17 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                     )
                   }
                 >
-                  {IconComponent && <IconComponent />}
-                  {itemName}
+                  <div className={styles.filterButtonContent}>
+                    {IconComponent && <IconComponent className={styles.filterIcon} />}
+                    <span className={styles.filterText}>{itemName}</span>
+                  </div>
                 </StyledButton>
               </div>
             );
           })}
         </div>
         {items.length > 6 && (
-          <span
-            className={styles.viewAllButton}
-            onClick={() => setShowAll && setShowAll(!showAll)}
-          >
+          <span className={styles.viewAllButton} onClick={() => setShowAll && setShowAll(!showAll)}>
             {showAll ? (
               <>
                 {' '}
@@ -567,8 +566,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   };
 
   const backToTopBtnVar = backToTopBtn();
-  console.log("🚀 ~ backToTopBtn:", backToTopBtnVar)
-
+  console.log('🚀 ~ backToTopBtn:', backToTopBtnVar);
 
   const FilterDetails = () => (
     <>
@@ -697,8 +695,8 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             />
           )}
 
-          <div ref={scrollRef}
-
+          <div
+            ref={scrollRef}
             className={cx(styles.listContainer, {
               [styles.searchDic]: search,
             })}
@@ -725,7 +723,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             )}
             {filteredIrdItemsList?.length === 0 &&
               data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length !==
-              0 && (
+                0 && (
                 <div className={styles.noItems}>
                   <ItemNotFoundLoader />
                   <div className={styles.noItemsText}>{t('Oops, Item Not Found')}</div>
@@ -738,38 +736,40 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             {selectedMenu?.categories?.filter((item: any) => item?.isActive)?.length > 0 && (
               <div className={cx(styles.bottomContainer, 'globals-irdv2-irdFlowShow')}>
                 <div className={styles.backToTopContainer}>
-                  {backToTopBtnVar >= 4 && <StyledButton
-                    className={cx(styles.backToTopButton, {
-                      [styles.backToTopButtonClicked]: backToTopClicked,
-                    })}
-                    onClick={() => {
-                      setBackToTopClicked(true);
-                      const firstCategory = selectedMenu?.categories?.filter(
-                        (item: any) => item?.isActive,
-                      )[0];
+                  {backToTopBtnVar >= 4 && (
+                    <StyledButton
+                      className={cx(styles.backToTopButton, {
+                        [styles.backToTopButtonClicked]: backToTopClicked,
+                      })}
+                      onClick={() => {
+                        setBackToTopClicked(true);
+                        const firstCategory = selectedMenu?.categories?.filter(
+                          (item: any) => item?.isActive,
+                        )[0];
 
-                      if (firstCategory) {
-                        window.scrollTo({
-                          top: 0,
-                          behavior: 'smooth',
-                        });
-                        diningInformationStorage(
-                          produce(diningInformationStorage(), (draft) => {
-                            if (draft) {
-                              draft.selectedCategory = firstCategory?.id ?? '';
-                              draft.categoryName = firstCategory?.name ?? '';
-                            }
-                          }),
-                        );
-                        setTimeout(() => {
-                          setBackToTopClicked(false);
-                        }, 500);
-                      }
-                    }}
-                    variant='outlined'
-                  >
-                    {t('Back to Top')}
-                  </StyledButton>}
+                        if (firstCategory) {
+                          window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth',
+                          });
+                          diningInformationStorage(
+                            produce(diningInformationStorage(), (draft) => {
+                              if (draft) {
+                                draft.selectedCategory = firstCategory?.id ?? '';
+                                draft.categoryName = firstCategory?.name ?? '';
+                              }
+                            }),
+                          );
+                          setTimeout(() => {
+                            setBackToTopClicked(false);
+                          }, 500);
+                        }
+                      }}
+                      variant='outlined'
+                    >
+                      {t('Back to Top')}
+                    </StyledButton>
+                  )}
 
                   <p className={styles.priceDisclaimer}>All prices are in {currency}</p>
                 </div>
