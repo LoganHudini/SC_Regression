@@ -30,7 +30,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
   tags,
   allergens,
   categoryName,
-  categoryId
+  categoryId,
 }) => {
   const { t } = useTranslation('dining');
   const [customisationDrawer, setCustomisationDrawer] = useState(false);
@@ -63,7 +63,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
       produce(diningMenuStorage(), (draft) => {
         const items = draft?.items?.filter((el) => el.itemId === id);
         const item = items[items.length - 1];
-        console.log("🚀 ~ produce ~ item:", item)
+        console.log('🚀 ~ produce ~ item:', item);
 
         if (item) {
           customisation || (item?.addons ?? []).length > 0 || (item?.groupedAddons ?? []).length > 0
@@ -118,7 +118,13 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
         </div>
         <div className={styles.imageWrapper}>
           <div className={styles.pointer} onClick={handleDiningDetails}>
-            {image && <StableImage className={styles.image} src={`${ASSETS_URL}/${image}`} onClick={handleDiningDetails} />}
+            {image && (
+              <StableImage
+                className={styles.image}
+                src={`${ASSETS_URL}/${image}`}
+                onClick={handleDiningDetails}
+              />
+            )}
           </div>
           {irdModule &&
             (totalQuantity == 0 ? (
@@ -152,7 +158,11 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
         />
       </div>
 
-      <div className={cx('globals-irdv2-card', 'globals-irdv2-irdFlowShow', { [styles.chefSpecialCard]: isChefSpecial })}>
+      <div
+        className={cx('globals-irdv2-card', 'globals-irdv2-irdFlowShow', {
+          [styles.chefSpecialCard]: isChefSpecial,
+        })}
+      >
         <div className={'globals-irdv2-contentWrapper'} onClick={handleDiningDetails}>
           <StableImage
             className={'globals-irdv2-image'}
@@ -162,13 +172,17 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
 
           <div className={'globals-irdv2-detailsWrapperContent'} onClick={handleDiningDetails}>
             {tags?.name && (
-              <span className={cx('globals-irdv2-tagTitle', { [styles.chefSpecialTag]: isChefSpecial })}>
+              <span
+                className={cx('globals-irdv2-tagTitle', { [styles.chefSpecialTag]: isChefSpecial })}
+              >
                 {tags?.name}
               </span>
             )}
             <p className={'globals-irdv2-title'}>{title}</p>
 
-            <p className={cx('globals-irdv2-description', { [styles.descriptionWithImage]: image })}>
+            <p
+              className={cx('globals-irdv2-description', { [styles.descriptionWithImage]: image })}
+            >
               {ingredients} {formatPriceIRD(price)}
             </p>
             <div className={'globals-irdv2-allergensWrapper'}>
@@ -180,7 +194,12 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
                     return Icon ? <Icon key={index} /> : null;
                   })}
                   {allergens.length > 4 && (
-                    <span className={cx('globals-irdv2-description')} style={{ marginInlineStart: '10px' }}>+{allergens.length - 4} more</span>
+                    <span
+                      className={cx('globals-irdv2-description')}
+                      style={{ marginInlineStart: '10px' }}
+                    >
+                      +{allergens.length - 4} more
+                    </span>
                   )}
                 </>
               )}

@@ -288,7 +288,10 @@
   border: none;
   width: auto;
   white-space: nowrap;
-  box-sizing: content-box;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
 
   &:hover:enabled {
     border: none;
@@ -309,6 +312,10 @@
   border: none;
   white-space: nowrap;
   width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  box-sizing: border-box;
   path {
     fill: var(--primary-button-color);
     stroke: var(--primary-button-color);
@@ -329,10 +336,14 @@
   font: $xsmall var(--primary-font-heading);
   text-transform: capitalize;
   box-shadow: none;
-  width: auto;
   white-space: nowrap;
   color: var(--primary-theme-color);
   width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  padding: 0 8px;
+  box-sizing: border-box;
 
   &:hover:enabled {
     color: var(--primary-theme-color);
@@ -352,10 +363,28 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+  margin: 4px;
 }
 
-.wrapper {
-  margin: 5px;
+.filterButtonContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 6px;
+  overflow: hidden;
+}
+
+.filterIcon {
+  flex-shrink: 0;
+}
+
+.filterText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .welcomeTitle {

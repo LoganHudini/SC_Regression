@@ -140,10 +140,13 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
   );
 
   const CatogoryTimingsView: React.FC<{ el: any }> = ({ el }) => {
-    const category = getIRDStatus(el?.hours?.timings, hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone);
+    const category = getIRDStatus(
+      el?.hours?.timings,
+      hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone,
+    );
 
     return (
-      <div >
+      <div>
         <StyledButton
           className={cx(styles.DiningCategoryOptionInActive, {
             [styles.DiningCategoryOptionActive]: el?.id === diningInformation?.selectedCategory,

@@ -89,10 +89,7 @@ const Dining = () => {
     irdMenuOutputDetailsStorage(data);
   }
 
-  const irdLength = data?.getIRDMenuOutputDetails?.filter(
-    (item: any) =>
-      item?.isActive
-  );
+  const irdLength = data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive);
 
   const queryResultsData: any = restaurantList?.getRestaurantDetails?.restaurant;
 
@@ -101,7 +98,6 @@ const Dining = () => {
   useEffect(() => {
     setsearch(false);
   }, [filter?.selectedMenu]);
-
 
   const filteredList = data?.getIRDMenuOutputDetails?.filter(
     (item: any) =>
@@ -227,7 +223,9 @@ const Dining = () => {
         onSearchBtnClick={openSearch}
         search
         displayHome
-        backRoute={irdLength && irdLength?.length <= 1 ? availablePaths.HOME : availablePaths.DINING_MENU}
+        backRoute={
+          irdLength && irdLength?.length <= 1 ? availablePaths.HOME : availablePaths.DINING_MENU
+        }
       />
       <PageWrapper
         className={cx(styles.pageWrapper, {
@@ -240,10 +238,7 @@ const Dining = () => {
             <div></div>
             <h3 className={styles.welcomeTitle}>{filter?.menuName}</h3>
             <div className={styles.filterWrapper}>
-              <FilterIcon
-                onClick={openFilterFunc}
-                style={{ marginInlineEnd: '15px' }}
-              />
+              <FilterIcon onClick={openFilterFunc} style={{ marginInlineEnd: '15px' }} />
               {appliedFilter?.length > 0 && <div className={styles.filterWrapperApplied}></div>}
             </div>
           </div>

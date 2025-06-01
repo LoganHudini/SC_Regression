@@ -84,9 +84,7 @@ export const MenuItem: React.FC<IMenuItemProps> = ({
   };
   const data = useReactiveVar(irdMenuOutputDetailsStorage) as IRDMenuApiResponse;
 
-  const irdMenu = irdActiveMenuList(
-    data,
-  );
+  const irdMenu = irdActiveMenuList(data);
   const chatURL = useReactiveVar(messageBoxURL);
   const onClick = useCallback(() => {
     if (redirectOptions === EXTERNAL) {
@@ -275,11 +273,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
   };
 
   const modulesOptionsRender = () => {
-
-    const irdLength = data?.getIRDMenuOutputDetails?.filter(
-      (item: any) =>
-        item?.isActive
-    );
+    const irdLength = data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive);
     return (
       <div className={styles.wrapper}>
         {' '}
@@ -298,7 +292,9 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                     onClick={() => {
                       setHighLightIRD(true);
                       setHighLightCheckOut(false);
-                      irdLength?.length <= 1 ? navigate(availablePaths.DINING) : navigate(availablePaths.DINING_MENU);
+                      irdLength?.length <= 1
+                        ? navigate(availablePaths.DINING)
+                        : navigate(availablePaths.DINING_MENU);
                       closeDrawer();
                     }}
                   >
