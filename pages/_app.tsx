@@ -134,7 +134,29 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1' />
+        <meta
+          name='viewport'
+          content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+        />
+        <meta
+          name='viewport'
+          content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+          media='(device-width: 360px)'
+        />
+        <meta
+          name='viewport'
+          content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+          media='(device-width: 320px)'
+        />
+        <meta
+          name='viewport'
+          content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+          media='(device-width: 375px)'
+        />
+        <meta name='apple-mobile-web-app-capable' content='yes' />
+        <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent' />
+        <meta name='mobile-web-app-capable' content='yes' />
+        <meta name='theme-color' content='#ffffff' />
       </Head>
       <StyledEngineProvider injectFirst>
         <LocalizationProvider dateAdapter={AdapterDayjs} localeText={customLabel}>
