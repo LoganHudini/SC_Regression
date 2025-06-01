@@ -114,7 +114,8 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
                 {item?.name}
                 {' :'}
                 <span className={styles.currencyItems}>
-                  <span className='globals-irdv2-irdPrice'>{currency} </span> {formatPriceIRD(item?.price)}
+                  <span className='globals-irdv2-irdPrice'>{currency} </span>{' '}
+                  {formatPriceIRD(item?.price)}
                 </span>
               </span>
             ))}
@@ -128,7 +129,8 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
                 {item?.name}
                 {' : '}
                 <span className={styles.currencyItems}>
-                  <span className='globals-irdv2-irdPrice'>{currency} </span>{formatPriceIRD(item?.price)}
+                  <span className='globals-irdv2-irdPrice'>{currency} </span>
+                  {formatPriceIRD(item?.price)}
                 </span>
               </span>
             ))}

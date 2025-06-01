@@ -160,7 +160,7 @@ const Menu = () => {
         </title>
       </Head>
 
-      <PageWrapper className={cx(styles.pageWrapper, {})} >
+      <PageWrapper className={cx(styles.pageWrapper, {})}>
         {irdMenuLoading ? (
           <Loader />
         ) : (
@@ -193,8 +193,8 @@ const Menu = () => {
                     {item?.hours[0]?.day && module && (
                       <p className={styles.itemTime}>
                         {item.hours[0]?.day === EVERYDAY &&
-                          item.hours[0]?.open === ALL_DAY &&
-                          item.hours[0]?.close === ALL_DAY ? (
+                        item.hours[0]?.open === ALL_DAY &&
+                        item.hours[0]?.close === ALL_DAY ? (
                           t('Open 24x7')
                         ) : (
                           <>

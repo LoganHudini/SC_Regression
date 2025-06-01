@@ -172,7 +172,9 @@ const DiningOrderSummary = () => {
           const item = draft?.items?.find((el, i) => el?.itemId === itemId && i === index);
 
           if (item) {
-            (item?.customisation ?? []).length > 0 || (item?.addons ?? []).length > 0 || (item?.groupedAddons ?? []).length > 0
+            (item?.customisation ?? []).length > 0 ||
+            (item?.addons ?? []).length > 0 ||
+            (item?.groupedAddons ?? []).length > 0
               ? setCustomisationDrawer((state) => !state)
               : (item.quantity++,
                 addToCartEvent({
@@ -370,8 +372,8 @@ const DiningOrderSummary = () => {
           description:
             FailureCheck1 || FailureCheck2
               ? t(
-                'Reservation status is invalid. Please try again with a valid reservation details',
-              )
+                  'Reservation status is invalid. Please try again with a valid reservation details',
+                )
               : t('Your order was not confirmed.'),
           redirect: FailureCheck1 || FailureCheck2 ? availablePaths.HOME : null,
         });
