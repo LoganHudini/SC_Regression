@@ -82,7 +82,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     setSearchQuery('');
   }, [selectedFilter?.selectedMenu]);
   // const [appliedFilter, setAppliedFilter] = useState<string[]>([]);
-  const [filteredOptions, setFilteredOptions] = useState<string[]>([]);
+  const [filteredOptions, setFilteredOptions] = useState<string[]>(appliedFilter || []);
   const [tags, setTags] = useState<string[]>([]);
   const [allergens, setAllergens] = useState<string[]>([]);
   const [irdItemsList, setIrdItemsList] = useState<any[]>([]);
