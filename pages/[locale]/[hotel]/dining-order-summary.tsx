@@ -488,7 +488,10 @@ const DiningOrderSummary = () => {
             const totalAddonPrice: any =
               item?.addons?.length > 0 &&
               item?.addons?.reduce((acc: any, addon: any) => acc + addon?.price, 0);
-            const totalPrice = item?.price + totalAddonPrice;
+            const totalGroupedAddonPrice: any =
+              item?.groupedAddons?.length > 0 &&
+              item?.groupedAddons?.reduce((acc: any, addon: any) => acc + addon?.price, 0);
+            const totalPrice = item?.price + totalAddonPrice + totalGroupedAddonPrice;
             return (
               item?.quantity > 0 && (
                 <div key={index} className={styles.cartItemWrapper}>
