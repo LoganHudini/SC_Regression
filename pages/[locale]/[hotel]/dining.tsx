@@ -39,6 +39,7 @@ import {
   GET_RESTAURANT_DETAILS,
 } from 'core/graphql/queries/GET_RESTAURTANT_DETAILS';
 import { diningOptions, diningHeaders, hotelInfoStorage } from 'storage/home.storage';
+import { useRouter } from 'next/router';
 
 export { getStaticPaths };
 
@@ -57,11 +58,12 @@ const Dining = () => {
   const dropdownRef: any = useRef();
   const [scrollTop, setScrollTop] = useState(0);
   const checkInData = useCheckedIn();
+  const router = useRouter();
   const irdOption = useReactiveVar(diningHeaders);
   const diningOptionSelected = useReactiveVar(diningOptions);
   const hotelInformation = useReactiveVar(hotelInfoStorage);
   const appliedFilter = useReactiveVar(setAppliedFilter);
-
+  const { isReady } = router;
   const { data: restaurantList, loading } = useQuery<IGetRestaurantDetailsResponse>(
     GET_RESTAURANT_DETAILS,
     {
@@ -142,10 +144,10 @@ const Dining = () => {
   }, [irdActiveMenu]);
 
   useEffect(() => {
-    if (!checkInData?.checkedIn) {
-      // navigate(availablePaths?.HOME);
+    if (!checkInData?.checkedIn && isReady) {
+      navigate(availablePaths?.HOME);
     }
-  }, [navigate, t, checkInData?.checkedIn]);
+  }, [navigate, t, checkInData?.checkedIn, isReady]);
 
   useEffect(() => {
     if (header[0]?.name == undefined && header[0].hours == undefined) {
