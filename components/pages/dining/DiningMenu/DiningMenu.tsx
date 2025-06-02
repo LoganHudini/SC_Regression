@@ -565,7 +565,6 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   };
 
   const backToTopBtnVar = backToTopBtn();
-  console.log('🚀 ~ backToTopBtn:', backToTopBtnVar);
 
   const FilterDetails = () => (
     <>
@@ -698,18 +697,23 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             ref={scrollRef}
             className={cx(styles.listContainer, {
               [styles.searchDic]: search,
+              [styles.chefSpecialCategoryIdMargin]: selectedMenu?.categories?.[0]?.id !== 'chefSpecialCategoryId',
+
+
             })}
           >
-            {true && (
-              <div className={styles.menuUnavailableContainer}>
-                <div className={styles.menuTimingsText}>
-                  {t('Online requests will be available from')} {menuStartingTime}
+            {!menuAvailability &&
+              data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length !==
+              0 && (
+                <div className={styles.menuUnavailableContainer}>
+                  <div className={styles.menuTimingsText}>
+                    {t('Online requests will be available from')} {menuStartingTime}
+                  </div>
+                  <div className={styles.menuUnavailableDescription}>
+                    {t('This menu is unavailable right now! You can still check it out below.')}
+                  </div>
                 </div>
-                <div className={styles.menuUnavailableDescription}>
-                  {t('This menu is unavailable right now! You can still check it out below.')}
-                </div>
-              </div>
-            )}
+              )}
             {data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length === 0 && (
               <div className={styles.menuUnavailableContainer}>
                 <div className={styles.menuUnavailableTitle}>
