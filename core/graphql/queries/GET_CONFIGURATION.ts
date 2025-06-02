@@ -23713,7 +23713,7 @@ export const configuration: any = [
             label: 'Customize My Stay',
             title: 'Check-In',
             type: 'CMS',
-            isActive: false,
+            isActive: true,
           },
           {
             name: 'review',
@@ -24105,7 +24105,7 @@ export const configuration: any = [
             label: 'Customize My Stay',
             title: 'Check-In',
             type: 'CMS',
-            isActive: false,
+            isActive: true,
           },
           {
             name: 'review',
