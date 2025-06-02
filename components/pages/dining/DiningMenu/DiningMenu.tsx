@@ -196,7 +196,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
 
   const CHEF_SPECIAL_CATEGORY = {
     id: 'chefSpecialCategoryId',
-    name: "Chef's Special",
+    name: 'Chef\'s Special',
     isActive: true,
     images: [],
     subCategories: null,
@@ -434,9 +434,8 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     return (
       <div
         id={`Category${category?.id}`}
-        className={`globals-irdv2-category-element ${
-          isChefSpecial ? 'globals-irdv2-chef-special' : ''
-        }`}
+        className={`globals-irdv2-category-element ${isChefSpecial ? 'globals-irdv2-chef-special' : ''
+          }`}
         key={category?.id}
       >
         {categoryItems?.length > 0 && (
@@ -723,7 +722,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             )}
             {filteredIrdItemsList?.length === 0 &&
               data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length !==
-                0 && (
+              0 && (
                 <div className={styles.noItems}>
                   <ItemNotFoundLoader />
                   <div className={styles.noItemsText}>{t('Oops, Item Not Found')}</div>
