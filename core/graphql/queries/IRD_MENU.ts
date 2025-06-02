@@ -29,6 +29,7 @@ export interface IRDMenuApiResponse {
               name: string;
               price: number;
               status: boolean;
+              priceInDecimal: any;
             }[]
           | null;
         allergens:
@@ -96,6 +97,7 @@ export interface IRDMenuApiResponse {
                 name: string;
                 price: number;
                 status: boolean;
+                priceInDecimal: any;
               }[]
             | null;
           allergens:
@@ -188,6 +190,7 @@ export const IRD_MENU = gql`
             name
             price
             status
+            priceInDecimal
           }
           groupedAddon {
             addons {
@@ -195,6 +198,7 @@ export const IRD_MENU = gql`
               id
               name
               price
+              priceInDecimal
             }
             limit
             title
@@ -297,6 +301,7 @@ export const IRD_MENU = gql`
               name
               price
               status
+              priceInDecimal
             }
             allergens {
               code
@@ -340,6 +345,7 @@ export const IRD_MENU = gql`
                 id
                 name
                 price
+                priceInDecimal
               }
               limit
               title

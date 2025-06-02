@@ -48,7 +48,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
   const [count, setCount] = useState<number>(1);
   const [instruction, setInstruction] = useState('');
   const [updateAddons, setupdateAddons] = useState(false);
-  const [totalAddons, settotalAddons] = useState<number>(0);
+  const [totalAddons, settotalAddons] = useState<any>(0);
   const [customisation, setCustomisation] = useState<any>([]);
   const [addonsWarning, setAddonsWarning] = useState(false);
   const [groupedAddonsWarning, setGroupedAddonsWarning] = useState(false);
@@ -65,6 +65,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
       comment?: string;
       quantity?: number;
       index?: any;
+      priceInDecimal?: any
     }[]
   >();
 
@@ -125,7 +126,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
         setAddonsWarning(false);
       }
     }
-    settotalAddons((addons ?? [])?.reduce((acc, addon) => acc + addon?.price, 0));
+    settotalAddons((addons ?? [])?.reduce((acc, addon) => acc + addon?.priceInDecimal, 0));
   }, [addons, updateAddons, totalAddons, selectedItem?.addOnLimit, selectedItem?.addOnValue]);
 
   useEffect(() => {
@@ -228,10 +229,11 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
     diningMenuStorage(
       produce(diningMenuStorage(), (draft) => {
         draft.selectedItemId = '';
-        draft.selectedCategoryId = '';
+        // draft.selectedCategoryId = '';
       }),
     );
   }, []);
+
   const handleAdd = useCallback(() => {
     const sortedCustomisation: any = sortBy(customisation, (item) => item?.name);
     const sortedAddons = sortBy(addons, (item) => item?.name);
@@ -313,9 +315,9 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
               el?.itemId === selectedItemId &&
               JSON.stringify(sortBy(el?.addons || [], (item) => item?.name)) === addonsString &&
               JSON.stringify(sortBy(el?.groupedAddons || [], (item) => item?.name)) ===
-                groupedAddonsString &&
+              groupedAddonsString &&
               JSON.stringify(sortBy(el?.customisation || [], (item) => item?.name)) ===
-                customisationString
+              customisationString
             ) {
               return true;
             }
@@ -350,7 +352,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
               (el?.groupedAddons?.length || 0) > 0 &&
               el?.customisation?.ingredient === sortedCustomisation?.ingredient &&
               JSON.stringify(sortBy(el?.groupedAddons || [], (item) => item?.name)) ===
-                groupedAddonsString
+              groupedAddonsString
             ) {
               return true;
             }
@@ -567,7 +569,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
                     <div className={styles.addonsRow}>
                       <p className={styles.addonsText}>{groupedAddon?.title}</p>
                       {(groupedAddonLimitMap[groupedAddonIndex.toString()] || 0) >
-                      groupedAddon?.limit ? (
+                        groupedAddon?.limit ? (
                         <p className={styles.optionalTextWarning}>{t('Limit exceeded')}</p>
                       ) : (
                         <p className={styles.optionalText}>

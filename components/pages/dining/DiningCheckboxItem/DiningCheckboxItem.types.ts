@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 
 export interface IDiningCheckboxItemProps {
-  element: { code: string; id: string; name: string; price: number };
+  element: { code: string; id: string; name: string; price: number; priceInDecimal: any };
   selectedItemId?: string;
   setupdateAddons?: any;
   checked?: any;

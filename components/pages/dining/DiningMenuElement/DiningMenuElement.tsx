@@ -152,10 +152,6 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
             </p>
           )}
         </div>
-        <DiningCustomisationDrawer
-          customisationDrawer={customisationDrawer}
-          closeCustomisationDrawer={closeCustomisationDrawer}
-        />
       </div>
 
       <div
@@ -233,11 +229,12 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
             </p>
           )}
         </div>
-        <DiningCustomisationDrawer
-          customisationDrawer={customisationDrawer}
-          closeCustomisationDrawer={closeCustomisationDrawer}
-        />
+
       </div>
+      <DiningCustomisationDrawer
+        customisationDrawer={customisationDrawer}
+        closeCustomisationDrawer={closeCustomisationDrawer}
+      />
     </div>
   );
 };

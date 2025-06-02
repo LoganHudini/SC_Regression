@@ -125,11 +125,11 @@ const DiningOrderSummary = () => {
       const basePrice = item?.price || 0;
 
       const addonsTotal = (item?.addons || []).reduce((sum: any, addon: any) => {
-        return sum + (addon?.price || 0);
+        return sum + (addon?.priceInDecimal || 0);
       }, 0);
 
       const groupedAddonsTotal = (item?.groupedAddons || []).reduce((sum: any, addon: any) => {
-        return sum + (addon?.price || 0);
+        return sum + (addon?.priceInDecimal || 0);
       }, 0);
 
       const totalPerItem = (basePrice + addonsTotal + groupedAddonsTotal) * quantity;
@@ -273,7 +273,7 @@ const DiningOrderSummary = () => {
         addOns: [...(el?.groupedAddons || []), ...(el?.addons || [])]?.map((item: any) => ({
           code: item?.code,
           name: item?.name,
-          price: item?.price,
+          price: item?.priceInDecimal,
         })),
         customisations: el?.customisation?.map((item: any) => ({
           code: item?.code,
@@ -404,7 +404,7 @@ const DiningOrderSummary = () => {
 
   const renderMenuElements = (items: any[]) => {
     return items
-      ?.filter((item) => item?.price >= 0)
+      ?.filter((item) => item?.priceInDecimal >= 0)
       ?.map((el, index) => (
         <React.Fragment key={el?.id}>
           <DiningMenuElementUpsell
@@ -484,13 +484,13 @@ const DiningOrderSummary = () => {
       <PageWrapper className={styles.pageWrapper}>
         <p className={styles.itemsAddedText}>{t('Item(s) Added')}</p>
         <div className={styles.cartWrapper}>
-          {items?.map((item, index) => {
+          {items?.map((item: any, index) => {
             const totalAddonPrice: any =
               item?.addons?.length > 0 &&
-              item?.addons?.reduce((acc: any, addon: any) => acc + addon?.price, 0);
+              item?.addons?.reduce((acc: any, addon: any) => acc + addon?.priceInDecimal, 0);
             const totalGroupedAddonPrice: any =
               item?.groupedAddons?.length > 0 &&
-              item?.groupedAddons?.reduce((acc: any, addon: any) => acc + addon?.price, 0);
+              item?.groupedAddons?.reduce((acc: any, addon: any) => acc + addon?.priceInDecimal, 0);
             const totalPrice = item?.price + totalAddonPrice + totalGroupedAddonPrice;
             return (
               item?.quantity > 0 && (
@@ -534,7 +534,7 @@ const DiningOrderSummary = () => {
                               >
                                 {`${currency} `}
                               </span>{' '}
-                              {formatPriceIRD(items?.price)}
+                              {formatPriceIRD(items?.priceInDecimal)}
                               {index !== item?.addons?.length - 1 ? ',' : ''}{' '}
                             </span>
                           </div>
@@ -556,7 +556,7 @@ const DiningOrderSummary = () => {
                               >
                                 {`${currency}`}
                               </span>
-                              {formatPriceIRD(items?.price)}
+                              {formatPriceIRD(items?.priceInDecimal)}
                               {index !== item?.groupedAddons?.length - 1 ? ',' : ''}{' '}
                             </span>
                           </div>
@@ -580,7 +580,7 @@ const DiningOrderSummary = () => {
                         {currency}{' '}
                       </span>
                       {formatPriceIRD(
-                        isNaN(totalPrice) ? item.quantity * item.price : item.quantity * totalPrice,
+                        isNaN(totalPrice) ? item.quantity * item?.priceInDecimal : item.quantity * totalPrice,
                       )}
                     </p>
                   </div>

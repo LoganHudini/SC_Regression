@@ -358,7 +358,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   useEffect(() => {
     const totalAmount = diningData?.items?.reduce((allTotal, item) => {
       const addonsTotal = item?.addons?.reduce((acc: any, addon: any) => {
-        return acc + addon.price * item.quantity;
+        return acc + addon.priceInDecimal * item.quantity;
       }, 0);
 
       return allTotal + (item.quantity * item.price + (addonsTotal ?? 0));
@@ -780,7 +780,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                     </StyledButton>
                   )}
 
-                  <p className={styles.priceDisclaimer}>All prices are in {currency}</p>
+                  {backToTopBtnVar !== 0 && <p className={styles.priceDisclaimer}>All prices are in {currency}</p>}
                 </div>
               </div>
             )}

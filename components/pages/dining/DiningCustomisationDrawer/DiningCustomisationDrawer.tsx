@@ -31,7 +31,7 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
 
   useEffect(() => {
     settotalAddons(
-      (selectedItem?.addons ?? [])?.reduce((acc: any, addon: any) => acc + addon?.price, 0),
+      (selectedItem?.addons ?? [])?.reduce((acc: any, addon: any) => acc + addon?.priceInDecimal, 0),
     );
   }, [totalAddons, selectedItem?.addons]);
 
@@ -115,7 +115,7 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
                 {' :'}
                 <span className={styles.currencyItems}>
                   <span className='globals-irdv2-irdPrice'>{currency} </span>{' '}
-                  {formatPriceIRD(item?.price)}
+                  {formatPriceIRD(item?.priceInDecimal)}
                 </span>
               </span>
             ))}

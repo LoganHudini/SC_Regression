@@ -24,6 +24,7 @@ export type IDiningMenuStorageData = {
           price: number;
           comment?: string;
           quantity?: number;
+          priceInDecimal?: number;
         }[]
       | any;
     groupedAddons?:
@@ -35,6 +36,7 @@ export type IDiningMenuStorageData = {
           comment?: string;
           quantity?: number;
           index?: number;
+          priceInDecimal?: number;
         }[]
       | any;
     upsell?: {
