@@ -702,11 +702,11 @@ const DiningOrderSummary = () => {
               onClick={handleOrder}
               variant='contained'
             >
-              <div className={`${styles.buttonContentWrapper} global-irdv2-diningConfirmButton`}>
+              <div className={`${styles.buttonContentWrapper}`}>
                 <div className={styles.buttonWrapper}>
                   {items?.length > 0 && <span className={styles.itemCount}>{getTotalItems && getTotalItems}</span>}
-                  <span className={`${styles.currency} globals-irdv2-irdPrice`}>
-                    <span className={styles.currencyTitle}> {currency} </span>
+                  <span className={`${styles.currency}`}>
+                    <span className={`${styles.currencyTitle} globals-irdv2-irdPrice`}> {currency} </span>
                     {formatPriceIRD(totalAmount)}
                   </span>
                 </div>
