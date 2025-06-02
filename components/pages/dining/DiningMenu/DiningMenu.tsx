@@ -559,6 +559,13 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
         if (categoryItems?.length > 0) {
           count += categoryItems.length;
         }
+
+        category?.subCategories?.forEach((sub: any) => {
+          const subItems = filterItems(sub?.items);
+          if (subItems?.length > 0) {
+            count += subItems.length;
+          }
+        });
       });
 
     return count;
