@@ -188,12 +188,12 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
             <div className={'globals-irdv2-allergensWrapper'}>
               {allergens && allergens.length > 0 && (
                 <>
-                  {allergens.slice(0, 4).map((tag: any, index: number) => {
+                  {allergens?.slice(0, 4).map((tag: any, index: number) => {
                     const key: any = tag?.name?.toLowerCase();
                     const Icon = iconsMap[key] as any;
                     return Icon ? <Icon key={index} /> : null;
                   })}
-                  {allergens.length > 4 && (
+                  {allergens?.length > 4 && (
                     <span
                       className={cx('globals-irdv2-description')}
                       style={{ marginInlineStart: '10px' }}

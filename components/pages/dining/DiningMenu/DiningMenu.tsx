@@ -124,7 +124,6 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     irdMenu?.forEach((irdItem: any) => {
       if (irdItem?.name === selectedFilter?.menuName) {
         irdItem?.categories?.forEach((category: any) => {
-          // Handle items directly under category
           category?.items?.forEach((item: any) => {
             [TAGS, ALLERGENS].forEach((filterOption: string) => {
               if (item?.[filterOption]?.length > 0) {
@@ -139,22 +138,22 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             });
           });
 
-          // Handle items under subcategories
-          category?.subcategories?.forEach((subcategory: any) => {
-            subcategory?.items?.forEach((item: any) => {
-              [TAGS, ALLERGENS].forEach((filterOption: string) => {
-                if (item?.[filterOption]?.length > 0) {
-                  item[filterOption].forEach((option: any) => {
-                    if (filterOption === TAGS) {
-                      tags.push(option?.name);
-                    } else {
-                      allergens.push(option?.name);
-                    }
-                  });
-                }
+          category?.subCategories
+            ?.forEach((subcategory: any) => {
+              subcategory?.items?.forEach((item: any) => {
+                [TAGS, ALLERGENS].forEach((filterOption: string) => {
+                  if (item?.[filterOption]?.length > 0) {
+                    item[filterOption].forEach((option: any) => {
+                      if (filterOption === TAGS) {
+                        tags.push(option?.name);
+                      } else {
+                        allergens.push(option?.name);
+                      }
+                    });
+                  }
+                });
               });
             });
-          });
         });
 
         irdItem?.categories?.forEach((categoryItem: any) => {
