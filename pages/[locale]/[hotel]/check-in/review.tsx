@@ -1020,7 +1020,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
   const renderDocumentUploads = () => {
     return dynamicFields
-      .filter((field: any) => {
+      ?.filter((field: any) => {
         if (!field.enabled) return false;
         if (!field.rule || field.rule.length === 0) return true;
 
@@ -1058,7 +1058,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           }
         });
       })
-      .map((field: any, index: any) => (
+      ?.map((field: any, index: any) => (
         <div className={styles.mainContainer} key={index}>
           <DetailsCard title={t('Capture Document')}>
             <div className={styles.imageText}>

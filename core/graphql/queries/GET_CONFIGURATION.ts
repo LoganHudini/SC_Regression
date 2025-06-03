@@ -21734,6 +21734,17 @@ export const configuration: any = [
                 title: 'Add-Ons',
               },
             ],
+            dynamicFields: [
+              {
+                fieldName: 'DL',
+                label: 'Copy of DL',
+                type: 'camera',
+                rule: [{ key: 'docType', condition: '==', value: 'AAC' }],
+                enabled: true,
+                optional: false,
+                includeInPDF: true,
+              },
+            ],
           },
         ],
       },
