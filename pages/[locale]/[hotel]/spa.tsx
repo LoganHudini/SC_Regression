@@ -320,12 +320,17 @@ const Spa: React.FC = () => {
     };
 
     try {
-      await client.mutate({
+      const { data } = await client.mutate({
         mutation: CREATE_SPA_BOOKING,
         context: { clientName: 'integration_d' },
         fetchPolicy: 'network-only',
         variables: spaPayload,
       });
+
+      if (data?.createSpaAppointment?.message === 'Failed - to Book the Spa') {
+        return false;
+      }
+
       setTimeout(() => {
         closeDrawer();
       }, 5000);
