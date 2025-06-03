@@ -181,7 +181,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
         item?.isActive &&
         item?.name?.toLowerCase().includes(searchQuery.toLowerCase()) &&
         (appliedFilter?.length === 0 ||
-          item?.allergens?.some((allergen: any) => appliedFilter?.includes(allergen?.name)) ||
+          !item?.allergens?.some((allergen: any) => appliedFilter?.includes(allergen?.name)) ||
           item?.tags?.some((tag: any) => appliedFilter?.includes(tag?.name)))
       );
     });
@@ -793,7 +793,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
       <CustomDrawer
         open={filterDrawer}
         onClose={() => {
-          setFilteredOptions([]);
+          setFilteredOptions(appliedFilter || []);
           setFilterDrawer(false);
         }}
         content={<FilterDetails />}
