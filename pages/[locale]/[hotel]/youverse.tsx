@@ -87,7 +87,6 @@ const Youverse: React.FC = () => {
     };
     getYouverseConfig();
 
-
     const getData = async () => {
       client
         .query({
