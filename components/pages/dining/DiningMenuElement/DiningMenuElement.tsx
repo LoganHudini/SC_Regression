@@ -63,7 +63,6 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
       produce(diningMenuStorage(), (draft) => {
         const items = draft?.items?.filter((el) => el.itemId === id);
         const item = items[items.length - 1];
-        console.log('🚀 ~ produce ~ item:', item);
 
         if (item) {
           customisation || (item?.addons ?? []).length > 0 || (item?.groupedAddons ?? []).length > 0
