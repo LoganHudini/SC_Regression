@@ -1167,6 +1167,7 @@ export const configuration: any = [
         code: 'Check-In',
         name: 'Check-In',
         isActive: true,
+        allowSkipBiometrics: true,
         submodules: [
           {
             name: 'information',
@@ -1463,6 +1464,8 @@ export const configuration: any = [
         name: 'In-Room Dining',
         isActive: true,
         type: 'CMS',
+        orderScheduling: true,
+        schedulingDuration: 30,
         payment: [
           { id: '1', name: 'BILL TO ROOM', message: '' },
           { id: '2', name: 'CASH', message: '' },
