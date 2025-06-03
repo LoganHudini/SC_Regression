@@ -92,6 +92,7 @@ const DiningOrderSummary = () => {
 
   const getServiceCharges = (data: any) =>
     irdOrderType?.customServiceChargeMessage ||
+    irdOrderType?.customServiceChargeDisclaimer ||
     data?.find((item: any) => item?.key === SERVICE_CHARGES)?.value ||
     DEFAULT_SERVICE_CHARGE_MESSAGE;
 

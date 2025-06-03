@@ -258,7 +258,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
                 categoryCode: showSchedules?.code,
                 serviceId: el?.name?.includes('|') ? el?.name?.split('|')[0] : '',
                 operaReservationId: checkinData?.invoiceId,
-                remarks: 'Request from Hudini',
+                remarks: serviceType?.type === CMS ? '' : 'Request from Hudini',
               })),
           },
         });
