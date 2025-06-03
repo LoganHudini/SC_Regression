@@ -125,5 +125,11 @@
   "Sharer Information": "Informationen zum Mitbenutzer",
   "Sharers Information": "Informationen zu Mitbenutzern",
   "View": "Ansicht",
-  "I provide my consent to share my details with": "Ich bin damit einverstanden, dass meine Daten weitergegeben werden an"
+  "I provide my consent to share my details with": "Ich bin damit einverstanden, dass meine Daten weitergegeben werden an",
+  "Please capture the same document you used for ID verification.": "Bitte erfassen Sie dasselbe Dokument, das Sie für die Identitätsprüfung verwendet haben.",
+  "Capture Again": "Erneut erfassen",
+  "Capture Id": "Ausweis erfassen",
+  "Capture Document": "Dokument erfassen",
+  "Done": "Fertig",
+  "Capture ID": "Ausweis erfassen"
 }

@@ -125,5 +125,11 @@
   "Sharer Information": "シェアする人の情報",
   "Sharers Information": "シェアする人たちの情報",
   "View": "表示",
-  "I provide my consent to share my details with": "私は私の詳細を共有することに同意します"
+  "I provide my consent to share my details with": "私は私の詳細を共有することに同意します",
+  "Please capture the same document you used for ID verification.": "本人確認に使用したのと同じ書類を撮影してください。",
+  "Capture Again": "再撮影",
+  "Capture Id": "IDを撮影",
+  "Capture Document": "書類を撮影",
+  "Done": "完了",
+  "Capture ID": "IDを撮影"
 }

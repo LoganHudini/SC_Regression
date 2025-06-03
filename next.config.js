@@ -19,6 +19,7 @@ const regexEqual = (x, y) => {
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: false,
+  images: { unoptimized: true },
   webpack(config, options) {
     const hotelCode = process.env.NEXT_PUBLIC_BRAND_CODE || 'default';
 
