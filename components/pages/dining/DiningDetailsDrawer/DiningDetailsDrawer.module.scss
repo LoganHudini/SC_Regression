@@ -20,6 +20,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: var(--primary-drawer-color);
 }
 
 .title {
@@ -160,14 +161,12 @@
   color: var(--primary-text-color);
   background-color: #f0f0f0;
   width: auto;
-  padding: 0 8px;
-  height: 1.5rem;
-  line-height: 1.5rem;
   text-align: center;
   border-radius: var(--primary-card-border-radius);
   margin-inline-start: 0.5rem;
   display: flex;
   align-items: center;
+  padding: 7px 8px 3px 8px;
 }
 
 .optionalTextWarning {

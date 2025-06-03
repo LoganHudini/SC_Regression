@@ -404,7 +404,7 @@ const DiningOrderSummary = () => {
 
   const renderMenuElements = (items: any[]) => {
     return items
-      ?.filter((item) => item?.priceInDecimal >= 0)
+      ?.filter((item) => item?.price >= 0)
       ?.map((el, index) => (
         <React.Fragment key={el?.id}>
           <DiningMenuElementUpsell
@@ -590,7 +590,7 @@ const DiningOrderSummary = () => {
           })}
         </div>
 
-        {uniqueUpsellItems.length > 0 && (
+        {uniqueUpsellItems?.length > 0 && (
           <>
             <div className={styles.upsell}>{renderMenuElements(uniqueUpsellItems)}</div>
           </>
