@@ -16,7 +16,7 @@ import produce from 'immer';
 import { IRDMenuApiResponse } from 'core/graphql/queries/IRD_MENU';
 import { DiningCheckboxItem } from 'components/pages/dining/DiningCheckboxItem/DiningCheckboxItem';
 import { InputAdornment } from '@mui/material';
-import { sortBy } from 'lodash';
+import { isEqual, sortBy } from 'lodash';
 import { iconsMap } from 'utils/hamburger/hamburgerIconsMap';
 import { activeModule, filterLiveMenu, formatPriceIRD, irdActiveMenuList } from 'utils/functions';
 import { addToCartEvent } from 'utils/gtag';
@@ -72,8 +72,9 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
   const [groupedAddons, setGroupedAddons] = useState<any>([]);
   const totalGroupedAddonsPrice =
     groupedAddons?.length > 0
-      ? groupedAddons.reduce((total: any, item: any) => total + item.price, 0)
+      ? groupedAddons.reduce((total: any, item: any) => total + item?.priceInDecimal, 0)
       : 0;
+
   const data = useReactiveVar(irdMenuOutputDetailsStorage) as IRDMenuApiResponse;
 
   const irdMenu = irdActiveMenuList(
@@ -299,60 +300,61 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
       diningMenuStorage(
         produce(diningMenuStorage(), (draft) => {
           const existingItem = draft?.items?.find((el) => {
-            //  no customization or addons
+            // No customization or addons
             if (
               el?.itemId === selectedItemId &&
               !(el?.customisation?.length || 0) &&
               !(el?.addons?.length || 0) &&
               !sortedCustomisation?.length &&
-              !sortedAddons?.length
+              !sortedAddons?.length &&
+              !sortedGroupedAddons?.length
             ) {
               return true;
             }
 
-            // matching customization and addons
+            // Matching customization and addons
             if (
               el?.itemId === selectedItemId &&
-              JSON.stringify(sortBy(el?.addons || [], (item) => item?.name)) === addonsString &&
-              JSON.stringify(sortBy(el?.groupedAddons || [], (item) => item?.name)) ===
-              groupedAddonsString &&
-              JSON.stringify(sortBy(el?.customisation || [], (item) => item?.name)) ===
-              customisationString
+              isEqual(sortBy(el?.addons || [], (item) => item?.name), sortedAddons) &&
+              isEqual(sortBy(el?.groupedAddons || [], (item) => item?.name), sortedGroupedAddons) &&
+              isEqual(sortBy(el?.customisation || [], (item) => item?.name), sortedCustomisation)
             ) {
               return true;
             }
 
-            // matching customization only
+            // Matching customization only
             if (
               el?.itemId === selectedItemId &&
               sortedCustomisation?.ingredient &&
               (el?.customisation?.length || 0) > 0 &&
               el?.customisation?.ingredient === sortedCustomisation?.ingredient &&
               el?.customisation?.code === sortedCustomisation?.code &&
-              !sortedAddons?.length
+              !sortedAddons?.length &&
+              !sortedGroupedAddons?.length
             ) {
               return true;
             }
 
-            //  matching addons only
+            // Matching addons only
             if (
               el?.itemId === selectedItemId &&
               sortedAddons?.length > 0 &&
               (el?.addons?.length || 0) > 0 &&
               el?.customisation?.ingredient === sortedCustomisation?.ingredient &&
-              JSON.stringify(sortBy(el?.addons || [], (item) => item?.name)) === addonsString
+              isEqual(sortBy(el?.addons || [], (item) => item?.name), sortedAddons) &&
+              !sortedGroupedAddons?.length
             ) {
               return true;
             }
 
-            // matching grouped addons only
+            // Matching grouped addons only
             if (
               el?.itemId === selectedItemId &&
               sortedGroupedAddons?.length > 0 &&
               (el?.groupedAddons?.length || 0) > 0 &&
               el?.customisation?.ingredient === sortedCustomisation?.ingredient &&
-              JSON.stringify(sortBy(el?.groupedAddons || [], (item) => item?.name)) ===
-              groupedAddonsString
+              isEqual(sortBy(el?.groupedAddons || [], (item) => item?.name), sortedGroupedAddons) &&
+              !sortedAddons?.length
             ) {
               return true;
             }
@@ -387,8 +389,9 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
 
             draft.items.push(baseItem);
           }
-        }),
+        })
       );
+
     }
 
     const item = {

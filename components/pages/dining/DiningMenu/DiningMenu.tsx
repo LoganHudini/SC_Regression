@@ -703,7 +703,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             ref={scrollRef}
             className={cx(styles.listContainer, {
               [styles.searchDic]: search,
-              [styles.chefSpecialCategoryIdMargin]: selectedMenu?.categories?.[0]?.id !== 'chefSpecialCategoryId',
+              [styles.chefSpecialCategoryIdMargin]: !menuAvailability,
 
 
             })}
