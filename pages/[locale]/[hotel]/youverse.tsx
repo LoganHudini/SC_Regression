@@ -87,7 +87,6 @@ const Youverse: React.FC = () => {
     };
     getYouverseConfig();
 
-    const interval = setInterval(() => getData(), 10000);
 
     const getData = async () => {
       client
@@ -245,6 +244,13 @@ const Youverse: React.FC = () => {
           const statusCode = processStatusCode(error as ApolloError);
           statusCode === 403 && handleCheckInAuthenticationFailure(getData);
         });
+    };
+
+    getYouverseConfig();
+    const interval = setInterval(() => getData(), 10000);
+
+    return () => {
+      clearInterval(interval);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
