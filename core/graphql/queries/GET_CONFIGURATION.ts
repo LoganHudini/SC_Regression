@@ -1167,7 +1167,6 @@ export const configuration: any = [
         code: 'Check-In',
         name: 'Check-In',
         isActive: true,
-        allowSkipBiometrics: true,
         submodules: [
           {
             name: 'information',
@@ -1179,6 +1178,7 @@ export const configuration: any = [
                 name: 'Guest Information',
                 isActive: true,
                 type: 'manual',
+                allowSkipBiometrics: true,
                 details: [
                   {
                     name: 'firstName',
