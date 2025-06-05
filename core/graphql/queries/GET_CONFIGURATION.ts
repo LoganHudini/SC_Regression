@@ -1177,7 +1177,7 @@ export const configuration: any = [
               {
                 name: 'Guest Information',
                 isActive: true,
-                type: 'manual',
+                type: 'trential',
                 allowSkipBiometrics: true,
                 details: [
                   {
