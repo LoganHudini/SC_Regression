@@ -26,7 +26,7 @@ import {
   handleCheckInAuthenticationFailure,
 } from 'core/api/functions/getCheckInAuthentication';
 import { processStatusCode } from 'utils/processError';
-import { getCountryCode } from 'utils/functions';
+import { getCountryCode, getCountryCodeFrom3iso } from 'utils/functions';
 
 export { getStaticPaths };
 
@@ -175,7 +175,9 @@ const Youverse: React.FC = () => {
                   reservationGuestInfoStorageData({
                     ...guestReservationInfo,
                     dob: res?.data?.getyoonikresponse?.data?.dob,
-                    nationality: getCountryCode(res?.data?.getyoonikresponse?.data?.country),
+                    nationality: getCountryCodeFrom3iso(
+                      res?.data?.getyoonikresponse?.data?.stateCode,
+                    ),
                     docNo: res?.data?.getyoonikresponse?.data?.documentNumber,
                     docType: docTypes?.find(
                       (document: any) =>
