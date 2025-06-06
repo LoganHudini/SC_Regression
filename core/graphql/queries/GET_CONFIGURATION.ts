@@ -5383,6 +5383,7 @@ export const configuration: any = [
         isActive: true,
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
+        customServiceChargeDisclaimer: 'serviceChargeDisclaimer',
       },
       {
         code: 'Services',
@@ -22147,6 +22148,7 @@ export const configuration: any = [
         isActive: true,
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
+        customServiceChargeMessage: 'serviceChargeMessage',
       },
       {
         code: 'Services',
@@ -23820,8 +23822,8 @@ export const configuration: any = [
     fetchFromDb: 'no',
     saveToDb: 'yes',
     languages: [{ code: 'en', name: 'English' }],
-    orderOfModules: ['offers', 'hotel-info', 'hotel-compendium'],
-    preCheckInOnly: false,
+    orderOfModules: ['offers', 'check-in', 'hotel-info', 'dining', 'spa', 'hotel-compendium'],
+    preCheckInOnly: true,
     hideImagePlaceholder: true,
     isAnimationActive: false,
     isLogoLoaderActive: false,
@@ -23845,7 +23847,7 @@ export const configuration: any = [
       {
         code: 'Check-In',
         name: 'Check-In',
-        isActive: false,
+        isActive: true,
         submodules: [
           {
             name: 'information',
@@ -24169,13 +24171,13 @@ export const configuration: any = [
       {
         code: 'Pair-To-Room',
         name: 'Connect to Room',
-        isActive: false,
+        isActive: true,
       },
       {
         code: 'In-Room Dining',
         name: 'In-Room Dining',
-        isActive: false,
-        type: 'CMS',
+        isActive: true,
+        type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
       },
       {
@@ -24187,7 +24189,7 @@ export const configuration: any = [
       {
         code: 'view-bill',
         name: 'View Bill',
-        isActive: false,
+        isActive: true,
       },
       {
         code: 'checkout',
@@ -24628,7 +24630,7 @@ export const configuration: any = [
       {
         code: 'spa',
         name: 'Spa',
-        isActive: false,
+        isActive: true,
         type: 'CMS',
       },
     ],

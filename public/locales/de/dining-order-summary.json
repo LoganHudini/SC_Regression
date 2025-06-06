@@ -43,5 +43,7 @@
   "Confirm": "Bestätigen",
   "ITEMS": "ARTIKEL",
   "Something Went Wrong!": "Etwas ist schiefgelaufen!",
-  "Invalid Reservation": "Ungültige Reservierung"
+  "Invalid Reservation": "Ungültige Reservierung",
+  "serviceChargeMessage": "Die Preise beinhalten die geltenden staatlichen Steuern und unterliegen einer Servicegebühr von 22 % sowie einer Liefergebühr von 6,00 $",
+  "serviceChargeDisclaimer": "Die geltende lokale Verkaufssteuer, eine Liefergebühr von 5 $ und eine Servicegebühr von 22 % werden auf alle Rechnungen angewendet. Sobald Sie auf Bestätigen klicken, wird Ihre Bestellung aufgegeben. Die Bestellungen werden innerhalb von 45 Minuten geliefert. Bitte senden Sie uns eine SMS oder rufen Sie uns an, um die Lieferzeit Ihrer Bestellung zu bestätigen."
 }
