@@ -206,7 +206,6 @@
   color: var(--primary-text-color);
   padding: 5px 4px 1px 4px;
   background-color: var(--primary-card-shadow-color);
-  // line-height: 1.1;
   width: fit-content;
 }
 
@@ -218,15 +217,28 @@
 .globals-irdv2-description {
   font: $small var(--primary-card-desc-font-family);
   color: var(--tertiary-text-color);
-  width: 140%;
-  min-height: 1rem;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0.5rem;
   line-height: 1.3;
-  max-height: 4rem;
-  -webkit-line-clamp: 3;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  width: 100%;
+  min-height: 1rem;
+  align-items: flex-end;
+
+  .ingredients-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    align-items: flex-end;
+  }
+
+  .price-text {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
 }
 
 .globals-irdv2-contentWrapper {
@@ -271,4 +283,11 @@
 
 .globals-irdv2-category-element.globals-irdv2-chef-special {
   background-color: #d8d9db;
+}
+
+.globals-irdv2-TotalBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.1;
 }

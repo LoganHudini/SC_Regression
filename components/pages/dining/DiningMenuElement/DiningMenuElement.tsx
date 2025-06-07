@@ -160,7 +160,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
       >
         <div className={'globals-irdv2-contentWrapper'} onClick={handleDiningDetails}>
           <StableImage
-            className={'globals-irdv2-image'}
+            className={cx('globals-irdv2-image', { ['globals-irdv2-irdFlow']: !image })}
             src={`${ASSETS_URL}/${image}`}
             onClick={handleDiningDetails}
           />
@@ -178,7 +178,14 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
             <p
               className={cx('globals-irdv2-description', { [styles.descriptionWithImage]: image })}
             >
-              {ingredients} {formatPriceIRD(price)}
+              {ingredients ? (
+                <>
+                  <span className="ingredients-text">{ingredients}</span>
+                  <span className="price-text">{formatPriceIRD(price)}</span>
+                </>
+              ) : (
+                formatPriceIRD(price)
+              )}
             </p>
             <div className={'globals-irdv2-allergensWrapper'}>
               {allergens && allergens.length > 0 && (

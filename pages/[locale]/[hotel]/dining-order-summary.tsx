@@ -712,6 +712,7 @@ const DiningOrderSummary = () => {
                   {items?.length > 0 && <span className={styles.itemCount}>{getTotalItems && getTotalItems}</span>}
                   <span className={`${styles.currency}`}>
                     <span className={`${styles.currencyTitle} globals-irdv2-irdPrice`}> {currency} </span>
+                    <span className={`${styles.currencyTitle} globals-irdv2-TotalBtn `}> {t('Total')}</span>
                     {formatPriceIRD(totalAmount)}
                   </span>
                 </div>
