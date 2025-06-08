@@ -88,9 +88,7 @@ const DiningOrderSummary = () => {
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
   const [signatureWidth, setSignatureWidth] = useState(340);
   const [btnStatus, setBtnStatus] = useState(false);
-  const getTotalItems =
-    diningData?.items?.reduce((total, item) => total + (item.quantity || 0), 0);
-
+  const getTotalItems = diningData?.items?.reduce((total, item) => total + (item.quantity || 0), 0);
 
   const information = hotelInfo?.getPropertyDetailsByHotelId?.hotel?.detailsCustomAttributes;
 
@@ -178,8 +176,8 @@ const DiningOrderSummary = () => {
 
           if (item) {
             (item?.customisation ?? []).length > 0 ||
-              (item?.addons ?? []).length > 0 ||
-              (item?.groupedAddons ?? []).length > 0
+            (item?.addons ?? []).length > 0 ||
+            (item?.groupedAddons ?? []).length > 0
               ? setCustomisationDrawer((state) => !state)
               : (item.quantity++,
                 addToCartEvent({
@@ -377,8 +375,8 @@ const DiningOrderSummary = () => {
           description:
             FailureCheck1 || FailureCheck2
               ? t(
-                'Reservation status is invalid. Please try again with a valid reservation details',
-              )
+                  'Reservation status is invalid. Please try again with a valid reservation details',
+                )
               : t('Your order was not confirmed.'),
           redirect: FailureCheck1 || FailureCheck2 ? availablePaths.HOME : null,
         });
@@ -582,7 +580,9 @@ const DiningOrderSummary = () => {
                         {currency}{' '}
                       </span>
                       {formatPriceIRD(
-                        isNaN(totalPrice) ? item.quantity * item?.priceInDecimal : item.quantity * totalPrice,
+                        isNaN(totalPrice)
+                          ? item.quantity * item?.priceInDecimal
+                          : item.quantity * totalPrice,
                       )}
                     </p>
                   </div>
@@ -709,11 +709,19 @@ const DiningOrderSummary = () => {
             >
               <div className={`${styles.buttonContentWrapper}`}>
                 <div className={styles.buttonWrapper}>
-                  {items?.length > 0 && <span className={styles.itemCount}>{getTotalItems && getTotalItems}</span>}
+                  {items?.length > 0 && (
+                    <span className={styles.itemCount}>{getTotalItems && getTotalItems}</span>
+                  )}
                   <span className={`${styles.currency}`}>
-                    <span className={`${styles.currencyTitle} globals-irdv2-irdPrice`}> {currency} </span>
-                    <span className={`${styles.currencyTitle} globals-irdv2-TotalBtn `}> {t('Total')}</span>
-                    {formatPriceIRD(totalAmount)}
+                    <span className={`${styles.currencyTitle} globals-irdv2-irdPrice`}>
+                      {currency}
+                    </span>
+                    <span className={`${styles.currencyTotalTitle} globals-irdv2-TotalBtn `}>
+                      {t('Total')}
+                    </span>
+                    <span className={`${styles.currencyTotalAmount} globals-irdv2-TotalBtn `}>
+                      {formatPriceIRD(totalAmount)}
+                    </span>
                   </span>
                 </div>
                 <div className='globals-irdv2-irdFlow'>{t('Confirm')}</div>

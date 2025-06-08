@@ -264,6 +264,17 @@
   color: var(--primary-button-color);
 }
 
+.currencyTotalTitle {
+  font: $extraSmall var(--primary-font-medium);
+  color: var(--primary-button-color);
+  align-items: baseline;  
+}
+
+.currencyTotalAmount {
+  font: $xsmall var(--primary-font-regular);
+  color: var(--primary-button-color);
+}
+
 .currencyValueTitle {
   font: $medium var(--primary-font-medium);
   margin-top: -3px;
