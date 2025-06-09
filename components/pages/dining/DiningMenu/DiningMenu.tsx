@@ -94,6 +94,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   const [scrollPosition] = useState(scrollData);
   const currency = useCurrency();
   const [backToTopClicked, setBackToTopClicked] = useState(false);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
@@ -138,22 +139,21 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             });
           });
 
-          category?.subCategories
-            ?.forEach((subcategory: any) => {
-              subcategory?.items?.forEach((item: any) => {
-                [TAGS, ALLERGENS].forEach((filterOption: string) => {
-                  if (item?.[filterOption]?.length > 0) {
-                    item[filterOption].forEach((option: any) => {
-                      if (filterOption === TAGS) {
-                        tags.push(option?.name);
-                      } else {
-                        allergens.push(option?.name);
-                      }
-                    });
-                  }
-                });
+          category?.subCategories?.forEach((subcategory: any) => {
+            subcategory?.items?.forEach((item: any) => {
+              [TAGS, ALLERGENS].forEach((filterOption: string) => {
+                if (item?.[filterOption]?.length > 0) {
+                  item[filterOption].forEach((option: any) => {
+                    if (filterOption === TAGS) {
+                      tags.push(option?.name);
+                    } else {
+                      allergens.push(option?.name);
+                    }
+                  });
+                }
               });
             });
+          });
         });
 
         irdItem?.categories?.forEach((categoryItem: any) => {
@@ -339,21 +339,42 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   }, [stickyHeaderSearch?.current?.offsetTop]);
 
   useEffect(() => {
-    diningInformationStorage({
-      selectedMenu: selectedFilter?.selectedMenu || selectedMenu?.id,
-      menuName: selectedFilter?.menuName || selectedMenu?.name,
-      selectedCategory: selectedFilter?.selectedCategory || selectedMenu?.categories[0]?.id,
-      categoryName: selectedFilter?.categoryName || selectedMenu?.categories[0]?.name,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    selectedFilter?.categoryName,
-    selectedFilter?.menuName,
-    selectedFilter?.selectedCategory,
-    selectedFilter?.selectedMenu,
-    selectedMenu?.id,
-    selectedMenu?.name,
-  ]);
+    if (!selectedMenu?.id) return;
+
+    const activeCategories = selectedMenu.categories?.filter((item: any) => item?.isActive) || [];
+    if (!activeCategories.length) return;
+
+    const chefSpecialCategory = activeCategories.find(
+      (cat: { name: string }) => cat.name === 'Chef\'s Special',
+    );
+
+    const shouldUseChefSpecial = isInitialLoad && chefSpecialCategory;
+    const defaultCategory = chefSpecialCategory || activeCategories[0];
+
+    const selectedCategory = shouldUseChefSpecial
+      ? chefSpecialCategory.id
+      : selectedFilter?.selectedCategory || defaultCategory.id;
+
+    const categoryName = shouldUseChefSpecial
+      ? chefSpecialCategory.name
+      : selectedFilter?.categoryName || defaultCategory.name;
+
+    const currentStorage = diningInformationStorage();
+    const newStorage = {
+      selectedMenu: selectedFilter?.selectedMenu || selectedMenu.id,
+      menuName: selectedFilter?.menuName || selectedMenu.name,
+      selectedCategory,
+      categoryName,
+    };
+
+    if (JSON.stringify(currentStorage) !== JSON.stringify(newStorage)) {
+      diningInformationStorage(newStorage);
+    }
+
+    if (shouldUseChefSpecial) {
+      setIsInitialLoad(false);
+    }
+  }, [selectedMenu?.id, selectedMenu?.name, isInitialLoad]);
 
   useEffect(() => {
     const totalAmount = diningData?.items?.reduce((allTotal, item) => {
@@ -401,7 +422,9 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                 image={el?.images[0]?.ratio1to1 || null}
                 description={el?.description}
                 price={el?.price}
-                customisation={el?.customisation || el?.groupedAddon?.length > 0 || el?.addons?.length > 0}
+                customisation={
+                  el?.customisation || el?.groupedAddon?.length > 0 || el?.addons?.length > 0
+                }
                 index={index}
                 code={el?.code}
                 addons={el?.addons}
@@ -433,8 +456,9 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     return (
       <div
         id={`Category${category?.id}`}
-        className={`globals-irdv2-category-element ${isChefSpecial ? 'globals-irdv2-chef-special' : ''
-          }`}
+        className={`globals-irdv2-category-element ${
+          isChefSpecial ? 'globals-irdv2-chef-special' : ''
+        }`}
         key={category?.id}
       >
         {categoryItems?.length > 0 && (
@@ -704,13 +728,11 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             className={cx(styles.listContainer, {
               [styles.searchDic]: search,
               [styles.chefSpecialCategoryIdMargin]: !menuAvailability,
-
-
             })}
           >
             {!menuAvailability &&
               data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length !==
-              0 && (
+                0 && (
                 <div className={styles.menuUnavailableContainer}>
                   <div className={styles.menuTimingsText}>
                     {t('Online requests will be available from')} {menuStartingTime}
@@ -732,7 +754,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             )}
             {filteredIrdItemsList?.length === 0 &&
               data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length !==
-              0 && (
+                0 && (
                 <div className={styles.noItems}>
                   <ItemNotFoundLoader />
                   <div className={styles.noItemsText}>{t('Oops, Item Not Found')}</div>
@@ -780,7 +802,9 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                     </StyledButton>
                   )}
 
-                  {backToTopBtnVar !== 0 && <p className={styles.priceDisclaimer}>All prices are in {currency}</p>}
+                  {backToTopBtnVar !== 0 && (
+                    <p className={styles.priceDisclaimer}>All prices are in {currency}</p>
+                  )}
                 </div>
               </div>
             )}

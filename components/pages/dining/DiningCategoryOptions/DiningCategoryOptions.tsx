@@ -19,6 +19,7 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
   const stickyHeader: any = useRef();
   const diningInformation = useReactiveVar(diningInformationStorage);
   const [userScrolling, setUserScrolling] = useState(false);
+  const [isManualSelection, setIsManualSelection] = useState(false);
   const hotelInformation = useReactiveVar(hotelInfoStorage);
 
   useEffect(() => {
@@ -55,7 +56,7 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
 
   useEffect(() => {
     const handleScroll = () => {
-      if (userScrolling) return;
+      if (isManualSelection) return;
       const scrollY = window.scrollY;
       const isAtBottom = scrollY + window.innerHeight >= document.documentElement.scrollHeight - 50;
       const categoryElements = filteredCategories
@@ -101,6 +102,7 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
   }, [diningInformation?.selectedCategory, userScrolling]);
 
   const handleCategoryChange = (event: any, el: any) => {
+    setIsManualSelection(true);
     setUserScrolling(true);
 
     const categoryElement = document.getElementById(`Category${el?.id}`);
@@ -119,7 +121,9 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
     setTimeout(() => {
       setScrollHide(true);
       setUserScrolling(false);
-    }, 1000);
+      setIsManualSelection(false);
+    }, 1200);
+
     setScrollPosition(0, 0);
     diningInformationStorage(
       produce(diningInformationStorage(), (draft) => {
@@ -133,9 +137,10 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
 
   const filteredCategories = categories?.filter(
     (category: any) =>
-      category?.items?.filter((item: any) => item?.isActive)?.length > 0 ||
+      category?.items?.filter((item: any) => item?.isActive && item?.price > 0)?.length > 0 ||
       category?.subCategories?.some(
-        (subCategory: any) => subCategory?.items?.filter((item: any) => item?.isActive)?.length > 0,
+        (subCategory: any) =>
+          subCategory?.items?.filter((item: any) => item?.isActive && item?.price > 0)?.length > 0,
       ),
   );
 
