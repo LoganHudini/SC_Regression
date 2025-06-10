@@ -839,3 +839,31 @@ img {
   align-items: center;
   gap: 3px;
 }
+
+.ingredients-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 3em;
+}
+
+.ingredients-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.price-text {
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+.ingredients-with-price {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  max-width: 100%;
+
+  -webkit-line-clamp: 2;
+}

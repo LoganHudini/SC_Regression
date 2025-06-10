@@ -105,6 +105,24 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
 
   const isIRDv2 = irdModuleContent?.version === 'v2';
 
+  function TwoLineEllipsisWithPrice(props: any) {
+    const { ingredients = '', price, maxChars = 80 } = props;
+    const formattedPrice = formatPriceIRD(price);
+    const reservedForPrice = formattedPrice.length + 1;
+    const maxIngredientLength = Math.max(0, maxChars - reservedForPrice - 3);
+    const shouldTruncate = ingredients.length > maxIngredientLength;
+    const truncatedIngredients = shouldTruncate
+      ? ingredients.slice(0, maxIngredientLength) + '...'
+      : ingredients;
+
+    return (
+      <span className="two-line-ellipsis">
+        {truncatedIngredients} {formattedPrice}
+      </span>
+    );
+  }
+
+
   return (
     <div>
       {!isIRDv2 && <div className={cx(styles.card, { ['globals-irdv2-irdFlow']: isIRDv2 })}>
@@ -200,7 +218,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
             >
               {ingredients ? (
                 <>
-                  <span className={isIRDv2 ? "ingredients-text" : ''}>{`${ingredients} ${formatPriceIRD(price)}`}</span>
+                  <TwoLineEllipsisWithPrice ingredients={ingredients} price={price} maxLength={50} />
                 </>
               ) : (
                 formatPriceIRD(price)
