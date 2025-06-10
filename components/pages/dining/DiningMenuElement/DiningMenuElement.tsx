@@ -218,7 +218,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
             >
               {ingredients ? (
                 <>
-                  <TwoLineEllipsisWithPrice ingredients={ingredients} price={price} maxChars={60} />
+                  <TwoLineEllipsisWithPrice ingredients={ingredients} price={price} maxChars={50} />
                 </>
               ) : (
                 formatPriceIRD(price)
