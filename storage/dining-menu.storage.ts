@@ -88,4 +88,7 @@ export const toggleDiningDetailsDrawer = makeVar(false);
 
 export const editControl = makeVar(false);
 
-export const setAppliedFilter = makeVar([]);
+export const setAppliedFilter = makeVar({
+  allergen: [],
+  tag: [],
+});

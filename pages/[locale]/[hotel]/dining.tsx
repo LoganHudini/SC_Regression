@@ -147,7 +147,7 @@ const Dining = () => {
 
   useEffect(() => {
     if (!checkInData?.checkedIn && isReady) {
-      // navigate(availablePaths?.HOME);
+      navigate(availablePaths?.HOME);
     }
   }, [navigate, t, checkInData?.checkedIn, isReady]);
 
@@ -243,7 +243,7 @@ const Dining = () => {
             <h3 className={styles.welcomeTitle}>{filter?.menuName}</h3>
             <div className={styles.filterWrapper}>
               <>  {(tags?.length > 0 || allergens?.length > 0) && <FilterIcon onClick={openFilterFunc} style={{ marginInlineEnd: '15px' }} />}</>
-              {appliedFilter?.length > 0 && <div className={styles.filterWrapperApplied}></div>}
+              {(appliedFilter?.allergen?.length > 0 || appliedFilter?.tag?.length > 0) && <div className={styles.filterWrapperApplied}></div>}
             </div>
           </div>
           {irdMenuLoading ? (

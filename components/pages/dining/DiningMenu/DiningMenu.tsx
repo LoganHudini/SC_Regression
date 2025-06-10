@@ -90,8 +90,10 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     setsearch(false);
     setSearchQuery('');
   }, [selectedFilter?.selectedMenu]);
-  // const [appliedFilter, setAppliedFilter] = useState<string[]>([]);
-  const [filteredOptions, setFilteredOptions] = useState<string[]>(appliedFilter || []);
+  const [filteredOptions, setFilteredOptions] = useState<any>(appliedFilter || {
+    allergen: [],
+    tag: []
+  });
 
   const [irdItemsList, setIrdItemsList] = useState<any[]>([]);
   const [orderDrawer, setOrderDrawer] = useState(false);
@@ -187,14 +189,32 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
 
   const filterItems = (items: any) => {
     return items?.filter((item: any) => {
-      return (
+      const basicConditions =
         item?.price > 0 &&
         item?.isActive &&
-        item?.name?.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        (appliedFilter?.length === 0 ||
-          !item?.allergens?.some((allergen: any) => appliedFilter?.includes(allergen?.name)) ||
-          item?.tags?.some((tag: any) => appliedFilter?.includes(tag?.name)))
-      );
+        item?.name?.toLowerCase().includes(searchQuery.toLowerCase());
+
+      if (!basicConditions) return false;
+
+      if (appliedFilter?.allergen?.length === 0 && appliedFilter?.tag?.length === 0) {
+        return true;
+      }
+
+      let tagMatch = true;
+      if (appliedFilter?.tag?.length > 0) {
+        tagMatch = item?.tags?.some((tag: any) =>
+          appliedFilter.tag.includes(tag?.name)
+        );
+      }
+
+      let allergenMatch = true;
+      if (appliedFilter?.allergen?.length > 0) {
+        allergenMatch = !item?.allergens?.some((allergen: any) =>
+          appliedFilter.allergen.includes(allergen?.name)
+        );
+      }
+
+      return tagMatch && allergenMatch;
     });
   };
 
@@ -538,20 +558,30 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                     styles.FilterButtonInActive,
                     {
                       [styles.FilterButtonActive]:
-                        filteredOptions.includes(itemName) && !allergenCheck,
+                        filteredOptions?.tag.includes(itemName) && !allergenCheck,
                     },
                     {
                       [styles.FilterButtonActiveAllergen]:
-                        filteredOptions.includes(itemName) && allergenCheck,
+                        filteredOptions?.allergen.includes(itemName) && allergenCheck,
                     },
                   )}
-                  onClick={() =>
-                    setFilteredOptions((prev) =>
-                      filteredOptions.includes(itemName)
-                        ? prev.filter((item) => item !== itemName)
-                        : [...prev, itemName],
-                    )
-                  }
+                  onClick={() => {
+                    if (allergenCheck) {
+                      setFilteredOptions((prev: any) => ({
+                        ...prev,
+                        allergen: prev?.allergen.includes(itemName)
+                          ? prev?.allergen.filter((item: any) => item !== itemName)
+                          : [...prev?.allergen, itemName]
+                      }));
+                    } else {
+                      setFilteredOptions((prev: any) => ({
+                        ...prev,
+                        tag: prev.tag.includes(itemName)
+                          ? prev.tag.filter((item: any) => item !== itemName)
+                          : [...prev.tag, itemName]
+                      }));
+                    }
+                  }}
                 >
                   <div className={styles.filterButtonContent}>
                     {IconComponent && <IconComponent className={styles.filterIcon} />}
