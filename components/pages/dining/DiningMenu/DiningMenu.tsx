@@ -24,6 +24,7 @@ import { GET_ORDERS } from 'core/graphql/queries/GET_ORDERS_BY_ID';
 import {
   convertTo12HourFormat,
   filterLiveMenu,
+  findModule,
   irdActiveMenuList,
   isIRDOpenNow,
 } from 'utils/functions';
@@ -35,7 +36,7 @@ import { useCheckedIn } from 'storage/check-in.storage';
 import { useHideOnScroll } from 'utils/hooks/useHideOnScroll';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useCurrency } from 'utils/hooks/useCurrency';
-import { ALLERGENS, CHEF_TAG_NAME, TAGS } from 'utils/constants';
+import { ALLERGENS, CHEF_TAG_NAME, IN_ROOM_DINING, TAGS } from 'utils/constants';
 import { iconsMap } from 'utils/hamburger/hamburgerIconsMap';
 import { hotelInfoStorage } from 'storage/home.storage';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
@@ -52,6 +53,10 @@ interface DiningMenuProps {
   filterDrawer?: any;
   appliedFilter?: any;
   setAppliedFilter?: any;
+  setTags?: any;
+  setAllergens?: any;
+  tags?: any;
+  allergens?: any;
 }
 const DiningMenu: React.FC<DiningMenuProps> = ({
   search,
@@ -61,6 +66,10 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   setFilterDrawer,
   appliedFilter,
   setAppliedFilter,
+  setTags,
+  setAllergens,
+  tags,
+  allergens
 }) => {
   const { t } = useTranslation('dining');
   const navigate = useLocalizedRouter();
@@ -83,8 +92,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   }, [selectedFilter?.selectedMenu]);
   // const [appliedFilter, setAppliedFilter] = useState<string[]>([]);
   const [filteredOptions, setFilteredOptions] = useState<string[]>(appliedFilter || []);
-  const [tags, setTags] = useState<string[]>([]);
-  const [allergens, setAllergens] = useState<string[]>([]);
+
   const [irdItemsList, setIrdItemsList] = useState<any[]>([]);
   const [orderDrawer, setOrderDrawer] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -95,7 +103,10 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   const currency = useCurrency();
   const [backToTopClicked, setBackToTopClicked] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const config = useConfig();
+  const irdModuleContent: any = findModule(config?.modules, IN_ROOM_DINING);
 
+  const isIRDv2 = irdModuleContent?.version === 'v2';
   useEffect(() => {
     setTimeout(() => {
       setLoading(true);
@@ -225,7 +236,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
       const filteredItems =
         category.items?.filter((item: any) => {
           const isChefSpecial = item.tags?.some((tag: any) => tag.name === CHEF_TAG_NAME);
-          if (isChefSpecial) chefSpecialItems.push(item);
+          if (isChefSpecial && isIRDv2) chefSpecialItems.push(item);
           return !isChefSpecial;
         }) || [];
 
@@ -235,7 +246,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
           items:
             sub.items?.filter((item: any) => {
               const isChefSpecial = item.tags?.some((tag: any) => tag.name === CHEF_TAG_NAME);
-              if (isChefSpecial) chefSpecialItems.push(item);
+              if (isChefSpecial && isIRDv2) chefSpecialItems.push(item);
               return !isChefSpecial;
             }) || [],
         })) || null;
@@ -456,9 +467,8 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     return (
       <div
         id={`Category${category?.id}`}
-        className={`globals-irdv2-category-element ${
-          isChefSpecial ? 'globals-irdv2-chef-special' : ''
-        }`}
+        className={`${isIRDv2 ? 'globals-irdv2-category-element' : ''} ${isChefSpecial && isIRDv2 ? 'globals-irdv2-chef-special' : ''
+          }`}
         key={category?.id}
       >
         {categoryItems?.length > 0 && (
@@ -732,7 +742,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
           >
             {!menuAvailability &&
               data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length !==
-                0 && (
+              0 && (
                 <div className={styles.menuUnavailableContainer}>
                   <div className={styles.menuTimingsText}>
                     {t('Online requests will be available from')} {menuStartingTime}
@@ -754,7 +764,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             )}
             {filteredIrdItemsList?.length === 0 &&
               data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length !==
-                0 && (
+              0 && (
                 <div className={styles.noItems}>
                   <ItemNotFoundLoader />
                   <div className={styles.noItemsText}>{t('Oops, Item Not Found')}</div>
@@ -765,7 +775,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
               ?.filter((item: any) => item?.isActive)
               ?.map((category: any) => renderCategory(category))}
             {selectedMenu?.categories?.filter((item: any) => item?.isActive)?.length > 0 && (
-              <div className={cx(styles.bottomContainer, 'globals-irdv2-irdFlowShow')}>
+              <div className={cx(styles.bottomContainer, { ['globals-irdv2-irdFlowShow']: isIRDv2 })}>
                 <div className={styles.backToTopContainer}>
                   {backToTopBtnVar >= 4 && (
                     <StyledButton

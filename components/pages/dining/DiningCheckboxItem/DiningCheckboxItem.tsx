@@ -5,8 +5,10 @@ import { IDiningCheckboxItemProps } from './DiningCheckboxItem.types';
 import { useReactiveVar } from '@apollo/client';
 import { editControl } from 'storage/dining-menu.storage';
 import { useCurrency } from 'utils/hooks/useCurrency';
-import { formatPriceIRD } from 'utils/functions';
+import { findModule, formatPriceIRD } from 'utils/functions';
 import cx from 'classnames';
+import { IN_ROOM_DINING } from 'utils/constants';
+import { useConfig } from 'utils/hooks/useConfiguration';
 
 export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
   element,
@@ -52,11 +54,16 @@ export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
       }
     }
   }, [addons, editControlStatus, element, setAddons, setupdateAddons, updateAddons]);
+  const config = useConfig();
+
+  const irdModuleContent: any = findModule(config?.modules, IN_ROOM_DINING);
+
+  const isIRDv2 = irdModuleContent?.version === 'v2';
 
   const showCurrency = () => {
     return (
       <>
-        <p className={cx(styles.price, 'globals-irdv2-showCurrencyInCheckbox')}>
+        <p className={cx(styles.price, { 'globals-irdv2-showCurrencyInCheckbox': isIRDv2 })}>
           <span className={styles.currency}>{currency}</span>
           {formatPriceIRD(element?.priceInDecimal)}
         </p>
@@ -68,9 +75,9 @@ export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
     <div className={styles.irdCheckboxItem}>
       <div className={styles.name}>
         {element?.name}
-        <span className={cx(styles.priceCurrency, 'globals-irdv2-irdFlowShow')}>
+        {isIRDv2 && <span className={cx(styles.priceCurrency, { 'globals-irdv2-irdFlowShow': isIRDv2 })}>
           {formatPriceIRD(element?.priceInDecimal)}
-        </span>
+        </span>}
       </div>
 
       <WhiteStyledCheckbox

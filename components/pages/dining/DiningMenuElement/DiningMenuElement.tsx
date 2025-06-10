@@ -13,7 +13,7 @@ import { DiningCustomisationDrawer } from 'components/pages/dining/DiningCustomi
 import cx from 'classnames';
 import { addToCartEvent, viewItemEvent } from 'utils/gtag';
 import { useCurrency } from 'utils/hooks/useCurrency';
-import { activeModule, formatPriceIRD } from 'utils/functions';
+import { activeModule, findModule, formatPriceIRD } from 'utils/functions';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { IN_ROOM_DINING } from 'utils/constants';
 import { iconsMap } from 'utils/hamburger/hamburgerIconsMap';
@@ -38,6 +38,8 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
   const config = useConfig();
   const currency = useCurrency();
   const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
+  const irdModuleContent: any = findModule(config?.modules, IN_ROOM_DINING);
+
   /*eslint-disable*/
   const isChefSpecial = categoryName === "Chef's Special";
 
@@ -101,9 +103,11 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
     );
   }, [id]);
 
+  const isIRDv2 = irdModuleContent?.version === 'v2';
+
   return (
     <div>
-      <div className={cx(styles.card, 'globals-irdv2-irdFlow')}>
+      {!isIRDv2 && <div className={cx(styles.card, { ['globals-irdv2-irdFlow']: isIRDv2 })}>
         <div className={styles.contentWrapper} onClick={handleDiningDetails}>
           <h4 className={cx(styles.title, { [styles.titleWithImage]: image })}>{title}</h4>
           {description && (
@@ -151,53 +155,70 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
             </p>
           )}
         </div>
-      </div>
+      </div>}
 
-      <div
-        className={cx('globals-irdv2-card', 'globals-irdv2-irdFlowShow', {
-          [styles.chefSpecialCard]: isChefSpecial,
-        })}
+      {isIRDv2 && <div
+        className={cx(
+          {
+            [styles.chefSpecialCard]: isChefSpecial,
+          },
+          { 'globals-irdv2-card globals-irdv2-irdFlowShow': isIRDv2 }
+        )}
       >
-        <div className={'globals-irdv2-contentWrapper'} onClick={handleDiningDetails}>
+        <div
+          className={cx({ 'globals-irdv2-contentWrapper': isIRDv2 })}
+          onClick={handleDiningDetails}
+        >
           <StableImage
-            className={cx('globals-irdv2-image', { ['globals-irdv2-irdFlow']: !image })}
+            className={cx({ ['globals-irdv2-irdFlow']: !image && isIRDv2 }, { 'globals-irdv2-image': isIRDv2 })}
             src={`${ASSETS_URL}/${image}`}
             onClick={handleDiningDetails}
           />
 
-          <div className={'globals-irdv2-detailsWrapperContent'} onClick={handleDiningDetails}>
+          <div
+            className={cx({ 'globals-irdv2-detailsWrapperContent': isIRDv2 })}
+            onClick={handleDiningDetails}
+          >
             {tags?.name && (
               <span
-                className={cx('globals-irdv2-tagTitle', { [styles.chefSpecialTag]: isChefSpecial })}
+                className={cx({
+                  'globals-irdv2-tagTitle': isIRDv2,
+                  [styles.chefSpecialTag]: isChefSpecial,
+                })}
               >
                 {tags?.name}
               </span>
             )}
-            <p className={'globals-irdv2-title'}>{title}</p>
+
+            <p className={cx({ 'globals-irdv2-title': isIRDv2 })}>{title}</p>
 
             <p
-              className={cx('globals-irdv2-description', { [styles.descriptionWithImage]: image })}
+              className={cx({
+                'globals-irdv2-description': isIRDv2,
+                [styles.descriptionWithImage]: image,
+              })}
             >
               {ingredients ? (
                 <>
-                  <span className="ingredients-text">{ingredients}</span>
-                  <span className="price-text">{formatPriceIRD(price)}</span>
+                  <span className={isIRDv2 ? "ingredients-text" : ''}>{ingredients}</span>
+                  <span className={isIRDv2 ? "price-text" : ''}>{formatPriceIRD(price)}</span>
                 </>
               ) : (
                 formatPriceIRD(price)
               )}
             </p>
-            <div className={'globals-irdv2-allergensWrapper'}>
+
+            <div className={cx({ 'globals-irdv2-allergensWrapper': isIRDv2 })}>
               {allergens && allergens.length > 0 && (
                 <>
-                  {allergens?.slice(0, 4).map((tag: any, index: number) => {
-                    const key: any = tag?.name?.toLowerCase();
-                    const Icon = iconsMap[key] as any;
+                  {allergens.slice(0, 4).map((tag: any, index: number) => {
+                    const key = tag?.name?.toLowerCase();
+                    const Icon = iconsMap[key];
                     return Icon ? <Icon key={index} /> : null;
                   })}
-                  {allergens?.length > 4 && (
+                  {allergens.length > 4 && (
                     <span
-                      className={cx('globals-irdv2-description')}
+                      className={cx({ 'globals-irdv2-description': isIRDv2 })}
                       style={{ marginInlineStart: '10px' }}
                     >
                       +{allergens.length - 4} more
@@ -208,13 +229,14 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
             </div>
           </div>
         </div>
-        <div className={'globals-irdv2-btnWrapper'}>
+
+        <div className={cx({ 'globals-irdv2-btnWrapper': isIRDv2 })}>
           {irdModule &&
-            (totalQuantity == 0 ? (
+            (totalQuantity === 0 ? (
               <StyledButton
                 onClick={handleDiningDetails}
                 className={cx(styles.addCta)}
-                variant='contained'
+                variant="contained"
                 disabled={!menuAvailability}
               >
                 {t('Add')}
@@ -229,14 +251,14 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
                 />
               </div>
             ))}
+
           {customisation && irdModule && (
             <p className={styles.customisableText} onClick={handleDiningDetails}>
               {t('customizable')}
             </p>
           )}
         </div>
-
-      </div>
+      </div>}
       <DiningCustomisationDrawer
         customisationDrawer={customisationDrawer}
         closeCustomisationDrawer={closeCustomisationDrawer}

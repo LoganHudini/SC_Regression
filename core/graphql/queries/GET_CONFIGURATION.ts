@@ -24179,6 +24179,7 @@ export const configuration: any = [
         isActive: true,
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
+        version: 'v2',
       },
       {
         code: 'Services',

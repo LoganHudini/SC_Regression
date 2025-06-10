@@ -239,6 +239,13 @@
   color: var(--primary-button-color);
 }
 
+.currencyV2 {
+  font-size: $small;
+  color: var(--primary-button-color);
+  display: flex;
+  flex-direction: column;
+}
+
 .divider {
   margin-top: 20px;
   width: 100%;
@@ -267,7 +274,7 @@
 .currencyTotalTitle {
   font: $extraSmall var(--primary-font-regular);
   color: var(--primary-button-color);
-  align-items: baseline;  
+  align-items: baseline;
 }
 
 .currencyTotalAmount {

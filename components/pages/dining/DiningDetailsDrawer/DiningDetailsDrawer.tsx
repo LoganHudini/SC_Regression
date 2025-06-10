@@ -18,7 +18,7 @@ import { DiningCheckboxItem } from 'components/pages/dining/DiningCheckboxItem/D
 import { InputAdornment } from '@mui/material';
 import { isEqual, sortBy } from 'lodash';
 import { iconsMap } from 'utils/hamburger/hamburgerIconsMap';
-import { activeModule, filterLiveMenu, formatPriceIRD, irdActiveMenuList } from 'utils/functions';
+import { activeModule, filterLiveMenu, findModule, formatPriceIRD, irdActiveMenuList } from 'utils/functions';
 import { addToCartEvent } from 'utils/gtag';
 import cx from 'classnames';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
@@ -428,6 +428,8 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
           hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone,
         ),
     );
+    const irdModuleContent: any = findModule(config?.modules, IN_ROOM_DINING);
+    const isIRDv2 = irdModuleContent?.version === 'v2';
 
     return (
       <>
@@ -630,7 +632,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
               />
             )}
 
-            {selectedItem?.upsell?.length > 0 && (
+            {selectedItem?.upsell?.length > 0 && isIRDv2 && (
               <>
                 <div className={styles.upsellWrapper}>
                   <h4 className={styles.youMayAlsoLikeText}>{t('You May Also Like')}</h4>
@@ -660,7 +662,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
               <>
                 <p className={styles.priceText}>{t('total item price')}</p>
                 <p className={styles.totalItemPrice}>
-                  <span className='globals-irdv2-irdPrice'>{currency} </span>
+                  <span className={isIRDv2 ? 'globals-irdv2-irdPrice' : ''}>{currency} </span>
                   <span className={styles.price}>
                     {formatPriceIRD(selectedItem?.price + totalAddons + totalGroupedAddonsPrice)}
                   </span>

@@ -7,7 +7,9 @@ import produce from 'immer';
 import { useReactiveVar } from '@apollo/client';
 import cx from 'classnames';
 import { useCurrency } from 'utils/hooks/useCurrency';
-import { formatPriceIRD } from 'utils/functions';
+import { findModule, formatPriceIRD } from 'utils/functions';
+import { useConfig } from 'utils/hooks/useConfiguration';
+import { IN_ROOM_DINING } from 'utils/constants';
 
 export const DiningMenuElementUpsell: React.FC<IDiningMenuElementProps> = ({
   title,
@@ -80,13 +82,16 @@ export const DiningMenuElementUpsell: React.FC<IDiningMenuElementProps> = ({
       }),
     );
   }, [id]);
+  const config = useConfig();
+  const irdModuleContent: any = findModule(config?.modules, IN_ROOM_DINING);
+  const isIRDv2 = irdModuleContent?.version === 'v2';
 
   return (
     <div className={styles.card}>
       <div className={styles.contentWrapper}>
         <h4 className={cx(styles.title, { [styles.titleWithImage]: image })}>{title}</h4>
         <p className={cx(styles.currency)}>
-          <span className='globals-irdv2-irdPrice'>{currency} </span>
+          <span className={isIRDv2 ? 'globals-irdv2-irdPrice' : ''}>{currency} </span>
           <span className={styles.price}>{formatPriceIRD(price)}</span>
         </p>
       </div>

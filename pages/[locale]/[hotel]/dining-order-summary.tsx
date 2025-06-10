@@ -176,8 +176,8 @@ const DiningOrderSummary = () => {
 
           if (item) {
             (item?.customisation ?? []).length > 0 ||
-            (item?.addons ?? []).length > 0 ||
-            (item?.groupedAddons ?? []).length > 0
+              (item?.addons ?? []).length > 0 ||
+              (item?.groupedAddons ?? []).length > 0
               ? setCustomisationDrawer((state) => !state)
               : (item.quantity++,
                 addToCartEvent({
@@ -375,8 +375,8 @@ const DiningOrderSummary = () => {
           description:
             FailureCheck1 || FailureCheck2
               ? t(
-                  'Reservation status is invalid. Please try again with a valid reservation details',
-                )
+                'Reservation status is invalid. Please try again with a valid reservation details',
+              )
               : t('Your order was not confirmed.'),
           redirect: FailureCheck1 || FailureCheck2 ? availablePaths.HOME : null,
         });
@@ -472,6 +472,8 @@ const DiningOrderSummary = () => {
       });
     }
   };
+  const irdModuleContent: any = findModule(config?.modules, IN_ROOM_DINING);
+  const isIRDv2 = irdModuleContent?.version === 'v2';
 
   return (
     <>
@@ -530,7 +532,7 @@ const DiningOrderSummary = () => {
                             <span key={index} className={styles.items}>
                               <span
                                 key={index}
-                                className={cx(styles.itemsCurrency, 'globals-irdv2-irdPrice')}
+                                className={cx(styles.itemsCurrency, { 'globals-irdv2-irdPrice': isIRDv2 })}
                               >
                                 {`${currency} `}
                               </span>{' '}
@@ -552,7 +554,7 @@ const DiningOrderSummary = () => {
                             <span key={index} className={styles.items}>
                               <span
                                 key={index}
-                                className={cx(styles.itemsCurrency, 'globals-irdv2-irdPrice')}
+                                className={cx(styles.itemsCurrency, { 'globals-irdv2-irdPrice': isIRDv2 })}
                               >
                                 {`${currency}`}
                               </span>
@@ -576,7 +578,7 @@ const DiningOrderSummary = () => {
                       onClick={() => editFunction(item?.itemId, index)}
                     />
                     <p className={styles.itemPrice}>
-                      <span className={cx(styles.itemCurrency, 'globals-irdv2-irdPrice')}>
+                      <span className={cx(styles.itemCurrency, { 'globals-irdv2-irdPrice': isIRDv2 })}>
                         {currency}{' '}
                       </span>
                       {formatPriceIRD(
@@ -712,20 +714,21 @@ const DiningOrderSummary = () => {
                   {items?.length > 0 && (
                     <span className={styles.itemCount}>{getTotalItems && getTotalItems}</span>
                   )}
-                  <span className={`${styles.currency}`}>
-                    <span className={`${styles.currencyTitle} globals-irdv2-irdPrice`}>
-                      {currency}
+                  <span className={cx(styles.currency, { [styles.currencyV2]: isIRDv2 })}>
+                    <span className={`${styles.currencyTitle} ${isIRDv2 ? 'globals-irdv2-irdPrice' : ''}`}>
+                      {`${currency} `}
                     </span>
-                    <span className={`${styles.currencyTotalTitle} globals-irdv2-TotalBtn `}>
+                    {isIRDv2 && <span className={`${styles.currencyTotalTitle} ${isIRDv2 ? '' : ''}`}>
+                      {/* globals-irdv2-TotalBtn */}
                       {t('Total')}
-                    </span>
-                    <span className={`${styles.currencyTotalAmount} globals-irdv2-TotalBtn `}>
+                    </span>}
+                    <span className={`${styles.currencyTotalAmount}`}>
                       {formatPriceIRD(totalAmount)}
                     </span>
                   </span>
                 </div>
-                <div className='globals-irdv2-irdFlow'>{t('Confirm')}</div>
-                <div className='globals-irdv2-irdFlowShow'>{t('Place Order')}</div>
+                {!isIRDv2 ? <div className={isIRDv2 ? 'globals-irdv2-irdFlow' : ''}>{t('Confirm')}</div> :
+                  <div className={isIRDv2 ? 'globals-irdv2-irdFlowShow' : ''}>{t('Place Order')}</div>}
               </div>
             </StyledButton>
           </div>

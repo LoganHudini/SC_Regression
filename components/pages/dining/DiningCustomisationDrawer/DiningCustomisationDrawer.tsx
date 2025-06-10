@@ -13,8 +13,10 @@ import produce from 'immer';
 import { useTranslation } from 'react-i18next';
 import { addToCartEvent } from 'utils/gtag';
 import { useCurrency } from 'utils/hooks/useCurrency';
-import { formatPriceIRD } from 'utils/functions';
+import { findModule, formatPriceIRD } from 'utils/functions';
 import cx from 'classnames';
+import { useConfig } from 'utils/hooks/useConfiguration';
+import { IN_ROOM_DINING } from 'utils/constants';
 
 export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps> = ({
   customisationDrawer,
@@ -69,6 +71,9 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
     selectedItem?.quantity,
     selectedItem?.title,
   ]);
+  const config = useConfig();
+  const irdModuleContent: any = findModule(config?.modules, IN_ROOM_DINING);
+  const isIRDv2 = irdModuleContent?.version === 'v2';
 
   return (
     <Drawer
@@ -114,7 +119,7 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
                 {item?.name}
                 {' :'}
                 <span className={styles.currencyItems}>
-                  <span className='globals-irdv2-irdPrice'>{currency} </span>{' '}
+                  <span className={isIRDv2 ? 'globals-irdv2-irdPrice' : ''}>{currency} </span>{' '}
                   {formatPriceIRD(item?.priceInDecimal)}
                 </span>
               </span>
@@ -129,7 +134,7 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
                 {item?.name}
                 {' : '}
                 <span className={styles.currencyItems}>
-                  <span className='globals-irdv2-irdPrice'>{currency} </span>
+                  <span className={isIRDv2 ? 'globals-irdv2-irdPrice' : ''}>{currency} </span>
                   {formatPriceIRD(item?.price)}
                 </span>
               </span>
@@ -141,7 +146,7 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
             <p className={styles.itemPrice}>
               <span className={styles.addonsTitle}>{t('Total Item Price :')}</span>
               <div>
-                <span className={cx(styles.currency, 'globals-irdv2-irdPrice')}>{currency} </span>{' '}
+                <span className={cx(styles.currency, { 'globals-irdv2-irdPrice': isIRDv2 })}>{currency} </span>{' '}
                 <span className={styles.currencyValue}>
                   {formatPriceIRD(selectedItem?.price + totalAddons)}
                 </span>

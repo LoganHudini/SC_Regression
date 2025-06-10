@@ -6,8 +6,10 @@ import { diningInformationStorage } from 'storage/dining.storage';
 import { useReactiveVar } from '@apollo/client';
 import cx from 'classnames';
 import produce from 'immer';
-import { getIRDStatus, setScrollPosition } from 'utils/functions';
+import { findModule, getIRDStatus, setScrollPosition } from 'utils/functions';
 import { hotelInfoStorage } from 'storage/home.storage';
+import { useConfig } from 'utils/hooks/useConfiguration';
+import { IN_ROOM_DINING } from 'utils/constants';
 
 export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
   categories,
@@ -21,6 +23,9 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
   const [userScrolling, setUserScrolling] = useState(false);
   const [isManualSelection, setIsManualSelection] = useState(false);
   const hotelInformation = useReactiveVar(hotelInfoStorage);
+  const config = useConfig();
+  const irdModuleContent: any = findModule(config?.modules, IN_ROOM_DINING);
+  const isIRDv2 = irdModuleContent?.version === 'v2';
 
   useEffect(() => {
     const scrollContainer = stickyHeader.current;
@@ -154,7 +159,9 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
       <div>
         <StyledButton
           className={cx(styles.DiningCategoryOptionInActive, {
-            [styles.DiningCategoryOptionActive]: el?.id === diningInformation?.selectedCategory,
+            [styles.DiningCategoryOptionInActiveV2]: isIRDv2,
+            [styles.DiningCategoryOptionActive]: el?.id === diningInformation?.selectedCategory && !isIRDv2,
+            [styles.DiningCategoryOptionActiveV2]: el?.id === diningInformation?.selectedCategory && isIRDv2,
           })}
           onClick={(e) => {
             handleCategoryChange(e, el);
@@ -171,7 +178,7 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
     <>
       <div ref={stickyHeader} className={cx(styles.menuOptionsWrapper)}>
         {filteredCategories?.map((el: any, index: number) => (
-          <div id={el?.id} className={styles.diningMenuFilterButtonWrapper} key={`${el}-${index}`}>
+          <div id={el?.id} className={cx(styles.diningMenuFilterButtonWrapper, { [styles.diningMenuFilterButtonWrapperV2]: isIRDv2 })} key={`${el}-${index}`}>
             <CatogoryTimingsView el={el} />
           </div>
         ))}
