@@ -720,7 +720,10 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                   className={styles.searchIcon}
                   onClick={() => {
                     setSearchQuery('');
-                    setFilteredOptions([]);
+                    setFilteredOptions({
+                      allergen: [],
+                      tag: []
+                    });
                     setsearch(false);
                   }}
                 >
@@ -748,7 +751,10 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                         <IconButton
                           onClick={() => {
                             setSearchQuery('');
-                            setFilteredOptions([]);
+                            setFilteredOptions({
+                              allergen: [],
+                              tag: []
+                            });
                           }}
                         >
                           <SearchText />
@@ -863,7 +869,10 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
       <CustomDrawer
         open={filterDrawer}
         onClose={() => {
-          setFilteredOptions(appliedFilter || []);
+          setFilteredOptions(appliedFilter || {
+            allergen: [],
+            tag: []
+          });
           setFilterDrawer(false);
         }}
         content={<FilterDetails />}

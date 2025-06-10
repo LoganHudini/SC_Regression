@@ -200,8 +200,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
             >
               {ingredients ? (
                 <>
-                  <span className={isIRDv2 ? "ingredients-text" : ''}>{ingredients}</span>
-                  <span className={isIRDv2 ? "price-text" : ''}>{formatPriceIRD(price)}</span>
+                  <span className={isIRDv2 ? "ingredients-text" : ''}>{`${ingredients} ${formatPriceIRD(price)}`}</span>
                 </>
               ) : (
                 formatPriceIRD(price)
