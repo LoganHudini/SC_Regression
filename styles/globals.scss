@@ -805,7 +805,7 @@ img {
   flex-direction: row;
   justify-content: space-between;
   text-align: start;
-  width: 284px;
+  width: 100%;
   gap: 10px;
 }
 
@@ -857,13 +857,4 @@ img {
 .price-text {
   font-weight: bold;
   margin-top: 4px;
-}
-
-.ingredients-with-price {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: inline-block;
-  max-width: 100%;
-
-  -webkit-line-clamp: 2;
 }
