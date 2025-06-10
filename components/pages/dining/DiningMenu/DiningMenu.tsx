@@ -662,8 +662,14 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
           <StyledButton
             className={styles.clearFilter}
             onClick={() => {
-              setAppliedFilter([]);
-              setFilteredOptions([]);
+              setAppliedFilter({
+                allergen: [],
+                tag: []
+              });
+              setFilteredOptions({
+                allergen: [],
+                tag: []
+              });
             }}
             variant='outlined'
           >
