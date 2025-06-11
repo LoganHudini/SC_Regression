@@ -22149,6 +22149,7 @@ export const configuration: any = [
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
         customServiceChargeMessage: 'serviceChargeMessage',
+        version: 'v2',
       },
       {
         code: 'Services',
