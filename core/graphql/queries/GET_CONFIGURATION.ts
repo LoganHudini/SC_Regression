@@ -23940,7 +23940,7 @@ export const configuration: any = [
                     name: 'docType',
                     label: 'Document Type',
                     type: 'AutoComplete',
-                    required: true,
+                    required: false,
                     isDisabled: false,
                     isActive: true,
                     options: [
@@ -23962,7 +23962,7 @@ export const configuration: any = [
                     name: 'docNo',
                     label: 'Document Number',
                     type: 'Text',
-                    required: true,
+                    required: false,
                     isDisabled: false,
                     isActive: true,
                   },
