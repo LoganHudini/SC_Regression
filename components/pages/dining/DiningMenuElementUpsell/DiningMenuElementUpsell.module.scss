@@ -71,7 +71,7 @@
 
 .addCta {
   width: 45px;
-  height: 37px;
+  height: 42px;
   color: var(--primary-background-color);
   text-align: center;
   background-color: var(--primary-theme-color);
@@ -79,7 +79,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 5px;
+
   &:after {
     display: none;
   }
