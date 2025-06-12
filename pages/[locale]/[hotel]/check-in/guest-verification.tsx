@@ -1353,7 +1353,9 @@ const Guest: React.FC<any> = () => {
                             <span className={styles.scanDocText}>{t('Scan & Verify')}</span>
                           </StyledButton>
                         </DetailsCard>
-                      ) : openToggleAddNewGuestForAdult[index] ? (
+                      ) : openToggleAddNewGuestForAdult[
+                          index + (accompanyGuestData?.length || 0)
+                        ] ? (
                         <DetailsCard
                           title={`${t('Guest')} ${accompanyGuestData?.length + index + 1}`}
                           handleClick={handleDetailsCardClick}
