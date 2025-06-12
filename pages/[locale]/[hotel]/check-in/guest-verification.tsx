@@ -1284,7 +1284,7 @@ const Guest: React.FC<any> = () => {
                 ...(newAccompanyGuestStorage?.adult || []),
                 ...(newAccompanyGuestStorage?.child || []),
               ]?.map((newGuest: any, index: number) => {
-                const uniqueIndex = index + accompanyGuestData.length;
+                const uniqueIndex = index;
 
                 const handleDetailsCardClick = () => {
                   setOpenToggleAddNewGuestForAdult((prev) => {
@@ -1353,9 +1353,7 @@ const Guest: React.FC<any> = () => {
                             <span className={styles.scanDocText}>{t('Scan & Verify')}</span>
                           </StyledButton>
                         </DetailsCard>
-                      ) : openToggleAddNewGuestForAdult[
-                          index + (accompanyGuestData?.length || 0)
-                        ] ? (
+                      ) : openToggleAddNewGuestForAdult[index] ? (
                         <DetailsCard
                           title={`${t('Guest')} ${accompanyGuestData?.length + index + 1}`}
                           handleClick={handleDetailsCardClick}
