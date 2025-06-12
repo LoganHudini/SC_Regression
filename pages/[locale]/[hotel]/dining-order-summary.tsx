@@ -537,7 +537,7 @@ const DiningOrderSummary = () => {
                                 {`${currency} `}
                               </span>{' '}
                               {formatPriceIRD(items?.priceInDecimal)}
-                              {index !== item?.addons?.length - 1 ? ',' : ''}{' '}
+                              {index !== item?.addons?.length - 1 ? '' : ''}{' '}
                             </span>
                           </div>
                         ))}
@@ -559,7 +559,7 @@ const DiningOrderSummary = () => {
                                 {`${currency}`}
                               </span>
                               {formatPriceIRD(items?.priceInDecimal)}
-                              {index !== item?.groupedAddons?.length - 1 ? ',' : ''}{' '}
+                              {index !== item?.groupedAddons?.length - 1 ? '' : ''}{' '}
                             </span>
                           </div>
                         ))}

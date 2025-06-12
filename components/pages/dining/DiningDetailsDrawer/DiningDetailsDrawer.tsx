@@ -523,7 +523,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
               <>
                 <div className={styles.addonsRow}>
                   <p className={styles.addonsText}>{t('Add-Ons')}</p>
-                  {!selectedItem?.addOnLimit && selectedItem?.addOnValue > 0 && (addonsWarning ? (
+                  {selectedItem?.addOnLimit && selectedItem?.addOnValue > 0 && (addonsWarning ? (
                     <p className={styles.optionalTextWarning}>{t('Limit exceeded')}</p>
                   ) : (
                     <p className={styles.optionalText}>

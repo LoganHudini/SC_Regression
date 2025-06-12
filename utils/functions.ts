@@ -662,7 +662,11 @@ export function getIRDStatus(timings: any, timezoneProp: any) {
     return '';
   }
 
-  const todayTiming = timings.find((t: any) => t.day === currentDay);
+  let todayTiming = timings.find((t: any) => t.day === currentDay);
+  if (!todayTiming) {
+    todayTiming = timings.find((t: any) => t.day === EVERYDAY);
+  }
+
   if (!todayTiming) {
     return 'unavailable now';
   }
