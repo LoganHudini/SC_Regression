@@ -19,7 +19,7 @@ export const usePersonalisation = () => {
   const config = useConfig();
   const checkInModule: any = config?.modules?.find((module: any) => module?.code === CHECK_IN);
   const personalisationConfig = checkInModule?.submodules?.find(
-    (submodule: any) => submodule?.name === personalisation && submodule.isActive,
+    (submodule: any) => submodule?.name === personalisation,
   );
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
@@ -45,7 +45,7 @@ export const usePersonalisation = () => {
           endDate: endDate,
           confirmationId: reservationInfo?.confirmationId,
         },
-        skip: !reservationData?.getReservation?.data,
+        skip: !reservationData?.getReservation?.data || !personalisationConfig?.isActive,
       },
     );
 

@@ -58,6 +58,7 @@ import { setHighLightCheckOut } from 'storage/menu-item';
 import { LanguageDrawer } from '../LanguageDrawer/LanguageDrawer';
 import { messageBoxURL } from 'storage/chats';
 import { getCheckInTokenSession } from 'core/api/functions/getCheckInAuthentication';
+import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
   title,
@@ -322,6 +323,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                   <p
                     className={cx(styles.inActiveText)}
                     onClick={() => {
+                      reservationGuestInfoStorageData(null);
                       closeDrawer();
                       checkoutTrip();
                       notificationStorage({

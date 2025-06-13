@@ -90,7 +90,12 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
       lang: locale === 'en' ? '' : locale,
     },
   });
-  hotelInformation(hotelInfo && hotelInfo?.getPropertyDetailsByHotelId?.hotel);
+
+  useEffect(() => {
+    if (hotelInfo?.getPropertyDetailsByHotelId?.hotel) {
+      hotelInformation(hotelInfo.getPropertyDetailsByHotelId.hotel);
+    }
+  }, [hotelInfo]);
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,

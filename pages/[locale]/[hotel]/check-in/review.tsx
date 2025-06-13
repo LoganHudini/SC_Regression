@@ -100,6 +100,8 @@ import { useCurrency } from 'utils/hooks/useCurrency';
 import { StyledInput } from 'components/shared/StyledInput/StyledInput';
 import { useFormik } from 'formik';
 import { instructionValidation } from 'validation/dining.validation';
+import Camera from '@icons/cameraIcon.svg';
+import CameraCapture from 'components/shared/renderCamera/CameraCapture';
 
 export { getStaticPaths };
 
@@ -193,6 +195,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const [signatureWidth, setSignatureWidth] = useState(340);
   const [specialRequests, setSpecialRequests] = useState('');
   const currency = useCurrency();
+  // camera
+  const [openCamera, setOpenCamera] = useState(false);
+  const [capturedImage, setCapturedImage] = useState<string | null>(null);
+
   // card expansion states
   const [stayInformation, setStayInformation] = useState(false);
   const [primaryGuestInformation, setPrimaryGuestInformation] = useState(false);
@@ -214,6 +220,27 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const reviewConfig = checkInModule?.submodules?.find(
     (submodule: any) => submodule?.name === REVIEW && submodule.isActive,
   );
+
+  const dynamicFields = reviewConfig?.dynamicFields;
+
+  const combinedGuests = [
+    {
+      ...guestReservationInfo,
+      isPrimary: true,
+    },
+  ];
+
+  combinedGuests.push(
+    ...accompanyGuestInfo.map((guest: any) => ({
+      ...guest,
+      isPrimary: false,
+    })),
+  );
+
+  // Add AdultGuestCount as a special entry
+  combinedGuests.push({
+    adultGuestCount: 1 + accompanyGuestInfo.filter((g: any) => !g.isChild).length,
+  });
 
   const [checkboxStates, setCheckboxStates] = useState<{ [key: number]: boolean }>({});
 
@@ -436,7 +463,57 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             });
       }
     };
+    let idDocumentKey = ''; // store the uploaded file's key here
+
+    const uploadIDDocument = async () => {
+      if (!capturedImage) return;
+
+      const filename = `${guestReservationInfo?.firstName}_${guestReservationInfo?.lastName}_id_document.png`;
+
+      const uploadImagePayload: IPreSignDocUploadApiRequest = {
+        groupId: hotelInfo?.groupId,
+        type: 'reservation_docs',
+        propertyType: 'hotels',
+        confirmationId: reservationInfo?.confirmationId ?? '',
+        filename,
+        contentType: 'image/png',
+        contentLength: 8196,
+        body: null,
+        contents: capturedImage.replace('data:image/png;base64,', ''),
+        isDocUpload: true,
+      };
+
+      const checkInToken = await getCheckInToken();
+
+      try {
+        const uploadImageResponse = await client.query<IPreSignDocUploadApiResponse>({
+          query: PRE_SIGN_DOC_UPLOAD,
+          context: {
+            clientName: 'rest',
+            headers: { Authorization: 'Bearer ' + checkInToken },
+          },
+          variables: {
+            confirmationNumber: reservationInfo?.confirmationId as string,
+            body: uploadImagePayload,
+          },
+        });
+
+        idDocumentKey = uploadImageResponse?.data?.preSignDocUpload?.data?.key;
+      } catch (error) {
+        const statusCode = processStatusCode(error as ApolloError);
+        if (statusCode === 403) {
+          handleCheckInAuthenticationFailure(uploadIDDocument);
+        } else {
+          notificationStorage({
+            type: FAILURE,
+            title: t(ERRORMSG),
+            description: t('Failed to upload ID document.'),
+          });
+        }
+      }
+    };
     await uploadSignature();
+    await uploadIDDocument();
 
     // check-in
     const personalisation =
@@ -448,20 +525,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             )
             ?.join(', ')
         : '';
-    const payment =
-      paymentConfig?.type !== NONE
-        ? ('vaultedCardID: ' + guestReservationInfo?.token || '') +
-          (', lastFourDigits: ' +
-            (guestReservationInfo?.cardNumber?.length > 4
-              ? guestReservationInfo?.cardNumber?.substr(
-                  guestReservationInfo?.cardNumber?.length - 4,
-                )
-              : guestReservationInfo?.cardNumber) || '') +
-          (', cardType: ' + cardType || '') +
-          (', expiryDate: ' + guestReservationInfo?.cardExpiryDate || '') +
-          (', approvalCode: ' + guestReservationInfo?.approvalCode || '') +
-          (', authorizedAmount: ' + String(fetchCharges(reservationInfo)) || '')
-        : '';
+
     if (guestSignature) {
       const checkInPayload: ICheckInApiRequest = {
         skipQueueReservation: config?.skipQueueReservation ? true : false,
@@ -541,6 +605,15 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               }))
             : [],
         guestSignature: guestSignature,
+        captureDocumentUpload: idDocumentKey
+          ? [
+              {
+                capturedDocumentFrontImage: idDocumentKey,
+                capturedDocumentBackImage: idDocumentKey,
+                capturedDocumentType: 'PASSPORT',
+              },
+            ]
+          : [],
         comment:
           personalisationConfig?.type === CMS
             ? personalizationEntities?.map((personalization) => ({
@@ -557,7 +630,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             : guestReservationInfo?.estimatedTime,
         depositAmount: paymentConfig?.type !== NONE ? String(fetchCharges(reservationInfo)) : '',
         specialInstructions:
-          payment +
           (personalisation ? 'Personalisations: ' + personalisation : '') +
           (specialRequests ? 'Special Request: ' + specialRequests : ''),
         primaryGuestDOB: guestReservationInfo?.dob as string,
@@ -721,7 +793,11 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           });
           notificationStorage({
             type: SUCCESS,
-            title: reviewConfig?.checkInSuccessfulMessageTitle
+            title: preCheckInStatus
+              ? reviewConfig?.preCheckInSuccessfulMessageTitle
+                ? reviewConfig?.preCheckInSuccessfulMessageTitle
+                : (t('Welcome!') as string)
+              : reviewConfig?.checkInSuccessfulMessageTitle
               ? reviewConfig?.checkInSuccessfulMessageTitle
               : (t('Welcome!') as string),
             description: preCheckInStatus
@@ -736,8 +812,11 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             redirect: availablePaths?.HOME,
             delay: 9000,
           });
+          reviewSignAndCheckBox({ checkBox: false, sign: null });
+          reservationGuestInfoStorageData(null);
           guestInformationStorage(null);
           accompanyGuestDetails(null);
+          reservationGuestInfoStorageData(null);
         } catch (checkinError) {
           const statusCode = processStatusCode(checkinError as ApolloError);
           if (statusCode === 403) {
@@ -925,6 +1004,89 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   };
 
   const combinedAccArray = accompanyGuestInfo?.concat(updatedGuestData && updatedGuestData) ?? [];
+
+  const handleCapture = useCallback(
+    async (imageData: string) => {
+      setCapturedImage(imageData);
+      setOpenCamera(false);
+      return true; // or any value you want to return
+    },
+    [setCapturedImage, setOpenCamera],
+  );
+
+  const handleCloseCamera = useCallback(() => {
+    setOpenCamera(false);
+  }, []);
+
+  const renderDocumentUploads = () => {
+    return dynamicFields
+      ?.filter((field: any) => {
+        if (!field.enabled) return false;
+        if (!field.rule || field.rule.length === 0) return true;
+
+        return field.rule.every((rule: any) => {
+          const { key, condition, value } = rule;
+
+          // Find the value for this key across all guests/objects
+          let guestValue = undefined;
+
+          for (const guest of combinedGuests) {
+            if (key in guest) {
+              guestValue = guest[key];
+              console.log(guestValue, 'guestValue');
+              break; // Use first matching key found
+            }
+          }
+
+          if (guestValue === undefined) return false;
+
+          switch (condition) {
+            case '==':
+              return guestValue == value; // loose equality to allow string/number matches
+            case '>':
+              return guestValue > value;
+            case '<':
+              return guestValue < value;
+            case '>=':
+              return guestValue >= value;
+            case '<=':
+              return guestValue <= value;
+            case '!=':
+              return guestValue != value;
+            default:
+              return false;
+          }
+        });
+      })
+      ?.map((field: any, index: any) => (
+        <div className={styles.mainContainer} key={index}>
+          <DetailsCard title={t('Capture Document')}>
+            <div className={styles.imageText}>
+              <p className={styles.containerTitle}>
+                {t('Please capture the same document you used for ID verification.')}
+              </p>
+              {capturedImage && (
+                <div className={styles.capturedImageContainer}>
+                  <img src={capturedImage} alt='Captured ID' className={styles.capturedImage} />
+                </div>
+              )}
+            </div>
+            <div className={styles.buttonStyling}>
+              <StyledButton
+                variant='contained'
+                className={styles.scanDocWrapper}
+                onClick={() => setOpenCamera(true)}
+              >
+                <Camera />
+                <span className={styles.scanDocText}>
+                  {capturedImage ? t('Capture Again') : t('Capture ID')}
+                </span>
+              </StyledButton>
+            </div>
+          </DetailsCard>
+        </div>
+      ));
+  };
 
   return (
     <>
@@ -1229,6 +1391,20 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               />
             )}
           </div>
+          {renderDocumentUploads()}
+
+          {openCamera && (
+            <div className={styles.cameraModalOverlay}>
+              <div className={styles.cameraModalContent}>
+                <CameraCapture
+                  openCamera={openCamera}
+                  handleCapture={handleCapture}
+                  onClose={handleCloseCamera}
+                  t={t}
+                />
+              </div>
+            </div>
+          )}
 
           {DOCUMENT_LIST?.some((document: any) => hotelInfo?.[document.code]?.type) && (
             <div className={styles.agrementWrapper}>

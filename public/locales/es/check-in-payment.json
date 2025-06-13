@@ -3,5 +3,7 @@
   "Payment Failed!": "¡Pago fallido!",
   "Thank You!": "¡Gracias!",
   "Card Authentication Failed!": "¡Autenticación de tarjeta fallida!",
-  "Card Authentication Completed": "Autenticación de tarjeta Completada"
+  "Card Authentication Completed": "Autenticación de tarjeta Completada",
+  "Payment Success": "Pago exitoso",
+  "Please contact front desk for assistance": "Por favor, contacte con la recepción para obtener ayuda"
 }
