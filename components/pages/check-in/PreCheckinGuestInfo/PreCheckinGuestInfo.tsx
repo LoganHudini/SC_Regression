@@ -57,9 +57,16 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
   const newAccompanyGuestStorage = useReactiveVar(newAccompanyGuestDetails);
   const hotelInfo = useReactiveVar(hotelInformation);
 
-  const countryCode = Countries?.find(
-    (item: any) => item?.name?.toLowerCase() === hotelInfo?.location?.country?.toLowerCase(),
+  const normalize = (str = '') =>
+    str
+      .trim()
+      .toLowerCase()
+      .replace(/^the\s+/, '');
+
+  const countryCode = Countries.find(
+    (item) => normalize(item.name) === normalize(hotelInfo?.location?.country),
   )?.value?.toLowerCase();
+
   const isCheckInTimeEnabled = guestInformationSection?.find(
     (field: any) => field?.name === ESTIMATED_TIME,
   )?.isCheckInTimeEnabled;
