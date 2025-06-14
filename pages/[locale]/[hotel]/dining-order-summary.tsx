@@ -596,7 +596,10 @@ const DiningOrderSummary = () => {
 
         {uniqueUpsellItems?.length > 0 && (
           <>
-            <div className={styles.upsell}>{renderMenuElements(uniqueUpsellItems)}</div>
+            <div className={styles.upsellWrapper}>
+              <p className={styles.youMayAlsoLikeText}>{t('You May Also Like')}</p>
+              <div className={styles.upsell}>{renderMenuElements(uniqueUpsellItems)}</div>
+            </div>
           </>
         )}
 

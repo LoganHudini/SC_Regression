@@ -167,11 +167,9 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
                 />
               </div>
             ))}
-          {customisation && irdModule && (
-            <p className={styles.customisableText} onClick={handleDiningDetails}>
-              {t('customizable')}
-            </p>
-          )}
+          <p className={styles.customisableText} onClick={handleDiningDetails}>
+            {customisation && irdModule && t('customizable')}
+          </p>
         </div>
       </div>}
 

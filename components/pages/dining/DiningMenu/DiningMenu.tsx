@@ -819,7 +819,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             {selectedMenu?.categories?.filter((item: any) => item?.isActive)?.length > 0 && (
               <div className={cx(styles.bottomContainer, { ['globals-irdv2-irdFlowShow']: isIRDv2 })}>
                 <div className={styles.backToTopContainer}>
-                  {backToTopBtnVar >= 4 && (
+                  {backToTopBtnVar >= 4 && isIRDv2 && (
                     <StyledButton
                       className={cx(styles.backToTopButton, {
                         [styles.backToTopButtonClicked]: backToTopClicked,
@@ -854,7 +854,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                     </StyledButton>
                   )}
 
-                  {backToTopBtnVar !== 0 && (
+                  {backToTopBtnVar !== 0 && isIRDv2 && (
                     <p className={styles.priceDisclaimer}>All prices are in {currency}</p>
                   )}
                 </div>

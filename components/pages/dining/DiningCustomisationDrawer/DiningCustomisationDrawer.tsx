@@ -117,7 +117,7 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
             {selectedItem?.addons?.map((item: any, index: any) => (
               <span key={index} className={styles.item}>
                 {item?.name}
-                {' :'}
+                {' - '}
                 <span className={styles.currencyItems}>
                   <span className={isIRDv2 ? 'globals-irdv2-irdPrice' : ''}>{currency} </span>{' '}
                   {formatPriceIRD(item?.priceInDecimal)}
@@ -132,7 +132,7 @@ export const DiningCustomisationDrawer: React.FC<IDiningCustomisationDrawerProps
             {selectedItem?.groupedAddons?.map((item: any, index: any) => (
               <span key={index} className={styles.item}>
                 {item?.name}
-                {' : '}
+                {' - '}
                 <span className={styles.currencyItems}>
                   <span className={isIRDv2 ? 'globals-irdv2-irdPrice' : ''}>{currency} </span>
                   {formatPriceIRD(item?.price)}

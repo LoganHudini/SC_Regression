@@ -116,6 +116,10 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
       }
       setCount(selectedItemWithIndex.quantity || 1);
       setInstruction(selectedItemWithIndex?.cookingInstruction);
+      formik.setValues({
+        ...formik.values,
+        ['instruction' as string]: selectedItemWithIndex?.cookingInstruction || '',
+      });
     }
   }, [selectedItemWithIndex, editControlStatus]);
 
@@ -408,7 +412,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
   ]);
 
   const formik = useFormik({
-    initialValues: { instruction: '' },
+    initialValues: { instruction: instruction || '' },
     validationSchema: instructionValidation,
     onSubmit: (values) => {
       setInstruction(values.instruction);
@@ -469,6 +473,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
 
             {selectedItem?.ingredients && (
               <>
+                <h4 className={styles.ingredientsText}>{t('Ingredients')}</h4>
                 <p className={styles.ingredientsDescription}>{selectedItem?.ingredients}</p>
               </>
             )}

@@ -46,11 +46,11 @@
   font: $small var(--primary-card-desc-font-family);
   margin: 10px 0;
   color: var(--tertiary-text-color);
-  width: 140%;
+  width: 100%;
   min-height: 1rem;
   line-height: 1.5;
   max-height: 4rem;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
 }
 
 .descriptionWithImage {

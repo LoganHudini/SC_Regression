@@ -27,6 +27,7 @@ import {
   filterIRDMenuItems,
   irdActiveMenuList,
   uniqueDiningOption,
+  findModule,
 } from 'utils/functions';
 import DiningMenu from 'components/pages/dining/DiningMenu/DiningMenu';
 import ScrollDown from '@icons/scrollDown.svg';
@@ -66,6 +67,8 @@ const Dining = () => {
   const { isReady } = router;
   const [tags, setTags] = useState<string[]>([]);
   const [allergens, setAllergens] = useState<string[]>([]);
+  const irdModuleContent: any = findModule(config?.modules, IN_ROOM_DINING);
+  const isIRDv2 = irdModuleContent?.version === 'v2';
   const { data: restaurantList, loading } = useQuery<IGetRestaurantDetailsResponse>(
     GET_RESTAURANT_DETAILS,
     {
@@ -240,7 +243,7 @@ const Dining = () => {
         <div className={styles.wrapper}>
           <div className={styles.filterContentWrapper}>
             <div></div>
-            <h3 className={styles.welcomeTitle}>{filter?.menuName}</h3>
+            <h3 className={styles.welcomeTitle}>{isIRDv2 && filter?.menuName}</h3>
             <div className={styles.filterWrapper}>
               <>  {(tags?.length > 0 || allergens?.length > 0) && <FilterIcon onClick={openFilterFunc} style={{ marginInlineEnd: '15px' }} />}</>
               {(appliedFilter?.allergen?.length > 0 || appliedFilter?.tag?.length > 0) && <div className={styles.filterWrapperApplied}></div>}

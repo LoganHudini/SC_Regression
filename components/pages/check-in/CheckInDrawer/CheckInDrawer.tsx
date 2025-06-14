@@ -35,6 +35,7 @@ const CheckInDrawer = () => {
   const config = useConfig();
   const hotelId = config?.hotelId;
   const hotel = config?.code;
+  const pmsRoomNumberLength = config?.pmsRoomNumberLength;
   const hotelInformation = useReactiveVar(hotelInfoStorage);
   const checkInDrawerStatus = useReactiveVar(toggleCheckInDetailsDrawer);
   const { t } = useTranslation(['common']);
@@ -81,6 +82,7 @@ const CheckInDrawer = () => {
           navigate,
           isRetryEnabled,
           hotelInformation,
+          pmsRoomNumberLength
         });
       }
     },
@@ -101,12 +103,12 @@ const CheckInDrawer = () => {
     initialValues:
       activeCheckInFlowInfo && !activeCheckOutFlowInfo
         ? {
-            confirmationNumber: '',
-            lastName: '',
-          }
+          confirmationNumber: '',
+          lastName: '',
+        }
         : activeCheckOutFlowInfo
-        ? { confirmationNumber: '' }
-        : {
+          ? { confirmationNumber: '' }
+          : {
             roomNo: '',
             lastName: '',
           },
@@ -114,8 +116,8 @@ const CheckInDrawer = () => {
       activeCheckInFlowInfo && !activeCheckOutFlowInfo
         ? getReservationForCheckinValidation
         : activeCheckOutFlowInfo
-        ? getcheckInTokenValidation
-        : getReservationForConnectToRoomValidation,
+          ? getcheckInTokenValidation
+          : getReservationForConnectToRoomValidation,
     onSubmit: goToTheNextStep,
     enableReinitialize: true,
   });
@@ -182,8 +184,8 @@ const CheckInDrawer = () => {
             {activeCheckInFlowInfo && !activeCheckOutFlowInfo
               ? t('Please enter the details to start your check-in process')
               : activeCheckOutFlowInfo
-              ? t('Please enter the details to proceed')
-              : t('Connect your phone to access in-room features on your device.')}
+                ? t('Please enter the details to proceed')
+                : t('Connect your phone to access in-room features on your device.')}
           </p>
           <div className={styles.reservationInputs}>
             <StyledInput
@@ -215,8 +217,8 @@ const CheckInDrawer = () => {
                     ? t(formik.errors.confirmationNumber)
                     : null
                   : formik.touched?.roomNo && formik.errors.roomNo
-                  ? t(formik.errors.roomNo)
-                  : null
+                    ? t(formik.errors.roomNo)
+                    : null
               }
             />
             {!activeCheckOutFlowInfo && (

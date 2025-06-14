@@ -23828,6 +23828,7 @@ export const configuration: any = [
     hideImagePlaceholder: true,
     isAnimationActive: false,
     isLogoLoaderActive: false,
+    pmsRoomNumberLength: 4,
     modules: [
       {
         code: 'Preferences',
