@@ -858,3 +858,18 @@ img {
   font-weight: bold;
   margin-top: 4px;
 }
+
+.globals-irdv2-allergens {
+  display: flex;
+  height: 23px;
+  color: var(--tertiary-text-color);
+  font: $small var(--primary-font-regular);
+  margin-inline-end: 10px;
+  width: auto;
+  min-width: 50px;
+  padding: 0px 1px 0px 1px;
+  justify-content: start;
+  align-items: center;
+  text-transform: capitalize;
+  margin-top: 8px;
+}

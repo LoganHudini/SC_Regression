@@ -459,7 +459,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
                     const IconComponent =
                       iconsMap[tags.name.toLowerCase() as keyof typeof iconsMap];
                     return (
-                      <div key={key} className={styles.tags}>
+                      <div key={key} className={cx({ ['globals-irdv2-allergens']: isIRDv2 }, { [styles.tags]: !isIRDv2 })}>
                         {IconComponent && <IconComponent className={styles.allergens} />}
                         {tags?.name}
                       </div>
