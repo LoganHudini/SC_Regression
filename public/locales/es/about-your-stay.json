@@ -77,5 +77,6 @@
   "below_age": "Menor de {{value}} años",
   "Scan & Verify": "Escanear y verificar",
   "Sharer": "Compartidor",
-  "Sharers": "Comparte"
+  "Sharers": "Comparte",
+  "Skip ID Verification": "OMITIR VERIFICACIÓN DE IDENTIDAD"
 }

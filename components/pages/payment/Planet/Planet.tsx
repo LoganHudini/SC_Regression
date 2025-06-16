@@ -10,13 +10,14 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { notificationStorage, toggleNotification } from 'storage/home.storage';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
-import { FAILURE, SUCCESS } from 'utils/constants';
+import { FAILURE, PAY_BY_LINK, SUCCESS } from 'utils/constants';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { processStatusCode } from 'utils/processError';
 import styles from './Planet.module.scss';
 import cx from 'classnames';
 import { availablePaths } from 'utils/availablePaths';
 import { GET_PAYMENT_STATUS } from 'core/graphql/queries/GET_PAYMENT_STATUS';
+import { convertYYMMToLastDate } from 'utils/functions';
 
 interface IInitiatePaymentApiRequest {
   InitiatePaymentPayload: {
@@ -27,7 +28,7 @@ interface IInitiatePaymentApiRequest {
   };
 }
 
-export const Planet = () => {
+export const Planet: React.FC<any> = ({ paymentFlow }) => {
   const { t } = useTranslation(['check-in-payment', 'common']);
   const navigate = useLocalizedRouter();
   const iframeRef: any = useRef<HTMLIFrameElement>(null);
@@ -40,7 +41,7 @@ export const Planet = () => {
 
   const reservationInfo = reservationData && reservationData?.getReservation?.data;
   const randomTransactionId =
-    Math.floor(Math.random() * 9000000000) + 1000000000 + '-' + reservationInfo?.confirmationId;
+    Math.floor(Math.random() * 9000000000) + 1000000000 + '-' + reservationInfo?.reservationId;
 
   const [transactionId, setTransactionId] = useState('');
 
@@ -50,8 +51,10 @@ export const Planet = () => {
 
       if (reservationInfo) {
         const initiatePaymentPayload = {
-          confirmationId: reservationInfo?.confirmationId,
+          confirmationId: reservationInfo.confirmationId,
           referenceNumber: randomTransactionId,
+          // eslint-disable-next-line camelcase
+          payment_flow: paymentFlow ?? '',
         };
         let paymentData: IInitiatePaymentApiRequest | null = null;
         try {
@@ -74,10 +77,14 @@ export const Planet = () => {
             ? handleCheckInAuthenticationFailure(preparePayment)
             : (notificationStorage({
                 title: t('Payment Failed!') as string,
-                description: t('Card Authentication Failed!') as string,
+                description:
+                  paymentFlow === PAY_BY_LINK
+                    ? (t('Please contact front desk for assistance') as string)
+                    : (t('Card Authentication Failed!') as string),
                 type: FAILURE,
               }),
-              toggleNotification(true));
+              toggleNotification(true),
+              paymentFlow === PAY_BY_LINK && navigate(availablePaths?.HOME));
         }
 
         if (randomTransactionId) {
@@ -95,7 +102,7 @@ export const Planet = () => {
     };
     preparePayment();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reservationInfo, t]);
+  }, [reservationInfo]);
 
   const handleChange = async () => {
     setTimeout(async () => {
@@ -121,39 +128,55 @@ export const Planet = () => {
 
           const status = paymentStatusData?.getPaymentStatus?.data['status '];
 
+          const formattedExpiryDate = convertYYMMToLastDate(
+            paymentStatusData.getPaymentStatus.data['cardExpiry'],
+          );
+
           if (status === 'Success') {
-            reservationGuestInfoStorageData({
-              ...guestReservationInfo,
-              token: paymentStatusData?.getPaymentStatus?.data['token'],
-              cardNumber: paymentStatusData?.getPaymentStatus?.data['cardNumber '],
-              cardHolderName: paymentStatusData?.getPaymentStatus?.data['cardHolderName '],
-              cardType: cardOptions?.find(
-                (option: any) =>
-                  option?.value === paymentStatusData?.getPaymentStatus?.data['paymentMethod '],
-              )?.code,
-              cardExpiryDate: paymentStatusData?.getPaymentStatus?.data['cardExpiry'],
-              approvalCode: paymentStatusData?.getPaymentStatus?.data['approvalCode'],
-              paymentType: cardOptions?.find(
-                (option: any) =>
-                  option?.value === paymentStatusData?.getPaymentStatus?.data['cardType '],
-              )?.code,
-            });
             notificationStorage({
               title: t('Thank You!') as string as string,
-              description: t('Card Authentication Completed') as string,
+              description:
+                paymentFlow === PAY_BY_LINK
+                  ? (t('Payment Success') as string)
+                  : (t('Card Authentication Completed') as string),
               type: SUCCESS,
             });
             toggleNotification(true);
-
-            navigate(availablePaths?.CARD_AUTHORISATION);
+            if (paymentFlow === PAY_BY_LINK) {
+              client.clearStore();
+              navigate(availablePaths?.HOME);
+            } else {
+              reservationGuestInfoStorageData({
+                ...guestReservationInfo,
+                token: paymentStatusData?.getPaymentStatus?.data['token'],
+                cardNumber: paymentStatusData?.getPaymentStatus?.data['cardNumber '],
+                cardHolderName: paymentStatusData?.getPaymentStatus?.data['cardHolderName '],
+                cardType: cardOptions?.find(
+                  (option: any) =>
+                    option?.value === paymentStatusData?.getPaymentStatus?.data['paymentMethod '],
+                )?.code,
+                cardExpiryDate: formattedExpiryDate,
+                approvalCode: paymentStatusData?.getPaymentStatus?.data['approvalCode'],
+                paymentType: cardOptions?.find(
+                  (option: any) =>
+                    option?.value === paymentStatusData?.getPaymentStatus?.data['cardType '],
+                )?.code,
+              });
+              navigate(availablePaths?.CARD_AUTHORISATION);
+            }
           } else if (status === 'Failed') {
             notificationStorage({
               title: t('Payment Failed!') as string,
-              description: t('Card Authentication Failed!') as string,
+              description:
+                paymentFlow === PAY_BY_LINK
+                  ? (t('Please contact front desk for assistance') as string)
+                  : (t('Card Authentication Failed!') as string),
               type: FAILURE,
             });
             toggleNotification(true);
-            navigate(availablePaths?.CARD_AUTHORISATION);
+            paymentFlow === PAY_BY_LINK
+              ? navigate(availablePaths?.HOME)
+              : navigate(availablePaths?.CARD_AUTHORISATION);
           }
         } catch (paymentStatusError) {
           const statusCode = processStatusCode(paymentStatusError as ApolloError);
@@ -161,7 +184,10 @@ export const Planet = () => {
             ? handleCheckInAuthenticationFailure(handleChange)
             : (notificationStorage({
                 title: t('Payment Failed!') as string,
-                description: t('Card Authentication Failed!') as string,
+                description:
+                  paymentFlow === PAY_BY_LINK
+                    ? (t('Please contact front desk for assistance') as string)
+                    : (t('Card Authentication Failed!') as string),
                 type: FAILURE,
               }),
               toggleNotification(true));

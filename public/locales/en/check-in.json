@@ -126,5 +126,11 @@
   "You have pre-registered successfully. Please proceed to the reception to complete your check-in process.": "You have pre-registered successfully. Please proceed to the reception to complete your check-in process.",
   "Sharer Information": "Sharer Information",
   "Sharers Information": "Sharers Information",
-  "View": "View"
+  "View": "View",
+  "Please capture the same document you used for ID verification.": "Please capture the same document you used for ID verification.",
+  "Capture Again": "Capture Again",
+  "Capture Id": "Capture Id",
+  "Capture Document": "Capture Document",
+  "Done": "Done",
+  "Capture ID": "Capture ID"
 }

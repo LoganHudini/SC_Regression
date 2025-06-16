@@ -62,6 +62,7 @@ function App({ Component, pageProps }: AppProps) {
     ja: import('dayjs/locale/ja'),
     de: import('dayjs/locale/de'),
   };
+
   const hotelCode = router?.asPath?.split('/')[2];
   const lang = router?.asPath?.split('/')[1];
 

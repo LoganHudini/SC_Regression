@@ -77,5 +77,6 @@
   "below_age": "أقل من {{value}} سنة",
   "Scan & Verify": "مسح وتحقق",
   "Sharer": "المشارك",
-  "Sharers": "مشاركات"
+  "Sharers": "مشاركات",
+  "Skip ID Verification": "تخطي التحقق من الهوية"
 }

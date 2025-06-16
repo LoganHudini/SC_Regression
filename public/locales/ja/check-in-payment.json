@@ -3,5 +3,7 @@
   "Payment Failed!": "お支払いに失敗しました",
   "Thank You!": "ありがとうございました",
   "Card Authentication Failed!": "カード認証に失敗しました",
-  "Card Authentication Completed": "カード認証に失敗しました"
+  "Card Authentication Completed": "カード認証に失敗しました",
+  "Payment Success": "支払い成功",
+  "Please contact front desk for assistance": "サポートが必要な場合はフロントにご連絡ください"
 }

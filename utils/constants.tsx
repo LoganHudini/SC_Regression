@@ -268,12 +268,15 @@ export const idVerificationFields = ['docNo', 'docType'];
 export const PHONE_NUMBER_WITH_COUNTRYCODE = 'Phone';
 export const ESTIMATED_TIME = 'estimatedTime';
 export const RESERVED = 'RESERVED';
+export const PAY_BY_LINK = 'payment_link';
 export const DEFAULT_PAYMENT_MESSAGE = {
   title: 'Choose Payment Method',
   message: 'Click ‘Proceed to Payment’ to begin your payment process.',
 };
 export const DEFAULT_SERVICE_CHARGE_MESSAGE =
   '* Rates are inclusive of applicable government taxes and subject to 10% service charge.';
+export const LATER = 'Later';
+export const NOW = 'Now';
 
 // flow constants
 export const DAYS = [

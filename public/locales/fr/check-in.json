@@ -126,5 +126,11 @@
   "You have pre-registered successfully. Please proceed to the reception to complete your check-in process.": "Vous vous êtes préenregistré avec succès. Veuillez vous rendre à la réception pour finaliser votre enregistrement.",
   "Sharer Information": " Informations sur le partageur",
   "Sharers Information": "Informations sur les partageurs",
-  "View": "Vue"
+  "View": "Vue",
+  "Please capture the same document you used for ID verification.": "Veuillez capturer le même document que celui utilisé pour la vérification d'identité.",
+  "Capture Again": "Capturer à nouveau",
+  "Capture Id": "Capturer la pièce d'identité",
+  "Capture Document": "Capturer le document",
+  "Done": "Terminé",
+  "Capture ID": "Capturer la pièce d'identité"
 }

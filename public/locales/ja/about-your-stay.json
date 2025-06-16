@@ -78,5 +78,6 @@
   "below_age": "{{value}}歳未満",
   "Scan & Verify": "スキャンして確認",
   "Sharer": "シェアする人",
-  "Sharers": " 株式"
+  "Sharers": " 株式",
+  "Skip ID Verification": "本人確認をスキップ"
 }

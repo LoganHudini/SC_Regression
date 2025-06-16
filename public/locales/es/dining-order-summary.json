@@ -46,4 +46,8 @@
   "Something Went Wrong!": "¡Algo salió mal!",
   "serviceChargeMessage": "Las tarifas incluyen los impuestos gubernamentales aplicables, están sujetas a un cargo por servicio del 22% y una tarifa de entrega de $6.00",
   "serviceChargeDisclaimer": "Se aplica el impuesto local sobre las ventas, una tarifa de entrega de $5 y un cargo por servicio del 22% a todas las cuentas. Una vez que hagas clic en confirmar, tu pedido será realizado. Los pedidos se entregarán en un plazo de 45 minutos. Por favor, envíanos un mensaje de texto o llámanos para confirmar la hora de entrega de tu pedido."
+  "Delivery Time": "Hora de entrega",
+  "Next": "Siguiente",
+  "Schedule for later": "Programar para más tarde",
+  "NOW": "Ahora"
 }

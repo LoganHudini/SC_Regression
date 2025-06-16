@@ -197,6 +197,7 @@ const Guest: React.FC<any> = () => {
   const guestInformationSection = activeSections?.find(
     (section: any) => section?.name === GUESTINFORMATION && section.isActive,
   );
+  const skipBiometrics = guestInformationSection?.allowSkipBiometrics;
   const documentTypes = guestInformationSection?.details?.find(
     (e: any) => e?.name === DOCTYPE,
   )?.options;
@@ -522,114 +523,189 @@ const Guest: React.FC<any> = () => {
   ]);
 
   // document update
-  const goToTheNextStep = useCallback(async () => {
-    setLoading(true);
-    let successFlag = true;
-
-    const updateGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
-      docType: documentTypes?.find((option: any) => option?.value === guestReservationInfo?.docType)
-        ?.code,
-      docNumber:
-        reservationInfo?.guests[0]?.docNo === guestReservationInfo?.docNo
-          ? ''
-          : guestReservationInfo?.docNo,
-      reservationId: reservationInfo?.confirmationId as string,
-      firstName: guestReservationInfo?.firstName,
-      lastName: guestReservationInfo?.lastName,
-      profileId: reservationInfo?.guests[0]?.id as string,
-      isPrimary: 'Y',
-      effectiveDate: guestReservationInfo?.issueDate,
-      expiryDate: guestReservationInfo?.expiry,
-      countryOfIssue: guestReservationInfo?.issueCountry,
-      documentFrontImage: guestInformationSection?.uploadId
-        ? guestReservationInfo?.documentFrontImage
-        : '',
-      documentBackImage: guestInformationSection?.uploadId
-        ? guestReservationInfo?.documentBackImage
-        : '',
-      channel: 'PWA',
-      updateGuestDetails: {
-        name: {
-          nameTitle: reservationInfo?.guests[0]?.title,
-          firstName: guestReservationInfo?.firstName,
-          lastName: guestReservationInfo?.lastName,
-          gender: guestReservationInfo?.gender,
-          nationality: guestReservationInfo?.nationality ?? '',
-          dob: guestReservationInfo?.dob,
-          profession: guestReservationInfo?.profession,
-        },
-        address: {
-          id: reservationInfo?.guests[0]?.addressOperaId as string,
-          addressLine1: guestReservationInfo?.addressLine,
-          addressType: 'HOME',
-          countryCode: guestReservationInfo?.countryCode,
-          city: guestReservationInfo?.cityName,
-          postalCode: guestReservationInfo?.postalCode,
-          stateProv: guestReservationInfo?.stateProv,
-        },
-        phone: {
-          id: reservationInfo?.guests[0]?.phoneOperaId
-            ? reservationInfo?.guests[0]?.phoneOperaId?.[0]
-            : '',
-          phoneType: config?.pms === OHIP ? 'PHONE' : 'HOME',
-          phoneNumber: guestReservationInfo?.phone ?? '',
-          phoneRole: config?.pms === OHIP ? 'HOME' : 'PHONE',
-        },
-        email: {
-          id: reservationInfo?.guests[0]?.emailOperaId
-            ? reservationInfo?.guests[0]?.emailOperaId?.[0]
-            : '',
-          email: guestReservationInfo?.emails,
-        },
-      },
-    };
-
-    const updateGuestDetails = async (payload: IUpdateGuestDetailsApiRequest) => {
-      try {
-        const checkInToken = await getCheckInToken();
-        await client.query({
-          query: UPDATE_GUEST_DETAILS,
-          context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
-          variables: {
-            confirmationNumber: reservationInfo?.confirmationId as string,
-            body: payload,
-          },
-        });
-        return true;
-      } catch (error) {
-        const statusCode = processStatusCode(error as ApolloError);
-        if (statusCode === 403) {
-          handleCheckInAuthenticationFailure(updateGuestDetails(payload));
-        }
-        return false;
+  const goToTheNextStep = useCallback(
+    async (skipValidation = false) => {
+      if (skipValidation) {
+        nextStep();
+        return;
       }
-    };
 
-    successFlag = (await updateGuestDetails(updateGuestDetailsPayload)) && successFlag;
+      setLoading(true);
+      let successFlag = true;
 
-    if (newAccompanyGuestStorage?.adult?.length > 0) {
-      const filteredAdultArray = newAccompanyGuestStorage?.adult?.filter(
-        (item: any) => item?.profileId && !item?.isSaved,
-      );
+      const updateGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
+        docType: documentTypes?.find(
+          (option: any) => option?.value === guestReservationInfo?.docType,
+        )?.code,
+        docNumber:
+          reservationInfo?.guests[0]?.docNo === guestReservationInfo?.docNo
+            ? ''
+            : guestReservationInfo?.docNo,
+        reservationId: reservationInfo?.confirmationId as string,
+        firstName: guestReservationInfo?.firstName,
+        lastName: guestReservationInfo?.lastName,
+        profileId: reservationInfo?.guests[0]?.id as string,
+        isPrimary: 'Y',
+        effectiveDate: guestReservationInfo?.issueDate,
+        expiryDate: guestReservationInfo?.expiry,
+        countryOfIssue: guestReservationInfo?.issueCountry,
+        documentFrontImage: guestInformationSection?.uploadId
+          ? guestReservationInfo?.documentFrontImage
+          : '',
+        documentBackImage: guestInformationSection?.uploadId
+          ? guestReservationInfo?.documentBackImage
+          : '',
+        channel: 'PWA',
+        updateGuestDetails: {
+          name: {
+            nameTitle: reservationInfo?.guests[0]?.title,
+            firstName: guestReservationInfo?.firstName,
+            lastName: guestReservationInfo?.lastName,
+            gender: guestReservationInfo?.gender,
+            nationality: guestReservationInfo?.nationality ?? '',
+            dob: guestReservationInfo?.dob,
+            profession: guestReservationInfo?.profession,
+          },
+          address: {
+            id: reservationInfo?.guests[0]?.addressOperaId as string,
+            addressLine1: guestReservationInfo?.addressLine,
+            addressType: 'HOME',
+            countryCode: guestReservationInfo?.countryCode,
+            city: guestReservationInfo?.cityName,
+            postalCode: guestReservationInfo?.postalCode,
+            stateProv: guestReservationInfo?.stateProv,
+          },
+          phone: {
+            id: reservationInfo?.guests[0]?.phoneOperaId
+              ? reservationInfo?.guests[0]?.phoneOperaId?.[0]
+              : '',
+            phoneType: config?.pms === OHIP ? 'PHONE' : 'HOME',
+            phoneNumber: guestReservationInfo?.phone ?? '',
+            phoneRole: config?.pms === OHIP ? 'HOME' : 'PHONE',
+          },
+          email: {
+            id: reservationInfo?.guests[0]?.emailOperaId
+              ? reservationInfo?.guests[0]?.emailOperaId?.[0]
+              : '',
+            email: guestReservationInfo?.emails,
+          },
+        },
+      };
 
-      if (filteredAdultArray?.length > 0) {
-        for (const data of filteredAdultArray) {
+      const updateGuestDetails = async (payload: IUpdateGuestDetailsApiRequest) => {
+        try {
+          const checkInToken = await getCheckInToken();
+          await client.query({
+            query: UPDATE_GUEST_DETAILS,
+            context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
+            variables: {
+              confirmationNumber: reservationInfo?.confirmationId as string,
+              body: payload,
+            },
+          });
+          return true;
+        } catch (error) {
+          const statusCode = processStatusCode(error as ApolloError);
+          if (statusCode === 403) {
+            handleCheckInAuthenticationFailure(updateGuestDetails(payload));
+          }
+          return false;
+        }
+      };
+
+      successFlag = (await updateGuestDetails(updateGuestDetailsPayload)) && successFlag;
+
+      if (newAccompanyGuestStorage?.adult?.length > 0) {
+        const filteredAdultArray = newAccompanyGuestStorage?.adult?.filter(
+          (item: any) => item?.profileId && !item?.isSaved,
+        );
+
+        if (filteredAdultArray?.length > 0) {
+          for (const data of filteredAdultArray) {
+            const updateAccompanyGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
+              docType: documentTypes?.find((option: any) => option?.value === data?.docType)?.code,
+              docNumber: data?.docNo,
+              reservationId: reservationInfo?.reservationId as string,
+              firstName: data?.firstName,
+              lastName: data?.lastName,
+              profileId: data?.profileId as string,
+              isPrimary: 'N',
+              effectiveDate: data?.issueDate,
+              expiryDate: data?.expiry || '',
+              documentFrontImage: guestInformationSection?.uploadId ? data?.documentFrontImage : '',
+              documentBackImage: guestInformationSection?.uploadId ? data?.documentBackImage : '',
+              countryOfIssue: data?.issueCountry || '',
+              channel: 'PWA',
+              updateGuestDetails: {
+                name: {
+                  firstName: data?.firstName,
+                  lastName: data?.lastName,
+                  gender: data?.gender,
+                  nationality: data?.nationality,
+                  dob: data?.dob,
+                },
+                phone: {
+                  phoneType: data?.phone ? (config?.pms === OHIP ? 'PHONE' : 'HOME') : '',
+                  phoneNumber: data?.phone ?? '',
+                  phoneRole: data?.phone ? (config?.pms === OHIP ? 'HOME' : 'PHONE') : '',
+                  id: data?.phoneOperaId ? data?.phoneOperaId?.[0] : '',
+                },
+                address: {
+                  addressLine1: data?.addressLine,
+                  addressType:
+                    data?.addressLine ||
+                    data?.countryCode ||
+                    data?.cityName ||
+                    data?.postalCode ||
+                    data?.stateProv
+                      ? 'HOME'
+                      : '',
+                  countryCode: data?.countryCode,
+                  city: data?.cityName,
+                  postalCode: data?.postalCode,
+                  stateProv: data?.stateProv,
+                },
+                email: {
+                  email: data?.emails,
+                  id: data?.emailOperaId ? data?.emailOperaId?.[0] : '',
+                },
+              },
+            };
+            const newAccompanyGuestData = { ...newAccompanyGuestStorage };
+
+            newAccompanyGuestData.adult.forEach((adult: any) => {
+              if (adult?.profileId === data?.profileId) {
+                adult.isSaved = true;
+              }
+            });
+
+            newAccompanyGuestDetails(newAccompanyGuestData);
+            successFlag =
+              (await updateGuestDetails(updateAccompanyGuestDetailsPayload)) && successFlag;
+          }
+        }
+      }
+
+      if (accompanyGuestData?.length > 0) {
+        for (let i = 0; i < accompanyGuestData.length; i++) {
+          const data = accompanyGuestData[i];
           const updateAccompanyGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
             docType: documentTypes?.find((option: any) => option?.value === data?.docType)?.code,
-            docNumber: data?.docNo,
+            docNumber: data?.docNo === reservationInfo?.guests[i + 1]?.docNo ? '' : data?.docNo,
             reservationId: reservationInfo?.reservationId as string,
             firstName: data?.firstName,
             lastName: data?.lastName,
-            profileId: data?.profileId as string,
+            profileId: data?.id as string,
             isPrimary: 'N',
             effectiveDate: data?.issueDate,
             expiryDate: data?.expiry || '',
-            documentFrontImage: guestInformationSection?.uploadId ? data?.documentFrontImage : '',
-            documentBackImage: guestInformationSection?.uploadId ? data?.documentBackImage : '',
             countryOfIssue: data?.issueCountry || '',
             channel: 'PWA',
+            documentFrontImage: guestInformationSection?.uploadId ? data?.documentFrontImage : '',
+            documentBackImage: guestInformationSection?.uploadId ? data?.documentBackImage : '',
             updateGuestDetails: {
               name: {
+                nameTitle: reservationInfo?.guests[i + 1]?.title,
                 firstName: data?.firstName,
                 lastName: data?.lastName,
                 gender: data?.gender,
@@ -663,124 +739,58 @@ const Guest: React.FC<any> = () => {
               },
             },
           };
-          const newAccompanyGuestData = { ...newAccompanyGuestStorage };
 
-          newAccompanyGuestData.adult.forEach((adult: any) => {
-            if (adult?.profileId === data?.profileId) {
-              adult.isSaved = true;
-            }
-          });
-
-          newAccompanyGuestDetails(newAccompanyGuestData);
           successFlag =
             (await updateGuestDetails(updateAccompanyGuestDetailsPayload)) && successFlag;
         }
       }
-    }
 
-    if (accompanyGuestData?.length > 0) {
-      for (let i = 0; i < accompanyGuestData.length; i++) {
-        const data = accompanyGuestData[i];
-        const updateAccompanyGuestDetailsPayload: IUpdateGuestDetailsApiRequest = {
-          docType: documentTypes?.find((option: any) => option?.value === data?.docType)?.code,
-          docNumber: data?.docNo === reservationInfo?.guests[i + 1]?.docNo ? '' : data?.docNo,
-          reservationId: reservationInfo?.reservationId as string,
-          firstName: data?.firstName,
-          lastName: data?.lastName,
-          profileId: data?.id as string,
-          isPrimary: 'N',
-          effectiveDate: data?.issueDate,
-          expiryDate: data?.expiry || '',
-          countryOfIssue: data?.issueCountry || '',
-          channel: 'PWA',
-          documentFrontImage: guestInformationSection?.uploadId ? data?.documentFrontImage : '',
-          documentBackImage: guestInformationSection?.uploadId ? data?.documentBackImage : '',
-          updateGuestDetails: {
-            name: {
-              nameTitle: reservationInfo?.guests[i + 1]?.title,
-              firstName: data?.firstName,
-              lastName: data?.lastName,
-              gender: data?.gender,
-              nationality: data?.nationality,
-              dob: data?.dob,
-            },
-            phone: {
-              phoneType: data?.phone ? (config?.pms === OHIP ? 'PHONE' : 'HOME') : '',
-              phoneNumber: data?.phone ?? '',
-              phoneRole: data?.phone ? (config?.pms === OHIP ? 'HOME' : 'PHONE') : '',
-              id: data?.phoneOperaId ? data?.phoneOperaId?.[0] : '',
-            },
-            address: {
-              addressLine1: data?.addressLine,
-              addressType:
-                data?.addressLine ||
-                data?.countryCode ||
-                data?.cityName ||
-                data?.postalCode ||
-                data?.stateProv
-                  ? 'HOME'
-                  : '',
-              countryCode: data?.countryCode,
-              city: data?.cityName,
-              postalCode: data?.postalCode,
-              stateProv: data?.stateProv,
-            },
-            email: {
-              email: data?.emails,
-              id: data?.emailOperaId ? data?.emailOperaId?.[0] : '',
-            },
-          },
-        };
-
-        successFlag = (await updateGuestDetails(updateAccompanyGuestDetailsPayload)) && successFlag;
+      if (successFlag) {
+        nextStep();
+      } else {
+        toggleNotification(true);
+        notificationStorage({
+          title: t('Please Try Again!') as string,
+          description: t('Failed to update your details.') as string,
+          redirect: null,
+          type: FAILURE,
+        });
       }
-    }
-
-    if (successFlag) {
-      nextStep();
-    } else {
-      toggleNotification(true);
-      notificationStorage({
-        title: t('Please Try Again!') as string,
-        description: t('Failed to update your details.') as string,
-        redirect: null,
-        type: FAILURE,
-      });
-    }
-
-    setLoading(false);
-  }, [
-    accompanyGuestData,
-    config?.pms,
-    documentTypes,
-    guestInformationSection?.uploadId,
-    guestReservationInfo?.addressLine,
-    guestReservationInfo?.cityName,
-    guestReservationInfo?.countryCode,
-    guestReservationInfo?.dob,
-    guestReservationInfo?.docNo,
-    guestReservationInfo?.docType,
-    guestReservationInfo?.documentBackImage,
-    guestReservationInfo?.documentFrontImage,
-    guestReservationInfo?.emails,
-    guestReservationInfo?.expiry,
-    guestReservationInfo?.firstName,
-    guestReservationInfo?.gender,
-    guestReservationInfo?.issueCountry,
-    guestReservationInfo?.issueDate,
-    guestReservationInfo?.lastName,
-    guestReservationInfo?.nationality,
-    guestReservationInfo?.phone,
-    guestReservationInfo?.postalCode,
-    guestReservationInfo?.profession,
-    guestReservationInfo?.stateProv,
-    newAccompanyGuestStorage,
-    nextStep,
-    reservationInfo?.confirmationId,
-    reservationInfo?.guests,
-    reservationInfo?.reservationId,
-    t,
-  ]);
+      setLoading(false);
+    },
+    [
+      accompanyGuestData,
+      config?.pms,
+      documentTypes,
+      guestInformationSection?.uploadId,
+      guestReservationInfo?.addressLine,
+      guestReservationInfo?.cityName,
+      guestReservationInfo?.countryCode,
+      guestReservationInfo?.dob,
+      guestReservationInfo?.docNo,
+      guestReservationInfo?.docType,
+      guestReservationInfo?.documentBackImage,
+      guestReservationInfo?.documentFrontImage,
+      guestReservationInfo?.emails,
+      guestReservationInfo?.expiry,
+      guestReservationInfo?.firstName,
+      guestReservationInfo?.gender,
+      guestReservationInfo?.issueCountry,
+      guestReservationInfo?.issueDate,
+      guestReservationInfo?.lastName,
+      guestReservationInfo?.nationality,
+      guestReservationInfo?.phone,
+      guestReservationInfo?.postalCode,
+      guestReservationInfo?.profession,
+      guestReservationInfo?.stateProv,
+      newAccompanyGuestStorage,
+      nextStep,
+      reservationInfo?.confirmationId,
+      reservationInfo?.guests,
+      reservationInfo?.reservationId,
+      t,
+    ],
+  );
 
   useEffect(() => {
     if (childGuestCount > 0) {
@@ -1274,7 +1284,7 @@ const Guest: React.FC<any> = () => {
                 ...(newAccompanyGuestStorage?.adult || []),
                 ...(newAccompanyGuestStorage?.child || []),
               ]?.map((newGuest: any, index: number) => {
-                const uniqueIndex = index + accompanyGuestData.length;
+                const uniqueIndex = index;
 
                 const handleDetailsCardClick = () => {
                   setOpenToggleAddNewGuestForAdult((prev) => {
@@ -1453,7 +1463,22 @@ const Guest: React.FC<any> = () => {
               })}
             </>
           )}
-          <div className={cx(styles.bottomMenuWrapper)}>
+          <div
+            className={cx({
+              [styles.bottomMenuWrapperSkip]: skipBiometrics,
+              [styles.bottomMenuWrapper]: !skipBiometrics,
+            })}
+          >
+            {skipBiometrics && (
+              <div
+                className={styles.titleSkip}
+                onClick={() => {
+                  goToTheNextStep(true); // skips validation
+                }}
+              >
+                {t('Skip ID Verification')}
+              </div>
+            )}
             <StyledButton
               variant='contained'
               loading={loading}
@@ -1466,7 +1491,7 @@ const Guest: React.FC<any> = () => {
                     reservationInfo?.details?.totalGuestCount - 1
                   : false)
               }
-              onClick={goToTheNextStep}
+              onClick={() => goToTheNextStep(false)}
               className={cx(styles.bottomMenuButton)}
             >
               {t('Next')}
