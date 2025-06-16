@@ -23,6 +23,7 @@ import { DiningOrdersDrawer } from 'components/pages/dining/DiningOrdersDrawer/D
 import { GET_ORDERS } from 'core/graphql/queries/GET_ORDERS_BY_ID';
 import {
   convertTo12HourFormat,
+  filterIRDMenuItems,
   filterLiveMenu,
   findModule,
   irdActiveMenuList,
@@ -132,6 +133,17 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone,
   );
 
+  useEffect(() => {
+    setAppliedFilter({
+      allergen: [],
+      tag: []
+    });
+    setFilteredOptions({
+      allergen: [],
+      tag: []
+    });
+  }, [selectedFilter?.selectedMenu]);
+
   useLayoutEffect(() => {
     const tags: string[] = [];
     const allergens: string[] = [];
@@ -222,7 +234,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
 
   const currentTime = new Date().getHours();
 
-  const initialFilter = irdMenu && irdMenu[0];
+  const initialFilter = irdMenu && filterIRDMenuItems(irdMenu)?.[0];
 
   const CHEF_SPECIAL_CATEGORY = {
     id: 'chefSpecialCategoryId',
