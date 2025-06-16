@@ -34,5 +34,9 @@
   "Confirm": "تأكيد",
   "ITEMS": "العناصر",
   "Something Went Wrong!": "حدث خطأ ما!",
-  "Invalid Reservation": "حجز غير صالح"
+  "Invalid Reservation": "حجز غير صالح",
+  "Next": "التالي",
+  "Delivery Time": "وقت التوصيل",
+  "Schedule for later": "جدولة لوقت لاحق",
+  "NOW": "الآن"
 }

@@ -77,5 +77,6 @@
   "below_age": "Menys de {{value}} anys",
   "Scan & Verify": "Escaneja i verifica",
   "Sharer": "Compartidor",
-  "Sharers": "Comparteix"
+  "Sharers": "Comparteix",
+  "Skip ID Verification": "OMETRE LA VERIFICACIÓ D'IDENTITAT"
 }

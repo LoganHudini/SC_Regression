@@ -43,5 +43,9 @@
   "Confirm": "Confirm",
   "ITEMS": "ITEMS",
   "Something Went Wrong!": "Something Went Wrong!",
-  "Invalid Reservation": "Invalid Reservation"
+  "Invalid Reservation": "Invalid Reservation",
+  "Delivery Time": "Delivery Time",
+  "Next": "Next",
+  "Schedule for later": "Schedule for later",
+  "NOW": "Now"
 }

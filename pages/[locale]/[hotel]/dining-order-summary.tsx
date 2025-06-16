@@ -25,18 +25,23 @@ import dayjs from 'dayjs';
 import { DiningCustomisationDrawer } from 'components/pages/dining/DiningCustomisationDrawer/DiningCustomisationDrawer';
 import {
   CMS,
+  CUSTOM,
   DEFAULT_SERVICE_CHARGE_MESSAGE,
   ERRORMSG,
   FAILED_TO_FETCH_BOOKING_DETAILS,
   FAILURE,
   INVALID_BOOKING_STATUS,
   IN_ROOM_DINING,
+  LATER,
+  NOW,
   SERVICE_CHARGES,
   SUCCESS,
+  TIME,
   VENDOR,
 } from 'utils/constants';
 import { InputAdornment } from '@mui/material';
 import Cookinginstructions from '@icons/cooking_instructions.svg';
+import UpArrow from '@icons/ird_up_arrow.svg';
 import { IRD_ORDER } from 'core/graphql/queries/IRD_ORDER';
 import { addToCartEvent } from 'utils/gtag';
 import { findModule, formatPriceIRD, setScrollPosition } from 'utils/functions';
@@ -59,6 +64,11 @@ import { StyledInput } from 'components/shared/StyledInput/StyledInput';
 import { useFormik } from 'formik';
 import { instructionValidation } from 'validation/dining.validation';
 import SignatureCanvas from 'react-signature-canvas';
+import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
+import cx from 'classnames';
+import DateTimeSelect from 'components/shared/DateTimeSelect/DateTimeSelect';
+import { timeFormats } from 'utils/timeFormats';
+import CheckIcon from '@icons/checkIcon.svg';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
 
 export { getStaticPaths };
@@ -72,6 +82,8 @@ const DiningOrderSummary = () => {
   const hotelId = config?.hotelId;
   const hotelName = config?.name;
   const irdOrderType: any = findModule(config?.modules, IN_ROOM_DINING);
+  const orderScheduling = irdOrderType?.orderScheduling;
+  const orderSchedulingDuration = irdOrderType?.schedulingDuration;
   const hotelInfo = useReactiveVar(hotelInfoStorage);
   const [customisationDrawer, setCustomisationDrawer] = useState(false);
   const [specialRequests, setSpecialRequests] = useState('');
@@ -88,6 +100,10 @@ const DiningOrderSummary = () => {
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
   const [signatureWidth, setSignatureWidth] = useState(340);
   const [btnStatus, setBtnStatus] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
+  const [selectedTime, setSelectedTime] = useState('');
+  const [nextClick, setNextClick] = useState(false);
 
   const information = hotelInfo?.getPropertyDetailsByHotelId?.hotel?.detailsCustomAttributes;
 
@@ -98,6 +114,7 @@ const DiningOrderSummary = () => {
   const servicechargeDisplay = getServiceCharges(information);
 
   const items = diningData?.items?.filter((item) => item?.quantity > 0);
+  const [selectedOption, setSelectedOption] = useState(NOW);
   const uniqueUpsellItems = useMemo(() => {
     const itemsInCart = items.map((item) => item.title);
 
@@ -258,7 +275,10 @@ const DiningOrderSummary = () => {
       totalAmount,
       paymentMethod: paymentType?.name,
       roomNo: checkinData?.roomNumber,
-      startTime: dayjs().format('YYYY-MM-DD HH:mm'),
+      startTime:
+        selectedOption === LATER
+          ? dayjs(selectedTime, 'DD MMMM hh:mm A').format('YYYY-MM-DD HH:mm')
+          : dayjs().format('YYYY-MM-DD HH:mm'),
       noOfGuests: guestNumber,
       items: diningData?.items?.map((el) => ({
         name: el?.title,
@@ -283,7 +303,10 @@ const DiningOrderSummary = () => {
 
     const irdOrderPOSPayload = {
       hotelId: hotelId,
-      date: '',
+      date:
+        selectedOption === LATER
+          ? dayjs(selectedTime, 'DD MMMM hh:mm A').format('YYYY-MM-DD HH:mm')
+          : dayjs().format('YYYY-MM-DD HH:mm'),
       deliveryLocation: '',
       bookingId: checkinData?.reservationId,
       guestName: checkinData?.lastName,
@@ -391,8 +414,11 @@ const DiningOrderSummary = () => {
     diningData.items,
     guestNumber,
     hotelId,
+    irdOrderType?.signatureRequired,
     irdOrderType?.type,
     paymentType?.name,
+    selectedOption,
+    selectedTime,
     specialRequests,
     t,
     totalAmount,
@@ -463,6 +489,90 @@ const DiningOrderSummary = () => {
         sigCanvas?.current?.fromData(signature);
       });
     }
+  };
+
+  const getInitialSelectedTime = () => {
+    const now = dayjs();
+    const thirtyMinutesLater = now.add(orderSchedulingDuration, 'minute');
+    const minutes = thirtyMinutesLater.minute();
+    const roundedMinutes = Math.ceil(minutes / 15) * 15;
+    const adjustedTime = thirtyMinutesLater.startOf('hour').add(roundedMinutes, 'minute');
+    return adjustedTime.format('DD MMM:hh:mm:A');
+  };
+
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
+    setNextClick(false);
+  };
+
+  const handleSave = () => {
+    setNextClick(true);
+    closeDrawer();
+  };
+
+  useEffect(() => {
+    if (isPickerOpen) {
+      const initialTime = getInitialSelectedTime();
+      setSelectedTime(initialTime);
+    }
+  }, [isPickerOpen]);
+
+  const scheduleDrawer = () => {
+    return (
+      <>
+        {orderScheduling && (
+          <div className={styles.wrapper}>
+            <div className={styles.titleWrapper}>
+              <p className={styles.title}>{t('Delivery Time')}</p>
+              <div className={styles.optionsListItem}>
+                <p
+                  className={cx(styles.inActiveText, {
+                    [styles.activeText]: selectedOption === NOW,
+                  })}
+                  onClick={() => {
+                    setSelectedOption(NOW);
+                    closeDrawer();
+                  }}
+                >
+                  <span className={styles.emptySpan}></span>
+                  <span>{t(NOW)} </span>
+                  <span>{selectedOption === NOW && <CheckIcon className={styles.icon} />}</span>
+                </p>
+                <div className={styles.horizontalLine}></div>
+                <p
+                  className={cx(styles.inActiveText, {
+                    [styles.activeText]: selectedOption === LATER,
+                  })}
+                  onClick={() => {
+                    setSelectedOption(LATER);
+                    setIsPickerOpen(true);
+                  }}
+                >
+                  <span className={styles.emptySpan}></span>
+                  <span>{t('Schedule for later')}</span>
+                  <span>{selectedOption === LATER && <CheckIcon className={styles.icon} />}</span>
+                </p>
+              </div>
+            </div>
+            <div className={styles.picker}>
+              {' '}
+              {selectedOption === LATER && (
+                <DateTimeSelect
+                  setSelectedTime={setSelectedTime}
+                  selectedTime={selectedTime}
+                  handleSave={handleSave}
+                  showSchedules={{
+                    schedule: [CUSTOM],
+                    customSchedule: TIME,
+                  }}
+                  buttonTitle={t('Next')}
+                />
+              )}
+            </div>
+          </div>
+        )}
+      </>
+    );
   };
 
   return (
@@ -612,6 +722,32 @@ const DiningOrderSummary = () => {
             irdSummary
           />
         </div>
+        {orderScheduling && (
+          <div className={styles.schedulingMainContainer}>
+            <div className={styles.schedulingTitle}>
+              <p className={styles.schedulingContainerTitle} onClick={() => setIsDrawerOpen(true)}>
+                <span>{t('Delivery Time')}</span>
+                <span className={styles.scheduleText}>
+                  {' '}
+                  {selectedOption === LATER
+                    ? dayjs(selectedTime).format(timeFormats.HOURS_MINUTES_AM)
+                    : selectedOption}{' '}
+                  <UpArrow className={styles.iconUp} />
+                </span>
+              </p>
+            </div>
+            <CustomDrawer
+              open={isDrawerOpen}
+              onClose={() => {
+                closeDrawer();
+                if (!nextClick) {
+                  setSelectedOption(NOW);
+                }
+              }}
+              content={scheduleDrawer()}
+            ></CustomDrawer>
+          </div>
+        )}
 
         {irdOrderType?.payment?.length > 1 && (
           <div className={styles.paymentContainer}>

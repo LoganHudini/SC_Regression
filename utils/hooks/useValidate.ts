@@ -32,7 +32,36 @@ const useValidate = (sections: any) => {
 
         const validationRules: any = {
           emails: {
-            validation: yup.string().email(t('Invalid email format') as string),
+            validation: yup
+              .string()
+              .email(t('Invalid email format') as string)
+              .test(
+                'no-globally-prohibited-chars',
+                t('Invalid email format') as string,
+                (value: string | undefined) => {
+                  if (!value) return true;
+
+                  const globallyProhibitedChars = /[£•√π÷×§∆€°©®™✓#]/;
+                  return !globallyProhibitedChars.test(value);
+                },
+              )
+              .test(
+                'domain-rules',
+                t('Invalid email format') as string,
+                (value: string | undefined) => {
+                  if (!value) return true;
+                  const parts = value.split('@');
+
+                  if (parts.length !== 2 || !parts[1] || parts[1].trim() === '') {
+                    return false;
+                  }
+                  const domainPart = parts[1];
+
+                  const domainRegex =
+                    /^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,63}$/;
+                  return domainRegex.test(domainPart);
+                },
+              ),
             requiredMessage: t('Email is required'),
           },
           phone: {

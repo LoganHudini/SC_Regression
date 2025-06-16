@@ -26,7 +26,7 @@ import {
   handleCheckInAuthenticationFailure,
 } from 'core/api/functions/getCheckInAuthentication';
 import { processStatusCode } from 'utils/processError';
-import { getCountryCode } from 'utils/functions';
+import { getCountryCode, getCountryCodeFrom3iso } from 'utils/functions';
 
 export { getStaticPaths };
 
@@ -86,8 +86,6 @@ const Youverse: React.FC = () => {
         });
     };
     getYouverseConfig();
-
-    const interval = setInterval(() => getData(), 10000);
 
     const getData = async () => {
       client
@@ -177,7 +175,9 @@ const Youverse: React.FC = () => {
                   reservationGuestInfoStorageData({
                     ...guestReservationInfo,
                     dob: res?.data?.getyoonikresponse?.data?.dob,
-                    nationality: getCountryCode(res?.data?.getyoonikresponse?.data?.country),
+                    nationality: getCountryCodeFrom3iso(
+                      res?.data?.getyoonikresponse?.data?.stateCode,
+                    ),
                     docNo: res?.data?.getyoonikresponse?.data?.documentNumber,
                     docType: docTypes?.find(
                       (document: any) =>
@@ -245,6 +245,13 @@ const Youverse: React.FC = () => {
           const statusCode = processStatusCode(error as ApolloError);
           statusCode === 403 && handleCheckInAuthenticationFailure(getData);
         });
+    };
+
+    getYouverseConfig();
+    const interval = setInterval(() => getData(), 10000);
+
+    return () => {
+      clearInterval(interval);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
