@@ -77,7 +77,10 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
             ? handleCheckInAuthenticationFailure(preparePayment)
             : (notificationStorage({
                 title: t('Payment Failed!') as string,
-                description: t('Card Authentication Failed!') as string,
+                description:
+                  paymentFlow === PAY_BY_LINK
+                    ? (t('Please contact front desk for assistance') as string)
+                    : (t('Card Authentication Failed!') as string),
                 type: FAILURE,
               }),
               toggleNotification(true),
@@ -99,7 +102,7 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
     };
     preparePayment();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reservationInfo, t]);
+  }, [reservationInfo]);
 
   const handleChange = async () => {
     setTimeout(async () => {
@@ -132,7 +135,10 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
           if (status === 'Success') {
             notificationStorage({
               title: t('Thank You!') as string as string,
-              description: t('Card Authentication Completed') as string,
+              description:
+                paymentFlow === PAY_BY_LINK
+                  ? (t('Payment Success') as string)
+                  : (t('Card Authentication Completed') as string),
               type: SUCCESS,
             });
             toggleNotification(true);
@@ -161,7 +167,10 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
           } else if (status === 'Failed') {
             notificationStorage({
               title: t('Payment Failed!') as string,
-              description: t('Card Authentication Failed!') as string,
+              description:
+                paymentFlow === PAY_BY_LINK
+                  ? (t('Please contact front desk for assistance') as string)
+                  : (t('Card Authentication Failed!') as string),
               type: FAILURE,
             });
             toggleNotification(true);
@@ -175,7 +184,10 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
             ? handleCheckInAuthenticationFailure(handleChange)
             : (notificationStorage({
                 title: t('Payment Failed!') as string,
-                description: t('Card Authentication Failed!') as string,
+                description:
+                  paymentFlow === PAY_BY_LINK
+                    ? (t('Please contact front desk for assistance') as string)
+                    : (t('Card Authentication Failed!') as string),
                 type: FAILURE,
               }),
               toggleNotification(true));

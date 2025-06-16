@@ -32,6 +32,7 @@ import {
 import { processStatusCode } from 'utils/processError';
 import dayjs from 'dayjs';
 import { checkoutTrip, saveTrip } from 'storage/trips.storage';
+import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
 
 export { getStaticPaths };
 
@@ -120,6 +121,7 @@ const CheckOut = () => {
         });
         toggleNotification(true);
         checkoutTrip();
+        reservationGuestInfoStorageData(null);
       } else {
         setReservationData(data);
         const reservationInformation = data?.getReservation?.data;

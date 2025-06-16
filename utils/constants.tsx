@@ -275,6 +275,8 @@ export const DEFAULT_PAYMENT_MESSAGE = {
 };
 export const DEFAULT_SERVICE_CHARGE_MESSAGE =
   '* Rates are inclusive of applicable government taxes and subject to 10% service charge.';
+export const LATER = 'Later';
+export const NOW = 'Now';
 
 // flow constants
 export const DAYS = [

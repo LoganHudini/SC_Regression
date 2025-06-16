@@ -41,15 +41,15 @@ const Payment: React.FC = () => {
   const { t } = useTranslation(['check-in-payment', 'common', 'check-in']);
   const config = useConfig();
   const hotelName = config?.name;
-  const paymentConfig: any = usePaymentConfig();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-
   const resId = router?.query?.resId ?? '';
   const lastName = router?.query?.lastName ?? '';
   const paymentFlow = router?.query?.paymentFlow ?? '';
   const hotelId = config?.hotelId;
+  const paymentConfig: any = usePaymentConfig();
   const navigate = useLocalizedRouter();
+  const { isReady } = router;
 
   useEffect(() => {
     if (paymentFlow === PAY_BY_LINK && !paymentConfig?.payByLink) {
@@ -79,6 +79,13 @@ const Payment: React.FC = () => {
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
   });
+
+  useEffect(() => {
+    if (isReady && paymentFlow != PAY_BY_LINK && !reservationData) {
+      navigate(availablePaths?.HOME);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reservationData, paymentFlow, isReady, navigate]);
 
   const redirectPayment = () => {
     switch (paymentConfig?.type) {

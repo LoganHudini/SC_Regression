@@ -3,5 +3,7 @@
   "Payment Failed!": "Pagament fallit!",
   "Thank You!": "Gràcies!",
   "Card Authentication Failed!": "Fallada en l'autenticació de la targeta!",
-  "Card Authentication Completed": "Autenticació de targeta Completada"
+  "Card Authentication Completed": "Autenticació de targeta Completada",
+  "Please contact front desk for assistance": "Si us plau, contacteu amb recepció per obtenir ajuda",
+  "Payment Success": "Pagament amb èxit"
 }

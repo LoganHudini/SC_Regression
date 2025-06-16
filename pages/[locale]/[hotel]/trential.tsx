@@ -254,6 +254,8 @@ const Trential: React.FC = () => {
                     docNo: docNoRes,
                     expiry: expiryDate,
                     issueCountry: issueCountry,
+
+                    ...(statusList?.name === AADHAAR && { nationality: 'IN' }),
                     gender:
                       statusList?.response?.sex === 'M'
                         ? 'MALE'
@@ -364,6 +366,7 @@ const Trential: React.FC = () => {
                   issueDate: '',
                   expiry: expiryDate,
                   issueCountry: issueCountry,
+                  ...(statusList?.name === AADHAAR && { nationality: 'IN' }),
                   photo: data?.InitiateToken?.data?.frontPageLink || '',
                   portrait: data?.InitiateToken?.data?.portraitLink || '',
                   documentFrontImage: data?.InitiateToken?.data?.frontPageLink || '',
@@ -382,6 +385,7 @@ const Trential: React.FC = () => {
                       issueDate: '',
                       expiry: expiryDate,
                       issueCountry: issueCountry,
+                      ...(statusList?.name === AADHAAR && { nationality: 'IN' }),
                       photo: statusList?.response?.photo || '',
                       documentFrontImage: data?.InitiateToken?.data?.frontPageLink || '',
                       documentBackImage: data?.InitiateToken?.data?.backPageLink || '',

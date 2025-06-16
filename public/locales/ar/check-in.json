@@ -126,5 +126,11 @@
   "You have pre-registered successfully. Please proceed to the reception to complete your check-in process.": "لقد قمت بالتسجيل المسبق بنجاح. يرجى التوجه إلى الاستقبال لإتمام عملية تسجيل الوصول.",
   "Sharer Information": "معلومات المشارك",
   "Sharers Information": "معلومات المشاركين",
-  "View": "عرض"
+  "View": "عرض",
+  "Please capture the same document you used for ID verification.": "يرجى التقاط نفس المستند الذي استخدمته للتحقق من الهوية.",
+  "Capture Again": "التقاط مرة أخرى",
+  "Capture Id": "التقاط الهوية",
+  "Capture Document": "التقاط المستند",
+  "Done": "تم",
+  "Capture ID": "التقاط الهوية"
 }

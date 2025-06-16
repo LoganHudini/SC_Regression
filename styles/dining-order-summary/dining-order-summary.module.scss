@@ -39,6 +39,88 @@
   width: 70%;
 }
 
+.titleWrapper {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  margin: auto;
+  max-width: 768px;
+  background-color: var(--primary-background-color);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  font: $header var(--heading-font-regular);
+  margin: 1.5rem 1rem 1rem;
+  text-align: center;
+}
+
+.optionsList {
+  display: flex;
+  flex-direction: column;
+  margin: 3rem 0;
+  text-align: center;
+  cursor: pointer;
+}
+
+.optionsListItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  line-height: 45px;
+  font-size: $medium;
+  font-family: var(--primary-font-medium);
+  color: var(--tertiary-text-color);
+  margin: 0 15px;
+  padding-top: 10px;
+  width: 90%;
+}
+
+.inActiveText {
+  height: 45px;
+  line-height: 45px;
+  font-size: $small;
+  font-family: var(--primary-font-medium);
+  color: var(--tertiary-text-color);
+  margin: 0 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 2px;
+}
+
+.inActiveDiningText {
+  padding: 10px 0;
+  font-size: $medium;
+  font-family: var(--primary-font-medium);
+  width: 80%;
+  color: var(--tertiary-text-color);
+  text-transform: capitalize;
+  white-space: nowrap;
+  display: block;
+  align-self: baseline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.activeText {
+  padding: 5px 0;
+  font-size: 18px;
+  font-family: var(--primary-font-medium);
+  margin: 0 15px;
+  color: var(--primary-theme-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .selectionsWrapper {
   margin: 0 6px;
 }
@@ -158,9 +240,32 @@
   align-items: center;
 }
 
+.schedulingMainContainer {
+  margin: 0.5rem 0px;
+  border-radius: var(--primary-card-border-radius);
+  box-shadow: 0px 3px 6px var(--primary-card-shadow-color);
+  background-color: var(--primary-card-background-color);
+  display: flex;
+  padding: 1rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .noOfGuestsTitle {
   font: $medium var(--primary-font-medium);
   padding: 4px 0;
+}
+
+.schedulingTitle {
+  width: 100%;
+}
+
+.schedulingContainerTitle {
+  font: $medium var(--primary-font-medium);
+  padding: 4px 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .noOfGuestsDesc {
@@ -378,4 +483,44 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.picker {
+  width: 90%;
+  background: var(#f8f8f8);
+}
+
+.wrapper {
+  padding-bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  background-color: #f8f8f8;
+}
+
+.horizontalLine {
+  background: var(--primary-text-color);
+  opacity: 0.2;
+  height: 1px;
+  width: 100%;
+}
+
+.scheduleText {
+  text-align: left;
+  font-size: $small;
+}
+
+.icon {
+  float: inline-end;
+}
+
+.iconUp {
+  padding-bottom: 3px;
+  padding-left: 4px;
+}
+
+.emptySpan {
+  width: 20px;
 }

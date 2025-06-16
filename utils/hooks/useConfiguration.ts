@@ -17,6 +17,7 @@ import {
   LAST_NAME,
   NONE,
   ACCOMPANYINGGUEST,
+  PAY_BY_LINK,
 } from 'utils/constants';
 
 export const useConfig = () => {
@@ -107,6 +108,10 @@ export const useConfig = () => {
 };
 
 export const usePaymentConfig = () => {
+  const router = useRouter();
+  const paymentFlow = router?.query?.paymentFlow ?? '';
+  const payByLink = paymentFlow === PAY_BY_LINK;
+  const { isReady } = router;
   const config = useConfig();
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const data: any = client.readQuery<IGetReservationApiResponse>({
@@ -130,7 +135,7 @@ export const usePaymentConfig = () => {
         ...reservationGuestInfoStorageData(),
         roomStatus: roomStatus,
       });
-      if (!roomStatus) {
+      if (!roomStatus && !paymentStatus?.paymentMandatory) {
         paymentStatus.type = NONE;
       }
       paymentStatus.loader = false;
@@ -138,7 +143,8 @@ export const usePaymentConfig = () => {
     if (
       !config?.preCheckInOnly &&
       guestReservationInfo?.roomStatus == null &&
-      reservationInfo?.roomTypes[0]?.roomNumber
+      !payByLink &&
+      isReady
     ) {
       getRoomStatus();
     }
@@ -148,6 +154,8 @@ export const usePaymentConfig = () => {
     paymentStatus,
     reservationInfo?.confirmationId,
     reservationInfo?.roomTypes,
+    payByLink,
+    isReady,
   ]);
 
   return paymentStatus;

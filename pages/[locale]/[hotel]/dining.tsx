@@ -8,6 +8,7 @@ import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from '@styles/dining/dining.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
+import { handleReservation } from 'utils/fetchReservation';
 import { DiningMenuOptions } from 'components/pages/dining/DiningMenuOptions/DiningMenuOptions';
 import { diningInformationStorage, irdMenuOutputDetailsStorage } from 'storage/dining.storage';
 import { useQuery, useReactiveVar } from '@apollo/client';
@@ -35,16 +36,19 @@ import FilterIcon from '@icons/filterIrd.svg';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { IN_ROOM_DINING } from 'utils/constants';
 import { useCheckedIn } from 'storage/check-in.storage';
+import { useRouter } from 'next/router';
 import {
   IGetRestaurantDetailsResponse,
   GET_RESTAURANT_DETAILS,
 } from 'core/graphql/queries/GET_RESTAURTANT_DETAILS';
 import { diningOptions, diningHeaders, hotelInfoStorage } from 'storage/home.storage';
-import { useRouter } from 'next/router';
 
 export { getStaticPaths };
 
 const Dining = () => {
+  const router = useRouter();
+  const roomNo = router.query.roomNo as string;
+  const lastName = router.query.lastName as string;
   const { t } = useTranslation('dining');
   const locale = useLocale();
   const hotelId = useConfig()?.hotelId;
@@ -59,7 +63,6 @@ const Dining = () => {
   const dropdownRef: any = useRef();
   const [scrollTop, setScrollTop] = useState(0);
   const checkInData = useCheckedIn();
-  const router = useRouter();
   const irdOption = useReactiveVar(diningHeaders);
   const diningOptionSelected = useReactiveVar(diningOptions);
   const hotelInformation = useReactiveVar(hotelInfoStorage);
@@ -69,6 +72,8 @@ const Dining = () => {
   const [allergens, setAllergens] = useState<string[]>([]);
   const irdModuleContent: any = findModule(config?.modules, IN_ROOM_DINING);
   const isIRDv2 = irdModuleContent?.version === 'v2';
+  const [isValidating, setIsValidating] = useState(false);
+
   const { data: restaurantList, loading } = useQuery<IGetRestaurantDetailsResponse>(
     GET_RESTAURANT_DETAILS,
     {
@@ -114,6 +119,39 @@ const Dining = () => {
         hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone,
       ),
   );
+  useEffect(() => {
+    if (
+      !router.isReady ||
+      !roomNo ||
+      !lastName ||
+      !hotelId ||
+      typeof roomNo !== 'string' ||
+      typeof lastName !== 'string'
+    ) {
+      return;
+    }
+
+    if (
+      checkInData?.checkedIn &&
+      checkInData?.roomNumber === roomNo &&
+      checkInData?.lastName === lastName
+    ) {
+      return;
+    }
+
+    handleReservation({
+      activeCheckInFlowInfo: false,
+      values: { roomNo, lastName },
+      hotelId,
+      setLoading: (loading: boolean) => {
+        setIsValidating(loading);
+      },
+      t,
+      processStatusCode: (error: any) => error?.networkError?.statusCode,
+      navigate: null,
+      preventDrawerOpen: true,
+    });
+  }, [router.isReady, roomNo, lastName, hotelId, checkInData]);
 
   useEffect(() => {
     diningOptions({ type: IN_ROOM_DINING });
@@ -149,10 +187,16 @@ const Dining = () => {
   }, [irdActiveMenu]);
 
   useEffect(() => {
-    if (!checkInData?.checkedIn && isReady) {
-      navigate(availablePaths?.HOME);
-    }
-  }, [navigate, t, checkInData?.checkedIn, isReady]);
+    const timeoutId = setTimeout(() => {
+      if (lastName && roomNo && !checkInData?.checkedIn) {
+        navigate(availablePaths.HOME);
+      } else if (!checkInData?.checkedIn) {
+        navigate(availablePaths.HOME);
+      }
+    }, 2000);
+
+    return () => clearTimeout(timeoutId);
+  }, [lastName, roomNo, navigate, checkInData?.checkedIn]);
 
   useEffect(() => {
     if (header[0]?.name == undefined && header[0].hours == undefined) {

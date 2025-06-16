@@ -58,6 +58,7 @@ export interface ICheckInApiRequest {
   placeOfStayArrival: string;
   roomRate?: string;
   country?: string;
+  captureDocumentUpload: any;
   skipOCR: boolean;
   guests: [
     {

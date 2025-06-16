@@ -497,6 +497,10 @@ export const getCountryName = (CountryName: string) =>
   Countries?.find((item: any) => item?.value?.toLowerCase() === CountryName?.toLowerCase())?.name ||
   '';
 
+export const getCountryCodeFrom3iso = (CountryName: string) =>
+  Countries?.find((item: any) => item?.evaValue?.toLowerCase() === CountryName?.toLowerCase())
+    ?.value || '';
+
 // Formats time from 24-hour format to minutes
 export const getFormattedTime = (timeInMinutes: any) => {
   if (!timeInMinutes.includes(ALL_DAY)) {

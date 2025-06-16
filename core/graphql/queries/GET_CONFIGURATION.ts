@@ -1177,7 +1177,8 @@ export const configuration: any = [
               {
                 name: 'Guest Information',
                 isActive: true,
-                type: 'manual',
+                type: 'trential',
+                allowSkipBiometrics: true,
                 details: [
                   {
                     name: 'firstName',
@@ -1313,7 +1314,7 @@ export const configuration: any = [
             name: 'accompanyingGuest',
             label: 'Secondary Guest',
             title: '',
-            type: 'manual',
+            type: 'trential',
             isActive: true,
             cardIcon: 'guest',
             details: [
@@ -1463,6 +1464,8 @@ export const configuration: any = [
         name: 'In-Room Dining',
         isActive: true,
         type: 'CMS',
+        orderScheduling: true,
+        schedulingDuration: 30,
         payment: [
           { id: '1', name: 'BILL TO ROOM', message: '' },
           { id: '2', name: 'CASH', message: '' },
@@ -9073,6 +9076,7 @@ export const configuration: any = [
                 isActive: true,
                 type: 'PLANET',
                 payByLink: true,
+                paymentMandatory: true,
                 details: [
                   {
                     name: 'cardNumber',
@@ -9206,7 +9210,8 @@ export const configuration: any = [
             label: 'Review & Sign',
             title: 'Check-In',
             buttonLabelCheckIn: 'Confirm Check-In',
-            checkInSuccessfulMessageTitle: 'Pre Check-In Successful!',
+            preCheckInSuccessfulMessageTitle: 'Pre Check-In Successful!',
+            checkInSuccessfulMessageTitle: 'Check-In Successful!',
             checkInSuccessfulMessageDescription:
               'When your room is ready, you will receive an email with the room number and a link to download our app to digitise your key.\n If you do not wish to download the app, please proceed to the hotel lobby to collect your room key.',
             // eslint-disable-next-line quotes
@@ -9628,7 +9633,8 @@ export const configuration: any = [
             label: 'Review & Sign',
             title: 'Check-In',
             buttonLabelCheckIn: 'Confirm Check-In',
-            checkInSuccessfulMessageTitle: 'Pre Check-In Successful!',
+            preCheckInSuccessfulMessageTitle: 'Pre Check-In Successful!',
+            checkInSuccessfulMessageTitle: 'Check-In Successful!',
             checkInSuccessfulMessageDescription:
               'When your room is ready, you will receive an email with the room number and a link to download our app to digitise your key.\n If you do not wish to download the app, please proceed to the hotel lobby to collect your room key.',
             // eslint-disable-next-line quotes
@@ -21732,6 +21738,17 @@ export const configuration: any = [
                 title: 'Add-Ons',
               },
             ],
+            dynamicFields: [
+              {
+                fieldName: 'DL',
+                label: 'Copy of DL',
+                type: 'camera',
+                rule: [{ key: 'docType', condition: '==', value: 'AAC' }],
+                enabled: true,
+                optional: false,
+                includeInPDF: true,
+              },
+            ],
           },
         ],
       },
@@ -23714,7 +23731,7 @@ export const configuration: any = [
             label: 'Customize My Stay',
             title: 'Check-In',
             type: 'CMS',
-            isActive: false,
+            isActive: true,
           },
           {
             name: 'review',
@@ -24107,7 +24124,7 @@ export const configuration: any = [
             label: 'Customize My Stay',
             title: 'Check-In',
             type: 'CMS',
-            isActive: false,
+            isActive: true,
           },
           {
             name: 'review',
@@ -24543,7 +24560,8 @@ export const configuration: any = [
             label: 'Review & Sign',
             title: 'Check-In',
             buttonLabelCheckIn: 'Confirm Check-In',
-            checkInSuccessfulMessageTitle: 'Pre Check-In Successful!',
+            preCheckInSuccessfulMessageTitle: 'Pre Check-In Successful!',
+            checkInSuccessfulMessageTitle: 'Check-In Successful!',
             checkInSuccessfulMessageDescription:
               'When your room is ready, you will receive an email with the room number and a link to download our app to digitise your key.\n If you do not wish to download the app, please proceed to the hotel lobby to collect your room key.',
             // eslint-disable-next-line quotes
