@@ -44,6 +44,8 @@
   "ITEMS": "ARTICLES",
   "Invalid Reservation": "Reserva no vàlida",
   "Something Went Wrong!": "Alguna cosa ha anat malament!",
+  "serviceChargeMessage": "Les tarifes inclouen els impostos governamentals aplicables i estan subjectes a un càrrec per servei del 22% i una tarifa de lliurament de 6,00 dòlars",
+  "serviceChargeDisclaimer": "S'aplicarà l'impost local de vendes, una tarifa de lliurament de 5 dòlars i un càrrec per servei del 22% a totes les comandes. Un cop facis clic a confirmar, la teva comanda serà tramitada. Les comandes es lliuraran en un termini de 45 minuts. Si us plau, envia'ns un missatge de text o truca'ns per confirmar l'hora de lliurament de la teva comanda.",
   "Next": "Següent",
   "Delivery Time": "Hora de lliurament",
   "Schedule for later": "Programa per més tard",

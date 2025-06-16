@@ -5386,6 +5386,7 @@ export const configuration: any = [
         isActive: true,
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
+        customServiceChargeDisclaimer: 'serviceChargeDisclaimer',
       },
       {
         code: 'Services',
@@ -21760,6 +21761,7 @@ export const configuration: any = [
         code: 'In-Room Dining',
         name: 'In-Room Dining',
         isActive: true,
+        signatureRequired: true,
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
       },
@@ -22163,6 +22165,8 @@ export const configuration: any = [
         isActive: true,
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
+        customServiceChargeMessage: 'serviceChargeMessage',
+        version: 'v2',
       },
       {
         code: 'Services',
@@ -22916,7 +22920,7 @@ export const configuration: any = [
                 label: 'Document Type',
                 type: 'AutoComplete',
                 required: true,
-                isDisabled: true,
+                isDisabled: false,
                 isActive: true,
               },
               {
@@ -22924,7 +22928,7 @@ export const configuration: any = [
                 label: 'Document Number',
                 type: 'Text',
                 required: true,
-                isDisabled: true,
+                isDisabled: false,
                 isActive: true,
               },
             ],
@@ -23836,11 +23840,12 @@ export const configuration: any = [
     fetchFromDb: 'no',
     saveToDb: 'yes',
     languages: [{ code: 'en', name: 'English' }],
-    orderOfModules: ['offers', 'hotel-info', 'hotel-compendium'],
-    preCheckInOnly: false,
+    orderOfModules: ['offers', 'check-in', 'hotel-info', 'dining', 'spa', 'hotel-compendium'],
+    preCheckInOnly: true,
     hideImagePlaceholder: true,
     isAnimationActive: false,
     isLogoLoaderActive: false,
+    pmsRoomNumberLength: 4,
     modules: [
       {
         code: 'Preferences',
@@ -23861,7 +23866,7 @@ export const configuration: any = [
       {
         code: 'Check-In',
         name: 'Check-In',
-        isActive: false,
+        isActive: true,
         submodules: [
           {
             name: 'information',
@@ -23878,7 +23883,7 @@ export const configuration: any = [
                     name: 'firstName',
                     label: 'First Name',
                     type: 'Text',
-                    required: true,
+                    required: false,
                     isDisabled: true,
                     isActive: true,
                   },
@@ -23953,7 +23958,7 @@ export const configuration: any = [
                     name: 'docType',
                     label: 'Document Type',
                     type: 'AutoComplete',
-                    required: true,
+                    required: false,
                     isDisabled: false,
                     isActive: true,
                     options: [
@@ -23975,7 +23980,7 @@ export const configuration: any = [
                     name: 'docNo',
                     label: 'Document Number',
                     type: 'Text',
-                    required: true,
+                    required: false,
                     isDisabled: false,
                     isActive: true,
                   },
@@ -24042,7 +24047,7 @@ export const configuration: any = [
                 name: 'firstName',
                 label: 'First Name',
                 type: 'Text',
-                required: true,
+                required: false,
                 isDisabled: true,
                 isActive: true,
               },
@@ -24185,14 +24190,15 @@ export const configuration: any = [
       {
         code: 'Pair-To-Room',
         name: 'Connect to Room',
-        isActive: false,
+        isActive: true,
       },
       {
         code: 'In-Room Dining',
         name: 'In-Room Dining',
-        isActive: false,
-        type: 'CMS',
+        isActive: true,
+        type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
+        version: 'v2',
       },
       {
         code: 'Services',
@@ -24203,7 +24209,7 @@ export const configuration: any = [
       {
         code: 'view-bill',
         name: 'View Bill',
-        isActive: false,
+        isActive: true,
       },
       {
         code: 'checkout',
@@ -24645,7 +24651,7 @@ export const configuration: any = [
       {
         code: 'spa',
         name: 'Spa',
-        isActive: false,
+        isActive: true,
         type: 'CMS',
       },
     ],

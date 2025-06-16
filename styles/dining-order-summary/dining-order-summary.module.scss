@@ -149,6 +149,9 @@
   font-size: $xsmall;
   font-family: var(--primary-font-medium);
   color: var(--tertiary-text-color);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .items + .items::before {
@@ -160,6 +163,9 @@
 .itemPrice {
   font: $medium var(--primary-card-title-font-family);
   padding: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .itemCurrency {
@@ -209,6 +215,8 @@
 
 .upsellWrapper {
   margin: 1.5rem 0.5rem 1rem;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
 }
 
 .upsell {
@@ -336,6 +344,13 @@
   color: var(--primary-button-color);
 }
 
+.currencyV2 {
+  font-size: $small;
+  color: var(--primary-button-color);
+  display: flex;
+  flex-direction: column;
+}
+
 .divider {
   margin-top: 20px;
   width: 100%;
@@ -357,6 +372,17 @@
 }
 
 .currencyTitle {
+  font: $xsmall var(--primary-font-medium);
+  color: var(--primary-button-color);
+}
+
+.currencyTotalTitle {
+  font: $extraSmall var(--primary-font-regular);
+  color: var(--primary-button-color);
+  align-items: baseline;
+}
+
+.currencyTotalAmount {
   font: $xsmall var(--primary-font-medium);
   color: var(--primary-button-color);
 }
@@ -386,6 +412,7 @@
 
 .itemsCurrency {
   font-size: $extraSmall;
+  padding-right: 3px;
 }
 
 .buttonContentWrapper {
@@ -401,7 +428,7 @@
 
 .itemCount {
   border-radius: 50%;
-  width: 28px;
+  width: 33px;
   height: 28px;
   font-size: $small;
   color: var(--primary-button-background-color);
@@ -410,6 +437,7 @@
   justify-content: center;
   align-items: center;
   margin-inline-end: 10px;
+  padding-top: 4px;
 }
 
 .buttonWrapper {
@@ -449,6 +477,12 @@
   width: 100%;
   display: flex;
   justify-content: center;
+}
+
+.addonsWrapperRows {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .picker {

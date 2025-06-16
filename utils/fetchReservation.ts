@@ -31,11 +31,16 @@ export const handleReservation = async ({
   navigate,
   isRetryEnabled,
   hotelInformation,
+  pmsRoomNumberLength,
   preventDrawerOpen = false,
 }: any) => {
   let tryCount: any = 0;
 
   try {
+    const rawRoomNo = values?.roomNo?.toString()?.trim();
+    const paddedRoomNo = pmsRoomNumberLength
+      ? rawRoomNo?.padStart(pmsRoomNumberLength, '0')
+      : rawRoomNo;
     setLoading(true);
     const checkInToken: { current?: string } = {};
     const inHouseToken: { current?: string } = {};
@@ -48,7 +53,7 @@ export const handleReservation = async ({
     } else {
       inHouseToken.current = await getInHouseToken(
         '',
-        values?.roomNo?.toString()?.trim(),
+        paddedRoomNo,
         values?.lastName?.toString()?.trim(),
       );
     }
@@ -69,7 +74,7 @@ export const handleReservation = async ({
             hotelId: hotelId,
           }
         : {
-            roomNo: values?.roomNo?.toString()?.trim(),
+            roomNo: paddedRoomNo,
             lastName: values?.lastName?.toString()?.trim(),
             hotelId: hotelId,
           },
@@ -85,7 +90,7 @@ export const handleReservation = async ({
       });
       const roomNo = activeCheckInFlowInfo
         ? reservationInformation?.roomTypes[0]?.roomNumber
-        : values?.roomNo?.toString()?.trim();
+        : paddedRoomNo;
       const reservationStatus = reservationInformation?.reservationStatus;
       if (
         reservationStatus === RESERVED && config?.preCheckInOnly

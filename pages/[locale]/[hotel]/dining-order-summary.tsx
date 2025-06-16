@@ -60,12 +60,12 @@ import {
   handleinHouseAuthenticationFailure,
 } from 'core/api/functions/getInHouseAuthentication';
 import { processStatusCode } from 'utils/processError';
+import cx from 'classnames';
 import { StyledInput } from 'components/shared/StyledInput/StyledInput';
 import { useFormik } from 'formik';
 import { instructionValidation } from 'validation/dining.validation';
 import SignatureCanvas from 'react-signature-canvas';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
-import cx from 'classnames';
 import DateTimeSelect from 'components/shared/DateTimeSelect/DateTimeSelect';
 import { timeFormats } from 'utils/timeFormats';
 import CheckIcon from '@icons/checkIcon.svg';
@@ -100,6 +100,7 @@ const DiningOrderSummary = () => {
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
   const [signatureWidth, setSignatureWidth] = useState(340);
   const [btnStatus, setBtnStatus] = useState(false);
+  const getTotalItems = diningData?.items?.reduce((total, item) => total + (item.quantity || 0), 0);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isPickerOpen, setIsPickerOpen] = useState(false);
   const [selectedTime, setSelectedTime] = useState('');
@@ -108,50 +109,54 @@ const DiningOrderSummary = () => {
   const information = hotelInfo?.getPropertyDetailsByHotelId?.hotel?.detailsCustomAttributes;
 
   const getServiceCharges = (data: any) =>
+    irdOrderType?.customServiceChargeMessage ||
+    irdOrderType?.customServiceChargeDisclaimer ||
     data?.find((item: any) => item?.key === SERVICE_CHARGES)?.value ||
     DEFAULT_SERVICE_CHARGE_MESSAGE;
 
   const servicechargeDisplay = getServiceCharges(information);
 
-  const items = diningData?.items?.filter((item) => item?.quantity > 0);
   const [selectedOption, setSelectedOption] = useState(NOW);
+
+
+  const items = diningData?.items?.filter((item) => item?.quantity > 0);
   const uniqueUpsellItems = useMemo(() => {
-    const itemsInCart = items.map((item) => item.title);
-
-    const allUpsellSuggestions: any = [];
-
-    items.forEach((cartItem) => {
-      if (cartItem.upsell && cartItem.upsell.length > 0) {
-        cartItem.upsell.forEach((suggestion) => {
-          allUpsellSuggestions.push(suggestion);
+    const mainCartItemTitles = items
+      .filter((item) => Array.isArray(item.upsell) && item.upsell.length > 0)
+      .map((item) => item.title);
+    const allUpsellItems = new Map();
+    items.forEach((item) => {
+      if (Array.isArray(item.upsell) && item.upsell.length > 0) {
+        item.upsell.forEach((upsellItem) => {
+          const isMainCartItem = mainCartItemTitles.includes(upsellItem?.name || '');
+          if (!isMainCartItem && !allUpsellItems.has(upsellItem?.id)) {
+            allUpsellItems.set(upsellItem?.id, upsellItem);
+          }
         });
       }
     });
-
-    const uniqueSuggestions = new Map();
-
-    allUpsellSuggestions.forEach((suggestion: any) => {
-      const isAlreadyInCart = itemsInCart.includes(suggestion.name);
-      const isAlreadyAdded = uniqueSuggestions.has(suggestion.id);
-
-      if (!isAlreadyInCart && !isAlreadyAdded) {
-        uniqueSuggestions.set(suggestion.id, suggestion);
-      }
-    });
-
-    return Array.from(uniqueSuggestions.values());
+    return Array.from(allUpsellItems.values());
   }, [items]);
 
   useEffect(() => {
     const totalAmount = diningData?.items?.reduce((allTotal, item) => {
-      const addonsTotal =
-        item?.addons?.length > 0 &&
-        item?.addons?.reduce((acc: any, addon: any) => {
-          return acc + addon?.price * item?.quantity;
-        }, 0);
-      return allTotal + item?.quantity * item?.price + addonsTotal;
+      const quantity = item?.quantity || 1;
+      const basePrice = item?.price || 0;
+
+      const addonsTotal = (item?.addons || []).reduce((sum: any, addon: any) => {
+        return sum + (addon?.priceInDecimal || 0);
+      }, 0);
+
+      const groupedAddonsTotal = (item?.groupedAddons || []).reduce((sum: any, addon: any) => {
+        return sum + (addon?.priceInDecimal || 0);
+      }, 0);
+
+      const totalPerItem = (basePrice + addonsTotal + groupedAddonsTotal) * quantity;
+
+      return allTotal + totalPerItem;
     }, 0);
-    setTotalAmount(totalAmount);
+
+    setTotalAmount(Number(totalAmount.toFixed(2)));
   }, [diningData?.items]);
 
   useEffect(() => {
@@ -189,7 +194,9 @@ const DiningOrderSummary = () => {
           const item = draft?.items?.find((el, i) => el?.itemId === itemId && i === index);
 
           if (item) {
-            (item?.customisation ?? []).length > 0 || (item?.addons ?? []).length > 0
+            (item?.customisation ?? []).length > 0 ||
+              (item?.addons ?? []).length > 0 ||
+              (item?.groupedAddons ?? []).length > 0
               ? setCustomisationDrawer((state) => !state)
               : (item.quantity++,
                 addToCartEvent({
@@ -285,10 +292,10 @@ const DiningOrderSummary = () => {
         code: el?.code,
         count: el?.quantity,
         amount: el?.price,
-        addOns: el?.addons?.map((item: any) => ({
+        addOns: [...(el?.groupedAddons || []), ...(el?.addons || [])]?.map((item: any) => ({
           code: item?.code,
           name: item?.name,
-          price: item?.price,
+          price: item?.priceInDecimal,
         })),
         customisations: el?.customisation?.map((item: any) => ({
           code: item?.code,
@@ -319,7 +326,7 @@ const DiningOrderSummary = () => {
         quantity: el?.quantity,
         price: el?.price,
         comment: el?.cookingInstruction || '',
-        addons: el?.addons?.map((item: any) => ({
+        addons: [...(el?.groupedAddons || []), ...(el?.addons || [])]?.map((item: any) => ({
           code: item?.code,
           name: item?.name,
           price: item?.price,
@@ -393,8 +400,8 @@ const DiningOrderSummary = () => {
           description:
             FailureCheck1 || FailureCheck2
               ? t(
-                  'Reservation status is invalid. Please try again with a valid reservation details',
-                )
+                'Reservation status is invalid. Please try again with a valid reservation details',
+              )
               : t('Your order was not confirmed.'),
           redirect: FailureCheck1 || FailureCheck2 ? availablePaths.HOME : null,
         });
@@ -433,7 +440,11 @@ const DiningOrderSummary = () => {
             key={el?.id}
             id={el?.id}
             title={el?.name}
-            image={el?.images[0]?.ratio1to1 || null}
+            image={
+              el?.images && Array.isArray(el.images) && el.images.length > 0
+                ? el.images[0]?.ratio1to1
+                : null
+            }
             description={el?.description}
             price={el?.price}
             customisation={el?.customisation}
@@ -490,6 +501,8 @@ const DiningOrderSummary = () => {
       });
     }
   };
+  const irdModuleContent: any = findModule(config?.modules, IN_ROOM_DINING);
+  const isIRDv2 = irdModuleContent?.version === 'v2';
 
   const getInitialSelectedTime = () => {
     const now = dayjs();
@@ -586,11 +599,14 @@ const DiningOrderSummary = () => {
       <PageWrapper className={styles.pageWrapper}>
         <p className={styles.itemsAddedText}>{t('Item(s) Added')}</p>
         <div className={styles.cartWrapper}>
-          {items?.map((item, index) => {
+          {items?.map((item: any, index) => {
             const totalAddonPrice: any =
               item?.addons?.length > 0 &&
-              item?.addons?.reduce((acc: any, addon: any) => acc + addon?.price, 0);
-            const totalPrice = item?.price + totalAddonPrice;
+              item?.addons?.reduce((acc: any, addon: any) => acc + addon?.priceInDecimal, 0);
+            const totalGroupedAddonPrice: any =
+              item?.groupedAddons?.length > 0 &&
+              item?.groupedAddons?.reduce((acc: any, addon: any) => acc + addon?.priceInDecimal, 0);
+            const totalPrice = item?.price + totalAddonPrice + totalGroupedAddonPrice;
             return (
               item?.quantity > 0 && (
                 <div key={index} className={styles.cartItemWrapper}>
@@ -624,14 +640,39 @@ const DiningOrderSummary = () => {
                           <div className={styles.addonsWrapperRows} key={index}>
                             <span className={styles.itemDescription}>
                               {items?.name}
-                              {' - '}
+                              {' : '}
                             </span>
                             <span key={index} className={styles.items}>
-                              <span key={index} className={styles.itemsCurrency}>
-                                {currency}{' '}
+                              <span
+                                key={index}
+                                className={cx(styles.itemsCurrency, { 'globals-irdv2-irdPrice': isIRDv2 })}
+                              >
+                                {`${currency} `}
+                              </span>{' '}
+                              {formatPriceIRD(items?.priceInDecimal)}
+                              {index !== item?.addons?.length - 1 ? '' : ''}{' '}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {(item?.groupedAddons ?? [])?.length > 0 && (
+                      <div className={styles.addonsWrapperCols}>
+                        {item?.groupedAddons?.map((items: any, index: any) => (
+                          <div className={styles.addonsWrapperRows} key={index}>
+                            <span className={styles.itemDescription}>
+                              {items?.name}
+                              {' : '}
+                            </span>
+                            <span key={index} className={styles.items}>
+                              <span
+                                key={index}
+                                className={cx(styles.itemsCurrency, { 'globals-irdv2-irdPrice': isIRDv2 })}
+                              >
+                                {`${currency}`}
                               </span>
-                              {formatPriceIRD(items?.price)}{' '}
-                              {index !== item?.addons?.length - 1 ? ',' : ''}{' '}
+                              {formatPriceIRD(items?.priceInDecimal)}
+                              {index !== item?.groupedAddons?.length - 1 ? '' : ''}{' '}
                             </span>
                           </div>
                         ))}
@@ -644,15 +685,19 @@ const DiningOrderSummary = () => {
                     )}
                   </div>
 
-                  <div className={styles.priceEditWrapper}>
+                  <div className={cx(styles.priceEditWrapper)}>
                     <EditIcon
                       className={styles.edit}
                       onClick={() => editFunction(item?.itemId, index)}
                     />
                     <p className={styles.itemPrice}>
-                      <span className={styles.itemCurrency}>{currency} </span>
+                      <span className={cx(styles.itemCurrency, { 'globals-irdv2-irdPrice': isIRDv2 })}>
+                        {currency}{' '}
+                      </span>
                       {formatPriceIRD(
-                        isNaN(totalPrice) ? item.quantity * item.price : item.quantity * totalPrice,
+                        isNaN(totalPrice)
+                          ? item.quantity * item?.priceInDecimal
+                          : item.quantity * totalPrice,
                       )}
                     </p>
                   </div>
@@ -662,14 +707,16 @@ const DiningOrderSummary = () => {
           })}
         </div>
 
-        {uniqueUpsellItems.length > 0 && (
-          <>
-            <div className={styles.upsellWrapper}>
-              <p className={styles.youMayAlsoLikeText}>{t('You May Also Like')}</p>
-              <div className={styles.upsell}>{renderMenuElements(uniqueUpsellItems)}</div>
-            </div>
-          </>
-        )}
+        {
+          uniqueUpsellItems?.length > 0 && (
+            <>
+              <div className={styles.upsellWrapper}>
+                <p className={styles.youMayAlsoLikeText}>{t('You May Also Like')}</p>
+                <div className={styles.upsell}>{renderMenuElements(uniqueUpsellItems)}</div>
+              </div>
+            </>
+          )
+        }
 
         <StyledInput
           autoComplete='off'
@@ -722,109 +769,128 @@ const DiningOrderSummary = () => {
             irdSummary
           />
         </div>
-        {orderScheduling && (
-          <div className={styles.schedulingMainContainer}>
-            <div className={styles.schedulingTitle}>
-              <p className={styles.schedulingContainerTitle} onClick={() => setIsDrawerOpen(true)}>
-                <span>{t('Delivery Time')}</span>
-                <span className={styles.scheduleText}>
-                  {' '}
-                  {selectedOption === LATER
-                    ? dayjs(selectedTime).format(timeFormats.HOURS_MINUTES_AM)
-                    : selectedOption}{' '}
-                  <UpArrow className={styles.iconUp} />
-                </span>
-              </p>
+        {
+          orderScheduling && (
+            <div className={styles.schedulingMainContainer}>
+              <div className={styles.schedulingTitle}>
+                <p className={styles.schedulingContainerTitle} onClick={() => setIsDrawerOpen(true)}>
+                  <span>{t('Delivery Time')}</span>
+                  <span className={styles.scheduleText}>
+                    {' '}
+                    {selectedOption === LATER
+                      ? dayjs(selectedTime).format(timeFormats.HOURS_MINUTES_AM)
+                      : selectedOption}{' '}
+                    <UpArrow className={styles.iconUp} />
+                  </span>
+                </p>
+              </div>
+              <CustomDrawer
+                open={isDrawerOpen}
+                onClose={() => {
+                  closeDrawer();
+                  if (!nextClick) {
+                    setSelectedOption(NOW);
+                  }
+                }}
+                content={scheduleDrawer()}
+              ></CustomDrawer>
             </div>
-            <CustomDrawer
-              open={isDrawerOpen}
-              onClose={() => {
-                closeDrawer();
-                if (!nextClick) {
-                  setSelectedOption(NOW);
-                }
-              }}
-              content={scheduleDrawer()}
-            ></CustomDrawer>
-          </div>
-        )}
+          )
+        }
 
-        {irdOrderType?.payment?.length > 1 && (
-          <div className={styles.paymentContainer}>
-            <p className={styles.paymentTitle}>{t('Payment Method')}</p>
-            <div className={styles.buttonPaymentWrapper}>
-              {irdOrderType?.payment?.map((item: any) => (
-                <StyledButton
-                  key={item.id}
-                  variant={item?.name === paymentType?.name ? 'contained' : 'outlined'}
-                  className={styles.buttonPayment}
-                  onClick={() => setpaymentType(item)}
-                >
-                  {t(`${item?.name}`)}
-                </StyledButton>
-              ))}
+        {
+          irdOrderType?.payment?.length > 1 && (
+            <div className={styles.paymentContainer}>
+              <p className={styles.paymentTitle}>{t('Payment Method')}</p>
+              <div className={styles.buttonPaymentWrapper}>
+                {irdOrderType?.payment?.map((item: any) => (
+                  <StyledButton
+                    key={item.id}
+                    variant={item?.name === paymentType?.name ? 'contained' : 'outlined'}
+                    className={styles.buttonPayment}
+                    onClick={() => setpaymentType(item)}
+                  >
+                    {t(`${item?.name}`)}
+                  </StyledButton>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )
+        }
 
         <p className={styles.taxText}>{t(`${servicechargeDisplay}`)}</p>
 
-        {irdOrderType?.signatureRequired && (
-          <>
-            <div className={styles.guestSignatureWrapper}>
-              <p className={styles.guestSignature}>{t('Guest Signature')}</p>
-              <p className={styles.clearBtn} onClick={clearCanvas}>
-                {t('Clear')}
-              </p>
-            </div>
-            <div id='signatureWrapper' className={styles.agrementSignatureWrapper}>
-              <SignatureCanvas
-                ref={sigCanvas}
-                penColor='#3D3C3C'
-                canvasProps={{
-                  height: 100,
-                  width: signatureWidth,
-                }}
-                clearOnResize={false}
-                onEnd={() => handleSignatureChange()}
-              />
-            </div>
-          </>
-        )}
-
-        {items?.length > 0 && (
-          <div className={styles.confirmOrderButtonWrapper}>
-            <StyledButton
-              disabled={
-                Boolean(formik.errors.instruction) ||
-                items?.length === 0 ||
-                paymentType?.length === 0 ||
-                (irdOrderType?.signatureRequired && !btnStatus)
-              }
-              loading={loading}
-              className={styles.confirmButton}
-              onClick={handleOrder}
-              variant='contained'
-            >
-              <div className={styles.buttonContentWrapper}>
-                <div className={styles.buttonWrapper}>
-                  {items?.length > 0 && <span className={styles.itemCount}>{items?.length}</span>}
-                  <span className={styles.currency}>
-                    <span className={styles.currencyTitle}> {currency} </span>
-                    {formatPriceIRD(totalAmount)}
-                  </span>
-                </div>
-                <div>{t('Confirm')}</div>
+        {
+          irdOrderType?.signatureRequired && (
+            <>
+              <div className={styles.guestSignatureWrapper}>
+                <p className={styles.guestSignature}>{t('Guest Signature')}</p>
+                <p className={styles.clearBtn} onClick={clearCanvas}>
+                  {t('Clear')}
+                </p>
               </div>
-            </StyledButton>
-          </div>
-        )}
+              <div id='signatureWrapper' className={styles.agrementSignatureWrapper}>
+                <SignatureCanvas
+                  ref={sigCanvas}
+                  penColor='#3D3C3C'
+                  canvasProps={{
+                    height: 100,
+                    width: signatureWidth,
+                  }}
+                  clearOnResize={false}
+                  onEnd={() => handleSignatureChange()}
+                />
+              </div>
+            </>
+          )
+        }
+
+        {
+          items?.length > 0 && (
+            <div className={styles.confirmOrderButtonWrapper}>
+              <StyledButton
+                disabled={
+                  Boolean(formik.errors.instruction) ||
+                  items?.length === 0 ||
+                  paymentType?.length === 0 ||
+                  (irdOrderType?.signatureRequired && !btnStatus)
+                }
+                loading={loading}
+                className={styles.confirmButton}
+                onClick={handleOrder}
+                variant='contained'
+              >
+                <div className={`${styles.buttonContentWrapper}`}>
+                  <div className={styles.buttonWrapper}>
+                    {items?.length > 0 && (
+                      <span className={styles.itemCount}>{getTotalItems && getTotalItems}</span>
+                    )}
+                    <span className={cx(styles.currency, { [styles.currencyV2]: isIRDv2 })}>
+                      <span className={`${styles.currencyTitle} ${isIRDv2 ? 'globals-irdv2-irdPrice' : ''}`}>
+                        {`${currency} `}
+                      </span>
+                      {isIRDv2 && <span className={`${styles.currencyTotalTitle} ${isIRDv2 ? '' : ''}`}>
+                        {/* globals-irdv2-TotalBtn */}
+                        {t('Total')}
+                      </span>}
+                      <span className={`${styles.currencyTotalAmount}`}>
+                        {formatPriceIRD(totalAmount)}
+                      </span>
+                    </span>
+                  </div>
+                  {!isIRDv2 ? <div className={isIRDv2 ? 'globals-irdv2-irdFlow' : ''}>{t('Confirm')}</div> :
+                    <div className={isIRDv2 ? 'globals-irdv2-irdFlowShow' : ''}>{t('Place Order')}</div>}
+                </div>
+              </StyledButton>
+            </div>
+          )
+        }
         <DiningCustomisationDrawer
           customisationDrawer={customisationDrawer}
           closeCustomisationDrawer={closeCustomisationDrawer}
         />
         <DiningDetailsDrawer menuAvailability />
-      </PageWrapper>
+      </PageWrapper >
     </>
   );
 };

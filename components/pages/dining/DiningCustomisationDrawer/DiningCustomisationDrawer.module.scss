@@ -15,7 +15,7 @@
 }
 
 .title {
-  font: $header var(--heading-font-regular);
+  font: $xlarge var(--heading-font-regular);
   text-align: center;
   margin-bottom: 20px;
   margin-top: 10px;
@@ -40,7 +40,6 @@
 .itemPrice {
   margin: 1.25rem 0;
   display: flex;
-  gap: 5px;
   flex-direction: column;
   font: $medium var(--primary-font-regular);
   color: var(--primary-text-color);
@@ -75,7 +74,7 @@
   line-height: 1.6;
 }
 
-.item+.item::before {
+.item + .item::before {
   line-height: 1.5;
   font: $xsmall var(--primary-font-regular);
   color: var(--tertiary-text-color);
@@ -119,7 +118,7 @@
 .addonsTitle {
   font-family: var(--primary-font-heading);
   color: var(--primary-text-color);
-  margin: 10px 0px;
+  margin: 10px 0px 7px 0;
   font-size: $xsmall;
 }
 

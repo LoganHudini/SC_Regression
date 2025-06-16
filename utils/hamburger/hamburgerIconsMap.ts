@@ -27,6 +27,11 @@ import NonVeg from '@icons/NonVeg.svg';
 import Veg from '@icons/Veg.svg';
 import ShellFish from '@icons/shellfish.svg';
 import Vegan from '@icons/vegan.svg';
+import celery from '@icons/celery.svg';
+import lupin from '@icons/lupin.svg';
+import mustard from '@icons/mustard.svg';
+import soy from '@icons/soy.svg';
+import sulphites from '@icons/sulphites.svg';
 
 export const hamburgerIconsMap = {
   'In-Room Dining': InRoomDiningIcon,
@@ -56,7 +61,7 @@ export const hamburgerIconsMap = {
   Help: ChatIcon,
 };
 
-export const iconsMap = {
+export const iconsMap: any = {
   gluten: Gluten,
   nuts: Nuts,
   egg: Egg,
@@ -71,4 +76,9 @@ export const iconsMap = {
   veg: Veg,
   shellfish: ShellFish,
   vegan: Vegan,
+  celery: celery,
+  lupin: lupin,
+  mustard: mustard,
+  soy: soy,
+  sulphites: sulphites,
 };

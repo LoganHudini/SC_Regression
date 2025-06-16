@@ -34,6 +34,7 @@ import { Checkin } from 'components/pages/home/Checkin/Checkin';
 import React from 'react';
 import HotelInformation from 'components/pages/home/HotelInformation/HotelInformation';
 import { HomeCarousel } from 'components/pages/home/HomeCarousel/HomeCarousel';
+import { irdMenuOutputDetailsStorage } from 'storage/dining.storage';
 
 export { getStaticPaths };
 
@@ -81,6 +82,9 @@ const Home: NextPage = () => {
       lang: locale === 'en' ? '' : locale,
     },
     fetchPolicy: 'no-cache',
+    onCompleted(data) {
+      irdMenuOutputDetailsStorage(data);
+    },
   });
 
   const { data: restaurantList, loading: restaurantloading } =

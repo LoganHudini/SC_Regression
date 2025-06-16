@@ -1,26 +1,34 @@
 .menuOptionsWrapper {
   display: flex;
   overflow: scroll;
-  padding: 1.6rem 1rem 1.4rem;
+  padding: 1.9rem 1rem 0.35rem 1rem;
   background-color: var(--primary-background-color);
-  width: 91%;
+  width: 93%;
   max-width: 768px;
   margin: auto;
-  position: sticky;
-  top: 63px;
+  position: fixed;
+  top: 85px;
   left: 0;
   right: 0;
   z-index: 3;
 
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
   @media (pointer: coarse) {
-    &::-webkit-scrollbar {
-      display: none;
-    }
   }
 }
 
 .diningMenuFilterButtonWrapper {
   margin: 0 5px;
+}
+
+.diningMenuFilterButtonWrapperV2 {
+  margin: 0;
 }
 
 .DiningCategoryOptionActive {
@@ -44,10 +52,31 @@
   }
 }
 
+.DiningCategoryOptionActiveV2 {
+  height: 30px;
+  font: $extraSmall var(--primary-font-heading);
+  padding: 1px 10px 0 10px;
+  text-transform: capitalize;
+  border: none !important;
+  border-bottom: 1px solid var(--primary-theme-color) !important;
+  width: auto;
+  white-space: nowrap;
+  color: var(--primary-theme-color);
+  font-weight: 900 !important;
+  -webkit-text-stroke: 0.5px currentColor !important;
+
+  &:hover:enabled {
+    border: none;
+  }
+
+  &:after {
+    display: none;
+  }
+}
 .DiningCategoryOptionInActive {
   height: 30px;
   line-height: 30px;
-  background: var(--primary-background-color);
+  background: transparent;
   font: $extraSmall var(--primary-font-extd-regular);
   padding: 1px 10px 0 10px;
   text-transform: capitalize;
@@ -56,6 +85,7 @@
   white-space: nowrap;
   color: var(--primary-theme-color);
   border: 1px solid var(--primary-border-color);
+  min-width: 80px;
 
   &:hover:enabled {
     color: var(--primary-theme-color);
@@ -66,6 +96,12 @@
   &:after {
     display: none;
   }
+}
+
+.DiningCategoryOptionInActiveV2 {
+  border: none;
+  border-bottom: 1px solid var(--primary-border-color);
+  margin: 0;
 }
 
 .timeDisplayContainer {
@@ -79,4 +115,13 @@
   align-items: center;
   justify-content: center;
   margin-top: 5px;
+}
+
+.catTiming {
+  line-height: 1.2;
+  font-family: var(--primary-font-extd-regular);
+  font-size: $extraSmall;
+  text-align: center;
+  margin-top: 4px;
+  white-space: nowrap;
 }

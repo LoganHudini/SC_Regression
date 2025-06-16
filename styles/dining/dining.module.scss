@@ -1,7 +1,8 @@
 .pageWrapper {
   justify-content: center;
   align-items: center;
-  margin-top: 4rem;
+  padding: 10px 10px !important;
+  background: #f8f8f8;
 }
 
 .pageWrapperSecondary {
@@ -17,6 +18,7 @@
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
+  padding-top: 80px;
 }
 
 .diningImage {
@@ -115,4 +117,86 @@
   &:last-child {
     margin-bottom: 0;
   }
+}
+
+.carouselSlideImage {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.cardWrapper {
+  width: 100%;
+  margin-top: 80px;
+}
+
+.carouselSlide {
+  margin-bottom: 25px;
+}
+
+.itemTitle {
+  margin-top: 10px;
+  font-family: var(--primary-card-title-font-family);
+  font: $header var(--heading-font-regular);
+  text-align: center;
+}
+
+.title {
+  font-family: var(--primary-title-font-family);
+  font: 1.5rem var(--heading-font-regular);
+  position: fixed;
+  top: 4rem;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  background: var(--primary-card-background-color);
+  z-index: 10;
+  padding: 10px 30px;
+  box-sizing: border-box;
+}
+
+.itemTime {
+  font: $small var(--primary-font-regular);
+  text-align: center;
+  margin-top: 5px;
+}
+
+.filterContentWrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  background: #f8f8f8;
+  padding: 10px 0px;
+  max-width: 768px;
+  margin: 0 auto;
+}
+.welcomeTitle {
+  // width: 93%;
+  margin-right: -15px;
+}
+
+.filterWrapper {
+  display: flex;
+  position: relative;
+}
+
+.filterWrapperApplied {
+  height: 10px;
+  width: 10px;
+  background-color: red;
+  border-radius: 50%;
+  position: absolute;
+  right: 7px;
+  top: -4px;
+}
+
+.timingCase {
+  text-transform: lowercase;
 }
