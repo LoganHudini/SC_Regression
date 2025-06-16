@@ -296,7 +296,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     };
   };
 
-  const selectedMenu = baseSelectedMenu && extractChefsSpecialCategory(baseSelectedMenu);
+  const selectedMenu = baseSelectedMenu && (isIRDv2 ? extractChefsSpecialCategory(baseSelectedMenu) : baseSelectedMenu);
 
   const menuAvailability = filterLiveMenu(
     baseSelectedMenu?.hours,
