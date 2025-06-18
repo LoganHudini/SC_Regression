@@ -268,7 +268,7 @@ export const idVerificationFields = ['docNo', 'docType'];
 export const PHONE_NUMBER_WITH_COUNTRYCODE = 'Phone';
 export const ESTIMATED_TIME = 'estimatedTime';
 export const RESERVED = 'RESERVED';
-export const CHEF_TAG_NAME = "Chef's Special";
+export const CHEF_TAG_NAME = 'Chef\'s Special';
 export const PAY_BY_LINK = 'payment_link';
 export const DEFAULT_PAYMENT_MESSAGE = {
   title: 'Choose Payment Method',
