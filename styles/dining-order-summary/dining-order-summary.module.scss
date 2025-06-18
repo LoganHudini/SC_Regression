@@ -240,6 +240,16 @@
   align-items: center;
 }
 
+.guestTitle {
+  width: 100%;
+}
+
+.guestCount {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+
 .schedulingMainContainer {
   margin: 0.5rem 0px;
   border-radius: var(--primary-card-border-radius);

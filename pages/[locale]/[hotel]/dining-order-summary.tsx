@@ -758,21 +758,24 @@ const DiningOrderSummary = () => {
         />
 
         <div className={styles.noOfGuests}>
-          <div className={styles.guestTititle}>
-            <p className={styles.noOfGuestsTitle}>{t('No of Guests')}</p>
+          <div className={styles.guestTitle}>
+            <div className={styles.guestCount}>
+              <p className={styles.noOfGuestsTitle}>{t('No of Guests')}</p>
+              <PlusMinusInput
+                value={guestNumber}
+                onClickMinus={() => setguestNumber((i) => i - 1)}
+                onClickPlus={() => setguestNumber((i) => i + 1)}
+                minQuantity={1}
+                className={styles.plusMinus}
+                irdSummary
+              />
+            </div>
             <p className={styles.noOfGuestsDesc}>
               {t('Cutlery will be sent based on the number of guests')}
             </p>
           </div>
-          <PlusMinusInput
-            value={guestNumber}
-            onClickMinus={() => setguestNumber((i) => i - 1)}
-            onClickPlus={() => setguestNumber((i) => i + 1)}
-            minQuantity={1}
-            className={styles.plusMinus}
-            irdSummary
-          />
         </div>
+
         {orderScheduling && (
           <div className={styles.schedulingMainContainer}>
             <div className={styles.schedulingTitle}>
