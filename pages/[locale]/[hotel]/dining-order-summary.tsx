@@ -578,6 +578,7 @@ const DiningOrderSummary = () => {
                     customSchedule: TIME,
                   }}
                   buttonTitle={t('Next')}
+                  module='dining'
                 />
               )}
             </div>
