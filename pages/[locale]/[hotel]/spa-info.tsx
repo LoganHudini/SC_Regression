@@ -87,7 +87,7 @@ const SpaInfo: React.FC = () => {
       {spaloading ? (
         <Loader />
       ) : (
-        <PageWrapper className={styles.pageWrapper} displayBottomMenu={spaInformationSpa} disabled>
+        <PageWrapper className={styles.pageWrapper} displayBottomMenu={spaInformationSpa}>
           <div>
             {spaInformationSpa?.length > 0 ? (
               spaInformationSpa?.map((spaList: any) => (
