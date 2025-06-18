@@ -26,25 +26,40 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
   const config = useConfig();
   const irdModuleContent: any = findModule(config?.modules, IN_ROOM_DINING);
   const isIRDv2 = irdModuleContent?.version === 'v2';
+  const manualSelectionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isScrollingToCategory = useRef(false);
 
   useEffect(() => {
     const scrollContainer = stickyHeader.current;
 
-    if (scrollContainer) {
-      const activeCategoryElement = scrollContainer.querySelector(
-        `[id="${diningInformation?.selectedCategory}"]`,
-      ) as HTMLElement;
-      if (activeCategoryElement) {
-        const containerWidth = scrollContainer.offsetWidth;
-        const elementWidth = activeCategoryElement.offsetWidth;
-        const elementOffsetLeft = activeCategoryElement.offsetLeft;
-        const scrollPosition = elementOffsetLeft + elementWidth / 2 - containerWidth / 2;
-        scrollContainer.scrollTo({
-          left: scrollPosition,
-          behavior: 'smooth',
-        });
+    if (scrollContainer && diningInformation?.selectedCategory) {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
       }
+      scrollTimeoutRef.current = setTimeout(() => {
+        const activeCategoryElement = scrollContainer.querySelector(
+          `[id="${diningInformation?.selectedCategory}"]`,
+        ) as HTMLElement;
+
+        if (activeCategoryElement) {
+          const containerWidth = scrollContainer.offsetWidth;
+          const elementWidth = activeCategoryElement.offsetWidth;
+          const elementOffsetLeft = activeCategoryElement.offsetLeft;
+          const scrollPosition = elementOffsetLeft + elementWidth / 2 - containerWidth / 2;
+          scrollContainer.scrollTo({
+            left: Math.max(0, scrollPosition),
+            behavior: 'smooth',
+          });
+        }
+      }, 50);
     }
+
+    return () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
   }, [diningInformation?.selectedCategory]);
 
   useLayoutEffect(() => {
@@ -57,37 +72,52 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
       }
     };
     window.addEventListener('scroll', fixedHeader);
+
+    return () => {
+      window.removeEventListener('scroll', fixedHeader);
+    };
   }, [setScroll]);
 
   useEffect(() => {
+    let scrollDebounceTimer: NodeJS.Timeout;
     const handleScroll = () => {
-      if (isManualSelection) return;
-      const scrollY = window.scrollY;
-      const isAtBottom = scrollY + window.innerHeight >= document.documentElement.scrollHeight - 50;
-      const categoryElements = filteredCategories
-        .map((category: any) => ({
-          id: category.id,
-          name: category.name,
-          element: document.getElementById(`Category${category.id}`),
-        }))
-        .filter((item: any) => item.element);
-
-      if (!categoryElements.length) return;
-      if (isAtBottom) {
-        const lastCategory = categoryElements[categoryElements.length - 1];
-        updateSelectedCategory(lastCategory.id, lastCategory.name);
-        return;
+      if (isManualSelection || isScrollingToCategory.current) return;
+      if (scrollDebounceTimer) {
+        clearTimeout(scrollDebounceTimer);
       }
-      const scrollThreshold = scrollY + 200;
-      for (let i = categoryElements.length - 1; i >= 0; i--) {
-        const { id, name, element } = categoryElements[i];
-        if (element && element.offsetTop <= scrollThreshold) {
-          updateSelectedCategory(id, name);
+      scrollDebounceTimer = setTimeout(() => {
+        const scrollY = window.scrollY;
+        const isAtBottom =
+          scrollY + window.innerHeight >= document.documentElement.scrollHeight - 50;
+
+        const categoryElements = filteredCategories
+          .map((category: any) => ({
+            id: category.id,
+            name: category.name,
+            element: document.getElementById(`Category${category.id}`),
+          }))
+          .filter((item: any) => item.element);
+
+        if (!categoryElements.length) return;
+
+        if (isAtBottom) {
+          const lastCategory = categoryElements[categoryElements.length - 1];
+          updateSelectedCategory(lastCategory.id, lastCategory.name);
           return;
         }
-      }
-      const firstCategory = categoryElements[0];
-      updateSelectedCategory(firstCategory.id, firstCategory.name);
+
+        const scrollThreshold = scrollY + 200;
+        for (let i = categoryElements.length - 1; i >= 0; i--) {
+          const { id, name, element } = categoryElements[i];
+          if (element && element.offsetTop <= scrollThreshold) {
+            updateSelectedCategory(id, name);
+            return;
+          }
+        }
+
+        const firstCategory = categoryElements[0];
+        updateSelectedCategory(firstCategory.id, firstCategory.name);
+      }, 100);
     };
     function updateSelectedCategory(id: string, name: string) {
       if (id !== diningInformation?.selectedCategory) {
@@ -102,13 +132,31 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
       }
     }
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [diningInformation?.selectedCategory, userScrolling]);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (scrollDebounceTimer) {
+        clearTimeout(scrollDebounceTimer);
+      }
+    };
+  }, [diningInformation?.selectedCategory, isManualSelection]);
 
   const handleCategoryChange = (event: any, el: any) => {
+    if (manualSelectionTimeoutRef.current) {
+      clearTimeout(manualSelectionTimeoutRef.current);
+    }
+    diningInformationStorage(
+      produce(diningInformationStorage(), (draft) => {
+        if (draft) {
+          draft.selectedCategory = el?.id ?? '';
+          draft.categoryName = el?.value ?? '';
+        }
+      }),
+    );
     setIsManualSelection(true);
     setUserScrolling(true);
+    isScrollingToCategory.current = true;
 
     const categoryElement = document.getElementById(`Category${el?.id}`);
     if (categoryElement) {
@@ -123,21 +171,14 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
     } else {
       window.scrollTo(0, 0);
     }
-    setTimeout(() => {
+    manualSelectionTimeoutRef.current = setTimeout(() => {
       setScrollHide(true);
       setUserScrolling(false);
       setIsManualSelection(false);
-    }, 1200);
+      isScrollingToCategory.current = false;
+    }, 1500);
 
     setScrollPosition(0, 0);
-    diningInformationStorage(
-      produce(diningInformationStorage(), (draft) => {
-        if (draft) {
-          draft.selectedCategory = el?.id ?? '';
-          draft.categoryName = el?.value ?? '';
-        }
-      }),
-    );
   };
 
   const filteredCategories = categories?.filter(
