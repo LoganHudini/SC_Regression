@@ -70,7 +70,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   setTags,
   setAllergens,
   tags,
-  allergens
+  allergens,
 }) => {
   const { t } = useTranslation('dining');
   const navigate = useLocalizedRouter();
@@ -91,10 +91,12 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     setsearch(false);
     setSearchQuery('');
   }, [selectedFilter?.selectedMenu]);
-  const [filteredOptions, setFilteredOptions] = useState<any>(appliedFilter || {
-    allergen: [],
-    tag: []
-  });
+  const [filteredOptions, setFilteredOptions] = useState<any>(
+    appliedFilter || {
+      allergen: [],
+      tag: [],
+    },
+  );
 
   const [irdItemsList, setIrdItemsList] = useState<any[]>([]);
   const [orderDrawer, setOrderDrawer] = useState(false);
@@ -136,11 +138,11 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   useEffect(() => {
     setAppliedFilter({
       allergen: [],
-      tag: []
+      tag: [],
     });
     setFilteredOptions({
       allergen: [],
-      tag: []
+      tag: [],
     });
   }, [selectedFilter?.selectedMenu]);
 
@@ -150,22 +152,9 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     irdMenu?.forEach((irdItem: any) => {
       if (irdItem?.name === selectedFilter?.menuName) {
         irdItem?.categories?.forEach((category: any) => {
+          if (!category?.isActive) return;
           category?.items?.forEach((item: any) => {
-            [TAGS, ALLERGENS].forEach((filterOption: string) => {
-              if (item?.[filterOption]?.length > 0) {
-                item[filterOption].forEach((option: any) => {
-                  if (filterOption === TAGS) {
-                    tags.push(option?.name);
-                  } else {
-                    allergens.push(option?.name);
-                  }
-                });
-              }
-            });
-          });
-
-          category?.subCategories?.forEach((subcategory: any) => {
-            subcategory?.items?.forEach((item: any) => {
+            if (item?.isActive) {
               [TAGS, ALLERGENS].forEach((filterOption: string) => {
                 if (item?.[filterOption]?.length > 0) {
                   item[filterOption].forEach((option: any) => {
@@ -177,15 +166,37 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                   });
                 }
               });
+            }
+          });
+
+          category?.subCategories?.forEach((subcategory: any) => {
+            if (!subcategory?.isActive) return;
+            subcategory?.items?.forEach((item: any) => {
+              if (item?.isActive) {
+                [TAGS, ALLERGENS].forEach((filterOption: string) => {
+                  if (item?.[filterOption]?.length > 0) {
+                    item[filterOption].forEach((option: any) => {
+                      if (filterOption === TAGS) {
+                        tags.push(option?.name);
+                      } else {
+                        allergens.push(option?.name);
+                      }
+                    });
+                  }
+                });
+              }
             });
           });
         });
 
         irdItem?.categories?.forEach((categoryItem: any) => {
+          if (!categoryItem?.isActive) return;
           if (categoryItem?.items?.length > 0) {
             setIrdItemsList((prevItemsList) => [...prevItemsList, ...categoryItem.items]);
           }
           categoryItem?.subCategories?.forEach((subCategoryItem: any) => {
+            if (!subCategoryItem?.isActive) return;
+
             if (subCategoryItem?.items?.length > 0) {
               setIrdItemsList((prevItemsList) => [...prevItemsList, ...subCategoryItem.items]);
             }
@@ -214,15 +225,13 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
 
       let tagMatch = true;
       if (appliedFilter?.tag?.length > 0) {
-        tagMatch = item?.tags?.some((tag: any) =>
-          appliedFilter.tag.includes(tag?.name)
-        );
+        tagMatch = item?.tags?.some((tag: any) => appliedFilter.tag.includes(tag?.name));
       }
 
       let allergenMatch = true;
       if (appliedFilter?.allergen?.length > 0) {
         allergenMatch = !item?.allergens?.some((allergen: any) =>
-          appliedFilter.allergen.includes(allergen?.name)
+          appliedFilter.allergen.includes(allergen?.name),
         );
       }
 
@@ -238,7 +247,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
 
   const CHEF_SPECIAL_CATEGORY = {
     id: 'chefSpecialCategoryId',
-    name: 'Chef\'s Special',
+    name: "Chef's Special",
     isActive: true,
     images: [],
     subCategories: null,
@@ -308,7 +317,9 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     };
   };
 
-  const selectedMenu = baseSelectedMenu && (isIRDv2 ? extractChefsSpecialCategory(baseSelectedMenu) : baseSelectedMenu);
+  const selectedMenu =
+    baseSelectedMenu &&
+    (isIRDv2 ? extractChefsSpecialCategory(baseSelectedMenu) : baseSelectedMenu);
 
   const menuAvailability = filterLiveMenu(
     baseSelectedMenu?.hours,
@@ -388,7 +399,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     if (!activeCategories.length) return;
 
     const chefSpecialCategory = activeCategories.find(
-      (cat: { name: string }) => cat.name === 'Chef\'s Special',
+      (cat: { name: string }) => cat.name === "Chef's Special",
     );
 
     const shouldUseChefSpecial = isInitialLoad && chefSpecialCategory;
@@ -499,8 +510,9 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     return (
       <div
         id={`Category${category?.id}`}
-        className={`${isIRDv2 ? 'globals-irdv2-category-element' : ''} ${isChefSpecial && isIRDv2 ? 'globals-irdv2-chef-special' : ''
-          }`}
+        className={`${isIRDv2 ? 'globals-irdv2-category-element' : ''} ${
+          isChefSpecial && isIRDv2 ? 'globals-irdv2-chef-special' : ''
+        }`}
         key={category?.id}
       >
         {categoryItems?.length > 0 && (
@@ -583,14 +595,14 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                         ...prev,
                         allergen: prev?.allergen.includes(itemName)
                           ? prev?.allergen.filter((item: any) => item !== itemName)
-                          : [...prev?.allergen, itemName]
+                          : [...prev?.allergen, itemName],
                       }));
                     } else {
                       setFilteredOptions((prev: any) => ({
                         ...prev,
                         tag: prev.tag.includes(itemName)
                           ? prev.tag.filter((item: any) => item !== itemName)
-                          : [...prev.tag, itemName]
+                          : [...prev.tag, itemName],
                       }));
                     }
                   }}
@@ -676,11 +688,11 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             onClick={() => {
               setAppliedFilter({
                 allergen: [],
-                tag: []
+                tag: [],
               });
               setFilteredOptions({
                 allergen: [],
-                tag: []
+                tag: [],
               });
             }}
             variant='outlined'
@@ -734,7 +746,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                     setSearchQuery('');
                     setFilteredOptions({
                       allergen: [],
-                      tag: []
+                      tag: [],
                     });
                     setsearch(false);
                   }}
@@ -765,7 +777,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                             setSearchQuery('');
                             setFilteredOptions({
                               allergen: [],
-                              tag: []
+                              tag: [],
                             });
                           }}
                         >
@@ -796,7 +808,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
           >
             {!menuAvailability &&
               data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length !==
-              0 && (
+                0 && (
                 <div className={styles.menuUnavailableContainer}>
                   <div className={styles.menuTimingsText}>
                     {t('Online requests will be available from')} {menuStartingTime}
@@ -818,7 +830,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             )}
             {filteredIrdItemsList?.length === 0 &&
               data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length !==
-              0 && (
+                0 && (
                 <div className={styles.noItems}>
                   <ItemNotFoundLoader />
                   <div className={styles.noItemsText}>{t('Oops, Item Not Found')}</div>
@@ -829,7 +841,9 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
               ?.filter((item: any) => item?.isActive)
               ?.map((category: any) => renderCategory(category))}
             {selectedMenu?.categories?.filter((item: any) => item?.isActive)?.length > 0 && (
-              <div className={cx(styles.bottomContainer, { ['globals-irdv2-irdFlowShow']: isIRDv2 })}>
+              <div
+                className={cx(styles.bottomContainer, { ['globals-irdv2-irdFlowShow']: isIRDv2 })}
+              >
                 <div className={styles.backToTopContainer}>
                   {backToTopBtnVar >= 4 && isIRDv2 && (
                     <StyledButton
@@ -881,10 +895,12 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
       <CustomDrawer
         open={filterDrawer}
         onClose={() => {
-          setFilteredOptions(appliedFilter || {
-            allergen: [],
-            tag: []
-          });
+          setFilteredOptions(
+            appliedFilter || {
+              allergen: [],
+              tag: [],
+            },
+          );
           setFilterDrawer(false);
         }}
         content={<FilterDetails />}
