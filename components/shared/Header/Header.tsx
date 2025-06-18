@@ -130,8 +130,9 @@ export const Header: React.FC<IHeaderProps> = ({
                   <p className={styles.irdMenuTiming}>
                     {irdMenuTimings[0]?.open === ALL_DAY
                       ? t(`${irdMenuTimings[0]?.open}`)
-                      : `${irdMenuTimings[0]?.open} - ${irdMenuTimings[0]?.close === '00:00' ? '24:00' : irdMenuTimings[0]?.close
-                      }`}
+                      : `${irdMenuTimings[0]?.open} - ${
+                          irdMenuTimings[0]?.close === '00:00' ? '24:00' : irdMenuTimings[0]?.close
+                        }`}
                   </p>
                 )}
               </div>
@@ -147,8 +148,9 @@ export const Header: React.FC<IHeaderProps> = ({
               {' '}
               <img
                 className={styles.headerLogo}
-                src={`/images/${hotel === 'fairmont-makkah-clock-royal-tower' ? hotel : BRAND_CODE
-                  }/Logo.svg`}
+                src={`/images/${
+                  hotel === 'fairmont-makkah-clock-royal-tower' ? hotel : BRAND_CODE
+                }/Logo.svg`}
                 onClick={() => goHome()}
               />
               {logo && hotel !== 'fairmont-makkah-clock-royal-tower' && (

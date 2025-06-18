@@ -116,164 +116,174 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
       : ingredients;
 
     return (
-      <span className="two-line-ellipsis">
+      <span className='two-line-ellipsis'>
         {truncatedIngredients} {formattedPrice}
       </span>
     );
   }
 
-
   return (
     <div>
-      {!isIRDv2 && <div className={cx(styles.card, { ['globals-irdv2-irdFlow']: isIRDv2 })}>
-        <div className={styles.contentWrapper} onClick={handleDiningDetails}>
-          <h4 className={cx(styles.title, { [styles.titleWithImage]: image })}>{title}</h4>
-          {description && (
-            <p className={cx(styles.description, { [styles.descriptionWithImage]: image })}>
-              {description}
-            </p>
-          )}
-          <p className={styles.currency}>
-            {currency} <span className={styles.price}>{formatPriceIRD(price)}</span>
-          </p>
-        </div>
-        <div className={styles.imageWrapper}>
-          <div className={styles.pointer} onClick={handleDiningDetails}>
-            {image && (
-              <StableImage
-                className={styles.image}
-                src={`${ASSETS_URL}/${image}`}
-                onClick={handleDiningDetails}
-              />
+      {!isIRDv2 && (
+        <div className={cx(styles.card, { ['globals-irdv2-irdFlow']: isIRDv2 })}>
+          <div className={styles.contentWrapper} onClick={handleDiningDetails}>
+            <h4 className={cx(styles.title, { [styles.titleWithImage]: image })}>{title}</h4>
+            {description && (
+              <p className={cx(styles.description, { [styles.descriptionWithImage]: image })}>
+                {description}
+              </p>
             )}
+            <p className={styles.currency}>
+              {currency} <span className={styles.price}>{formatPriceIRD(price)}</span>
+            </p>
           </div>
-          {irdModule &&
-            (totalQuantity == 0 ? (
-              <StyledButton
-                onClick={handleDiningDetails}
-                className={cx(styles.addCta)}
-                variant='contained'
-                disabled={!menuAvailability}
-              >
-                {t('Add')}
-              </StyledButton>
-            ) : (
-              <div className={styles.counterStyle}>
-                <PlusMinusInput
-                  value={totalQuantity || 0}
-                  onClickPlus={onClickPlus}
-                  onClickMinus={onClickMinus}
-                  irdSummary
+          <div className={styles.imageWrapper}>
+            <div className={styles.pointer} onClick={handleDiningDetails}>
+              {image && (
+                <StableImage
+                  className={styles.image}
+                  src={`${ASSETS_URL}/${image}`}
+                  onClick={handleDiningDetails}
                 />
-              </div>
-            ))}
-          <p className={styles.customisableText} onClick={handleDiningDetails}>
-            {customisation && irdModule && t('customizable')}
-          </p>
-        </div>
-      </div>}
-
-      {isIRDv2 && <div
-        className={cx(
-          {
-            [styles.chefSpecialCard]: isChefSpecial,
-          },
-          { 'globals-irdv2-card globals-irdv2-irdFlowShow': isIRDv2 }
-        )}
-      >
-        <div
-          className={cx({ 'globals-irdv2-contentWrapper': isIRDv2 })}
-          onClick={handleDiningDetails}
-        >
-          <StableImage
-            className={cx({ ['globals-irdv2-irdFlow']: !image && isIRDv2 }, { 'globals-irdv2-image': isIRDv2 })}
-            src={`${ASSETS_URL}/${image}`}
-            onClick={handleDiningDetails}
-          />
-
-          <div
-            className={cx({ 'globals-irdv2-detailsWrapperContent': isIRDv2 })}
-            onClick={handleDiningDetails}
-          >
-            {tags?.name && (
-              <span
-                className={cx({
-                  'globals-irdv2-tagTitle': isIRDv2,
-                  [styles.chefSpecialTag]: isChefSpecial,
-                })}
-              >
-                {tags?.name}
-              </span>
-            )}
-
-            <p className={cx({ 'globals-irdv2-title': isIRDv2 })}>{title}</p>
-
-            <p
-              className={cx({
-                'globals-irdv2-description': isIRDv2,
-                [styles.descriptionWithImage]: image,
-              })}
-            >
-              {ingredients ? (
-                <>
-                  <TwoLineEllipsisWithPrice ingredients={ingredients} price={price} maxChars={50} />
-                </>
-              ) : (
-                formatPriceIRD(price)
-              )}
-            </p>
-
-            <div className={cx({ 'globals-irdv2-allergensWrapper': isIRDv2 })}>
-              {allergens && allergens.length > 0 && (
-                <>
-                  {allergens.slice(0, 4).map((tag: any, index: number) => {
-                    const key = tag?.name?.toLowerCase();
-                    const Icon = iconsMap[key];
-                    return Icon ? <Icon key={index} /> : null;
-                  })}
-                  {allergens.length > 4 && (
-                    <span
-                      className={cx({ 'globals-irdv2-description': isIRDv2 })}
-                      style={{ marginInlineStart: '10px' }}
-                    >
-                      +{allergens.length - 4} more
-                    </span>
-                  )}
-                </>
               )}
             </div>
+            {irdModule &&
+              (totalQuantity == 0 ? (
+                <StyledButton
+                  onClick={handleDiningDetails}
+                  className={cx(styles.addCta)}
+                  variant='contained'
+                  disabled={!menuAvailability}
+                >
+                  {t('Add')}
+                </StyledButton>
+              ) : (
+                <div className={styles.counterStyle}>
+                  <PlusMinusInput
+                    value={totalQuantity || 0}
+                    onClickPlus={onClickPlus}
+                    onClickMinus={onClickMinus}
+                    irdSummary
+                  />
+                </div>
+              ))}
+            <p className={styles.customisableText} onClick={handleDiningDetails}>
+              {customisation && irdModule && t('customizable')}
+            </p>
           </div>
         </div>
+      )}
 
-        <div className={cx({ 'globals-irdv2-btnWrapper': isIRDv2 })}>
-          {irdModule &&
-            (totalQuantity === 0 ? (
-              <StyledButton
-                onClick={handleDiningDetails}
-                className={cx(styles.addCta)}
-                variant="contained"
-                disabled={!menuAvailability}
-              >
-                {t('Add')}
-              </StyledButton>
-            ) : (
-              <div className={styles.counterStyle}>
-                <PlusMinusInput
-                  value={totalQuantity || 0}
-                  onClickPlus={onClickPlus}
-                  onClickMinus={onClickMinus}
-                  irdSummary
-                />
-              </div>
-            ))}
-
-          {customisation && irdModule && (
-            <p className={styles.customisableText} onClick={handleDiningDetails}>
-              {t('customizable')}
-            </p>
+      {isIRDv2 && (
+        <div
+          className={cx(
+            {
+              [styles.chefSpecialCard]: isChefSpecial,
+            },
+            { 'globals-irdv2-card globals-irdv2-irdFlowShow': isIRDv2 },
           )}
+        >
+          <div
+            className={cx({ 'globals-irdv2-contentWrapper': isIRDv2 })}
+            onClick={handleDiningDetails}
+          >
+            <StableImage
+              className={cx(
+                { ['globals-irdv2-irdFlow']: !image && isIRDv2 },
+                { 'globals-irdv2-image': isIRDv2 },
+              )}
+              src={`${ASSETS_URL}/${image}`}
+              onClick={handleDiningDetails}
+            />
+
+            <div
+              className={cx({ 'globals-irdv2-detailsWrapperContent': isIRDv2 })}
+              onClick={handleDiningDetails}
+            >
+              {tags?.name && (
+                <span
+                  className={cx({
+                    'globals-irdv2-tagTitle': isIRDv2,
+                    [styles.chefSpecialTag]: isChefSpecial,
+                  })}
+                >
+                  {tags?.name}
+                </span>
+              )}
+
+              <p className={cx({ 'globals-irdv2-title': isIRDv2 })}>{title}</p>
+
+              <p
+                className={cx({
+                  'globals-irdv2-description': isIRDv2,
+                  [styles.descriptionWithImage]: image,
+                })}
+              >
+                {ingredients ? (
+                  <>
+                    <TwoLineEllipsisWithPrice
+                      ingredients={ingredients}
+                      price={price}
+                      maxChars={50}
+                    />
+                  </>
+                ) : (
+                  formatPriceIRD(price)
+                )}
+              </p>
+
+              <div className={cx({ 'globals-irdv2-allergensWrapper': isIRDv2 })}>
+                {allergens && allergens.length > 0 && (
+                  <>
+                    {allergens.slice(0, 4).map((tag: any, index: number) => {
+                      const key = tag?.name?.toLowerCase();
+                      const Icon = iconsMap[key];
+                      return Icon ? <Icon key={index} /> : null;
+                    })}
+                    {allergens.length > 4 && (
+                      <span
+                        className={cx({ 'globals-irdv2-description': isIRDv2 })}
+                        style={{ marginInlineStart: '10px' }}
+                      >
+                        +{allergens.length - 4} more
+                      </span>
+                    )}
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className={cx({ 'globals-irdv2-btnWrapper': isIRDv2 })}>
+            {irdModule &&
+              (totalQuantity === 0 ? (
+                <StyledButton
+                  onClick={handleDiningDetails}
+                  className={cx(styles.addCta)}
+                  variant='contained'
+                  disabled={!menuAvailability}
+                >
+                  {t('Add')}
+                </StyledButton>
+              ) : (
+                <div className={styles.counterStyle}>
+                  <PlusMinusInput
+                    value={totalQuantity || 0}
+                    onClickPlus={onClickPlus}
+                    onClickMinus={onClickMinus}
+                    irdSummary
+                  />
+                </div>
+              ))}
+
+            {customisation && irdModule && (
+              <p className={styles.customisableText} onClick={handleDiningDetails}>
+                {t('customizable')}
+              </p>
+            )}
+          </div>
         </div>
-      </div>}
+      )}
       <DiningCustomisationDrawer
         customisationDrawer={customisationDrawer}
         closeCustomisationDrawer={closeCustomisationDrawer}

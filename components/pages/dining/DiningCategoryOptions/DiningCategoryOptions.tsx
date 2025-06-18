@@ -160,8 +160,10 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
         <StyledButton
           className={cx(styles.DiningCategoryOptionInActive, {
             [styles.DiningCategoryOptionInActiveV2]: isIRDv2,
-            [styles.DiningCategoryOptionActive]: el?.id === diningInformation?.selectedCategory && !isIRDv2,
-            [styles.DiningCategoryOptionActiveV2]: el?.id === diningInformation?.selectedCategory && isIRDv2,
+            [styles.DiningCategoryOptionActive]:
+              el?.id === diningInformation?.selectedCategory && !isIRDv2,
+            [styles.DiningCategoryOptionActiveV2]:
+              el?.id === diningInformation?.selectedCategory && isIRDv2,
           })}
           onClick={(e) => {
             handleCategoryChange(e, el);
@@ -178,7 +180,13 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
     <>
       <div ref={stickyHeader} className={cx(styles.menuOptionsWrapper)}>
         {filteredCategories?.map((el: any, index: number) => (
-          <div id={el?.id} className={cx(styles.diningMenuFilterButtonWrapper, { [styles.diningMenuFilterButtonWrapperV2]: isIRDv2 })} key={`${el}-${index}`}>
+          <div
+            id={el?.id}
+            className={cx(styles.diningMenuFilterButtonWrapper, {
+              [styles.diningMenuFilterButtonWrapperV2]: isIRDv2,
+            })}
+            key={`${el}-${index}`}
+          >
             <CatogoryTimingsView el={el} />
           </div>
         ))}
