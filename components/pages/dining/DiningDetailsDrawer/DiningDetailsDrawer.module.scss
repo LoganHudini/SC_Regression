@@ -146,6 +146,11 @@
 
 .addonsText {
   font: $medium var(--primary-font-heading);
+  max-width: 50%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
 }
 
 .upsellWrapper {
