@@ -6,4 +6,5 @@ export interface IDateTimeSelectProps {
   showSchedules: any;
   buttonTitle?: any;
   buttonStyle?: any;
+  module: any;
 }
