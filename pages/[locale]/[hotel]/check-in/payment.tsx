@@ -46,6 +46,7 @@ const Payment: React.FC = () => {
   const resId = router?.query?.resId ?? '';
   const lastName = router?.query?.lastName ?? '';
   const paymentFlow = router?.query?.paymentFlow ?? '';
+  const paylinkUniqueId = router?.query?.paylinkUniqueId ?? '';
   const hotelId = config?.hotelId;
   const paymentConfig: any = usePaymentConfig();
   const navigate = useLocalizedRouter();
@@ -104,7 +105,7 @@ const Payment: React.FC = () => {
       case FISERV:
         return <Fiserv />;
       case PLANET:
-        return <Planet paymentFlow={paymentFlow} />;
+        return <Planet paymentFlow={paymentFlow} paylinkUniqueId={paylinkUniqueId} />;
       default:
         break;
     }

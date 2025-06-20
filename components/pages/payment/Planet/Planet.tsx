@@ -5,7 +5,7 @@ import {
 } from 'core/api/functions/getCheckInAuthentication';
 import { client } from 'core/graphql/client';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
-import { INITIATE_PAYMENT_PLANET } from 'core/graphql/queries/INITIATE_PAYMENT';
+import { INITIATE_PAYMENT_PLANET, VALIDATE_PAYBYLINK_URL } from 'core/graphql/queries/INITIATE_PAYMENT';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { notificationStorage, toggleNotification } from 'storage/home.storage';
@@ -28,7 +28,7 @@ interface IInitiatePaymentApiRequest {
   };
 }
 
-export const Planet: React.FC<any> = ({ paymentFlow }) => {
+export const Planet: React.FC<any> = ({ paymentFlow, paylinkUniqueId }) => {
   const { t } = useTranslation(['check-in-payment', 'common']);
   const navigate = useLocalizedRouter();
   const iframeRef: any = useRef<HTMLIFrameElement>(null);
@@ -41,7 +41,11 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
 
   const reservationInfo = reservationData && reservationData?.getReservation?.data;
   const randomTransactionId =
-    Math.floor(Math.random() * 9000000000) + 1000000000 + '-' + reservationInfo?.reservationId;
+    Math.floor(Math.random() * 9000000000) +
+    1000000000 +
+    '-' +
+    reservationInfo?.reservationId +
+    (paylinkUniqueId && paymentFlow === PAY_BY_LINK ? '-' + paylinkUniqueId : '');
 
   const [transactionId, setTransactionId] = useState('');
 
@@ -76,13 +80,13 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
           statusCode === 403
             ? handleCheckInAuthenticationFailure(preparePayment)
             : (notificationStorage({
-                title: t('Payment Failed!') as string,
-                description:
-                  paymentFlow === PAY_BY_LINK
-                    ? (t('Please contact front desk for assistance') as string)
-                    : (t('Card Authentication Failed!') as string),
-                type: FAILURE,
-              }),
+              title: t('Payment Failed!') as string,
+              description:
+                paymentFlow === PAY_BY_LINK
+                  ? (t('Please contact front desk for assistance') as string)
+                  : (t('Card Authentication Failed!') as string),
+              type: FAILURE,
+            }),
               toggleNotification(true),
               paymentFlow === PAY_BY_LINK && navigate(availablePaths?.HOME));
         }
@@ -100,7 +104,63 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
         }
       }
     };
-    preparePayment();
+    const checkValidation = async () => {
+      if (randomTransactionId && reservationInfo) {
+        try {
+          const { data } = await client.query({
+            query: VALIDATE_PAYBYLINK_URL,
+            variables: {
+              paylinkUniqueId: paylinkUniqueId,
+              confirmationNumber: reservationInfo?.confirmationId
+            },
+            context: {
+              clientName: 'rest',
+            },
+            fetchPolicy: 'network-only',
+          });
+          if (data?.getReservation?.data?.paylinkStatus == 'paylink_send') {
+            preparePayment();
+          }
+          else {
+            notificationStorage({
+              title: t('Payment Failed!') as string,
+              description:
+                paymentFlow === PAY_BY_LINK
+                  ? (t('Please contact front desk for assistance') as string)
+                  : (t('Card Authentication Failed!') as string),
+              type: FAILURE,
+            });
+            toggleNotification(true);
+            paymentFlow === PAY_BY_LINK
+              ? navigate(availablePaths?.HOME)
+              : navigate(availablePaths?.CARD_AUTHORISATION);
+          }
+        }
+        catch {
+          notificationStorage({
+            title: t('Payment Failed!') as string,
+            description:
+              paymentFlow === PAY_BY_LINK
+                ? (t('Please contact front desk for assistance') as string)
+                : (t('Card Authentication Failed!') as string),
+            type: FAILURE,
+          });
+          toggleNotification(true);
+          paymentFlow === PAY_BY_LINK
+            ? navigate(availablePaths?.HOME)
+            : navigate(availablePaths?.CARD_AUTHORISATION);
+        }
+
+      }
+    };
+
+    if (paymentFlow === PAY_BY_LINK && paylinkUniqueId) {
+      checkValidation();
+    }
+    else {
+      preparePayment();
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reservationInfo]);
 
@@ -183,13 +243,13 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
           statusCode === 403
             ? handleCheckInAuthenticationFailure(handleChange)
             : (notificationStorage({
-                title: t('Payment Failed!') as string,
-                description:
-                  paymentFlow === PAY_BY_LINK
-                    ? (t('Please contact front desk for assistance') as string)
-                    : (t('Card Authentication Failed!') as string),
-                type: FAILURE,
-              }),
+              title: t('Payment Failed!') as string,
+              description:
+                paymentFlow === PAY_BY_LINK
+                  ? (t('Please contact front desk for assistance') as string)
+                  : (t('Card Authentication Failed!') as string),
+              type: FAILURE,
+            }),
               toggleNotification(true));
         }
       }
@@ -204,7 +264,7 @@ export const Planet: React.FC<any> = ({ paymentFlow }) => {
         className={cx(styles.paymentWindow, { [styles.paymentWindowHidden]: loading })}
         ref={iframeRef}
         onLoad={handleChange}
-        // sandbox='allow-scripts allow-forms allow-top-navigation allow-same-origin'git
+      // sandbox='allow-scripts allow-forms allow-top-navigation allow-same-origin'git
       />
     </div>
   );
