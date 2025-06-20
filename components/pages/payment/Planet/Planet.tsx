@@ -118,7 +118,7 @@ export const Planet: React.FC<any> = ({ paymentFlow, paylinkUniqueId }) => {
             },
             fetchPolicy: 'network-only',
           });
-          if (data?.getReservation?.data?.paylinkStatus == 'paylink_send') {
+          if (data?.getReservation?.data?.paylinkStatus === 'paylink_send' || data?.getReservation?.data?.paylinkStatus === 'iframe_generated') {
             preparePayment();
           }
           else {
