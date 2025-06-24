@@ -24224,7 +24224,7 @@ export const configuration: any = [
     saveToDb: 'yes',
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: ['check-in', 'hotel-info', 'dining', 'spa', 'hotel-compendium'],
-    preCheckInOnly: false,
+    preCheckInOnly: true,
     hideImagePlaceholder: true,
     isAnimationActive: false,
     isLogoLoaderActive: false,
@@ -24259,7 +24259,7 @@ export const configuration: any = [
               {
                 name: 'Guest Information',
                 isActive: true,
-                type: 'youverse',
+                type: 'trential',
                 details: [
                   {
                     name: 'firstName',
@@ -24421,7 +24421,7 @@ export const configuration: any = [
             name: 'accompanyingGuest',
             label: 'Secondary Guest',
             title: '',
-            type: 'youverse',
+            type: 'trential',
             isActive: true,
             cardIcon: 'guest',
             details: [
@@ -24590,12 +24590,12 @@ export const configuration: any = [
       {
         code: 'view-bill',
         name: 'View Bill',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'spa',
@@ -25777,7 +25777,7 @@ export const configuration: any = [
       {
         code: 'view-bill',
         name: 'View Bill',
-        isActive: true,
+        isActive: false,
       },
       {
         code: 'checkout',
