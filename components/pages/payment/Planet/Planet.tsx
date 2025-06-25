@@ -123,11 +123,8 @@ export const Planet: React.FC<any> = ({ paymentFlow, paylinkUniqueId }) => {
           });
           if (data?.getReservation?.data?.paylinkStatus === 'payment_completed') {
             notificationStorage({
-              title: t('Payment Failed!') as string,
-              description:
-                paymentFlow === PAY_BY_LINK
-                  ? (t('Please contact front desk for assistance') as string)
-                  : (t('Card Authentication Failed!') as string),
+              title: t('Payment Already Completed.') as string,
+              description: t('Looks like this payment has already been completed.') as string,
               type: FAILURE,
             });
             toggleNotification(true);
@@ -257,6 +254,9 @@ export const Planet: React.FC<any> = ({ paymentFlow, paylinkUniqueId }) => {
 
   return (
     <div>
+      <p className={styles.description}>
+        Do not refresh or navigate away while the payment is in progress to avoid interruptions.
+      </p>
       <iframe
         id='planetIframe'
         title='Payment'
