@@ -291,7 +291,10 @@ const Spa: React.FC = () => {
   const [getSlots, { loading: spaLoading }] = useLazyQuery(GET_SLOT_DETAILS, {
     context: { clientName: 'integration_d' },
     variables: {
-      date: dayjs(selectedTime).year(currentYear).format(timeFormats.YEAR_MONTH_DAY),
+      date: (() => {
+        const validDate = dayjs(selectedTime).isValid() ? dayjs(selectedTime) : dayjs();
+        return validDate.year(currentYear).format(timeFormats.YEAR_MONTH_DAY);
+      })(),
       hotelId: hotelId,
       requestType: '601',
       treatmentId: selectedSpaItem?.code,
@@ -301,12 +304,14 @@ const Spa: React.FC = () => {
 
   const slotBookingHandler = async () => {
     setSpaBookingLoading(true);
+    const validDate = dayjs(selectedTime).isValid() ? dayjs(selectedTime) : dayjs();
+    const formattedDate = validDate.year(currentYear).format(timeFormats.YEAR_MONTH_DAY);
     const spaPayload = {
       customerNotes: '',
       duration: selectedSpaItem?.duration[currentIndex]?.duration ?? '',
       hotelId: hotelId,
       requestType: '601',
-      date: dayjs(selectedTime).year(currentYear).format(timeFormats.YEAR_MONTH_DAY),
+      date: formattedDate,
       treatmentId: selectedSpaItem?.code,
       startTime: selectedSpaSlots?.startTime,
       technicianId: parseInt(selectedSpaSlots.technicianId),
@@ -328,7 +333,11 @@ const Spa: React.FC = () => {
       });
 
       if (data?.createSpaAppointment?.message === 'Failed - to Book the Spa') {
-        return false;
+        throw new Error('Failed to book the spa appointment');
+      }
+
+      if (!data?.createSpaAppointment) {
+        throw new Error('Invalid response from server');
       }
 
       setTimeout(() => {
@@ -462,6 +471,7 @@ const Spa: React.FC = () => {
                 showSchedules={undefined}
                 buttonTitle={spaModule?.type === 'CMS' ? t('Book now') : t('Find available slots')}
                 buttonStyle={styles.buttonPicker}
+                module={'spa'}
               />
             </div>
           </div>

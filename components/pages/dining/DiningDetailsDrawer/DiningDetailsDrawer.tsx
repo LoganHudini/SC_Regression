@@ -18,7 +18,13 @@ import { DiningCheckboxItem } from 'components/pages/dining/DiningCheckboxItem/D
 import { InputAdornment } from '@mui/material';
 import { isEqual, sortBy } from 'lodash';
 import { iconsMap } from 'utils/hamburger/hamburgerIconsMap';
-import { activeModule, filterLiveMenu, findModule, formatPriceIRD, irdActiveMenuList } from 'utils/functions';
+import {
+  activeModule,
+  filterLiveMenu,
+  findModule,
+  formatPriceIRD,
+  irdActiveMenuList,
+} from 'utils/functions';
 import { addToCartEvent } from 'utils/gtag';
 import cx from 'classnames';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
@@ -65,7 +71,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
       comment?: string;
       quantity?: number;
       index?: any;
-      priceInDecimal?: any
+      priceInDecimal?: any;
     }[]
   >();
 
@@ -264,14 +270,22 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
             const existingCustomisation = selectedItem?.customisation || [];
             const existingGroupedAddons = selectedItem?.groupedAddons || [];
 
-            const selectedItemAddonsString = JSON.stringify(sortBy(existingAddons, (item) => item?.name));
-            const selectedItemCustomisationString = JSON.stringify(sortBy(existingCustomisation, (item) => item?.name));
-            const selectedItemGroupedAddonsString = JSON.stringify(sortBy(existingGroupedAddons, (item) => item?.name));
+            const selectedItemAddonsString = JSON.stringify(
+              sortBy(existingAddons, (item) => item?.name),
+            );
+            const selectedItemCustomisationString = JSON.stringify(
+              sortBy(existingCustomisation, (item) => item?.name),
+            );
+            const selectedItemGroupedAddonsString = JSON.stringify(
+              sortBy(existingGroupedAddons, (item) => item?.name),
+            );
 
             const needsUpdate =
               (sortedAddons?.length >= 0 && selectedItemAddonsString !== addonsString) ||
-              (sortedCustomisation?.length >= 0 && selectedItemCustomisationString !== customisationString) ||
-              (sortedGroupedAddons?.length >= 0 && selectedItemGroupedAddonsString !== groupedAddonsString);
+              (sortedCustomisation?.length >= 0 &&
+                selectedItemCustomisationString !== customisationString) ||
+              (sortedGroupedAddons?.length >= 0 &&
+                selectedItemGroupedAddonsString !== groupedAddonsString);
 
             if (needsUpdate) {
               selectedItem.addons = sortedAddons ?? [];
@@ -282,10 +296,9 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
             selectedItem.cookingInstruction = instruction ?? '';
             selectedItem.quantity = count || 1;
           }
-        })
+        }),
       );
-    }
-    else {
+    } else {
       diningMenuStorage(
         produce(diningMenuStorage(), (draft) => {
           const existingItem = draft?.items?.find((el) => {
@@ -304,9 +317,18 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
             // Matching customization and addons
             if (
               el?.itemId === selectedItemId &&
-              isEqual(sortBy(el?.addons || [], (item) => item?.name), sortedAddons) &&
-              isEqual(sortBy(el?.groupedAddons || [], (item) => item?.name), sortedGroupedAddons) &&
-              isEqual(sortBy(el?.customisation || [], (item) => item?.name), sortedCustomisation)
+              isEqual(
+                sortBy(el?.addons || [], (item) => item?.name),
+                sortedAddons,
+              ) &&
+              isEqual(
+                sortBy(el?.groupedAddons || [], (item) => item?.name),
+                sortedGroupedAddons,
+              ) &&
+              isEqual(
+                sortBy(el?.customisation || [], (item) => item?.name),
+                sortedCustomisation,
+              )
             ) {
               return true;
             }
@@ -330,7 +352,10 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
               sortedAddons?.length > 0 &&
               (el?.addons?.length || 0) > 0 &&
               el?.customisation?.ingredient === sortedCustomisation?.ingredient &&
-              isEqual(sortBy(el?.addons || [], (item) => item?.name), sortedAddons) &&
+              isEqual(
+                sortBy(el?.addons || [], (item) => item?.name),
+                sortedAddons,
+              ) &&
               !sortedGroupedAddons?.length
             ) {
               return true;
@@ -342,7 +367,10 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
               sortedGroupedAddons?.length > 0 &&
               (el?.groupedAddons?.length || 0) > 0 &&
               el?.customisation?.ingredient === sortedCustomisation?.ingredient &&
-              isEqual(sortBy(el?.groupedAddons || [], (item) => item?.name), sortedGroupedAddons) &&
+              isEqual(
+                sortBy(el?.groupedAddons || [], (item) => item?.name),
+                sortedGroupedAddons,
+              ) &&
               !sortedAddons?.length
             ) {
               return true;
@@ -378,9 +406,8 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
 
             draft.items.push(baseItem);
           }
-        })
+        }),
       );
-
     }
 
     const item = {
@@ -459,7 +486,13 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
                     const IconComponent =
                       iconsMap[tags.name.toLowerCase() as keyof typeof iconsMap];
                     return (
-                      <div key={key} className={cx({ ['globals-irdv2-allergens']: isIRDv2 }, { [styles.tags]: !isIRDv2 })}>
+                      <div
+                        key={key}
+                        className={cx(
+                          { ['globals-irdv2-allergens']: isIRDv2 },
+                          { [styles.tags]: !isIRDv2 },
+                        )}
+                      >
                         {IconComponent && <IconComponent className={styles.allergens} />}
                         {tags?.name}
                       </div>
@@ -528,14 +561,16 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
               <>
                 <div className={styles.addonsRow}>
                   <p className={styles.addonsText}>{t('Add-Ons')}</p>
-                  {selectedItem?.addOnLimit && selectedItem?.addOnValue > 0 && (addonsWarning ? (
-                    <p className={styles.optionalTextWarning}>{t('Limit exceeded')}</p>
-                  ) : (
-                    <p className={styles.optionalText}>
-                      {/* {t('Select up to option(s)', { value: selectedItem?.addOnValue })} */}
-                      {t('Select up to')} {selectedItem?.addOnValue} {t('option(s)')}
-                    </p>
-                  ))}
+                  {selectedItem?.addOnLimit &&
+                    selectedItem?.addOnValue > 0 &&
+                    (addonsWarning ? (
+                      <p className={styles.optionalTextWarning}>{t('Limit exceeded')}</p>
+                    ) : (
+                      <p className={styles.optionalText}>
+                        {/* {t('Select up to option(s)', { value: selectedItem?.addOnValue })} */}
+                        {t('Select up to')} {selectedItem?.addOnValue} {t('option(s)')}
+                      </p>
+                    ))}
                 </div>
                 <div className={styles.irdCheckboxItemWrapper}>
                   {selectedItem?.addons
@@ -564,7 +599,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
                     <div className={styles.addonsRow}>
                       <p className={styles.addonsText}>{groupedAddon?.title}</p>
                       {(groupedAddonLimitMap[groupedAddonIndex.toString()] || 0) >
-                        groupedAddon?.limit ? (
+                      groupedAddon?.limit ? (
                         <p className={styles.optionalTextWarning}>{t('Limit exceeded')}</p>
                       ) : (
                         <p className={styles.optionalText}>

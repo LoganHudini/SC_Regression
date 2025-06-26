@@ -289,8 +289,15 @@ const Dining = () => {
             <div></div>
             <h3 className={styles.welcomeTitle}>{isIRDv2 && filter?.menuName}</h3>
             <div className={styles.filterWrapper}>
-              <>  {(tags?.length > 0 || allergens?.length > 0) && <FilterIcon onClick={openFilterFunc} style={{ marginInlineEnd: '15px' }} />}</>
-              {(appliedFilter?.allergen?.length > 0 || appliedFilter?.tag?.length > 0) && <div className={styles.filterWrapperApplied}></div>}
+              <>
+                {' '}
+                {(tags?.length > 0 || allergens?.length > 0) && (
+                  <FilterIcon onClick={openFilterFunc} style={{ marginInlineEnd: '15px' }} />
+                )}
+              </>
+              {(appliedFilter?.allergen?.length > 0 || appliedFilter?.tag?.length > 0) && (
+                <div className={styles.filterWrapperApplied}></div>
+              )}
             </div>
           </div>
           {irdMenuLoading ? (

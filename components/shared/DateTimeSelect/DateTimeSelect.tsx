@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import styles from './DateTimeSelect.module.scss';
 import { IDateTimeSelectProps } from './DateTimeSelect.types';
 import Picker from 'rmc-picker/lib/Picker';
@@ -20,12 +20,12 @@ import {
 import { useTranslation } from 'react-i18next';
 import cx from 'classnames';
 
-const dayMonthArray: any = [];
+const fullDayMonthArray: string[] = [];
 for (let month = 0; month < 12; month++) {
   const daysInMonth = dayjs().month(month).daysInMonth();
   for (let day = 1; day <= daysInMonth; day++) {
     const formattedDate = dayjs().month(month).date(day).format(timeFormats.DAY_MONTH);
-    dayMonthArray.push(formattedDate);
+    fullDayMonthArray.push(formattedDate);
   }
 }
 const tomorrow = dayjs()?.add(1, DAY).format(timeFormats.DAY_MONTH);
@@ -40,6 +40,7 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
   showSchedules,
   buttonTitle,
   buttonStyle,
+  module,
 }) => {
   const { t } = useTranslation(['common']);
   const [disable, setDisable] = useState(false);
@@ -48,32 +49,32 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
   const scheduledCustom = showSchedules?.schedule?.includes(CUSTOM);
   const scheduledImmediate = showSchedules?.schedule?.includes(IMMEDIATE);
 
+  const dayMonthArray = useMemo(() => {
+    if (module === 'housekeeping' && scheduledToday && scheduledTomorrow && !scheduledCustom) {
+      return [
+        dayjs().format(timeFormats.DAY_MONTH),
+        dayjs().add(1, DAY).format(timeFormats.DAY_MONTH),
+      ];
+    }
+    return fullDayMonthArray;
+  }, [module, scheduledToday, scheduledTomorrow, scheduledCustom]);
+
   useEffect(() => {
     if (selectedTime) {
+      const current = dayjs();
+      const selected = dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2);
+
       if (scheduledToday && scheduledTomorrow) {
-        if (
-          dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2).isAfter(
-            dayjs().add(1, DAY),
-            DAY,
-          )
-        ) {
+        if (selected.isAfter(current.add(1, DAY), DAY)) {
           setDisable(false);
-        } else if (dayjs().isAfter(dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2))) {
-          if (dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM) === selectedTime) {
-            setDisable(true);
-          } else {
-            setDisable(false);
-          }
+        } else if (current.isAfter(selected)) {
+          setDisable(current.format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM) === selectedTime);
         } else {
           setDisable(true);
         }
       } else {
-        if (dayjs().isAfter(dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2))) {
-          if (dayjs().format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM) === selectedTime) {
-            setDisable(true);
-          } else {
-            setDisable(false);
-          }
+        if (current.isAfter(selected)) {
+          setDisable(current.format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM) === selectedTime);
         } else {
           setDisable(true);
         }
@@ -82,14 +83,17 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
   }, [selectedTime, showSchedules?.schedule]);
 
   useEffect(() => {
-    let newSelectedTime = selectedTime;
-    if (scheduledTomorrow && !scheduledToday && !scheduledCustom && !scheduledImmediate) {
-      const originalDate = dayjs();
-      const newDate = originalDate?.add(1, DAY);
-      newSelectedTime = newDate?.format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM);
-      setSelectedTime(newSelectedTime);
+    if (
+      scheduledTomorrow &&
+      !scheduledToday &&
+      !scheduledCustom &&
+      !scheduledImmediate &&
+      module === 'housekeeping'
+    ) {
+      const newDate = dayjs().add(1, DAY).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM);
+      setSelectedTime(newDate);
     }
-  }, [setSelectedTime, showSchedules?.schedule]);
+  }, [setSelectedTime, showSchedules?.schedule, module]);
 
   const onChange = useCallback(
     (value: [string, string, string, string]) => {

@@ -126,7 +126,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
             processStatusCode,
             navigate,
             goToTheNextStep,
-            pmsRoomNumberLength
+            pmsRoomNumberLength,
           });
         }
       }
@@ -155,10 +155,11 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
         </h3>
         {
           <p className={styles.welcomeDescription}>
-            {`${config?.preCheckInOnly
-              ? t('Register now to save time when you arrive.')
-              : t('Check-In now to save time when you arrive.')
-              }`}
+            {`${
+              config?.preCheckInOnly
+                ? t('Register now to save time when you arrive.')
+                : t('Check-In now to save time when you arrive.')
+            }`}
           </p>
         }
         <StableImage
@@ -170,8 +171,8 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
         <p className={styles.welcomeDescription}>
           {config && config?.idVerificationNationality?.length > 0
             ? t(
-              `If you live outside of ${countryName[0]?.name}, you will need the following documents to finish online check-in`,
-            )
+                `If you live outside of ${countryName[0]?.name}, you will need the following documents to finish online check-in`,
+              )
             : t('You will need the following documents handy to finish online check-in')}
         </p>
 
@@ -346,24 +347,24 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
               )}
               {(reservationInfo?.details?.adultGuestCount !== 0 ||
                 reservationInfo?.details?.childGuestCount !== 0) && (
-                  <div className={styles.stayDetails}>
-                    <span className={styles.icon}>
-                      <UserIcon />
-                    </span>
-                    {reservationInfo?.details?.adultGuestCount !== 0 && (
-                      <>
-                        {reservationInfo?.details?.adultGuestCount}{' '}
-                        {reservationInfo?.details?.adultGuestCount === 1 ? t('Adult') : t('Adults')}{' '}
-                      </>
-                    )}
-                    {reservationInfo?.details?.childGuestCount !== 0 && (
-                      <>
-                        {reservationInfo?.details?.childGuestCount}{' '}
-                        {reservationInfo?.details?.childGuestCount === 1 ? t('Child') : t('Children')}
-                      </>
-                    )}
-                  </div>
-                )}
+                <div className={styles.stayDetails}>
+                  <span className={styles.icon}>
+                    <UserIcon />
+                  </span>
+                  {reservationInfo?.details?.adultGuestCount !== 0 && (
+                    <>
+                      {reservationInfo?.details?.adultGuestCount}{' '}
+                      {reservationInfo?.details?.adultGuestCount === 1 ? t('Adult') : t('Adults')}{' '}
+                    </>
+                  )}
+                  {reservationInfo?.details?.childGuestCount !== 0 && (
+                    <>
+                      {reservationInfo?.details?.childGuestCount}{' '}
+                      {reservationInfo?.details?.childGuestCount === 1 ? t('Child') : t('Children')}
+                    </>
+                  )}
+                </div>
+              )}
             </div>
             <div className={cx(styles.bottomMenuWrapper)}>
               <StyledButton

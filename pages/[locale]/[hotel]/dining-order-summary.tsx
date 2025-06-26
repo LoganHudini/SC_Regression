@@ -118,7 +118,6 @@ const DiningOrderSummary = () => {
 
   const [selectedOption, setSelectedOption] = useState(NOW);
 
-
   const items = diningData?.items?.filter((item) => item?.quantity > 0);
   const uniqueUpsellItems = useMemo(() => {
     const mainCartItemTitles = items
@@ -195,8 +194,8 @@ const DiningOrderSummary = () => {
 
           if (item) {
             (item?.customisation ?? []).length > 0 ||
-              (item?.addons ?? []).length > 0 ||
-              (item?.groupedAddons ?? []).length > 0
+            (item?.addons ?? []).length > 0 ||
+            (item?.groupedAddons ?? []).length > 0
               ? setCustomisationDrawer((state) => !state)
               : (item.quantity++,
                 addToCartEvent({
@@ -400,8 +399,8 @@ const DiningOrderSummary = () => {
           description:
             FailureCheck1 || FailureCheck2
               ? t(
-                'Reservation status is invalid. Please try again with a valid reservation details',
-              )
+                  'Reservation status is invalid. Please try again with a valid reservation details',
+                )
               : t('Your order was not confirmed.'),
           redirect: FailureCheck1 || FailureCheck2 ? availablePaths.HOME : null,
         });
@@ -579,6 +578,7 @@ const DiningOrderSummary = () => {
                     customSchedule: TIME,
                   }}
                   buttonTitle={t('Next')}
+                  module='dining'
                 />
               )}
             </div>
@@ -645,7 +645,9 @@ const DiningOrderSummary = () => {
                             <span key={index} className={styles.items}>
                               <span
                                 key={index}
-                                className={cx(styles.itemsCurrency, { 'globals-irdv2-irdPrice': isIRDv2 })}
+                                className={cx(styles.itemsCurrency, {
+                                  'globals-irdv2-irdPrice': isIRDv2,
+                                })}
                               >
                                 {`${currency} `}
                               </span>{' '}
@@ -667,7 +669,9 @@ const DiningOrderSummary = () => {
                             <span key={index} className={styles.items}>
                               <span
                                 key={index}
-                                className={cx(styles.itemsCurrency, { 'globals-irdv2-irdPrice': isIRDv2 })}
+                                className={cx(styles.itemsCurrency, {
+                                  'globals-irdv2-irdPrice': isIRDv2,
+                                })}
                               >
                                 {`${currency}`}
                               </span>
@@ -691,7 +695,9 @@ const DiningOrderSummary = () => {
                       onClick={() => editFunction(item?.itemId, index)}
                     />
                     <p className={styles.itemPrice}>
-                      <span className={cx(styles.itemCurrency, { 'globals-irdv2-irdPrice': isIRDv2 })}>
+                      <span
+                        className={cx(styles.itemCurrency, { 'globals-irdv2-irdPrice': isIRDv2 })}
+                      >
                         {currency}{' '}
                       </span>
                       {formatPriceIRD(
@@ -707,16 +713,14 @@ const DiningOrderSummary = () => {
           })}
         </div>
 
-        {
-          uniqueUpsellItems?.length > 0 && (
-            <>
-              <div className={styles.upsellWrapper}>
-                <p className={styles.youMayAlsoLikeText}>{t('You May Also Like')}</p>
-                <div className={styles.upsell}>{renderMenuElements(uniqueUpsellItems)}</div>
-              </div>
-            </>
-          )
-        }
+        {uniqueUpsellItems?.length > 0 && (
+          <>
+            <div className={styles.upsellWrapper}>
+              <p className={styles.youMayAlsoLikeText}>{t('You May Also Like')}</p>
+              <div className={styles.upsell}>{renderMenuElements(uniqueUpsellItems)}</div>
+            </div>
+          </>
+        )}
 
         <StyledInput
           autoComplete='off'
@@ -754,143 +758,149 @@ const DiningOrderSummary = () => {
         />
 
         <div className={styles.noOfGuests}>
-          <div className={styles.guestTititle}>
-            <p className={styles.noOfGuestsTitle}>{t('No of Guests')}</p>
+          <div className={styles.guestTitle}>
+            <div className={styles.guestCount}>
+              <p className={styles.noOfGuestsTitle}>{t('No of Guests')}</p>
+              <PlusMinusInput
+                value={guestNumber}
+                onClickMinus={() => setguestNumber((i) => i - 1)}
+                onClickPlus={() => setguestNumber((i) => i + 1)}
+                minQuantity={1}
+                className={styles.plusMinus}
+                irdSummary
+              />
+            </div>
             <p className={styles.noOfGuestsDesc}>
               {t('Cutlery will be sent based on the number of guests')}
             </p>
           </div>
-          <PlusMinusInput
-            value={guestNumber}
-            onClickMinus={() => setguestNumber((i) => i - 1)}
-            onClickPlus={() => setguestNumber((i) => i + 1)}
-            minQuantity={1}
-            className={styles.plusMinus}
-            irdSummary
-          />
         </div>
-        {
-          orderScheduling && (
-            <div className={styles.schedulingMainContainer}>
-              <div className={styles.schedulingTitle}>
-                <p className={styles.schedulingContainerTitle} onClick={() => setIsDrawerOpen(true)}>
-                  <span>{t('Delivery Time')}</span>
-                  <span className={styles.scheduleText}>
-                    {' '}
-                    {selectedOption === LATER
-                      ? dayjs(selectedTime).format(timeFormats.HOURS_MINUTES_AM)
-                      : selectedOption}{' '}
-                    <UpArrow className={styles.iconUp} />
-                  </span>
-                </p>
-              </div>
-              <CustomDrawer
-                open={isDrawerOpen}
-                onClose={() => {
-                  closeDrawer();
-                  if (!nextClick) {
-                    setSelectedOption(NOW);
-                  }
-                }}
-                content={scheduleDrawer()}
-              ></CustomDrawer>
-            </div>
-          )
-        }
 
-        {
-          irdOrderType?.payment?.length > 1 && (
-            <div className={styles.paymentContainer}>
-              <p className={styles.paymentTitle}>{t('Payment Method')}</p>
-              <div className={styles.buttonPaymentWrapper}>
-                {irdOrderType?.payment?.map((item: any) => (
-                  <StyledButton
-                    key={item.id}
-                    variant={item?.name === paymentType?.name ? 'contained' : 'outlined'}
-                    className={styles.buttonPayment}
-                    onClick={() => setpaymentType(item)}
-                  >
-                    {t(`${item?.name}`)}
-                  </StyledButton>
-                ))}
-              </div>
+        {orderScheduling && (
+          <div className={styles.schedulingMainContainer}>
+            <div className={styles.schedulingTitle}>
+              <p className={styles.schedulingContainerTitle} onClick={() => setIsDrawerOpen(true)}>
+                <span>{t('Delivery Time')}</span>
+                <span className={styles.scheduleText}>
+                  {' '}
+                  {selectedOption === LATER
+                    ? dayjs(selectedTime).format(timeFormats.HOURS_MINUTES_AM)
+                    : selectedOption}{' '}
+                  <UpArrow className={styles.iconUp} />
+                </span>
+              </p>
             </div>
-          )
-        }
+            <CustomDrawer
+              open={isDrawerOpen}
+              onClose={() => {
+                closeDrawer();
+                if (!nextClick) {
+                  setSelectedOption(NOW);
+                }
+              }}
+              content={scheduleDrawer()}
+            ></CustomDrawer>
+          </div>
+        )}
+
+        {irdOrderType?.payment?.length > 1 && (
+          <div className={styles.paymentContainer}>
+            <p className={styles.paymentTitle}>{t('Payment Method')}</p>
+            <div className={styles.buttonPaymentWrapper}>
+              {irdOrderType?.payment?.map((item: any) => (
+                <StyledButton
+                  key={item.id}
+                  variant={item?.name === paymentType?.name ? 'contained' : 'outlined'}
+                  className={styles.buttonPayment}
+                  onClick={() => setpaymentType(item)}
+                >
+                  {t(`${item?.name}`)}
+                </StyledButton>
+              ))}
+            </div>
+          </div>
+        )}
 
         <p className={styles.taxText}>{t(`${servicechargeDisplay}`)}</p>
 
-        {
-          irdOrderType?.signatureRequired && (
-            <>
-              <div className={styles.guestSignatureWrapper}>
-                <p className={styles.guestSignature}>{t('Guest Signature')}</p>
-                <p className={styles.clearBtn} onClick={clearCanvas}>
-                  {t('Clear')}
-                </p>
-              </div>
-              <div id='signatureWrapper' className={styles.agrementSignatureWrapper}>
-                <SignatureCanvas
-                  ref={sigCanvas}
-                  penColor='#3D3C3C'
-                  canvasProps={{
-                    height: 100,
-                    width: signatureWidth,
-                  }}
-                  clearOnResize={false}
-                  onEnd={() => handleSignatureChange()}
-                />
-              </div>
-            </>
-          )
-        }
+        {irdOrderType?.signatureRequired && (
+          <>
+            <div className={styles.guestSignatureWrapper}>
+              <p className={styles.guestSignature}>{t('Guest Signature')}</p>
+              <p className={styles.clearBtn} onClick={clearCanvas}>
+                {t('Clear')}
+              </p>
+            </div>
+            <div id='signatureWrapper' className={styles.agrementSignatureWrapper}>
+              <SignatureCanvas
+                ref={sigCanvas}
+                penColor='#3D3C3C'
+                canvasProps={{
+                  height: 100,
+                  width: signatureWidth,
+                }}
+                clearOnResize={false}
+                onEnd={() => handleSignatureChange()}
+              />
+            </div>
+          </>
+        )}
 
-        {
-          items?.length > 0 && (
-            <div className={styles.confirmOrderButtonWrapper}>
-              <StyledButton
-                disabled={
-                  Boolean(formik.errors.instruction) ||
-                  items?.length === 0 ||
-                  paymentType?.length === 0 ||
-                  (irdOrderType?.signatureRequired && !btnStatus)
-                }
-                loading={loading}
-                className={styles.confirmButton}
-                onClick={handleOrder}
-                variant='contained'
-              >
-                <div className={`${styles.buttonContentWrapper}`}>
-                  <div className={styles.buttonWrapper}>
-                    {items?.length > 0 && (
-                      <span className={styles.itemCount}>{getTotalItems && getTotalItems}</span>
-                    )}
-                    <span className={cx(styles.currency, { [styles.currencyV2]: isIRDv2 })}>
-                      <span className={`${styles.currencyTitle} ${isIRDv2 ? 'globals-irdv2-irdPrice' : ''}`}>
-                        {`${currency} `}
-                      </span>
-                      {isIRDv2 && <span className={`${styles.currencyTotalTitle} ${isIRDv2 ? '' : ''}`}>
+        {items?.length > 0 && (
+          <div className={styles.confirmOrderButtonWrapper}>
+            <StyledButton
+              disabled={
+                Boolean(formik.errors.instruction) ||
+                items?.length === 0 ||
+                paymentType?.length === 0 ||
+                (irdOrderType?.signatureRequired && !btnStatus)
+              }
+              loading={loading}
+              className={styles.confirmButton}
+              onClick={handleOrder}
+              variant='contained'
+            >
+              <div className={`${styles.buttonContentWrapper}`}>
+                <div className={styles.buttonWrapper}>
+                  {items?.length > 0 && (
+                    <span className={styles.itemCount}>{getTotalItems && getTotalItems}</span>
+                  )}
+                  <span className={cx(styles.currency, { [styles.currencyV2]: isIRDv2 })}>
+                    <span
+                      className={`${styles.currencyTitle} ${
+                        isIRDv2 ? 'globals-irdv2-irdPrice' : ''
+                      }`}
+                    >
+                      {`${currency} `}
+                    </span>
+                    {isIRDv2 && (
+                      <span className={`${styles.currencyTotalTitle} ${isIRDv2 ? '' : ''}`}>
                         {/* globals-irdv2-TotalBtn */}
                         {t('Total')}
-                      </span>}
-                      <span className={`${styles.currencyTotalAmount}`}>
-                        {formatPriceIRD(totalAmount)}
                       </span>
+                    )}
+                    <span className={`${styles.currencyTotalAmount}`}>
+                      {formatPriceIRD(totalAmount)}
                     </span>
-                  </div>
-                  {!isIRDv2 ? <div className={isIRDv2 ? 'globals-irdv2-irdFlow' : ''}>{t('Confirm')}</div> :
-                    <div className={isIRDv2 ? 'globals-irdv2-irdFlowShow' : ''}>{t('Place Order')}</div>}
+                  </span>
                 </div>
-              </StyledButton>
-            </div>
-          )
-        }
+                {!isIRDv2 ? (
+                  <div className={isIRDv2 ? 'globals-irdv2-irdFlow' : ''}>{t('Confirm')}</div>
+                ) : (
+                  <div className={isIRDv2 ? 'globals-irdv2-irdFlowShow' : ''}>
+                    {t('Place Order')}
+                  </div>
+                )}
+              </div>
+            </StyledButton>
+          </div>
+        )}
         <DiningCustomisationDrawer
           customisationDrawer={customisationDrawer}
           closeCustomisationDrawer={closeCustomisationDrawer}
         />
         <DiningDetailsDrawer menuAvailability />
-      </PageWrapper >
+      </PageWrapper>
     </>
   );
 };
