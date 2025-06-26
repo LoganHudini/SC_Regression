@@ -75,9 +75,11 @@ export const DiningCheckboxItem: React.FC<IDiningCheckboxItemProps> = ({
     <div className={styles.irdCheckboxItem}>
       <div className={styles.name}>
         {element?.name}
-        {isIRDv2 && <span className={cx(styles.priceCurrency, { 'globals-irdv2-irdFlowShow': isIRDv2 })}>
-          {formatPriceIRD(element?.priceInDecimal)}
-        </span>}
+        {isIRDv2 && (
+          <span className={cx(styles.priceCurrency, { 'globals-irdv2-irdFlowShow': isIRDv2 })}>
+            {formatPriceIRD(element?.priceInDecimal)}
+          </span>
+        )}
       </div>
 
       <WhiteStyledCheckbox

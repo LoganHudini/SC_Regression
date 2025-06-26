@@ -27,6 +27,7 @@ export const RAFFLES_JAIPUR = 'raffles-jaipur';
 export const RAFFLES_MAKATI = 'raffles-makati';
 export const RAFFLES_SEYCHELLES = 'raffles-seychelles';
 export const RAFFLES_SENTOSA = 'raffles-sentosa';
+export const RAFFLES_BALI = 'raffles-bali';
 export const FAIRMONT_ROYAL_PALM_MARRAKECH = 'fairmont-royal-palm-marrakech';
 export const FAIRMONT_THE_PALM_DUBAI = 'fairmont-the-palm-dubai';
 export const FAIRMONT_MAKKAH_CLOCK_ROYAL_TOWER = 'fairmont-makkah-clock-royal-tower';

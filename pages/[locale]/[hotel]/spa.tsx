@@ -471,6 +471,7 @@ const Spa: React.FC = () => {
                 showSchedules={undefined}
                 buttonTitle={spaModule?.type === 'CMS' ? t('Book now') : t('Find available slots')}
                 buttonStyle={styles.buttonPicker}
+                module={'spa'}
               />
             </div>
           </div>

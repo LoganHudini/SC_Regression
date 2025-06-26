@@ -291,6 +291,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
               handleSave={handleFindTable}
               showSchedules={undefined}
               buttonTitle={t('FIND A TABLE')}
+              module={'restaurants_bars'}
             />
           </div>
         </>

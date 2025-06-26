@@ -61,7 +61,6 @@ import {
 import { processStatusCode } from 'utils/processError';
 import { client } from 'core/graphql/client';
 import NoInformation from 'components/shared/NoInformation/NoInformation';
-import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
 
 export { getStaticPaths };
 
@@ -305,7 +304,6 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
         if (FailureCheck1 || FailureCheck2) {
           checkoutTrip();
           toggleDetailsDrawer(false);
-          reservationGuestInfoStorageData(null);
         }
       }
     }
@@ -428,6 +426,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
                         handleSave={handleSave}
                         showSchedules={showSchedules}
                         buttonTitle={t('Save')}
+                        module={'housekeeping'}
                       />
                     </>
                   )}

@@ -153,3 +153,17 @@ query InitiatePayment($body: InitiatePaymentPayload) {
   }
 }
 `;
+
+export const VALIDATE_PAYBYLINK_URL = gql`
+  query GetReservation($confirmationNumber: String, $paylinkUniqueId: String) {
+    getReservation(confirmationNumber: $confirmationNumber, paylinkUniqueId: $paylinkUniqueId)
+      @rest(
+        type: "GetReservationPayload"
+        path: "/paylink/hotel/${HOTEL_ID}/paylinkStatus?confirmationId={args.confirmationNumber}&paylinkUniqueId={args.paylinkUniqueId}"
+      ) {
+      errors
+      data
+      status
+    }
+  }
+`;
