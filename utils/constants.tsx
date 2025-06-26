@@ -27,6 +27,7 @@ export const RAFFLES_JAIPUR = 'raffles-jaipur';
 export const RAFFLES_MAKATI = 'raffles-makati';
 export const RAFFLES_SEYCHELLES = 'raffles-seychelles';
 export const RAFFLES_SENTOSA = 'raffles-sentosa';
+export const RAFFLES_BALI = 'raffles-bali';
 export const FAIRMONT_ROYAL_PALM_MARRAKECH = 'fairmont-royal-palm-marrakech';
 export const FAIRMONT_THE_PALM_DUBAI = 'fairmont-the-palm-dubai';
 export const FAIRMONT_MAKKAH_CLOCK_ROYAL_TOWER = 'fairmont-makkah-clock-royal-tower';
@@ -268,7 +269,7 @@ export const idVerificationFields = ['docNo', 'docType'];
 export const PHONE_NUMBER_WITH_COUNTRYCODE = 'Phone';
 export const ESTIMATED_TIME = 'estimatedTime';
 export const RESERVED = 'RESERVED';
-export const CHEF_TAG_NAME = 'Chef\'s Special';
+export const CHEF_TAG_NAME = "Chef's Special";
 export const PAY_BY_LINK = 'payment_link';
 export const DEFAULT_PAYMENT_MESSAGE = {
   title: 'Choose Payment Method',
