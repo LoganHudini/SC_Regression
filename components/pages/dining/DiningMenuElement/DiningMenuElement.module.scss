@@ -32,6 +32,8 @@
   overflow-y: hidden;
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
+  white-space: pre;
+  overflow: hidden;
 }
 
 .chefSpecialTag {
