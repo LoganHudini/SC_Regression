@@ -23828,7 +23828,7 @@ export const configuration: any = [
       {
         code: 'Check-In',
         name: 'Check-In',
-        isActive: false,
+        isActive: true,
         submodules: [
           {
             name: 'information',
