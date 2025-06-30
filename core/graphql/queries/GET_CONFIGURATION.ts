@@ -24712,15 +24712,15 @@ export const configuration: any = [
                     options: [
                       {
                         name: 'Passport',
-                        value: 'PASSPORT',
-                        code: 'PASSPORT',
-                        vendorDocType: 'PASSPORT',
+                        value: 'passport',
+                        code: 'passport',
+                        vendorDocType: 'passport',
                       },
                       {
                         name: 'Driving License',
-                        value: 'DRL',
-                        code: 'DRL',
-                        vendorDocType: 'DRIVING_LICENSE',
+                        value: 'dl',
+                        code: 'dl',
+                        vendorDocType: 'dl',
                       },
                     ],
                   },
