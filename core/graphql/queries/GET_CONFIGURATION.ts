@@ -24594,6 +24594,7 @@ export const configuration: any = [
     hideImagePlaceholder: true,
     isAnimationActive: false,
     isLogoLoaderActive: false,
+    isFaceMatchdisabled: true,
     modules: [
       {
         code: 'Preferences',
