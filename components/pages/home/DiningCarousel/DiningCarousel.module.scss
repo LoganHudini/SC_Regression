@@ -124,10 +124,8 @@
 
 .carouselSlideTitle {
   font: $xlarge var(--heading-font-regular);
-  padding: 0.5rem 0rem;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
   width: 100%;
 }
 
@@ -252,4 +250,5 @@
 
 .timingCase {
   text-transform: lowercase;
+  font-size: 20px;
 }
