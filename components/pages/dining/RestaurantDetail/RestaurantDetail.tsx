@@ -102,7 +102,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
     try {
       await client.mutate({
         mutation: CREATE_RESTAURANT_RESERVATION,
-        context: { clientName: 'host_v3' },
+        context: { clientName: 'property_d' },
         fetchPolicy: 'network-only',
         variables: DetailsReservationPayload,
       });
@@ -290,7 +290,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
               selectedTime={selectedTime}
               handleSave={handleFindTable}
               showSchedules={undefined}
-              buttonTitle={t('FIND A TABLE')}
+              buttonTitle={t('BOOK A TABLE')}
               module={'restaurants_bars'}
             />
           </div>
