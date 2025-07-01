@@ -42,6 +42,7 @@ import { IRDMenuApiResponse } from 'core/graphql/queries/IRD_MENU';
 import { useReactiveVar } from '@apollo/client';
 import { RestaurantDetail } from 'components/pages/dining/RestaurantDetail/RestaurantDetail';
 import useTimeStatus from 'utils/hooks/useTimeStatus';
+import dayjs from 'dayjs';
 
 interface ICarouselProps {
   ird: any;
@@ -128,8 +129,14 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
 
     const isOpen = getFormattedTime(slide?.hours?.map((time: any) => time?.open));
     const isClose = getFormattedTime(slide?.hours?.map((time: any) => time?.close));
-
+    function isToday(day: any) {
+      const today = dayjs().format('dddd').toUpperCase();
+      return today === day.toUpperCase() || day == 'EVERYDAY';
+    }
+    const isAnyDayToday = slide?.hours.some((entry: any) => isToday(entry.day));
     const currentOpenPeriod: any = getCurrentOpenPeriod(slide?.hours);
+    console.log(slide?.name, slide);
+    console.log(slide?.name, isAnyDayToday);
 
     return (
       <>
@@ -151,7 +158,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
           >
             <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>
             {!module &&
-              (isOpen?.includes(ALL_DAY) && isClose?.includes(ALL_DAY) ? (
+              (isOpen?.includes(ALL_DAY) && isClose?.includes(ALL_DAY) && isAnyDayToday ? (
                 <div className={styles.carouselRestaurantTimeStatus}>
                   <p>{t('Open')}</p>
                 </div>
