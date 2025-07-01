@@ -35,6 +35,7 @@ const CheckInDrawer = () => {
   const config = useConfig();
   const hotelId = config?.hotelId;
   const hotel = config?.code;
+  const pmsRoomNumberLength = config?.pmsRoomNumberLength;
   const hotelInformation = useReactiveVar(hotelInfoStorage);
   const checkInDrawerStatus = useReactiveVar(toggleCheckInDetailsDrawer);
   const { t } = useTranslation(['common']);
@@ -81,6 +82,7 @@ const CheckInDrawer = () => {
           navigate,
           isRetryEnabled,
           hotelInformation,
+          pmsRoomNumberLength,
         });
       }
     },

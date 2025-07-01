@@ -43,5 +43,11 @@
   "Confirm": "Confirmer",
   "ITEMS": "ARTICLES",
   "Something Went Wrong!": "Quelque chose s'est mal passé !",
-  "Invalid Reservation": "Réservation invalide"
+  "Invalid Reservation": "Réservation invalide",
+  "serviceChargeMessage": "Les tarifs incluent les taxes gouvernementales applicables et sont soumis à des frais de service de 22 % ainsi qu'à des frais de livraison de 6,00 $",
+  "serviceChargeDisclaimer": "La taxe de vente locale applicable, des frais de livraison de 5 $ et des frais de service de 22 % sont appliqués à toutes les additions. Une fois que vous cliquez sur confirmer, votre commande sera passée. Les commandes seront livrées dans un délai de 45 minutes. Veuillez nous envoyer un SMS ou nous appeler pour confirmer l'heure de livraison de votre commande.",
+  "Delivery Time": "Heure de livraison",
+  "Next": "Suivant",
+  "Schedule for later": "Planifier pour plus tard",
+  "NOW": "Maintenant"
 }

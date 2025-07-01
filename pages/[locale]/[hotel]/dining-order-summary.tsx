@@ -5,7 +5,7 @@ import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState, useMemo } from 'react';
 import styles from '@styles/dining-order-summary/dining-order-summary.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
@@ -25,18 +25,23 @@ import dayjs from 'dayjs';
 import { DiningCustomisationDrawer } from 'components/pages/dining/DiningCustomisationDrawer/DiningCustomisationDrawer';
 import {
   CMS,
+  CUSTOM,
   DEFAULT_SERVICE_CHARGE_MESSAGE,
   ERRORMSG,
   FAILED_TO_FETCH_BOOKING_DETAILS,
   FAILURE,
   INVALID_BOOKING_STATUS,
   IN_ROOM_DINING,
+  LATER,
+  NOW,
   SERVICE_CHARGES,
   SUCCESS,
+  TIME,
   VENDOR,
 } from 'utils/constants';
 import { InputAdornment } from '@mui/material';
 import Cookinginstructions from '@icons/cooking_instructions.svg';
+import UpArrow from '@icons/ird_up_arrow.svg';
 import { IRD_ORDER } from 'core/graphql/queries/IRD_ORDER';
 import { addToCartEvent } from 'utils/gtag';
 import { findModule, formatPriceIRD, setScrollPosition } from 'utils/functions';
@@ -55,10 +60,16 @@ import {
   handleinHouseAuthenticationFailure,
 } from 'core/api/functions/getInHouseAuthentication';
 import { processStatusCode } from 'utils/processError';
+import cx from 'classnames';
 import { StyledInput } from 'components/shared/StyledInput/StyledInput';
 import { useFormik } from 'formik';
 import { instructionValidation } from 'validation/dining.validation';
 import SignatureCanvas from 'react-signature-canvas';
+import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
+import DateTimeSelect from 'components/shared/DateTimeSelect/DateTimeSelect';
+import { timeFormats } from 'utils/timeFormats';
+import CheckIcon from '@icons/checkIcon.svg';
+import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
 
 export { getStaticPaths };
 
@@ -66,11 +77,13 @@ const DiningOrderSummary = () => {
   const { t } = useTranslation(['dining-order-summary', 'dining']);
   const navigate = useLocalizedRouter();
   const checkinData = useCheckedIn();
-  const renderedItemIds: any = [];
+  // const renderedItemIds: any = [];
   const config = useConfig();
   const hotelId = config?.hotelId;
   const hotelName = config?.name;
   const irdOrderType: any = findModule(config?.modules, IN_ROOM_DINING);
+  const orderScheduling = irdOrderType?.orderScheduling;
+  const orderSchedulingDuration = irdOrderType?.schedulingDuration;
   const hotelInfo = useReactiveVar(hotelInfoStorage);
   const [customisationDrawer, setCustomisationDrawer] = useState(false);
   const [specialRequests, setSpecialRequests] = useState('');
@@ -87,27 +100,62 @@ const DiningOrderSummary = () => {
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
   const [signatureWidth, setSignatureWidth] = useState(340);
   const [btnStatus, setBtnStatus] = useState(false);
+  const getTotalItems = diningData?.items?.reduce((total, item) => total + (item.quantity || 0), 0);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
+  const [selectedTime, setSelectedTime] = useState('');
+  const [nextClick, setNextClick] = useState(false);
 
   const information = hotelInfo?.getPropertyDetailsByHotelId?.hotel?.detailsCustomAttributes;
 
   const getServiceCharges = (data: any) =>
+    irdOrderType?.customServiceChargeMessage ||
+    irdOrderType?.customServiceChargeDisclaimer ||
     data?.find((item: any) => item?.key === SERVICE_CHARGES)?.value ||
     DEFAULT_SERVICE_CHARGE_MESSAGE;
 
   const servicechargeDisplay = getServiceCharges(information);
 
+  const [selectedOption, setSelectedOption] = useState(NOW);
+
   const items = diningData?.items?.filter((item) => item?.quantity > 0);
+  const uniqueUpsellItems = useMemo(() => {
+    const mainCartItemTitles = items
+      .filter((item) => Array.isArray(item.upsell) && item.upsell.length > 0)
+      .map((item) => item.title);
+    const allUpsellItems = new Map();
+    items.forEach((item) => {
+      if (Array.isArray(item.upsell) && item.upsell.length > 0) {
+        item.upsell.forEach((upsellItem) => {
+          const isMainCartItem = mainCartItemTitles.includes(upsellItem?.name || '');
+          if (!isMainCartItem && !allUpsellItems.has(upsellItem?.id)) {
+            allUpsellItems.set(upsellItem?.id, upsellItem);
+          }
+        });
+      }
+    });
+    return Array.from(allUpsellItems.values());
+  }, [items]);
 
   useEffect(() => {
     const totalAmount = diningData?.items?.reduce((allTotal, item) => {
-      const addonsTotal =
-        item?.addons?.length > 0 &&
-        item?.addons?.reduce((acc: any, addon: any) => {
-          return acc + addon?.price * item?.quantity;
-        }, 0);
-      return allTotal + item?.quantity * item?.price + addonsTotal;
+      const quantity = item?.quantity || 1;
+      const basePrice = item?.price || 0;
+
+      const addonsTotal = (item?.addons || []).reduce((sum: any, addon: any) => {
+        return sum + (addon?.priceInDecimal || 0);
+      }, 0);
+
+      const groupedAddonsTotal = (item?.groupedAddons || []).reduce((sum: any, addon: any) => {
+        return sum + (addon?.priceInDecimal || 0);
+      }, 0);
+
+      const totalPerItem = (basePrice + addonsTotal + groupedAddonsTotal) * quantity;
+
+      return allTotal + totalPerItem;
     }, 0);
-    setTotalAmount(totalAmount);
+
+    setTotalAmount(Number(totalAmount.toFixed(2)));
   }, [diningData?.items]);
 
   useEffect(() => {
@@ -145,7 +193,9 @@ const DiningOrderSummary = () => {
           const item = draft?.items?.find((el, i) => el?.itemId === itemId && i === index);
 
           if (item) {
-            (item?.customisation ?? []).length > 0 || (item?.addons ?? []).length > 0
+            (item?.customisation ?? []).length > 0 ||
+            (item?.addons ?? []).length > 0 ||
+            (item?.groupedAddons ?? []).length > 0
               ? setCustomisationDrawer((state) => !state)
               : (item.quantity++,
                 addToCartEvent({
@@ -231,17 +281,20 @@ const DiningOrderSummary = () => {
       totalAmount,
       paymentMethod: paymentType?.name,
       roomNo: checkinData?.roomNumber,
-      startTime: dayjs().format('YYYY-MM-DD HH:mm'),
+      startTime:
+        selectedOption === LATER
+          ? dayjs(selectedTime, 'DD MMMM hh:mm A').format('YYYY-MM-DD HH:mm')
+          : dayjs().format('YYYY-MM-DD HH:mm'),
       noOfGuests: guestNumber,
       items: diningData?.items?.map((el) => ({
         name: el?.title,
         code: el?.code,
         count: el?.quantity,
         amount: el?.price,
-        addOns: el?.addons?.map((item: any) => ({
+        addOns: [...(el?.groupedAddons || []), ...(el?.addons || [])]?.map((item: any) => ({
           code: item?.code,
           name: item?.name,
-          price: item?.price,
+          price: item?.priceInDecimal,
         })),
         customisations: el?.customisation?.map((item: any) => ({
           code: item?.code,
@@ -256,7 +309,10 @@ const DiningOrderSummary = () => {
 
     const irdOrderPOSPayload = {
       hotelId: hotelId,
-      date: '',
+      date:
+        selectedOption === LATER
+          ? dayjs(selectedTime, 'DD MMMM hh:mm A').format('YYYY-MM-DD HH:mm')
+          : dayjs().format('YYYY-MM-DD HH:mm'),
       deliveryLocation: '',
       bookingId: checkinData?.reservationId,
       guestName: checkinData?.lastName,
@@ -269,7 +325,7 @@ const DiningOrderSummary = () => {
         quantity: el?.quantity,
         price: el?.price,
         comment: el?.cookingInstruction || '',
-        addons: el?.addons?.map((item: any) => ({
+        addons: [...(el?.groupedAddons || []), ...(el?.addons || [])]?.map((item: any) => ({
           code: item?.code,
           name: item?.name,
           price: item?.price,
@@ -351,6 +407,7 @@ const DiningOrderSummary = () => {
         toggleNotification(true);
         if (FailureCheck1 || FailureCheck2) {
           checkoutTrip();
+          reservationGuestInfoStorageData(null);
         }
       }
     }
@@ -363,8 +420,11 @@ const DiningOrderSummary = () => {
     diningData.items,
     guestNumber,
     hotelId,
+    irdOrderType?.signatureRequired,
     irdOrderType?.type,
     paymentType?.name,
+    selectedOption,
+    selectedTime,
     specialRequests,
     t,
     totalAmount,
@@ -440,6 +500,93 @@ const DiningOrderSummary = () => {
       });
     }
   };
+  const irdModuleContent: any = findModule(config?.modules, IN_ROOM_DINING);
+  const isIRDv2 = irdModuleContent?.version === 'v2';
+
+  const getInitialSelectedTime = () => {
+    const now = dayjs();
+    const thirtyMinutesLater = now.add(orderSchedulingDuration, 'minute');
+    const minutes = thirtyMinutesLater.minute();
+    const roundedMinutes = Math.ceil(minutes / 15) * 15;
+    const adjustedTime = thirtyMinutesLater.startOf('hour').add(roundedMinutes, 'minute');
+    return adjustedTime.format('DD MMM:hh:mm:A');
+  };
+
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
+    setNextClick(false);
+  };
+
+  const handleSave = () => {
+    setNextClick(true);
+    closeDrawer();
+  };
+
+  useEffect(() => {
+    if (isPickerOpen) {
+      const initialTime = getInitialSelectedTime();
+      setSelectedTime(initialTime);
+    }
+  }, [isPickerOpen]);
+
+  const scheduleDrawer = () => {
+    return (
+      <>
+        {orderScheduling && (
+          <div className={styles.wrapper}>
+            <div className={styles.titleWrapper}>
+              <p className={styles.title}>{t('Delivery Time')}</p>
+              <div className={styles.optionsListItem}>
+                <p
+                  className={cx(styles.inActiveText, {
+                    [styles.activeText]: selectedOption === NOW,
+                  })}
+                  onClick={() => {
+                    setSelectedOption(NOW);
+                    closeDrawer();
+                  }}
+                >
+                  <span className={styles.emptySpan}></span>
+                  <span>{t(NOW)} </span>
+                  <span>{selectedOption === NOW && <CheckIcon className={styles.icon} />}</span>
+                </p>
+                <div className={styles.horizontalLine}></div>
+                <p
+                  className={cx(styles.inActiveText, {
+                    [styles.activeText]: selectedOption === LATER,
+                  })}
+                  onClick={() => {
+                    setSelectedOption(LATER);
+                    setIsPickerOpen(true);
+                  }}
+                >
+                  <span className={styles.emptySpan}></span>
+                  <span>{t('Schedule for later')}</span>
+                  <span>{selectedOption === LATER && <CheckIcon className={styles.icon} />}</span>
+                </p>
+              </div>
+            </div>
+            <div className={styles.picker}>
+              {' '}
+              {selectedOption === LATER && (
+                <DateTimeSelect
+                  setSelectedTime={setSelectedTime}
+                  selectedTime={selectedTime}
+                  handleSave={handleSave}
+                  showSchedules={{
+                    schedule: [CUSTOM],
+                    customSchedule: TIME,
+                  }}
+                  buttonTitle={t('Next')}
+                  module='dining'
+                />
+              )}
+            </div>
+          </div>
+        )}
+      </>
+    );
+  };
 
   return (
     <>
@@ -452,11 +599,14 @@ const DiningOrderSummary = () => {
       <PageWrapper className={styles.pageWrapper}>
         <p className={styles.itemsAddedText}>{t('Item(s) Added')}</p>
         <div className={styles.cartWrapper}>
-          {items?.map((item, index) => {
+          {items?.map((item: any, index) => {
             const totalAddonPrice: any =
               item?.addons?.length > 0 &&
-              item?.addons?.reduce((acc: any, addon: any) => acc + addon?.price, 0);
-            const totalPrice = item?.price + totalAddonPrice;
+              item?.addons?.reduce((acc: any, addon: any) => acc + addon?.priceInDecimal, 0);
+            const totalGroupedAddonPrice: any =
+              item?.groupedAddons?.length > 0 &&
+              item?.groupedAddons?.reduce((acc: any, addon: any) => acc + addon?.priceInDecimal, 0);
+            const totalPrice = item?.price + totalAddonPrice + totalGroupedAddonPrice;
             return (
               item?.quantity > 0 && (
                 <div key={index} className={styles.cartItemWrapper}>
@@ -490,14 +640,43 @@ const DiningOrderSummary = () => {
                           <div className={styles.addonsWrapperRows} key={index}>
                             <span className={styles.itemDescription}>
                               {items?.name}
-                              {' - '}
+                              {' : '}
                             </span>
                             <span key={index} className={styles.items}>
-                              <span key={index} className={styles.itemsCurrency}>
-                                {currency}{' '}
+                              <span
+                                key={index}
+                                className={cx(styles.itemsCurrency, {
+                                  'globals-irdv2-irdPrice': isIRDv2,
+                                })}
+                              >
+                                {`${currency} `}
+                              </span>{' '}
+                              {formatPriceIRD(items?.priceInDecimal)}
+                              {index !== item?.addons?.length - 1 ? '' : ''}{' '}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {(item?.groupedAddons ?? [])?.length > 0 && (
+                      <div className={styles.addonsWrapperCols}>
+                        {item?.groupedAddons?.map((items: any, index: any) => (
+                          <div className={styles.addonsWrapperRows} key={index}>
+                            <span className={styles.itemDescription}>
+                              {items?.name}
+                              {' : '}
+                            </span>
+                            <span key={index} className={styles.items}>
+                              <span
+                                key={index}
+                                className={cx(styles.itemsCurrency, {
+                                  'globals-irdv2-irdPrice': isIRDv2,
+                                })}
+                              >
+                                {`${currency}`}
                               </span>
-                              {formatPriceIRD(items?.price)}{' '}
-                              {index !== item?.addons?.length - 1 ? ',' : ''}{' '}
+                              {formatPriceIRD(items?.priceInDecimal)}
+                              {index !== item?.groupedAddons?.length - 1 ? '' : ''}{' '}
                             </span>
                           </div>
                         ))}
@@ -510,15 +689,21 @@ const DiningOrderSummary = () => {
                     )}
                   </div>
 
-                  <div className={styles.priceEditWrapper}>
+                  <div className={cx(styles.priceEditWrapper)}>
                     <EditIcon
                       className={styles.edit}
                       onClick={() => editFunction(item?.itemId, index)}
                     />
                     <p className={styles.itemPrice}>
-                      <span className={styles.itemCurrency}>{currency} </span>
+                      <span
+                        className={cx(styles.itemCurrency, { 'globals-irdv2-irdPrice': isIRDv2 })}
+                      >
+                        {currency}{' '}
+                      </span>
                       {formatPriceIRD(
-                        isNaN(totalPrice) ? item.quantity * item.price : item.quantity * totalPrice,
+                        isNaN(totalPrice)
+                          ? item.quantity * item?.priceInDecimal
+                          : item.quantity * totalPrice,
                       )}
                     </p>
                   </div>
@@ -528,22 +713,11 @@ const DiningOrderSummary = () => {
           })}
         </div>
 
-        {items?.some((item: any) => item?.upsell?.length > 0) && (
+        {uniqueUpsellItems?.length > 0 && (
           <>
             <div className={styles.upsellWrapper}>
               <p className={styles.youMayAlsoLikeText}>{t('You May Also Like')}</p>
-              <div className={styles.upsell}>
-                {items?.map((item) => {
-                  if (!renderedItemIds.includes(item.itemId)) {
-                    renderedItemIds.push(item.itemId);
-                    return (
-                      <React.Fragment key={item.itemId}>
-                        {renderMenuElements(item?.upsell ?? [])}
-                      </React.Fragment>
-                    );
-                  }
-                })}
-              </div>
+              <div className={styles.upsell}>{renderMenuElements(uniqueUpsellItems)}</div>
             </div>
           </>
         )}
@@ -584,21 +758,50 @@ const DiningOrderSummary = () => {
         />
 
         <div className={styles.noOfGuests}>
-          <div className={styles.guestTititle}>
-            <p className={styles.noOfGuestsTitle}>{t('No of Guests')}</p>
+          <div className={styles.guestTitle}>
+            <div className={styles.guestCount}>
+              <p className={styles.noOfGuestsTitle}>{t('No of Guests')}</p>
+              <PlusMinusInput
+                value={guestNumber}
+                onClickMinus={() => setguestNumber((i) => i - 1)}
+                onClickPlus={() => setguestNumber((i) => i + 1)}
+                minQuantity={1}
+                className={styles.plusMinus}
+                irdSummary
+              />
+            </div>
             <p className={styles.noOfGuestsDesc}>
               {t('Cutlery will be sent based on the number of guests')}
             </p>
           </div>
-          <PlusMinusInput
-            value={guestNumber}
-            onClickMinus={() => setguestNumber((i) => i - 1)}
-            onClickPlus={() => setguestNumber((i) => i + 1)}
-            minQuantity={1}
-            className={styles.plusMinus}
-            irdSummary
-          />
         </div>
+
+        {orderScheduling && (
+          <div className={styles.schedulingMainContainer}>
+            <div className={styles.schedulingTitle}>
+              <p className={styles.schedulingContainerTitle} onClick={() => setIsDrawerOpen(true)}>
+                <span>{t('Delivery Time')}</span>
+                <span className={styles.scheduleText}>
+                  {' '}
+                  {selectedOption === LATER
+                    ? dayjs(selectedTime).format(timeFormats.HOURS_MINUTES_AM)
+                    : selectedOption}{' '}
+                  <UpArrow className={styles.iconUp} />
+                </span>
+              </p>
+            </div>
+            <CustomDrawer
+              open={isDrawerOpen}
+              onClose={() => {
+                closeDrawer();
+                if (!nextClick) {
+                  setSelectedOption(NOW);
+                }
+              }}
+              content={scheduleDrawer()}
+            ></CustomDrawer>
+          </div>
+        )}
 
         {irdOrderType?.payment?.length > 1 && (
           <div className={styles.paymentContainer}>
@@ -657,15 +860,37 @@ const DiningOrderSummary = () => {
               onClick={handleOrder}
               variant='contained'
             >
-              <div className={styles.buttonContentWrapper}>
+              <div className={`${styles.buttonContentWrapper}`}>
                 <div className={styles.buttonWrapper}>
-                  {items?.length > 0 && <span className={styles.itemCount}>{items?.length}</span>}
-                  <span className={styles.currency}>
-                    <span className={styles.currencyTitle}> {currency} </span>
-                    {formatPriceIRD(totalAmount)}
+                  {items?.length > 0 && (
+                    <span className={styles.itemCount}>{getTotalItems && getTotalItems}</span>
+                  )}
+                  <span className={cx(styles.currency, { [styles.currencyV2]: isIRDv2 })}>
+                    <span
+                      className={`${styles.currencyTitle} ${
+                        isIRDv2 ? 'globals-irdv2-irdPrice' : ''
+                      }`}
+                    >
+                      {`${currency} `}
+                    </span>
+                    {isIRDv2 && (
+                      <span className={`${styles.currencyTotalTitle} ${isIRDv2 ? '' : ''}`}>
+                        {/* globals-irdv2-TotalBtn */}
+                        {t('Total')}
+                      </span>
+                    )}
+                    <span className={`${styles.currencyTotalAmount}`}>
+                      {formatPriceIRD(totalAmount)}
+                    </span>
                   </span>
                 </div>
-                <div>{t('Confirm')}</div>
+                {!isIRDv2 ? (
+                  <div className={isIRDv2 ? 'globals-irdv2-irdFlow' : ''}>{t('Confirm')}</div>
+                ) : (
+                  <div className={isIRDv2 ? 'globals-irdv2-irdFlowShow' : ''}>
+                    {t('Place Order')}
+                  </div>
+                )}
               </div>
             </StyledButton>
           </div>

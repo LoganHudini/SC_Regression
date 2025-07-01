@@ -24,6 +24,19 @@ export type IDiningMenuStorageData = {
           price: number;
           comment?: string;
           quantity?: number;
+          priceInDecimal?: number;
+        }[]
+      | any;
+    groupedAddons?:
+      | {
+          code: string;
+          id: string;
+          name: string;
+          price: number;
+          comment?: string;
+          quantity?: number;
+          index?: number;
+          priceInDecimal?: number;
         }[]
       | any;
     upsell?: {
@@ -42,6 +55,7 @@ export type IDiningMenuStorageData = {
   selectedItemId?: string;
   selectedIndex?: number;
   orderId?: string;
+  selectedCategoryId?: string;
 };
 
 export const diningMenuStorage = makeVar<IDiningMenuStorageData>({ items: [] });
@@ -73,3 +87,8 @@ export interface IAddons {
 export const toggleDiningDetailsDrawer = makeVar(false);
 
 export const editControl = makeVar(false);
+
+export const setAppliedFilter = makeVar({
+  allergen: [],
+  tag: [],
+});

@@ -32,6 +32,7 @@ import {
 } from 'utils/constants';
 import { activeItems, activeModule } from 'utils/functions';
 import { availablePaths } from 'utils/availablePaths';
+import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
 
 const CheckoutDrawer = (props: any) => {
   const { reservationData, amountDue } = props;
@@ -146,6 +147,7 @@ const CheckoutDrawer = (props: any) => {
       setTimeout(() => {
         if (feedbackData?.length === 0) {
           checkoutTrip();
+          reservationGuestInfoStorageData(null);
         } else {
           feedbackStorage();
         }
@@ -199,6 +201,7 @@ const CheckoutDrawer = (props: any) => {
     setTimeout(() => {
       if (feedbackData?.length === 0) {
         checkoutTrip();
+        reservationGuestInfoStorageData(null);
       } else {
         feedbackStorage();
       }

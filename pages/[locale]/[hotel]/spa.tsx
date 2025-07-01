@@ -180,7 +180,7 @@ const Spa: React.FC = () => {
   )?.value;
 
   const onCtaClick = () => {
-    if (treatmentLink) {
+    if (treatmentLink || spaInformation?.cta?.redirectUrl) {
       analyticsEvent({
         action: 'spa_redirect',
         category: 'Spa',
@@ -291,7 +291,10 @@ const Spa: React.FC = () => {
   const [getSlots, { loading: spaLoading }] = useLazyQuery(GET_SLOT_DETAILS, {
     context: { clientName: 'integration_d' },
     variables: {
-      date: dayjs(selectedTime).year(currentYear).format(timeFormats.YEAR_MONTH_DAY),
+      date: (() => {
+        const validDate = dayjs(selectedTime).isValid() ? dayjs(selectedTime) : dayjs();
+        return validDate.year(currentYear).format(timeFormats.YEAR_MONTH_DAY);
+      })(),
       hotelId: hotelId,
       requestType: '601',
       treatmentId: selectedSpaItem?.code,
@@ -301,12 +304,14 @@ const Spa: React.FC = () => {
 
   const slotBookingHandler = async () => {
     setSpaBookingLoading(true);
+    const validDate = dayjs(selectedTime).isValid() ? dayjs(selectedTime) : dayjs();
+    const formattedDate = validDate.year(currentYear).format(timeFormats.YEAR_MONTH_DAY);
     const spaPayload = {
       customerNotes: '',
       duration: selectedSpaItem?.duration[currentIndex]?.duration ?? '',
       hotelId: hotelId,
       requestType: '601',
-      date: dayjs(selectedTime).year(currentYear).format(timeFormats.YEAR_MONTH_DAY),
+      date: formattedDate,
       treatmentId: selectedSpaItem?.code,
       startTime: selectedSpaSlots?.startTime,
       technicianId: parseInt(selectedSpaSlots.technicianId),
@@ -320,12 +325,21 @@ const Spa: React.FC = () => {
     };
 
     try {
-      await client.mutate({
+      const { data } = await client.mutate({
         mutation: CREATE_SPA_BOOKING,
         context: { clientName: 'integration_d' },
         fetchPolicy: 'network-only',
         variables: spaPayload,
       });
+
+      if (data?.createSpaAppointment?.message === 'Failed - to Book the Spa') {
+        throw new Error('Failed to book the spa appointment');
+      }
+
+      if (!data?.createSpaAppointment) {
+        throw new Error('Invalid response from server');
+      }
+
       setTimeout(() => {
         closeDrawer();
       }, 5000);
@@ -455,8 +469,9 @@ const Spa: React.FC = () => {
                 selectedTime={selectedTime}
                 handleSave={handleSpaReservation}
                 showSchedules={undefined}
-                buttonTitle={t('Find available slots')}
+                buttonTitle={spaModule?.type === 'CMS' ? t('Book now') : t('Find available slots')}
                 buttonStyle={styles.buttonPicker}
+                module={'spa'}
               />
             </div>
           </div>
@@ -618,7 +633,7 @@ const Spa: React.FC = () => {
           onClose={closeSpa}
           content={
             <IframeComponent
-              src={treatmentLink ?? spaInformation?.cta?.redirectUrl}
+              src={spaInformation?.cta?.redirectUrl || treatmentLink}
               handledrawerState={setspaBooking}
               name={SPA_TREATMENTS}
             />

@@ -13,16 +13,21 @@ import {
 } from 'storage/dining-menu.storage';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import produce from 'immer';
-import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
+import { IRDMenuApiResponse } from 'core/graphql/queries/IRD_MENU';
 import { DiningCheckboxItem } from 'components/pages/dining/DiningCheckboxItem/DiningCheckboxItem';
 import { InputAdornment } from '@mui/material';
-import { sortBy } from 'lodash';
+import { isEqual, sortBy } from 'lodash';
 import { iconsMap } from 'utils/hamburger/hamburgerIconsMap';
-import { activeModule, filterLiveMenu, formatPriceIRD, irdActiveMenuList } from 'utils/functions';
+import {
+  activeModule,
+  filterLiveMenu,
+  findModule,
+  formatPriceIRD,
+  irdActiveMenuList,
+} from 'utils/functions';
 import { addToCartEvent } from 'utils/gtag';
 import cx from 'classnames';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
-import { client } from 'core/graphql/client';
 import { useCurrency } from 'utils/hooks/useCurrency';
 import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 import { StyledInput } from 'components/shared/StyledInput/StyledInput';
@@ -31,6 +36,8 @@ import { instructionValidation } from 'validation/dining.validation';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { IN_ROOM_DINING } from 'utils/constants';
 import { hotelInfoStorage } from 'storage/home.storage';
+import { irdMenuOutputDetailsStorage } from 'storage/dining.storage';
+import { DiningMenuElementUpsell } from '../DiningMenuElementUpsell/DiningMenuElementUpsell';
 
 type DiningDetailsDrawerProps = {
   menuAvailability?: any;
@@ -47,9 +54,11 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
   const [count, setCount] = useState<number>(1);
   const [instruction, setInstruction] = useState('');
   const [updateAddons, setupdateAddons] = useState(false);
-  const [totalAddons, settotalAddons] = useState<number>(0);
+  const [totalAddons, settotalAddons] = useState<any>(0);
   const [customisation, setCustomisation] = useState<any>([]);
   const [addonsWarning, setAddonsWarning] = useState(false);
+  const [groupedAddonsWarning, setGroupedAddonsWarning] = useState(false);
+  const [groupedAddonLimitMap, setGroupedAddonLimitMap] = useState<Record<string, number>>({});
   const config = useConfig();
   const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
 
@@ -61,10 +70,18 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
       price: number;
       comment?: string;
       quantity?: number;
+      index?: any;
+      priceInDecimal?: any;
     }[]
   >();
 
-  const data = client.readQuery<IRDMenuApiResponse>({ query: IRD_MENU });
+  const [groupedAddons, setGroupedAddons] = useState<any>([]);
+  const totalGroupedAddonsPrice =
+    groupedAddons?.length > 0
+      ? groupedAddons.reduce((total: any, item: any) => total + item?.priceInDecimal, 0)
+      : 0;
+
+  const data = useReactiveVar(irdMenuOutputDetailsStorage) as IRDMenuApiResponse;
 
   const irdMenu = irdActiveMenuList(
     data,
@@ -100,8 +117,15 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
       if (selectedItemWithIndex?.addons?.length > 0) {
         setAddons(selectedItemWithIndex?.addons);
       }
+      if (selectedItemWithIndex?.groupedAddons?.length > 0) {
+        setGroupedAddons(selectedItemWithIndex?.groupedAddons);
+      }
       setCount(selectedItemWithIndex.quantity || 1);
       setInstruction(selectedItemWithIndex?.cookingInstruction);
+      formik.setValues({
+        ...formik.values,
+        ['instruction' as string]: selectedItemWithIndex?.cookingInstruction || '',
+      });
     }
   }, [selectedItemWithIndex, editControlStatus]);
 
@@ -113,8 +137,41 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
         setAddonsWarning(false);
       }
     }
-    settotalAddons((addons ?? [])?.reduce((acc, addon) => acc + addon?.price, 0));
+    settotalAddons((addons ?? [])?.reduce((acc, addon) => acc + addon?.priceInDecimal, 0));
   }, [addons, updateAddons, totalAddons, selectedItem?.addOnLimit, selectedItem?.addOnValue]);
+
+  useEffect(() => {
+    if (selectedItem?.groupedAddon && selectedItem?.groupedAddon.length > 0) {
+      const groupCounts: Record<string, number> = {};
+      const groupLimits: Record<string, number> = {};
+
+      selectedItem.groupedAddon.forEach((group: any, index: number) => {
+        const indexKey = index.toString();
+        groupLimits[indexKey] = group.limit;
+        groupCounts[indexKey] = 0;
+      });
+
+      (groupedAddons ?? []).forEach((addon: any) => {
+        if (addon.index !== undefined) {
+          const indexKey = addon.index.toString();
+          groupCounts[indexKey] = (groupCounts[indexKey] || 0) + 1;
+        }
+      });
+
+      let hasWarning = false;
+      Object.keys(groupLimits).forEach((groupIndex) => {
+        if ((groupCounts[groupIndex] || 0) > groupLimits[groupIndex]) {
+          hasWarning = true;
+        }
+      });
+
+      setGroupedAddonLimitMap(groupCounts);
+      setGroupedAddonsWarning(hasWarning);
+    } else {
+      setGroupedAddonsWarning(false);
+      setGroupedAddonLimitMap({});
+    }
+  }, [groupedAddons, selectedItem?.groupedAddon, updateAddons]);
 
   useEffect(() => {
     if (!selectedItemId || count === 0) {
@@ -175,6 +232,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
     toggleDiningDetailsDrawer(false);
     setCustomisation([]);
     setAddons([]);
+    setGroupedAddons([]);
     editControl(false);
     setInstruction('');
     formik.resetForm();
@@ -182,13 +240,19 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
     diningMenuStorage(
       produce(diningMenuStorage(), (draft) => {
         draft.selectedItemId = '';
+        // draft.selectedCategoryId = '';
       }),
     );
   }, []);
 
   const handleAdd = useCallback(() => {
-    const customisationData: any = sortBy(customisation, (item) => item?.name);
-    const addOnsData = sortBy(addons, (item) => item?.name);
+    const sortedCustomisation: any = sortBy(customisation, (item) => item?.name);
+    const sortedAddons = sortBy(addons, (item) => item?.name);
+    const sortedGroupedAddons = sortBy(groupedAddons, (item) => item?.name);
+
+    const customisationString = JSON.stringify(sortedCustomisation);
+    const addonsString = JSON.stringify(sortedAddons);
+    const groupedAddonsString = JSON.stringify(sortedGroupedAddons);
 
     if (editControlStatus) {
       diningMenuStorage(
@@ -196,23 +260,39 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
           const selectedItem = draft?.items.find(
             (el, index) =>
               el?.itemId === selectedItemId &&
-              el?.customisation?.ingredient === customisationData?.ingredient &&
-              el?.customisation?.code === customisationData?.code &&
+              el?.customisation?.ingredient === sortedCustomisation?.ingredient &&
+              el?.customisation?.code === sortedCustomisation?.code &&
               index === selectedItemIndex,
           );
 
           if (selectedItem) {
-            const areAddonsEqual =
-              JSON.stringify(sortBy(selectedItem?.addons, (item) => item?.name)) ===
-              JSON.stringify(sortBy(addons, (item) => item?.name));
-            const areCustomisationsEqual =
-              JSON.stringify(sortBy(selectedItem?.customisation, (item) => item?.name)) ===
-              JSON.stringify(sortBy(customisation, (item) => item?.name));
+            const existingAddons = selectedItem?.addons || [];
+            const existingCustomisation = selectedItem?.customisation || [];
+            const existingGroupedAddons = selectedItem?.groupedAddons || [];
 
-            if (!areAddonsEqual || !areCustomisationsEqual) {
-              selectedItem.addons = sortBy(addons, (item) => item?.name);
-              selectedItem.customisation = sortBy(customisation, (item) => item?.name);
+            const selectedItemAddonsString = JSON.stringify(
+              sortBy(existingAddons, (item) => item?.name),
+            );
+            const selectedItemCustomisationString = JSON.stringify(
+              sortBy(existingCustomisation, (item) => item?.name),
+            );
+            const selectedItemGroupedAddonsString = JSON.stringify(
+              sortBy(existingGroupedAddons, (item) => item?.name),
+            );
+
+            const needsUpdate =
+              (sortedAddons?.length >= 0 && selectedItemAddonsString !== addonsString) ||
+              (sortedCustomisation?.length >= 0 &&
+                selectedItemCustomisationString !== customisationString) ||
+              (sortedGroupedAddons?.length >= 0 &&
+                selectedItemGroupedAddonsString !== groupedAddonsString);
+
+            if (needsUpdate) {
+              selectedItem.addons = sortedAddons ?? [];
+              selectedItem.customisation = sortedCustomisation ?? [];
+              selectedItem.groupedAddons = sortedGroupedAddons ?? [];
             }
+
             selectedItem.cookingInstruction = instruction ?? '';
             selectedItem.quantity = count || 1;
           }
@@ -221,127 +301,115 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
     } else {
       diningMenuStorage(
         produce(diningMenuStorage(), (draft) => {
-          const item = draft?.items?.find(
-            (el) =>
+          const existingItem = draft?.items?.find((el) => {
+            // No customization or addons
+            if (
               el?.itemId === selectedItemId &&
-              (el?.customisation ?? [])?.length === 0 &&
-              (el?.addons ?? [])?.length === 0 &&
-              customisation?.length === 0 &&
-              addOnsData?.length === 0,
-          );
-
-          const itemBoth = draft?.items.find(
-            (el) =>
-              el.itemId === selectedItemId &&
-              addOnsData?.length === 0 &&
-              (el?.addons ?? [])?.length > 0 &&
-              JSON.stringify(addOnsData) ===
-                JSON.stringify(sortBy(el?.addons, (item) => item?.name)) &&
-              JSON.stringify(customisationData) ===
-                JSON.stringify(sortBy(el?.customisation, (item) => item?.name)),
-
-            // customisation?.ingredient &&
-            // el?.customisation?.ingredient &&
-            // el?.customisation?.ingredient === customisation?.ingredient &&
-            // el?.customisation?.code === customisation?.code,
-          );
-
-          const itemCustomisation = draft?.items.find(
-            (el) =>
-              el.itemId === selectedItemId &&
-              customisation?.ingredient &&
-              (el?.customisation ?? [])?.length > 0 &&
-              el?.customisation?.ingredient === customisation?.ingredient &&
-              el?.customisation?.code === customisation?.code &&
-              addOnsData?.length === 0,
-          );
-
-          const itemAddons = draft?.items.find(
-            (el) =>
-              el.itemId === selectedItemId &&
-              addOnsData?.length > 0 &&
-              (el?.addons ?? [])?.length > 0 &&
-              el?.customisation?.ingredient === customisation?.ingredient &&
-              JSON.stringify(addOnsData) ===
-                JSON.stringify(sortBy(el?.addons, (item) => item?.name)),
-          );
-
-          if (itemBoth) {
-            itemBoth.quantity += count;
-            // console.log('Both matches');
-          } else if (itemCustomisation) {
-            itemCustomisation.quantity += count;
-            // console.log('Cust matches');
-          } else if (itemAddons) {
-            itemAddons.quantity += count;
-            // console.log('Addons matches');
-          } else {
-            // console.log('No match');
-            if (customisation?.length > 0 || addOnsData?.length > 0) {
-              if (addOnsData?.length > 0 && customisation?.length > 0) {
-                draft.items.push({
-                  itemId: selectedItem?.id,
-                  quantity: count,
-                  code: selectedItem?.code ?? '',
-                  price: selectedItem?.price ?? 0,
-                  title: selectedItem?.name ?? '',
-                  cookingInstruction: instruction ?? '',
-                  customisation: customisationData,
-                  addons: addOnsData,
-                  upsell: selectedItem?.upsell ?? [],
-                });
-                // console.log('Customisation & Addons only');
-              } else if (customisation?.length > 0) {
-                draft.items.push({
-                  itemId: selectedItem?.id,
-                  quantity: count,
-                  code: selectedItem?.code ?? '',
-                  price: selectedItem?.price ?? 0,
-                  title: selectedItem?.name ?? '',
-                  cookingInstruction: instruction ?? '',
-                  customisation: customisation,
-                  upsell: selectedItem?.upsell ?? [],
-                });
-                // console.log('Customisation only');
-              } else if (addOnsData?.length > 0) {
-                draft.items.push({
-                  itemId: selectedItem?.id,
-                  quantity: count,
-                  code: selectedItem?.code ?? '',
-                  price: selectedItem?.price ?? 0,
-                  title: selectedItem?.name ?? '',
-                  cookingInstruction: instruction ?? '',
-                  addons: addOnsData,
-                  upsell: selectedItem?.upsell ?? [],
-                });
-                // console.log('Addons only');
-              }
-            } else {
-              if (item) {
-                if (!customisation?.ingredient && addOnsData.length === 0) {
-                  // console.log(
-                  //   'No customisation or addons selected or Customisation or addons does not exist',
-                  // );
-                  item.quantity += count;
-                  // console.log(item.quantity);
-                }
-              } else {
-                draft.items.push({
-                  itemId: selectedItem?.id,
-                  quantity: count,
-                  price: selectedItem?.price ?? 0,
-                  cookingInstruction: instruction ?? '',
-                  title: selectedItem?.name ?? '',
-                  code: selectedItem?.code ?? '',
-                  upsell: selectedItem?.upsell ?? [],
-                });
-                // console.log('Added');
-              }
+              !(el?.customisation?.length || 0) &&
+              !(el?.addons?.length || 0) &&
+              !sortedCustomisation?.length &&
+              !sortedAddons?.length &&
+              !sortedGroupedAddons?.length
+            ) {
+              return true;
             }
+
+            // Matching customization and addons
+            if (
+              el?.itemId === selectedItemId &&
+              isEqual(
+                sortBy(el?.addons || [], (item) => item?.name),
+                sortedAddons,
+              ) &&
+              isEqual(
+                sortBy(el?.groupedAddons || [], (item) => item?.name),
+                sortedGroupedAddons,
+              ) &&
+              isEqual(
+                sortBy(el?.customisation || [], (item) => item?.name),
+                sortedCustomisation,
+              )
+            ) {
+              return true;
+            }
+
+            // Matching customization only
+            if (
+              el?.itemId === selectedItemId &&
+              sortedCustomisation?.ingredient &&
+              (el?.customisation?.length || 0) > 0 &&
+              el?.customisation?.ingredient === sortedCustomisation?.ingredient &&
+              el?.customisation?.code === sortedCustomisation?.code &&
+              !sortedAddons?.length &&
+              !sortedGroupedAddons?.length
+            ) {
+              return true;
+            }
+
+            // Matching addons only
+            if (
+              el?.itemId === selectedItemId &&
+              sortedAddons?.length > 0 &&
+              (el?.addons?.length || 0) > 0 &&
+              el?.customisation?.ingredient === sortedCustomisation?.ingredient &&
+              isEqual(
+                sortBy(el?.addons || [], (item) => item?.name),
+                sortedAddons,
+              ) &&
+              !sortedGroupedAddons?.length
+            ) {
+              return true;
+            }
+
+            // Matching grouped addons only
+            if (
+              el?.itemId === selectedItemId &&
+              sortedGroupedAddons?.length > 0 &&
+              (el?.groupedAddons?.length || 0) > 0 &&
+              el?.customisation?.ingredient === sortedCustomisation?.ingredient &&
+              isEqual(
+                sortBy(el?.groupedAddons || [], (item) => item?.name),
+                sortedGroupedAddons,
+              ) &&
+              !sortedAddons?.length
+            ) {
+              return true;
+            }
+
+            return false;
+          });
+
+          if (existingItem) {
+            existingItem.quantity += count;
+          } else {
+            const baseItem: any = {
+              itemId: selectedItem?.id,
+              quantity: count,
+              code: selectedItem?.code ?? '',
+              price: selectedItem?.price ?? 0,
+              title: selectedItem?.name ?? '',
+              cookingInstruction: instruction ?? '',
+              upsell: selectedItem?.upsell ?? [],
+            };
+
+            if (sortedCustomisation?.length > 0) {
+              baseItem.customisation = sortedCustomisation;
+            }
+
+            if (sortedAddons?.length > 0) {
+              baseItem.addons = sortedAddons;
+            }
+
+            if (sortedGroupedAddons?.length > 0) {
+              baseItem.groupedAddons = sortedGroupedAddons;
+            }
+
+            draft.items.push(baseItem);
           }
         }),
       );
     }
+
     const item = {
       id: selectedItem?.id,
       name: selectedItem?.name,
@@ -349,10 +417,12 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
       quantity: count,
       currency: currency,
     };
+
     addToCartEvent(item);
     closeDrawer();
   }, [
     addons,
+    groupedAddons,
     closeDrawer,
     count,
     currency,
@@ -369,7 +439,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
   ]);
 
   const formik = useFormik({
-    initialValues: { instruction: '' },
+    initialValues: { instruction: instruction || '' },
     validationSchema: instructionValidation,
     onSubmit: (values) => {
       setInstruction(values.instruction);
@@ -381,10 +451,6 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
       customisationItem?.customisations?.filter((item: any) => item?.status),
     );
 
-    const data = client.readQuery({
-      query: IRD_MENU,
-    });
-
     const filteredList = data?.getIRDMenuOutputDetails?.filter(
       (item: any) =>
         item?.isActive &&
@@ -393,6 +459,8 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
           hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone,
         ),
     );
+    const irdModuleContent: any = findModule(config?.modules, IN_ROOM_DINING);
+    const isIRDv2 = irdModuleContent?.version === 'v2';
 
     return (
       <>
@@ -418,7 +486,13 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
                     const IconComponent =
                       iconsMap[tags.name.toLowerCase() as keyof typeof iconsMap];
                     return (
-                      <div key={key} className={styles.tags}>
+                      <div
+                        key={key}
+                        className={cx(
+                          { ['globals-irdv2-allergens']: isIRDv2 },
+                          { [styles.tags]: !isIRDv2 },
+                        )}
+                      >
                         {IconComponent && <IconComponent className={styles.allergens} />}
                         {tags?.name}
                       </div>
@@ -487,14 +561,16 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
               <>
                 <div className={styles.addonsRow}>
                   <p className={styles.addonsText}>{t('Add-Ons')}</p>
-                  {addonsWarning ? (
-                    <p className={styles.optionalTextWarning}>{t('Limit exceeded')}</p>
-                  ) : (
-                    <p className={styles.optionalText}>
-                      {/* {t('Select up to option(s)', { value: selectedItem?.addOnValue })} */}
-                      {t('Select up to')} {selectedItem?.addOnValue} {t('option(s)')}
-                    </p>
-                  )}
+                  {selectedItem?.addOnLimit &&
+                    selectedItem?.addOnValue > 0 &&
+                    (addonsWarning ? (
+                      <p className={styles.optionalTextWarning}>{t('Limit exceeded')}</p>
+                    ) : (
+                      <p className={styles.optionalText}>
+                        {/* {t('Select up to option(s)', { value: selectedItem?.addOnValue })} */}
+                        {t('Select up to')} {selectedItem?.addOnValue} {t('option(s)')}
+                      </p>
+                    ))}
                 </div>
                 <div className={styles.irdCheckboxItemWrapper}>
                   {selectedItem?.addons
@@ -516,6 +592,49 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
               </>
             )}
 
+            {selectedItem?.groupedAddon && selectedItem?.groupedAddon?.length > 0 && irdModule && (
+              <>
+                {selectedItem?.groupedAddon?.map((groupedAddon: any, groupedAddonIndex: any) => (
+                  <React.Fragment key={groupedAddonIndex}>
+                    <div className={styles.addonsRow}>
+                      <p className={styles.addonsText}>{groupedAddon?.title}</p>
+                      {(groupedAddonLimitMap[groupedAddonIndex.toString()] || 0) >
+                      groupedAddon?.limit ? (
+                        <p className={styles.optionalTextWarning}>{t('Limit exceeded')}</p>
+                      ) : (
+                        <p className={styles.optionalText}>
+                          {t('Select up to')} {groupedAddon?.limit} {t('option(s)')}
+                        </p>
+                      )}
+                    </div>
+                    <div className={styles.irdCheckboxItemWrapper}>
+                      {groupedAddon?.addons?.map((el: any, index: any) => (
+                        <div key={el?.id || index}>
+                          <DiningCheckboxItem
+                            setupdateAddons={setupdateAddons}
+                            updateAddons={updateAddons}
+                            element={el}
+                            selectedItemId={selectedItemId}
+                            addons={groupedAddons ?? []}
+                            setAddons={setGroupedAddons}
+                            checked={
+                              groupedAddons?.some(
+                                (item: any) =>
+                                  item?.id === el?.id && item?.index === groupedAddonIndex,
+                              )
+                                ? true
+                                : false
+                            }
+                            groupedAddonIndex={groupedAddonIndex}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </React.Fragment>
+                ))}
+              </>
+            )}
+
             {irdModule && (
               <StyledInput
                 variant='standard'
@@ -525,7 +644,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
                 value={formik.values.instruction}
                 className={styles.textInput}
                 id='instruction'
-                placeholder={`${t('Add instructions')}`}
+                placeholder={`${t('Add special instructions')}`}
                 onChange={(e) => {
                   formik.handleChange(e);
                   setInstruction(e.target.value);
@@ -553,13 +672,39 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
               />
             )}
 
+            {selectedItem?.upsell?.length > 0 && isIRDv2 && (
+              <>
+                <div className={styles.upsellWrapper}>
+                  <h4 className={styles.youMayAlsoLikeText}>{t('You May Also Like')}</h4>
+                  <div className={styles.upsell}>
+                    {selectedItem?.upsell?.map(
+                      (upsellItem: any, index: number) =>
+                        upsellItem?.price > 0 && (
+                          <DiningMenuElementUpsell
+                            key={index}
+                            title={upsellItem?.name}
+                            price={upsellItem?.price}
+                            id={upsellItem?.id}
+                            image={upsellItem?.image}
+                            code={upsellItem?.code}
+                            description={upsellItem?.description || ''}
+                            customisation={upsellItem?.customisation || []}
+                            index={index}
+                          />
+                        ),
+                    )}
+                  </div>
+                </div>
+              </>
+            )}
+
             {selectedItem?.price && irdModule && (
               <>
                 <p className={styles.priceText}>{t('total item price')}</p>
                 <p className={styles.totalItemPrice}>
-                  {currency}{' '}
+                  <span className={isIRDv2 ? 'globals-irdv2-irdPrice' : ''}>{currency} </span>
                   <span className={styles.price}>
-                    {formatPriceIRD(selectedItem?.price + totalAddons)}
+                    {formatPriceIRD(selectedItem?.price + totalAddons + totalGroupedAddonsPrice)}
                   </span>
                 </p>
               </>
@@ -585,6 +730,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
                     (selectedItem?.customisation?.length > 0 &&
                       filteredCustomisation?.length !== customisation?.length) ||
                     addonsWarning ||
+                    groupedAddonsWarning ||
                     !menuAvailability
                   }
                 >

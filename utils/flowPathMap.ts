@@ -2,7 +2,7 @@ import { availablePaths } from './availablePaths';
 
 export const flowPathMap = {
   CHECKIN_FLOW: availablePaths?.CHECK_IN,
-  IRD_BOOKING: availablePaths?.DINING,
+  IRD_BOOKING: availablePaths?.DINING_MENU,
   RESTAURANT_BOOKING: availablePaths?.RESTAURANTS_BARS,
   HOUSEKEEPING_BOOKING: availablePaths?.HOUSEKEEPING,
   WELLNESS_BOOKING: availablePaths?.SPA_INFO,
@@ -14,7 +14,7 @@ export const flowPathMap = {
   DIGITAL_KEY_FLOW: null,
   HOME: availablePaths?.HOME,
   SPA: availablePaths?.SPA,
-  IRD: availablePaths?.DINING,
+  IRD: availablePaths?.DINING_MENU,
   RESTAURANT: availablePaths?.RESTAURANTS_BARS,
   LOGOUT_FLOW: null,
   LOGIN_FLOW: null,

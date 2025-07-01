@@ -8,8 +8,9 @@ import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from '@styles/dining/dining.module.scss';
 import { getStaticPaths } from 'utils/getStatic';
+import { handleReservation } from 'utils/fetchReservation';
 import { DiningMenuOptions } from 'components/pages/dining/DiningMenuOptions/DiningMenuOptions';
-import { diningInformationStorage } from 'storage/dining.storage';
+import { diningInformationStorage, irdMenuOutputDetailsStorage } from 'storage/dining.storage';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { DiningCategorySkeleton } from 'components/pages/dining/DiningCategorySkeleton/DiningCategorySkeleton';
 import { IRDMenuApiResponse, IRD_MENU } from 'core/graphql/queries/IRD_MENU';
@@ -17,22 +18,25 @@ import {
   IDiningMenuStorageData,
   diningCategoryStorage,
   diningMenuStorage,
+  setAppliedFilter,
 } from 'storage/dining-menu.storage';
 import cx from 'classnames';
+import { availablePaths } from 'utils/availablePaths';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import {
   filterLiveMenu,
   filterIRDMenuItems,
   irdActiveMenuList,
   uniqueDiningOption,
+  findModule,
 } from 'utils/functions';
-import { availablePaths } from 'utils/availablePaths';
 import DiningMenu from 'components/pages/dining/DiningMenu/DiningMenu';
 import ScrollDown from '@icons/scrollDown.svg';
+import FilterIcon from '@icons/filterIrd.svg';
 import { useConfig } from 'utils/hooks/useConfiguration';
-import { client } from 'core/graphql/client';
 import { IN_ROOM_DINING } from 'utils/constants';
 import { useCheckedIn } from 'storage/check-in.storage';
+import { useRouter } from 'next/router';
 import {
   IGetRestaurantDetailsResponse,
   GET_RESTAURANT_DETAILS,
@@ -42,6 +46,9 @@ import { diningOptions, diningHeaders, hotelInfoStorage } from 'storage/home.sto
 export { getStaticPaths };
 
 const Dining = () => {
+  const router = useRouter();
+  const roomNo = router.query.roomNo as string;
+  const lastName = router.query.lastName as string;
   const { t } = useTranslation('dining');
   const locale = useLocale();
   const hotelId = useConfig()?.hotelId;
@@ -51,6 +58,7 @@ const Dining = () => {
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
   const filter = useReactiveVar(diningInformationStorage);
   const [openCategory, setOpencategory] = useState(false);
+  const [filterDrawer, setFilterDrawer] = useState(false);
   const [categoryId1, setcategoryId] = useState('');
   const dropdownRef: any = useRef();
   const [scrollTop, setScrollTop] = useState(0);
@@ -58,6 +66,13 @@ const Dining = () => {
   const irdOption = useReactiveVar(diningHeaders);
   const diningOptionSelected = useReactiveVar(diningOptions);
   const hotelInformation = useReactiveVar(hotelInfoStorage);
+  const appliedFilter = useReactiveVar(setAppliedFilter);
+  const { isReady } = router;
+  const [tags, setTags] = useState<string[]>([]);
+  const [allergens, setAllergens] = useState<string[]>([]);
+  const irdModuleContent: any = findModule(config?.modules, IN_ROOM_DINING);
+  const isIRDv2 = irdModuleContent?.version === 'v2';
+  const [isValidating, setIsValidating] = useState(false);
 
   const { data: restaurantList, loading } = useQuery<IGetRestaurantDetailsResponse>(
     GET_RESTAURANT_DETAILS,
@@ -83,15 +98,18 @@ const Dining = () => {
   });
 
   if (data) {
-    client.writeQuery({
-      query: IRD_MENU,
-      data,
-    });
+    irdMenuOutputDetailsStorage(data);
   }
+
+  const irdLength = data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive);
 
   const queryResultsData: any = restaurantList?.getRestaurantDetails?.restaurant;
 
   const uniqueFilteredDiningOptions = uniqueDiningOption(queryResultsData);
+
+  useEffect(() => {
+    setsearch(false);
+  }, [filter?.selectedMenu]);
 
   const filteredList = data?.getIRDMenuOutputDetails?.filter(
     (item: any) =>
@@ -101,6 +119,39 @@ const Dining = () => {
         hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone,
       ),
   );
+  useEffect(() => {
+    if (
+      !router.isReady ||
+      !roomNo ||
+      !lastName ||
+      !hotelId ||
+      typeof roomNo !== 'string' ||
+      typeof lastName !== 'string'
+    ) {
+      return;
+    }
+
+    if (
+      checkInData?.checkedIn &&
+      checkInData?.roomNumber === roomNo &&
+      checkInData?.lastName === lastName
+    ) {
+      return;
+    }
+
+    handleReservation({
+      activeCheckInFlowInfo: false,
+      values: { roomNo, lastName },
+      hotelId,
+      setLoading: (loading: boolean) => {
+        setIsValidating(loading);
+      },
+      t,
+      processStatusCode: (error: any) => error?.networkError?.statusCode,
+      navigate: null,
+      preventDrawerOpen: true,
+    });
+  }, [router.isReady, roomNo, lastName, hotelId, checkInData]);
 
   useEffect(() => {
     diningOptions({ type: IN_ROOM_DINING });
@@ -136,10 +187,16 @@ const Dining = () => {
   }, [irdActiveMenu]);
 
   useEffect(() => {
-    if (!checkInData?.checkedIn) {
-      navigate(availablePaths?.HOME);
-    }
-  }, [navigate, t, checkInData?.checkedIn]);
+    const timeoutId = setTimeout(() => {
+      if (lastName && roomNo && !checkInData?.checkedIn) {
+        navigate(availablePaths.HOME);
+      } else if (!checkInData?.checkedIn) {
+        navigate(availablePaths.HOME);
+      }
+    }, 2000);
+
+    return () => clearTimeout(timeoutId);
+  }, [lastName, roomNo, navigate, checkInData?.checkedIn]);
 
   useEffect(() => {
     if (header[0]?.name == undefined && header[0].hours == undefined) {
@@ -157,6 +214,11 @@ const Dining = () => {
     setsearch(!search);
     setOpencategory(false);
   }, [search]);
+
+  const openFilterFunc = useCallback(() => {
+    setFilterDrawer(!filterDrawer);
+    setOpencategory(false);
+  }, [filterDrawer]);
 
   const selectMenu = useCallback(
     (category: string, name: string, hours: any) => {
@@ -212,6 +274,9 @@ const Dining = () => {
         onSearchBtnClick={openSearch}
         search
         displayHome
+        backRoute={
+          irdLength && irdLength?.length <= 1 ? availablePaths.HOME : availablePaths.DINING_MENU
+        }
       />
       <PageWrapper
         className={cx(styles.pageWrapper, {
@@ -220,6 +285,21 @@ const Dining = () => {
         displayBottomMenu
       >
         <div className={styles.wrapper}>
+          <div className={styles.filterContentWrapper}>
+            <div></div>
+            <h3 className={styles.welcomeTitle}>{isIRDv2 && filter?.menuName}</h3>
+            <div className={styles.filterWrapper}>
+              <>
+                {' '}
+                {(tags?.length > 0 || allergens?.length > 0) && (
+                  <FilterIcon onClick={openFilterFunc} style={{ marginInlineEnd: '15px' }} />
+                )}
+              </>
+              {(appliedFilter?.allergen?.length > 0 || appliedFilter?.tag?.length > 0) && (
+                <div className={styles.filterWrapperApplied}></div>
+              )}
+            </div>
+          </div>
           {irdMenuLoading ? (
             <>
               {irdActiveMenu?.map(() => {
@@ -271,6 +351,14 @@ const Dining = () => {
             categoryId={categoryId1}
             search={search}
             setsearch={setsearch}
+            filterDrawer={filterDrawer}
+            setFilterDrawer={setFilterDrawer}
+            appliedFilter={appliedFilter}
+            setAppliedFilter={setAppliedFilter}
+            setTags={setTags}
+            setAllergens={setAllergens}
+            tags={tags}
+            allergens={allergens}
           />
         </div>
       </PageWrapper>

@@ -77,5 +77,6 @@
   "below_age": "Below {{value}} years old",
   "Scan & Verify": "Scan & Verify",
   "Sharer": "Sharer",
-  "Sharers": "Sharers"
+  "Sharers": "Sharers",
+  "Skip ID Verification": "Skip ID Verification"
 }

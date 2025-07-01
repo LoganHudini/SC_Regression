@@ -84,18 +84,25 @@ export const Header: React.FC<IHeaderProps> = ({
     }
   }, [backRoute, navigate, router]);
 
-  const goHome = useCallback(() => {
-    setScrollPosition(0, 0);
-    navigate(`/${hotel}/`);
-    diningInformationStorage(
-      produce(diningInformationStorage(), (draft) => {
-        if (draft) {
-          draft.selectedCategory = '';
-          draft.categoryName = '';
-        }
-      }),
-    );
-  }, [hotel, navigate]);
+  const goHome = useCallback(
+    (backRoutePath?: any) => {
+      setScrollPosition(0, 0);
+      diningInformationStorage(
+        produce(diningInformationStorage(), (draft) => {
+          if (draft) {
+            draft.selectedCategory = '';
+            draft.categoryName = '';
+          }
+        }),
+      );
+      if (backRoutePath) {
+        navigate(backRoutePath);
+      } else {
+        navigate(`/${hotel}/`);
+      }
+    },
+    [hotel, navigate],
+  );
 
   return (
     <>
@@ -104,7 +111,7 @@ export const Header: React.FC<IHeaderProps> = ({
       >
         <div className={styles.categoryContainer}>
           {displayHome && (
-            <div className={styles.backButton} onClick={goHome}>
+            <div className={styles.backButton} onClick={() => goHome(backRoute)}>
               <img src={`/images/${BRAND_CODE}/HomeHeader.svg`} />
             </div>
           )}
@@ -144,7 +151,7 @@ export const Header: React.FC<IHeaderProps> = ({
                 src={`/images/${
                   hotel === 'fairmont-makkah-clock-royal-tower' ? hotel : BRAND_CODE
                 }/Logo.svg`}
-                onClick={goHome}
+                onClick={() => goHome()}
               />
               {logo && hotel !== 'fairmont-makkah-clock-royal-tower' && (
                 <p className={cx(styles.propertyName, 'globals-propertyName')}>{logo}</p>

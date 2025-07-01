@@ -79,6 +79,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
   const offersList = useReactiveVar(offerList);
   const serviceRequestOptions: any = useReactiveVar(serviceRequestOptionsArray);
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
+  const getTotalItems = diningData?.items?.reduce((total, item) => total + (item.quantity || 0), 0);
   const navigate = useLocalizedRouter();
   const homeActiveRef = useRef<boolean>();
   const homeActive: boolean | undefined = homeActiveRef.current;
@@ -287,7 +288,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
           {irdActive && diningData?.items?.length > 0 && (
             <div className={styles.orderIconWrapper} onClick={confirmOrder}>
               <MyOrders className={styles.myOrdersIcon} />
-              <p className={styles.myOrdersLength}>{diningData?.items?.length}</p>
+              <p className={styles.myOrdersLength}>{getTotalItems && getTotalItems}</p>
             </div>
           )}
 

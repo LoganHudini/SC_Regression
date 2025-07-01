@@ -61,9 +61,13 @@
 }
 
 .listContainer {
-  width: 96%;
-  margin: auto;
+  width: 100%;
+  margin-top: 3rem;
   text-align: center;
+}
+
+.searchDic {
+  margin-top: 1rem;
 }
 
 .noItems {
@@ -174,12 +178,12 @@
   font: $xlarge var(--heading-font-regular);
   margin: 18px 12px 0px;
   text-align: start;
+  padding-top: 24px;
 }
 
-.searchWrapper {
+.filterTagWrapper {
   flex-direction: row;
-  justify-content: space-between;
-  align-items: baseline;
+  // align-items: baseline;
   display: flex;
   flex: 1px;
   margin-top: 0px;
@@ -202,7 +206,7 @@
 .searchDiv {
   overflow: scroll;
   padding: 1.6rem 1rem 0;
-  width: 91%;
+  width: 96%;
   max-width: 768px;
   margin: auto;
   position: sticky;
@@ -267,8 +271,11 @@
 }
 
 .indredient {
-  font: $medium var(--primary-font-heading);
+  font: $large var(--primary-font-heading);
   color: var(--primary-text-color);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--primary-border-color);
+  text-transform: uppercase;
 }
 
 .FilterButtonActive {
@@ -281,7 +288,10 @@
   border: none;
   width: auto;
   white-space: nowrap;
-  box-sizing: content-box;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
 
   &:hover:enabled {
     border: none;
@@ -293,16 +303,19 @@
 }
 
 .FilterButtonActiveAllergen {
-  height: 30px;
+  height: 25px;
   font: $medium var(--primary-font-heading);
   padding: 0 10px;
   text-transform: capitalize;
   color: var(--secondary-text-color) !important;
   background: var(--primary-theme-color) !important;
   border: none;
-  width: auto;
   white-space: nowrap;
-  box-sizing: content-box;
+  width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  box-sizing: border-box;
   path {
     fill: var(--primary-button-color);
     stroke: var(--primary-button-color);
@@ -318,18 +331,19 @@
 }
 
 .FilterButtonInActive {
-  height: 30px;
+  height: 25px;
   background: var(--primary-background-color);
-  font: $medium var(--primary-font-heading);
-  padding: 0 10px;
+  font: $xsmall var(--primary-font-heading);
   text-transform: capitalize;
   box-shadow: none;
-  width: auto;
   white-space: nowrap;
   color: var(--primary-theme-color);
-  border: 1px solid var(--primary-border-color);
-  box-sizing: content-box;
-  gap: 10px;
+  width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  padding: 0 8px;
+  box-sizing: border-box;
 
   &:hover:enabled {
     color: var(--primary-theme-color);
@@ -342,6 +356,125 @@
   }
 }
 
-.wrapper {
-  margin: 0 5px;
+.FilterButtonInActive,
+.FilterButtonActive,
+.FilterButtonActiveAllergen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+  margin: 4px;
+}
+
+.filterButtonContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 6px;
+  overflow: hidden;
+}
+
+.filterIcon {
+  flex-shrink: 0;
+}
+
+.filterText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.welcomeTitle {
+  font: $xlarge var(--primary-font-heading);
+  color: var(--primary-text-color);
+  text-align: center;
+  text-transform: capitalize;
+  margin-top: 15px;
+  margin-bottom: 45px;
+}
+
+.drawerWrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 30px;
+}
+
+.searchWrapper {
+  align-items: baseline;
+  display: flex;
+  flex: 1px;
+  margin-top: 0px;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.filterTagWrapper {
+  // align-items: baseline;
+  display: flex;
+  flex: 1px;
+  margin-top: 0px;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.indredientWrapper {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.btnWrapper {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.viewAllButton {
+  font: $small var(--primary-font-heading);
+  align-self: baseline;
+  gap: 6px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+
+.bottomContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 4rem;
+  margin-top: 2rem;
+}
+
+.backToTopContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.priceDisclaimer {
+  margin-top: 10px;
+  color: var(--tertiary-text-color);
+}
+
+.backToTopButton {
+  background-color: transparent;
+  color: var(--primary-theme-color);
+  border: 1px solid var(--primary-theme-color);
+  width: 11rem;
+}
+
+.chefSpecialCategoryIdMargin {
+  margin-top: 5rem;
 }

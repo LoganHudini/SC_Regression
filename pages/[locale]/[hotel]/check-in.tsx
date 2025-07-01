@@ -68,6 +68,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
   const documentConfig: any = useDocumentConfig();
   const resId = router?.query?.resId ?? '';
   const roomNo = router?.query?.roomNo ?? '';
+  const pmsRoomNumberLength = config?.pmsRoomNumberLength;
   const lastName = router?.query?.lastName ?? '';
   const countryName = config?.idVerificationNationality?.map((code: any) =>
     Countries?.find((country) => country?.value === code),
@@ -90,7 +91,12 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
       lang: locale === 'en' ? '' : locale,
     },
   });
-  hotelInformation(hotelInfo && hotelInfo?.getPropertyDetailsByHotelId?.hotel);
+
+  useEffect(() => {
+    if (hotelInfo?.getPropertyDetailsByHotelId?.hotel) {
+      hotelInformation(hotelInfo.getPropertyDetailsByHotelId.hotel);
+    }
+  }, [hotelInfo]);
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
@@ -120,6 +126,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
             processStatusCode,
             navigate,
             goToTheNextStep,
+            pmsRoomNumberLength,
           });
         }
       }

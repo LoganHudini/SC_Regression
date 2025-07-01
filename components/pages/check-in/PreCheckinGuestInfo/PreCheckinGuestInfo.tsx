@@ -57,9 +57,18 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
   const newAccompanyGuestStorage = useReactiveVar(newAccompanyGuestDetails);
   const hotelInfo = useReactiveVar(hotelInformation);
 
-  const countryCode = Countries?.find(
-    (item: any) => item?.name?.toLowerCase() === hotelInfo?.location?.country?.toLowerCase(),
+  const normalize = (str = '') =>
+    str
+      .trim()
+      .toLowerCase()
+      .replace(/^the\s+/, '');
+
+  const countryDestructure = Countries.find(
+    (item) => normalize(item.name) === normalize(hotelInfo?.location?.country),
   )?.value?.toLowerCase();
+
+  const countryCode = countryDestructure === 'uk' ? 'gb' : countryDestructure;
+
   const isCheckInTimeEnabled = guestInformationSection?.find(
     (field: any) => field?.name === ESTIMATED_TIME,
   )?.isCheckInTimeEnabled;
@@ -67,18 +76,18 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
   const hoursArray =
     hotelInfo && isCheckInTimeEnabled
       ? new Array(25 - Number(hotelInfo?.checkInTime?.split(':')[0]))
-          ?.fill(0)
-          ?.map((_el, index) =>
-            String(index + Number(hotelInfo?.checkInTime?.split(':')[0])).padStart(2, '0'),
-          )
+        ?.fill(0)
+        ?.map((_el, index) =>
+          String(index + Number(hotelInfo?.checkInTime?.split(':')[0])).padStart(2, '0'),
+        )
       : new Array(25).fill(0).map((_el, index) => String(index).padStart(2, '0'));
   const minutesArray =
     hotelInfo && isCheckInTimeEnabled
       ? new Array(60 - Number(hotelInfo?.checkInTime?.split(':')[1]))
-          ?.fill(0)
-          ?.map((_el, index) =>
-            String(index + Number(hotelInfo?.checkInTime?.split(':')[1])).padStart(2, '0'),
-          )
+        ?.fill(0)
+        ?.map((_el, index) =>
+          String(index + Number(hotelInfo?.checkInTime?.split(':')[1])).padStart(2, '0'),
+        )
       : new Array(60).fill(0).map((_el, index) => String(index).padStart(2, '0'));
 
   const handleInputChange = () => {
@@ -338,13 +347,13 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                     }
                     value={
                       formik?.values[field?.name] === INVALID_DATE ||
-                      formik?.values[field?.name] === ''
+                        formik?.values[field?.name] === ''
                         ? null
                         : typeof formik?.values[field?.name] === 'string'
-                        ? dayjs()
+                          ? dayjs()
                             ?.hour(Number(formik?.values[field?.name]?.split(':')[0]))
                             ?.minute(Number(formik?.values[field?.name]?.split(':')[1]))
-                        : dayjs(formik.values[field?.name]) || null
+                          : dayjs(formik.values[field?.name]) || null
                     }
                     onChange={(newValue) => {
                       const selectedDate: any = dayjs(newValue).format(timeFormats.HOURS_MINUTES_2);
@@ -359,8 +368,8 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                     minTime={
                       field?.isCheckInTimeEnabled
                         ? dayjs()
-                            .set('hour', Number(hotelInfo?.checkInTime?.split(':')[0]))
-                            .set('minute', hotelInfo?.checkInTime?.split(':')[1])
+                          .set('hour', Number(hotelInfo?.checkInTime?.split(':')[0]))
+                          .set('minute', hotelInfo?.checkInTime?.split(':')[1])
                         : null
                     }
                     renderInput={(params) => (

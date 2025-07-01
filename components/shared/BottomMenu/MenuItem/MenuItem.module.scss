@@ -17,7 +17,7 @@
   text-decoration: none;
   cursor: pointer;
 
-  &>svg>path {
+  & > svg > path {
     fill: var(--hamburgermenu-icon-color);
   }
 }
@@ -40,6 +40,8 @@
 
 .wrapper {
   padding: 2rem 0;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
 }
 
 .title {

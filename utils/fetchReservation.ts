@@ -31,10 +31,16 @@ export const handleReservation = async ({
   navigate,
   isRetryEnabled,
   hotelInformation,
+  pmsRoomNumberLength,
+  preventDrawerOpen = false,
 }: any) => {
   let tryCount: any = 0;
 
   try {
+    const rawRoomNo = values?.roomNo?.toString()?.trim();
+    const paddedRoomNo = pmsRoomNumberLength
+      ? rawRoomNo?.padStart(pmsRoomNumberLength, '0')
+      : rawRoomNo;
     setLoading(true);
     const checkInToken: { current?: string } = {};
     const inHouseToken: { current?: string } = {};
@@ -47,7 +53,7 @@ export const handleReservation = async ({
     } else {
       inHouseToken.current = await getInHouseToken(
         '',
-        values?.roomNo?.toString()?.trim(),
+        paddedRoomNo,
         values?.lastName?.toString()?.trim(),
       );
     }
@@ -68,7 +74,7 @@ export const handleReservation = async ({
             hotelId: hotelId,
           }
         : {
-            roomNo: values?.roomNo?.toString()?.trim(),
+            roomNo: paddedRoomNo,
             lastName: values?.lastName?.toString()?.trim(),
             hotelId: hotelId,
           },
@@ -84,7 +90,7 @@ export const handleReservation = async ({
       });
       const roomNo = activeCheckInFlowInfo
         ? reservationInformation?.roomTypes[0]?.roomNumber
-        : values?.roomNo?.toString()?.trim();
+        : paddedRoomNo;
       const reservationStatus = reservationInformation?.reservationStatus;
       if (
         reservationStatus === RESERVED && config?.preCheckInOnly
@@ -109,10 +115,14 @@ export const handleReservation = async ({
                   title: t('Your Device is Now Connected'),
                   description: t('Enjoy all the in-stay features and services at your fingertips.'),
                 });
-                toggleNotification(true);
-                toggleCheckInDetailsDrawer(false);
+                toggleNotification && toggleNotification(true);
+                if (!preventDrawerOpen) {
+                  toggleCheckInDetailsDrawer(false);
+                }
               } else {
-                toggleCheckInDetailsDrawer(true);
+                if (!preventDrawerOpen) {
+                  toggleCheckInDetailsDrawer(true);
+                }
               }
               saveTrip({
                 reservationId:
@@ -154,9 +164,9 @@ export const handleReservation = async ({
               setLoading(false);
             } else {
               errorStateHandler('NOROOM', setLoading, t);
+              navigate && navigate(availablePaths.HOME);
             }
             // setButtonTitle && setButtonTitle(true);
-            navigate && navigate(availablePaths.HOME);
           } else {
             activeCheckInFlowInfo && getWelcomeDrawer();
             homeActiveRef && homeActiveRef.current && navigate && navigate(availablePaths.CHECK_IN);
@@ -169,7 +179,7 @@ export const handleReservation = async ({
                 ),
                 redirect: availablePaths?.HOME,
               });
-              toggleNotification(true);
+              toggleNotification && toggleNotification(true);
             }
             setLoading(false);
             setTimeout(() => {
@@ -212,6 +222,7 @@ export const handleReservation = async ({
           homeActiveRef,
           navigate,
           tryCount,
+          preventDrawerOpen: true,
         });
       } else {
         errorStateHandler('RESERVATIONNOTFOUND', setLoading, t);
@@ -251,4 +262,82 @@ export const handleCheckInToken = async ({
   }
   activeCheckOutFlow(false);
   setLoading(false);
+};
+
+export const handleReservationPayment = async ({
+  values,
+  hotelId,
+  setLoading,
+  t,
+  processStatusCode,
+  goToTheNextStep,
+  navigate,
+  isRetryEnabled,
+}: any) => {
+  let tryCount: any = 0;
+
+  try {
+    setLoading(true);
+    const checkInToken: { current?: string } = {};
+
+    checkInToken.current = await getCheckInToken(
+      values?.confirmationNumber?.toString()?.trim(),
+      values?.lastName?.toString()?.trim(),
+    );
+
+    const { data } = await client.query({
+      query: GET_RESERVATION,
+      context: {
+        clientName: 'rest',
+        headers: {
+          Authorization: 'Bearer ' + checkInToken.current,
+        },
+      },
+      variables: {
+        confirmationNumber: values?.confirmationNumber?.toString()?.trim(),
+        lastName: values?.lastName?.toString()?.trim(),
+        hotelId: hotelId,
+      },
+      fetchPolicy: 'no-cache',
+    });
+
+    const reservationInformation = data?.getReservation?.data;
+
+    if (reservationInformation) {
+      client.writeQuery({
+        query: GET_RESERVATION,
+        data,
+      });
+
+      return setLoading(false);
+    }
+  } catch (error) {
+    tryCount = tryCount + 1;
+
+    const statusCode = processStatusCode(error as ApolloError);
+    const errorCode: any = processError(error as ApolloError);
+
+    if (statusCode === 403) {
+      handleCheckInAuthenticationFailure(goToTheNextStep, values);
+    } else if (reservationStatusMessages[errorCode]) {
+      errorStateHandler(errorCode, setLoading, t);
+    } else {
+      if (isRetryEnabled && tryCount < 3 && errorCode !== 401) {
+        errorStateHandler('PROCESSING', setLoading, t);
+
+        handleReservationPayment({
+          values,
+          hotelId,
+          setLoading,
+          t,
+          processStatusCode,
+          goToTheNextStep,
+          navigate,
+          isRetryEnabled,
+        });
+      } else {
+        errorStateHandler('RESERVATIONNOTFOUND', setLoading, t);
+      }
+    }
+  }
 };

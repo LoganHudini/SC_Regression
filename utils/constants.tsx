@@ -25,7 +25,9 @@ export const ITC_WELCOMHOTEL_CHENNAI = 'itc-welcomhotel-chennai';
 export const RAFFLES_THE_PALM_DUBAI = 'raffles-the-palm-dubai';
 export const RAFFLES_JAIPUR = 'raffles-jaipur';
 export const RAFFLES_MAKATI = 'raffles-makati';
+export const RAFFLES_SEYCHELLES = 'raffles-seychelles';
 export const RAFFLES_SENTOSA = 'raffles-sentosa';
+export const RAFFLES_BALI = 'raffles-bali';
 export const FAIRMONT_ROYAL_PALM_MARRAKECH = 'fairmont-royal-palm-marrakech';
 export const FAIRMONT_THE_PALM_DUBAI = 'fairmont-the-palm-dubai';
 export const FAIRMONT_MAKKAH_CLOCK_ROYAL_TOWER = 'fairmont-makkah-clock-royal-tower';
@@ -38,6 +40,9 @@ export const FAIRMONT_AUSTIN = 'fairmont-austin';
 export const FAIRMONT_MOUNT_KENYA_SAFARI_CLUB = 'fairmont-mount-kenya-safari-club';
 export const FAIRMONT_LA_HACIENDA = 'fairmont-la-hacienda';
 export const FAIRMONT_GOLDEN_PRAGUE = 'fairmont-golden-prague';
+export const FAIRMONT_TOKYO = 'fairmont-tokyo';
+export const FAIRMONT_CENTURY_PLAZA = 'fairmont-century-plaza';
+export const FAIRMONT_UDAIPUR = 'fairmont-udaipur';
 export const ONE_HOTELS_SOUTH_BEACH = '1-hotel-south-beach';
 export const HARD_ROCK_HOTEL_CANCUN = 'hard-rock-hotel-cancun';
 export const ATLANTIS = 'atlantis';
@@ -264,12 +269,16 @@ export const idVerificationFields = ['docNo', 'docType'];
 export const PHONE_NUMBER_WITH_COUNTRYCODE = 'Phone';
 export const ESTIMATED_TIME = 'estimatedTime';
 export const RESERVED = 'RESERVED';
+export const CHEF_TAG_NAME = "Chef's Special";
+export const PAY_BY_LINK = 'payment_link';
 export const DEFAULT_PAYMENT_MESSAGE = {
   title: 'Choose Payment Method',
   message: 'Click ‘Proceed to Payment’ to begin your payment process.',
 };
 export const DEFAULT_SERVICE_CHARGE_MESSAGE =
   '* Rates are inclusive of applicable government taxes and subject to 10% service charge.';
+export const LATER = 'Later';
+export const NOW = 'Now';
 
 // flow constants
 export const DAYS = [
@@ -467,4 +476,4 @@ export const RESTAURANTS_BARS = 'RESTAURANTS_BARS';
 export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const PHONE_REGEX =
   /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/;
-export const TEXTFIELD_REGEX = /^[\p{L}\p{N}\s\-:,.']*$/u;
+export const TEXTFIELD_REGEX = /^[\p{L}\p{N}\s\-:,./']*$/u;

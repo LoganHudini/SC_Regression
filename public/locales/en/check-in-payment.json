@@ -3,5 +3,7 @@
   "Payment Failed!": "Payment Failed!",
   "Thank You!": "Thank You!",
   "Card Authentication Failed!": "Card Authentication Failed!",
-  "Card Authentication Completed": "Card Authentication Completed"
+  "Card Authentication Completed": "Card Authentication Completed",
+  "Please contact front desk for assistance": "Please contact front desk for assistance",
+  "Payment Success": "Payment Success"
 }

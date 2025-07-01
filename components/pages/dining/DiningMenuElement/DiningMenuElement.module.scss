@@ -7,6 +7,12 @@
   border-radius: var(--primary-card-border-radius);
   box-shadow: 0px 3px 6px var(--primary-card-shadow-color);
   background-color: var(--primary-card-background-color);
+  position: relative;
+  max-height: 125px;
+}
+
+.chefSpecialCard {
+  background-color: #d8d9db;
 }
 
 .contentWrapper {
@@ -21,8 +27,17 @@
 .title {
   font: $medium var(--primary-card-title-font-family);
   color: var(--primary-text-color);
-  margin: 5px 0;
-  width: 140%;
+  // margin: 5px 0;
+  width: 100%;
+  overflow-y: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  white-space: pre;
+  overflow: hidden;
+}
+
+.chefSpecialTag {
+  background-color: var(--primary-card-background-color);
 }
 
 .titleWithImage {
@@ -33,15 +48,15 @@
   font: $small var(--primary-card-desc-font-family);
   margin: 10px 0;
   color: var(--tertiary-text-color);
-  width: 140%;
+  width: 100%;
   min-height: 1rem;
   line-height: 1.5;
   max-height: 4rem;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
 }
 
 .descriptionWithImage {
-  width: 90%;
+  width: 100%;
 }
 
 .currency {
@@ -59,6 +74,8 @@
   align-items: center;
   flex-direction: column;
   justify-content: flex-end;
+  // position: absolute;
+  // bottom: 14px;
 }
 
 .image {
@@ -75,6 +92,7 @@
   font: $extraSmall var(--primary-card-desc-font-family);
   color: var(--tertiary-text-color);
   margin: 4px 0 0 0;
+  padding-right: 15px;
 }
 
 .addCta {
@@ -83,6 +101,9 @@
   line-height: 30px;
   text-align: center;
   font: $extraSmall var(--primary-card-cta-font-family);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   &:after {
     display: none;
   }

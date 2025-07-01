@@ -76,5 +76,11 @@
   "Total Item Price :": "商品合計価格 :",
   "Repeat last used customization?": "最後に使用したカスタマイズを繰り返しますか?",
   "Add to Cart": "カートに追加",
-  "This menu is unavailable right now! You can still check it out below.": "このメニューは現在利用できませんが、下から確認することはできます。"
+  "This menu is unavailable right now! You can still check it out below.": "このメニューは現在利用できませんが、下から確認することはできます。",
+  "Filter By": "フィルター条件",
+  "Clear All": "すべてクリア",
+  "Apply": "適用する",
+  "Back to Top": "トップへ戻る",
+  "Place Order": "注文する",
+  "Special Features": "特別な機能"
 }

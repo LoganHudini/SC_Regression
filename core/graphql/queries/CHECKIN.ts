@@ -56,6 +56,9 @@ export interface ICheckInApiRequest {
   pushEregToOpera: boolean;
   placeOfStayDeparture: string;
   placeOfStayArrival: string;
+  roomRate?: string;
+  country?: string;
+  captureDocumentUpload: any;
   skipOCR: boolean;
   guests: [
     {
