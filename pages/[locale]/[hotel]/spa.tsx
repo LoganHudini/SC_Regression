@@ -61,6 +61,8 @@ import { getPhoneEmailValidation } from 'validation/get-reservation.validation';
 import { analyticsEvent } from 'utils/gtag';
 import { PhoneEmail } from 'components/shared/PhoneEmail/PhoneEmail';
 import NoInformation from 'components/shared/NoInformation/NoInformation';
+import { ListCounter } from 'components/shared/ListCounter/ListCounter';
+import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
 
 export { getStaticPaths };
 
@@ -205,6 +207,8 @@ const Spa: React.FC = () => {
   };
 
   const handleSpaReservation = useCallback(async () => {
+    const parsedTime = dayjs(`${selectedTime} ${currentYear}`, 'DD MMM:hh:mm:A YYYY');
+
     if (spaModule?.type === CMS) {
       const DetailsReservationPayload = {
         bookingId: isCheckedIn?.reservationId,
@@ -215,8 +219,8 @@ const Spa: React.FC = () => {
         guestType: isCheckedIn?.roomNumber ? 'resident' : 'nonresident',
         numberOfGuest: guestCount,
         pax: '',
-        scheduledDate: dayjs(selectedTime).year(currentYear).format(timeFormats.YEAR_MONTH_DAY),
-        scheduledTime: dayjs(selectedTime).format(timeFormats.RAILWAY_TIME),
+        scheduledDate: parsedTime.format(timeFormats.YEAR_MONTH_DAY),
+        scheduledTime: parsedTime.format(timeFormats.RAILWAY_TIME),
         treatmentDuration: selectedSpaItem?.duration[currentIndex]?.duration as string,
         totalAmount: selectedSpaItem?.duration[currentIndex]?.price,
         spaId: selectedSpaItem?.spaId,
@@ -438,7 +442,7 @@ const Spa: React.FC = () => {
 
         {timeSelectDrawer && (
           <div className={styles.timeSelectDrawerWrapper}>
-            {/* to be used later
+
             <div className={styles.counterWrapper}>
               <p className={styles.counterTitle}>{t('No. of people')}</p>
               <PlusMinusInput
@@ -460,7 +464,7 @@ const Spa: React.FC = () => {
                 currentIndex={currentIndex}
               />
             </div>
-            */}
+
             <div className={styles.timeWrapper}>
               <p className={styles.preferredTitle}>{t('Preferred Date & Time')}</p>
               <DateTimeSelect
@@ -559,7 +563,7 @@ const Spa: React.FC = () => {
                 }
                 helperText={
                   (formik?.validateOnMount || formik.touched?.phoneNumber) &&
-                  formik.errors.phoneNumber
+                    formik.errors.phoneNumber
                     ? t(formik.errors.phoneNumber)
                     : null
                 }

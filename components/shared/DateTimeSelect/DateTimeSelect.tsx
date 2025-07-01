@@ -41,6 +41,7 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
   buttonTitle,
   buttonStyle,
   module,
+  disableTimepiCketConfirmBtn
 }) => {
   const { t } = useTranslation(['common']);
   const [disable, setDisable] = useState(false);
@@ -48,7 +49,6 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
   const scheduledTomorrow = showSchedules?.schedule?.includes(TOMORROW);
   const scheduledCustom = showSchedules?.schedule?.includes(CUSTOM);
   const scheduledImmediate = showSchedules?.schedule?.includes(IMMEDIATE);
-
   const dayMonthArray = useMemo(() => {
     if (module === 'housekeeping' && scheduledToday && scheduledTomorrow && !scheduledCustom) {
       return [
@@ -173,7 +173,7 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
         </div>
 
         <StyledButton
-          disabled={!disable}
+          disabled={(module === 'restaurants_bars' && !disableTimepiCketConfirmBtn) || !disable}
           loading={loading}
           onClick={() => handleSave()}
           className={cx(buttonStyle)}

@@ -7,4 +7,5 @@ export interface IDateTimeSelectProps {
   buttonTitle?: any;
   buttonStyle?: any;
   module: any;
+  disableTimepiCketConfirmBtn?: any;
 }

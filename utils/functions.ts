@@ -716,3 +716,44 @@ export const isIRDOpenNow = (timings: any, timezone: any) => {
 
   return false;
 };
+
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
+
+export function isBookingAllowed(hours: any, selectedTimeStr: any) {
+  const selectedDate = dayjs(selectedTimeStr, 'DD MMM:hh:mm:A');
+  if (!selectedDate.isValid()) return false;
+
+  const dayName = selectedDate.format('dddd').toUpperCase();
+  const selectedTime = dayjs(selectedDate.format('HH:mm'), 'HH:mm');
+
+  let dayHours = hours.filter((h: any) => h.day === dayName);
+
+  if (dayHours.length === 0) {
+    dayHours = hours.filter((h: any) => h.day === 'EVERYDAY');
+  }
+
+  if (dayHours.length === 0) return false;
+
+  return dayHours.some(({ open, close }: { open: string; close: string }) => {
+    const openTime = dayjs(open, 'HH:mm');
+    const closeTime = dayjs(close, 'HH:mm');
+
+    const isOvernight = closeTime.isBefore(openTime);
+
+    if (isOvernight) {
+      return (
+        selectedTime.isAfter(openTime) ||
+        selectedTime.isBefore(closeTime) ||
+        selectedTime.isSame(openTime) ||
+        selectedTime.isSame(closeTime)
+      );
+    } else {
+      return (
+        (selectedTime.isAfter(openTime) && selectedTime.isBefore(closeTime)) ||
+        selectedTime.isSame(openTime) ||
+        selectedTime.isSame(closeTime)
+      );
+    }
+  });
+}
