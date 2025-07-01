@@ -26299,12 +26299,6 @@ export const configuration: any = [
                         code: 'PASSPORT',
                         vendorDocType: 'PASSPORT',
                       },
-                      {
-                        name: 'National ID',
-                        value: 'ID',
-                        code: 'ID',
-                        vendorDocType: 'egy',
-                      },
                     ],
                   },
                   {

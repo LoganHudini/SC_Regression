@@ -65,6 +65,7 @@ const Youverse: React.FC = () => {
         userId: docScanId,
         expireDate: dayjs()?.add(1, 'day').format(timeFormats?.YOUVERSE_EXPIRE_DATE),
         documentOptions: [...new Set(docTypes?.map((opt: any) => opt?.vendorDocType))],
+        disableSelfie: true,
       };
 
       client
