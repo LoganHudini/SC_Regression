@@ -67,6 +67,7 @@ export const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle
             styles.carouselSlideDetailsWrapper,
             { [styles.carouselSlideDetailsWrapperIrd]: module },
             'globals-carouselSlideDetailsWrapperRestaurantsAndBars',
+            'globals-cardWrapperRestaurantsAndBars',
           )}
         >
           {slide?.name && <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>}

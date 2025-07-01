@@ -149,9 +149,13 @@ export const Header: React.FC<IHeaderProps> = ({
               <img
                 className={styles.headerLogo}
                 src={`/images/${
-                  hotel === 'fairmont-makkah-clock-royal-tower' ? hotel : BRAND_CODE
-                }/Logo.svg`}
-                onClick={() => goHome()}
+                  hotel === 'fairmont-makkah-clock-royal-tower'
+                    ? `${hotel}/Logo.svg`
+                    : config?.propertyHeaderLogo
+                    ? `propertyHeaderLogo/${hotel}.svg`
+                    : `${BRAND_CODE}/Logo.svg`
+                }`}
+                onClick={goHome}
               />
               {logo && hotel !== 'fairmont-makkah-clock-royal-tower' && (
                 <p className={cx(styles.propertyName, 'globals-propertyName')}>{logo}</p>

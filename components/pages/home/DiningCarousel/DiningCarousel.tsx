@@ -146,6 +146,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
               styles.carouselSlideDetailsWrapperRestaurantsAndBars,
               { [styles.carouselSlideDetailsWrapperIrd]: module },
               'globals-carouselSlideDetailsWrapperRestaurantsAndBars',
+              'globals-cardWrapperRestaurantsAndBars',
             )}
           >
             <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>

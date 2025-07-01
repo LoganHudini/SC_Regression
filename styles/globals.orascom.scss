@@ -1,0 +1,182 @@
+:root {
+  // theme colors
+  --primary-theme-color: #e35707;
+  --primary-background-color: #ffffff;
+  --primary-icon-color: #e35707;
+  --primary-border-color: #CCCCCC;
+  --primary-box-shadow-color: none;
+  --primary-error-text-color: #f41313;
+  --primary-disabled-color: #e0e0e0;
+
+  // overlays
+  --primary-overlay-color: #120e0e79;
+  --secondary-overlay-color: #120e0eb1;
+
+  // text colors
+  --primary-text-color: #1A1A1A;
+  --secondary-text-color: #ffffff;
+  --tertiary-text-color: #5E5E5E;
+
+  // drawer colors
+  --primary-drawer-color: #ffffff;
+  --primary-drawer-notch-color: #9B9B9B;
+  --primary-drawer-top-left-border-radius: 10px;
+  --primary-drawer-top-right-border-radius: 10px;
+  --primary-drawer-height: 70dvh;
+  --primary-drawer-background-opacity: 0.75;
+  --primary-drawer-background-color: #000000;
+
+  //image transition background color
+  --primary-image-transition-background-color: #a0a1a3;
+
+  // hamburger menu colors
+  --hamburgermenu-drawer-color: #333333;
+  --hamburgermenu-text-color: #ffffff;
+  --hamburgermenu-icon-color: #ffffff;
+
+  // font-families
+  --primary-font-regular: 'Montserrat-VariableFont';
+  --primary-font-medium: 'Montserrat-VariableFont';
+  --primary-font-semibold: '';
+  --primary-font-bold: '';
+  --primary-font-heading: 'Montserrat-VariableFont';
+
+  --primary-font-extd-regular: 'Montserrat-VariableFont';
+
+  // headings
+  --heading-font-regular: 'Vanitas-Black';
+
+  // banner configs
+  --primary-title-font-family: 'Vanitas-Black';
+  --secondary-title-font-family: 'Montserrat-VariableFont';
+  --primary-indicator-color: #ffffff;
+
+  // card component configs
+  --primary-card-title-font-family: 'Montserrat-VariableFont';
+  --primary-card-desc-font-family: 'Montserrat-VariableFont';
+  --primary-card-cta-font-family: 'Montserrat-VariableFont';
+  --primary-card-background-color: #f1ecdf;
+  --primary-card-border-radius: 15px;
+  --primary-card-shadow-color: #00000010;
+
+  // button configs
+  --primary-button-color: #FFFFFF;
+  --primary-button-background-color: #e35707;
+  --primary-button-border-radius: 44px;
+  --primary-button-font-family: 'Montserrat-VariableFont';
+
+  --secondary-button-color: #e35707;
+  --secondary-button-background-color: #ffffff;
+  --secondary-button-border-radius: 44px;
+  --secondary-button-font-family: 'Montserrat-VariableFont';
+
+  // read more cta configs
+  --readmore-text: flex;
+  --readmore-arrowwithtext: none;
+  --readmore-arrow: none;
+  --readmore-arrowhead: none;
+  --readmore-underline: 1px solid var(--primary-text-color);
+
+  // Bottom menu arrow configs
+  --bottom-menu-arrow-color: #941414;
+}
+
+// card background color configs
+.globals-cardWrapper {
+  background-color: var(--primary-background-color) !important;
+}
+
+.globals-nameBox {
+  background-color: var(--primary-card-background-color) !important;
+}
+
+.globals-cardWrapperRestaurantsAndBars {
+  background-color: var(--primary-background-color) !important;
+}
+
+.MuiButton-containedPrimary {
+  padding-top: 8px;
+
+  &:disabled {
+    background: var(--primary-disabled-color);
+  }
+
+  &:after {
+    display: none;
+  }
+}
+
+.MuiButton-outlinedPrimary {
+  padding-top: 8px;
+}
+
+.globals-menuItemWrapper {
+  border-bottom: 1px solid #3e3b3b !important;
+}
+
+// details card configs
+
+.globals-carouselSlideWrapper {
+  height: 300px !important;
+}
+
+.globals-carouselSlideImage {
+  position: static !important;
+}
+
+.globals-carouselSlideDetailsWrapperRestaurantsAndBars {
+  position: static !important;
+  width: 100% !important;
+  height: 110px !important;
+  text-align: start !important;
+  align-items: flex-start !important;
+}
+
+.globals-content {
+  padding-left: 0% !important;
+}
+
+.globals-carouselSlideDetailsWrapper {
+  position: static !important;
+  width: 100% !important;
+  height: 100px !important;
+  text-align: start !important;
+}
+
+.globals-detailPosition {
+  width: 100% !important;
+}
+
+.globals-carouselSlideTitle {
+  padding: 10px 0 19px !important;
+}
+
+.globals-carouselSlideWrapperServiceRequest {
+  height: 290px !important;
+}
+
+.globals-carouselSlideWrapperSpa {
+  height: 300px !important;
+}
+
+.globals-contentWrapper {
+  position: static !important;
+  width: 100% !important;
+  margin-top: 0 !important;
+}
+
+.globals-imageContent {
+  padding: 10px 0px !important;
+}
+
+.globals-customReadMore {
+  margin: 10px 0 !important;
+}
+
+.globals-text-align {
+  text-align: start !important;
+}
+
+.globals-listDurationOffer {
+  text-align: left;
+}

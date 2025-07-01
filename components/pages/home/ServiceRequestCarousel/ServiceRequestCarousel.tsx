@@ -48,9 +48,14 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle }) => 
         })}
       />
       <div
-        className={cx(styles.carouselSlideDetailsWrapper, 'globals-carouselSlideDetailsWrapper', {
-          [(styles.detailPosition, 'globals-detailPosition')]: slideStyle,
-        })}
+        className={cx(
+          styles.carouselSlideDetailsWrapper,
+          'globals-carouselSlideDetailsWrapper',
+          'globals-cardWrapperRestaurantsAndBars',
+          {
+            [(styles.detailPosition, 'globals-detailPosition')]: slideStyle,
+          },
+        )}
       >
         <h3 className={cx(styles.carouselSlideTitle, 'globals-carouselSlideTitle')}>
           {slide?.__typename === HouseKeeping ? t('Housekeeping') : t(slide?.__typename)}

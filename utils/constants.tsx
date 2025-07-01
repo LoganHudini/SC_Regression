@@ -80,6 +80,19 @@ export const GRAND_MERCURE_WAKAYAMA_MINABE_RESORT_SPA = 'grand-mercure-wakayama-
 export const GRAND_MERCURE_SAPPORO_ODORI_PARK = 'grand-mercure-sapporo-odori-park';
 export const GRAND_MERCURE_LAKE_HAMANA_RESORT_SPA = 'grand-mercure-lake-hamana-resort-spa';
 export const COMO_METROPOLITAN_SINGAPORE = 'como-metropolitan-singapore';
+export const ALI_PASHA = 'ali-pasha';
+export const ANCIENT_SANDS = 'ancient-sands';
+export const CAPTAINS_INN = 'captain\'s-inn';
+export const CLUB_PARADISIO = 'club-paradisio';
+export const COOKS_CLUB = 'cook\'s-club';
+export const FANADIR = 'fanadir';
+export const LA_MAISON_BLEUE = 'la-maison-bleue';
+export const MOSAIQUE = 'mosaique';
+export const STEIGENBERGER_GOLF_RESORT_EL_GOUNA = 'steigenberger-golf-resort-el-gouna';
+export const SULTAN_BEY = 'sultan-bey';
+export const THE_CHEDI_EL_GOUNA = 'the-chedi-el-gouna';
+export const TURTLES_INN = 'turtles-inn';
+export const CASA_COOK_EL_GOUNA = 'casa-cook-el-gouna';
 
 // CMS detailsCustomAttributes config constants
 export const MULTIPLE_PRIVACY_OPTIONS = 'multiplePrivacyOptions';
@@ -269,7 +282,7 @@ export const idVerificationFields = ['docNo', 'docType'];
 export const PHONE_NUMBER_WITH_COUNTRYCODE = 'Phone';
 export const ESTIMATED_TIME = 'estimatedTime';
 export const RESERVED = 'RESERVED';
-export const CHEF_TAG_NAME = "Chef's Special";
+export const CHEF_TAG_NAME = 'Chef\'s Special';
 export const PAY_BY_LINK = 'payment_link';
 export const DEFAULT_PAYMENT_MESSAGE = {
   title: 'Choose Payment Method',
