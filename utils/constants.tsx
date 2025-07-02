@@ -130,6 +130,7 @@ export const TOMORROW = 'TOMORROW';
 export const IMMEDIATE = 'IMMEDIATE';
 export const QUANTITY = 'Quantity';
 export const DATE = 'Date ';
+export const DATE_SMALLCASE = 'date';
 export const DAY = 'day';
 export const DATETIME = 'Date & Time';
 export const TIME = 'Time';

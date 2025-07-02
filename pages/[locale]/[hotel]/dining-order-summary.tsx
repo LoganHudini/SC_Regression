@@ -26,6 +26,7 @@ import { DiningCustomisationDrawer } from 'components/pages/dining/DiningCustomi
 import {
   CMS,
   CUSTOM,
+  DATE_SMALLCASE,
   DEFAULT_SERVICE_CHARGE_MESSAGE,
   ERRORMSG,
   FAILED_TO_FETCH_BOOKING_DETAILS,
@@ -36,7 +37,6 @@ import {
   NOW,
   SERVICE_CHARGES,
   SUCCESS,
-  TIME,
   VENDOR,
 } from 'utils/constants';
 import { InputAdornment } from '@mui/material';
@@ -283,7 +283,7 @@ const DiningOrderSummary = () => {
       roomNo: checkinData?.roomNumber,
       startTime:
         selectedOption === LATER
-          ? dayjs(selectedTime, 'DD MMMM hh:mm A').format('YYYY-MM-DD HH:mm')
+          ? dayjs(selectedTime, 'DD MMM hh:mm A').format('YYYY-MM-DD HH:mm')
           : dayjs().format('YYYY-MM-DD HH:mm'),
       noOfGuests: guestNumber,
       items: diningData?.items?.map((el) => ({
@@ -311,7 +311,7 @@ const DiningOrderSummary = () => {
       hotelId: hotelId,
       date:
         selectedOption === LATER
-          ? dayjs(selectedTime, 'DD MMMM hh:mm A').format('YYYY-MM-DD HH:mm')
+          ? dayjs(selectedTime, 'DD MMM hh:mm A').format('YYYY-MM-DD HH:mm')
           : dayjs().format('YYYY-MM-DD HH:mm'),
       deliveryLocation: '',
       bookingId: checkinData?.reservationId,
@@ -575,7 +575,7 @@ const DiningOrderSummary = () => {
                   handleSave={handleSave}
                   showSchedules={{
                     schedule: [CUSTOM],
-                    customSchedule: TIME,
+                    customSchedule: DATE_SMALLCASE,
                   }}
                   buttonTitle={t('Next')}
                   module='dining'
@@ -782,9 +782,8 @@ const DiningOrderSummary = () => {
               <p className={styles.schedulingContainerTitle} onClick={() => setIsDrawerOpen(true)}>
                 <span>{t('Delivery Time')}</span>
                 <span className={styles.scheduleText}>
-                  {' '}
                   {selectedOption === LATER
-                    ? dayjs(selectedTime).format(timeFormats.HOURS_MINUTES_AM)
+                    ? dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
                     : selectedOption}{' '}
                   <UpArrow className={styles.iconUp} />
                 </span>
