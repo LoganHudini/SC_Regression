@@ -41,7 +41,7 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
   buttonTitle,
   buttonStyle,
   module,
-  disableTimepiCketConfirmBtn
+  disableTimepiCketConfirmBtn,
 }) => {
   const { t } = useTranslation(['common']);
   const [disable, setDisable] = useState(false);

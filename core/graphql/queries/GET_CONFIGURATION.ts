@@ -26910,11 +26910,12 @@ export const configuration: any = [
     ],
   },
   {
-    code: 'captain\'s-inn',
+    code: 'captains-inn',
     logo: '',
     homePageHeader: true,
     propertyHeaderLogo: true,
-    name: 'Captain\'s Inn',
+    // eslint-disable-next-line quotes
+    name: "Captain 's Inn",
     hotelId: 'e79378fe-97e7-4e16-b126-c0c5749a0c13',
     pms: 'OPERA',
     fetchFromDb: 'no',
@@ -27664,11 +27665,12 @@ export const configuration: any = [
     ],
   },
   {
-    code: 'cook\'s-club',
+    code: 'cooks-club',
     logo: '',
     homePageHeader: true,
     propertyHeaderLogo: true,
-    name: 'Cook\'s Club',
+    // eslint-disable-next-line quotes
+    name: "Cook's Club",
     hotelId: '6d60f09c-1298-41aa-8048-d40ffdecd017',
     pms: 'OPERA',
     fetchFromDb: 'no',

@@ -5,7 +5,12 @@ import { IDiningOrdersProps } from './RestaurantDetail.types';
 import { useTranslation } from 'react-i18next';
 import TimeIcon from '@icons/clockIcon.svg';
 import DishIcon from '@icons/dishIcon.svg';
-import { getFormattedTime, getTimings, isBookingAllowed, restaurantCtaNavigation } from 'utils/functions';
+import {
+  getFormattedTime,
+  getTimings,
+  isBookingAllowed,
+  restaurantCtaNavigation,
+} from 'utils/functions';
 import { ASSETS_URL, HOTEL_ID } from 'core/graphql/endpoints';
 import DateTimeSelect from 'components/shared/DateTimeSelect/DateTimeSelect';
 import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
@@ -60,19 +65,17 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
   useEffect(() => {
     const isOpen = getFormattedTime(selectedRestaurant?.hours?.map((time: any) => time?.open));
     const isClose = getFormattedTime(selectedRestaurant?.hours?.map((time: any) => time?.close));
-    const btnDisabled: any = isOpen?.includes(ALL_DAY) && isClose?.includes(ALL_DAY) ? 'open' : getRestaurantStatus?.status;
+    const btnDisabled: any =
+      isOpen?.includes(ALL_DAY) && isClose?.includes(ALL_DAY)
+        ? 'open'
+        : getRestaurantStatus?.status;
     const keywords = ['open', 'Closes in'];
-    const isMatch = keywords.some(keyword => {
+    const isMatch = keywords.some((keyword) => {
       const pattern = new RegExp(`\\b${keyword}\\b`, 'i');
       return pattern.test(btnDisabled);
     });
-    setBtnDisabled(
-      isMatch
-    );
-
+    setBtnDisabled(isMatch);
   }, [selectedRestaurant, timeSelectProps, btnDisabled, getRestaurantStatus?.status]);
-
-
 
   // const orderId = ordersData[ordersData?.length - 1]?.id?.slice(0, 6);
   const [availableSlots, setAvailableSlots] = useState(false);
@@ -89,7 +92,8 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
   const currentYear = new Date().getFullYear();
   const isCheckedIn = useCheckedIn();
   const queryResultEntity = selectedRestaurant ?? '';
-  const disableTimepiCketConfirmBtn = !isEmpty(queryResultEntity) && isBookingAllowed(queryResultEntity?.hours, selectedTime) || '';
+  const disableTimepiCketConfirmBtn =
+    (!isEmpty(queryResultEntity) && isBookingAllowed(queryResultEntity?.hours, selectedTime)) || '';
   const restaurantId = queryResultEntity?.id;
   const drawerStatus = useReactiveVar(toggleDetailsDrawer);
   const restaurantDetailDrawer = useReactiveVar(toggleRestaurantDetailsDrawer);

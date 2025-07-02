@@ -442,7 +442,6 @@ const Spa: React.FC = () => {
 
         {timeSelectDrawer && (
           <div className={styles.timeSelectDrawerWrapper}>
-
             <div className={styles.counterWrapper}>
               <p className={styles.counterTitle}>{t('No. of people')}</p>
               <PlusMinusInput
@@ -563,7 +562,7 @@ const Spa: React.FC = () => {
                 }
                 helperText={
                   (formik?.validateOnMount || formik.touched?.phoneNumber) &&
-                    formik.errors.phoneNumber
+                  formik.errors.phoneNumber
                     ? t(formik.errors.phoneNumber)
                     : null
                 }
