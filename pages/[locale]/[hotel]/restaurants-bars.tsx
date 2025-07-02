@@ -130,11 +130,13 @@ const RestaurantAndBars: React.FC = () => {
               )}
             </div>
           </PageWrapper>
-          {!isEmpty(selectedRestaurantData) && <CustomDrawer
-            open={restaurantDetailsDrawerStatus}
-            onClose={closeDrawer}
-            content={<RestaurantDetail selectedRestaurant={selectedRestaurantData} />}
-          />}
+          {!isEmpty(selectedRestaurantData) && (
+            <CustomDrawer
+              open={restaurantDetailsDrawerStatus}
+              onClose={closeDrawer}
+              content={<RestaurantDetail selectedRestaurant={selectedRestaurantData} />}
+            />
+          )}
         </>
       )}
     </>

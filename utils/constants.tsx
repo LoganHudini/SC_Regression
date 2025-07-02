@@ -82,9 +82,9 @@ export const GRAND_MERCURE_LAKE_HAMANA_RESORT_SPA = 'grand-mercure-lake-hamana-r
 export const COMO_METROPOLITAN_SINGAPORE = 'como-metropolitan-singapore';
 export const ALI_PASHA = 'ali-pasha';
 export const ANCIENT_SANDS = 'ancient-sands';
-export const CAPTAINS_INN = 'captain\'s-inn';
+export const CAPTAINS_INN = 'captains-inn';
 export const CLUB_PARADISIO = 'club-paradisio';
-export const COOKS_CLUB = 'cook\'s-club';
+export const COOKS_CLUB = 'cooks-club';
 export const FANADIR = 'fanadir';
 export const LA_MAISON_BLEUE = 'la-maison-bleue';
 export const MOSAIQUE = 'mosaique';
@@ -283,7 +283,8 @@ export const idVerificationFields = ['docNo', 'docType'];
 export const PHONE_NUMBER_WITH_COUNTRYCODE = 'Phone';
 export const ESTIMATED_TIME = 'estimatedTime';
 export const RESERVED = 'RESERVED';
-export const CHEF_TAG_NAME = 'Chef\'s Special';
+// eslint-disable-next-line quotes
+export const CHEF_TAG_NAME = "Chef's Special";
 export const PAY_BY_LINK = 'payment_link';
 export const DEFAULT_PAYMENT_MESSAGE = {
   title: 'Choose Payment Method',
