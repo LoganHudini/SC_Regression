@@ -183,5 +183,8 @@
   "lint-staged": {
     "./**/*.{js,jsx,ts,tsx}": "yarn lint:fix",
     "./**/*.{js,jsx,ts,tsx,css,md}": "yarn format"
+  },
+  "resolutions": {
+    "minimatch": "^9.0.3"
   }
 }
