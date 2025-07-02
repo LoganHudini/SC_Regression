@@ -116,7 +116,6 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
       t,
     });
 
-
     const redirect = (buttonClick?: any) => {
       diningOptions(diningOptionsCarousal);
       selectedRestaurantStorage(slide);
@@ -128,7 +127,6 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
     const closeBooking = () => {
       setIframeComponent(false);
     };
-
 
     const isOpen = getFormattedTime(slide?.hours?.map((time: any) => time?.open));
     const isClose = getFormattedTime(slide?.hours?.map((time: any) => time?.close));
@@ -173,9 +171,17 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
             {slide?.hours[0]?.day && module && (
               <p className={styles.carouselSlideTimings}>
                 {slide.hours[0]?.day === EVERYDAY &&
+                slide.hours[0]?.open === ALL_DAY &&
+                slide.hours[0]?.close === ALL_DAY ? (
+                  t('Open 24x7')
+                ) : slide.hours[0]?.day !== dayjs().format('dddd').toUpperCase() &&
                   slide.hours[0]?.open === ALL_DAY &&
                   slide.hours[0]?.close === ALL_DAY ? (
-                  t('Open 24x7')
+                  t('Closed')
+                ) : slide.hours[0]?.day == dayjs().format('dddd').toUpperCase() &&
+                  slide.hours[0]?.open === ALL_DAY &&
+                  slide.hours[0]?.close === ALL_DAY ? (
+                  t('Open')
                 ) : (
                   <>
                     {t('From')}{' '}
@@ -268,22 +274,24 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
         >
           {renderSlides(slides, diningOptionsState?.type === IN_ROOM_DINING)}
         </WithScrollbar>
-        {!isEmpty(selectedRestaurant) && <CustomDrawer
-          open={restaurantDetailsDrawerStatus}
-          onClose={() => {
-            toggleDetailsDrawer(false);
-            setTimeSelectDrawer(false);
-            toggleRestaurantDetailsDrawer(false);
-            diningOptions({});
-            selectedRestaurantStorage({});
-          }}
-          content={
-            <RestaurantDetail
-              selectedRestaurant={selectedRestaurant && selectedRestaurant}
-              timeSelectProps={timeSelectDrawer}
-            />
-          }
-        />}
+        {!isEmpty(selectedRestaurant) && (
+          <CustomDrawer
+            open={restaurantDetailsDrawerStatus}
+            onClose={() => {
+              toggleDetailsDrawer(false);
+              setTimeSelectDrawer(false);
+              toggleRestaurantDetailsDrawer(false);
+              diningOptions({});
+              selectedRestaurantStorage({});
+            }}
+            content={
+              <RestaurantDetail
+                selectedRestaurant={selectedRestaurant && selectedRestaurant}
+                timeSelectProps={timeSelectDrawer}
+              />
+            }
+          />
+        )}
       </div>
     )
   );

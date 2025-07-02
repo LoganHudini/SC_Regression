@@ -251,4 +251,7 @@
 .timingCase {
   text-transform: lowercase;
   font-size: 20px;
+  font: 0.75rem var(--primary-font-regular);
+  color: var(--tertiary-text-color);
+  padding-bottom: 4px;
 }
