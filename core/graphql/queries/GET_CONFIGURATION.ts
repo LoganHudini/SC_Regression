@@ -5741,7 +5741,6 @@ export const configuration: any = [
         isActive: true,
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
-        customServiceChargeDisclaimer: 'serviceChargeDisclaimer',
       },
       {
         code: 'Services',
@@ -22511,7 +22510,6 @@ export const configuration: any = [
         isActive: true,
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
-        customServiceChargeMessage: 'serviceChargeMessage',
         version: 'v2',
       },
       {

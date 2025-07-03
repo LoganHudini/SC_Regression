@@ -22,7 +22,7 @@ query UpdateReservation($confirmationNumber: String, $body:IUpdateGuestDetailsAp
     updateReservation(confirmationNumber: $confirmationNumber, body: $body)
     @rest(
       type: "UpdateReservationPayload"
-      path: "/booking/hotel/${HOTEL_ID}/reservation/{args.confirmationNumber}"
+      path: "/booking/hotel/${HOTEL_ID}/reservation/{args.confirmationNumber}?Channel=PWA"
       method: "PUT"
       bodyKey: "body"
     ) {

@@ -917,6 +917,7 @@ const Guest: React.FC<any> = () => {
             : '',
         },
       ],
+      channel: 'PWA',
     };
 
     try {

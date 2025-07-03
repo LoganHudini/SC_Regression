@@ -132,7 +132,7 @@ export const GET_RESERVATION = gql`
     getReservation(confirmationNumber: $confirmationNumber, lastName: $lastName, hotelId: $hotelId)
       @rest(
         type: "GetReservationPayload"
-        path: "/booking/hotel/{args.hotelId}/details/{args.confirmationNumber}?lastName={args.lastName}&arrivalDateRequired=no&fetchFromDb=${FETCH_FROM_DB}&saveToDb=${SAVE_TO_DB}"
+        path: "/booking/hotel/{args.hotelId}/details/{args.confirmationNumber}?lastName={args.lastName}&arrivalDateRequired=no&fetchFromDb=${FETCH_FROM_DB}&saveToDb=${SAVE_TO_DB}&channel=PWA"
       ) {
       errors
       data

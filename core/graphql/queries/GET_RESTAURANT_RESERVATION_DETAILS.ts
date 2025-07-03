@@ -69,6 +69,7 @@ mutation MyMutation(
       noOfGuests: $noOfGuests
       roomNo: $roomNo
       tableNumbers: $tableNumbers
+      channel: "PWA"
     }
   ) {
     bookingDate

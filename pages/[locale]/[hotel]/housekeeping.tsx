@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { HousekeepingItem } from 'components/pages/housekeeping/HousekeepingItem/HousekeepingItem';
 import { Header } from 'components/shared/Header/Header';
 import styles from '@styles/housekeeping/housekeeping.module.scss';
@@ -61,6 +61,7 @@ import {
 import { processStatusCode } from 'utils/processError';
 import { client } from 'core/graphql/client';
 import NoInformation from 'components/shared/NoInformation/NoInformation';
+import { handleReservation } from 'utils/fetchReservation';
 
 export { getStaticPaths };
 
@@ -176,8 +177,65 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
     (module: any) => module?.isActive && module?.code === SERVICES,
   );
 
+  const checkReservationStatus = useCallback(async (): Promise<boolean> => {
+    if (!checkinData?.roomNumber || !checkinData?.lastName || !hotelId) {
+      return false;
+    }
+
+    return new Promise<boolean>((resolve) => {
+      let reservationCheckCompleted = false;
+
+      const customToggleNotification = (show: boolean) => {
+        if (!reservationCheckCompleted) {
+          reservationCheckCompleted = true;
+          resolve(true);
+        }
+      };
+
+      handleReservation({
+        activeCheckInFlowInfo: false,
+        values: {
+          roomNo: checkinData?.roomNumber,
+          lastName: checkinData?.lastName,
+        },
+        toggleNotification: customToggleNotification,
+        setLoading: () => null,
+        t: t,
+        preventDrawerOpen: true,
+      }).catch(() => {
+        if (!reservationCheckCompleted) {
+          reservationCheckCompleted = true;
+          resolve(false);
+        }
+      });
+
+      setTimeout(() => {
+        if (!reservationCheckCompleted) {
+          reservationCheckCompleted = true;
+          resolve(false);
+        }
+      }, 10000);
+    });
+  }, [checkinData?.roomNumber, checkinData?.lastName, hotelId, t]);
+
   const handleOrder = async () => {
     setPlaceOrderLoader(true);
+    const isInHouse = await checkReservationStatus();
+    if (!isInHouse) {
+      notificationStorage({
+        title: t('Unable to Place Request'),
+        type: FAILURE,
+        description: t(
+          'Your reservation status has changed. Housekeeping is only available for checked-in guests.',
+        ),
+        redirect: availablePaths.HOME,
+      });
+      toggleNotification(true);
+      toggleDetailsDrawer(false);
+      setPlaceOrderLoader(false);
+      navigate(availablePaths.HOME);
+      return;
+    }
     try {
       const scheduledDateTimePayload = showSchedules?.scheduleActive
         ? showSchedules?.schedule?.includes(CUSTOM)

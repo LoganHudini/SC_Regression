@@ -33,6 +33,7 @@ export const CREATE_SPA_BOOKING = gql`
         mobileNumber: $mobileNumber
         roomNo: $roomNo
         genderPreference: $genderPreference
+        channel: "PWA"
       }
     ) {
       appointmentId
