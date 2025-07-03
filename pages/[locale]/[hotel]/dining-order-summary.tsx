@@ -505,10 +505,13 @@ const DiningOrderSummary = () => {
 
   const getInitialSelectedTime = () => {
     const now = dayjs();
-    const thirtyMinutesLater = now.add(orderSchedulingDuration, 'minute');
-    const minutes = thirtyMinutesLater.minute();
+    const target = now.add(orderSchedulingDuration, 'minute');
+
+    const minutes = target.minute();
     const roundedMinutes = Math.ceil(minutes / 15) * 15;
-    const adjustedTime = thirtyMinutesLater.startOf('hour').add(roundedMinutes, 'minute');
+
+    const adjustedTime = target.startOf('hour').add(roundedMinutes, 'minute');
+
     return adjustedTime.format('DD MMM:hh:mm:A');
   };
 
@@ -579,6 +582,7 @@ const DiningOrderSummary = () => {
                   }}
                   buttonTitle={t('Next')}
                   module='dining'
+                  initialSelectedTime={getInitialSelectedTime()}
                 />
               )}
             </div>
@@ -783,7 +787,9 @@ const DiningOrderSummary = () => {
                 <span>{t('Delivery Time')}</span>
                 <span className={styles.scheduleText}>
                   {selectedOption === LATER
-                    ? dayjs(selectedTime).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2)
+                    ? dayjs(selectedTime, 'DD MMM:hh:mm:A').format(
+                        timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2,
+                      )
                     : selectedOption}{' '}
                   <UpArrow className={styles.iconUp} />
                 </span>
@@ -794,7 +800,9 @@ const DiningOrderSummary = () => {
               onClose={() => {
                 closeDrawer();
                 if (!nextClick) {
-                  setSelectedOption(NOW);
+                  if (!selectedTime) {
+                    setSelectedOption(NOW);
+                  }
                 }
               }}
               content={scheduleDrawer()}
