@@ -59,6 +59,7 @@ export const IRD_ORDER = gql`
         hotelId:  "${HOTEL_ID}",
         noOfGuests: $noOfGuests,
         guestSignature: $guestSignature
+        channel: "PWA"
       }
     ) {
       additionalNote
