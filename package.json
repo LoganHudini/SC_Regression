@@ -100,8 +100,8 @@
     "build:orascom-stage": "env-cmd -f .env.orascom.stage yarn next build",
     "start:orascom-stage": "env-cmd -f .env.orascom.stage next start",
     "export": "next export",
-    "lint": "eslint ./**/*.{js,jsx,ts,tsx}",
-    "lint:fix": "eslint --fix ./**/*.{js,jsx,ts,tsx}",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "format": "prettier --write ./**/*.{js,jsx,ts,tsx,css,md} --config ./.prettierrc",
     "prepare": "husky install"
   },

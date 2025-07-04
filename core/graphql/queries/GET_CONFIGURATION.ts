@@ -26912,8 +26912,7 @@ export const configuration: any = [
     logo: '',
     homePageHeader: true,
     propertyHeaderLogo: true,
-    // eslint-disable-next-line quotes
-    name: "Captain 's Inn",
+    name: 'Captains Inn',
     hotelId: 'e79378fe-97e7-4e16-b126-c0c5749a0c13',
     pms: 'OPERA',
     fetchFromDb: 'no',
@@ -27667,7 +27666,6 @@ export const configuration: any = [
     logo: '',
     homePageHeader: true,
     propertyHeaderLogo: true,
-    // eslint-disable-next-line quotes
     name: "Cook's Club",
     hotelId: '6d60f09c-1298-41aa-8048-d40ffdecd017',
     pms: 'OPERA',
