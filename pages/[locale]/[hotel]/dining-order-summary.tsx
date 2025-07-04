@@ -865,9 +865,23 @@ const DiningOrderSummary = () => {
             <CustomDrawer
               open={isDrawerOpen}
               onClose={() => {
+                const parsedSelectedTime = dayjs(
+                  selectedTime,
+                  timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2,
+                );
+                const initialSelectedTime = getInitialSelectedTime();
+                const parsedInitial = dayjs(
+                  initialSelectedTime,
+                  timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2,
+                );
+
+                const shouldDisable =
+                  parsedSelectedTime.isAfter(parsedInitial) ||
+                  parsedSelectedTime.isSame(parsedInitial, 'minute');
+                console.log(shouldDisable, 'shouldDisable');
                 closeDrawer();
                 if (!nextClick) {
-                  if (!selectedTime) {
+                  if (!shouldDisable || !selectedTime) {
                     setSelectedOption(NOW);
                   }
                 }
