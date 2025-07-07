@@ -27666,7 +27666,7 @@ export const configuration: any = [
     logo: '',
     homePageHeader: true,
     propertyHeaderLogo: true,
-    name: "Cook's Club",
+    name: 'Cooks Club',
     hotelId: '6d60f09c-1298-41aa-8048-d40ffdecd017',
     pms: 'OPERA',
     fetchFromDb: 'no',
