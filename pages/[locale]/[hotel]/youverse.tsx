@@ -39,6 +39,7 @@ const Youverse: React.FC = () => {
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
   const documentConfig: any = useDocumentConfig();
+  const config = useConfig();
 
   const docTypes = documentConfig?.details?.find((e: any) => e?.name === DOCTYPE)?.options;
   const genderTypes = documentConfig?.details?.find((e: any) => e?.name === GENDER)?.options;
@@ -65,7 +66,7 @@ const Youverse: React.FC = () => {
         userId: docScanId,
         expireDate: dayjs()?.add(1, 'day').format(timeFormats?.YOUVERSE_EXPIRE_DATE),
         documentOptions: [...new Set(docTypes?.map((opt: any) => opt?.vendorDocType))],
-        disableSelfie: true,
+        disableSelfie: config?.isFaceMatchdisabled ?? false,
       };
 
       client
