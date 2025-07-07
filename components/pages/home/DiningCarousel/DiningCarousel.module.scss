@@ -124,9 +124,10 @@
 
 .carouselSlideTitle {
   font: $xlarge var(--heading-font-regular);
-  text-overflow: ellipsis;
   white-space: nowrap;
-  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 280px;
 }
 
 .carouselRestaurantTimeStatus {
