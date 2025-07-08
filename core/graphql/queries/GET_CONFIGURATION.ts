@@ -26309,6 +26309,15 @@ export const configuration: any = [
                     isActive: true,
                   },
                   {
+                    name: 'countryCode',
+                    label: 'Country of Residence',
+                    type: 'AutoComplete',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    options: Countries,
+                  },
+                  {
                     name: 'estimatedTime',
                     label: 'Estimated Time of Arrival',
                     type: 'TimePicker',
@@ -26408,6 +26417,15 @@ export const configuration: any = [
                 isDisabled: false,
                 isActive: true,
               },
+              {
+                name: 'countryCode',
+                label: 'Country of Residence',
+                type: 'AutoComplete',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+                options: Countries,
+              },
             ],
           },
           {
@@ -26481,7 +26499,7 @@ export const configuration: any = [
                 label: 'Marriage Certificate',
                 type: 'camera',
                 rule: [
-                  { key: 'nationality', condition: '==', value: 'EG' },
+                  { key: 'countryCode', condition: '==', value: 'EG' },
                   { key: 'isPrimary', condition: '==', value: true },
                   { key: 'adultGuestCount', condition: '>=', value: 2 },
                 ],
@@ -30833,6 +30851,15 @@ export const configuration: any = [
                     isActive: true,
                   },
                   {
+                    name: 'countryCode',
+                    label: 'Country of Residence',
+                    type: 'AutoComplete',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    options: Countries,
+                  },
+                  {
                     name: 'estimatedTime',
                     label: 'Estimated Time of Arrival',
                     type: 'TimePicker',
@@ -30932,6 +30959,15 @@ export const configuration: any = [
                 isDisabled: false,
                 isActive: true,
               },
+              {
+                name: 'countryCode',
+                label: 'Country of Residence',
+                type: 'AutoComplete',
+                required: true,
+                isDisabled: false,
+                isActive: true,
+                options: Countries,
+              },
             ],
           },
           {
@@ -31005,7 +31041,7 @@ export const configuration: any = [
                 label: 'Marriage Certificate',
                 type: 'camera',
                 rule: [
-                  { key: 'nationality', condition: '==', value: 'EG' },
+                  { key: 'countryCode', condition: '==', value: 'EG' },
                   { key: 'isPrimary', condition: '==', value: true },
                   { key: 'adultGuestCount', condition: '>=', value: 2 },
                 ],
