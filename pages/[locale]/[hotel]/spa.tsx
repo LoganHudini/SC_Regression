@@ -182,14 +182,6 @@ const Spa: React.FC = () => {
   )?.value;
 
   const onCtaClick = () => {
-    if (treatmentLink || spaInformation?.cta?.redirectUrl) {
-      analyticsEvent({
-        action: 'spa_redirect',
-        category: 'Spa',
-        title: spaInformation?.name,
-      });
-      setspaBooking(true);
-    }
     if (spaInformation?.cta?.redirectOption === SPA_BOOKING_FLOW) {
       // to be enabled later
       // if (!isCheckedIn?.checkedIn) {
@@ -203,6 +195,20 @@ const Spa: React.FC = () => {
       setDetailContent(false);
       setTimeSelectDrawer(true);
       // }
+    } else if (treatmentLink) {
+      analyticsEvent({
+        action: 'spa_redirect',
+        category: 'Spa',
+        title: spaInformation?.name,
+      });
+      setspaBooking(true);
+    } else if (spaInformation?.cta?.redirectUrl) {
+      analyticsEvent({
+        action: 'spa_redirect',
+        category: 'Spa',
+        title: spaInformation?.name,
+      });
+      setspaBooking(true);
     }
   };
 
@@ -636,7 +642,7 @@ const Spa: React.FC = () => {
           onClose={closeSpa}
           content={
             <IframeComponent
-              src={spaInformation?.cta?.redirectUrl || treatmentLink}
+              src={treatmentLink ?? spaInformation?.cta?.redirectUrl}
               handledrawerState={setspaBooking}
               name={SPA_TREATMENTS}
             />

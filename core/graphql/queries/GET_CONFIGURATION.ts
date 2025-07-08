@@ -22552,7 +22552,6 @@ export const configuration: any = [
       'hotel-info',
       'services',
       'dining',
-      'spa',
       'hotel-compendium',
     ],
     preCheckInOnly: true,
