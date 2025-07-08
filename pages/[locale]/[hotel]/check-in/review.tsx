@@ -1034,7 +1034,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           for (const guest of combinedGuests) {
             if (key in guest) {
               guestValue = guest[key];
-              console.log(guestValue, 'guestValue');
               break; // Use first matching key found
             }
           }
