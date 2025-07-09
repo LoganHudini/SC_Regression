@@ -124,11 +124,10 @@
 
 .carouselSlideTitle {
   font: $xlarge var(--heading-font-regular);
-  padding: 0.5rem 0rem;
-  text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  width: 100%;
+  text-overflow: ellipsis;
+  max-width: 280px;
 }
 
 .carouselRestaurantTimeStatus {
@@ -252,4 +251,8 @@
 
 .timingCase {
   text-transform: lowercase;
+  font-size: 20px;
+  font: 0.75rem var(--primary-font-regular);
+  color: var(--tertiary-text-color);
+  padding-bottom: 4px;
 }

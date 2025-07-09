@@ -42,6 +42,8 @@ import { IRDMenuApiResponse } from 'core/graphql/queries/IRD_MENU';
 import { useReactiveVar } from '@apollo/client';
 import { RestaurantDetail } from 'components/pages/dining/RestaurantDetail/RestaurantDetail';
 import useTimeStatus from 'utils/hooks/useTimeStatus';
+import dayjs from 'dayjs';
+import { isEmpty } from 'lodash';
 
 interface ICarouselProps {
   ird: any;
@@ -107,6 +109,13 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
       navigate(availablePaths?.DINING);
     };
 
+    const getRestaurantStatus = useTimeStatus({
+      module: DINING,
+      slide: slide,
+      hotelInformation: hotelInformation,
+      t,
+    });
+
     const redirect = (buttonClick?: any) => {
       diningOptions(diningOptionsCarousal);
       selectedRestaurantStorage(slide);
@@ -119,17 +128,16 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
       setIframeComponent(false);
     };
 
-    const getRestaurantStatus = useTimeStatus({
-      module: DINING,
-      slide: slide,
-      hotelInformation: hotelInformation,
-      t,
-    });
-
     const isOpen = getFormattedTime(slide?.hours?.map((time: any) => time?.open));
     const isClose = getFormattedTime(slide?.hours?.map((time: any) => time?.close));
-
+    function isToday(day: any) {
+      const today = dayjs().format('dddd').toUpperCase();
+      return today === day.toUpperCase() || day == 'EVERYDAY';
+    }
+    const isAnyDayToday = slide?.hours.some((entry: any) => isToday(entry.day));
     const currentOpenPeriod: any = getCurrentOpenPeriod(slide?.hours);
+    console.log(slide?.name, slide);
+    console.log(slide?.name, isAnyDayToday);
 
     return (
       <>
@@ -146,11 +154,12 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
               styles.carouselSlideDetailsWrapperRestaurantsAndBars,
               { [styles.carouselSlideDetailsWrapperIrd]: module },
               'globals-carouselSlideDetailsWrapperRestaurantsAndBars',
+              'globals-cardWrapperRestaurantsAndBars',
             )}
           >
             <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>
             {!module &&
-              (isOpen?.includes(ALL_DAY) && isClose?.includes(ALL_DAY) ? (
+              (isOpen?.includes(ALL_DAY) && isClose?.includes(ALL_DAY) && isAnyDayToday ? (
                 <div className={styles.carouselRestaurantTimeStatus}>
                   <p>{t('Open')}</p>
                 </div>
@@ -165,6 +174,14 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
                 slide.hours[0]?.open === ALL_DAY &&
                 slide.hours[0]?.close === ALL_DAY ? (
                   t('Open 24x7')
+                ) : slide.hours[0]?.day !== dayjs().format('dddd').toUpperCase() &&
+                  slide.hours[0]?.open === ALL_DAY &&
+                  slide.hours[0]?.close === ALL_DAY ? (
+                  t('Closed')
+                ) : slide.hours[0]?.day == dayjs().format('dddd').toUpperCase() &&
+                  slide.hours[0]?.open === ALL_DAY &&
+                  slide.hours[0]?.close === ALL_DAY ? (
+                  t('Open')
                 ) : (
                   <>
                     {t('From')}{' '}
@@ -257,22 +274,24 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
         >
           {renderSlides(slides, diningOptionsState?.type === IN_ROOM_DINING)}
         </WithScrollbar>
-        <CustomDrawer
-          open={restaurantDetailsDrawerStatus}
-          onClose={() => {
-            toggleDetailsDrawer(false);
-            setTimeSelectDrawer(false);
-            toggleRestaurantDetailsDrawer(false);
-            diningOptions({});
-            selectedRestaurantStorage({});
-          }}
-          content={
-            <RestaurantDetail
-              selectedRestaurant={selectedRestaurant && selectedRestaurant}
-              timeSelectProps={timeSelectDrawer}
-            />
-          }
-        />
+        {!isEmpty(selectedRestaurant) && (
+          <CustomDrawer
+            open={restaurantDetailsDrawerStatus}
+            onClose={() => {
+              toggleDetailsDrawer(false);
+              setTimeSelectDrawer(false);
+              toggleRestaurantDetailsDrawer(false);
+              diningOptions({});
+              selectedRestaurantStorage({});
+            }}
+            content={
+              <RestaurantDetail
+                selectedRestaurant={selectedRestaurant && selectedRestaurant}
+                timeSelectProps={timeSelectDrawer}
+              />
+            }
+          />
+        )}
       </div>
     )
   );

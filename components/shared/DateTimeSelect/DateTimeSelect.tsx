@@ -19,6 +19,16 @@ import {
 } from 'utils/constants';
 import { useTranslation } from 'react-i18next';
 import cx from 'classnames';
+import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
+import { client } from 'core/graphql/client';
+
+const reservationData = client.readQuery<IGetReservationApiResponse>({
+  query: GET_RESERVATION,
+});
+const reservationInfo = reservationData?.getReservation?.data;
+const checkOutDate = dayjs(reservationInfo?.details?.checkOutDate as string);
+
+console.log(reservationInfo, 'checkOutDate');
 
 const fullDayMonthArray: string[] = [];
 for (let month = 0; month < 12; month++) {
@@ -41,14 +51,19 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
   buttonTitle,
   buttonStyle,
   module,
+  disableTimepiCketConfirmBtn,
+  initialSelectedTime,
 }) => {
   const { t } = useTranslation(['common']);
   const [disable, setDisable] = useState(false);
+  const [internalSelectedTime, setInternalSelectedTime] = useState<string | undefined>(
+    selectedTime || '',
+  );
+
   const scheduledToday = showSchedules?.schedule?.includes(TODAY);
   const scheduledTomorrow = showSchedules?.schedule?.includes(TOMORROW);
   const scheduledCustom = showSchedules?.schedule?.includes(CUSTOM);
   const scheduledImmediate = showSchedules?.schedule?.includes(IMMEDIATE);
-
   const dayMonthArray = useMemo(() => {
     if (module === 'housekeeping' && scheduledToday && scheduledTomorrow && !scheduledCustom) {
       return [
@@ -60,27 +75,44 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
   }, [module, scheduledToday, scheduledTomorrow, scheduledCustom]);
 
   useEffect(() => {
-    if (selectedTime) {
-      const current = dayjs();
-      const selected = dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2);
+    if (!selectedTime) return;
 
-      if (scheduledToday && scheduledTomorrow) {
-        if (selected.isAfter(current.add(1, DAY), DAY)) {
-          setDisable(false);
-        } else if (current.isAfter(selected)) {
-          setDisable(current.format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM) === selectedTime);
-        } else {
-          setDisable(true);
-        }
-      } else {
-        if (current.isAfter(selected)) {
-          setDisable(current.format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM) === selectedTime);
-        } else {
-          setDisable(true);
-        }
-      }
+    const parsedSelectedTime = dayjs(selectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2);
+    if (!parsedSelectedTime.isValid()) {
+      setDisable(true);
+      return;
     }
-  }, [selectedTime, showSchedules?.schedule]);
+
+    if (module === 'dining' && initialSelectedTime) {
+      const parsedInitial = dayjs(initialSelectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2);
+      setDisable(
+        parsedSelectedTime.isAfter(parsedInitial) ||
+          parsedSelectedTime.isSame(parsedInitial, 'minute'),
+      );
+    } else {
+      const now = dayjs();
+      setDisable(parsedSelectedTime.isAfter(now));
+    }
+  }, [selectedTime, module, initialSelectedTime]);
+
+  // Only update internalSelectedTime from initialSelectedTime if module is 'dining'
+  useEffect(() => {
+    if (
+      module === 'dining' &&
+      initialSelectedTime &&
+      initialSelectedTime !== internalSelectedTime
+    ) {
+      setInternalSelectedTime(initialSelectedTime);
+      setSelectedTime(initialSelectedTime);
+    }
+  }, [module, initialSelectedTime]);
+
+  // Sync internal state with selectedTime prop (for other modules)
+  useEffect(() => {
+    if (selectedTime && selectedTime !== internalSelectedTime) {
+      setInternalSelectedTime(selectedTime);
+    }
+  }, [selectedTime]);
 
   useEffect(() => {
     if (
@@ -97,7 +129,9 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
 
   const onChange = useCallback(
     (value: [string, string, string, string]) => {
-      setSelectedTime(value.join(':'));
+      const newTime = value.join(':');
+      setInternalSelectedTime(newTime);
+      setSelectedTime(newTime);
     },
     [setSelectedTime],
   );
@@ -173,7 +207,7 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
         </div>
 
         <StyledButton
-          disabled={!disable}
+          disabled={(module === 'restaurants_bars' && !disableTimepiCketConfirmBtn) || !disable}
           loading={loading}
           onClick={() => handleSave()}
           className={cx(buttonStyle)}

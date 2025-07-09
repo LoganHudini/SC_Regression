@@ -166,7 +166,9 @@ const Menu = () => {
         ) : (
           <>
             <Header className={styles.header} header={header} displayHome />
-            <div className={styles.title}>{t('In-Room Dining')}</div>
+            <div className={cx(styles.title, 'globals-cardWrapperRestaurantsAndBars')}>
+              {t('In-Room Dining')}
+            </div>
             <div className={styles.cardWrapper}>
               {irdActiveMenu?.map((item: any, index: any) => {
                 const currentOpenPeriod: any = getCurrentOpenPeriod(item?.hours);

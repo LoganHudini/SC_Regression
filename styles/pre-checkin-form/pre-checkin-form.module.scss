@@ -39,7 +39,7 @@
   font-size: $xsmall;
   color: var(--tertiary-text-color);
   text-align: center;
-  width: 85%;
+  width: 90%;
   line-height: 1.25;
   margin: 4px auto;
 }
@@ -282,6 +282,7 @@
   width: 90%;
   margin: auto;
   height: 44px;
+  font-weight: bold;
 }
 
 .scanDocWrapper {

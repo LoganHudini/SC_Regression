@@ -26,6 +26,7 @@ import { DiningCustomisationDrawer } from 'components/pages/dining/DiningCustomi
 import {
   CMS,
   CUSTOM,
+  DATE_SMALLCASE,
   DEFAULT_SERVICE_CHARGE_MESSAGE,
   ERRORMSG,
   FAILED_TO_FETCH_BOOKING_DETAILS,
@@ -36,7 +37,6 @@ import {
   NOW,
   SERVICE_CHARGES,
   SUCCESS,
-  TIME,
   VENDOR,
 } from 'utils/constants';
 import { InputAdornment } from '@mui/material';
@@ -350,7 +350,7 @@ const DiningOrderSummary = () => {
       roomNo: checkinData?.roomNumber,
       startTime:
         selectedOption === LATER
-          ? dayjs(selectedTime, 'DD MMMM hh:mm A').format('YYYY-MM-DD HH:mm')
+          ? dayjs(selectedTime, 'DD MMM hh:mm A').format('YYYY-MM-DD HH:mm')
           : dayjs().format('YYYY-MM-DD HH:mm'),
       noOfGuests: guestNumber,
       items: diningData?.items?.map((el) => ({
@@ -378,7 +378,7 @@ const DiningOrderSummary = () => {
       hotelId: hotelId,
       date:
         selectedOption === LATER
-          ? dayjs(selectedTime, 'DD MMMM hh:mm A').format('YYYY-MM-DD HH:mm')
+          ? dayjs(selectedTime, 'DD MMM hh:mm A').format('YYYY-MM-DD HH:mm')
           : dayjs().format('YYYY-MM-DD HH:mm'),
       deliveryLocation: '',
       bookingId: checkinData?.reservationId,
@@ -572,10 +572,13 @@ const DiningOrderSummary = () => {
 
   const getInitialSelectedTime = () => {
     const now = dayjs();
-    const thirtyMinutesLater = now.add(orderSchedulingDuration, 'minute');
-    const minutes = thirtyMinutesLater.minute();
+    const target = now.add(orderSchedulingDuration, 'minute');
+
+    const minutes = target.minute();
     const roundedMinutes = Math.ceil(minutes / 15) * 15;
-    const adjustedTime = thirtyMinutesLater.startOf('hour').add(roundedMinutes, 'minute');
+
+    const adjustedTime = target.startOf('hour').add(roundedMinutes, 'minute');
+
     return adjustedTime.format('DD MMM:hh:mm:A');
   };
 
@@ -642,10 +645,11 @@ const DiningOrderSummary = () => {
                   handleSave={handleSave}
                   showSchedules={{
                     schedule: [CUSTOM],
-                    customSchedule: TIME,
+                    customSchedule: DATE_SMALLCASE,
                   }}
                   buttonTitle={t('Next')}
                   module='dining'
+                  initialSelectedTime={getInitialSelectedTime()}
                 />
               )}
             </div>
@@ -849,9 +853,10 @@ const DiningOrderSummary = () => {
               <p className={styles.schedulingContainerTitle} onClick={() => setIsDrawerOpen(true)}>
                 <span>{t('Delivery Time')}</span>
                 <span className={styles.scheduleText}>
-                  {' '}
                   {selectedOption === LATER
-                    ? dayjs(selectedTime).format(timeFormats.HOURS_MINUTES_AM)
+                    ? dayjs(selectedTime, 'DD MMM:hh:mm:A').format(
+                        timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2,
+                      )
                     : selectedOption}{' '}
                   <UpArrow className={styles.iconUp} />
                 </span>
@@ -860,9 +865,25 @@ const DiningOrderSummary = () => {
             <CustomDrawer
               open={isDrawerOpen}
               onClose={() => {
+                const parsedSelectedTime = dayjs(
+                  selectedTime,
+                  timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2,
+                );
+                const initialSelectedTime = getInitialSelectedTime();
+                const parsedInitial = dayjs(
+                  initialSelectedTime,
+                  timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2,
+                );
+
+                const shouldDisable =
+                  parsedSelectedTime.isAfter(parsedInitial) ||
+                  parsedSelectedTime.isSame(parsedInitial, 'minute');
+                console.log(shouldDisable, 'shouldDisable');
                 closeDrawer();
                 if (!nextClick) {
-                  setSelectedOption(NOW);
+                  if (!shouldDisable || !selectedTime) {
+                    setSelectedOption(NOW);
+                  }
                 }
               }}
               content={scheduleDrawer()}

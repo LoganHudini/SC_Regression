@@ -16,6 +16,7 @@ import { SPA_AND_WELLNESS, ALL_DAY, SPA } from 'utils/constants';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 import useTimeStatus from 'utils/hooks/useTimeStatus';
 import SpaDetails from 'components/pages/spa/SpaDetail';
+import dayjs from 'dayjs';
 
 interface ICarouselProps {
   data: any;
@@ -49,7 +50,11 @@ export const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle
 
   const isOpen = getFormattedTime(slide?.hours?.timings?.map((time: any) => time?.from));
   const isClose = getFormattedTime(slide?.hours?.timings?.map((time: any) => time?.to));
-
+  function isToday(day: any) {
+    const today = dayjs().format('dddd').toUpperCase();
+    return today === day.toUpperCase() || day == 'EVERYDAY';
+  }
+  const isAnyDayToday = slide?.hours?.timings?.some((entry: any) => isToday(entry.day));
   return (
     <>
       <div
@@ -67,10 +72,11 @@ export const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, slideStyle
             styles.carouselSlideDetailsWrapper,
             { [styles.carouselSlideDetailsWrapperIrd]: module },
             'globals-carouselSlideDetailsWrapperRestaurantsAndBars',
+            'globals-cardWrapperRestaurantsAndBars',
           )}
         >
           {slide?.name && <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>}
-          {isOpen?.includes(ALL_DAY) && isClose?.includes(ALL_DAY) ? (
+          {isOpen?.includes(ALL_DAY) && isClose?.includes(ALL_DAY) && isAnyDayToday ? (
             <div className={styles.carouselSpaTimeStatus}>
               <p>{t('Open')}</p>
             </div>

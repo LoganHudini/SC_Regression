@@ -77,9 +77,11 @@ export const DiningOrdersDrawer: React.FC<IDiningOrdersDrawerProps> = ({
                       >
                         <p className={styles.dateTime}>{orderCategory?.id.substring(6, 0)}</p>
                         <p className={styles.dateTime}>
-                          {dayjs(orderCategory.startTime).format(
-                            timeFormats.DAY_MONTH_YEAR_HOUR_MINUTE_AM,
-                          )}
+                          {dayjs(
+                            orderCategory?.startTime?.split(' ')[0] +
+                              ' ' +
+                              orderCategory.startTime.split(' ')?.[1],
+                          )?.format('DD MMM YYYY h:mm A') || ''}
                         </p>
                       </div>
                     </div>

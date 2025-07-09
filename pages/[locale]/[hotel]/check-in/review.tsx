@@ -229,17 +229,18 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       isPrimary: true,
     },
   ];
-
-  combinedGuests.push(
-    ...accompanyGuestInfo.map((guest: any) => ({
-      ...guest,
-      isPrimary: false,
-    })),
-  );
+  if (accompanyGuestInfo && accompanyGuestInfo?.length > 0) {
+    combinedGuests.push(
+      ...accompanyGuestInfo.map((guest: any) => ({
+        ...guest,
+        isPrimary: false,
+      })),
+    );
+  }
 
   // Add AdultGuestCount as a special entry
   combinedGuests.push({
-    adultGuestCount: 1 + accompanyGuestInfo.filter((g: any) => !g.isChild).length,
+    adultGuestCount: 1 + accompanyGuestInfo?.filter((g: any) => !g?.isChild)?.length,
   });
 
   const [checkboxStates, setCheckboxStates] = useState<{ [key: number]: boolean }>({});
@@ -1033,7 +1034,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           for (const guest of combinedGuests) {
             if (key in guest) {
               guestValue = guest[key];
-              console.log(guestValue, 'guestValue');
               break; // Use first matching key found
             }
           }
