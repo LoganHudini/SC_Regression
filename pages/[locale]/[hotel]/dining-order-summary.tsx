@@ -878,7 +878,6 @@ const DiningOrderSummary = () => {
                 const shouldDisable =
                   parsedSelectedTime.isAfter(parsedInitial) ||
                   parsedSelectedTime.isSame(parsedInitial, 'minute');
-                console.log(shouldDisable, 'shouldDisable');
                 closeDrawer();
                 if (!nextClick) {
                   if (!shouldDisable || !selectedTime) {

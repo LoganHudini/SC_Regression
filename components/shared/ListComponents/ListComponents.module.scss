@@ -220,7 +220,7 @@
   margin: 6px 0;
   font-family: var(--primary-font-regular);
   font-size: $xsmall;
-  text-transform: capitalize;
+  // text-transform: capitalize;
   text-align: start;
 
   p {
@@ -228,7 +228,7 @@
     margin-inline-start: 10px;
     font-size: 0.75rem;
     line-height: 1.5;
-    text-transform: capitalize;
+    // text-transform: capitalize;
     color: var(--tertiary-text-color);
     -webkit-line-clamp: 1;
     padding-top: 2px;

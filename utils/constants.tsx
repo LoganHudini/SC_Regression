@@ -46,8 +46,6 @@ export const FAIRMONT_UDAIPUR = 'fairmont-udaipur';
 export const ONE_HOTELS_SOUTH_BEACH = '1-hotel-south-beach';
 export const HARD_ROCK_HOTEL_CANCUN = 'hard-rock-hotel-cancun';
 export const ATLANTIS = 'atlantis';
-export const PROPER_DOWNTOWN_LA = 'proper-downtown-la';
-export const PROPER_SANTA_MONICA = 'proper-santa-monica';
 export const ONE_AND_ONLY_ROYAL_MIRAGE = 'one-and-only-royal-mirage';
 export const LONDONER_LEICESTER_SQ = 'londoner-leicester-sq';
 export const EDWARDIAN = 'edwardian';
@@ -292,6 +290,7 @@ export const DEFAULT_PAYMENT_MESSAGE = {
 };
 export const DEFAULT_SERVICE_CHARGE_MESSAGE =
   '* Rates are inclusive of applicable government taxes and subject to 10% service charge.';
+export const ACTIVITES_MODULE = 'activities';
 export const LATER = 'Later';
 export const NOW = 'Now';
 

@@ -56,4 +56,9 @@ export const availablePaths = {
 
   // Others
   PAGE_NOT_FOUND: '/404',
+
+  // Activity And Itinerary
+  ITINERARY: `/${hotel}/itinerary`,
+  ACTIVITY: `/${hotel}/activity`,
+  ACTIVITY_DETAILS: `/${hotel}/activityDetails`,
 };

@@ -5,7 +5,7 @@ import DishIcon from '@icons/dishIcon.svg';
 import styles from './ListComponents.module.scss';
 import { BRAND_CODE } from 'core/graphql/endpoints';
 import dayjs from 'dayjs';
-import { getTimings } from 'utils/functions';
+import { convertTo12HourFormatSmallCase, getTimings } from 'utils/functions';
 import { CustomReadMore } from '../CustomReadMore/CustomReadMore';
 import { useCurrency } from 'utils/hooks/useCurrency';
 import cx from 'classnames';
@@ -34,7 +34,14 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
     selectedListItem(queryResultEntity);
   }, [queryResultEntity, selectedListItem]);
 
-  const time = getTimings(queryResultEntity?.customAttributes);
+  const hasScheduleTime =
+    !!queryResultEntity?.schedule?.startTime || !!queryResultEntity?.schedule?.endTime;
+
+  const time = hasScheduleTime
+    ? `${convertTo12HourFormatSmallCase(
+        queryResultEntity?.schedule?.startTime || '',
+      )} to ${convertTo12HourFormatSmallCase(queryResultEntity?.schedule?.endTime || '')}`
+    : getTimings(queryResultEntity?.customAttributes) || '';
 
   return (
     <div className={styles.listComponent} onClick={onCtaClick}>
@@ -54,23 +61,24 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
               {t(`${queryResultEntity?.name}`)}
             </h2>
           )}
-          {queryResultEntity?.duration && queryResultEntity?.duration[0]?.price && (
+          {(queryResultEntity?.duration?.[0]?.price || queryResultEntity?.price > 0) && (
             <p className={cx(styles.listDurationPrice, 'globals-text-align')}>
               <span className={styles.currency}>
-                {queryResultEntity?.duration?.length > 1 && (
-                  <>
-                    {t('Starts from')}
-                    {'  '}
-                  </>
-                )}
-                {currency}
-                {'  '}
+                {queryResultEntity?.duration?.length > 1 && <>{t('Starts from')} </>}
+                {currency}{' '}
               </span>
-              {Number(queryResultEntity?.duration[0]?.price)?.toLocaleString('en-US')}
-              {'   '}|{'   '}
-              {queryResultEntity?.duration[0]?.duration} {t('Min')}
+              {Number(
+                queryResultEntity?.duration?.[0]?.price ?? queryResultEntity?.price,
+              ).toLocaleString('en-US')}
+              {queryResultEntity?.duration?.[0]?.duration && (
+                <>
+                  {' | '}
+                  {queryResultEntity.duration[0].duration} {t('Min')}
+                </>
+              )}
             </p>
           )}
+
           {queryResultEntity?.duration && offersActive && (
             <p className={cx(styles.listDurationOffer, 'globals-listDurationOffer')}>
               {queryResultEntity?.duration?.alwaysActive
@@ -103,7 +111,7 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
           {time && (
             <div className={styles.cuisineRowTime}>
               <ClockIcon />
-              <p>{time?.value}</p>
+              <p>{time?.value || time || ''}</p>
             </div>
           )}
           <CustomReadMore

@@ -13,19 +13,22 @@
 }
 
 .reservationInput {
-  &:not(:last-child) {
-    margin-bottom: 16px;
-  }
+  // &:not(:last-child) {
+  //   // margin-bottom: 16px;
+  // }
+
+  // &:last-child {
+  //   max-width: 30%;
+  // }
+  width: 100%;
+  margin-top: 10px;
 }
 
 .reservationInputs {
   display: flex;
   flex-direction: column;
-  width: 90%;
+  width: 95%;
   margin: 0 auto;
-  &:not(:last-child) {
-    margin-bottom: 37px;
-  }
 }
 
 .findMyBookingBtn {
@@ -109,4 +112,28 @@
   gap: 15px;
   padding: 40px 25px 7px 25px;
   line-height: 1.3;
+}
+
+.flexInput {
+  display: flex;
+  align-items: end;
+  gap: 15px;
+  width: 100%;
+}
+
+.flexInputContainer {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.inputContainer {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.orSeperator {
+  min-width: 10%;
+  padding: 10px;
 }

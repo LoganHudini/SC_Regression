@@ -169,5 +169,12 @@
   "Connecting your device is taking longer than expected. Please explore the app in the meantime, and we’ll continue the pairing process.": "La connexió del teu dispositiu està tardant més del previst. Mentrestant, explora l'aplicació i continuarem amb el procés d'emparellament.",
   "Your Device is Now Connected": "El teu dispositiu està ara connectat",
   "Enjoy all the in-stay features and services at your fingertips.": "Gaudeix de totes les funcions i serveis durant l'estada a l'abast de la teva mà.",
-  "From": "Des de"
+  "From": "Des de",
+  "Stay Details": "Detalls de l'estada",
+  "Check-in Date": "Data d'entrada",
+  "Checkout Date": "Data de sortida",
+  "manage your stay": "Gestiona la teva estada",
+  "check-in": "Entrada",
+  "Manage My Stay": "Gestiona la meva estada",
+  "Access and manage your itinerary, check-in, in-room activities, and all exclusive services to enhance your stay": "Accedeix i gestiona el teu itinerari, registre d'entrada, activitats a l'habitació i tots els serveis exclusius per millorar la teva estada"
 }
