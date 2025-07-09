@@ -5,7 +5,12 @@ import { IDiningOrdersProps } from './RestaurantDetail.types';
 import { useTranslation } from 'react-i18next';
 import TimeIcon from '@icons/clockIcon.svg';
 import DishIcon from '@icons/dishIcon.svg';
-import { getTimings, restaurantCtaNavigation } from 'utils/functions';
+import {
+  getFormattedTime,
+  getTimings,
+  isBookingAllowed,
+  restaurantCtaNavigation,
+} from 'utils/functions';
 import { ASSETS_URL, HOTEL_ID } from 'core/graphql/endpoints';
 import DateTimeSelect from 'components/shared/DateTimeSelect/DateTimeSelect';
 import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
@@ -18,6 +23,8 @@ import {
   WEBURL,
   S3,
   RESTAURANTS_AND_BARS,
+  DINING,
+  ALL_DAY,
 } from 'utils/constants';
 import cx from 'classnames';
 import dayjs from 'dayjs';
@@ -26,6 +33,7 @@ import { useCheckedIn } from 'storage/check-in.storage';
 import { CREATE_RESTAURANT_RESERVATION } from 'core/graphql/queries/GET_RESTAURANT_RESERVATION_DETAILS';
 import { client } from 'core/graphql/client';
 import {
+  hotelInfoStorage,
   notificationStorage,
   toggleDetailsDrawer,
   toggleNotification,
@@ -36,12 +44,39 @@ import { IframeComponent } from 'components/shared/IframeComponent/IframeCompone
 import { useReactiveVar } from '@apollo/client';
 import { PhoneEmail } from 'components/shared/PhoneEmail/PhoneEmail';
 import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
+import { isEmpty } from 'lodash';
+import useTimeStatus from 'utils/hooks/useTimeStatus';
 
 export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
   selectedRestaurant,
   timeSelectProps,
 }) => {
   const { t } = useTranslation(['restaurants']);
+  const [btnDisabled, setBtnDisabled] = useState(false);
+  const hotelInformation = useReactiveVar(hotelInfoStorage);
+
+  const getRestaurantStatus = useTimeStatus({
+    module: DINING,
+    slide: selectedRestaurant,
+    hotelInformation: hotelInformation,
+    t,
+  });
+
+  useEffect(() => {
+    const isOpen = getFormattedTime(selectedRestaurant?.hours?.map((time: any) => time?.open));
+    const isClose = getFormattedTime(selectedRestaurant?.hours?.map((time: any) => time?.close));
+    const btnDisabled: any =
+      isOpen?.includes(ALL_DAY) && isClose?.includes(ALL_DAY)
+        ? 'open'
+        : getRestaurantStatus?.status;
+    const keywords = ['open', 'Closes in'];
+    const isMatch = keywords.some((keyword) => {
+      const pattern = new RegExp(`\\b${keyword}\\b`, 'i');
+      return pattern.test(btnDisabled);
+    });
+    setBtnDisabled(isMatch);
+  }, [selectedRestaurant, timeSelectProps, btnDisabled, getRestaurantStatus?.status]);
+
   // const orderId = ordersData[ordersData?.length - 1]?.id?.slice(0, 6);
   const [availableSlots, setAvailableSlots] = useState(false);
   const [timeSelectDrawer, setTimeSelectDrawer] = useState(false);
@@ -57,9 +92,9 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
   const currentYear = new Date().getFullYear();
   const isCheckedIn = useCheckedIn();
   const queryResultEntity = selectedRestaurant ?? '';
-
+  const disableTimepiCketConfirmBtn =
+    (!isEmpty(queryResultEntity) && isBookingAllowed(queryResultEntity?.hours, selectedTime)) || '';
   const restaurantId = queryResultEntity?.id;
-
   const drawerStatus = useReactiveVar(toggleDetailsDrawer);
   const restaurantDetailDrawer = useReactiveVar(toggleRestaurantDetailsDrawer);
 
@@ -82,15 +117,17 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
     setGuestCount(1);
   };
 
+  const parsed = dayjs(`${selectedTime} ${currentYear}`, 'DD MMM:hh:mm:A YYYY');
+
   const handleFindTable = useCallback(async () => {
     const DetailsReservationPayload = {
-      date: dayjs(selectedTime).year(currentYear).format('YYYY-MM-DD'),
+      date: parsed.format('YYYY-MM-DD'),
       exposure: 'No preference',
       hotelId: HOTEL_ID,
       isReservedForGuest: false,
       restaurantId: restaurantId,
-      reserveFrom: dayjs(selectedTime, 'HH:mm').add(1, 'hour').format('HH:mm') ?? '',
-      reserveUntil: dayjs(selectedTime, 'HH:mm').add(2, 'hour').format('HH:mm'),
+      reserveFrom: parsed.add(1, 'hour').format('HH:mm'),
+      reserveUntil: parsed.add(2, 'hour').format('HH:mm'),
       description: '',
       firstName: isCheckedIn?.firstName,
       guestType: isCheckedIn?.roomNumber ? 'resident' : 'nonresident',
@@ -102,7 +139,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
     try {
       await client.mutate({
         mutation: CREATE_RESTAURANT_RESERVATION,
-        context: { clientName: 'host_v3' },
+        context: { clientName: 'property_d' },
         fetchPolicy: 'network-only',
         variables: DetailsReservationPayload,
       });
@@ -263,6 +300,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
                   );
                 }}
                 className={styles.button}
+                disabled={!btnDisabled}
               >
                 {queryResultEntity?.cta?.ctaTitle || t('Book Now')}
               </StyledButton>
@@ -290,8 +328,9 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
               selectedTime={selectedTime}
               handleSave={handleFindTable}
               showSchedules={undefined}
-              buttonTitle={t('FIND A TABLE')}
+              buttonTitle={t('BOOK A TABLE')}
               module={'restaurants_bars'}
+              disableTimepiCketConfirmBtn={disableTimepiCketConfirmBtn}
             />
           </div>
         </>

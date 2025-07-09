@@ -41,7 +41,13 @@ export const ListComponentEntity: React.FC<ListComponentEntityProps> = ({
       {(config?.hideImagePlaceholder ? queryResultEntity?.images?.length > 0 : true) && (
         <CustomCarousel imageData={queryResultEntity} />
       )}
-      <div className={cx(styles.contentWrapper, 'globals-contentWrapper')}>
+      <div
+        className={cx(
+          styles.contentWrapper,
+          'globals-contentWrapper',
+          'globals-cardWrapperRestaurantsAndBars',
+        )}
+      >
         <div className={cx(styles.imageContent, 'globals-imageContent')}>
           {queryResultEntity?.name && (
             <h2 className={cx(styles.listComponentTitle, 'globals-text-align')}>

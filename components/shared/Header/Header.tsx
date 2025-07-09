@@ -54,6 +54,7 @@ export const Header: React.FC<IHeaderProps> = ({
   const irdMenuTimings = header && header[0]?.hours;
   const [orderDrawer, setOrderDrawer] = useState(false);
   const [openLanguage, setOpenLanguage] = useState(false);
+  const [backIconError, setBackIconError] = useState(false);
 
   const { data: myOrders } = useQuery(GET_ORDERS, {
     skip: !hotelId || !checkinData?.reservationId,
@@ -118,7 +119,15 @@ export const Header: React.FC<IHeaderProps> = ({
 
           {displayBackButton && (
             <div className={styles.backButton} onClick={goBack}>
-              <ArrowBackIosIcon className={styles.backIcon} />
+              {!backIconError ? (
+                <img
+                  src={`/images/${BRAND_CODE}/HomeHeader.svg`}
+                  className={styles.img}
+                  onError={() => setBackIconError(true)}
+                />
+              ) : (
+                <ArrowBackIosIcon className={styles.backIcon} />
+              )}
             </div>
           )}
 
@@ -147,11 +156,17 @@ export const Header: React.FC<IHeaderProps> = ({
             <>
               {' '}
               <img
-                className={styles.headerLogo}
+                className={cx(styles.headerLogo, {
+                  [styles.fairmontLogo]: BRAND_CODE === 'fairmont',
+                })}
                 src={`/images/${
-                  hotel === 'fairmont-makkah-clock-royal-tower' ? hotel : BRAND_CODE
-                }/Logo.svg`}
-                onClick={() => goHome()}
+                  hotel === 'fairmont-makkah-clock-royal-tower'
+                    ? `${hotel}/Logo.svg`
+                    : config?.propertyHeaderLogo
+                    ? `propertyHeaderLogo/${hotel}.svg`
+                    : `${BRAND_CODE}/Logo.svg`
+                }`}
+                onClick={goHome}
               />
               {logo && hotel !== 'fairmont-makkah-clock-royal-tower' && (
                 <p className={cx(styles.propertyName, 'globals-propertyName')}>{logo}</p>

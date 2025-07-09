@@ -17,6 +17,7 @@ export const HOUSEKEEPING_ORDER_TRANSACTION_HK = gql`
         hotelId: $hotelId
         roomNo: $roomNo
         items: $items
+        channel: "PWA"
       }
     ) {
       message

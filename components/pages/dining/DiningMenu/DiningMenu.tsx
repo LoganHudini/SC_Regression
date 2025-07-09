@@ -247,7 +247,8 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
 
   const CHEF_SPECIAL_CATEGORY = {
     id: 'chefSpecialCategoryId',
-    name: 'Chef\'s Special',
+    // eslint-disable-next-line quotes
+    name: "Chef's Special",
     isActive: true,
     images: [],
     subCategories: null,
@@ -399,7 +400,8 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     if (!activeCategories.length) return;
 
     const chefSpecialCategory = activeCategories.find(
-      (cat: { name: string }) => cat.name === 'Chef\'s Special',
+      // eslint-disable-next-line quotes
+      (cat: { name: string }) => cat.name === "Chef's Special",
     );
 
     const shouldUseChefSpecial = isInitialLoad && chefSpecialCategory;

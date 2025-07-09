@@ -25,6 +25,7 @@ export const IRD_ORDER_TRANSACTION_POS = gql`
         items: $items
         additionalNote: $additionalNote
         bookingId: $bookingId
+        channel: "PWA"
       }
     ) {
       message

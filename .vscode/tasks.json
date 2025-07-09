@@ -658,6 +658,50 @@
       "problemMatcher": [],
       "label": "Start: COMO_STAGE",
       "detail": "env-cmd -f .env.como.stage yarn next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:orascom",
+      "problemMatcher": [],
+      "label": "Dev: ORASCOM",
+      "detail": "env-cmd -f .env.orascom yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:orascom",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: ORASCOM",
+      "detail": "env-cmd -f .env.orascom yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:orascom",
+      "problemMatcher": [],
+      "label": "Start: ORASCOM",
+      "detail": "env-cmd -f .env.orascom next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:orascom-stage",
+      "problemMatcher": [],
+      "label": "Dev: ORASCOM_STAGE",
+      "detail": "env-cmd -f .env.orascom.stage yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:orascom-stage",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: ORASCOM_STAGE",
+      "detail": "env-cmd -f .env.orascom.stage yarn next build"
+    },
+    {
+      "type": "npm",
+      "script": "start:orascom-stage",
+      "problemMatcher": [],
+      "label": "Start: ORASCOM_STAGE",
+      "detail": "env-cmd -f .env.orascom.stage yarn next start"
     }
   ]
 }

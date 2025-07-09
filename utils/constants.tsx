@@ -80,6 +80,19 @@ export const GRAND_MERCURE_WAKAYAMA_MINABE_RESORT_SPA = 'grand-mercure-wakayama-
 export const GRAND_MERCURE_SAPPORO_ODORI_PARK = 'grand-mercure-sapporo-odori-park';
 export const GRAND_MERCURE_LAKE_HAMANA_RESORT_SPA = 'grand-mercure-lake-hamana-resort-spa';
 export const COMO_METROPOLITAN_SINGAPORE = 'como-metropolitan-singapore';
+export const ALI_PASHA = 'ali-pasha';
+export const ANCIENT_SANDS = 'ancient-sands';
+export const CAPTAINS_INN = 'captains-inn';
+export const CLUB_PARADISIO = 'club-paradisio';
+export const COOKS_CLUB = 'cooks-club';
+export const FANADIR = 'fanadir';
+export const LA_MAISON_BLEUE = 'la-maison-bleue';
+export const MOSAIQUE = 'mosaique';
+export const STEIGENBERGER_GOLF_RESORT_EL_GOUNA = 'steigenberger-golf-resort-el-gouna';
+export const SULTAN_BEY = 'sultan-bey';
+export const THE_CHEDI_EL_GOUNA = 'the-chedi-el-gouna';
+export const TURTLES_INN = 'turtles-inn';
+export const CASA_COOK_EL_GOUNA = 'casa-cook-el-gouna';
 
 // CMS detailsCustomAttributes config constants
 export const MULTIPLE_PRIVACY_OPTIONS = 'multiplePrivacyOptions';
@@ -117,6 +130,7 @@ export const TOMORROW = 'TOMORROW';
 export const IMMEDIATE = 'IMMEDIATE';
 export const QUANTITY = 'Quantity';
 export const DATE = 'Date ';
+export const DATE_SMALLCASE = 'date';
 export const DAY = 'day';
 export const DATETIME = 'Date & Time';
 export const TIME = 'Time';
@@ -269,6 +283,7 @@ export const idVerificationFields = ['docNo', 'docType'];
 export const PHONE_NUMBER_WITH_COUNTRYCODE = 'Phone';
 export const ESTIMATED_TIME = 'estimatedTime';
 export const RESERVED = 'RESERVED';
+// eslint-disable-next-line quotes
 export const CHEF_TAG_NAME = "Chef's Special";
 export const PAY_BY_LINK = 'payment_link';
 export const DEFAULT_PAYMENT_MESSAGE = {
@@ -476,4 +491,4 @@ export const RESTAURANTS_BARS = 'RESTAURANTS_BARS';
 export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const PHONE_REGEX =
   /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/;
-export const TEXTFIELD_REGEX = /^[\p{L}\p{N}\s\-:,./']*$/u;
+export const TEXTFIELD_REGEX = /^[\p{L}\p{N}\s\-:,./'`\u2018\u2019\u02BC\u02BB]*$/u;

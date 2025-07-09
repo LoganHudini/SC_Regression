@@ -26,6 +26,7 @@ import { DiningCustomisationDrawer } from 'components/pages/dining/DiningCustomi
 import {
   CMS,
   CUSTOM,
+  DATE_SMALLCASE,
   DEFAULT_SERVICE_CHARGE_MESSAGE,
   ERRORMSG,
   FAILED_TO_FETCH_BOOKING_DETAILS,
@@ -36,7 +37,6 @@ import {
   NOW,
   SERVICE_CHARGES,
   SUCCESS,
-  TIME,
   VENDOR,
 } from 'utils/constants';
 import { InputAdornment } from '@mui/material';
@@ -70,7 +70,7 @@ import DateTimeSelect from 'components/shared/DateTimeSelect/DateTimeSelect';
 import { timeFormats } from 'utils/timeFormats';
 import CheckIcon from '@icons/checkIcon.svg';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
-
+import { handleReservation } from 'utils/fetchReservation';
 export { getStaticPaths };
 
 const DiningOrderSummary = () => {
@@ -109,8 +109,6 @@ const DiningOrderSummary = () => {
   const information = hotelInfo?.getPropertyDetailsByHotelId?.hotel?.detailsCustomAttributes;
 
   const getServiceCharges = (data: any) =>
-    irdOrderType?.customServiceChargeMessage ||
-    irdOrderType?.customServiceChargeDisclaimer ||
     data?.find((item: any) => item?.key === SERVICE_CHARGES)?.value ||
     DEFAULT_SERVICE_CHARGE_MESSAGE;
 
@@ -136,6 +134,47 @@ const DiningOrderSummary = () => {
     });
     return Array.from(allUpsellItems.values());
   }, [items]);
+
+  const checkReservationStatus = useCallback(async (): Promise<boolean> => {
+    if (!checkinData?.roomNumber || !checkinData?.lastName || !hotelId) {
+      return false;
+    }
+
+    return new Promise<boolean>((resolve) => {
+      let reservationCheckCompleted = false;
+
+      const customToggleNotification = (show: boolean) => {
+        if (!reservationCheckCompleted) {
+          reservationCheckCompleted = true;
+          resolve(true);
+        }
+      };
+
+      handleReservation({
+        activeCheckInFlowInfo: false,
+        values: {
+          roomNo: checkinData?.roomNumber,
+          lastName: checkinData?.lastName,
+        },
+        toggleNotification: customToggleNotification,
+        setLoading: () => null,
+        t: t,
+        preventDrawerOpen: true,
+      }).catch(() => {
+        if (!reservationCheckCompleted) {
+          reservationCheckCompleted = true;
+          resolve(false);
+        }
+      });
+
+      setTimeout(() => {
+        if (!reservationCheckCompleted) {
+          reservationCheckCompleted = true;
+          resolve(false);
+        }
+      }, 10000);
+    });
+  }, [checkinData?.roomNumber, checkinData?.lastName, hotelId, t]);
 
   useEffect(() => {
     const totalAmount = diningData?.items?.reduce((allTotal, item) => {
@@ -260,6 +299,34 @@ const DiningOrderSummary = () => {
   }, []);
 
   const handleOrder = useCallback(async () => {
+    try {
+      const isInHouse = await checkReservationStatus();
+      if (!isInHouse) {
+        notificationStorage({
+          title: t('Order Failed'),
+          type: FAILURE,
+          description: t(
+            'Your reservation status has changed. In-room dining is only available for checked-in guests.',
+          ),
+          redirect: availablePaths.HOME,
+        });
+        toggleNotification(true);
+        diningMenuStorage({ items: [] });
+        navigate(availablePaths.HOME);
+        return;
+      }
+    } catch (error) {
+      notificationStorage({
+        title: t('Order Failed'),
+        type: FAILURE,
+        description: t('Unable to verify reservation status. Please try again.'),
+        redirect: availablePaths.HOME,
+      });
+      toggleNotification(true);
+      navigate(availablePaths.HOME);
+      return;
+    }
+
     setLoading(true);
     setScrollPosition(0, 0);
     diningInformationStorage(
@@ -283,7 +350,7 @@ const DiningOrderSummary = () => {
       roomNo: checkinData?.roomNumber,
       startTime:
         selectedOption === LATER
-          ? dayjs(selectedTime, 'DD MMMM hh:mm A').format('YYYY-MM-DD HH:mm')
+          ? dayjs(selectedTime, 'DD MMM hh:mm A').format('YYYY-MM-DD HH:mm')
           : dayjs().format('YYYY-MM-DD HH:mm'),
       noOfGuests: guestNumber,
       items: diningData?.items?.map((el) => ({
@@ -311,7 +378,7 @@ const DiningOrderSummary = () => {
       hotelId: hotelId,
       date:
         selectedOption === LATER
-          ? dayjs(selectedTime, 'DD MMMM hh:mm A').format('YYYY-MM-DD HH:mm')
+          ? dayjs(selectedTime, 'DD MMM hh:mm A').format('YYYY-MM-DD HH:mm')
           : dayjs().format('YYYY-MM-DD HH:mm'),
       deliveryLocation: '',
       bookingId: checkinData?.reservationId,
@@ -505,10 +572,13 @@ const DiningOrderSummary = () => {
 
   const getInitialSelectedTime = () => {
     const now = dayjs();
-    const thirtyMinutesLater = now.add(orderSchedulingDuration, 'minute');
-    const minutes = thirtyMinutesLater.minute();
+    const target = now.add(orderSchedulingDuration, 'minute');
+
+    const minutes = target.minute();
     const roundedMinutes = Math.ceil(minutes / 15) * 15;
-    const adjustedTime = thirtyMinutesLater.startOf('hour').add(roundedMinutes, 'minute');
+
+    const adjustedTime = target.startOf('hour').add(roundedMinutes, 'minute');
+
     return adjustedTime.format('DD MMM:hh:mm:A');
   };
 
@@ -575,10 +645,11 @@ const DiningOrderSummary = () => {
                   handleSave={handleSave}
                   showSchedules={{
                     schedule: [CUSTOM],
-                    customSchedule: TIME,
+                    customSchedule: DATE_SMALLCASE,
                   }}
                   buttonTitle={t('Next')}
                   module='dining'
+                  initialSelectedTime={getInitialSelectedTime()}
                 />
               )}
             </div>
@@ -782,9 +853,10 @@ const DiningOrderSummary = () => {
               <p className={styles.schedulingContainerTitle} onClick={() => setIsDrawerOpen(true)}>
                 <span>{t('Delivery Time')}</span>
                 <span className={styles.scheduleText}>
-                  {' '}
                   {selectedOption === LATER
-                    ? dayjs(selectedTime).format(timeFormats.HOURS_MINUTES_AM)
+                    ? dayjs(selectedTime, 'DD MMM:hh:mm:A').format(
+                        timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2,
+                      )
                     : selectedOption}{' '}
                   <UpArrow className={styles.iconUp} />
                 </span>
@@ -793,9 +865,25 @@ const DiningOrderSummary = () => {
             <CustomDrawer
               open={isDrawerOpen}
               onClose={() => {
+                const parsedSelectedTime = dayjs(
+                  selectedTime,
+                  timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2,
+                );
+                const initialSelectedTime = getInitialSelectedTime();
+                const parsedInitial = dayjs(
+                  initialSelectedTime,
+                  timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2,
+                );
+
+                const shouldDisable =
+                  parsedSelectedTime.isAfter(parsedInitial) ||
+                  parsedSelectedTime.isSame(parsedInitial, 'minute');
+                console.log(shouldDisable, 'shouldDisable');
                 closeDrawer();
                 if (!nextClick) {
-                  setSelectedOption(NOW);
+                  if (!shouldDisable || !selectedTime) {
+                    setSelectedOption(NOW);
+                  }
                 }
               }}
               content={scheduleDrawer()}

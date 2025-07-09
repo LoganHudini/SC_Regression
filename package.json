@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev:dev": "env-cmd -f .env.dev yarn next dev",
-    "build:dev": "env-cmd -f .env.dev yarn next build",
+    "build:dev": "env-cmd -f .env.orascom.stage yarn next build",
     "start:dev": "env-cmd -f .env.dev next start",
     "dev:stage": "env-cmd -f .env.stage yarn next dev",
     "build:stage": "env-cmd -f .env.stage yarn next build",
@@ -93,9 +93,15 @@
     "dev:como-stage": "env-cmd -f .env.como.stage yarn next dev",
     "build:como-stage": "env-cmd -f .env.como.stage yarn next build",
     "start:como-stage": "env-cmd -f .env.como.stage next start",
+    "dev:orascom": "env-cmd -f .env.orascom yarn next dev",
+    "build:orascom": "env-cmd -f .env.orascom yarn next build",
+    "start:orascom": "env-cmd -f .env.orascom next start",
+    "dev:orascom-stage": "env-cmd -f .env.orascom.stage yarn next dev",
+    "build:orascom-stage": "env-cmd -f .env.orascom.stage yarn next build",
+    "start:orascom-stage": "env-cmd -f .env.orascom.stage next start",
     "export": "next export",
-    "lint": "eslint ./**/*.{js,jsx,ts,tsx}",
-    "lint:fix": "eslint --fix ./**/*.{js,jsx,ts,tsx}",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "format": "prettier --write ./**/*.{js,jsx,ts,tsx,css,md} --config ./.prettierrc",
     "prepare": "husky install"
   },
@@ -177,5 +183,8 @@
   "lint-staged": {
     "./**/*.{js,jsx,ts,tsx}": "yarn lint:fix",
     "./**/*.{js,jsx,ts,tsx,css,md}": "yarn format"
+  },
+  "resolutions": {
+    "minimatch": "^9.0.3"
   }
 }

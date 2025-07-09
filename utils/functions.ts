@@ -71,17 +71,23 @@ export const getWelcomeDrawer = () =>
     JSON.parse(sessionStorage.getItem('welcomeDrawer') ?? '')) === null
     ? true
     : false;
-
 // Convert time format from 24H to 12H
 export const convertTo12HourFormat = (time24: string) => {
-  if (!time24) return time24 || '';
-  const [hours, minutes] = time24 && time24.split(':');
+  if (!time24 || typeof time24 !== 'string') return '';
 
-  let hoursNum = parseInt(hours, 10);
+  if (time24.toLowerCase() === ALL_DAY) return '12:00 AM';
+
+  const candidate = time24.includes(':') ? time24 : `${time24}:`;
+  const [hoursStrRaw, minutesStrRaw] = candidate.split(':');
+  const hoursNum = Number.parseInt(hoursStrRaw, 10);
+  const minutesNum = Number.isNaN(Number.parseInt(minutesStrRaw, 10))
+    ? 0
+    : Number.parseInt(minutesStrRaw, 10);
   const meridiem = hoursNum >= 12 ? 'PM' : 'AM';
-  hoursNum = hoursNum % 12 || 12;
+  const hours12 = hoursNum % 12 || 12;
+  const minutesPadded = minutesNum.toString().padStart(2, '0');
 
-  return `${hoursNum}:${minutes} ${meridiem}`;
+  return `${hours12}:${minutesPadded} ${meridiem}`;
 };
 
 // Filter items based on the time of the day
@@ -716,3 +722,44 @@ export const isIRDOpenNow = (timings: any, timezone: any) => {
 
   return false;
 };
+
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
+
+export function isBookingAllowed(hours: any, selectedTimeStr: any) {
+  const selectedDate = dayjs(selectedTimeStr, 'DD MMM:hh:mm:A');
+  if (!selectedDate.isValid()) return false;
+
+  const dayName = selectedDate.format('dddd').toUpperCase();
+  const selectedTime = dayjs(selectedDate.format('HH:mm'), 'HH:mm');
+
+  let dayHours = hours.filter((h: any) => h.day === dayName);
+
+  if (dayHours.length === 0) {
+    dayHours = hours.filter((h: any) => h.day === 'EVERYDAY');
+  }
+
+  if (dayHours.length === 0) return false;
+
+  return dayHours.some(({ open, close }: { open: string; close: string }) => {
+    const openTime = dayjs(open, 'HH:mm');
+    const closeTime = dayjs(close, 'HH:mm');
+
+    const isOvernight = closeTime.isBefore(openTime);
+
+    if (isOvernight) {
+      return (
+        selectedTime.isAfter(openTime) ||
+        selectedTime.isBefore(closeTime) ||
+        selectedTime.isSame(openTime) ||
+        selectedTime.isSame(closeTime)
+      );
+    } else {
+      return (
+        (selectedTime.isAfter(openTime) && selectedTime.isBefore(closeTime)) ||
+        selectedTime.isSame(openTime) ||
+        selectedTime.isSame(closeTime)
+      );
+    }
+  });
+}
