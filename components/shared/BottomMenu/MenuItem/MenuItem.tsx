@@ -59,6 +59,7 @@ import { LanguageDrawer } from '../LanguageDrawer/LanguageDrawer';
 import { messageBoxURL } from 'storage/chats';
 import { getCheckInTokenSession } from 'core/api/functions/getCheckInAuthentication';
 import { IRDMenuApiResponse } from 'core/graphql/queries/IRD_MENU';
+import { client } from 'core/graphql/client';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
 
 export const MenuItem: React.FC<IMenuItemProps> = ({
@@ -337,6 +338,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                       reservationGuestInfoStorageData(null);
                       closeDrawer();
                       checkoutTrip();
+                      client.clearStore();
                       notificationStorage({
                         type: SUCCESS,
                         title: t('Device Disconnected!'),

@@ -30,7 +30,6 @@ import {
 import { analyticsEvent } from './gtag';
 import * as yup from 'yup';
 import { Countries } from './countryList';
-import { availablePaths } from './availablePaths';
 import timezone from 'dayjs/plugin/timezone';
 import isBetween from 'dayjs/plugin/isBetween';
 import utc from 'dayjs/plugin/utc';
@@ -88,6 +87,23 @@ export const convertTo12HourFormat = (time24: string) => {
   const minutesPadded = minutesNum.toString().padStart(2, '0');
 
   return `${hours12}:${minutesPadded} ${meridiem}`;
+};
+
+export const convertTo12HourFormatSmallCase = (time?: string) => {
+  if (!time || !time.includes(':')) return ''; // or return a fallback like 'Invalid time'
+
+  const [hours, minutes] = time.split(':');
+  const date = new Date();
+  date.setHours(parseInt(hours));
+  date.setMinutes(parseInt(minutes));
+
+  return date
+    .toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    })
+    .toLowerCase(); // Ensures "am"/"pm" is lowercase
 };
 
 // Filter items based on the time of the day
@@ -531,7 +547,7 @@ export const errorStateHandler = (
     type: FAILURE,
     title: t(`${title}`),
     description: t(`${description}`),
-    redirect: availablePaths?.HOME,
+    redirect: null,
   });
 
   toggleNotification(true);
@@ -635,6 +651,70 @@ export const getCurrentOpenPeriod = (hours: any) => {
   }
 
   return null;
+};
+
+// activity valid dateRange
+export const getValidActivityDateRange = (
+  checkInDate?: string,
+  checkOutDate?: string,
+  activityStartDate?: string,
+  activityEndDate?: string,
+): string | undefined => {
+  if (!checkInDate || !checkOutDate || !activityStartDate || !activityEndDate) return undefined;
+
+  const parseDate = (dateStr: string): Date | null => {
+    const isoFormat = /^\d{4}-\d{2}-\d{2}$/;
+    const dmyFormat = /^\d{2}-\d{2}-\d{4}$/;
+
+    if (isoFormat.test(dateStr)) {
+      return new Date(dateStr);
+    } else if (dmyFormat.test(dateStr)) {
+      const [day, month, year] = dateStr.split('-');
+      return new Date(`${year}-${month}-${day}`);
+    }
+    return null;
+  };
+
+  const checkIn = parseDate(checkInDate);
+  const checkOut = parseDate(checkOutDate);
+  const activityStart = parseDate(activityStartDate);
+  const activityEnd = parseDate(activityEndDate);
+
+  if (!checkIn || !checkOut || !activityStart || !activityEnd) return undefined;
+  if (
+    isNaN(checkIn.getTime()) ||
+    isNaN(checkOut.getTime()) ||
+    isNaN(activityStart.getTime()) ||
+    isNaN(activityEnd.getTime())
+  )
+    return undefined;
+
+  // Find overlapping range
+  const rangeStart = new Date(Math.max(checkIn.getTime(), activityStart.getTime()));
+  const rangeEnd = new Date(Math.min(checkOut.getTime(), activityEnd.getTime()));
+  const currentDate = new Date();
+
+  // If there's no overlap at all (start > end), return undefined
+  if (rangeStart > rangeEnd) return undefined;
+
+  const formatDate = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  return `${formatDate(currentDate > rangeStart ? currentDate : rangeStart)} - ${formatDate(
+    rangeEnd,
+  )}`;
+};
+
+export const calculateDuration = (startTime: string, endTime: string): number => {
+  const start = new Date(`01/01/2020 ${startTime}`);
+  const end = new Date(`01/01/2020 ${endTime}`);
+
+  const diffMs = end.getTime() - start.getTime();
+  return Math.floor(diffMs / 60000);
 };
 
 export const convertYYMMToLastDate = (yyMM: any) => {
@@ -763,3 +843,32 @@ export function isBookingAllowed(hours: any, selectedTimeStr: any) {
     }
   });
 }
+
+dayjs.extend(customParseFormat);
+
+export const safeDateFormat = (
+  dateString: any,
+  inputFormat: any,
+  outputFormat = 'YYYYMMDD',
+): string => {
+  if (!dateString) {
+    console.warn('Missing date string in safeDateFormat');
+    return 'InvalidDate';
+  }
+
+  // Try parsing with the provided format
+  let parsedDate;
+  if (inputFormat) {
+    parsedDate = dayjs(dateString, inputFormat);
+  } else {
+    // Fallback: auto-parse if no format is given
+    parsedDate = dayjs(dateString);
+  }
+
+  if (!parsedDate.isValid()) {
+    console.error(`Failed to parse date: ${dateString} with format: ${inputFormat}`);
+    return 'InvalidDate';
+  }
+
+  return parsedDate.format(outputFormat);
+};

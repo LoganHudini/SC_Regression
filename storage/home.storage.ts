@@ -37,9 +37,19 @@ export const toggleRestaurantDetailsDrawer = makeVar(false);
 
 export const toggleCheckInDetailsDrawer = makeVar(false);
 
+export const isGetStarted = makeVar(false);
+
+export const bookingDate = makeVar('');
+
 export const getHotelCompendium = makeVar([]);
 
 export const selectedCompendiumCategory = makeVar([]);
+
+export const selectActivityCategory = makeVar([]);
+
+export const selectActivityDetails = makeVar([]);
+
+export const selectedActivityName = makeVar([]);
 
 export const hotelInformation = makeVar<any>({});
 
@@ -52,3 +62,5 @@ export const toggleMessageBirdChat = makeVar(false);
 export const setDayjsLocale = makeVar(false);
 
 export const hotelImage = makeVar<any>({});
+
+export const hotelLocation = makeVar<any>([]);

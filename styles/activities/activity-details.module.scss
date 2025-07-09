@@ -1,0 +1,278 @@
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 70px 20px 40px;
+}
+
+.wrapper {
+  padding: 0.5rem 1.5rem 1rem;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  min-height: 210px;
+}
+
+.title {
+  text-align: center;
+  font-size: $header;
+  margin: 1rem 0;
+  font-family: var(--heading-font-regular);
+  white-space: normal;
+  word-wrap: break-word;
+  width: 100%;
+}
+
+.subtitle {
+  text-align: center;
+  margin: 0.6rem 0;
+  width: 100%;
+  font: $medium var(--primary-font-heading);
+}
+
+.plusMinus {
+  margin: 0.5rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.plusMinusWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.description {
+  text-align: center;
+  font-size: $small;
+  margin: 20px 0 30px;
+  font-family: var(--primary-font-regular);
+  color: var(--tertiary-text-color);
+  line-height: 1.5;
+}
+
+.guestCount {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: $medium;
+  margin: 4px 0 5px;
+  font-family: var(--primary-font-medium);
+  color: var(--tertiary-text-color);
+  line-height: 1.5;
+  font-weight: bold;
+}
+
+.descriptiontext {
+  text-align: center;
+  font-size: $small;
+  margin: 20px 0 30px;
+  font-family: var(--primary-font-medium);
+  color: var(--tertiary-text-color);
+  line-height: 1;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.icons {
+  padding: 5px;
+}
+
+.userIcon {
+  padding: 5px;
+  padding-top: 9px;
+}
+
+.dateAndTime {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.highlights {
+  text-align: center;
+  font-size: $small;
+  margin: 5px 0;
+  color: var(--tertiary-text-color);
+}
+
+.info {
+  text-align: center;
+  font-family: var(--primary-font-heading);
+  font-size: $header;
+  position: absolute;
+  margin: 0;
+  right: 0;
+  left: 0;
+  top: 40%;
+}
+
+.slotswrapper {
+  padding: 2rem 1.5rem;
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+}
+
+.slotsButtonwrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  max-width: 768px;
+  overflow-y: scroll;
+  transform-origin: bottom;
+}
+
+.sloteButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 42%;
+  margin: 2%;
+  font-size: $xsmall;
+  line-height: 15px;
+  height: 30px;
+  padding: 1px;
+  &:after {
+    display: none;
+  }
+}
+
+.slotBookingButton {
+  margin-top: 5%;
+}
+
+// Wherever DateTimeSelect is used inside your RECURRING block
+.recurringWrapper {
+  display: none;
+}
+
+.horizontalLine {
+  background: var(--primary-text-color);
+  opacity: 0.2;
+  margin: 1rem 0;
+  height: 1px;
+}
+
+.buttonWrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.button {
+  width: 45%;
+  font-size: 11px;
+  line-height: 1px;
+}
+
+.horizontalLine {
+  background: var(--primary-text-color);
+  opacity: 0.2;
+  margin: 1rem 0;
+  height: 0.5px;
+}
+
+.cancelWrapper {
+  padding: 2rem 1.5rem 2rem;
+}
+
+.buttonCancelWrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  padding-top: 1rem;
+}
+
+.cancelButton {
+  width: 45%;
+  font-size: 10px;
+  line-height: 1px;
+}
+
+.currency {
+  font-size: $xsmall;
+  color: var(--tertiary-text-color);
+}
+
+.blurred {
+  filter: blur(4px);
+  pointer-events: none;
+  transition: filter 0.3s ease;
+  position: relative;
+}
+
+.date {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.location {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 5px;
+}
+
+.locationDescription {
+  text-align: center;
+  font-size: 0.875rem;
+  margin: 5px 0 0px;
+  font-family: var(--primary-font-regular);
+  color: var(--tertiary-text-color);
+  line-height: 1.5;
+}
+
+.urlRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  color: var(--primary-text-color);
+  gap: 3px;
+  span {
+    margin-inline-start: 6px;
+    font-size: 1rem;
+    color: var(--primary-text-color);
+    text-align: start;
+    width: fit-content;
+  }
+}
+
+.icon_contact {
+  color: var(--primary-theme-color) !important;
+  font-size: $small !important;
+  text-transform: uppercase;
+  padding-top: 2.5px;
+}
+
+.check {
+  path {
+    fill: var(--primary-theme-color);
+  }
+}

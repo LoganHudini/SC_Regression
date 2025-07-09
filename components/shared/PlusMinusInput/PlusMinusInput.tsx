@@ -25,7 +25,7 @@ export const PlusMinusInput: React.FC<IPlusMinusInputProps> = ({
       </button>
       <p className={cx(styles.value, valueClassName)}>{value}</p>
       <button
-        disabled={maxQuantity ? value === maxQuantity : false}
+        // disabled={maxQuantity !== null && maxQuantity !== undefined ? value >= maxQuantity : false}
         onClick={onClickPlus}
         className={styles.plusMinusButton}
       >

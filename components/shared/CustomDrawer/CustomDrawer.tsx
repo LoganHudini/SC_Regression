@@ -1,7 +1,8 @@
 import styles from './CustomDrawer.module.scss';
-import { SwipeableDrawer } from '@mui/material';
+import { SwipeableDrawer, useMediaQuery } from '@mui/material';
 import cx from 'classnames';
 import { useRouter } from 'next/router';
+import { useTheme } from '@mui/material/styles';
 import { useEffect, useRef, useState } from 'react';
 import { toggleOpenCheckOutDrawer } from 'storage/checkout.storage';
 import {
@@ -27,6 +28,8 @@ export const CustomDrawer: React.FC<IDetailPageProps> = ({
   isIframe = false,
 }) => {
   const router = useRouter();
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
   const contentRef: any = useRef(null);
   const [drawerHeight, setDrawerHeight] = useState<any>();
   const [drawerMaxHeight, setDrawerMaxHeight] = useState<any>(drawerHeight);
@@ -107,7 +110,7 @@ export const CustomDrawer: React.FC<IDetailPageProps> = ({
           elevation: 0,
           style: {
             maxWidth: '768px',
-            maxHeight: drawerMaxHeight,
+            maxHeight: isDesktop ? '90vh' : drawerMaxHeight,
             margin: 'auto',
             backgroundColor: 'var(--primary-drawer-color)',
             borderTopLeftRadius: 'var(--primary-drawer-top-left-border-radius)',

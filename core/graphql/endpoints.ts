@@ -22,6 +22,12 @@ export const API_KEY_PROPERTY_D = process.env.NEXT_PUBLIC_API_KEY_PROPERTY_D;
 export const PROPERTY_E = process.env.NEXT_PUBLIC_PROPERTY_E;
 export const API_KEY_PROPERTY_E = process.env.NEXT_PUBLIC_API_KEY_PROPERTY_E;
 
+export const PROPERTY_F = process.env.NEXT_PUBLIC_PROPERTY_F;
+export const API_KEY_PROPERTY_F = process.env.NEXT_PUBLIC_API_KEY_PROPERTY_F;
+
+export const PROPERTY_G = process.env.NEXT_PUBLIC_PROPERTY_G;
+export const API_KEY_PROPERTY_G = process.env.NEXT_PUBLIC_API_KEY_PROPERTY_G;
+
 export const INTEGRATION_A = process.env.NEXT_PUBLIC_INTEGRATION_A;
 export const INTEGRATION_API_KEY_PROPERTY_A = process.env.NEXT_PUBLIC_API_KEY_INTEGRATION_A;
 
@@ -42,6 +48,9 @@ export const INTEGRATION_API_KEY_G = process.env.NEXT_PUBLIC_API_KEY_INTEGRATION
 
 export const INTEGRATION_H = process.env.NEXT_PUBLIC_INTEGRATION_H;
 export const INTEGRATION_API_KEY_H = process.env.NEXT_PUBLIC_API_KEY_INTEGRATION_H;
+
+export const INTEGRATION_K = process.env.NEXT_PUBLIC_INTEGRATION_K;
+export const INTEGRATION_API_KEY_K = process.env.NEXT_PUBLIC_API_KEY_INTEGRATION_K;
 
 export const REST_API_URL = process.env.NEXT_PUBLIC_REST_API_URL;
 export const X_API_TOKEN = process.env.NEXT_PUBLIC_X_API_TOKEN;

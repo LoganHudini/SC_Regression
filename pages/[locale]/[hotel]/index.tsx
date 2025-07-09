@@ -35,6 +35,11 @@ import React from 'react';
 import HotelInformation from 'components/pages/home/HotelInformation/HotelInformation';
 import { HomeCarousel } from 'components/pages/home/HomeCarousel/HomeCarousel';
 import { irdMenuOutputDetailsStorage } from 'storage/dining.storage';
+import { StayDetails } from 'components/pages/home/stayDetails/stayDetails';
+import { ActivityCarousel } from 'components/pages/home/ActivityCarousel/ActivityCarousel';
+import { GET_ACTIVITIES, IGetActivitiesApiResponse } from 'core/graphql/queries/GET_ACTIVITY';
+import { GET_LOCATIONS, IGetLocationsApiResponse } from 'core/graphql/queries/GET_LOCATIONS';
+import { hotelLocation } from 'storage/home.storage';
 
 export { getStaticPaths };
 
@@ -131,6 +136,43 @@ const Home: NextPage = () => {
     fetchPolicy: 'no-cache',
   });
 
+  const { data: activitiesData, loading: activitiesLoading } = useQuery<IGetActivitiesApiResponse>(
+    GET_ACTIVITIES,
+    {
+      context: { clientName: 'property_f' },
+      variables: {
+        hotelId: hotelId,
+        id: '',
+        startDate: '',
+        endDate: '',
+        categoryId: '',
+        availability: '',
+        priceType: '',
+        location: '',
+        limit: 0,
+        pageToken: '',
+        lang: locale === 'en' ? '' : locale,
+      },
+      fetchPolicy: 'no-cache',
+    },
+  );
+
+  const { data: location, loading: locationLoading } = useQuery<IGetLocationsApiResponse>(
+    GET_LOCATIONS,
+    {
+      fetchPolicy: 'no-cache',
+      context: { clientName: 'property_d' },
+      variables: {
+        hotelId: hotelId,
+        lang: locale === 'en' ? '' : locale,
+      },
+    },
+  );
+
+  hotelLocation(location?.getLocations);
+
+  const activitiesList = activitiesData?.getActivitiesV2?.activities || [];
+
   const activeOffersList = offersList?.getOffersDetails?.filter((item: any) => isOfferActive(item));
 
   const homeModules: any = {
@@ -179,6 +221,14 @@ const Home: NextPage = () => {
           )}
       </>
     ),
+    staydetails: () =>
+      activeModule(config?.modules, 'activities-and-itineraries') ? (
+        <StayDetails activeOffersList={activeOffersList} />
+      ) : null,
+    activites: () =>
+      activeModule(config?.modules, 'activities-and-itineraries') ? (
+        <ActivityCarousel data={activitiesList} />
+      ) : null,
     dining: () => (
       <>
         <DiningCarousel
@@ -212,6 +262,7 @@ const Home: NextPage = () => {
         irdloading ||
         restaurantloading ||
         spaloading ||
+        activitiesLoading ||
         offersListLoading ? (
           config?.isLogoLoaderActive === false ? (
             <Loader />

@@ -32,7 +32,11 @@ import { ASSETS_URL, BRAND_CODE } from 'core/graphql/endpoints';
 import { useReactiveVar, useQuery } from '@apollo/client';
 import { hotelInformation, toggleNotification } from 'storage/home.storage';
 import { StableImage } from 'components/shared/StableImage/StableImage';
-import { activeCheckInFlow, StepperInformationStorage } from 'storage/check-in.storage';
+import {
+  activeCheckInFlow,
+  StepperInformationStorage,
+  useCheckedIn,
+} from 'storage/check-in.storage';
 import produce from 'immer';
 import {
   STEPPER_PAYMENT,
@@ -56,6 +60,8 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
   const { t } = useTranslation(['about-your-stay', 'common']);
   const navigate = useLocalizedRouter();
   const config: any = useConfig();
+  const checkedInData = useCheckedIn();
+
   const router = useRouter();
   const locale = useLocale();
   const hotelName = config?.name;
@@ -129,6 +135,23 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
             pmsRoomNumberLength,
           });
         }
+      } else if (!reservationInfo) {
+        const values: any = {
+          lastName: checkedInData?.lastName,
+          confirmationNumber: checkedInData?.reservationId,
+        };
+        await handleReservation({
+          activeCheckInFlowInfo,
+          values,
+          hotelId,
+          config,
+          toggleNotification,
+          setLoading,
+          t,
+          processStatusCode,
+          navigate,
+          goToTheNextStep,
+        });
       }
     };
     goToTheNextStep();

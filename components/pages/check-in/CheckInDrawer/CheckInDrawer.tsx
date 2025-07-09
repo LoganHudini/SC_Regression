@@ -6,7 +6,7 @@ import { StyledInput } from 'components/shared/StyledInput/StyledInput';
 import styles from './CheckInDrawer.module.scss';
 import {
   getReservationForCheckinValidation,
-  getcheckInTokenValidation,
+  // getcheckInTokenValidation,
   getReservationForConnectToRoomValidation,
 } from 'validation/get-reservation.validation';
 import { useFormik } from 'formik';
@@ -17,12 +17,15 @@ import {
   hotelInfoStorage,
   toggleCheckInDetailsDrawer,
   toggleNotification,
+  isGetStarted,
+  toggleDetailsDrawer,
 } from 'storage/home.storage';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { useRouter } from 'next/router';
 import { processStatusCode } from 'utils/processError';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { handleCheckInToken, handleReservation } from 'utils/fetchReservation';
+import { availablePaths } from 'utils/availablePaths';
 
 export interface Values {
   confirmationNumber?: string | string[];
@@ -38,6 +41,7 @@ const CheckInDrawer = () => {
   const pmsRoomNumberLength = config?.pmsRoomNumberLength;
   const hotelInformation = useReactiveVar(hotelInfoStorage);
   const checkInDrawerStatus = useReactiveVar(toggleCheckInDetailsDrawer);
+  const isGetStartedStatus = useReactiveVar(isGetStarted);
   const { t } = useTranslation(['common']);
   const router = useRouter();
   const HOME = `/${hotel}/`;
@@ -46,6 +50,8 @@ const CheckInDrawer = () => {
   const roomNo = router?.query?.roomNo ?? '';
   const checkedInData = useCheckedIn();
   const homeActiveRef = useRef<boolean>();
+  const activityPageActive =
+    router?.asPath === `/${router?.query?.locale}${availablePaths?.ACTIVITY_DETAILS}/`;
 
   useEffect(() => {
     homeActiveRef.current = router?.pathname === '/[locale]/[hotel]';
@@ -59,6 +65,12 @@ const CheckInDrawer = () => {
 
   const goToTheNextStep = useCallback(
     async (values: Values) => {
+      // if (values?.roomNo) {
+      //   activeCheckInFlow(false);
+      // } else {
+      //   activeCheckInFlow(true);
+      // }
+      const activeCheckInFlowInfo = values?.roomNo ? false : true;
       if (activeCheckOutFlowInfo) {
         await handleCheckInToken({
           values,
@@ -83,6 +95,8 @@ const CheckInDrawer = () => {
           isRetryEnabled,
           hotelInformation,
           pmsRoomNumberLength,
+          activityPageActive,
+          toggleDetailsDrawer,
         });
       }
     },
@@ -112,12 +126,35 @@ const CheckInDrawer = () => {
             roomNo: '',
             lastName: '',
           },
-    validationSchema:
-      activeCheckInFlowInfo && !activeCheckOutFlowInfo
-        ? getReservationForCheckinValidation
-        : activeCheckOutFlowInfo
-        ? getcheckInTokenValidation
-        : getReservationForConnectToRoomValidation,
+    validate: (values) => {
+      let schema;
+
+      if (values.confirmationNumber) {
+        schema = getReservationForCheckinValidation;
+      }
+      // else if (values.confirmationNumber && !values.lastName) {
+      //   schema = getcheckInTokenValidation;
+      // }
+      else if (values.roomNo) {
+        schema = getReservationForConnectToRoomValidation;
+      } else if (!values.roomNo && !values.lastName) {
+        schema = getReservationForConnectToRoomValidation;
+      } else if (!values.lastName && !values.confirmationNumber) {
+        schema = getReservationForCheckinValidation;
+      }
+
+      try {
+        schema?.validateSync(values, { abortEarly: false });
+      } catch (err: any) {
+        const errors: any = {};
+        if (err.inner) {
+          err.inner.forEach((e: any) => {
+            if (e.path) errors[e.path] = e.message;
+          });
+        }
+        return errors;
+      }
+    },
     onSubmit: goToTheNextStep,
     enableReinitialize: true,
   });
@@ -149,8 +186,11 @@ const CheckInDrawer = () => {
   }, [lastName, resId, roomNo]);
 
   const closeInputDrawer = useCallback(() => {
+    isGetStarted(false);
     toggleCheckInDetailsDrawer(false);
-    navigate(HOME);
+    // navigate(HOME);
+    activeCheckInFlow(true);
+    activeCheckOutFlow(false);
   }, [HOME, navigate]);
 
   const pairDeviceWelcomeMessage = () => {
@@ -188,64 +228,106 @@ const CheckInDrawer = () => {
               : t('Connect your phone to access in-room features on your device.')}
           </p>
           <div className={styles.reservationInputs}>
-            <StyledInput
-              autoComplete='off'
-              required
-              className={styles.reservationInput}
-              label={
-                activeCheckInFlowInfo || activeCheckOutFlowInfo ? t('Booking ID') : t('Room No')
-              }
-              variant='standard'
-              name={
-                activeCheckInFlowInfo || activeCheckOutFlowInfo ? 'confirmationNumber' : 'roomNo'
-              }
-              id={activeCheckInFlowInfo || activeCheckOutFlowInfo ? 'confirmationNumber' : 'roomNo'}
-              value={
-                (activeCheckInFlowInfo || activeCheckOutFlowInfo
-                  ? formik.values.confirmationNumber ?? ''
-                  : formik.values.roomNo) ?? ''
-              }
-              onChange={formik.handleChange}
-              error={
-                activeCheckInFlowInfo || activeCheckOutFlowInfo
-                  ? formik.touched.confirmationNumber && Boolean(formik.errors.confirmationNumber)
-                  : formik.touched.roomNo && Boolean(formik.errors.roomNo)
-              }
-              helperText={
-                activeCheckInFlowInfo || activeCheckOutFlowInfo
-                  ? formik.touched?.confirmationNumber && formik.errors.confirmationNumber
-                    ? t(formik.errors.confirmationNumber)
-                    : null
-                  : formik.touched?.roomNo && formik.errors.roomNo
-                  ? t(formik.errors.roomNo)
-                  : null
-              }
-            />
-            {!activeCheckOutFlowInfo && (
-              <StyledInput
-                autoComplete='off'
-                required
-                className={styles.reservationInput}
-                label={t('Last Name')}
-                variant='standard'
-                name='lastName'
-                id='lastName'
-                value={formik.values.lastName ?? ''}
-                onChange={formik.handleChange}
-                error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-                helperText={
-                  formik.touched?.lastName && formik.errors.lastName
-                    ? t(formik.errors.lastName)
-                    : null
-                }
-              />
-            )}
+            <div
+              className={`${
+                isGetStartedStatus ? styles.flexInputContainer : styles.inputContainer
+              }`}
+            >
+              {/* Reservation No. Field */}
+              <div className={styles.flexInput}>
+                <StyledInput
+                  autoComplete='off'
+                  required
+                  className={styles.reservationInput}
+                  label={
+                    activeCheckInFlowInfo || activeCheckOutFlowInfo || isGetStartedStatus
+                      ? t('Booking ID')
+                      : t('Room No')
+                  }
+                  variant='standard'
+                  name={
+                    activeCheckInFlowInfo || activeCheckOutFlowInfo || isGetStartedStatus
+                      ? 'confirmationNumber'
+                      : 'roomNo'
+                  }
+                  id={
+                    activeCheckInFlowInfo || activeCheckOutFlowInfo || isGetStartedStatus
+                      ? 'confirmationNumber'
+                      : 'roomNo'
+                  }
+                  value={
+                    (activeCheckInFlowInfo || activeCheckOutFlowInfo || isGetStartedStatus
+                      ? formik.values.confirmationNumber ?? ''
+                      : formik.values.roomNo) ?? ''
+                  }
+                  onChange={formik.handleChange}
+                  error={
+                    activeCheckInFlowInfo || activeCheckOutFlowInfo || isGetStartedStatus
+                      ? formik.touched.confirmationNumber &&
+                        Boolean(formik.errors.confirmationNumber)
+                      : formik.touched.roomNo && Boolean(formik.errors.roomNo)
+                  }
+                  helperText={
+                    activeCheckInFlowInfo || activeCheckOutFlowInfo || isGetStartedStatus
+                      ? formik.touched?.confirmationNumber && formik.errors.confirmationNumber
+                        ? t(formik.errors.confirmationNumber)
+                        : null
+                      : formik.touched?.roomNo && formik.errors.roomNo
+                  }
+                  disabled={isGetStartedStatus ? !!formik.values.roomNo : false}
+                />
+                {isGetStartedStatus && (
+                  <>
+                    <span className={styles.orSeparator}>OR</span>
+                    <StyledInput
+                      autoComplete='off'
+                      required
+                      className={styles.reservationInput}
+                      label={t('Room No.')}
+                      variant='standard'
+                      name='roomNo'
+                      id='roomNo'
+                      value={formik.values.roomNo ?? ''}
+                      onChange={formik.handleChange}
+                      error={formik.touched.roomNo && Boolean(formik.errors.roomNo)}
+                      helperText={
+                        formik.touched?.roomNo && formik.errors.roomNo
+                          ? t(formik.errors.roomNo)
+                          : null
+                      }
+                      disabled={!!formik.values.confirmationNumber} // Disable if Reservation No. has value
+                    />
+                  </>
+                )}
+              </div>
+              {!activeCheckOutFlowInfo && (
+                <StyledInput
+                  autoComplete='off'
+                  required
+                  className={styles.reservationInput}
+                  label={t('Last Name')}
+                  variant='standard'
+                  name='lastName'
+                  id='lastName'
+                  value={formik.values.lastName ?? ''}
+                  onChange={formik.handleChange}
+                  error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+                  helperText={
+                    formik.touched?.lastName && formik.errors.lastName
+                      ? t(formik.errors.lastName)
+                      : null
+                  }
+                />
+              )}
+            </div>
             <StyledButton
               loading={loading}
               className={styles.findMyBookingBtn}
               onClick={formik.submitForm}
             >
-              {activeCheckInFlowInfo || activeCheckOutFlowInfo ? t('Next') : t('Connect to Room')}
+              {activeCheckInFlowInfo || activeCheckOutFlowInfo || isGetStartedStatus
+                ? t('Next')
+                : t('Connect to Room')}
             </StyledButton>
           </div>
         </PageWrapper>

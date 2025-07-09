@@ -15,6 +15,7 @@ import {
   toggleHamburgerMenuDrawer,
   toggleMessageBirdChat,
   toggleModuleOptionsDrawer,
+  isGetStarted,
 } from 'storage/home.storage';
 import {
   GET_HAMBURGER_MENU,
@@ -88,6 +89,8 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
   const housekeepingActive = router?.asPath?.includes(availablePaths.HOUSEKEEPING);
   const spaActive = router?.asPath === `/${router?.query?.locale}${availablePaths?.SPA}/`;
   const spaInfoActive = router?.asPath === `/${router?.query?.locale}${availablePaths?.SPA_INFO}/`;
+  const itineraryActive =
+    router?.asPath === `/${router?.query?.locale}${availablePaths?.ITINERARY}/`;
   const offersActive = router?.asPath?.includes(availablePaths?.OFFERS);
   const hotelCompendiumActive = router?.asPath?.includes(availablePaths?.HOTEL_COMPENDIUM);
   const checkOutActive = router?.asPath?.includes(availablePaths.BILL);
@@ -214,6 +217,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
         (hotelCompendiumActive && hotelCompendiumSelected?.name) ||
         spaInfoActive ||
         checkOutActive ||
+        itineraryActive ||
         (irdActive && selectedDiningCategory?.menuName)) && (
         <div
           className={cx(styles.bottomMenuWrapper, {
@@ -236,9 +240,11 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
                     ? window.open(webUrl?.value)
                     : null
                   : checkInModule
-                  ? (toggleCheckInDetailsDrawer(true), activeCheckInFlow(true))
+                  ? (toggleCheckInDetailsDrawer(true), isGetStarted(false), activeCheckInFlow(true))
                   : pairToRoomModule
-                  ? (toggleCheckInDetailsDrawer(true), activeCheckInFlow(false))
+                  ? (toggleCheckInDetailsDrawer(true),
+                    isGetStarted(false),
+                    activeCheckInFlow(false))
                   : webUrl?.value
                   ? window.open(webUrl?.value)
                   : null
@@ -263,6 +269,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
                   ? t('Visit Website')
                   : t('Home'))}
               {restaurantAndBarsActive && t(diningOptionList(diningOptionSelected?.type))}
+              {itineraryActive && t('Explore Activites')}
               {irdActive && t(`${selectedDiningCategory?.menuName}`)}
               {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
               {spaActive && t(`${spaInformation?.selectedSpaCategoryName}`)}

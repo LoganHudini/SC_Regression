@@ -16,6 +16,8 @@ import { GET_RESERVATION, GET_RESERVATION_STATUS } from 'core/graphql/queries/GE
 import { notificationStorage, toggleCheckInDetailsDrawer } from 'storage/home.storage';
 import { activeCheckOutFlow, checkinStorage, ICheckinStorageData } from 'storage/check-in.storage';
 import { processError } from './processError';
+import { timeFormats } from './timeFormats';
+import dayjs from 'dayjs';
 
 export const handleReservation = async ({
   activeCheckInFlowInfo,
@@ -32,10 +34,12 @@ export const handleReservation = async ({
   isRetryEnabled,
   hotelInformation,
   pmsRoomNumberLength,
+  noToast,
   preventDrawerOpen = false,
+  activityPageActive = false,
+  toggleDetailsDrawer,
 }: any) => {
   let tryCount: any = 0;
-
   try {
     const rawRoomNo = values?.roomNo?.toString()?.trim();
     const paddedRoomNo = pmsRoomNumberLength
@@ -107,15 +111,19 @@ export const handleReservation = async ({
           } else if (reservationStatus === INHOUSE) {
             if (roomNo) {
               if (
-                activeCheckInFlowInfo ||
+                !activeCheckInFlowInfo ||
                 !hotelInformation?.getPropertyDetailsByHotelId?.hotel?.wcMessage?.isWCMessageEnabled
               ) {
-                notificationStorage({
-                  type: SUCCESS,
-                  title: t('Your Device is Now Connected'),
-                  description: t('Enjoy all the in-stay features and services at your fingertips.'),
-                });
-                toggleNotification && toggleNotification(true);
+                if (!noToast) {
+                  notificationStorage({
+                    type: SUCCESS,
+                    title: t('Your Device is Now Connected'),
+                    description: t(
+                      'Enjoy all the in-stay features and services at your fingertips.',
+                    ),
+                  });
+                  toggleNotification && toggleNotification(true);
+                }
                 if (!preventDrawerOpen) {
                   toggleCheckInDetailsDrawer(false);
                 }
@@ -140,6 +148,12 @@ export const handleReservation = async ({
                 roomNumber: roomNo,
                 invoiceId: reservationInformation?.reservationId,
                 hotelId: hotelId,
+                checkOutDate: dayjs(reservationInformation?.details?.checkOutDate).format(
+                  timeFormats.YEAR_MONTH_DAY,
+                ),
+                checkInDate: dayjs(reservationInformation?.details?.checkInDate).format(
+                  timeFormats.YEAR_MONTH_DAY,
+                ),
               });
 
               checkinStorage({
@@ -159,18 +173,74 @@ export const handleReservation = async ({
                 invoiceId: reservationInformation?.reservationId,
                 currency: reservationInformation?.details.holdAmount.currency,
                 hotelId: hotelId,
+                checkOutDate: dayjs(reservationInformation?.details?.checkOutDate).format(
+                  timeFormats.YEAR_MONTH_DAY,
+                ),
+                checkInDate: dayjs(reservationInformation?.details?.checkInDate).format(
+                  timeFormats.YEAR_MONTH_DAY,
+                ),
               });
 
               setLoading(false);
+              toggleCheckInDetailsDrawer && toggleCheckInDetailsDrawer(false);
             } else {
               errorStateHandler('NOROOM', setLoading, t);
-              navigate && navigate(availablePaths.HOME);
+              !activityPageActive && navigate && navigate(availablePaths.HOME);
             }
             // setButtonTitle && setButtonTitle(true);
           } else {
             activeCheckInFlowInfo && getWelcomeDrawer();
-            homeActiveRef && homeActiveRef.current && navigate && navigate(availablePaths.CHECK_IN);
-            if (!activeCheckInFlowInfo) {
+            saveTrip({
+              reservationId:
+                reservationInformation?.confirmationId !== 'NA'
+                  ? reservationInformation?.confirmationId
+                  : reservationInformation?.uniqueBookingId,
+              preCheckedIn: false,
+              checkedIn: false,
+              firstName: reservationInformation?.details.contactPerson.firstName,
+              lastName:
+                values?.lastName?.toString().trim() ||
+                reservationInformation?.details.contactPerson.lastName,
+              email: reservationInformation?.details.contactPerson.email,
+              phoneNumber: reservationInformation?.details?.contactPerson?.phoneNumber,
+              roomNumber: roomNo,
+              invoiceId: reservationInformation?.reservationId,
+              hotelId: hotelId,
+              checkOutDate: dayjs(reservationInformation?.details?.checkOutDate).format(
+                timeFormats.YEAR_MONTH_DAY,
+              ),
+              checkInDate: dayjs(reservationInformation?.details?.checkInDate).format(
+                timeFormats.YEAR_MONTH_DAY,
+              ),
+            });
+
+            checkinStorage({
+              reservationId:
+                reservationInformation?.confirmationId !== 'NA'
+                  ? reservationInformation?.confirmationId
+                  : reservationInformation?.uniqueBookingId,
+              preCheckedIn: false,
+              checkedIn: false,
+              firstName: reservationInformation?.details.contactPerson.firstName,
+              lastName:
+                values?.lastName?.toString().trim() ||
+                reservationInformation?.details.contactPerson.lastName,
+              email: reservationInformation?.details.contactPerson.email,
+              phoneNumber: reservationInformation?.details?.contactPerson?.phoneNumber,
+              roomNumber: roomNo,
+              invoiceId: reservationInformation?.reservationId,
+              currency: reservationInformation?.details.holdAmount.currency,
+              hotelId: hotelId,
+              checkOutDate: dayjs(reservationInformation?.details?.checkOutDate).format(
+                timeFormats.YEAR_MONTH_DAY,
+              ),
+              checkInDate: dayjs(reservationInformation?.details?.checkInDate).format(
+                timeFormats.YEAR_MONTH_DAY,
+              ),
+            });
+            !activityPageActive && navigate(availablePaths.HOME);
+            toggleCheckInDetailsDrawer && toggleCheckInDetailsDrawer(false);
+            if (!activeCheckInFlowInfo && !noToast) {
               notificationStorage({
                 type: FAILURE,
                 title: t('Oops! Check-In Incomplete!'),
@@ -187,12 +257,64 @@ export const handleReservation = async ({
             }, 2000);
           }
         } else {
-          errorStateHandler('INVALIDROOM', setLoading, t);
+          !noToast && errorStateHandler('INVALIDROOM', setLoading, t);
         }
       } else {
-        errorStateHandler('PRECHECKEDIN', setLoading, t);
+        saveTrip({
+          reservationId:
+            reservationInformation?.confirmationId !== 'NA'
+              ? reservationInformation?.confirmationId
+              : reservationInformation?.uniqueBookingId,
+          preCheckedIn: true,
+          checkedIn: false,
+          firstName: reservationInformation?.details.contactPerson.firstName,
+          lastName:
+            values?.lastName?.toString().trim() ||
+            reservationInformation?.details.contactPerson.lastName,
+          email: reservationInformation?.details.contactPerson.email,
+          phoneNumber: reservationInformation?.details?.contactPerson?.phoneNumber,
+          roomNumber: roomNo,
+          invoiceId: reservationInformation?.reservationId,
+          hotelId: hotelId,
+          checkOutDate: dayjs(reservationInformation?.details?.checkOutDate).format(
+            timeFormats.YEAR_MONTH_DAY,
+          ),
+          checkInDate: dayjs(reservationInformation?.details?.checkInDate).format(
+            timeFormats.YEAR_MONTH_DAY,
+          ),
+        });
+
+        checkinStorage({
+          reservationId:
+            reservationInformation?.confirmationId !== 'NA'
+              ? reservationInformation?.confirmationId
+              : reservationInformation?.uniqueBookingId,
+          preCheckedIn: true,
+          checkedIn: false,
+          firstName: reservationInformation?.details.contactPerson.firstName,
+          lastName:
+            values?.lastName?.toString().trim() ||
+            reservationInformation?.details.contactPerson.lastName,
+          email: reservationInformation?.details.contactPerson.email,
+          phoneNumber: reservationInformation?.details?.contactPerson?.phoneNumber,
+          roomNumber: roomNo,
+          invoiceId: reservationInformation?.reservationId,
+          currency: reservationInformation?.details.holdAmount.currency,
+          hotelId: hotelId,
+          checkOutDate: dayjs(reservationInformation?.details?.checkOutDate).format(
+            timeFormats.YEAR_MONTH_DAY,
+          ),
+          checkInDate: dayjs(reservationInformation?.details?.checkInDate).format(
+            timeFormats.YEAR_MONTH_DAY,
+          ),
+        });
+
+        !activityPageActive
+          ? !noToast && errorStateHandler('PRECHECKEDIN', setLoading, t)
+          : (toggleNotification(true), toggleCheckInDetailsDrawer(false), setLoading(false));
       }
     }
+    activityPageActive && toggleDetailsDrawer && toggleDetailsDrawer(true);
   } catch (error) {
     tryCount = tryCount + 1;
 

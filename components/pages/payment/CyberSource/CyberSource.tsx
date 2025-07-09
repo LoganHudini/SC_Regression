@@ -88,7 +88,6 @@ const CyberSource: React.FC = () => {
 
         transactionId.current = paymentData?.initiatePayment?.data?.answer
           ?.transaction_id as string;
-        // console.log(transactionId.current);
         if (doc) {
           doc.open();
           doc.write(html as string);

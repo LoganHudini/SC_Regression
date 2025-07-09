@@ -169,5 +169,12 @@
   "Connecting your device is taking longer than expected. Please explore the app in the meantime, and we’ll continue the pairing process.": "デバイスの接続に予想以上の時間がかかっています。その間にアプリを探索してください。ペアリングプロセスは引き続き行います。",
   "Your Device is Now Connected": "あなたのデバイスは現在接続されています",
   "Enjoy all the in-stay features and services at your fingertips.": "宿泊中のすべての機能とサービスを指先でお楽しみください。",
-  "From": "から"
+  "From": "から",
+  "Stay Details": "滞在詳細",
+  "Check-in Date": "チェックイン日",
+  "Checkout Date": "チェックアウト日",
+  "manage your stay": "滞在を管理する",
+  "check-in": "チェックイン",
+  "Manage My Stay": "滞在を管理する",
+  "Access and manage your itinerary, check-in, in-room activities, and all exclusive services to enhance your stay": "旅行の行程、チェックイン、客室内のアクティビティ、および滞在を充実させるためのすべての専用サービスにアクセスし、管理します"
 }
