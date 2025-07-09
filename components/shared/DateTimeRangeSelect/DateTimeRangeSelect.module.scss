@@ -1,0 +1,77 @@
+.timePickerWrapper {
+  margin: 0 8px;
+  overflow: visible;
+  -webkit-overflow-scrolling: touch;
+
+  :global(.rmc-multi-picker) {
+    height: 120px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  :global(.rmc-picker) {
+    height: 100px;
+    width: 100%;
+  }
+
+  :global(.rmc-picker-indicator) {
+    border: var(--primary-border-color);
+    pointer-events: auto !important;
+  }
+
+  :global(.my-picker-view-item) {
+    color: var(--tertiary-text-color);
+    margin: 0;
+    width: 100%;
+    font-size: $large;
+  }
+
+  :global(.rmc-picker-content) {
+    width: 100%;
+  }
+
+  :global(.format),
+  :global(.minute),
+  :global(.hour),
+  :global(.day) {
+    width: auto !important;
+    margin: 0 auto;
+  }
+
+  .disabled {
+    display: none;
+  }
+
+  :global(.rmc-picker-item-selected) {
+    color: var(--primary-theme-color) !important;
+    font-size: 18px !important;
+    font-weight: bold;
+    font-family: var(--primary-font-medium);
+  }
+
+  :global(.rmc-picker-item) {
+    padding: 0px;
+    width: 100%;
+    line-height: 20px;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  :global(.rmc-picker-mask) {
+    background-image: var(--primary-background-color);
+  }
+}
+
+.subtitle {
+  text-align: center;
+  margin: 0.6rem 0;
+  width: 100%;
+  font: $medium var(--primary-font-heading);
+}
+
+.horizontalLine {
+  background: var(--primary-text-color);
+  opacity: 0.2;
+  margin: 1rem 0;
+  height: 1px;
+}

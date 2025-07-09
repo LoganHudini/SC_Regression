@@ -287,50 +287,6 @@
     },
     {
       "type": "npm",
-      "script": "dev:proper",
-      "problemMatcher": [],
-      "label": "Dev: PROPER",
-      "detail": "env-cmd -f .env.proper yarn next dev"
-    },
-    {
-      "type": "npm",
-      "script": "build:proper",
-      "group": "build",
-      "problemMatcher": [],
-      "label": "Build: PROPER",
-      "detail": "env-cmd -f .env.proper yarn build"
-    },
-    {
-      "type": "npm",
-      "script": "start:proper",
-      "problemMatcher": [],
-      "label": "Start: PROPER",
-      "detail": "env-cmd -f .env.proper next start"
-    },
-    {
-      "type": "npm",
-      "script": "dev:proper-stage",
-      "problemMatcher": [],
-      "label": "Dev: PROPER_STAGE",
-      "detail": "env-cmd -f .env.proper.stage yarn next dev"
-    },
-    {
-      "type": "npm",
-      "script": "build:proper-stage",
-      "group": "build",
-      "problemMatcher": [],
-      "label": "Build: PROPER_STAGE",
-      "detail": "env-cmd -f .env.proper.stage yarn build"
-    },
-    {
-      "type": "npm",
-      "script": "start:proper-stage",
-      "problemMatcher": [],
-      "label": "Start: PROPER_STAGE",
-      "detail": "env-cmd -f .env.proper.stage next start"
-    },
-    {
-      "type": "npm",
       "script": "dev:oneandonly",
       "problemMatcher": [],
       "label": "Dev: ONE&ONLY",

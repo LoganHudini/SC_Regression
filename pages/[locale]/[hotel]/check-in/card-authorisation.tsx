@@ -34,7 +34,6 @@ import {
   personalisation,
   ROOM,
   ADDON,
-  OHIP,
   DEFAULT_PAYMENT_MESSAGE,
 } from 'utils/constants';
 import { Stepper } from 'components/shared/Stepper/Stepper';
@@ -60,9 +59,6 @@ import {
 import { hotelInformation, notificationStorage, toggleNotification } from 'storage/home.storage';
 import { processStatusCode } from 'utils/processError';
 import { personalizationStorage } from 'storage/personalize-your-room.storage';
-import { UPDATE_GUEST_DETAILS } from 'core/graphql/queries/UPDATE_GUEST_DETAILS';
-import dayjs from 'dayjs';
-import { timeFormats } from 'utils/timeFormats';
 import { getPaymentMessage } from 'utils/functions';
 
 export { getStaticPaths };
@@ -123,136 +119,10 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
   const guestReservationInfo = useReactiveVar(reservationGuestInfoStorageData);
 
   const goToTheNextStep = useCallback(async () => {
-    if (paymentConfig?.guaranteeCard) {
-      const updateGuestDetailsPayload: any = {
-        docNumber:
-          reservationInfo?.guests[0]?.docNo === guestReservationInfo?.docNo
-            ? ''
-            : guestReservationInfo?.docNo,
-        reservationId: reservationInfo?.confirmationId as string,
-        firstName: guestReservationInfo?.firstName,
-        lastName: guestReservationInfo?.lastName,
-        profileId: reservationInfo?.guests[0]?.id as string,
-        isPrimary: 'Y',
-        effectiveDate: guestReservationInfo?.issueDate,
-        expiryDate: guestReservationInfo?.expiry,
-        countryOfIssue: guestReservationInfo?.issueCountry,
-        channel: 'PWA',
-        updateGuestDetails: {
-          name: {
-            nameTitle: reservationInfo?.guests[0]?.title,
-            firstName: guestReservationInfo?.firstName,
-            lastName: guestReservationInfo?.lastName,
-            gender: guestReservationInfo?.gender,
-            nationality: guestReservationInfo?.nationality ?? '',
-            dob: guestReservationInfo?.dob,
-            profession: guestReservationInfo?.profession,
-          },
-          address: {
-            id: reservationInfo?.guests[0]?.addressOperaId as string,
-            addressLine1: guestReservationInfo?.addressLine,
-            addressType: 'HOME',
-            countryCode: guestReservationInfo?.countryCode,
-            city: guestReservationInfo?.cityName,
-            postalCode: guestReservationInfo?.postalCode,
-            stateProv: guestReservationInfo?.stateProv,
-          },
-          phone: {
-            id: reservationInfo?.guests[0]?.phoneOperaId
-              ? reservationInfo?.guests[0]?.phoneOperaId[0]
-              : '',
-            phoneType: config?.pms === OHIP ? 'PHONE' : 'HOME',
-            phoneNumber: guestReservationInfo?.phone ?? '',
-            phoneRole: config?.pms === OHIP ? 'HOME' : 'PHONE',
-          },
-          email: {
-            id: reservationInfo?.guests[0]?.emailOperaId
-              ? reservationInfo?.guests[0]?.emailOperaId[0]
-              : '',
-            email: guestReservationInfo?.emails,
-          },
-        },
-        payment: {
-          creditCardType: guestReservationInfo?.cardType,
-          cardHolderName:
-            guestReservationInfo?.cardHolderName ||
-            guestReservationInfo?.firstName + guestReservationInfo?.lastName,
-          cardNumber: guestReservationInfo?.cardNumber?.substr(
-            guestReservationInfo?.cardNumber?.length - 4,
-          ),
-          expirationDate: dayjs(guestReservationInfo?.cardExpiryDate as string)?.format(
-            timeFormats.MONTH_YEAR_PAYMENT,
-          ),
-          cardToken: guestReservationInfo?.token,
-          tokenProvider: 'LL',
-        },
-      };
-
-      try {
-        const checkInToken = await getCheckInToken();
-        await client.query({
-          query: UPDATE_GUEST_DETAILS,
-          context: {
-            clientName: 'rest',
-            headers: { Authorization: 'Bearer ' + checkInToken },
-          },
-          variables: {
-            confirmationNumber: reservationInfo?.confirmationId as string,
-            body: updateGuestDetailsPayload,
-          },
-        });
-        filteredRoomList?.length > 0
-          ? navigate(availablePaths?.PERSONALIZE)
-          : navigate(availablePaths?.REVIEW);
-      } catch (error) {
-        const statusCode = processStatusCode(error as ApolloError);
-        if (statusCode === 403) {
-          handleCheckInAuthenticationFailure(goToTheNextStep);
-        }
-        toggleNotification(true);
-        notificationStorage({
-          title: t('Please Try Again!') as string,
-          description: t('Failed to update your details.') as string,
-          redirect: null,
-          type: FAILURE,
-        });
-      }
-    } else {
-      filteredRoomList?.length > 0
-        ? navigate(availablePaths?.PERSONALIZE)
-        : navigate(availablePaths?.REVIEW);
-    }
-  }, [
-    config?.pms,
-    filteredRoomList?.length,
-    guestReservationInfo?.addressLine,
-    guestReservationInfo?.cardExpiryDate,
-    guestReservationInfo?.cardHolderName,
-    guestReservationInfo?.cardNumber,
-    guestReservationInfo?.cardType,
-    guestReservationInfo?.cityName,
-    guestReservationInfo?.countryCode,
-    guestReservationInfo?.dob,
-    guestReservationInfo?.docNo,
-    guestReservationInfo?.emails,
-    guestReservationInfo?.expiry,
-    guestReservationInfo?.firstName,
-    guestReservationInfo?.gender,
-    guestReservationInfo?.issueCountry,
-    guestReservationInfo?.issueDate,
-    guestReservationInfo?.lastName,
-    guestReservationInfo?.nationality,
-    guestReservationInfo?.phone,
-    guestReservationInfo?.postalCode,
-    guestReservationInfo?.profession,
-    guestReservationInfo?.stateProv,
-    guestReservationInfo?.token,
-    navigate,
-    paymentConfig?.guaranteeCard,
-    reservationInfo?.confirmationId,
-    reservationInfo?.guests,
-    t,
-  ]);
+    filteredRoomList?.length > 0
+      ? navigate(availablePaths?.PERSONALIZE)
+      : navigate(availablePaths?.REVIEW);
+  }, [filteredRoomList?.length, navigate]);
 
   const validateGuestReservation = (field: any) => {
     if (!guestReservationInfo) {

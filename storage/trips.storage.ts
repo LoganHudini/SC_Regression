@@ -14,6 +14,8 @@ export interface ISavedTrip {
   invoiceId?: string;
   bookingId?: any;
   hotelId?: any;
+  checkOutDate?: any;
+  checkInDate?: any;
 }
 
 export const saveTrip = (payload: ISavedTrip) => {
@@ -38,6 +40,7 @@ export const checkoutTrip = () => {
 };
 
 export const getTrips = (): ISavedTrip => {
-  const existingTrips = JSON.parse(localStorage.getItem(TRIPS_KEY) || '{}');
+  const existingTrips =
+    typeof window !== 'undefined' && JSON.parse(localStorage.getItem(TRIPS_KEY) || '{}');
   return existingTrips;
 };

@@ -136,8 +136,6 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
     }
     const isAnyDayToday = slide?.hours.some((entry: any) => isToday(entry.day));
     const currentOpenPeriod: any = getCurrentOpenPeriod(slide?.hours);
-    console.log(slide?.name, slide);
-    console.log(slide?.name, isAnyDayToday);
 
     return (
       <>

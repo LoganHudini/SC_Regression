@@ -341,8 +341,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   }, [data, navigate]);
   const preCheckInStatus = config?.preCheckInOnly
     ? true
-    : paymentConfig?.guaranteeCard
-    ? true
     : !(roomNo && guestReservationInfo?.roomStatus && paymentConfig?.type !== NONE)
     ? true
     : false;
@@ -778,6 +776,12 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             roomNumber: !preCheckInStatus ? roomNo : '',
             invoiceId: reservationInfo?.reservationId as string,
             hotelId: hotelId,
+            checkOutDate: dayjs(reservationInfo?.details?.checkOutDate).format(
+              timeFormats.DAY_MONTH_YEAR,
+            ),
+            checkInDate: dayjs(reservationInfo?.details?.checkInDate).format(
+              timeFormats.DAY_MONTH_YEAR,
+            ),
           });
           checkinStorage({
             reservationId: reservationInfo?.confirmationId as string,
@@ -791,6 +795,12 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             invoiceId: reservationInfo?.reservationId as string,
             currency: reservationInfo?.details?.holdAmount?.currency,
             hotelId: hotelId,
+            checkOutDate: dayjs(reservationInfo?.details?.checkOutDate).format(
+              timeFormats.DAY_MONTH_YEAR,
+            ),
+            checkInDate: dayjs(reservationInfo?.details?.checkInDate).format(
+              timeFormats.DAY_MONTH_YEAR,
+            ),
           });
           notificationStorage({
             type: SUCCESS,

@@ -9,4 +9,5 @@ export interface IDateTimeSelectProps {
   module: any;
   disableTimepiCketConfirmBtn?: any;
   initialSelectedTime?: any;
+  hideTime?: any;
 }

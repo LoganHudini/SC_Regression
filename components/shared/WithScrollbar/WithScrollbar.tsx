@@ -32,7 +32,7 @@ export const WithScrollbar: React.FC<IWithScrollbarProps> = (props) => {
     <Carousel
       ssr={true}
       containerClass={`${styles.carouselContainer}`}
-      itemClass={`${styles.carouselItem}`}
+      itemClass={`${props?.itemClass || styles.carouselItem}`}
       infinite={false}
       partialVisible={false}
       responsive={responsive}

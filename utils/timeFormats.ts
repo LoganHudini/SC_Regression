@@ -17,6 +17,7 @@ export const timeFormats = {
   DAY_MONTH_YEAR_HOUR_MINUTE_AM: 'DD MMM YYYY h:mm A',
   DAY_MONTH_HOUR_MINUTE_AM: 'DD MMM:hh:mm:A',
   DAY_MONTH_HOUR_MINUTE_AM_2: 'DD MMM hh:mm A',
+  DAY_MONTH_HOUR_MINUTE_AM_3: 'YYYY-MM-DD hh:mm A',
   DAY_MONTH: 'DD MMM',
   DAY: 'dddd',
   DAY_DIGIT: 'DD',

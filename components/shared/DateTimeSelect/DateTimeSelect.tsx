@@ -28,8 +28,6 @@ const reservationData = client.readQuery<IGetReservationApiResponse>({
 const reservationInfo = reservationData?.getReservation?.data;
 const checkOutDate = dayjs(reservationInfo?.details?.checkOutDate as string);
 
-console.log(reservationInfo, 'checkOutDate');
-
 const fullDayMonthArray: string[] = [];
 for (let month = 0; month < 12; month++) {
   const daysInMonth = dayjs().month(month).daysInMonth();

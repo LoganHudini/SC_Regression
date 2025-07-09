@@ -33,6 +33,12 @@ import {
   INTEGRATION_API_KEY_H,
   INTEGRATION_G,
   INTEGRATION_API_KEY_G,
+  API_KEY_PROPERTY_G,
+  PROPERTY_G,
+  PROPERTY_F,
+  API_KEY_PROPERTY_F,
+  INTEGRATION_API_KEY_K,
+  INTEGRATION_K,
 } from './endpoints';
 import { onError } from '@apollo/client/link/error';
 import { GET_RESERVATION, IGetReservationApiResponse } from './queries/GET_RESERVATION';
@@ -91,6 +97,22 @@ const propertyELink = new HttpLink({
   },
 });
 
+const propertyFLink = new HttpLink({
+  uri: PROPERTY_F as string,
+  headers: {
+    ['x-api-key']: API_KEY_PROPERTY_F as string,
+    ['Content-Type']: 'application/json',
+  },
+});
+
+const propertGLink = new HttpLink({
+  uri: PROPERTY_G as string,
+  headers: {
+    ['x-api-key']: API_KEY_PROPERTY_G as string,
+    ['Content-Type']: 'application/json',
+  },
+});
+
 const integrationCLink = new HttpLink({
   uri: INTEGRATION_C as string,
   headers: {
@@ -143,6 +165,13 @@ const integrationHLink = new HttpLink({
   uri: INTEGRATION_H as string,
   headers: {
     ['x-api-key']: INTEGRATION_API_KEY_H as string,
+  },
+});
+
+const integrationKLink = new HttpLink({
+  uri: INTEGRATION_K as string,
+  headers: {
+    ['x-api-key']: INTEGRATION_API_KEY_K as string,
   },
 });
 
@@ -232,38 +261,54 @@ export const client = new ApolloClient({
               (operation) => operation.getContext().clientName === 'property_e',
               propertyELink,
               ApolloLink.split(
-                (operation) => operation.getContext().clientName === 'integration_a',
-                integrationALink,
+                (operation) => operation.getContext().clientName === 'property_f',
+                propertyFLink,
                 ApolloLink.split(
-                  (operation) => operation.getContext().clientName === 'integration_b',
-                  integrationBLink,
+                  (operation) => operation.getContext().clientName === 'property_g',
+                  propertGLink,
                   ApolloLink.split(
-                    (operation) => operation.getContext().clientName === 'integration_c',
-                    integrationCLink,
+                    (operation) => operation.getContext().clientName === 'integration_a',
+                    integrationALink,
                     ApolloLink.split(
-                      (operation) => operation.getContext().clientName === 'integration_d',
-                      integrationDLink,
+                      (operation) => operation.getContext().clientName === 'integration_b',
+                      integrationBLink,
                       ApolloLink.split(
-                        (operation) => operation.getContext().clientName === 'integration_f',
-                        integrationFLink,
+                        (operation) => operation.getContext().clientName === 'integration_c',
+                        integrationCLink,
                         ApolloLink.split(
-                          (operation) => operation.getContext().clientName === 'integration_g',
-                          integrationGLink,
+                          (operation) => operation.getContext().clientName === 'integration_d',
+                          integrationDLink,
                           ApolloLink.split(
-                            (operation) => operation.getContext().clientName === 'integration_h',
-                            integrationHLink,
+                            (operation) => operation.getContext().clientName === 'integration_f',
+                            integrationFLink,
                             ApolloLink.split(
-                              (operation) => operation.getContext().clientName === 'rest',
-                              restLink,
+                              (operation) => operation.getContext().clientName === 'integration_g',
+                              integrationGLink,
                               ApolloLink.split(
-                                (operation) => operation.getContext().clientName === 'rest_d',
-                                restDLink,
+                                (operation) =>
+                                  operation.getContext().clientName === 'integration_h',
+                                integrationHLink,
                                 ApolloLink.split(
-                                  (operation) => operation.getContext().clientName === 'rest_e',
-                                  restELink,
+                                  (operation) =>
+                                    operation.getContext().clientName === 'integration_k',
+                                  integrationKLink,
                                   ApolloLink.split(
-                                    (operation) => operation.getContext().clientName === 'onprem',
-                                    onPremLink,
+                                    (operation) => operation.getContext().clientName === 'rest',
+                                    restLink,
+                                    ApolloLink.split(
+                                      (operation) => operation.getContext().clientName === 'rest_d',
+                                      restDLink,
+                                      ApolloLink.split(
+                                        (operation) =>
+                                          operation.getContext().clientName === 'rest_e',
+                                        restELink,
+                                        ApolloLink.split(
+                                          (operation) =>
+                                            operation.getContext().clientName === 'onprem',
+                                          onPremLink,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
