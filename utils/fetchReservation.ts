@@ -238,7 +238,7 @@ export const handleReservation = async ({
                 timeFormats.YEAR_MONTH_DAY,
               ),
             });
-            !activityPageActive && navigate(availablePaths.HOME);
+            !activityPageActive && navigate(availablePaths.CHECK_IN);
             toggleCheckInDetailsDrawer && toggleCheckInDetailsDrawer(false);
             if (!activeCheckInFlowInfo && !noToast) {
               notificationStorage({

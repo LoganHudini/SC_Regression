@@ -178,8 +178,14 @@
   margin: 0 auto;
 }
 .welcomeTitle {
-  // width: 93%;
+  text-align: center;
+  width: 85%;
   margin-right: -15px;
+  line-height: 1.5;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .filterWrapper {

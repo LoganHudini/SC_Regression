@@ -143,17 +143,17 @@ const CheckInDrawer = () => {
         schema = getReservationForCheckinValidation;
       }
 
-      try {
-        schema?.validateSync(values, { abortEarly: false });
-      } catch (err: any) {
-        const errors: any = {};
-        if (err.inner) {
-          err.inner.forEach((e: any) => {
-            if (e.path) errors[e.path] = e.message;
-          });
-        }
-        return errors;
-      }
+      // try {
+      //   schema?.validateSync(values, { abortEarly: false });
+      // } catch (err: any) {
+      //   const errors: any = {};
+      //   if (err.inner) {
+      //     err.inner.forEach((e: any) => {
+      //       if (e.path) errors[e.path] = e.message;
+      //     });
+      //   }
+      //   return errors;
+      // }
     },
     onSubmit: goToTheNextStep,
     enableReinitialize: true,
