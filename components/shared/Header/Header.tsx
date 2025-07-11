@@ -85,25 +85,22 @@ export const Header: React.FC<IHeaderProps> = ({
     }
   }, [backRoute, navigate, router]);
 
-  const goHome = useCallback(
-    (backRoutePath?: any) => {
-      setScrollPosition(0, 0);
-      diningInformationStorage(
-        produce(diningInformationStorage(), (draft) => {
-          if (draft) {
-            draft.selectedCategory = '';
-            draft.categoryName = '';
-          }
-        }),
-      );
-      if (backRoutePath) {
-        navigate(backRoutePath);
-      } else {
-        navigate(`/${hotel}/`);
-      }
-    },
-    [hotel, navigate],
-  );
+  const goHome = (backRoutePath?: any) => {
+    setScrollPosition(0, 0);
+    diningInformationStorage(
+      produce(diningInformationStorage(), (draft) => {
+        if (draft) {
+          draft.selectedCategory = '';
+          draft.categoryName = '';
+        }
+      }),
+    );
+    if (backRoute) {
+      navigate(backRoute);
+    } else {
+      navigate(`/${hotel}/`);
+    }
+  };
 
   return (
     <>
@@ -112,7 +109,7 @@ export const Header: React.FC<IHeaderProps> = ({
       >
         <div className={styles.categoryContainer}>
           {displayHome && (
-            <div className={styles.backButton} onClick={() => goHome(backRoute)}>
+            <div className={styles.backButton} onClick={() => goHome()}>
               <img src={`/images/${BRAND_CODE}/HomeHeader.svg`} />
             </div>
           )}
