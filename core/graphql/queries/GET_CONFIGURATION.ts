@@ -5733,6 +5733,7 @@ export const configuration: any = [
         isActive: true,
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
+        disableSpecialInstructions: true,
       },
       {
         code: 'Services',
@@ -21739,14 +21740,7 @@ export const configuration: any = [
     fetchFromDb: 'no',
     saveToDb: 'no',
     languages: [{ code: 'en', name: 'English' }],
-    orderOfModules: [
-      'offers',
-      'check-in',
-      'hotel-info',
-      'services',
-      'dining',
-      'hotel-compendium',
-    ],
+    orderOfModules: ['offers', 'check-in', 'hotel-info', 'services', 'dining', 'hotel-compendium'],
     preCheckInOnly: true,
     hideImagePlaceholder: true,
     isAnimationActive: false,
@@ -22147,6 +22141,7 @@ export const configuration: any = [
         isActive: true,
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
+        disableSpecialInstructions: true,
       },
       {
         code: 'Services',
@@ -23745,6 +23740,7 @@ export const configuration: any = [
         isActive: true,
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
+        disableSpecialInstructions: true,
         version: 'v2',
       },
       {
