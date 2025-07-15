@@ -61,6 +61,9 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
   const [groupedAddonLimitMap, setGroupedAddonLimitMap] = useState<Record<string, number>>({});
   const config = useConfig();
   const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
+  const inRoomDiningModule = config.modules.find((module: any) => module.code === IN_ROOM_DINING);
+
+  const disableSpecialInstructions = inRoomDiningModule?.disableSpecialInstructions || false;
 
   const [addons, setAddons] = useState<
     {
@@ -635,7 +638,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
               </>
             )}
 
-            {irdModule && (
+            {irdModule && !disableSpecialInstructions && (
               <StyledInput
                 variant='standard'
                 autoComplete='off'
@@ -659,7 +662,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
                     underline: styles.customUnderline,
                   },
                   inputProps: {
-                    maxLength: 30,
+                    maxLength: 100,
                     style: {
                       font: '14px var(--primary-font-regular)',
                       color: 'var(--tertiary-text-color)',
