@@ -135,7 +135,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
             pmsRoomNumberLength,
           });
         }
-      } else if (!reservationInfo && lastName && (resId || roomNo)) {
+      } else if (!reservationInfo && checkedInData?.lastName && checkedInData?.reservationId) {
         const values: any = {
           lastName: checkedInData?.lastName,
           confirmationNumber: checkedInData?.reservationId,
@@ -155,7 +155,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
       }
     };
     goToTheNextStep();
-  }, [lastName, resId, roomNo, t]);
+  }, [lastName, resId, roomNo, t, checkedInData?.reservationId, checkedInData?.lastName]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -179,8 +179,8 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
         {
           <p className={styles.welcomeDescription}>
             {`${config?.preCheckInOnly
-                ? t('Register now to save time when you arrive.')
-                : t('Check-In now to save time when you arrive.')
+              ? t('Register now to save time when you arrive.')
+              : t('Check-In now to save time when you arrive.')
               }`}
           </p>
         }
