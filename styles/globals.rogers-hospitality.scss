@@ -35,26 +35,26 @@
   --hamburgermenu-icon-color: #ffffff;
 
   // font-families
-  --primary-font-regular: 'Gilda Display';
-  --primary-font-medium: 'Poppins Medium';
-  --primary-font-semibold: 'Poppins SemiBold';
-  --primary-font-bold: 'Poppins Bold';
-  --primary-font-heading: 'Gilda Display';
+  --primary-font-regular: 'Poppins', sans-serif;
+  --primary-font-medium: 'Poppins', sans-serif;
+  --primary-font-semibold: 'Poppins', sans-serif;
+  --primary-font-bold: 'Poppins', sans-serif;
+  --primary-font-heading: 'Gilda Display', serif;
 
-  --primary-font-extd-regular: 'Poppins';
+  --primary-font-extd-regular: 'Poppins', sans-serif;
 
   // headings
-  --heading-font-regular: 'Gilda Display';
+  --heading-font-regular: 'Gilda Display', serif;
 
   // banner configs
-  --primary-title-font-family: 'Gilda Display';
-  --secondary-title-font-family: 'Poppins';
+  --primary-title-font-family: 'Gilda Display', serif;
+  --secondary-title-font-family: 'Poppins', sans-serif;
   --primary-indicator-color: #ffffff;
 
   // card component configs
-  --primary-card-title-font-family: 'Gilda Display';
-  --primary-card-desc-font-family: 'Poppins';
-  --primary-card-cta-font-family: 'Poppins Medium';
+  --primary-card-title-font-family: 'Gilda Display', serif;
+  --primary-card-desc-font-family: 'Poppins', serif;
+  --primary-card-cta-font-family: 'Poppins Medium', sans-serif;
   --primary-card-background-color: #f8f8f8;
   --primary-card-border-radius: 0px;
   --primary-card-shadow-color: #00000010;
@@ -63,12 +63,12 @@
   --primary-button-color: #ffffff;
   --primary-button-background-color: var(--primary-theme-color);
   --primary-button-border-radius: 0px;
-  --primary-button-font-family: 'Poppins Medium';
+  --primary-button-font-family: 'Poppins Medium', sans-serif;
 
   --secondary-button-color: var(--primary-theme-color);
   --secondary-button-background-color: #ffffff;
   --secondary-button-border-radius: 0px;
-  --secondary-button-font-family: 'Poppins Medium';
+  --secondary-button-font-family: 'Poppins Medium', sans-serif;
 
   // read more cta configs
   --readmore-text: flex;
