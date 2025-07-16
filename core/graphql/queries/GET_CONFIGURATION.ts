@@ -30330,7 +30330,7 @@ export const configuration: any = [
               {
                 name: 'Guest Information',
                 isActive: true,
-                type: 'youverse',
+                type: 'manual',
                 uploadId: true,
                 details: [
                   {
@@ -30469,7 +30469,7 @@ export const configuration: any = [
             name: 'accompanyingGuest',
             label: 'Secondary Guest',
             title: '',
-            type: 'youverse',
+            type: 'manual',
             isActive: true,
             cardIcon: 'guest',
             mandatory: true,
@@ -30725,7 +30725,7 @@ export const configuration: any = [
               {
                 name: 'Guest Information',
                 isActive: true,
-                type: 'youverse',
+                type: 'manual',
                 uploadId: true,
                 details: [
                   {
@@ -30864,7 +30864,7 @@ export const configuration: any = [
             name: 'accompanyingGuest',
             label: 'Secondary Guest',
             title: '',
-            type: 'youverse',
+            type: 'manual',
             isActive: true,
             cardIcon: 'guest',
             mandatory: true,
