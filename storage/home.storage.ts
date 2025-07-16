@@ -64,3 +64,5 @@ export const setDayjsLocale = makeVar(false);
 export const hotelImage = makeVar<any>({});
 
 export const hotelLocation = makeVar<any>([]);
+
+export const mapCode = makeVar<any>('');

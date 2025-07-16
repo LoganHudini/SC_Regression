@@ -1,0 +1,22 @@
+{
+  "theme_color": "#3D3935",
+  "background_color": "#ffffff",
+  "display": "fullscreen",
+  "scope": "/",
+  "start_url": "/",
+  "name": "Rogers Hospitality",
+  "short_name": "Rogers Hospitality",
+  "icons": [
+    {
+      "src": "/images/rogers-hospitality/Logo.svg",
+      "type": "image/svg",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/rogers-hospitality/Logo.svg",
+      "type": "image/svg",
+      "sizes": "512x512"
+    }
+  ]
+}

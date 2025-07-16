@@ -91,6 +91,8 @@ export const SULTAN_BEY = 'sultan-bey';
 export const THE_CHEDI_EL_GOUNA = 'the-chedi-el-gouna';
 export const TURTLES_INN = 'turtles-inn';
 export const CASA_COOK_EL_GOUNA = 'casa-cook-el-gouna';
+export const ROGERS_HOSPITALITY_HERITAGE_LE_TELFAIR = 'rogers-hospitality-heritage-le-telfair';
+export const ROGERS_HOSPITALITY_HERITAGE_AWALI = 'rogers-hospitality-heritage-awali';
 
 // CMS detailsCustomAttributes config constants
 export const MULTIPLE_PRIVACY_OPTIONS = 'multiplePrivacyOptions';

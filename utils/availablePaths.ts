@@ -39,6 +39,9 @@ export const availablePaths = {
   SPA: `/${hotel}/spa`,
   SPA_INFO: `/${hotel}/spa-info`,
 
+  // Map
+  MAP: `/${hotel}/maps`,
+
   // Housekeeping flow
   HOUSEKEEPING: `/${hotel}/housekeeping`,
 
