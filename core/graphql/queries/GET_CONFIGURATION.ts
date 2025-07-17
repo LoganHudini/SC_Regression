@@ -20924,6 +20924,7 @@ export const configuration: any = [
       'staydetails',
       'check-in',
       'hotel-info',
+      'activities',
       'services',
       'dining',
       'spa',
@@ -21308,6 +21309,12 @@ export const configuration: any = [
         name: 'Services',
         isActive: true,
         type: 'VENDOR',
+      },
+      {
+        code: 'activities-and-itineraries',
+        name: 'Activities and Itineraries',
+        isActive: true,
+        type: 'CMS',
       },
       {
         code: 'view-bill',

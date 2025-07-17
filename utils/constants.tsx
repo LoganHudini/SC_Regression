@@ -292,7 +292,7 @@ export const DEFAULT_PAYMENT_MESSAGE = {
 };
 export const DEFAULT_SERVICE_CHARGE_MESSAGE =
   '* Rates are inclusive of applicable government taxes and subject to 10% service charge.';
-export const ACTIVITES_MODULE = 'activities';
+export const ACTIVITIES_MODULE = 'activities';
 export const LATER = 'Later';
 export const NOW = 'Now';
 
