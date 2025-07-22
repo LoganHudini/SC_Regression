@@ -1078,7 +1078,7 @@ const Guest: React.FC<any> = () => {
   type Section = { name: string; isActive: boolean; details: Detail[]; [key: string]: any };
 
   function updateSalutationOptions(sections: Section[], newOptions: Option[]): Section[] {
-    return sections.map((section) => {
+    return sections?.map((section) => {
       if (section.name === GUESTINFORMATION && section.isActive) {
         return {
           ...section,
