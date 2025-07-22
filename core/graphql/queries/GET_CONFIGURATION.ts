@@ -4165,7 +4165,7 @@ export const configuration: any = [
               {
                 name: 'Guest Information',
                 isActive: true,
-                type: 'trential',
+                type: 'youverse',
                 details: [
                   {
                     name: 'firstName',
@@ -4321,7 +4321,7 @@ export const configuration: any = [
             name: 'accompanyingGuest',
             label: 'Secondary Guest',
             title: '',
-            type: 'manual',
+            type: 'youverse',
             isActive: true,
             mandatory: true,
             details: [
@@ -4371,7 +4371,7 @@ export const configuration: any = [
                 name: 'phone',
                 label: 'Phone Number',
                 type: 'Phone',
-                required: true,
+                required: false,
                 isDisabled: false,
                 isActive: true,
               },
@@ -4379,7 +4379,7 @@ export const configuration: any = [
                 name: 'emails',
                 label: 'Email',
                 type: 'Text',
-                required: true,
+                required: false,
                 isDisabled: false,
                 isActive: true,
               },
