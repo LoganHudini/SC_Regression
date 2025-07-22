@@ -20969,6 +20969,15 @@ export const configuration: any = [
                 uploadId: true,
                 details: [
                   {
+                    name: 'title',
+                    label: 'Title',
+                    type: 'AutoComplete',
+                    required: false,
+                    isDisabled: false,
+                    isActive: true,
+                    options: [],
+                  },
+                  {
                     name: 'firstName',
                     label: 'First Name',
                     type: 'Text',
@@ -21147,6 +21156,15 @@ export const configuration: any = [
             isActive: true,
             cardIcon: 'guest',
             details: [
+              {
+                name: 'title',
+                label: 'Title',
+                type: 'AutoComplete',
+                required: false,
+                isDisabled: false,
+                isActive: true,
+                options: [],
+              },
               {
                 name: 'firstName',
                 label: 'First Name',

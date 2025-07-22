@@ -105,7 +105,7 @@ const propertyFLink = new HttpLink({
   },
 });
 
-const propertGLink = new HttpLink({
+const propertyGLink = new HttpLink({
   uri: PROPERTY_G as string,
   headers: {
     ['x-api-key']: API_KEY_PROPERTY_G as string,
@@ -265,7 +265,7 @@ export const client = new ApolloClient({
                 propertyFLink,
                 ApolloLink.split(
                   (operation) => operation.getContext().clientName === 'property_g',
-                  propertGLink,
+                  propertyGLink,
                   ApolloLink.split(
                     (operation) => operation.getContext().clientName === 'integration_a',
                     integrationALink,

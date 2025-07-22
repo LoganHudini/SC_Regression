@@ -612,13 +612,16 @@ export const getTimeStatus = (
 export const isDayFound = (openDays: any, today: any) =>
   openDays?.includes(EVERYDAY) || openDays?.includes(today);
 
-export const updateFieldStatus = (data: any) => {
+export const updateFieldStatus = (data: any, salutations?: any) => {
   if (!data || !data?.details) {
     return data;
   }
   const updatedDetails = data?.details.map((item: any) => {
     if (idVerificationFields?.includes(item?.name)) {
       return { ...item, isDisabled: true };
+    }
+    if (item?.name === 'title') {
+      return { ...item, options: salutations || [] };
     }
     return item;
   });
