@@ -3765,7 +3765,7 @@ export const configuration: any = [
     isAnimationActive: false,
     isLogoLoaderActive: false,
     isFaceMatchdisabled: true,
-    preCheckInOnly: false,
+    preCheckInOnly: true,
     modules: [
       {
         code: 'Preferences',
@@ -4086,12 +4086,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: true,
-        type: 'VENDOR',
+        type: 'CMS',
       },
       {
         code: 'view-bill',
         name: 'View Bill',
-        isActive: false,
+        isActive: true,
       },
       {
         code: 'checkout',
