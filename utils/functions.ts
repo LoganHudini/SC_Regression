@@ -807,6 +807,7 @@ export const isIRDOpenNow = (timings: any, timezone: any) => {
 };
 
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { getGoogleCalendarUrl, getICalUrl } from './calender';
 dayjs.extend(customParseFormat);
 
 export function isBookingAllowed(hours: any, selectedTimeStr: any) {
@@ -874,4 +875,46 @@ export const safeDateFormat = (
   }
 
   return parsedDate.format(outputFormat);
+};
+
+export const parseTime12To24 = (time12h: string): string => {
+  const match = time12h.match(/(\d{1,2}):(\d{2})\s*(am|pm|AM|PM)/i);
+  if (!match) return '';
+
+  const [_, hours, minutes, period] = match;
+  let hh = parseInt(hours, 10);
+
+  if (period.toLowerCase() === 'pm' && hh < 12) hh += 12;
+  if (period.toLowerCase() === 'am' && hh === 12) hh = 0;
+
+  return `${hh.toString().padStart(2, '0')}:${minutes}:00`;
+};
+
+export const getCalendarLink = (item: any) => {
+  const userAgent = navigator.userAgent;
+  const isIOS = /iPhone|iPad|iPod/i.test(userAgent);
+  const isAndroid = /Android/i.test(userAgent);
+  const isWindows = /Win/i.test(userAgent);
+
+  if (isAndroid) {
+    const url = getGoogleCalendarUrl(item);
+    return url !== '#' ? { href: url, target: '_blank', rel: 'noopener noreferrer' } : {};
+  }
+
+  if (isIOS) {
+    const url = getICalUrl(item);
+    return url !== '#' ? { href: url, download: `${item.title}.ics` } : {};
+  }
+
+  if (isWindows) {
+    // Windows desktop -> Offer .ics file for Windows Calendar or Outlook
+    const url = getICalUrl(item);
+    return url !== '#' ? { href: url, download: `${item.title}.ics` } : {};
+  }
+
+  // Default for Mac/Linux desktop
+  const desktopUrl = getGoogleCalendarUrl(item);
+  return desktopUrl !== '#'
+    ? { href: desktopUrl, target: '_blank', rel: 'noopener noreferrer' }
+    : {};
 };

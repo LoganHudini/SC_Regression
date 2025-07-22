@@ -132,3 +132,12 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.addEvent {
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: flex-end;
+  align-items: center;
+}

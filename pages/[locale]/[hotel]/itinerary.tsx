@@ -28,7 +28,7 @@ import { availablePaths } from 'utils/availablePaths';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import ShareButton from './shareItinerary';
 import { GET_ITINERARY_ALL } from 'core/graphql/queries/GET_ITINERARY';
-import { convertTo12HourFormatSmallCase } from 'utils/functions';
+import { convertTo12HourFormatSmallCase, getCalendarLink } from 'utils/functions';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { ActivityDetailDrawer } from 'components/shared/ActivityDetailDrawer/ActivityDetailDrawer';
 import { activeCheckInFlow } from 'storage/check-in.storage';
@@ -38,6 +38,7 @@ import { handleReservation } from 'utils/fetchReservation';
 import { processStatusCode } from 'utils/processError';
 import { getTrips } from 'storage/trips.storage';
 import { generateItineraryHTML } from 'utils/generateItineraryHTML';
+import AddEvent from 'assets/icons/addEvent.svg';
 
 export { getStaticPaths };
 
@@ -365,6 +366,11 @@ const Itinerary = () => {
 
                             {item?.type !== 'CTAbtn' && item.startDate === selectedDate ? (
                               <>
+                                <div className={styles.addEvent}>
+                                  <a {...getCalendarLink(item)}>
+                                    <AddEvent />
+                                  </a>
+                                </div>
                                 {item?.itineraryType === 'CheckIn' ? (
                                   <span className={cx(styles.tableTime, {})}>
                                     {item?.startTime}
