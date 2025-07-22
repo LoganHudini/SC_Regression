@@ -234,6 +234,8 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
             onClick={() => {
               availableItems
                 ? openModuleOptionsDrawer()
+                : itineraryActive
+                ? navigate(availablePaths?.ACTIVITY)
                 : homeActive
                 ? config?.preCheckInOnly && isCheckedIn?.preCheckedIn
                   ? webUrl?.value

@@ -147,6 +147,7 @@ const CheckoutDrawer = (props: any) => {
       setTimeout(() => {
         if (feedbackData?.length === 0) {
           checkoutTrip();
+          client.clearStore();
           reservationGuestInfoStorageData(null);
         } else {
           feedbackStorage();
@@ -201,6 +202,7 @@ const CheckoutDrawer = (props: any) => {
     setTimeout(() => {
       if (feedbackData?.length === 0) {
         checkoutTrip();
+        client.clearStore();
         reservationGuestInfoStorageData(null);
       } else {
         feedbackStorage();
