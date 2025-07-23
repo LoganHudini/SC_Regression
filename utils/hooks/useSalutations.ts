@@ -53,17 +53,19 @@ export const useSalutations = () => {
       return [];
     }
 
-    return languageData.values.map((value: ISalutationValue) => ({
-      name: value.name,
+    const filteredData = languageData.values.map((value: ISalutationValue) => ({
+      name: value.id,
       value: value.id,
-      label: value.name,
     }));
+
+    const uniqueById = [...new Map(filteredData?.map((item) => [item.value, item])).values()];
+    return uniqueById;
   }, [data, locale]);
 
   return {
     salutations,
     loading,
     error,
-    hasSalutations: salutations.length > 0,
+    hasSalutations: salutations?.length > 0,
   };
 };
