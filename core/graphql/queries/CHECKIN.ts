@@ -60,6 +60,7 @@ export interface ICheckInApiRequest {
   country?: string;
   captureDocumentUpload: any;
   skipOCR: boolean;
+  cashierNotes?: string;
   guests: [
     {
       firstName: string;

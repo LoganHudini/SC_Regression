@@ -107,6 +107,7 @@ export interface IGetReservationApiResponse {
       departureFlightCode: string;
       mainMealPlanCode: string;
       isPreCheckedIn: boolean;
+      cashierNotes: string[];
     };
   };
 }
