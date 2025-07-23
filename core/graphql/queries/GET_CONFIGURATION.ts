@@ -23769,8 +23769,9 @@ export const configuration: any = [
   },
   {
     code: 'fairmont-udaipur',
-    logo: 'Udaipur',
+    logo: '',
     homePageHeader: true,
+    propertyHeaderLogo: true,
     name: 'Fairmont Udaipur',
     hotelId: 'dd9cea5f-dc4f-4e24-ba21-0c0a629626d6',
     pms: 'OHIP',
