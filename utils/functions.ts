@@ -890,30 +890,30 @@ export const parseTime12To24 = (time12h: string): string => {
   return `${hh.toString().padStart(2, '0')}:${minutes}:00`;
 };
 
-export const getCalendarLink = (item: any) => {
+export const getCalendarLink = (item: any, activityName: any, hotelName: any) => {
   const userAgent = navigator.userAgent;
   const isIOS = /iPhone|iPad|iPod/i.test(userAgent);
   const isAndroid = /Android/i.test(userAgent);
   const isWindows = /Win/i.test(userAgent);
 
   if (isAndroid) {
-    const url = getGoogleCalendarUrl(item);
+    const url = getGoogleCalendarUrl(item, activityName, hotelName);
     return url !== '#' ? { href: url, target: '_blank', rel: 'noopener noreferrer' } : {};
   }
 
   if (isIOS) {
-    const url = getICalUrl(item);
+    const url = getICalUrl(item, activityName, hotelName);
     return url !== '#' ? { href: url, download: `${item.title}.ics` } : {};
   }
 
   if (isWindows) {
     // Windows desktop -> Offer .ics file for Windows Calendar or Outlook
-    const url = getICalUrl(item);
+    const url = getICalUrl(item, activityName, hotelName);
     return url !== '#' ? { href: url, download: `${item.title}.ics` } : {};
   }
 
   // Default for Mac/Linux desktop
-  const desktopUrl = getGoogleCalendarUrl(item);
+  const desktopUrl = getGoogleCalendarUrl(item, activityName, hotelName);
   return desktopUrl !== '#'
     ? { href: desktopUrl, target: '_blank', rel: 'noopener noreferrer' }
     : {};

@@ -354,6 +354,8 @@ const Itinerary = () => {
                           )
                         : false;
 
+                      const hotelName = hotelInfo?.hotel?.name || config?.name;
+
                       return (
                         (item.startDate === selectedDate || item?.type === 'CTAbtn') && (
                           <div
@@ -366,19 +368,22 @@ const Itinerary = () => {
 
                             {item?.type !== 'CTAbtn' && item.startDate === selectedDate ? (
                               <>
-                                <div className={styles.addEvent}>
-                                  <a {...getCalendarLink(item)}>
-                                    <AddEvent />
-                                  </a>
-                                </div>
                                 {item?.itineraryType === 'CheckIn' ? (
                                   <span className={cx(styles.tableTime, {})}>
                                     {item?.startTime}
                                   </span>
                                 ) : (
-                                  <span className={cx(styles.tableTime, {})}>
-                                    {item?.startTime} - {item?.endTime}
-                                  </span>
+                                  <div className={styles.addEvent}>
+                                    <span className={cx(styles.tableTime, {})}>
+                                      {item?.startTime} - {item?.endTime}
+                                    </span>
+                                    <span>
+                                      {' '}
+                                      <a {...getCalendarLink(item, item?.name, hotelName)}>
+                                        <AddEvent />
+                                      </a>
+                                    </span>
+                                  </div>
                                 )}
                                 <div
                                   className={cx(styles.tableImageWrapper, {
