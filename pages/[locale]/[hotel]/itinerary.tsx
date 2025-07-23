@@ -378,10 +378,15 @@ const Itinerary = () => {
                                       {item?.startTime} - {item?.endTime}
                                     </span>
                                     <span>
-                                      {' '}
-                                      <a {...getCalendarLink(item, item?.itineraryName, hotelName)}>
-                                        <AddEvent />
-                                      </a>
+                                      {!isCompleted ? (
+                                        <a
+                                          {...getCalendarLink(item, item?.itineraryName, hotelName)}
+                                        >
+                                          <AddEvent />
+                                        </a>
+                                      ) : (
+                                        <span></span>
+                                      )}
                                     </span>
                                   </div>
                                 )}
