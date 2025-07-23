@@ -15,8 +15,12 @@ import { ApolloError, useReactiveVar } from '@apollo/client';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
 import { useConfig, useDocumentConfig } from 'utils/hooks/useConfiguration';
 import { profileIDStorage } from 'storage/check-in.storage';
-import { accompanyGuestDetails, IsBiometricsSkipped } from 'storage/accompany-guest-details';
-import { DOCTYPE, FAILURE, GENDER, PRIMARY } from 'utils/constants';
+import {
+  accompanyGuestDetails,
+  IsBiometricsSkipped,
+  newAccompanyGuestDetails,
+} from 'storage/accompany-guest-details';
+import { DOCTYPE, FAILURE, GENDER, NEWGUESTSCAN, PRIMARY } from 'utils/constants';
 import { STORE_RESERVATION } from 'core/graphql/queries/STORE_RESERVATION';
 import { notificationStorage, toggleNotification } from 'storage/home.storage';
 import { timeFormats } from 'utils/timeFormats';
@@ -40,7 +44,7 @@ const Youverse: React.FC = () => {
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
   const documentConfig: any = useDocumentConfig();
   const config = useConfig();
-
+  const newAccompanyGuestStorage = useReactiveVar(newAccompanyGuestDetails);
   const docTypes = documentConfig?.details?.find((e: any) => e?.name === DOCTYPE)?.options;
   const genderTypes = documentConfig?.details?.find((e: any) => e?.name === GENDER)?.options;
 
@@ -109,9 +113,41 @@ const Youverse: React.FC = () => {
             res?.data?.getyoonikresponse?.data?.status === 'Success'
           ) {
             if (res?.data?.getyoonikresponse?.data?.status === 'Success') {
-              if (
+              if (youverseProfileIDState?.guestType === NEWGUESTSCAN) {
+                const updatedData = newAccompanyGuestStorage?.adult?.map((guest: any) => {
+                  if (guest?.id === youverseProfileIDState?.id) {
+                    return {
+                      ...guest,
+                      firstName: res?.data?.getyoonikresponse?.data?.firstName,
+                      lastName: res?.data?.getyoonikresponse?.data?.lastName,
+                      dob: res?.data?.getyoonikresponse?.data?.dob,
+                      docType: docTypes?.find(
+                        (document: any) =>
+                          document?.vendorDocType?.toLowerCase() ===
+                          res?.data?.getyoonikresponse?.data?.youverseType?.toLowerCase(),
+                      )?.value,
+                      docNo: res?.data?.getyoonikresponse?.data?.documentNumber,
+                      expiry: res?.data?.getyoonikresponse?.data?.expiryDate,
+                      issueCountry: getCountryCode(res?.data?.getyoonikresponse?.data?.state),
+                      gender: genderTypes?.find(
+                        (gender: any) =>
+                          gender?.vendorGenderType === res?.data?.getyoonikresponse?.data?.gender,
+                      )?.value,
+                      documentFrontImage: res.data?.getyoonikresponse?.data?.frontPage,
+                      documentBackImage: res.data?.getyoonikresponse?.data?.backPage,
+                    };
+                  }
+                  return guest;
+                });
+
+                newAccompanyGuestDetails({
+                  child: newAccompanyGuestStorage?.child,
+                  adult: updatedData,
+                });
+              } else if (
                 res?.data?.getyoonikresponse?.data?.firstName &&
                 res?.data?.getyoonikresponse?.data?.lastName &&
+                youverseProfileIDState?.guestType === PRIMARY &&
                 !(
                   (res?.data?.getyoonikresponse?.data?.firstName
                     ?.toLowerCase()
@@ -138,6 +174,7 @@ const Youverse: React.FC = () => {
                   type: FAILURE,
                 });
               } else if (
+                youverseProfileIDState?.guestType === PRIMARY &&
                 res?.data?.getyoonikresponse?.data?.surname &&
                 !res?.data?.getyoonikresponse?.data?.surname
                   ?.toLowerCase()
@@ -158,20 +195,22 @@ const Youverse: React.FC = () => {
                 });
               } else {
                 IsBiometricsSkipped(false);
-                try {
-                  client.mutate({
-                    mutation: STORE_RESERVATION,
-                    context: { clientName: 'integration_f' },
-                    variables: {
-                      profileId: docScanId,
-                      reservationId: confirmationId,
-                      lastName: lastName,
-                      checkInDate: checkInDate,
-                      checkOutDate: checkOutDate,
-                    },
-                  });
-                } catch (e) {
-                  console.error(e);
+                if (youverseProfileIDState?.guestType === PRIMARY) {
+                  try {
+                    client.mutate({
+                      mutation: STORE_RESERVATION,
+                      context: { clientName: 'integration_f' },
+                      variables: {
+                        profileId: docScanId,
+                        reservationId: confirmationId,
+                        lastName: lastName,
+                        checkInDate: checkInDate,
+                        checkOutDate: checkOutDate,
+                      },
+                    });
+                  } catch (e) {
+                    console.error(e);
+                  }
                 }
                 if (youverseProfileIDState?.guestType === PRIMARY) {
                   reservationGuestInfoStorageData({
