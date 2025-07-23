@@ -379,7 +379,7 @@ const Itinerary = () => {
                                     </span>
                                     <span>
                                       {' '}
-                                      <a {...getCalendarLink(item, item?.name, hotelName)}>
+                                      <a {...getCalendarLink(item, item?.itineraryName, hotelName)}>
                                         <AddEvent />
                                       </a>
                                     </span>

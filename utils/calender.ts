@@ -30,7 +30,7 @@ export function getGoogleCalendarUrl(activity: any, activityName: any, hotelName
   const end = endDateObj.toISOString().replace(/-|:|\.\d+/g, '');
 
   return `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
-    activity.name || activityName || 'Activity',
+    activity.itineraryName || activityName || 'Activity',
   )}&details=${encodeURIComponent(activity.description || '')}&location=${encodeURIComponent(
     hotelName || activity.location,
   )}&dates=${start}/${end}`;
@@ -71,7 +71,7 @@ BEGIN:VEVENT
 URL:${activity.url || ''}
 DTSTART:${dtStart}
 DTEND:${dtEnd}
-SUMMARY:${activity.name || activityName || 'Activity'}
+SUMMARY:${activity.itineraryName || activityName || 'Activity'}
 DESCRIPTION:${activity.description || ''}
 LOCATION:${hotelName || activity.location}
 END:VEVENT
