@@ -661,7 +661,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               };
             })) ||
           [],
-        cashierNotes: reservationInfo?.cashierNotes || '',
+        cashierNotes: reservationInfo?.cashierNotes?.join(', ') || '',
       };
       const checkIn = async () => {
         const checkInToken = await getCheckInToken();
