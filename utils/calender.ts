@@ -1,22 +1,21 @@
 import { parseTime12To24 } from './functions';
 
 export function getGoogleCalendarUrl(activity: any, activityName: any, hotelName: any) {
-  if (!activity.startDate || !activity.startTime || !activity.endTime) {
+  if (!activity?.startDate || !activity?.startTime || !activity?.endTime) {
     console.warn('Skipping Google Calendar URL: missing date/time', activity);
     return '#'; // fallback link
   }
 
-  const startTime24 = parseTime12To24(activity.startTime); // "21:00:00"
-  const endTime24 = parseTime12To24(activity.endTime);
+  const startTime24 = parseTime12To24(activity?.startTime); // "21:00:00"
+  const endTime24 = parseTime12To24(activity?.endTime);
 
   if (!startTime24 || !endTime24) {
-    console.warn('Failed to parse time:', activity.startTime, activity.endTime);
+    console.warn('Failed to parse time:', activity?.startTime, activity?.endTime);
     return '';
   }
-  console.log(activity, 'activity');
 
-  const startDateTime = `${activity.startDate}T${startTime24}`;
-  const endDateTime = `${activity.startDate}T${endTime24}`;
+  const startDateTime = `${activity?.startDate}T${startTime24}`;
+  const endDateTime = `${activity?.startDate}T${endTime24}`;
 
   const startDateObj = new Date(startDateTime);
   const endDateObj = new Date(endDateTime);
@@ -29,55 +28,64 @@ export function getGoogleCalendarUrl(activity: any, activityName: any, hotelName
   const start = startDateObj.toISOString().replace(/-|:|\.\d+/g, '');
   const end = endDateObj.toISOString().replace(/-|:|\.\d+/g, '');
 
+  const locationValue =
+    activity?.location && hotelName
+      ? `${activity?.location} - ${hotelName}`
+      : hotelName || activity?.location || '';
+
   return `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
-    activity.itineraryName || activityName || 'Activity',
+    activity?.itineraryName || activityName || 'Activity',
   )}&details=${encodeURIComponent(activity.description || '')}&location=${encodeURIComponent(
-    hotelName || activity.location,
+    locationValue,
   )}&dates=${start}/${end}`;
 }
 
 export function getICalUrl(activity: any, activityName: any, hotelName: any) {
-  if (!activity.startDate || !activity.startTime || !activity.endTime) {
+  if (!activity?.startDate || !activity?.startTime || !activity?.endTime) {
     console.warn('Skipping iCal URL: missing date/time', activity);
     return '#';
   }
 
-  const startTime24 = parseTime12To24(activity.startTime); // e.g. "21:00:00"
-  const endTime24 = parseTime12To24(activity.endTime);
+  const startTime24 = parseTime12To24(activity?.startTime);
+  const endTime24 = parseTime12To24(activity?.endTime);
+  if (!startTime24 || !endTime24) return '#';
 
-  if (!startTime24 || !endTime24) {
-    console.warn('Failed to parse time:', activity.startTime, activity.endTime);
-    return '#';
-  }
-
-  const startDateTime = `${activity.startDate}T${startTime24}`;
-  const endDateTime = `${activity.startDate}T${endTime24}`;
-
+  const startDateTime = `${activity?.startDate}T${startTime24}`;
+  const endDateTime = `${activity?.startDate}T${endTime24}`;
   const startDateObj = new Date(startDateTime);
   const endDateObj = new Date(endDateTime);
-
-  if (isNaN(startDateObj.getTime()) || isNaN(endDateObj.getTime())) {
-    console.error('Invalid date for iCal:', activity);
-    return '#';
-  }
+  if (isNaN(startDateObj.getTime()) || isNaN(endDateObj.getTime())) return '#';
 
   const dtStart = startDateObj.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
   const dtEnd = endDateObj.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  const dtStamp = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  const uid = `${Date.now()}@yourdomain.com`;
 
-  const icsContent = `
-BEGIN:VCALENDAR
-VERSION:2.0
-BEGIN:VEVENT
-URL:${activity.url || ''}
-DTSTART:${dtStart}
-DTEND:${dtEnd}
-SUMMARY:${activity.itineraryName || activityName || 'Activity'}
-DESCRIPTION:${activity.description || ''}
-LOCATION:${hotelName || activity.location}
-END:VEVENT
-END:VCALENDAR`;
+  const locationValue =
+    activity?.location && hotelName
+      ? `${activity?.location} - ${hotelName}`
+      : hotelName || activity?.location || '';
 
-  // Create a downloadable blob URL
-  const blob = new Blob([icsContent.trim()], { type: 'text/calendar;charset=utf-8' });
+  const escapeICSText = (text: string) =>
+    text.replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;');
+
+  const lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//YourCompany//EN',
+    'BEGIN:VEVENT',
+    `UID:${uid}`,
+    `DTSTAMP:${dtStamp}`,
+    `DTSTART:${dtStart}`,
+    `DTEND:${dtEnd}`,
+    `SUMMARY:${escapeICSText(activity?.itineraryName || activityName || 'Activity')}`,
+    `DESCRIPTION:${escapeICSText(activity.description || '')}`,
+    `LOCATION:${escapeICSText(locationValue)}`,
+    'END:VEVENT',
+    'END:VCALENDAR',
+  ];
+
+  const icsContent = lines.join('\r\n');
+  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
   return URL.createObjectURL(blob);
 }
