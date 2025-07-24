@@ -56,7 +56,11 @@ const HotelInfoDrawer = () => {
             </div>
 
             {(phoneData || webData || mailData || hotelInfo?.location?.addressLine1) && (
-              <div className={cx(styles.phoneEmailCtaWrapper, 'globals-actionCtaWrapper')}>
+              <div
+                className={cx(styles.phoneEmailCtaWrapper, 'globals-actionCtaWrapper', {
+                  [styles.topPadding]: !(hotelInfo?.images?.length > 0),
+                })}
+              >
                 {phoneData && (
                   <>
                     <div className={cx(styles.border, styles.align)}>
