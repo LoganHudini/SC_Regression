@@ -1,6 +1,21 @@
 import dayjs from 'dayjs';
 import { convertTo12HourFormatSmallCase } from './functions';
 
+// Interface for grouped activities
+interface GroupedActivity {
+  day: string;
+  date: string;
+  activities: Array<{
+    activityId: string;
+    slotId: string;
+    book: any;
+    itineraryName: string;
+    startTime: string;
+    description: string;
+    data: any;
+  }>;
+}
+
 export const generateItineraryHTML = (
   checkedInData: any,
   bookedActivities: any[],
@@ -33,17 +48,17 @@ export const generateItineraryHTML = (
     return dateA.getTime() - dateB.getTime();
   });
 
-  // Generate HTML for each activity
-  const htmlRows = sortedActivities
-    .map((item: any) => {
+  // Group activities by date
+  const groupedActivities = sortedActivities.reduce<Record<string, GroupedActivity>>(
+    (acc, item: any) => {
       const data = bookedActivities?.find((allItem) => item?.activityId === allItem?.id);
-      if (!data) return '';
-      const slotId = item?.slotId?.split('#') || '';
-      const slotIdData = item?.slotId || '';
-      const activityBookingId = item?.bookingId || '';
-      const datePart = slotId?.[0];
-      const fromTimeRaw = slotId?.[1];
-      const toTimeRaw = slotId?.[2];
+      if (!data) return acc;
+
+      const slotId = item?.slotId?.split('#') || [];
+      const datePart = slotId[0];
+      if (!datePart) return acc;
+
+      const fromTimeRaw = slotId[1];
       const startDate = `${datePart?.slice(0, 4)}-${datePart?.slice(4, 6)}-${datePart?.slice(
         6,
         8,
@@ -52,30 +67,63 @@ export const generateItineraryHTML = (
       const activityDay = dayjs(startDate)?.format('dddd');
       const activityDate = dayjs(startDate)?.format('D MMM');
 
-      return `
+      // Use activityDate as the grouping key
+      if (!acc[activityDate]) {
+        acc[activityDate] = {
+          day: activityDay,
+          date: activityDate,
+          activities: [],
+        };
+      }
+
+      // Add the enriched activity to the group
+      acc[activityDate].activities.push({
+        ...item,
+        data,
+        startTime,
+      });
+
+      return acc;
+    },
+    {},
+  );
+
+  // Generate HTML for grouped activities
+  const htmlRows = Object.entries(groupedActivities)
+    .map(
+      ([dateKey, { day, date, activities }]) => `
+      <div style="margin-bottom: 30px;">
         <div style="display: flex; align-items: flex-start;">
           <div style="min-width: 80px; padding-right: 15px; text-align: right;">
-            <div style="margin-top: 5px; font-size: 10px; color: #666; text-transform: uppercase;">${activityDay}</div>
-            <div style="font-size: 24px;"><b>${activityDate}</b></div>
+            <div style="margin-top: 5px; font-size: 10px; color: #666; text-transform: uppercase;">${day}</div>
+            <div style="font-size: 24px;"><b>${date}</b></div>
           </div>
           <div style="flex: 1; border-left: 1px solid #ddd; padding-left: 15px;">
-            <div style="margin-bottom: 20px; position: relative;">
-              <div style="position: absolute; width: 10px; height: 10px; border-radius: 50%; background: #CCCCCC; left: -20px;"></div>
-              <div style="font-size: 20px; margin-bottom: 5px;"><b>${
-                item?.itineraryName || ''
-              }</b></div>
-              <div style="font-size: 20px; margin-bottom: 5px;"><b>${
-                item?.startTime || ''
-              }</b></div>
-              <div style="font-size: 14px; color: #666; line-height: 1.4;">
-                ${(item?.description || '').replace(/\n/g, '<br>')}${
-        data?.description ? '<br><br>' : ''
-      }
-              </div>
-            </div>
+            ${activities
+              .map(
+                (activity) => `
+                <div style="margin-bottom: 20px; position: relative;">
+                  <div style="position: absolute; width: 10px; height: 10px; border-radius: 50%; background: #CCCCCC; left: -20px;"></div>
+                  <div style="font-size: 20px; margin-bottom: 5px;"><b>${
+                    activity.itineraryName || ''
+                  }</b></div>
+                  <div style="font-size: 20px; margin-bottom: 5px;"><b>${
+                    activity.startTime || ''
+                  }</b></div>
+                  <div style="font-size: 14px; color: #666; line-height: 1.4;">
+                    ${(activity.description || '').replace(/\n/g, '<br>')}${
+                  activity.data?.description ? '<br><br>' : ''
+                }
+                  </div>
+                </div>
+              `,
+              )
+              .join('')}
           </div>
-        </div>`;
-    })
+        </div>
+      </div>
+    `,
+    )
     .join('');
 
   return `
@@ -90,9 +138,9 @@ export const generateItineraryHTML = (
 
       <!-- Greeting -->
       <div style="padding: 30px; background-color: #FFFFFF; margin: 20px;">
-        <p style="font-size: 14px; color: #666; letter-spacing: 1px; margin-bottom: 4px; text-align: center;">
-          Welcome, ${checkedInData.firstName} ${checkedInData.lastName}
-        </p>
+        <h1 style="font-size: 18px; font-weight: 600; letter-spacing: 1px; margin-bottom: 2px; text-align: center;">
+          Welcome, ${checkedInData.firstName} ${checkedInData.lastName}!
+        </h1>
         <h1 style="font-size: 22px; font-weight: 600; margin-bottom: 25px; text-align: center;">
           Here's Your Itinerary
         </h1>
