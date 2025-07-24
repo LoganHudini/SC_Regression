@@ -13,6 +13,7 @@ export type INotificationDetailsProps = null | {
   type: string;
   apolloError?: string | any;
   delay?: number;
+  finalFunction?: any;
 };
 
 export const diningOptions = makeVar<any>({});
