@@ -66,6 +66,8 @@ const Itinerary = () => {
   const checkInDate =
     dayjs(checkedInData?.checkInDate as string) ||
     dayjs(reservationInfo?.details?.checkInDate as string);
+  const basePath = typeof window !== 'undefined' ? window.location.origin : '';
+  const path = `${basePath}/${locale}${availablePaths.HOME}`;
 
   const goToTheNextStep = async () => {
     if (!reservationInfo) {
@@ -262,6 +264,7 @@ const Itinerary = () => {
             bookedActivities.getItineraries?.itineraries || [],
             allActivities,
             imageUrl,
+            path,
           );
           setFinalHtmlContent(html);
         } catch (error) {
@@ -272,6 +275,7 @@ const Itinerary = () => {
             bookedActivities.getItineraries?.itineraries || [],
             allActivities,
             '/fallback-image.png', // Optional placeholder
+            path,
           );
           setFinalHtmlContent(fallbackHtml);
         }

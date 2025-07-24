@@ -10,6 +10,7 @@ interface GroupedActivity {
     slotId: string;
     book: any;
     itineraryName: string;
+    timeValue: string;
     startTime: string;
     description: string;
     data: any;
@@ -21,6 +22,7 @@ export const generateItineraryHTML = (
   bookedActivities: any[],
   allActivities: any[],
   imageUrl: string,
+  path: string,
 ): string => {
   // Filter Confirmed activities
   const filteredActivities = bookedActivities.filter((item) => item?.status === 'Confirmed');
@@ -59,13 +61,18 @@ export const generateItineraryHTML = (
       if (!datePart) return acc;
 
       const fromTimeRaw = slotId[1];
+      const toTimeRaw = slotId[2];
       const startDate = `${datePart?.slice(0, 4)}-${datePart?.slice(4, 6)}-${datePart?.slice(
         6,
         8,
       )}`;
       const startTime = convertTo12HourFormatSmallCase(fromTimeRaw?.replace(':', ':'));
+      const endTime = convertTo12HourFormatSmallCase(toTimeRaw?.replace(':', ':'));
+
       const activityDay = dayjs(startDate)?.format('dddd');
       const activityDate = dayjs(startDate)?.format('D MMM');
+
+      const timeValue = startTime && endTime ? `${startTime} - ${endTime}` : startTime;
 
       // Use activityDate as the grouping key
       if (!acc[activityDate]) {
@@ -81,6 +88,8 @@ export const generateItineraryHTML = (
         ...item,
         data,
         startTime,
+        endTime,
+        timeValue,
       });
 
       return acc;
@@ -95,25 +104,27 @@ export const generateItineraryHTML = (
       <div style="margin-bottom: 30px;">
         <div style="display: flex; align-items: flex-start;">
           <div style="min-width: 80px; padding-right: 15px; text-align: right;">
-            <div style="margin-top: 5px; font-size: 10px; color: #666; text-transform: uppercase;">${day}</div>
-            <div style="font-size: 24px;"><b>${date}</b></div>
+            <div style="margin-top: 5px; font-family: 'ITC Franklin Gothic Std'; font-size: 10px; lineHeight: 14px; color: #666; text-transform: uppercase;">${day}</div>
+            <div style="font-family: 'ITC Franklin Gothic Std', 'Arial', sans-serif; font-size: 21px;"><b>${date}</b></div>
           </div>
           <div style="flex: 1; border-left: 1px solid #ddd; padding-left: 15px;">
             ${activities
               .map(
                 (activity) => `
-                <div style="margin-bottom: 20px; position: relative;">
-                  <div style="position: absolute; width: 10px; height: 10px; border-radius: 50%; background: #CCCCCC; left: -20px;"></div>
-                  <div style="font-size: 20px; margin-bottom: 5px;"><b>${
+                <div style="margin-bottom: 20px; position: relative; word-break: break-word; white-space: normal">
+                  <div style="position: absolute; width: 10px; height: 10px; border-radius: 50%; background: #CCCCCC; left: -20px; word-break: break-word; white-space: normal"></div>
+                  <div style="font-family: 'Domaine Display', serif; fontSize: 14px; lineHeight: 17px; marginBottom: 5px; word-break: break-word; white-space: normal;ssss"><b>${
                     activity.itineraryName || ''
                   }</b></div>
-                  <div style="font-size: 20px; margin-bottom: 5px;"><b>${
-                    activity.startTime || ''
+                  <div style="font-family: 'ITC Franklin Gothic Std', 'Arial', sans-serif; lineHeight: 20px; font-size: 16px; margin-bottom: 5px; word-break: break-word; white-space: normal;"><b>${
+                    activity?.timeValue || activity?.startTime || ''
                   }</b></div>
-                  <div style="font-size: 14px; color: #666; line-height: 1.4;">
+                  <div>
+                  <p style="font-family:'ITC Franklin Gothic Std', 'Arial', sans-serif; font-size: 10px; color: #666; line-height: 14px; word-break: break-word; white-space: normal; text-align: justify;">
                     ${(activity.description || '').replace(/\n/g, '<br>')}${
                   activity.data?.description ? '<br><br>' : ''
                 }
+                  </p>
                   </div>
                 </div>
               `,
@@ -138,21 +149,31 @@ export const generateItineraryHTML = (
 
       <!-- Greeting -->
       <div style="padding: 30px; background-color: #FFFFFF; margin: 20px;">
-        <h1 style="font-size: 18px; font-weight: 600; letter-spacing: 1px; margin-bottom: 2px; text-align: center;">
-          Welcome, ${checkedInData.firstName} ${checkedInData.lastName}!
+        <h1 style="font-family: 'Domaine Display'; font-size: 18px;  line-height: 27px; font-weight: 600; letter-spacing: 1px; margin-bottom: 2px; text-align: center;">
+          Welcome, ${checkedInData?.firstName} ${checkedInData?.lastName}!
         </h1>
-        <h1 style="font-size: 22px; font-weight: 600; margin-bottom: 25px; text-align: center;">
+        <h1 style="font-family: 'Domaine Display'; font-size: 22px; line-height: 27px; font-weight: 600; margin-bottom: 25px; text-align: center;">
           Here's Your Itinerary
         </h1>
 
         <!-- Activities Loop -->
         ${htmlRows}
-
-        <!-- Footer -->
-        <div style="font-size: 12px; color: #393939; text-align: center; padding: 0 20px 20px;">
-          Update plans, add experiences, or make changes - <br><b>your stay, your way.</b>
-        </div>
       </div>
+      <!-- Footer -->
+        <div style="font-size: 12px; color: #393939; text-align: center; padding: 0 20px 20px; word-break: break-word; white-space: normal">
+          Update plans, add experiences, or make changes - <br><b>your stay, your way.</b>
+          <div style="padding-top: 8px; word-break: break-word; white-space: normal">
+            <a href="${path}"
+              style="display: inline-block; width: 201px; height: 23px; background: #333333;
+                border: 1px solid #333333; opacity: 1; text-align: center;
+                font-family: 'ITC Franklin Gothic Std', 'Arial', sans-serif;
+                font-size: 16px; font-weight: 600; line-height: 22px;
+                letter-spacing: 0.26px; color: #FFFFFF; text-transform: uppercase;
+                text-decoration: none; padding: 7px 0; white-space: nowrap;">
+            MANAGE ITINERARY
+            </a>
+          </div>
+        </div>
     </div>
   </body>`;
 };
