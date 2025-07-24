@@ -132,7 +132,7 @@ export const generateItineraryHTML = (
       <!-- Banner -->
       ${
         imageUrl
-          ? `<img src="${imageUrl}" alt="Hotel Image" style="width: 100%; height: 200px; "/>`
+          ? `<img src="${imageUrl}" alt="Hotel Image" style="width: 100%; height: 200px; " crossorigin="anonymous"/>`
           : ''
       }
 

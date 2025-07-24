@@ -44,11 +44,16 @@ const ShareButton = ({
         margin: 10,
         filename: fileName,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
+        html2canvas: {
+          scale: 2,
+          useCORS: true, // enable cross-origin images
+          allowTaint: false, // disallow tainted canvases
+          logging: false,
+        },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
       };
 
-      const worker = html2pdf().from(container).set(opt);
+      const worker = html2pdf().from(htmlContent).set(opt);
       const pdfBlob = await worker.outputPdf('blob');
 
       document.body.removeChild(container);

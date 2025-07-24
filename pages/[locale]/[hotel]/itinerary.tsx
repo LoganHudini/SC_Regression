@@ -263,7 +263,6 @@ const Itinerary = () => {
             allActivities,
             imageUrl,
           );
-
           setFinalHtmlContent(html);
         } catch (error) {
           console.error('Error loading image or generating HTML:', error);
