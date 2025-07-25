@@ -330,8 +330,9 @@ const Itinerary = () => {
                   bookedActivitiesDetails
                     ?.filter(
                       (item: any) =>
-                        item?.itineraryType === 'CheckIn' ||
-                        (item?.status === 'Confirmed' &&
+                        ((item?.itineraryType === 'CheckIn' ||
+                          item?.status === 'Confirmed' ||
+                          item?.status === 'WaitingList') &&
                           (useBookingDate || selectedDate) === item?.startDate) ||
                         item?.type === 'CTAbtn',
                     )
@@ -361,6 +362,8 @@ const Itinerary = () => {
 
                       const hotelName = hotelInfo?.hotel?.name || config?.name;
 
+                      console.log(item, 'item');
+
                       return (
                         (item.startDate === selectedDate || item?.type === 'CTAbtn') && (
                           <div
@@ -369,7 +372,13 @@ const Itinerary = () => {
                               [styles.btnExplore]: exploreBtnIndependent?.length === 0,
                             })}
                           >
-                            <span className={cx(styles.tableDot, {})}></span>
+                            <span
+                              className={
+                                item?.status === 'WaitingList'
+                                  ? cx(styles.tableDotWaitingList, {})
+                                  : cx(styles.tableDot, {})
+                              }
+                            />
 
                             {item?.type !== 'CTAbtn' && item.startDate === selectedDate ? (
                               <>
@@ -381,6 +390,11 @@ const Itinerary = () => {
                                   <div className={styles.addEvent}>
                                     <span className={cx(styles.tableTime, {})}>
                                       {item?.startTime} - {item?.endTime}
+                                      {item?.status === 'WaitingList' ? (
+                                        <p className={styles.waitingList}>Waitlisted</p>
+                                      ) : (
+                                        <></>
+                                      )}
                                     </span>
                                     <span>
                                       {!isCompleted ? (

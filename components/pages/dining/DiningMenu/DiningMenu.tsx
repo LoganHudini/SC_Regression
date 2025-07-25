@@ -512,8 +512,9 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
     return (
       <div
         id={`Category${category?.id}`}
-        className={`${isIRDv2 ? 'globals-irdv2-category-element' : ''} ${isChefSpecial && isIRDv2 ? 'globals-irdv2-chef-special' : ''
-          }`}
+        className={`${isIRDv2 ? 'globals-irdv2-category-element' : ''} ${
+          isChefSpecial && isIRDv2 ? 'globals-irdv2-chef-special' : ''
+        }`}
         key={category?.id}
       >
         {categoryItems?.length > 0 && (
@@ -805,7 +806,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
           >
             {!menuAvailability &&
               data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length !==
-              0 && (
+                0 && (
                 <div className={styles.menuUnavailableContainer}>
                   <div className={styles.menuTimingsText}>
                     {t('Online requests will be available from')} {menuStartingTime}
@@ -827,7 +828,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             )}
             {filteredIrdItemsList?.length === 0 &&
               data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length !==
-              0 && (
+                0 && (
                 <div className={styles.noItems}>
                   <ItemNotFoundLoader />
                   <div className={styles.noItemsText}>{t('Oops, Item Not Found')}</div>
