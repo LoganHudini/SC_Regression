@@ -265,6 +265,7 @@ const Itinerary = () => {
             allActivities,
             imageUrl,
             path,
+            hotelInfo?.hotel?.name,
           );
           setFinalHtmlContent(html);
         } catch (error) {
@@ -276,6 +277,7 @@ const Itinerary = () => {
             allActivities,
             '/fallback-image.png', // Optional placeholder
             path,
+            hotelInfo?.hotel?.name,
           );
           setFinalHtmlContent(fallbackHtml);
         }

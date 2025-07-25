@@ -23,9 +23,12 @@ export const generateItineraryHTML = (
   allActivities: any[],
   imageUrl: string,
   path: string,
+  hotelName: any,
 ): string => {
   // Filter Confirmed activities
-  const filteredActivities = bookedActivities.filter((item) => item?.status === 'Confirmed');
+  const filteredActivities = bookedActivities.filter(
+    (item) => item?.status === 'Confirmed' || item?.itineraryType === 'CheckIn',
+  );
 
   // Sort by start time
   const sortedActivities = filteredActivities.sort((a: any, b: any) => {
@@ -72,7 +75,12 @@ export const generateItineraryHTML = (
       const activityDay = dayjs(startDate)?.format('dddd');
       const activityDate = dayjs(startDate)?.format('D MMM');
 
-      const timeValue = startTime && endTime ? `${startTime} - ${endTime}` : startTime;
+      const timeValue =
+        item?.itineraryType === 'CheckIn'
+          ? startTime
+          : startTime && endTime
+          ? `${startTime} - ${endTime}`
+          : startTime;
 
       // Use activityDate as the grouping key
       if (!acc[activityDate]) {
@@ -114,7 +122,9 @@ export const generateItineraryHTML = (
                 <div style="margin-bottom: 20px; position: relative; word-break: break-word; white-space: normal">
                   <div style="position: absolute; width: 10px; height: 10px; border-radius: 50%; background: #CCCCCC; left: -20px; word-break: break-word; white-space: normal"></div>
                   <div style="font-family: 'Domaine Display', serif; fontSize: 14px; lineHeight: 17px; marginBottom: 5px; word-break: break-word; white-space: normal;ssss"><b>${
-                    activity.itineraryName || ''
+                    activity.itineraryName === 'CheckIn'
+                      ? `Check in to ${hotelName}`
+                      : activity.itineraryName || ''
                   }</b></div>
                   <div style="font-family: 'ITC Franklin Gothic Std', 'Arial', sans-serif; lineHeight: 20px; font-size: 16px; margin-bottom: 5px; word-break: break-word; white-space: normal;"><b>${
                     activity?.timeValue || activity?.startTime || ''
