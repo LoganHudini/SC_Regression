@@ -264,9 +264,9 @@ export const ActivityDetailDrawer: React.FC<any> = ({
 
       notificationStorage({
         type: SUCCESS,
-        title: message ? (t("You're on the waitlist!") as string) : (t('Thank You!') as string),
+        title: message ? (t('You are on the waitlist!') as string) : (t('Thank You!') as string),
         description: message
-          ? (t("We'll let you know if a spot becomes available for this activity") as string)
+          ? (t('We will let you know if a spot becomes available for this activity') as string)
           : (t('Your booking has been confirmed.') as string),
         redirect: availablePaths.ITINERARY,
       });
@@ -435,9 +435,9 @@ export const ActivityDetailDrawer: React.FC<any> = ({
 
       notificationStorage({
         type: SUCCESS,
-        title: message ? (t("You're on the waitlist!") as string) : (t('Thank You!') as string),
+        title: message ? (t('You are on the waitlist!') as string) : (t('Thank You!') as string),
         description: message
-          ? (t("We'll let you know if a spot becomes available for this activity") as string)
+          ? (t('We will let you know if a spot becomes available for this activity') as string)
           : (t('Your booking has been updated.') as string),
         redirect: availablePaths.ITINERARY,
       });
@@ -906,9 +906,9 @@ export const ActivityDetailDrawer: React.FC<any> = ({
                 )}
                 {modifyActivityData?.status === 'WaitingList' && modifyBookingFlow && (
                   <p className={styles.waitlistDesc}>
-                    {"You're currently on the waitlist for this activity."}
+                    {'You are currently on the waitlist for this activity.'}
                     <br />
-                    {"We'll reach out if a slot becomes available"} <br />
+                    {'We will reach out if a slot becomes available'} <br />
                     {'before your scheduled time.'}
                   </p>
                 )}
