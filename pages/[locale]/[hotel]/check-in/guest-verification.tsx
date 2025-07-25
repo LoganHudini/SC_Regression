@@ -900,6 +900,7 @@ const Guest: React.FC<any> = () => {
       isRegisterNewProfile: true,
       guests: [
         {
+          title: newAccompanyGuestStorage?.[method][index]?.title,
           firstName: newAccompanyGuestStorage?.[method][index]?.firstName,
           lastName: newAccompanyGuestStorage?.[method][index]?.lastName,
           phone: newAccompanyGuestStorage?.[method][index]?.phone,
