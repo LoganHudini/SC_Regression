@@ -21318,7 +21318,7 @@ export const configuration: any = [
         code: 'In-Room Dining',
         name: 'In-Room Dining',
         isActive: true,
-        signatureRequired: true,
+        signatureRequired: false,
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
       },
