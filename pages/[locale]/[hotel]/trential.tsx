@@ -83,7 +83,7 @@ const Trential: React.FC = () => {
     query: GET_RESERVATION,
   });
   const reservationDataSelected = reservationData?.getReservation?.data?.guests?.find(
-    (item) => item?.id === profileIDState?.id,
+    (item: any) => item?.id === profileIDState?.id,
   );
   const confirmationId = reservationData?.getReservation?.data?.confirmationId;
   const lastName = reservationData?.getReservation?.data?.guests[0]?.lastName;
