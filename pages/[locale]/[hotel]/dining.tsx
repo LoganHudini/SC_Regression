@@ -120,38 +120,33 @@ const Dining = () => {
       ),
   );
   useEffect(() => {
-    if (
-      !router.isReady ||
-      !roomNo ||
-      !lastName ||
-      !hotelId ||
-      typeof roomNo !== 'string' ||
-      typeof lastName !== 'string'
-    ) {
-      return;
+    if (router?.isReady && roomNo && lastName) {
+      handleReservation({
+        activeCheckInFlowInfo: false,
+        values: { roomNo, lastName },
+        hotelId,
+        setLoading: (loading: boolean) => {
+          setIsValidating(loading);
+        },
+        t,
+        processStatusCode: (error: any) => {
+          const statusCode = error?.networkError?.statusCode;
+          if (statusCode === 404 || statusCode === 400 || statusCode === 401) {
+            navigate(availablePaths.HOME);
+          }
+          return statusCode;
+        },
+        navigate: navigate,
+        preventDrawerOpen: true,
+        onCompleted: (res: any) => {
+          const status = res?.data?.reservationStatus || res?.data?.computedReservationStatus;
+          if (status !== 'INHOUSE') {
+            navigate(availablePaths.HOME);
+          }
+        },
+      });
     }
-
-    if (
-      checkInData?.checkedIn &&
-      checkInData?.roomNumber === roomNo &&
-      checkInData?.lastName === lastName
-    ) {
-      return;
-    }
-
-    handleReservation({
-      activeCheckInFlowInfo: false,
-      values: { roomNo, lastName },
-      hotelId,
-      setLoading: (loading: boolean) => {
-        setIsValidating(loading);
-      },
-      t,
-      processStatusCode: (error: any) => error?.networkError?.statusCode,
-      navigate: null,
-      preventDrawerOpen: true,
-    });
-  }, [router.isReady, roomNo, lastName, hotelId, checkInData]);
+  }, [router?.isReady, roomNo, lastName, hotelId]);
 
   useEffect(() => {
     diningOptions({ type: IN_ROOM_DINING });
