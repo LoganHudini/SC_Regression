@@ -19,7 +19,7 @@ import { pageView } from 'utils/gtag';
 import { useRouter } from 'next/router';
 import dayjs from 'dayjs';
 import { useConfig } from 'utils/hooks/useConfiguration';
-import { BRAND_CODE } from 'core/graphql/endpoints';
+import { BRAND_CODE, HUDINI_CHAT_URL } from 'core/graphql/endpoints';
 import Head from 'next/head';
 import { Notification } from 'components/shared/Notification/Notification';
 import { GetStaticProps } from 'next';
@@ -145,6 +145,66 @@ function App({ Component, pageProps }: AppProps) {
     okButtonLabel: t('Ok') as string,
     cancelButtonLabel: t('Cancel') as string,
   };
+
+  useEffect(() => {
+    if (config?.hotelId && config?.chatOption === 'HUDINI-CHAT') {
+      window.ChatWidgetConfig = {
+        hotelId: config?.hotelId,
+        themeColor: {
+          icon: { background: 'var(--primary-theme-color)' },
+          header: {
+            background: '#fff',
+            color: 'var(--primary-theme-color)',
+            closeBtn: { color: 'var(--primary-theme-color)' },
+          },
+          body: {
+            background: '#F8F8F8',
+            chatBubbleStaff: {
+              background: '#f0f2f5',
+            },
+            chatBubbleGuest: {
+              background: 'var(--primary-theme-color)',
+            },
+            sentButton: {
+              color: 'var(--primary-theme-color)',
+            },
+          },
+        },
+        channelId: 'PWA',
+        roomNumber: checkinData?.roomNumber || '',
+        userName:
+          checkinData?.firstName || checkinData?.lastName
+            ? `${checkinData?.firstName ?? ''} ${checkinData?.lastName ?? ''}`.trim()
+            : 'Unknown',
+        reservationId: '',
+        confirmationId: checkinData?.reservationId,
+        title: '',
+        customInset: {
+          bottom: '80px',
+          right: '30px',
+        },
+        // svgLogo: `/images/${BRAND_CODE}/Logo.svg`,
+      };
+
+      const script = document.createElement('script');
+      script.src = HUDINI_CHAT_URL ?? '';
+      // script.src = 'http://localhost:3001/chat-widget.js';
+      script.async = true;
+
+      document.body.appendChild(script);
+
+      return () => {
+        document.body.removeChild(script);
+      };
+    }
+  }, [
+    checkinData?.firstName,
+    checkinData?.lastName,
+    checkinData?.reservationId,
+    checkinData?.roomNumber,
+    config?.chatOption,
+    config?.hotelId,
+  ]);
 
   return (
     <>
