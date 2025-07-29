@@ -39,10 +39,13 @@ import { processStatusCode } from 'utils/processError';
 import { getTrips } from 'storage/trips.storage';
 import { generateItineraryHTML } from 'utils/generateItineraryHTML';
 import AddEvent from 'assets/icons/addEvent.svg';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 
 export { getStaticPaths };
 
 const Itinerary = () => {
+  dayjs.extend(isSameOrBefore);
+
   const { t } = useTranslation(['common']);
   const config = useConfig();
   const locale = useLocale();
@@ -359,10 +362,28 @@ const Itinerary = () => {
                             ),
                           )
                         : false;
+                      const now = dayjs(); // current time
+                      // Parse both times
+                      const start = dayjs(item?.startTime, 'hh:mm a');
+                      let end = dayjs(item?.endTime, 'hh:mm a');
+
+                      let isEndNextDay = false;
+                      let pastTime = false;
+
+                      // Adjust end time to next day if it's logically before start time
+                      if (end.isBefore(start)) {
+                        if (end.isBefore(now)) {
+                          pastTime = true;
+                        }
+                        end = end.add(1, 'day');
+                        isEndNextDay = true;
+                      }
+
+                      // Check if now is between start and end
+                      const isCurrent = now.isAfter(start) && now.isBefore(end);
+                      const isFutureEndTime = end.format('DD MMM');
 
                       const hotelName = hotelInfo?.hotel?.name || config?.name;
-
-                      console.log(item, 'item');
 
                       return (
                         (item.startDate === selectedDate || item?.type === 'CTAbtn') && (
@@ -388,18 +409,29 @@ const Itinerary = () => {
                                   </span>
                                 ) : (
                                   <div className={styles.addEvent}>
-                                    <span className={cx(styles.tableTime, {})}>
-                                      {item?.startTime} - {item?.endTime}
+                                    <span
+                                      className={cx(
+                                        isCurrent ? styles.firstTableTime : styles.tableTime,
+                                      )}
+                                    >
+                                      {item?.startTime} - {isEndNextDay ? isFutureEndTime : ''}{' '}
+                                      {item?.endTime}
                                       {item?.status === 'WaitingList' ? (
-                                        <p className={styles.waitingList}>Waitlisted</p>
+                                        <p className={styles.waitingList}>Waiting List</p>
                                       ) : (
                                         <></>
                                       )}
                                     </span>
                                     <span>
-                                      {!isCompleted ? (
+                                      {(!isCompleted || isEndNextDay) &&
+                                      !(item?.status === 'WaitingList') ? (
                                         <a
-                                          {...getCalendarLink(item, item?.itineraryName, hotelName)}
+                                          {...getCalendarLink(
+                                            item,
+                                            item?.itineraryName,
+                                            hotelName,
+                                            isEndNextDay ? end : undefined,
+                                          )}
                                         >
                                           <AddEvent />
                                         </a>
@@ -411,7 +443,7 @@ const Itinerary = () => {
                                 )}
                                 <div
                                   className={cx(styles.tableImageWrapper, {
-                                    [styles.disabled]: isCompleted,
+                                    [styles.disabled]: isCompleted && !isEndNextDay && !pastTime,
                                   })}
                                   onClick={() => {
                                     toggleDetailsDrawer(true);

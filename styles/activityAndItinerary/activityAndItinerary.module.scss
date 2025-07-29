@@ -76,6 +76,11 @@
 }
 
 .tableTime {
+  font: var(--secondary-title-font-family);
+  letter-spacing: 0.6px;
+}
+
+.firstTableTime {
   font: 1rem var(--secondary-title-font-family);
   letter-spacing: 0.6px;
 }
@@ -83,7 +88,7 @@
 .waitingList {
   font: 1rem var(--secondary-title-font-family);
   letter-spacing: 0.8px;
-  line-height: 17px;
+  line-height: 25px;
 }
 
 .image {

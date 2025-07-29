@@ -1,6 +1,11 @@
 import { parseTime12To24 } from './functions';
 
-export function getGoogleCalendarUrl(activity: any, activityName: any, hotelName: any) {
+export function getGoogleCalendarUrl(
+  activity: any,
+  activityName: any,
+  hotelName: any,
+  endDate: any,
+) {
   if (!activity?.startDate || !activity?.startTime || !activity?.endTime) {
     console.warn('Skipping Google Calendar URL: missing date/time', activity);
     return '#'; // fallback link
@@ -26,7 +31,10 @@ export function getGoogleCalendarUrl(activity: any, activityName: any, hotelName
   }
 
   const start = startDateObj.toISOString().replace(/-|:|\.\d+/g, '');
-  const end = endDateObj.toISOString().replace(/-|:|\.\d+/g, '');
+  const end =
+    endDate === undefined
+      ? endDateObj.toISOString().replace(/-|:|\.\d+/g, '')
+      : endDate.toISOString().replace(/-|:|\.\d+/g, '');
 
   const locationValue =
     activity?.location && hotelName
@@ -40,7 +48,7 @@ export function getGoogleCalendarUrl(activity: any, activityName: any, hotelName
   )}&dates=${start}/${end}`;
 }
 
-export function getICalUrl(activity: any, activityName: any, hotelName: any) {
+export function getICalUrl(activity: any, activityName: any, hotelName: any, endDate: any) {
   if (!activity?.startDate || !activity?.startTime || !activity?.endTime) {
     console.warn('Skipping iCal URL: missing date/time', activity);
     return '#';
@@ -57,7 +65,10 @@ export function getICalUrl(activity: any, activityName: any, hotelName: any) {
   if (isNaN(startDateObj.getTime()) || isNaN(endDateObj.getTime())) return '#';
 
   const dtStart = startDateObj.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-  const dtEnd = endDateObj.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  const dtEnd =
+    endDate === undefined
+      ? endDateObj.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z'
+      : endDate?.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
   const dtStamp = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
   const uid = `${Date.now()}@yourdomain.com`;
 

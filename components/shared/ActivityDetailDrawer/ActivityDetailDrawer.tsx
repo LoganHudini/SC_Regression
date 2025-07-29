@@ -264,7 +264,7 @@ export const ActivityDetailDrawer: React.FC<any> = ({
 
       notificationStorage({
         type: SUCCESS,
-        title: message ? (t('You are on the waitlist!') as string) : (t('Thank You!') as string),
+        title: message ? (t('You are on the waitlist') as string) : (t('Thank You!') as string),
         description: message
           ? (t('We will let you know if a spot becomes available for this activity') as string)
           : (t('Your booking has been confirmed.') as string),
@@ -435,7 +435,7 @@ export const ActivityDetailDrawer: React.FC<any> = ({
 
       notificationStorage({
         type: SUCCESS,
-        title: message ? (t('You are on the waitlist!') as string) : (t('Thank You!') as string),
+        title: message ? (t('You are on the waitlist') as string) : (t('Thank You!') as string),
         description: message
           ? (t('We will let you know if a spot becomes available for this activity') as string)
           : (t('Your booking has been updated.') as string),
