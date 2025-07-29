@@ -5733,6 +5733,7 @@ export const configuration: any = [
         isActive: true,
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
+        disableSpecialInstructions: true,
       },
       {
         code: 'Services',
@@ -22173,6 +22174,7 @@ export const configuration: any = [
         isActive: true,
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
+        disableSpecialInstructions: true,
       },
       {
         code: 'Services',
@@ -23771,6 +23773,7 @@ export const configuration: any = [
         isActive: true,
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
+        disableSpecialInstructions: true,
         version: 'v2',
       },
       {

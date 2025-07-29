@@ -817,7 +817,7 @@ const DiningOrderSummary = () => {
               underline: styles.customUnderline,
             },
             inputProps: {
-              maxLength: 30,
+              maxLength: 100,
               style: {
                 font: '14px var(--primary-font-heading)',
                 color: 'var(--tertiary-text-color)',
