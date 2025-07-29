@@ -105,6 +105,7 @@ import dayjs from 'dayjs';
 import { timeFormats } from 'utils/timeFormats';
 import { StyledCheckBox } from 'components/shared/StyledCheckBox/StyledCheckBox';
 import { validatePhoneNumber } from 'utils/hooks/useValidate';
+import { useSalutations } from 'utils/hooks/useSalutations';
 export { getStaticPaths };
 
 const Guest: React.FC<any> = () => {
@@ -119,6 +120,7 @@ const Guest: React.FC<any> = () => {
   const config = useConfig();
   const paymentConfig: any = usePaymentConfig();
   const accompanyGuestData = useReactiveVar(accompanyGuestDetails);
+
   const hotelInfo = useReactiveVar(hotelInformation);
   const information = hotelInfo?.detailsCustomAttributes;
 
@@ -138,6 +140,13 @@ const Guest: React.FC<any> = () => {
   const [openToggleAccompanyGuest, setOpenToggleAccompanyGuest] = useState(
     new Array(newAccompanyGuestStorage?.child?.length)?.fill(false),
   );
+
+  const {
+    salutations,
+    loading: salutationsLoading,
+    error: salutationsError,
+    hasSalutations,
+  } = useSalutations();
 
   useEffect(() => {
     if (profileIDState?.index !== undefined && profileIDState?.index !== null) {
@@ -240,6 +249,12 @@ const Guest: React.FC<any> = () => {
     (submodule: any) => submodule?.name === INFORMATION && submodule?.isActive,
   );
   const activeSections = guestSubmodule?.details?.filter((section: any) => section?.isActive);
+  const newSalutationOptions: any = salutations || [];
+
+  const updatedSections = updateSalutationOptions(activeSections, newSalutationOptions)?.find(
+    (section: any) => section?.name === GUESTINFORMATION && section.isActive,
+  );
+
   const guestInformationSection = activeSections?.find(
     (section: any) => section?.name === GUESTINFORMATION && section.isActive,
   );
@@ -268,7 +283,7 @@ const Guest: React.FC<any> = () => {
     documentTypes,
     genderTypes,
   );
-  const disabledFields = updateFieldStatus(guestInformationSection);
+  const disabledFields = updateFieldStatus(guestInformationSection, salutations);
 
   const upgradeRoomConfig = checkInModule?.submodules?.find(
     (submodule: any) => submodule?.name === UPGRADE_ROOM && submodule.isActive,
@@ -604,7 +619,7 @@ const Guest: React.FC<any> = () => {
         channel: 'PWA',
         updateGuestDetails: {
           name: {
-            nameTitle: reservationInfo?.guests[0]?.title,
+            nameTitle: guestReservationInfo?.title,
             firstName: guestReservationInfo?.firstName,
             lastName: guestReservationInfo?.lastName,
             gender: guestReservationInfo?.gender,
@@ -684,6 +699,7 @@ const Guest: React.FC<any> = () => {
               channel: 'PWA',
               updateGuestDetails: {
                 name: {
+                  nameTitle: data?.title,
                   firstName: data?.firstName,
                   lastName: data?.lastName,
                   gender: data?.gender,
@@ -751,7 +767,7 @@ const Guest: React.FC<any> = () => {
             documentBackImage: guestInformationSection?.uploadId ? data?.documentBackImage : '',
             updateGuestDetails: {
               name: {
-                nameTitle: reservationInfo?.guests[i + 1]?.title,
+                nameTitle: data?.title,
                 firstName: data?.firstName,
                 lastName: data?.lastName,
                 gender: data?.gender,
@@ -884,6 +900,7 @@ const Guest: React.FC<any> = () => {
       isRegisterNewProfile: true,
       guests: [
         {
+          title: newAccompanyGuestStorage?.[method][index]?.title,
           firstName: newAccompanyGuestStorage?.[method][index]?.firstName,
           lastName: newAccompanyGuestStorage?.[method][index]?.lastName,
           phone: newAccompanyGuestStorage?.[method][index]?.phone,
@@ -1057,6 +1074,30 @@ const Guest: React.FC<any> = () => {
 
   const isBiometricType = [YOUVERSE, TRENTIAL, INCODE]?.includes(guestInformationSection?.type);
 
+  type Option = { id: string; name: string; [key: string]: any };
+  type Detail = { name: string; options?: Option[]; [key: string]: any };
+  type Section = { name: string; isActive: boolean; details: Detail[]; [key: string]: any };
+
+  function updateSalutationOptions(sections: Section[], newOptions: Option[]): Section[] {
+    return sections?.map((section) => {
+      if (section.name === GUESTINFORMATION && section.isActive) {
+        return {
+          ...section,
+          details: section.details.map((detail) => {
+            if (detail.name === 'title') {
+              return {
+                ...detail,
+                options: newOptions,
+              };
+            }
+            return detail;
+          }),
+        };
+      }
+      return section;
+    });
+  }
+
   return (
     <>
       <Head>
@@ -1132,7 +1173,7 @@ const Guest: React.FC<any> = () => {
                           selectedGuest={guestReservationInfo}
                           guestInformationSection={
                             enableIdVerificationStatus
-                              ? guestInformationSection?.details
+                              ? updatedSections?.details
                               : disabledFields?.details
                           }
                           type={PRIMARY}
@@ -1218,9 +1259,23 @@ const Guest: React.FC<any> = () => {
                                       if (field?.name === PHONE || field?.name === EMAILS) {
                                         return { ...field, isActive: false };
                                       }
+                                      if (field?.name === 'title') {
+                                        return {
+                                          ...field,
+                                          options: [{ name: '', value: '', label: '' }],
+                                        };
+                                      }
                                       return field;
                                     })
-                                  : accompanyGuestInformationSection
+                                  : accompanyGuestInformationSection?.map((field: any) => {
+                                      if (field?.name === 'title') {
+                                        return {
+                                          ...field,
+                                          options: salutations || [],
+                                        };
+                                      }
+                                      return field;
+                                    })
                               }
                               type={SECONDARY}
                             />
@@ -1287,9 +1342,23 @@ const Guest: React.FC<any> = () => {
                                     if (field?.name === PHONE || field?.name === EMAILS) {
                                       return { ...field, isActive: false };
                                     }
+                                    if (field?.name === 'title') {
+                                      return {
+                                        ...field,
+                                        options: salutations || [],
+                                      };
+                                    }
                                     return field;
                                   })
-                                : accompanyGuestInformationSection
+                                : accompanyGuestInformationSection?.map((field: any) => {
+                                    if (field?.name === 'title') {
+                                      return {
+                                        ...field,
+                                        options: salutations || [],
+                                      };
+                                    }
+                                    return field;
+                                  })
                             }
                             type={SECONDARY}
                           />
@@ -1372,6 +1441,12 @@ const Guest: React.FC<any> = () => {
                       if (field?.name === PHONE || field?.name === EMAILS) {
                         return { ...field, isActive: false, required: false };
                       }
+                      if (field?.name === 'title') {
+                        return {
+                          ...field,
+                          options: salutations || [],
+                        };
+                      }
                       return field;
                     })
                   : guestInformation?.map((field) => {
@@ -1379,6 +1454,12 @@ const Guest: React.FC<any> = () => {
                         return {
                           ...field,
                           isDisabled: newGuest?.status == 'updated' ? true : false,
+                        };
+                      }
+                      if (field?.name === 'title') {
+                        return {
+                          ...field,
+                          options: salutations || [],
                         };
                       }
                       return field;

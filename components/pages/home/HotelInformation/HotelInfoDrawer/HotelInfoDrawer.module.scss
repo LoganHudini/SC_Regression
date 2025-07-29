@@ -117,6 +117,11 @@
   margin: auto;
   border-radius: var(--primary-button-border-radius);
   max-width: 390px;
+
+  &.topPadding {
+    position: relative;
+    margin-top: 10px;
+  }
 }
 
 .highlights {

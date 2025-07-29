@@ -135,10 +135,14 @@ const Menu = () => {
   }, [irdActiveMenu]);
 
   useEffect(() => {
-    if (!checkInData?.checkedIn) {
-      navigate(availablePaths?.HOME);
-    }
-  }, [navigate, t, checkInData?.checkedIn]);
+    const timer = setTimeout(() => {
+      if (!checkInData?.checkedIn) {
+        navigate(availablePaths?.HOME);
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [navigate, checkInData?.checkedIn]);
 
   useEffect(() => {
     if (header[0]?.name == undefined && header[0].hours == undefined) {

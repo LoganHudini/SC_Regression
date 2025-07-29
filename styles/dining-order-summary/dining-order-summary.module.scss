@@ -160,6 +160,18 @@
   content: ', ';
 }
 
+.cartHeader {
+  overflow: hidden;
+  font: 1.5rem var(--heading-font-regular);
+  top: 4rem;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 10px 30px;
+  box-sizing: border-box;
+}
+
 .itemPrice {
   font: $medium var(--primary-card-title-font-family);
   padding: 0.5rem;
@@ -247,7 +259,7 @@
 .guestCount {
   display: flex;
   justify-content: space-between;
-  align-items: end;
+  align-items: flex-end;
 }
 
 .schedulingMainContainer {

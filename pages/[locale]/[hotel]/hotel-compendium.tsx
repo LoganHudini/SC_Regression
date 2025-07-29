@@ -7,6 +7,7 @@ import { useQuery, useReactiveVar } from '@apollo/client';
 import styles from '@styles/hotel-compendium/hotel-compendium.module.scss';
 import {
   getHotelCompendium,
+  mapCode,
   selectedCompendiumCategory,
   toggleDetailsDrawer,
 } from 'storage/home.storage';
@@ -18,13 +19,14 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { getStaticPaths } from 'utils/getStatic';
-import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { filterHotelCompendiumCategories } from 'utils/functions';
 import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 import { PhoneEmail } from 'components/shared/PhoneEmail/PhoneEmail';
 import { EMAILCAPS, PHONECAPS, URL } from 'utils/constants';
 import NoInformation from 'components/shared/NoInformation/NoInformation';
+import { availablePaths } from 'utils/availablePaths';
+import { useLocalizedRouter, useLocale } from 'utils/hooks/useLocalizedRouter';
 
 export { getStaticPaths };
 
@@ -33,6 +35,7 @@ const HotelCompendium: React.FC = () => {
   const locale = useLocale();
   const hotelId = useConfig()?.hotelId;
   const hotelName = useConfig()?.name;
+  const navigate = useLocalizedRouter();
   const [showSelectedAmenity, setShowSelectedAmenity] = useState<any>();
   const hotelCompendiumSelectedDetails: any = useReactiveVar(selectedCompendiumCategory);
   const detailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
@@ -63,8 +66,14 @@ const HotelCompendium: React.FC = () => {
   );
 
   const selectedListItem = (data: any) => {
-    setShowSelectedAmenity(data);
-    toggleDetailsDrawer(true);
+    const codeAttribute = data?.customAttributes?.find((attr: any) => attr.key === 'Code');
+    if (codeAttribute && codeAttribute?.value) {
+      mapCode(codeAttribute.value);
+      navigate(availablePaths.MAP);
+    } else {
+      setShowSelectedAmenity(data);
+      toggleDetailsDrawer(true);
+    }
   };
 
   const closeDrawer = () => {

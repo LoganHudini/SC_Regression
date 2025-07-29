@@ -150,37 +150,26 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   }
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (!sigCanvas?.current) return;
 
-    const matchDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const canvas = sigCanvas.current.getCanvas();
+    const ctx: any = canvas.getContext('2d');
 
     const applyWhiteBackground = () => {
-      if (!sigCanvas?.current) return;
-      const canvas = sigCanvas.current.getCanvas();
-      const ctx: any = canvas.getContext('2d');
-
       ctx.globalCompositeOperation = 'destination-over';
       ctx.fillStyle = 'white';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.globalCompositeOperation = 'source-over';
     };
 
-    const handleInitialPaint = () => {
-      requestAnimationFrame(() => {
-        if (matchDark.matches) {
-          applyWhiteBackground();
-        }
-      });
-    };
-
-    handleInitialPaint();
+    applyWhiteBackground();
+    const matchDark = window.matchMedia('(prefers-color-scheme: dark)');
     matchDark.addEventListener('change', applyWhiteBackground);
 
     return () => {
       matchDark.removeEventListener('change', applyWhiteBackground);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [signature, sigCanvas?.current]);
+  }, [sigCanvas]);
 
   const dayjsLocaleLoader = useReactiveVar(setDayjsLocale);
   const [accompanyGuestInformationState, setAcccompanyGuestInformation] = useState(
@@ -370,34 +359,18 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   }, []);
 
   const fixSignatureBackground = () => {
-    if (typeof window === 'undefined' || !sigCanvas?.current) return;
+    if (!sigCanvas?.current) return;
 
-    const matchDark = window.matchMedia('(prefers-color-scheme: dark)');
-    if (!matchDark.matches) return;
+    const canvas = sigCanvas.current.getCanvas();
+    const width = canvas.width;
+    const height = canvas.height;
 
-    const originalCanvas = sigCanvas.current.getCanvas();
-    const width = originalCanvas.width;
-    const height = originalCanvas.height;
-
-    const imageData = originalCanvas.toDataURL();
-
-    const img = new Image();
-    img.onload = () => {
-      const offscreen = document.createElement('canvas');
-      offscreen.width = width;
-      offscreen.height = height;
-
-      const offCtx: any = offscreen.getContext('2d');
-      offCtx.fillStyle = 'white';
-      offCtx.fillRect(0, 0, width, height);
-      offCtx.drawImage(img, 0, 0);
-
-      const ctx: any = originalCanvas.getContext('2d');
-      ctx.clearRect(0, 0, width, height);
-      ctx.drawImage(offscreen, 0, 0);
-    };
-
-    img.src = imageData;
+    const ctx: any = canvas.getContext('2d');
+    const imageData = ctx.getImageData(0, 0, width, height);
+    ctx.clearRect(0, 0, width, height);
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, width, height);
+    ctx.putImageData(imageData, 0, 0);
   };
 
   const toggleConditionsAccepted = useCallback(() => {
@@ -823,8 +796,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                 ) as string),
             redirect: availablePaths?.HOME,
             delay: 9000,
+            finalFunction: () => {
+              reviewSignAndCheckBox({ checkBox: false, sign: null });
+            },
           });
-          reviewSignAndCheckBox({ checkBox: false, sign: null });
           reservationGuestInfoStorageData(null);
           guestInformationStorage(null);
           accompanyGuestDetails(null);

@@ -13,6 +13,7 @@ export type INotificationDetailsProps = null | {
   type: string;
   apolloError?: string | any;
   delay?: number;
+  finalFunction?: any;
 };
 
 export const diningOptions = makeVar<any>({});
@@ -64,3 +65,5 @@ export const setDayjsLocale = makeVar(false);
 export const hotelImage = makeVar<any>({});
 
 export const hotelLocation = makeVar<any>([]);
+
+export const mapCode = makeVar<any>('');

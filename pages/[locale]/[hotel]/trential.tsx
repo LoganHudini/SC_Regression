@@ -255,7 +255,9 @@ const Trential: React.FC = () => {
                     expiry: expiryDate,
                     issueCountry: issueCountry,
 
-                    ...(statusList?.name === AADHAAR && { nationality: 'IN' }),
+                    ...(statusList?.name === AADHAAR
+                      ? { nationality: 'IN' }
+                      : { nationality: issueCountry }),
                     gender:
                       statusList?.response?.sex === 'M'
                         ? 'MALE'
@@ -366,7 +368,9 @@ const Trential: React.FC = () => {
                   issueDate: '',
                   expiry: expiryDate,
                   issueCountry: issueCountry,
-                  ...(statusList?.name === AADHAAR && { nationality: 'IN' }),
+                  ...(statusList?.name === AADHAAR
+                    ? { nationality: 'IN' }
+                    : { nationality: issueCountry }),
                   photo: data?.InitiateToken?.data?.frontPageLink || '',
                   portrait: data?.InitiateToken?.data?.portraitLink || '',
                   documentFrontImage: data?.InitiateToken?.data?.frontPageLink || '',
@@ -385,7 +389,9 @@ const Trential: React.FC = () => {
                       issueDate: '',
                       expiry: expiryDate,
                       issueCountry: issueCountry,
-                      ...(statusList?.name === AADHAAR && { nationality: 'IN' }),
+                      ...(statusList?.name === AADHAAR
+                        ? { nationality: 'IN' }
+                        : { nationality: issueCountry }),
                       photo: statusList?.response?.photo || '',
                       documentFrontImage: data?.InitiateToken?.data?.frontPageLink || '',
                       documentBackImage: data?.InitiateToken?.data?.backPageLink || '',

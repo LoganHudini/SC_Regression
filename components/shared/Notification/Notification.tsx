@@ -23,6 +23,7 @@ export const Notification: React.FC = () => {
   const type = notificationDetails?.type;
   const apolloError = notificationDetails?.apolloError;
   const delay = notificationDetails?.delay;
+  const finalFunction = notificationDetails?.finalFunction;
   const networkError = apolloError?.networkError as {
     result?: { errors?: string; code?: number };
   };
@@ -41,12 +42,15 @@ export const Notification: React.FC = () => {
         () => {
           toggleNotification(false);
           notificationStorage(null);
+          if (finalFunction && typeof finalFunction === 'function') {
+            finalFunction();
+          }
           redirect && navigate(redirect);
         },
         delay ? delay : 5000,
       );
     }
-  }, [delay, navigate, notificationStatus, redirect]);
+  }, [delay, navigate, notificationStatus, redirect, finalFunction]);
 
   return (
     <>

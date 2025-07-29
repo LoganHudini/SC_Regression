@@ -187,5 +187,11 @@
 }
 
 .globals-propertyName {
-  font: 5.25px 'Akzidenz Grotesk Pro Regular Extended' !important;
+  font-size: 5.25px !important;
+  font-family: 'Akzidenz Grotesk Pro Regular Extended' !important;
+  line-height: 1.2 !important;
+  height: auto !important;
+  overflow: visible !important;
+  white-space: nowrap !important;
+  display: block !important;
 }

@@ -668,6 +668,7 @@ const DiningOrderSummary = () => {
       </Head>
       <Header displayBackButton screenTitle={t('Order Details') as string} />
       <PageWrapper className={styles.pageWrapper}>
+        {isIRDv2 && <p className={styles.cartHeader}>{t('Your Cart')}</p>}
         <p className={styles.itemsAddedText}>{t('Item(s) Added')}</p>
         <div className={styles.cartWrapper}>
           {items?.map((item: any, index) => {
@@ -908,7 +909,13 @@ const DiningOrderSummary = () => {
           </div>
         )}
 
-        <p className={styles.taxText}>{t(`${servicechargeDisplay}`)}</p>
+        <p
+          className={cx(styles.taxText, {
+            'globals-irdv2-taxMargin': isIRDv2,
+          })}
+        >
+          {t(`${servicechargeDisplay}`)}
+        </p>
 
         {irdOrderType?.signatureRequired && (
           <>

@@ -325,7 +325,7 @@ const Spa: React.FC = () => {
       treatmentId: selectedSpaItem?.code,
       startTime: selectedSpaSlots?.startTime,
       technicianId: parseInt(selectedSpaSlots.technicianId),
-      firstName: isCheckedIn?.checkedIn ? isCheckedIn?.firstName : '',
+      firstName: isCheckedIn?.checkedIn ? isCheckedIn?.firstName : formik.values.firstName,
       lastName: isCheckedIn?.checkedIn ? isCheckedIn?.lastName : '',
       emailAddress:
         isCheckedIn?.checkedIn && isCheckedIn?.email ? isCheckedIn?.email : formik.values.email,
@@ -374,6 +374,7 @@ const Spa: React.FC = () => {
 
   const formik = useFormik({
     initialValues: {
+      firstName: isCheckedIn?.firstName || '',
       email: isCheckedIn?.email || '',
       phoneNumber: isCheckedIn?.phoneNumber || '',
       gender: '',
@@ -526,6 +527,30 @@ const Spa: React.FC = () => {
                 </FormHelperText>
               </StyledFormControl>
             </div>
+            {!isCheckedIn?.firstName && (
+              <StyledInput
+                autoComplete='off'
+                required
+                className={styles.reservationInput}
+                label={t('First Name')}
+                variant='standard'
+                name='firstName'
+                id='firstName'
+                value={formik.values.firstName}
+                onChange={(e) => {
+                  formik.handleChange(e);
+                }}
+                error={
+                  (formik?.validateOnMount || formik.touched.firstName) &&
+                  Boolean(formik.errors.firstName)
+                }
+                helperText={
+                  (formik?.validateOnMount || formik.touched?.firstName) && formik.errors.firstName
+                    ? t(formik.errors.firstName)
+                    : null
+                }
+              />
+            )}
             {!isCheckedIn?.email && (
               <StyledInput
                 autoComplete='off'

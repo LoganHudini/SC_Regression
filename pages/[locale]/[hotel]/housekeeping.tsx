@@ -198,6 +198,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
           roomNo: checkinData?.roomNumber,
           lastName: checkinData?.lastName,
         },
+        hotelId: hotelId,
         toggleNotification: customToggleNotification,
         setLoading: () => null,
         t: t,
