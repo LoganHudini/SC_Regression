@@ -4102,7 +4102,7 @@ export const configuration: any = [
         code: 'spa',
         name: 'spa',
         isActive: true,
-        type: 'VENDOR',
+        type: 'CMS',
       },
     ],
   },
