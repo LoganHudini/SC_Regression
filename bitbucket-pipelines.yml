@@ -54,7 +54,7 @@ pipelines:
             - rm -rf yarn.lock
             - rm -rf node_modules
             - yarn
-            - CI='' yarn build:orascom-stage # stage changed for testing
+            - CI='' yarn build:stage # stage changed for testing
             - CI='' yarn export
             - cd out
             - pipe: atlassian/aws-s3-deploy:0.4.1
@@ -1078,7 +1078,7 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_UAT # Optional if already defined in the context.
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_UAT # Optional if already defined in the context.
                 #ACL: 'public-read'
-                S3_BUCKET: "orascom-uat"
+                S3_BUCKET: 'orascom-uat'
                 LOCAL_PATH: $(pwd)
             - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
               variables:

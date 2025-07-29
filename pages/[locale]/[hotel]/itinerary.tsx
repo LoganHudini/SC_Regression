@@ -28,7 +28,7 @@ import { availablePaths } from 'utils/availablePaths';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import ShareButton from './shareItinerary';
 import { GET_ITINERARY_ALL } from 'core/graphql/queries/GET_ITINERARY';
-import { convertTo12HourFormatSmallCase } from 'utils/functions';
+import { convertTo12HourFormatSmallCase, getCalendarLink } from 'utils/functions';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { ActivityDetailDrawer } from 'components/shared/ActivityDetailDrawer/ActivityDetailDrawer';
 import { activeCheckInFlow } from 'storage/check-in.storage';
@@ -38,10 +38,14 @@ import { handleReservation } from 'utils/fetchReservation';
 import { processStatusCode } from 'utils/processError';
 import { getTrips } from 'storage/trips.storage';
 import { generateItineraryHTML } from 'utils/generateItineraryHTML';
+import AddEvent from 'assets/icons/addEvent.svg';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 
 export { getStaticPaths };
 
 const Itinerary = () => {
+  dayjs.extend(isSameOrBefore);
+
   const { t } = useTranslation(['common']);
   const config = useConfig();
   const locale = useLocale();
@@ -65,6 +69,8 @@ const Itinerary = () => {
   const checkInDate =
     dayjs(checkedInData?.checkInDate as string) ||
     dayjs(reservationInfo?.details?.checkInDate as string);
+  const basePath = typeof window !== 'undefined' ? window.location.origin : '';
+  const path = `${basePath}/${locale}${availablePaths.HOME}`;
 
   const goToTheNextStep = async () => {
     if (!reservationInfo) {
@@ -261,8 +267,9 @@ const Itinerary = () => {
             bookedActivities.getItineraries?.itineraries || [],
             allActivities,
             imageUrl,
+            path,
+            hotelInfo?.hotel?.name,
           );
-
           setFinalHtmlContent(html);
         } catch (error) {
           console.error('Error loading image or generating HTML:', error);
@@ -272,6 +279,8 @@ const Itinerary = () => {
             bookedActivities.getItineraries?.itineraries || [],
             allActivities,
             '/fallback-image.png', // Optional placeholder
+            path,
+            hotelInfo?.hotel?.name,
           );
           setFinalHtmlContent(fallbackHtml);
         }
@@ -324,8 +333,9 @@ const Itinerary = () => {
                   bookedActivitiesDetails
                     ?.filter(
                       (item: any) =>
-                        item?.itineraryType === 'CheckIn' ||
-                        (item?.status === 'Confirmed' &&
+                        ((item?.itineraryType === 'CheckIn' ||
+                          item?.status === 'Confirmed' ||
+                          item?.status === 'WaitingList') &&
                           (useBookingDate || selectedDate) === item?.startDate) ||
                         item?.type === 'CTAbtn',
                     )
@@ -352,6 +362,28 @@ const Itinerary = () => {
                             ),
                           )
                         : false;
+                      const now = dayjs(); // current time
+                      // Parse both times
+                      const start = dayjs(item?.startTime, 'hh:mm a');
+                      let end = dayjs(item?.endTime, 'hh:mm a');
+
+                      let isEndNextDay = false;
+                      let pastTime = false;
+
+                      // Adjust end time to next day if it's logically before start time
+                      if (end.isBefore(start)) {
+                        if (end.isBefore(now)) {
+                          pastTime = true;
+                        }
+                        end = end.add(1, 'day');
+                        isEndNextDay = true;
+                      }
+
+                      // Check if now is between start and end
+                      const isCurrent = now.isAfter(start) && now.isBefore(end);
+                      const isFutureEndTime = end.format('DD MMM');
+
+                      const hotelName = hotelInfo?.hotel?.name || config?.name;
 
                       return (
                         (item.startDate === selectedDate || item?.type === 'CTAbtn') && (
@@ -361,7 +393,13 @@ const Itinerary = () => {
                               [styles.btnExplore]: exploreBtnIndependent?.length === 0,
                             })}
                           >
-                            <span className={cx(styles.tableDot, {})}></span>
+                            <span
+                              className={
+                                item?.status === 'WaitingList'
+                                  ? cx(styles.tableDotWaitingList, {})
+                                  : cx(styles.tableDot, {})
+                              }
+                            />
 
                             {item?.type !== 'CTAbtn' && item.startDate === selectedDate ? (
                               <>
@@ -370,13 +408,42 @@ const Itinerary = () => {
                                     {item?.startTime}
                                   </span>
                                 ) : (
-                                  <span className={cx(styles.tableTime, {})}>
-                                    {item?.startTime} - {item?.endTime}
-                                  </span>
+                                  <div className={styles.addEvent}>
+                                    <span
+                                      className={cx(
+                                        isCurrent ? styles.firstTableTime : styles.tableTime,
+                                      )}
+                                    >
+                                      {item?.startTime} - {isEndNextDay ? isFutureEndTime : ''}{' '}
+                                      {item?.endTime}
+                                      {item?.status === 'WaitingList' ? (
+                                        <p className={styles.waitingList}>Waiting List</p>
+                                      ) : (
+                                        <></>
+                                      )}
+                                    </span>
+                                    <span>
+                                      {(!isCompleted || isEndNextDay) &&
+                                      !(item?.status === 'WaitingList') ? (
+                                        <a
+                                          {...getCalendarLink(
+                                            item,
+                                            item?.itineraryName,
+                                            hotelName,
+                                            isEndNextDay ? end : undefined,
+                                          )}
+                                        >
+                                          <AddEvent />
+                                        </a>
+                                      ) : (
+                                        <span></span>
+                                      )}
+                                    </span>
+                                  </div>
                                 )}
                                 <div
                                   className={cx(styles.tableImageWrapper, {
-                                    [styles.disabled]: isCompleted,
+                                    [styles.disabled]: isCompleted && !isEndNextDay && !pastTime,
                                   })}
                                   onClick={() => {
                                     toggleDetailsDrawer(true);

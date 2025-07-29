@@ -234,6 +234,8 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
             onClick={() => {
               availableItems
                 ? openModuleOptionsDrawer()
+                : itineraryActive
+                ? navigate(availablePaths?.ACTIVITY)
                 : homeActive
                 ? config?.preCheckInOnly && isCheckedIn?.preCheckedIn
                   ? webUrl?.value
@@ -269,7 +271,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
                   ? t('Visit Website')
                   : t('Home'))}
               {restaurantAndBarsActive && t(diningOptionList(diningOptionSelected?.type))}
-              {itineraryActive && t('Explore Activites')}
+              {itineraryActive && t('Explore Activities')}
               {irdActive && t(`${selectedDiningCategory?.menuName}`)}
               {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
               {spaActive && t(`${spaInformation?.selectedSpaCategoryName}`)}

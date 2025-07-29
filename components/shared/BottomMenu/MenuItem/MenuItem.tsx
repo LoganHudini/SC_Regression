@@ -18,6 +18,7 @@ import {
   toggleMessageBirdChat,
   notificationStorage,
   toggleCheckInDetailsDrawer,
+  isGetStarted,
 } from 'storage/home.storage';
 import cx from 'classnames';
 import {
@@ -261,6 +262,7 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
 
   const handleStaySummary = () => {
     const checkinToken = getCheckInTokenSession();
+    isGetStarted(false);
 
     if (pairToRoomModule && !(checkinToken && isCheckedIn?.reservationId)) {
       toggleCheckInDetailsDrawer(true);

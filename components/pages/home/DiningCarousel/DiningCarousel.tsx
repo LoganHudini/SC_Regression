@@ -20,7 +20,6 @@ import {
   IN_ROOM_DINING,
   RESTAURANTS_AND_BARS,
   RESTAURANT,
-  EVERYDAY,
   ALL_DAY,
   DINING,
 } from 'utils/constants';
@@ -130,12 +129,78 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
 
     const isOpen = getFormattedTime(slide?.hours?.map((time: any) => time?.open));
     const isClose = getFormattedTime(slide?.hours?.map((time: any) => time?.close));
+
     function isToday(day: any) {
       const today = dayjs().format('dddd').toUpperCase();
-      return today === day.toUpperCase() || day == 'EVERYDAY';
+      return today === day.toUpperCase() || day === 'EVERYDAY';
     }
+
     const isAnyDayToday = slide?.hours.some((entry: any) => isToday(entry.day));
+
     const currentOpenPeriod: any = getCurrentOpenPeriod(slide?.hours);
+
+    const getIRDMenuStatus = () => {
+      if (!slide?.hours || slide?.hours.length === 0) {
+        return { status: t('Closed'), timing: '' };
+      }
+
+      const today = dayjs().format('dddd').toUpperCase();
+      const currentTime = dayjs();
+
+      const todaySchedule = slide?.hours.find(
+        (entry: any) => entry.day.toUpperCase() === today || entry.day === 'EVERYDAY',
+      );
+
+      if (!todaySchedule) {
+        return { status: t('Closed'), timing: '' };
+      }
+
+      if (todaySchedule.open === ALL_DAY && todaySchedule.close === ALL_DAY) {
+        if (todaySchedule.day === 'EVERYDAY') {
+          return { status: t('Open'), timing: t('Open 24x7') };
+        }
+
+        if (todaySchedule.day.toUpperCase() === today) {
+          return { status: t('Open'), timing: t('Open') };
+        }
+
+        return { status: t('Closed'), timing: '' };
+      }
+
+      if (todaySchedule.open && todaySchedule.close) {
+        if (todaySchedule.day.toUpperCase() === today || todaySchedule.day === 'EVERYDAY') {
+          const openTime = dayjs(todaySchedule.open, 'HH:mm');
+          const closeTime = dayjs(todaySchedule.close, 'HH:mm');
+
+          if (closeTime.isBefore(openTime)) {
+            if (currentTime.isAfter(openTime) || currentTime.isBefore(closeTime)) {
+              return {
+                status: t('Open'),
+                timing: `${t('From')} ${convertTo12HourFormat(
+                  todaySchedule.open,
+                )} - ${convertTo12HourFormat(todaySchedule.close)}`,
+              };
+            }
+          } else {
+            if (currentTime.isAfter(openTime) && currentTime.isBefore(closeTime)) {
+              return {
+                status: t('Open'),
+                timing: `${t('From')} ${convertTo12HourFormat(
+                  todaySchedule.open,
+                )} - ${convertTo12HourFormat(todaySchedule.close)}`,
+              };
+            }
+          }
+        }
+      }
+      const timingInfo = todaySchedule
+        ? `${t('From')} ${convertTo12HourFormat(todaySchedule.open)} - ${convertTo12HourFormat(
+            todaySchedule.close,
+          )}`
+        : '';
+
+      return { status: t('Closed'), timing: timingInfo };
+    };
 
     return (
       <>
@@ -156,6 +221,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
             )}
           >
             <h3 className={styles.carouselSlideTitle}>{slide?.name}</h3>
+
             {!module &&
               (isOpen?.includes(ALL_DAY) && isClose?.includes(ALL_DAY) && isAnyDayToday ? (
                 <div className={styles.carouselRestaurantTimeStatus}>
@@ -166,31 +232,17 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
                   <p>{getRestaurantStatus?.status}</p>
                 </div>
               ))}
-            {slide?.hours[0]?.day && module && (
-              <p className={styles.carouselSlideTimings}>
-                {slide.hours[0]?.day === EVERYDAY &&
-                slide.hours[0]?.open === ALL_DAY &&
-                slide.hours[0]?.close === ALL_DAY ? (
-                  t('Open 24x7')
-                ) : slide.hours[0]?.day !== dayjs().format('dddd').toUpperCase() &&
-                  slide.hours[0]?.open === ALL_DAY &&
-                  slide.hours[0]?.close === ALL_DAY ? (
-                  t('Closed')
-                ) : slide.hours[0]?.day == dayjs().format('dddd').toUpperCase() &&
-                  slide.hours[0]?.open === ALL_DAY &&
-                  slide.hours[0]?.close === ALL_DAY ? (
-                  t('Open')
-                ) : (
-                  <>
-                    {t('From')}{' '}
-                    <span className={styles.timingCase}>
-                      {convertTo12HourFormat(currentOpenPeriod?.open || slide?.hours[0]?.open)} -{' '}
-                      {convertTo12HourFormat(currentOpenPeriod?.close || slide?.hours[0]?.close)}
-                    </span>
-                  </>
-                )}
-              </p>
-            )}
+
+            {slide?.hours[0]?.day &&
+              module &&
+              (() => {
+                const irdStatus = getIRDMenuStatus();
+                return (
+                  <p className={styles.carouselSlideTimings}>
+                    {irdStatus.timing || irdStatus.status}
+                  </p>
+                );
+              })()}
 
             <CustomReadMore
               text={t(BRAND_CODE === 'fairmont' ? 'Discover' : 'View More') as string}
