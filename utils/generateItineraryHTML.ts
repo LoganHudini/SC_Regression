@@ -14,6 +14,7 @@ interface GroupedActivity {
     startTime: string;
     description: string;
     data: any;
+    status: any;
   }>;
 }
 
@@ -27,7 +28,10 @@ export const generateItineraryHTML = (
 ): string => {
   // Filter Confirmed activities
   const filteredActivities = bookedActivities.filter(
-    (item) => item?.status === 'Confirmed' || item?.itineraryType === 'CheckIn',
+    (item) =>
+      item?.status === 'Confirmed' ||
+      item?.itineraryType === 'CheckIn' ||
+      item?.status === 'WaitingList',
   );
 
   // Sort by start time
@@ -82,6 +86,8 @@ export const generateItineraryHTML = (
           ? `${startTime} - ${endTime}`
           : startTime;
 
+      const status = item?.status;
+
       // Use activityDate as the grouping key
       if (!acc[activityDate]) {
         acc[activityDate] = {
@@ -98,6 +104,7 @@ export const generateItineraryHTML = (
         startTime,
         endTime,
         timeValue,
+        status,
       });
 
       return acc;
@@ -119,18 +126,29 @@ export const generateItineraryHTML = (
             ${activities
               .map(
                 (activity) => `
-                <div style="margin-bottom: 20px; position: relative; word-break: break-word; white-space: normal">
-                  <div style="position: absolute; width: 10px; height: 10px; border-radius: 50%; background: #CCCCCC; left: -20px; word-break: break-word; white-space: normal"></div>
-                  <div style="font-family: 'Domaine Display', serif; fontSize: 14px; lineHeight: 17px; marginBottom: 5px; word-break: break-word; white-space: normal;ssss"><b>${
+                <div style="margin-bottom: 20px; position: relative;">
+                  <div style="position: absolute; width: 10px; height: 10px; border-radius: 50%; background: ${
+                    activity?.status === 'WaitingList' ? '#FF0000' : '#CCCCCC'
+                  }; left: -20px;"></div>
+
+                  <div style="font-family: 'Domaine Display', serif; fontSize: 14px; lineHeight: 17px; marginBottom: 5px; word-break: break-word; white-space: normal;"><b>${
                     activity.itineraryName === 'CheckIn'
                       ? `Check in to ${hotelName}`
                       : activity.itineraryName || ''
                   }</b></div>
-                  <div style="font-family: 'ITC Franklin Gothic Std', 'Arial', sans-serif; lineHeight: 20px; font-size: 16px; margin-bottom: 5px; word-break: break-word; white-space: normal;"><b>${
+                  <div style="font-family: 'ITC Franklin Gothic Std', 'Arial', sans-serif; lineHeight: 20px; font-size: 16px; font-weight: bold; margin-bottom: 5px; word-break: break-word; white-space: normal;"><b>${
                     activity?.timeValue || activity?.startTime || ''
                   }</b></div>
                   <div>
-                  <p style="font-family:'ITC Franklin Gothic Std', 'Arial', sans-serif; font-size: 10px; color: #666; line-height: 14px; word-break: break-word; white-space: normal; text-align: justify;">
+                  ${
+                    activity?.status === 'WaitingList'
+                      ? `
+                    <p style="font-family:'ITC Franklin Gothic Std', 'Arial', sans-serif; font-size: 10px; color: #FF0000; padding-top: 2px; padding-bottom: 2px; word-break: break-word; white-space: normal; text-align: justify;">
+                   <b> Waiting List </b>
+                    </p>`
+                      : ''
+                  }
+                  <p style="font-family:'ITC Franklin Gothic Std', 'Arial', sans-serif; font-size: 10px; color: #666666; line-height: 14px; word-break: break-word; white-space: normal; text-align: justify;">
                     ${(activity.description || '').replace(/\n/g, '<br>')}${
                   activity.data?.description ? '<br><br>' : ''
                 }
@@ -153,7 +171,7 @@ export const generateItineraryHTML = (
       <!-- Banner -->
       ${
         imageUrl
-          ? `<img src="${imageUrl}" alt="Hotel Image" style="width: 100%; height: 200px; " crossorigin="anonymous"/>`
+          ? `<img src="${imageUrl}" alt="Hotel Image" style="width: 100%; height: 200px; "alt="Hotel Image" crossorigin="anonymous" style="width: 100%; height: 200px;"/>`
           : ''
       }
 
