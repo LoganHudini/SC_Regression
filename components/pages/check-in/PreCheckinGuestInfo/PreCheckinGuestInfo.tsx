@@ -42,7 +42,7 @@ import 'rmc-picker/assets/index.css';
 import Picker from 'rmc-picker/lib/Picker';
 import MultiPicker from 'rmc-picker/lib/MultiPicker';
 import { Countries } from 'utils/countryList';
-import MuiPhoneNumber from 'mui-phone-number';
+import MuiPhoneNumber from 'material-ui-phone-number';
 
 export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
   selectedGuest,
@@ -76,18 +76,18 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
   const hoursArray =
     hotelInfo && isCheckInTimeEnabled
       ? new Array(25 - Number(hotelInfo?.checkInTime?.split(':')[0]))
-          ?.fill(0)
-          ?.map((_el, index) =>
-            String(index + Number(hotelInfo?.checkInTime?.split(':')[0])).padStart(2, '0'),
-          )
+        ?.fill(0)
+        ?.map((_el, index) =>
+          String(index + Number(hotelInfo?.checkInTime?.split(':')[0])).padStart(2, '0'),
+        )
       : new Array(25).fill(0).map((_el, index) => String(index).padStart(2, '0'));
   const minutesArray =
     hotelInfo && isCheckInTimeEnabled
       ? new Array(60 - Number(hotelInfo?.checkInTime?.split(':')[1]))
-          ?.fill(0)
-          ?.map((_el, index) =>
-            String(index + Number(hotelInfo?.checkInTime?.split(':')[1])).padStart(2, '0'),
-          )
+        ?.fill(0)
+        ?.map((_el, index) =>
+          String(index + Number(hotelInfo?.checkInTime?.split(':')[1])).padStart(2, '0'),
+        )
       : new Array(60).fill(0).map((_el, index) => String(index).padStart(2, '0'));
 
   const handleInputChange = () => {
@@ -347,13 +347,13 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                     }
                     value={
                       formik?.values[field?.name] === INVALID_DATE ||
-                      formik?.values[field?.name] === ''
+                        formik?.values[field?.name] === ''
                         ? null
                         : typeof formik?.values[field?.name] === 'string'
-                        ? dayjs()
+                          ? dayjs()
                             ?.hour(Number(formik?.values[field?.name]?.split(':')[0]))
                             ?.minute(Number(formik?.values[field?.name]?.split(':')[1]))
-                        : dayjs(formik.values[field?.name]) || null
+                          : dayjs(formik.values[field?.name]) || null
                     }
                     onChange={(newValue) => {
                       const selectedDate: any = dayjs(newValue).format(timeFormats.HOURS_MINUTES_2);
@@ -368,8 +368,8 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                     minTime={
                       field?.isCheckInTimeEnabled
                         ? dayjs()
-                            .set('hour', Number(hotelInfo?.checkInTime?.split(':')[0]))
-                            .set('minute', hotelInfo?.checkInTime?.split(':')[1])
+                          .set('hour', Number(hotelInfo?.checkInTime?.split(':')[0]))
+                          .set('minute', hotelInfo?.checkInTime?.split(':')[1])
                         : null
                     }
                     renderInput={(params) => (

@@ -8826,10 +8826,10 @@ cosmiconfig@^7.0.0, cosmiconfig@^7.0.1:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
-country-flag-icons@^1.5.5:
-  version "1.5.16"
-  resolved "https://registry.yarnpkg.com/country-flag-icons/-/country-flag-icons-1.5.16.tgz#10d83e3ee0d21c972c4b4d08868343048eca0012"
-  integrity sha512-F9lNvhSrJ9D7Y2a6Tvbx2MFglZ9esNK76uTy4NqvdVzvgvy6/cKMGDYcnR1QOCgtmdc+akz2gqibZn3e3b6rQA==
+country-flag-icons@^1.4.10:
+  version "1.5.19"
+  resolved "https://registry.yarnpkg.com/country-flag-icons/-/country-flag-icons-1.5.19.tgz#ecfc0ad0f92a5b484310ac59578cb61b6b35fa66"
+  integrity sha512-D/ZkRyj+ywJC6b2IrAN3/tpbReMUqmuRLlcKFoY/o0+EPQN9Ev/e8tV+D3+9scvu/tarxwLErNwS73C3yzxs/g==
 
 create-require@^1.1.0:
   version "1.1.1"
@@ -13714,6 +13714,13 @@ matchdep@^2.0.0:
     resolve "^1.4.0"
     stack-trace "0.0.10"
 
+"material-ui-phone-number@https://github.com/BindrUK/material-ui-phone-number.git":
+  version "3.0.0"
+  resolved "https://github.com/BindrUK/material-ui-phone-number.git#059e4fe2161af382f8fa6ee5376613a915de8b71"
+  dependencies:
+    country-flag-icons "^1.4.10"
+    lodash "^4.17.21"
+
 mdast-util-from-markdown@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/mdast-util-from-markdown/-/mdast-util-from-markdown-2.0.2.tgz#4850390ca7cf17413a9b9a0fbefcd1bc0eb4160a"
@@ -14231,14 +14238,6 @@ muggle-string@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/muggle-string/-/muggle-string-0.3.1.tgz#e524312eb1728c63dd0b2ac49e3282e6ed85963a"
   integrity sha512-ckmWDJjphvd/FvZawgygcUeQCxzvohjFO5RxTjj4eq8kw359gFF3E1brjfI+viLMxss5JrHTDRHZvu2/tuy0Qg==
-
-mui-phone-number@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/mui-phone-number/-/mui-phone-number-3.0.3.tgz#d2f08b0a8dd279d28e65246c6168befb72decd38"
-  integrity sha512-tP7HmJEK6ZJGSvsjsbQdKVNzUMwfM/entHL+hOKX/FFLfElsF7sBEuPMKgNNs4sOHeAFO4JCQnfE1w2l0CXksA==
-  dependencies:
-    country-flag-icons "^1.5.5"
-    lodash "^4.17.21"
 
 multicast-dns@^7.2.5:
   version "7.2.5"
