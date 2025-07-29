@@ -65,6 +65,7 @@ export const ASSETS_URL = process.env.NEXT_PUBLIC_ASSETS_URL;
 export const ONPREM_API_URL = process.env.NEXT_PUBLIC_ONPREM_API_URL;
 export const S3_URL = process.env.NEXT_PUBLIC_S3_BUCKET_URL;
 export const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+export const HUDINI_CHAT_URL = process.env.NEXT_PUBLIC_HUDINI_CHAT_URL;
 
 // property specific settings
 export const BRAND_CODE = process.env.NEXT_PUBLIC_BRAND_CODE;

@@ -225,7 +225,7 @@ const Home: NextPage = () => {
       activeModule(config?.modules, 'activities-and-itineraries') ? (
         <StayDetails activeOffersList={activeOffersList} />
       ) : null,
-    activites: () =>
+    activities: () =>
       activeModule(config?.modules, 'activities-and-itineraries') ? (
         <ActivityCarousel data={activitiesList} />
       ) : null,

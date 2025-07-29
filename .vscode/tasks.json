@@ -658,6 +658,50 @@
       "problemMatcher": [],
       "label": "Start: ORASCOM_STAGE",
       "detail": "env-cmd -f .env.orascom.stage yarn next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:rogers-hospitality",
+      "problemMatcher": [],
+      "label": "Dev: ROGERS_HOSPITALITY",
+      "detail": "env-cmd -f .env.rogers-hospitality yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:rogers-hospitality",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: ROGERS_HOSPITALITY",
+      "detail": "env-cmd -f .env.rogers-hospitality yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:rogers-hospitality",
+      "problemMatcher": [],
+      "label": "Start: ROGERS_HOSPITALITY",
+      "detail": "env-cmd -f .env.rogers-hospitality next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:rogers-hospitality-stage",
+      "problemMatcher": [],
+      "label": "Dev: ROGERS_HOSPITALITY_STAGE",
+      "detail": "env-cmd -f .env.rogers-hospitality.stage yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:rogers-hospitality-stage",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: ROGERS_HOSPITALITY_STAGE",
+      "detail": "env-cmd -f .env.rogers-hospitality.stage yarn next build"
+    },
+    {
+      "type": "npm",
+      "script": "start:rogers-hospitality-stage",
+      "problemMatcher": [],
+      "label": "Start: ROGERS_HOSPITALITY_STAGE",
+      "detail": "env-cmd -f .env.rogers-hospitality.stage yarn next start"
     }
   ]
 }

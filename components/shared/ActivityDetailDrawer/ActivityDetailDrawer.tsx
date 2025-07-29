@@ -250,17 +250,24 @@ export const ActivityDetailDrawer: React.FC<any> = ({
     bookingDate(activityPayload?.date);
 
     try {
-      await client.mutate({
+      const { data } = await client.mutate({
         mutation: CREATE_ACTIVITY_BOOKING,
         context: { clientName: 'integration_k' },
         fetchPolicy: 'network-only',
         variables: activityPayload,
       });
 
+      const message =
+        data?.createActivityBooking?.message === 'the booking is now on the waitinglist'
+          ? true
+          : false;
+
       notificationStorage({
         type: SUCCESS,
-        title: t('Thank You!') as string,
-        description: t('Your booking has been confirmed.') as string,
+        title: message ? (t('You are on the waitlist') as string) : (t('Thank You!') as string),
+        description: message
+          ? (t('We will let you know if a spot becomes available for this activity') as string)
+          : (t('Your booking has been confirmed.') as string),
         redirect: availablePaths.ITINERARY,
       });
 
@@ -280,14 +287,19 @@ export const ActivityDetailDrawer: React.FC<any> = ({
         const slotFilled = graphQLErrors.some((e) =>
           e.message.toLowerCase().includes('slot is filled'),
         );
+
         const seatLimitError = graphQLErrors.some((e) =>
           e.message.toLowerCase().includes('select fewer seats'),
         );
+
         const inHouseGuestOnlyError =
           graphQLErrors.some((e) =>
             e.message.toLowerCase().includes('limited to in-house guests'),
           ) || errorMessageRaw.includes('limited to in-house guests');
-
+        const waitlistFullError =
+          graphQLErrors.some((e) =>
+            e.message.toLowerCase().includes('unable to complete the activity booking.'),
+          ) || errorMessageRaw.includes('unable to complete the activity booking.');
         if (slotFilled) {
           errorTitle =
             scheduleType === 'ONE_TIME' ? (t('Sorry!') as string) : (t('Slot is Filled') as string);
@@ -303,7 +315,7 @@ export const ActivityDetailDrawer: React.FC<any> = ({
           const match = errorMessageRaw.match(/remaining:\s*(\d+)/);
           const remainingSeats = match ? parseInt(match[1], 10) : 1;
 
-          errorTitle = t('Limited Seats Remaining') as string;
+          errorTitle = t('Limited Seats Remaining in Waitlist') as string;
           errorMessage = t(
             `Only ${remainingSeats} seat${
               remainingSeats === 1 ? '' : 's'
@@ -313,6 +325,11 @@ export const ActivityDetailDrawer: React.FC<any> = ({
           errorTitle = t('Available to Staying Guests Only') as string;
           errorMessage = t(
             'This activity is exclusively available to guests currently staying with us.',
+          ) as string;
+        } else if (waitlistFullError) {
+          errorTitle = t('Waitlist is currently full') as string;
+          errorMessage = t(
+            'This activity and its waitlist are currently at full capacity. Please check back later for availability.',
           ) as string;
         }
       }
@@ -404,17 +421,24 @@ export const ActivityDetailDrawer: React.FC<any> = ({
     setActivityBookingLoading(true);
 
     try {
-      await client.mutate({
+      const { data } = await client.mutate({
         mutation: UPDATE_ACTIVITY_BOOKING,
         context: { clientName: 'integration_k' },
         fetchPolicy: 'no-cache',
         variables: activityPayload,
       });
 
+      const message =
+        data?.createActivityBooking?.message === 'the booking is now on the waitinglist'
+          ? true
+          : false;
+
       notificationStorage({
         type: SUCCESS,
-        title: t('Thank You!') as string,
-        description: t('Your booking has been updated.') as string,
+        title: message ? (t('You are on the waitlist') as string) : (t('Thank You!') as string),
+        description: message
+          ? (t('We will let you know if a spot becomes available for this activity') as string)
+          : (t('Your booking has been updated.') as string),
         redirect: availablePaths.ITINERARY,
       });
 
@@ -448,6 +472,11 @@ export const ActivityDetailDrawer: React.FC<any> = ({
             e.message.toLowerCase().includes('limited to in-house guests'),
           ) || errorMessageRaw.includes('limited to in-house guests');
 
+        const waitlistFullError =
+          graphQLErrors.some((e) =>
+            e.message.toLowerCase().includes('unable to complete the activity booking.'),
+          ) || errorMessageRaw.includes('unable to complete the activity booking.');
+
         if (slotFilled) {
           errorTitle =
             scheduleType === 'ONE_TIME' ? (t('Sorry!') as string) : (t('Slot is Filled') as string);
@@ -472,6 +501,11 @@ export const ActivityDetailDrawer: React.FC<any> = ({
           errorTitle = t('Available to Staying Guests Only') as string;
           errorMessage = t(
             'This activity is exclusively available to guests currently staying with us.',
+          ) as string;
+        } else if (waitlistFullError) {
+          errorTitle = t('Waitlist is currently full') as string;
+          errorMessage = t(
+            'This activity and its waitlist are currently at full capacity. Please check back later for availability.',
           ) as string;
         }
       }
@@ -869,6 +903,14 @@ export const ActivityDetailDrawer: React.FC<any> = ({
               <div className={styles.wrapper}>
                 {showSelectedActivity?.name && (
                   <p className={styles.title}>{showSelectedActivity?.name}</p>
+                )}
+                {modifyActivityData?.status === 'WaitingList' && modifyBookingFlow && (
+                  <p className={styles.waitlistDesc}>
+                    {'You are currently on the waitlist for this activity.'}
+                    <br />
+                    {'We will reach out if a slot becomes available'} <br />
+                    {'before your scheduled time.'}
+                  </p>
                 )}
                 {showSelectedActivity?.activityLocation && (
                   <>

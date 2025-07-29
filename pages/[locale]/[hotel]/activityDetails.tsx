@@ -19,7 +19,7 @@ import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { activityStorage } from 'storage/activity.storage';
 import { ActivityDetailDrawer } from 'components/shared/ActivityDetailDrawer/ActivityDetailDrawer';
 import { Loader } from 'components/shared/Loaders/Loaders';
-import { ACTIVITES_MODULE } from 'utils/constants';
+import { ACTIVITIES_MODULE } from 'utils/constants';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { availablePaths } from 'utils/availablePaths';
 import { getTrips } from 'storage/trips.storage';
@@ -172,7 +172,7 @@ const ActivityDetails: React.FC = () => {
                 <ListComponentEntity
                   queryResultEntity={activity}
                   selectedListItem={selectedListItem}
-                  module={ACTIVITES_MODULE}
+                  module={ACTIVITIES_MODULE}
                 />
               </div>
             ))

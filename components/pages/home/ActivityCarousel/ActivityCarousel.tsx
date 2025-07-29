@@ -60,7 +60,7 @@ const CarouselSlide: React.FC<ICarouselSlideProps> = ({ slide, openDrawer, class
 };
 
 export const ActivityCarousel: React.FC<{ data: any[] }> = ({ data }) => {
-  const recommendedActivites = data;
+  const recommendedActivities = data;
   const hotelId = useConfig()?.hotelId;
   const locale = useLocale();
 
@@ -95,7 +95,7 @@ export const ActivityCarousel: React.FC<{ data: any[] }> = ({ data }) => {
 
   const currentDate = dayjs().startOf('day'); // Normalize to start of today
 
-  const filteredActivities = recommendedActivites?.filter((activity) => {
+  const filteredActivities = recommendedActivities?.filter((activity) => {
     if (!activity?.tags?.includes(recommendedTagId)) return false;
     if (activity?.isActive === false) return false;
 

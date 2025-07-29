@@ -1,0 +1,86 @@
+import { useEffect, useRef } from 'react';
+import Script from 'next/script';
+import { mapCode } from 'storage/home.storage';
+import { useReactiveVar } from '@apollo/client';
+import { availablePaths } from 'utils/availablePaths';
+import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
+
+const MapLayrMap = () => {
+  const mapRef = useRef(null);
+  const code = useReactiveVar(mapCode);
+  const navigate = useLocalizedRouter();
+
+  useEffect(() => {
+    if (!code) {
+      navigate(availablePaths.HOME);
+    }
+  }, []);
+
+  // ✅ Move handleScriptLoad outside so it's accessible
+  const handleScriptLoad = async () => {
+    if (!window.maplayr) {
+      console.error('MapLayr script not loaded.');
+      return;
+    }
+
+    const map = await window.maplayr.Map.managed(code);
+    const mapView = map.attach(mapRef.current);
+
+    const layer = new window.maplayr.AnnotationLayer();
+    mapView.addLayer(layer);
+
+    const pointsOfInterest = [
+      {
+        name: 'Shipwreck Restaurant',
+        location: new window.maplayr.Coordinates(36.69427, -6.41905),
+      },
+      { name: 'Mystical Waters', location: new window.maplayr.Coordinates(36.69035, -6.40912) },
+      {
+        name: 'Underwater Kingdom',
+        location: new window.maplayr.Coordinates(36.69878, -6.41632),
+      },
+    ];
+
+    for (const poi of pointsOfInterest) {
+      const annotation = new window.maplayr.Annotation({
+        position: poi.location,
+        node() {
+          const container = document.createElement('div');
+          container.className = 'annotation';
+          container.textContent = poi.name;
+          return container;
+        },
+      });
+
+      layer.add(annotation);
+
+      annotation.addEventListener('click', () => {
+        mapView.moveCamera({
+          position: poi.location,
+          span: 20,
+          heading: 360 * Math.random(),
+          animated: true,
+        });
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (code && window.maplayr) {
+      handleScriptLoad();
+    }
+  }, [code]);
+
+  return (
+    <>
+      <Script
+        src='https://cdn.attractions.io/frameworks/maplayr-web/v0.3/maplayr.js'
+        strategy='lazyOnload'
+        onLoad={handleScriptLoad}
+      />
+      <div ref={mapRef} id='map' style={{ width: '100%', height: '100vh' }} />
+    </>
+  );
+};
+
+export default MapLayrMap;

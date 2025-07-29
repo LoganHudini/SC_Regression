@@ -49,6 +49,15 @@
   border-radius: 50%;
 }
 
+.tableDotWaitingList {
+  position: absolute;
+  left: -6px;
+  top: 0;
+  padding: 6px;
+  background-color: var(--primary-error-text-color);
+  border-radius: 50%;
+}
+
 .tableImageWrapper {
   width: 85%;
   overflow: hidden;
@@ -67,8 +76,19 @@
 }
 
 .tableTime {
+  font: var(--secondary-title-font-family);
+  letter-spacing: 0.6px;
+}
+
+.firstTableTime {
   font: 1rem var(--secondary-title-font-family);
   letter-spacing: 0.6px;
+}
+
+.waitingList {
+  font: 1rem var(--secondary-title-font-family);
+  letter-spacing: 0.8px;
+  line-height: 25px;
 }
 
 .image {
@@ -94,7 +114,7 @@
 .cardDescription {
   font: $xsmall var(--primary-font-regular);
   -webkit-line-clamp: 3;
-  width: 50%;
+  width: 90%;
 }
 
 .cardGuestCount {
@@ -131,4 +151,13 @@
   pointer-events: none;
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.addEvent {
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
 }

@@ -1,14 +1,38 @@
 import dayjs from 'dayjs';
 import { convertTo12HourFormatSmallCase } from './functions';
 
+// Interface for grouped activities
+interface GroupedActivity {
+  day: string;
+  date: string;
+  activities: Array<{
+    activityId: string;
+    slotId: string;
+    book: any;
+    itineraryName: string;
+    timeValue: string;
+    startTime: string;
+    description: string;
+    data: any;
+    status: any;
+  }>;
+}
+
 export const generateItineraryHTML = (
   checkedInData: any,
   bookedActivities: any[],
   allActivities: any[],
   imageUrl: string,
+  path: string,
+  hotelName: any,
 ): string => {
   // Filter Confirmed activities
-  const filteredActivities = bookedActivities.filter((item) => item?.status === 'Confirmed');
+  const filteredActivities = bookedActivities.filter(
+    (item) =>
+      item?.status === 'Confirmed' ||
+      item?.itineraryType === 'CheckIn' ||
+      item?.status === 'WaitingList',
+  );
 
   // Sort by start time
   const sortedActivities = filteredActivities.sort((a: any, b: any) => {
@@ -33,49 +57,112 @@ export const generateItineraryHTML = (
     return dateA.getTime() - dateB.getTime();
   });
 
-  // Generate HTML for each activity
-  const htmlRows = sortedActivities
-    .map((item: any) => {
+  // Group activities by date
+  const groupedActivities = sortedActivities.reduce<Record<string, GroupedActivity>>(
+    (acc, item: any) => {
       const data = bookedActivities?.find((allItem) => item?.activityId === allItem?.id);
-      if (!data) return '';
-      const slotId = item?.slotId?.split('#') || '';
-      const slotIdData = item?.slotId || '';
-      const activityBookingId = item?.bookingId || '';
-      const datePart = slotId?.[0];
-      const fromTimeRaw = slotId?.[1];
-      const toTimeRaw = slotId?.[2];
+      if (!data) return acc;
+
+      const slotId = item?.slotId?.split('#') || [];
+      const datePart = slotId[0];
+      if (!datePart) return acc;
+
+      const fromTimeRaw = slotId[1];
+      const toTimeRaw = slotId[2];
       const startDate = `${datePart?.slice(0, 4)}-${datePart?.slice(4, 6)}-${datePart?.slice(
         6,
         8,
       )}`;
       const startTime = convertTo12HourFormatSmallCase(fromTimeRaw?.replace(':', ':'));
+      const endTime = convertTo12HourFormatSmallCase(toTimeRaw?.replace(':', ':'));
+
       const activityDay = dayjs(startDate)?.format('dddd');
       const activityDate = dayjs(startDate)?.format('D MMM');
 
-      return `
+      const timeValue =
+        item?.itineraryType === 'CheckIn'
+          ? startTime
+          : startTime && endTime
+          ? `${startTime} - ${endTime}`
+          : startTime;
+
+      const status = item?.status;
+
+      // Use activityDate as the grouping key
+      if (!acc[activityDate]) {
+        acc[activityDate] = {
+          day: activityDay,
+          date: activityDate,
+          activities: [],
+        };
+      }
+
+      // Add the enriched activity to the group
+      acc[activityDate].activities.push({
+        ...item,
+        data,
+        startTime,
+        endTime,
+        timeValue,
+        status,
+      });
+
+      return acc;
+    },
+    {},
+  );
+
+  // Generate HTML for grouped activities
+  const htmlRows = Object.entries(groupedActivities)
+    .map(
+      ([dateKey, { day, date, activities }]) => `
+      <div style="margin-bottom: 30px;">
         <div style="display: flex; align-items: flex-start;">
           <div style="min-width: 80px; padding-right: 15px; text-align: right;">
-            <div style="margin-top: 5px; font-size: 10px; color: #666; text-transform: uppercase;">${activityDay}</div>
-            <div style="font-size: 24px;"><b>${activityDate}</b></div>
+            <div style="margin-top: 5px; font-family: 'ITC Franklin Gothic Std'; font-size: 10px; lineHeight: 14px; color: #666; text-transform: uppercase;">${day}</div>
+            <div style="font-family: 'ITC Franklin Gothic Std', 'Arial', sans-serif; font-size: 21px;"><b>${date}</b></div>
           </div>
           <div style="flex: 1; border-left: 1px solid #ddd; padding-left: 15px;">
-            <div style="margin-bottom: 20px; position: relative;">
-              <div style="position: absolute; width: 10px; height: 10px; border-radius: 50%; background: #CCCCCC; left: -20px;"></div>
-              <div style="font-size: 20px; margin-bottom: 5px;"><b>${
-                item?.itineraryName || ''
-              }</b></div>
-              <div style="font-size: 20px; margin-bottom: 5px;"><b>${
-                item?.startTime || ''
-              }</b></div>
-              <div style="font-size: 14px; color: #666; line-height: 1.4;">
-                ${(item?.description || '').replace(/\n/g, '<br>')}${
-        data?.description ? '<br><br>' : ''
-      }
-              </div>
-            </div>
+            ${activities
+              .map(
+                (activity) => `
+                <div style="margin-bottom: 20px; position: relative;">
+                  <div style="position: absolute; width: 10px; height: 10px; border-radius: 50%; background: ${
+                    activity?.status === 'WaitingList' ? '#FF0000' : '#CCCCCC'
+                  }; left: -20px;"></div>
+
+                  <div style="font-family: 'Domaine Display', serif; fontSize: 14px; lineHeight: 17px; marginBottom: 5px; word-break: break-word; white-space: normal;"><b>${
+                    activity.itineraryName === 'CheckIn'
+                      ? `Check in to ${hotelName}`
+                      : activity.itineraryName || ''
+                  }</b></div>
+                  <div style="font-family: 'ITC Franklin Gothic Std', 'Arial', sans-serif; lineHeight: 20px; font-size: 16px; font-weight: bold; margin-bottom: 5px; word-break: break-word; white-space: normal;"><b>${
+                    activity?.timeValue || activity?.startTime || ''
+                  }</b></div>
+                  <div>
+                  ${
+                    activity?.status === 'WaitingList'
+                      ? `
+                    <p style="font-family:'ITC Franklin Gothic Std', 'Arial', sans-serif; font-size: 10px; color: #FF0000; padding-top: 2px; padding-bottom: 2px; word-break: break-word; white-space: normal; text-align: justify;">
+                   <b> Waiting List </b>
+                    </p>`
+                      : ''
+                  }
+                  <p style="font-family:'ITC Franklin Gothic Std', 'Arial', sans-serif; font-size: 10px; color: #666666; line-height: 14px; word-break: break-word; white-space: normal; text-align: justify;">
+                    ${(activity.description || '').replace(/\n/g, '<br>')}${
+                  activity.data?.description ? '<br><br>' : ''
+                }
+                  </p>
+                  </div>
+                </div>
+              `,
+              )
+              .join('')}
           </div>
-        </div>`;
-    })
+        </div>
+      </div>
+    `,
+    )
     .join('');
 
   return `
@@ -84,27 +171,37 @@ export const generateItineraryHTML = (
       <!-- Banner -->
       ${
         imageUrl
-          ? `<img src="${imageUrl}" alt="Hotel Image" style="width: 100%; height: 200px; "/>`
+          ? `<img src="${imageUrl}" alt="Hotel Image" style="width: 100%; height: 200px; "alt="Hotel Image" crossorigin="anonymous" style="width: 100%; height: 200px;"/>`
           : ''
       }
 
       <!-- Greeting -->
       <div style="padding: 30px; background-color: #FFFFFF; margin: 20px;">
-        <p style="font-size: 14px; color: #666; letter-spacing: 1px; margin-bottom: 4px; text-align: center;">
-          Welcome, ${checkedInData.firstName} ${checkedInData.lastName}
-        </p>
-        <h1 style="font-size: 22px; font-weight: 600; margin-bottom: 25px; text-align: center;">
+        <h1 style="font-family: 'Domaine Display'; font-size: 18px;  line-height: 27px; font-weight: 600; letter-spacing: 1px; margin-bottom: 2px; text-align: center;">
+          Welcome, ${checkedInData?.firstName} ${checkedInData?.lastName}!
+        </h1>
+        <h1 style="font-family: 'Domaine Display'; font-size: 22px; line-height: 27px; font-weight: 600; margin-bottom: 25px; text-align: center;">
           Here's Your Itinerary
         </h1>
 
         <!-- Activities Loop -->
         ${htmlRows}
-
-        <!-- Footer -->
-        <div style="font-size: 12px; color: #393939; text-align: center; padding: 0 20px 20px;">
-          Update plans, add experiences, or make changes - <br><b>your stay, your way.</b>
-        </div>
       </div>
+      <!-- Footer -->
+        <div style="font-size: 12px; color: #393939; text-align: center; padding: 0 20px 20px; word-break: break-word; white-space: normal">
+          Update plans, add experiences, or make changes - <br><b>your stay, your way.</b>
+          <div style="padding-top: 8px; word-break: break-word; white-space: normal">
+            <a href="${path}"
+              style="display: inline-block; width: 201px; height: 23px; background: #333333;
+                border: 1px solid #333333; opacity: 1; text-align: center;
+                font-family: 'ITC Franklin Gothic Std', 'Arial', sans-serif;
+                font-size: 16px; font-weight: 600; line-height: 22px;
+                letter-spacing: 0.26px; color: #FFFFFF; text-transform: uppercase;
+                text-decoration: none; padding: 7px 0; white-space: nowrap;">
+            MANAGE ITINERARY
+            </a>
+          </div>
+        </div>
     </div>
   </body>`;
 };
