@@ -1,5 +1,12 @@
 import { parseTime12To24 } from './functions';
 
+function base64Encode(str: string): string {
+  const bytes = new TextEncoder().encode(str);
+  let binary = '';
+  bytes.forEach((b) => (binary += String.fromCharCode(b)));
+  return window.btoa(binary); // No warning now since bytes are safe ASCII
+}
+
 export function getGoogleCalendarUrl(
   activity: any,
   activityName: any,
@@ -49,10 +56,7 @@ export function getGoogleCalendarUrl(
 }
 
 export function getICalUrl(activity: any, activityName: any, hotelName: any, endDate: any) {
-  if (!activity?.startDate || !activity?.startTime || !activity?.endTime) {
-    console.warn('Skipping iCal URL: missing date/time', activity);
-    return '#';
-  }
+  if (!activity?.startDate || !activity?.startTime || !activity?.endTime) return '#';
 
   const startTime24 = parseTime12To24(activity?.startTime);
   const endTime24 = parseTime12To24(activity?.endTime);
@@ -65,10 +69,9 @@ export function getICalUrl(activity: any, activityName: any, hotelName: any, end
   if (isNaN(startDateObj.getTime()) || isNaN(endDateObj.getTime())) return '#';
 
   const dtStart = startDateObj.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-  const dtEnd =
-    endDate === undefined
-      ? endDateObj.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z'
-      : endDate?.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  const dtEnd = endDate
+    ? endDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z'
+    : endDateObj.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
   const dtStamp = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
   const uid = `${Date.now()}@yourdomain.com`;
 
@@ -97,6 +100,8 @@ export function getICalUrl(activity: any, activityName: any, hotelName: any, end
   ];
 
   const icsContent = lines.join('\r\n');
-  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-  return URL.createObjectURL(blob);
+
+  const base64 = base64Encode(icsContent);
+
+  return `data:text/calendar;charset=utf-8;base64,${base64}`;
 }
