@@ -123,8 +123,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     const guestInfolength = updatedGuestInfo?.adult?.length;
     return guestInfolength > 0
       ? (updatedGuestInfo?.adult || [])?.filter(
-          (item: any) => item?.lastName && item?.profileId && item?.isSaved,
-        )
+        (item: any) => item?.lastName && item?.profileId && item?.isSaved,
+      )
       : [];
   }, [updatedGuestInfo]);
   const hotelInfo = useReactiveVar(hotelInformation);
@@ -331,8 +331,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const preCheckInStatus = config?.preCheckInOnly
     ? true
     : !(roomNo && guestReservationInfo?.roomStatus && paymentConfig?.type !== NONE)
-    ? true
-    : false;
+      ? true
+      : false;
 
   useEffect(() => {
     if (
@@ -403,9 +403,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       type: 'reservation_docs',
       propertyType: 'hotels',
       confirmationId: reservationInfo?.confirmationId ?? '',
-      filename: `${guests ? guests[0]?.firstName : ''}_${
-        guests ? guests[0].lastName : ''
-      }_signature.png`,
+      filename: `${guests ? guests[0]?.firstName : ''}_${guests ? guests[0].lastName : ''
+        }_signature.png`,
       contentType: 'image/png',
       contentLength: 8196,
       body: null,
@@ -429,10 +428,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         statusCode === 403
           ? handleCheckInAuthenticationFailure(uploadSignature)
           : notificationStorage({
-              type: FAILURE,
-              title: t(ERRORMSG as string),
-              description: t('Please proceed to the front desk!'),
-            });
+            type: FAILURE,
+            title: t(ERRORMSG as string),
+            description: t('Please proceed to the front desk!'),
+          });
       }
     };
     let idDocumentKey = ''; // store the uploaded file's key here
@@ -491,11 +490,11 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     const personalisation =
       personalisationConfig?.type === CMS
         ? personalizationEntities
-            ?.map(
-              (personalization) =>
-                `${personalization?.title} (${Number(Number(personalization?.price)?.toFixed(2))})`,
-            )
-            ?.join(', ')
+          ?.map(
+            (personalization) =>
+              `${personalization?.title} (${Number(Number(personalization?.price)?.toFixed(2))})`,
+          )
+          ?.join(', ')
         : '';
 
     if (guestSignature) {
@@ -557,7 +556,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           paymentConfig?.settlementType ??
           (config?.pms === INFOR
             ? settlementType?.find((card: any) => card?.type === guestReservationInfo?.cardType)
-                ?.code
+              ?.code
             : guestReservationInfo?.cardType),
         documentType: guestReservationInfo?.docType
           ? guestReservationInfo?.docType
@@ -572,33 +571,33 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         upsell:
           personalisationConfig?.type === PMS
             ? personalizationEntities?.map((personalization) => ({
-                upsellName: personalization?.title,
-                revenue: Number(Number(personalization?.price)?.toFixed(2)),
-              }))
+              upsellName: personalization?.title,
+              revenue: Number(Number(personalization?.price)?.toFixed(2)),
+            }))
             : [],
         guestSignature: guestSignature,
         captureDocumentUpload: idDocumentKey
           ? [
-              {
-                capturedDocumentFrontImage: idDocumentKey,
-                capturedDocumentBackImage: idDocumentKey,
-                capturedDocumentType: 'PASSPORT',
-              },
-            ]
+            {
+              capturedDocumentFrontImage: idDocumentKey,
+              capturedDocumentBackImage: idDocumentKey,
+              capturedDocumentType: 'PASSPORT',
+            },
+          ]
           : [],
         comment:
           personalisationConfig?.type === CMS
             ? personalizationEntities?.map((personalization) => ({
-                upsellName: personalization?.title,
-                revenue: Number(Number(personalization?.price)?.toFixed(2)),
-              }))
+              upsellName: personalization?.title,
+              revenue: Number(Number(personalization?.price)?.toFixed(2)),
+            }))
             : '',
         isDoNotMove: true,
         arrivalFlight:
           config?.pms === INFOR
             ? dayjs(guestReservationInfo?.estimatedTime, timeFormats.HOURS_MINUTES)?.format(
-                timeFormats?.INFOR_ARRIVAL_DATE,
-              )
+              timeFormats?.INFOR_ARRIVAL_DATE,
+            )
             : guestReservationInfo?.estimatedTime,
         depositAmount: paymentConfig?.type !== NONE ? String(fetchCharges(reservationInfo)) : '',
         specialInstructions:
@@ -783,17 +782,17 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                 ? reviewConfig?.preCheckInSuccessfulMessageTitle
                 : (t('Welcome!') as string)
               : reviewConfig?.checkInSuccessfulMessageTitle
-              ? reviewConfig?.checkInSuccessfulMessageTitle
-              : (t('Welcome!') as string),
+                ? reviewConfig?.checkInSuccessfulMessageTitle
+                : (t('Welcome!') as string),
             description: preCheckInStatus
               ? reviewConfig?.checkInSuccessfulMessageDescription
                 ? reviewConfig?.checkInSuccessfulMessageDescription
                 : (t(
-                    'You have pre-registered successfully. Please proceed to the reception to complete your check-in process.',
-                  ) as string)
+                  'You have pre-registered successfully. Please proceed to the reception to complete your check-in process.',
+                ) as string)
               : (t(
-                  'You have checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
-                ) as string),
+                'You have checked-in successfully. Please proceed to the hotel lobby to collect your room key.',
+              ) as string),
             redirect: availablePaths?.HOME,
             delay: 9000,
             finalFunction: () => {
@@ -929,13 +928,13 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             <p className={cx(styles.checkDatesDetails, styles.left)}>
               {options?.length > 0
                 ? options?.find(
-                    (option: any) =>
-                      (code === DOCTYPE ? option?.code : option?.value)?.toLowerCase() ===
-                      value?.toLowerCase(),
-                  )?.name
+                  (option: any) =>
+                    (code === DOCTYPE ? option?.code : option?.value)?.toLowerCase() ===
+                    value?.toLowerCase(),
+                )?.name
                 : isValidDate(value)
-                ? dayjs(value).format(timeFormats.DAY_MONTH_YEAR_5)
-                : value}
+                  ? dayjs(value).format(timeFormats.DAY_MONTH_YEAR_5)
+                  : value}
             </p>
           </div>
         )}
@@ -1121,28 +1120,28 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
                   {(reservationInfo?.details?.adultGuestCount ||
                     reservationInfo?.details?.childGuestCount) && (
-                    <div className={styles.itemsColumn}>
-                      <p className={styles.checkDatesText}>{t('Guests')}</p>
-                      <p className={cx(styles.checkDatesDetails, styles.left)}>
-                        {reservationInfo?.details?.adultGuestCount > 0 && (
-                          <>
-                            {reservationInfo?.details?.adultGuestCount}{' '}
-                            {reservationInfo?.details?.adultGuestCount === 1
-                              ? t('Adult')
-                              : t('Adults')}{' '}
-                          </>
-                        )}{' '}
-                        {reservationInfo?.details?.childGuestCount > 0 && (
-                          <>
-                            {reservationInfo?.details?.childGuestCount}{' '}
-                            {reservationInfo?.details?.childGuestCount === 1
-                              ? t('Child')
-                              : t('Children')}
-                          </>
-                        )}
-                      </p>
-                    </div>
-                  )}
+                      <div className={styles.itemsColumn}>
+                        <p className={styles.checkDatesText}>{t('Guests')}</p>
+                        <p className={cx(styles.checkDatesDetails, styles.left)}>
+                          {reservationInfo?.details?.adultGuestCount > 0 && (
+                            <>
+                              {reservationInfo?.details?.adultGuestCount}{' '}
+                              {reservationInfo?.details?.adultGuestCount === 1
+                                ? t('Adult')
+                                : t('Adults')}{' '}
+                            </>
+                          )}{' '}
+                          {reservationInfo?.details?.childGuestCount > 0 && (
+                            <>
+                              {reservationInfo?.details?.childGuestCount}{' '}
+                              {reservationInfo?.details?.childGuestCount === 1
+                                ? t('Child')
+                                : t('Children')}
+                            </>
+                          )}
+                        </p>
+                      </div>
+                    )}
 
                   {reservationInfo?.roomTypes?.length > 0 &&
                     !reservationInfo?.roomTypes[0]?.suppressRate && (
@@ -1264,10 +1263,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                                 {detail?.name === CARD_TYPE
                                   ? cardType
                                   : guestReservationInfo?.[detail?.name] ??
-                                    data?.getReservation?.data?.reservePayments[0]?.[
-                                      detail?.name
-                                    ] ??
-                                    ''}
+                                  data?.getReservation?.data?.reservePayments[0]?.[
+                                  detail?.name
+                                  ] ??
+                                  ''}
                               </p>
                             </div>
                           ),
@@ -1284,10 +1283,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                                 detail?.name === 'cardType'
                                   ? cardType
                                   : guestReservationInfo?.[detail?.name] ??
-                                    data?.getReservation?.data?.reservePayments[0]?.[
-                                      detail?.name
-                                    ] ??
-                                    ''
+                                  data?.getReservation?.data?.reservePayments[0]?.[
+                                  detail?.name
+                                  ] ??
+                                  ''
                               }
                             />
                           </div>
@@ -1313,7 +1312,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                           <span className={styles.price}>
                             {formatPrice(
                               Number(personalizationEntity?.price) *
-                                Number(personalizationEntity?.quantity),
+                              Number(personalizationEntity?.quantity),
                             )}
                           </span>
                         </p>
@@ -1465,10 +1464,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                 </div>
 
                 <p className={styles.agrementText}>
-                  {option.text}{' '}
-                  <Link href={option.policyLink} target='_blank' rel='noopener noreferrer'>
+                  {option?.text}{' '}
+                  {option?.policyLink && <Link href={option?.policyLink} target='_blank' rel='noopener noreferrer'>
                     {t('View')}
-                  </Link>
+                  </Link>}
                 </p>
               </div>
             ))}

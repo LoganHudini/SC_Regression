@@ -3761,7 +3761,7 @@ export const configuration: any = [
     fetchFromDb: 'no',
     saveToDb: 'yes',
     languages: [{ code: 'en', name: 'English' }],
-    orderOfModules: ['check-in', 'hotel-info', 'services', 'dining', 'spa', 'hotel-compendium'],
+    orderOfModules: ['hotel-info', 'check-in', 'services', 'dining', 'spa', 'hotel-compendium'],
     isAnimationActive: false,
     isLogoLoaderActive: false,
     isFaceMatchdisabled: true,
@@ -4073,7 +4073,7 @@ export const configuration: any = [
       {
         code: 'Pair-To-Room',
         name: 'Connect to Room',
-        isActive: false,
+        isActive: true,
       },
       {
         code: 'In-Room Dining',
