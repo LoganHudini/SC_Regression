@@ -298,6 +298,10 @@ const Spa: React.FC = () => {
     guestCount,
   ]);
 
+  const timePart = selectedTime?.split(':')?.slice(1)?.join(':');
+  const time = dayjs(timePart, 'hh:mm:A');
+  const totalMinutes = time.hour() * 60 + time.minute();
+
   const [getSlots, { loading: spaLoading }] = useLazyQuery(GET_SLOT_DETAILS, {
     context: { clientName: 'integration_d' },
     variables: {
@@ -308,6 +312,7 @@ const Spa: React.FC = () => {
       hotelId: hotelId,
       requestType: '601',
       treatmentId: selectedSpaItem?.code,
+      startTime: totalMinutes || ''
     },
     fetchPolicy: 'no-cache',
   });
@@ -593,7 +598,7 @@ const Spa: React.FC = () => {
                 }
                 helperText={
                   (formik?.validateOnMount || formik.touched?.phoneNumber) &&
-                  formik.errors.phoneNumber
+                    formik.errors.phoneNumber
                     ? t(formik.errors.phoneNumber)
                     : null
                 }
