@@ -8612,6 +8612,14 @@ export const configuration: any = [
                     isActive: true,
                   },
                   {
+                    name: 'postalCode',
+                    label: 'Postal Code',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
                     name: 'addressLine',
                     label: 'Address',
                     type: 'Text',
