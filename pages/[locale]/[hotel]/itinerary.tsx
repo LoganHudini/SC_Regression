@@ -425,16 +425,18 @@ const Itinerary = () => {
                                     <span>
                                       {(!isCompleted || isEndNextDay) &&
                                       !(item?.status === 'WaitingList') ? (
-                                        <a
-                                          {...getCalendarLink(
-                                            item,
-                                            item?.itineraryName,
-                                            hotelName,
-                                            isEndNextDay ? end : undefined,
-                                          )}
+                                        <span
+                                          onClick={() =>
+                                            getCalendarLink(
+                                              item,
+                                              item?.itineraryName,
+                                              hotelName,
+                                              isEndNextDay ? end : undefined,
+                                            )
+                                          }
                                         >
                                           <AddEvent />
-                                        </a>
+                                        </span>
                                       ) : (
                                         <span></span>
                                       )}

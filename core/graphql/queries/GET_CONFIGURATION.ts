@@ -4073,7 +4073,7 @@ export const configuration: any = [
       {
         code: 'Pair-To-Room',
         name: 'Connect to Room',
-        isActive: false,
+        isActive: true,
       },
       {
         code: 'In-Room Dining',
@@ -5808,6 +5808,15 @@ export const configuration: any = [
                 type: 'manual',
                 details: [
                   {
+                    name: 'title',
+                    label: 'Title',
+                    type: 'AutoComplete',
+                    required: false,
+                    isDisabled: false,
+                    isActive: true,
+                    options: [],
+                  },
+                  {
                     name: 'firstName',
                     label: 'First Name',
                     type: 'Text',
@@ -6004,6 +6013,15 @@ export const configuration: any = [
             isActive: true,
             cardIcon: 'guest',
             details: [
+              {
+                name: 'title',
+                label: 'Title',
+                type: 'AutoComplete',
+                required: false,
+                isDisabled: false,
+                isActive: true,
+                options: [],
+              },
               {
                 name: 'firstName',
                 label: 'First Name',
@@ -11647,6 +11665,15 @@ export const configuration: any = [
                 type: 'manual',
                 details: [
                   {
+                    name: 'title',
+                    label: 'Title',
+                    type: 'AutoComplete',
+                    required: false,
+                    isDisabled: false,
+                    isActive: true,
+                    options: [],
+                  },
+                  {
                     name: 'firstName',
                     label: 'First Name',
                     type: 'Text',
@@ -11843,6 +11870,15 @@ export const configuration: any = [
             isActive: true,
             cardIcon: 'guest',
             details: [
+              {
+                name: 'title',
+                label: 'Title',
+                type: 'AutoComplete',
+                required: false,
+                isDisabled: false,
+                isActive: true,
+                options: [],
+              },
               {
                 name: 'firstName',
                 label: 'First Name',
@@ -24193,12 +24229,12 @@ export const configuration: any = [
       {
         code: 'view-bill',
         name: 'View Bill',
-        isActive: false,
+        isActive: true,
       },
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: false,
+        isActive: true,
       },
       {
         code: 'spa',
