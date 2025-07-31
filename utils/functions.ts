@@ -896,25 +896,59 @@ export const getCalendarLink = (item: any, activityName: any, hotelName: any, en
   const isAndroid = /Android/i.test(userAgent);
   const isWindows = /Win/i.test(userAgent);
 
-  if (isAndroid) {
-    const url = getGoogleCalendarUrl(item, activityName, hotelName, endDate);
-    return url !== '#' ? { href: url, target: '_blank', rel: 'noopener noreferrer' } : {};
-  }
-
   if (isIOS) {
     const url = getICalUrl(item, activityName, hotelName, endDate);
-    return url !== '#' ? { href: url, download: `${item.title}.ics` } : {};
+    if (!url || url === '#') return;
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${item.title}-${Date.now()}.ics`;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    return;
+  }
+
+  if (isAndroid) {
+    const url = getGoogleCalendarUrl(item, activityName, hotelName, endDate);
+    if (!url || url === '#') return;
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    return;
   }
 
   if (isWindows) {
-    // Windows desktop -> Offer .ics file for Windows Calendar or Outlook
     const url = getICalUrl(item, activityName, hotelName, endDate);
-    return url !== '#' ? { href: url, download: `${item.title}.ics` } : {};
+    if (!url || url === '#') return;
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${item.title}-${Date.now()}.ics`;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    return;
   }
 
-  // Default for Mac/Linux desktop
-  const desktopUrl = getGoogleCalendarUrl(item, activityName, hotelName, endDate);
-  return desktopUrl !== '#'
-    ? { href: desktopUrl, target: '_blank', rel: 'noopener noreferrer' }
-    : {};
+  // Default: desktop browser (Mac/Linux)
+  const url = getGoogleCalendarUrl(item, activityName, hotelName, endDate);
+  if (!url || url === '#') return;
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 };

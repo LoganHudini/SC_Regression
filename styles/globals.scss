@@ -887,3 +887,12 @@ img {
 .globals-irdv2-taxMargin {
   margin-bottom: 100px !important;
 }
+
+*:focus, *:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
