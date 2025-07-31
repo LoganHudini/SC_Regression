@@ -31,6 +31,8 @@ export interface ICheckInApiRequest {
   documentType: string;
   documentNumber: string;
   issueCountry: string;
+  dateOfIssue?: string;
+  nights?: string;
   channel: string;
   upsell: any;
   guestSignature: string;
