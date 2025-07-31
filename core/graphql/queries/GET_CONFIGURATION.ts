@@ -24237,12 +24237,12 @@ export const configuration: any = [
       {
         code: 'view-bill',
         name: 'View Bill',
-        isActive: false,
+        isActive: true,
       },
       {
         code: 'checkout',
         name: 'Checkout',
-        isActive: false,
+        isActive: true,
       },
       {
         code: 'spa',
