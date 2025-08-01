@@ -31,6 +31,7 @@ import {
 } from 'core/api/functions/getCheckInAuthentication';
 import { processStatusCode } from 'utils/processError';
 import { getCountryCode, getCountryCodeFrom3iso } from 'utils/functions';
+import { Header } from 'components/shared/Header/Header';
 
 export { getStaticPaths };
 
@@ -304,6 +305,7 @@ const Youverse: React.FC = () => {
           {hotel} | {t('Document Scanning')}
         </title>
       </Head>
+      <Header displayBackButton screenTitle={t('Document Scanning') as string} />
 
       <div>
         <iframe src={src} allow='camera' style={{ width: '100%', height: '100dvh' }} />
