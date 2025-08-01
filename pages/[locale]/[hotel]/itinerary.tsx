@@ -340,10 +340,9 @@ const Itinerary = () => {
                         item?.type === 'CTAbtn',
                     )
                     ?.sort((a: any, b: any) => {
-                      // Combine date and time to parse properly
-                      const dateA = new Date(`${a.startDate} ${a.startTime}`);
-                      const dateB = new Date(`${b.startDate} ${b.startTime}`);
-                      return dateA.getTime() - dateB.getTime();
+                      const dateA = dayjs(`${a.startDate} ${a.startTime}`, 'YYYY-MM-DD hh:mm a');
+                      const dateB = dayjs(`${b.startDate} ${b.startTime}`, 'YYYY-MM-DD hh:mm a');
+                      return dateA.valueOf() - dateB.valueOf();
                     })
                     ?.map((item: any, index: number) => {
                       const data = allActivities?.find(
