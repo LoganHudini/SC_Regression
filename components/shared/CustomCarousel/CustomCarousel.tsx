@@ -1,11 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from './CustomCarousel.module.scss';
 import { StableImage } from '../StableImage/StableImage';
 import { ASSETS_URL } from 'core/graphql/endpoints';
 import cx from 'classnames';
 
 const CustomCarousel = (props: any) => {
-  const { imageData } = props;
+  const { imageData, slider = false } = props;
   const [currentIndex, setCurrentIndex] = useState(0);
   const touchStartRef = useRef<number | null>(null);
   const touchEndRef = useRef<number | null>(null);
@@ -42,6 +42,15 @@ const CustomCarousel = (props: any) => {
       (prevIndex) => (prevIndex - 1 + imageData.images.length) % imageData.images.length,
     );
   };
+
+  useEffect(() => {
+    if (slider) {
+      const interval = setInterval(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % imageData.images.length);
+      }, 10000);
+      return () => clearInterval(interval);
+    }
+  }, [imageData.images.length]);
 
   return (
     <>
