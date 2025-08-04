@@ -46,6 +46,7 @@ export const FAIRMONT_UDAIPUR = 'fairmont-udaipur';
 export const FAIRMONT_RAMLA = 'fairmont-ramla';
 export const FAIRMONT_MACDONALD = 'fairmont-macdonald';
 export const FAIRMONT_CARTON_HOUSE = 'fairmont-carton-house';
+export const FAIRMONT_ORCHID = 'fairmont-orchid';
 
 export const ONE_HOTELS_SOUTH_BEACH = '1-hotel-south-beach';
 export const HARD_ROCK_HOTEL_CANCUN = 'hard-rock-hotel-cancun';
