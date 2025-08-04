@@ -43,6 +43,7 @@ import {
   STEPPER_CUSTOMISATION,
   STEPPER_CHECK_IN,
   STEPPER_REVIEW,
+  STEPPER_PREFERENCES,
   NONE,
   DOCTYPE,
 } from 'utils/constants';
@@ -232,6 +233,9 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
   };
 
   useEffect(() => {
+    const preferencesModuleEnabled = config?.modules?.some(
+      (mod: any) => mod?.code === 'guest-preferences' && mod?.isActive,
+    );
     if (!personalisationDataloading) {
       if (
         paymentConfig?.type === NONE ||
@@ -239,10 +243,18 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
           Number(reservationInfo?.roomTypes[0]?.totalCharge) === 0)
       ) {
         if (availablePersonalizations?.length === 0) {
-          StepperInformationStorage([
-            { value: 60, label: 1, title: STEPPER_REVIEW },
-            { value: 0, label: 2, title: STEPPER_CHECK_IN },
-          ]);
+          if (preferencesModuleEnabled) {
+            StepperInformationStorage([
+              { value: 60, label: 1, title: STEPPER_REVIEW },
+              { value: 0, label: 2, title: STEPPER_PREFERENCES },
+              { value: 0, label: 3, title: STEPPER_CHECK_IN },
+            ]);
+          } else {
+            StepperInformationStorage([
+              { value: 60, label: 1, title: STEPPER_REVIEW },
+              { value: 0, label: 2, title: STEPPER_CHECK_IN },
+            ]);
+          }
         } else {
           StepperInformationStorage(
             produce(StepperInformationStorage(), (draft: any) => {

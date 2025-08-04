@@ -25802,6 +25802,12 @@ export const configuration: any = [
         type: 'CMS',
       },
       {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
+        type: 'CMS',
+      },
+      {
         code: 'view-bill',
         name: 'View Bill',
         isActive: false,
@@ -26176,6 +26182,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {
@@ -26556,6 +26568,12 @@ export const configuration: any = [
         type: 'CMS',
       },
       {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
+        type: 'CMS',
+      },
+      {
         code: 'view-bill',
         name: 'View Bill',
         isActive: false,
@@ -26930,6 +26948,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {
@@ -27310,6 +27334,12 @@ export const configuration: any = [
         type: 'CMS',
       },
       {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
+        type: 'CMS',
+      },
+      {
         code: 'view-bill',
         name: 'View Bill',
         isActive: false,
@@ -27684,6 +27714,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {
@@ -28064,6 +28100,12 @@ export const configuration: any = [
         type: 'CMS',
       },
       {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
+        type: 'CMS',
+      },
+      {
         code: 'view-bill',
         name: 'View Bill',
         isActive: false,
@@ -28438,6 +28480,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {
@@ -28818,6 +28866,12 @@ export const configuration: any = [
         type: 'CMS',
       },
       {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
+        type: 'CMS',
+      },
+      {
         code: 'view-bill',
         name: 'View Bill',
         isActive: false,
@@ -29192,6 +29246,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {
@@ -29572,6 +29632,12 @@ export const configuration: any = [
         type: 'CMS',
       },
       {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
+        type: 'CMS',
+      },
+      {
         code: 'view-bill',
         name: 'View Bill',
         isActive: false,
@@ -29946,6 +30012,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {
@@ -30341,6 +30413,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {

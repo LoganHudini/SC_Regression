@@ -213,6 +213,7 @@ export const STEPPER_REVIEW = 'Review';
 export const STEPPER_PAYMENT = 'Payment';
 export const STEPPER_CUSTOMISATION = 'Customisation';
 export const STEPPER_CHECK_IN = 'Check-In';
+export const STEPPER_PREFERENCES = 'Preferences';
 export const YOUVERSE = 'youverse';
 export const INCODE = 'incode';
 export const MANUAL_ENTRY = 'manual_entry';

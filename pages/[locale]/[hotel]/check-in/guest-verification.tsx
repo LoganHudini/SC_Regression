@@ -555,20 +555,30 @@ const Guest: React.FC<any> = () => {
     );
   }, [paymentConfig?.type]);
 
-  const nextStep = useCallback(async () => {
+  const nextStep = useCallback(() => {
+    const guestPreferencesModule = config?.modules?.find(
+      (module: any) => module?.code === 'guest-preferences' && module?.isActive,
+    );
+
+    if (guestPreferencesModule) {
+      navigate(availablePaths?.GUEST_PREFERENCES);
+      return;
+    }
+
     if (
       (paymentConfig?.type === NONE ||
         (paymentConfig?.isTotalChargeActive &&
-          Number(reservationInfo?.roomTypes[0]?.totalCharge) === 0)) &&
+          Number(reservationInfo?.roomTypes?.[0]?.totalCharge) === 0)) &&
       availablePersonalizations?.length === 0
     ) {
       navigate(availablePaths?.REVIEW);
     } else if (paymentConfig?.type === NONE && availablePersonalizations?.length !== 0) {
       navigate(availablePaths?.PERSONALIZE);
     } else {
-      const filteredRoomList: any =
-        availablePersonalizations?.length > 0 &&
-        availablePersonalizations?.filter((item: any) => item?.isActive && item?.type === ROOM);
+      const filteredRoomList =
+        availablePersonalizations?.filter((item: any) => item?.isActive && item?.type === ROOM) ||
+        [];
+
       if (upgradeRoomConfig?.type !== CMS && filteredRoomList?.length > 0) {
         navigate(availablePaths?.UPGRADE_ROOM);
       } else {
@@ -576,10 +586,11 @@ const Guest: React.FC<any> = () => {
       }
     }
   }, [
-    availablePersonalizations,
+    config?.modules,
     navigate,
     paymentConfig,
     reservationInfo?.roomTypes,
+    availablePersonalizations,
     upgradeRoomConfig?.type,
   ]);
 
