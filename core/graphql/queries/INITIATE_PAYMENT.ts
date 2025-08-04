@@ -154,6 +154,22 @@ query InitiatePayment($body: InitiatePaymentPayload) {
 }
 `;
 
+export const INITIATE_PAYMENT_GLOBAL_BLUE = gql`
+query InitiatePayment( $body: UpdateGuestDetailsPayload) {
+    initiatePayment(body: $body)
+    @rest(
+      type: "InitiatePaymentPayload"
+      path: "/hotel-payments/${HOTEL_ID}/getToken"
+      method: "POST"
+      bodyKey: "body"
+    ) {
+    errors
+    data
+    status
+  }
+}
+`;
+
 export const VALIDATE_PAYBYLINK_URL = gql`
   query GetReservation($confirmationNumber: String, $paylinkUniqueId: String) {
     getReservation(confirmationNumber: $confirmationNumber, paylinkUniqueId: $paylinkUniqueId)

@@ -114,6 +114,7 @@ export const DSP = 'DSP';
 export const OGONE = 'OGONE';
 export const FISERV = 'FISERV';
 export const PLANET = 'PLANET';
+export const GLOBALBLUE = 'GLOBALBLUE';
 
 // flow constants
 export const CHAT_FLOW = 'CHAT_FLOW';
@@ -360,6 +361,21 @@ export const cardTypes = [
     id: '9',
     code: 'M',
     name: 'Master Card',
+  },
+  {
+    id: '10',
+    code: 'visa',
+    name: 'Visa',
+  },
+  {
+    id: '11',
+    code: 'mastercard',
+    name: 'Master Card',
+  },
+  {
+    id: '12',
+    code: 'amex',
+    name: 'American Express',
   },
 ];
 
