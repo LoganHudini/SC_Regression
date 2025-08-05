@@ -11402,12 +11402,6 @@ export const configuration: any = [
                         code: 'PAS',
                         vendorDocType: 'passport',
                       },
-                      {
-                        name: 'Driving License',
-                        value: 'DRL',
-                        code: 'DRL',
-                        vendorDocType: 'dl',
-                      },
                     ],
                   },
                   {
