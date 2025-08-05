@@ -368,7 +368,12 @@ export const filterIRDMenuItems = (activeMenu: any) => {
   activeMenu?.forEach((menu: any) => {
     menu?.categories?.forEach((category: any) => {
       const itemExists = category?.items?.find((item: any) => item?.isActive);
-      if (itemExists) {
+
+      const subCatItemExists = category?.subCategories?.find((sub: any) =>
+        sub?.items?.find((item: any) => item?.isActive),
+      );
+
+      if (itemExists || subCatItemExists) {
         irdMenu.push(menu);
       }
     });

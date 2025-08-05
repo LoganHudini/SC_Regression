@@ -22380,13 +22380,13 @@ export const configuration: any = [
                         name: 'Passport',
                         value: 'PAS',
                         code: 'PAS',
-                        vendorDocType: 'passport',
+                        vendorDocType: 'PASSPORT',
                       },
                       {
-                        name: 'Driving License',
-                        value: 'DRL',
-                        code: 'DRL',
-                        vendorDocType: 'dl',
+                        name: 'National ID',
+                        value: 'ID',
+                        code: 'ID',
+                        vendorDocType: 'IDENTITY_CARD',
                       },
                     ],
                   },
@@ -26209,6 +26209,12 @@ export const configuration: any = [
         type: 'CMS',
       },
       {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
+        type: 'CMS',
+      },
+      {
         code: 'view-bill',
         name: 'View Bill',
         isActive: false,
@@ -26583,6 +26589,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {
@@ -26963,6 +26975,12 @@ export const configuration: any = [
         type: 'CMS',
       },
       {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
+        type: 'CMS',
+      },
+      {
         code: 'view-bill',
         name: 'View Bill',
         isActive: false,
@@ -27337,6 +27355,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {
@@ -27717,6 +27741,12 @@ export const configuration: any = [
         type: 'CMS',
       },
       {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
+        type: 'CMS',
+      },
+      {
         code: 'view-bill',
         name: 'View Bill',
         isActive: false,
@@ -28091,6 +28121,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {
@@ -28471,6 +28507,12 @@ export const configuration: any = [
         type: 'CMS',
       },
       {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
+        type: 'CMS',
+      },
+      {
         code: 'view-bill',
         name: 'View Bill',
         isActive: false,
@@ -28845,6 +28887,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {
@@ -29225,6 +29273,12 @@ export const configuration: any = [
         type: 'CMS',
       },
       {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
+        type: 'CMS',
+      },
+      {
         code: 'view-bill',
         name: 'View Bill',
         isActive: false,
@@ -29599,6 +29653,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {
@@ -29979,6 +30039,12 @@ export const configuration: any = [
         type: 'CMS',
       },
       {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
+        type: 'CMS',
+      },
+      {
         code: 'view-bill',
         name: 'View Bill',
         isActive: false,
@@ -30353,6 +30419,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {
@@ -30748,6 +30820,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {

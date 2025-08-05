@@ -54,6 +54,7 @@ import { timeFormats } from 'utils/timeFormats';
 import dayjs from 'dayjs';
 import { getCountryCode } from 'utils/functions';
 import { ENVIRONMENT } from 'core/graphql/endpoints';
+import { Header } from 'components/shared/Header/Header';
 export { getStaticPaths };
 
 const Trential: React.FC = () => {
@@ -455,6 +456,7 @@ const Trential: React.FC = () => {
           {hotel} | {t('Document Scanning')}
         </title>
       </Head>
+      <Header displayBackButton screenTitle={t('Document Scanning') as string} />
 
       <div>
         {loading && <Loader />}

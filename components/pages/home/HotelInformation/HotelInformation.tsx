@@ -27,7 +27,7 @@ const HotelInformation = (props: any) => {
           {hotelInfo?.images?.length > 0 && (
             <div>
               <div className={styles.margin}>
-                <CustomCarousel imageData={hotelInfo} />
+                <CustomCarousel imageData={hotelInfo} slider={true} />
               </div>
               <p className={styles.description}>{hotelInfo?.description}</p>
               <CustomReadMore

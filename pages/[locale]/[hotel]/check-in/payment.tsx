@@ -18,6 +18,7 @@ import {
   FISERV,
   PLANET,
   PAY_BY_LINK,
+  GLOBALBLUE,
 } from 'utils/constants';
 import CyberSource from 'components/pages/payment/CyberSource/CyberSource';
 import { availablePaths } from 'utils/availablePaths';
@@ -27,6 +28,7 @@ import DSPIntegration from 'components/pages/payment/DSP/DSP';
 import { Ogone } from 'components/pages/payment/Ogone/Ogone';
 import { Fiserv } from 'components/pages/payment/Fiserv/Fiserv';
 import { Planet } from 'components/pages/payment/Planet/Planet';
+import { GlobalBlue } from 'components/pages/payment/GlobalBlue/GlobalBlue';
 import { useRouter } from 'next/router';
 import { handleReservationPayment } from 'utils/fetchReservation';
 import { processStatusCode } from 'utils/processError';
@@ -106,6 +108,8 @@ const Payment: React.FC = () => {
         return <Fiserv />;
       case PLANET:
         return <Planet paymentFlow={paymentFlow} paylinkUniqueId={paylinkUniqueId} />;
+      case GLOBALBLUE:
+        return <GlobalBlue />;
       default:
         break;
     }

@@ -115,6 +115,7 @@ export const DSP = 'DSP';
 export const OGONE = 'OGONE';
 export const FISERV = 'FISERV';
 export const PLANET = 'PLANET';
+export const GLOBALBLUE = 'GLOBALBLUE';
 
 // flow constants
 export const CHAT_FLOW = 'CHAT_FLOW';
@@ -214,6 +215,7 @@ export const STEPPER_REVIEW = 'Review';
 export const STEPPER_PAYMENT = 'Payment';
 export const STEPPER_CUSTOMISATION = 'Customisation';
 export const STEPPER_CHECK_IN = 'Check-In';
+export const STEPPER_PREFERENCES = 'Preferences';
 export const YOUVERSE = 'youverse';
 export const INCODE = 'incode';
 export const MANUAL_ENTRY = 'manual_entry';
@@ -360,6 +362,21 @@ export const cardTypes = [
     id: '9',
     code: 'M',
     name: 'Master Card',
+  },
+  {
+    id: '10',
+    code: 'visa',
+    name: 'Visa',
+  },
+  {
+    id: '11',
+    code: 'mastercard',
+    name: 'Master Card',
+  },
+  {
+    id: '12',
+    code: 'amex',
+    name: 'American Express',
   },
 ];
 

@@ -298,8 +298,8 @@ export const ActivityDetailDrawer: React.FC<any> = ({
           ) || errorMessageRaw.includes('limited to in-house guests');
         const waitlistFullError =
           graphQLErrors.some((e) =>
-            e.message.toLowerCase().includes('unable to complete the activity booking.'),
-          ) || errorMessageRaw.includes('unable to complete the activity booking.');
+            e.message.toLowerCase().includes('unable to complete the activity booking'),
+          ) || errorMessageRaw.includes('unable to complete the activity booking');
         if (slotFilled) {
           errorTitle =
             scheduleType === 'ONE_TIME' ? (t('Sorry!') as string) : (t('Slot is Filled') as string);
@@ -474,9 +474,8 @@ export const ActivityDetailDrawer: React.FC<any> = ({
 
         const waitlistFullError =
           graphQLErrors.some((e) =>
-            e.message.toLowerCase().includes('unable to complete the activity booking.'),
-          ) || errorMessageRaw.includes('unable to complete the activity booking.');
-
+            e.message.toLowerCase().includes('unable to complete the activity booking'),
+          ) || errorMessageRaw.includes('unable to complete the activity booking');
         if (slotFilled) {
           errorTitle =
             scheduleType === 'ONE_TIME' ? (t('Sorry!') as string) : (t('Slot is Filled') as string);

@@ -17,6 +17,7 @@ export const availablePaths = {
   PERSONALIZE: `/${hotel}/check-in/personalization`,
   REVIEW: `/${hotel}/check-in/review`,
   UPGRADE_ROOM: `/${hotel}/check-in/upgrade-room`,
+  GUEST_PREFERENCES: `/${hotel}/check-in/guestPreferences`,
 
   // Youverse
   YOUVERSE: `/${hotel}/youverse`,
