@@ -458,7 +458,7 @@ const Trential: React.FC = () => {
       </Head>
       <Header displayBackButton screenTitle={t('Document Scanning') as string} />
 
-      <div>
+      <div style={{ paddingTop: '4rem' }}>
         {loading && <Loader />}
 
         {token && (
