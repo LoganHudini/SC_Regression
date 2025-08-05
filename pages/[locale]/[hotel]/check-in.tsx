@@ -306,17 +306,20 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
               alt='Divider'
             />
             <div className={cx(styles.nameBox, 'globals-nameBox')}>
-              <div className={styles.nameWrapper}>
-                <p className={styles.detailTitle}>{t('NAME')}</p>
-                <p
-                  className={styles.detailValue}
-                >{`${reservationInfo?.details?.contactPerson?.firstName} ${reservationInfo?.details?.contactPerson?.lastName}`}</p>
+              <div className={cx(styles.nameWrapper, 'globals-nameWrapper')}>
+                <p className={cx(styles.detailTitle, 'globals-detailTitle')}>{t('NAME')}</p>
+                <p className={cx(styles.detailValue, 'globals-detailValue')}>
+                  {' '}
+                  {`${reservationInfo?.details?.contactPerson?.firstName} ${reservationInfo?.details?.contactPerson?.lastName}`}
+                </p>
               </div>
               <div className={styles.divider} />
 
-              <div className={styles.nameWrapper}>
-                <p className={styles.detailTitle}>{t('BOOKING ID')}</p>
-                <p className={styles.detailValue}>{reservationInfo?.confirmationId}</p>
+              <div className={cx(styles.nameWrapper, 'globals-nameWrapper')}>
+                <p className={cx(styles.detailTitle, 'globals-detailTitle')}>{t('BOOKING ID')}</p>
+                <p className={cx(styles.detailValue, 'globals-detailValue')}>
+                  {reservationInfo?.confirmationId}
+                </p>
               </div>
             </div>
             <div className={styles.dateWrapper}>

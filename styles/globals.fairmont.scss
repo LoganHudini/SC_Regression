@@ -167,3 +167,19 @@
 .globals-listDurationOffer {
   text-align: left;
 }
+.globals-nameBox {
+  background-color: rgba(239, 239, 239, 1) !important;
+}
+.globals-nameBox > .globals-nameWrapper {
+  width: 50% !important;
+  justify-content: flex-start;  
+}
+
+.globals-nameBox > .globals-nameWrapper > .globals-detailTitle {
+  width: 50% !important;
+}
+
+.globals-nameBox > .globals-nameWrapper > .globals-detailValue {
+  width: 80% !important;
+}
+
