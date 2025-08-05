@@ -87,8 +87,8 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
   const PaymentMessage = paymentMessage && typeof paymentMessage === 'string' ? JSON.parse(paymentMessage) : {};
 
   const displayMessage = PaymentMessage?.[getPaymentRule] || DEFAULT_PAYMENT_MESSAGE;
-  const displayMessageTitle = displayMessage?.title?.replace(/\{amount\}/g, reservationData?.getReservation?.data?.roomTypes?.[0]?.totalCharge || '') || '';
-  const displayMessageMessage = displayMessage?.message?.replace(/\{amount\}/g, reservationData?.getReservation?.data?.roomTypes?.[0]?.totalCharge || '') || '';
+  const displayMessageTitle = displayMessage?.title?.replace(/\{amount\}/g, reservationData?.getReservation?.data?.paymentAmount || '') || '';
+  const displayMessageMessage = displayMessage?.message?.replace(/\{amount\}/g, reservationData?.getReservation?.data?.paymentAmount || '') || '';
 
   const checkInModule: any = config?.modules?.find((module: any) => module?.code === CHECK_IN);
   const personalisationConfig = checkInModule?.submodules?.find(
