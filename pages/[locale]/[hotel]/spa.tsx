@@ -312,7 +312,7 @@ const Spa: React.FC = () => {
       hotelId: hotelId,
       requestType: '601',
       treatmentId: selectedSpaItem?.code,
-      startTime: totalMinutes || ''
+      startTime: totalMinutes || '',
     },
     fetchPolicy: 'no-cache',
   });
@@ -323,17 +323,20 @@ const Spa: React.FC = () => {
     const formattedDate = validDate.year(currentYear).format(timeFormats.YEAR_MONTH_DAY);
     const spaPayload = {
       customerNotes: '',
-      duration: selectedSpaItem?.duration[currentIndex]?.duration ?? '',
+      duration:
+        selectedSpaItem?.duration?.[currentIndex]?.duration ||
+        selectedSpaItem?.duration?.[0]?.duration ||
+        '',
+
       hotelId: hotelId,
       requestType: '601',
       date: formattedDate,
       treatmentId: selectedSpaItem?.code,
       startTime: selectedSpaSlots?.startTime,
       technicianId: parseInt(selectedSpaSlots.technicianId),
-      firstName: isCheckedIn?.checkedIn ? isCheckedIn?.firstName : formik.values.firstName,
-      lastName: isCheckedIn?.checkedIn ? isCheckedIn?.lastName : '',
-      emailAddress:
-        isCheckedIn?.checkedIn && isCheckedIn?.email ? isCheckedIn?.email : formik.values.email,
+      firstName: formik.values.firstName || '',
+      lastName: formik.values.lastName || '',
+      emailAddress: formik.values.email || '',
       roomNo: isCheckedIn?.checkedIn ? isCheckedIn?.roomNumber : '',
       genderPreference: formik?.values?.gender || '',
       mobileNumber: formik?.values?.phoneNumber || '',
@@ -380,6 +383,7 @@ const Spa: React.FC = () => {
   const formik = useFormik({
     initialValues: {
       firstName: isCheckedIn?.firstName || '',
+      lastName: isCheckedIn?.lastName || '',
       email: isCheckedIn?.email || '',
       phoneNumber: isCheckedIn?.phoneNumber || '',
       gender: '',
@@ -556,6 +560,30 @@ const Spa: React.FC = () => {
                 }
               />
             )}
+            {isCheckedIn?.lastName && (
+              <StyledInput
+                autoComplete='off'
+                required
+                className={styles.reservationInput}
+                label={t('Last Name')}
+                variant='standard'
+                name='lastName'
+                id='lastName'
+                value={formik.values.lastName}
+                onChange={(e) => {
+                  formik.handleChange(e);
+                }}
+                error={
+                  (formik?.validateOnMount || formik.touched.lastName) &&
+                  Boolean(formik.errors.lastName)
+                }
+                helperText={
+                  (formik?.validateOnMount || formik.touched?.lastName) && formik.errors.lastName
+                    ? t(formik.errors.lastName)
+                    : null
+                }
+              />
+            )}
             {!isCheckedIn?.email && (
               <StyledInput
                 autoComplete='off'
@@ -598,7 +626,7 @@ const Spa: React.FC = () => {
                 }
                 helperText={
                   (formik?.validateOnMount || formik.touched?.phoneNumber) &&
-                    formik.errors.phoneNumber
+                  formik.errors.phoneNumber
                     ? t(formik.errors.phoneNumber)
                     : null
                 }
