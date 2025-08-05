@@ -9732,6 +9732,7 @@ export const configuration: any = [
         name: 'Services',
         isActive: true,
         type: 'VENDOR',
+        vendorType: 'NUVOLA',
       },
       {
         code: 'view-bill',
