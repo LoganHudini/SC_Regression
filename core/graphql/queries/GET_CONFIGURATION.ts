@@ -8835,6 +8835,18 @@ export const configuration: any = [
                 title: 'Add-Ons',
               },
             ],
+            dynamicFields: [
+              {
+                fieldName: 'Add Document',
+                label: 'Please upload your ID document.',
+                imageCount: 2,
+                type: 'camera',
+                rule: [{ key: 'isPrimary', condition: '==', value: true }],
+                enabled: true,
+                optional: false,
+                includeInPDF: true,
+              },
+            ],
           },
         ],
       },
