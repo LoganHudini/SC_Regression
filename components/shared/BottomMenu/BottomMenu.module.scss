@@ -1,4 +1,5 @@
 .bottomMenuWrapper {
+  gap: 6px;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -31,9 +32,8 @@
 }
 
 .bottomMenuButton {
-  width: 80%;
-  margin: auto 5px;
-  margin-inline-start: 15px;
+  width: 100%;
+  margin: auto 14px;
   height: 44px;
   background-color: var(--primary-button-background-color) !important;
   font-family: var(--primary-button-font-family) !important;
@@ -64,6 +64,7 @@
 .hamburgerIcon {
   margin: auto;
   cursor: pointer;
+  margin-inline-end: 10px;
 }
 
 .pageWrapper {

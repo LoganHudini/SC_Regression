@@ -25447,6 +25447,7 @@ export const configuration: any = [
     isLogoLoaderActive: false,
     isFaceMatchdisabled: true,
     preCheckInOnly: false,
+    disableHamburgerMenu: true,
     modules: [
       {
         code: 'Preferences',
@@ -25841,6 +25842,7 @@ export const configuration: any = [
     isAnimationActive: false,
     isLogoLoaderActive: false,
     isFaceMatchdisabled: true,
+    disableHamburgerMenu: true,
     preCheckInOnly: false,
     modules: [
       {
@@ -26223,6 +26225,7 @@ export const configuration: any = [
     orderOfModules: ['check-in', 'hotel-info'],
     isAnimationActive: false,
     isLogoLoaderActive: false,
+    disableHamburgerMenu: true,
     isFaceMatchdisabled: true,
     preCheckInOnly: false,
     modules: [
@@ -26606,6 +26609,7 @@ export const configuration: any = [
     orderOfModules: ['check-in', 'hotel-info'],
     isAnimationActive: false,
     isLogoLoaderActive: false,
+    disableHamburgerMenu: true,
     isFaceMatchdisabled: true,
     preCheckInOnly: false,
     modules: [
@@ -26990,6 +26994,7 @@ export const configuration: any = [
     isAnimationActive: false,
     isLogoLoaderActive: false,
     isFaceMatchdisabled: true,
+    disableHamburgerMenu: true,
     preCheckInOnly: false,
     modules: [
       {
@@ -27372,6 +27377,7 @@ export const configuration: any = [
     orderOfModules: ['check-in', 'hotel-info'],
     isAnimationActive: false,
     isLogoLoaderActive: false,
+    disableHamburgerMenu: true,
     isFaceMatchdisabled: true,
     preCheckInOnly: false,
     modules: [
@@ -27756,6 +27762,7 @@ export const configuration: any = [
     isAnimationActive: false,
     isLogoLoaderActive: false,
     isFaceMatchdisabled: true,
+    disableHamburgerMenu: true,
     preCheckInOnly: false,
     modules: [
       {
@@ -28138,6 +28145,7 @@ export const configuration: any = [
     orderOfModules: ['check-in', 'hotel-info'],
     isAnimationActive: false,
     isLogoLoaderActive: false,
+    disableHamburgerMenu: true,
     isFaceMatchdisabled: true,
     preCheckInOnly: false,
     modules: [
@@ -28522,6 +28530,7 @@ export const configuration: any = [
     isAnimationActive: false,
     isLogoLoaderActive: false,
     isFaceMatchdisabled: true,
+    disableHamburgerMenu: true,
     preCheckInOnly: false,
     modules: [
       {
@@ -28903,6 +28912,7 @@ export const configuration: any = [
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: ['check-in', 'hotel-info'],
     isAnimationActive: false,
+    disableHamburgerMenu: true,
     isLogoLoaderActive: false,
     isFaceMatchdisabled: true,
     preCheckInOnly: false,
@@ -29285,6 +29295,7 @@ export const configuration: any = [
     saveToDb: 'yes',
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: ['check-in', 'hotel-info'],
+    disableHamburgerMenu: true,
     isAnimationActive: false,
     isLogoLoaderActive: false,
     isFaceMatchdisabled: true,
@@ -29668,6 +29679,7 @@ export const configuration: any = [
     saveToDb: 'yes',
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: ['check-in', 'hotel-info'],
+    disableHamburgerMenu: true,
     isAnimationActive: false,
     isLogoLoaderActive: false,
     isFaceMatchdisabled: true,
@@ -30052,6 +30064,7 @@ export const configuration: any = [
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: ['check-in', 'hotel-info'],
     isAnimationActive: false,
+    disableHamburgerMenu: true,
     isLogoLoaderActive: false,
     isFaceMatchdisabled: true,
     preCheckInOnly: false,

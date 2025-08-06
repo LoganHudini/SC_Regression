@@ -219,109 +219,109 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
         checkOutActive ||
         itineraryActive ||
         (irdActive && selectedDiningCategory?.menuName)) && (
-        <div
-          className={cx(styles.bottomMenuWrapper, {
-            [styles.hideOnScroll]:
-              hideOnScroll && (irdActive ? diningData?.items?.length === 0 : true),
-          })}
-        >
-          <StyledButton
-            disabled={disabled}
-            variant='contained'
-            className={cx(styles.bottomMenuButton, 'globals-bottomMenuButton', {
-              [styles.bottomMenuButtonWithoutArrow]: homeActive || !(checkOutActive || homeActive),
+          <div
+            className={cx(styles.bottomMenuWrapper, {
+              [styles.hideOnScroll]:
+                hideOnScroll && (irdActive ? diningData?.items?.length === 0 : true),
             })}
-            onClick={() => {
-              availableItems
-                ? openModuleOptionsDrawer()
-                : itineraryActive
-                ? navigate(availablePaths?.ACTIVITY)
-                : homeActive
-                ? config?.preCheckInOnly && isCheckedIn?.preCheckedIn
-                  ? webUrl?.value
-                    ? window.open(webUrl?.value)
-                    : null
-                  : checkInModule
-                  ? (toggleCheckInDetailsDrawer(true), isGetStarted(false), activeCheckInFlow(true))
-                  : pairToRoomModule
-                  ? (toggleCheckInDetailsDrawer(true),
-                    isGetStarted(false),
-                    activeCheckInFlow(false))
-                  : webUrl?.value
-                  ? window.open(webUrl?.value)
-                  : null
-                : null;
-            }}
           >
-            <span className={styles.btnText}>
-              {homeActive &&
-                (isCheckedIn?.checkedIn
-                  ? `Room ${isCheckedIn?.roomNumber}`
-                  : config?.preCheckInOnly && isCheckedIn?.preCheckedIn
-                  ? webUrl?.value
-                    ? t('Visit Website')
-                    : t('Home')
-                  : checkInModule
-                  ? config?.preCheckInOnly
-                    ? t('Pre-Register')
-                    : t('Check-In')
-                  : pairToRoomModule
-                  ? t('Connect to room')
-                  : webUrl?.value
-                  ? t('Visit Website')
-                  : t('Home'))}
-              {restaurantAndBarsActive && t(diningOptionList(diningOptionSelected?.type))}
-              {itineraryActive && t('Explore Activities')}
-              {irdActive && t(`${selectedDiningCategory?.menuName}`)}
-              {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
-              {spaActive && t(`${spaInformation?.selectedSpaCategoryName}`)}
-              {spaInfoActive && t('Spa')}
-              {offersActive && t(`${offersOptionSelected?.type}`)}
-              {hotelCompendiumActive && hotelCompendiumSelected?.name}
-              {checkOutActive
-                ? !checkOutModule && pairToRoomModule
-                  ? t('Disconnect Room')
-                  : checkOutModule && amountDue
-                  ? t('Pay & Checkout')
-                  : t('Checkout')
-                : null}
-            </span>
-
-            {availableItems && (
-              <span className={styles.expandArrow}>
-                <DownArrowIcon />
-              </span>
-            )}
-          </StyledButton>
-
-          {irdActive && diningData?.items?.length > 0 && (
-            <div className={styles.orderIconWrapper} onClick={confirmOrder}>
-              <MyOrders className={styles.myOrdersIcon} />
-              <p className={styles.myOrdersLength}>{getTotalItems && getTotalItems}</p>
-            </div>
-          )}
-
-          <div className={styles.hamburgerIcon}>
-            <Hamburger
-              distance={'sm'}
-              rounded
-              color={'var(--primary-theme-color)'}
-              toggled={hamburgerMenuStatus}
-              toggle={(toggled) => {
-                if (toggled) {
-                  selectedRestaurantStorage([]);
-                  toggleHamburgerMenuDrawer(true);
-                  if (isCheckedIn?.roomNumber && config?.chatOption === MESSAGE_BOX) {
-                    fetchMessageBoxUrl();
-                  }
-                } else {
-                  toggleHamburgerMenuDrawer(false);
-                }
+            <StyledButton
+              disabled={disabled}
+              variant='contained'
+              className={cx(styles.bottomMenuButton, 'globals-bottomMenuButton', {
+                [styles.bottomMenuButtonWithoutArrow]: homeActive || !(checkOutActive || homeActive),
+              })}
+              onClick={() => {
+                availableItems
+                  ? openModuleOptionsDrawer()
+                  : itineraryActive
+                    ? navigate(availablePaths?.ACTIVITY)
+                    : homeActive
+                      ? config?.preCheckInOnly && isCheckedIn?.preCheckedIn
+                        ? webUrl?.value
+                          ? window.open(webUrl?.value)
+                          : null
+                        : checkInModule
+                          ? (toggleCheckInDetailsDrawer(true), isGetStarted(false), activeCheckInFlow(true))
+                          : pairToRoomModule
+                            ? (toggleCheckInDetailsDrawer(true),
+                              isGetStarted(false),
+                              activeCheckInFlow(false))
+                            : webUrl?.value
+                              ? window.open(webUrl?.value)
+                              : null
+                      : null;
               }}
-            />
+            >
+              <span className={styles.btnText}>
+                {homeActive &&
+                  (isCheckedIn?.checkedIn
+                    ? `Room ${isCheckedIn?.roomNumber}`
+                    : config?.preCheckInOnly && isCheckedIn?.preCheckedIn
+                      ? webUrl?.value
+                        ? t('Visit Website')
+                        : t('Home')
+                      : checkInModule
+                        ? config?.preCheckInOnly
+                          ? t('Pre-Register')
+                          : t('Check-In')
+                        : pairToRoomModule
+                          ? t('Connect to room')
+                          : webUrl?.value
+                            ? t('Visit Website')
+                            : t('Home'))}
+                {restaurantAndBarsActive && t(diningOptionList(diningOptionSelected?.type))}
+                {itineraryActive && t('Explore Activities')}
+                {irdActive && t(`${selectedDiningCategory?.menuName}`)}
+                {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
+                {spaActive && t(`${spaInformation?.selectedSpaCategoryName}`)}
+                {spaInfoActive && t('Spa')}
+                {offersActive && t(`${offersOptionSelected?.type}`)}
+                {hotelCompendiumActive && hotelCompendiumSelected?.name}
+                {checkOutActive
+                  ? !checkOutModule && pairToRoomModule
+                    ? t('Disconnect Room')
+                    : checkOutModule && amountDue
+                      ? t('Pay & Checkout')
+                      : t('Checkout')
+                  : null}
+              </span>
+
+              {availableItems && (
+                <span className={styles.expandArrow}>
+                  <DownArrowIcon />
+                </span>
+              )}
+            </StyledButton>
+
+            {irdActive && diningData?.items?.length > 0 && (
+              <div className={styles.orderIconWrapper} onClick={confirmOrder}>
+                <MyOrders className={styles.myOrdersIcon} />
+                <p className={styles.myOrdersLength}>{getTotalItems && getTotalItems}</p>
+              </div>
+            )}
+
+            {!config?.disableHamburgerMenu && <div className={styles.hamburgerIcon}>
+              <Hamburger
+                distance={'sm'}
+                rounded
+                color={'var(--primary-theme-color)'}
+                toggled={hamburgerMenuStatus}
+                toggle={(toggled) => {
+                  if (toggled) {
+                    selectedRestaurantStorage([]);
+                    toggleHamburgerMenuDrawer(true);
+                    if (isCheckedIn?.roomNumber && config?.chatOption === MESSAGE_BOX) {
+                      fetchMessageBoxUrl();
+                    }
+                  } else {
+                    toggleHamburgerMenuDrawer(false);
+                  }
+                }}
+              />
+            </div>}
           </div>
-        </div>
-      )}
+        )}
 
       {widgetStatus && (
         <CloseIcon
