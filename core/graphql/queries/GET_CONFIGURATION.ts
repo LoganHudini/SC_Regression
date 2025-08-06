@@ -25769,8 +25769,9 @@ export const configuration: any = [
             ],
             dynamicFields: [
               {
-                fieldName: 'Marriage Certificate',
-                label: 'Marriage Certificate',
+                fieldName: 'Add Document',
+                label: 'Please upload marriage certificate for Egyptian nationals.',
+                imageCount: 5,
                 type: 'camera',
                 rule: [
                   { key: 'countryCode', condition: '==', value: 'EG' },

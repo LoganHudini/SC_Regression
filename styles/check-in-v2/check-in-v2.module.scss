@@ -285,7 +285,7 @@
 .capturedImageContainer {
   margin-top: 1rem;
   text-align: center;
-  width: 30%;
+  width: 50%;
 }
 
 .capturedImage {
@@ -320,27 +320,98 @@
   border-radius: var(--primary-card-border-radius);
   box-shadow: 0px 3px 6px var(--primary-card-shadow-color);
   background-color: var(--primary-card-background-color);
-  display: flex;
   padding: 1rem;
-  justify-content: space-between;
   align-items: center;
 }
 
 .containerTitle {
   line-height: 1.4;
-  color: var(--tertiary-text-color);
+  color: var(--primary-text-color);
   padding-bottom: 10px;
   width: 80%;
 }
 
+.containerSubTitle {
+  line-height: 1.4;
+  color: var(--primary-text-color);
+}
+
 .buttonStyling {
-  width: 80%;
+  width: 60% !important;
 }
 
 .imageText {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: nowrap;
   align-content: center;
+  margin-bottom: 1rem;
+}
+
+.capturedImageContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.previewItem {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.capturedImage {
+  width: 85%;
+  height: 85%;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  margin: 0 15px 5px 0px;
+}
+
+.removeButton {
+  position: absolute;
+  top: -6px;
+  right: 10px;
+  background: var(--primary-theme-color);
+  color: var(--primary-background-color);
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.scanDocText {
+  font-weight: 600;
+}
+
+.scanDocWrapper {
+  display: flex;
+  width: 90px;
+  height: 85px;
+  border-radius: 6px;
+  object-fit: cover;
+  margin: 0 15px 5px 0px;
+  background: var(--primary-background-color) !important;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: var(--primary-theme-color);
+  font-size: small;
+}
+
+.fileInput {
+  display: none; // hide the input element
+}
+
+.buttonFile {
+  background-color: var(--primary-theme-color) !important;
+  color: var(--primary-background-color);
+  font-size: $small;
+  font-family: var(--primary-font-medium);
 }

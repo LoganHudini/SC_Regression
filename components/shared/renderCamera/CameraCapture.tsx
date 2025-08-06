@@ -10,6 +10,7 @@ type CameraCaptureProps = {
   handleCapture: (imageData: string) => Promise<any>;
   onClose: (cam: boolean) => void;
   t: any;
+  handleImageUpload: any;
 };
 
 const CameraCapture: React.FC<CameraCaptureProps> = ({
@@ -17,6 +18,7 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
   handleCapture,
   onClose,
   t,
+  handleImageUpload,
 }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -138,8 +140,20 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
 
       <div className={styles.buttonGroup}>
         {streaming && !url && (
+          <StyledButton variant='contained' component='label' className={styles.buttonFile}>
+            {t('Upload ID')}
+            <input
+              type='file'
+              accept='.jpg,.jpeg,.png'
+              multiple
+              onChange={handleImageUpload}
+              className={styles.fileInput}
+            />
+          </StyledButton>
+        )}
+        {streaming && !url && (
           <StyledButton variant='contained' onClick={takePhoto} disabled={loading}>
-            <span>{url ? t('Done') : loading ? <Loader /> : t('Capture ID')}</span>
+            <span>{url ? t('Done') : loading ? <Loader /> : t('Capture Now')}</span>
           </StyledButton>
         )}
       </div>
