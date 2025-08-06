@@ -8604,14 +8604,6 @@ export const configuration: any = [
                     isActive: true,
                   },
                   {
-                    name: 'cityName',
-                    label: 'City',
-                    type: 'Text',
-                    required: true,
-                    isDisabled: false,
-                    isActive: true,
-                  },
-                  {
                     name: 'addressLine',
                     label: 'Address',
                     type: 'Text',
@@ -8628,6 +8620,22 @@ export const configuration: any = [
                     isDisabled: false,
                     isActive: true,
                     options: Countries,
+                  },
+                  {
+                    name: 'cityName',
+                    label: 'City',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
+                    name: 'postalCode',
+                    label: 'Postal Code',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
                   },
                   {
                     name: 'estimatedTime',

@@ -382,7 +382,7 @@ const Guest: React.FC<any> = () => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [extractDataForField, countryDrawer, reservationInfo?.guests]);
+  }, [reservationInfo?.guests]);
   // guest validation
   const validateCompleteGuestDetails = (guestDetails: any, field: any) => {
     if (!guestDetails) {
