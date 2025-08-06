@@ -1122,11 +1122,11 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                 </div>
               )}
             </div>
-            {capturedImages.length >= 4 && (
+            {capturedImages.length >= field?.imageCount - 1 && (
               <p className={styles.containerSubTitle}>
                 {capturedImages.length !== field?.imageCount
                   ? t(
-                      `You can add ${field?.imageCount - capturedImages.length} image${
+                      `You can add ${field?.imageCount - capturedImages.length} more image${
                         field?.imageCount - capturedImages.length === 1 ? '' : 's'
                       } `,
                     )
