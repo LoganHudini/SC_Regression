@@ -11416,7 +11416,7 @@ export const configuration: any = [
                     name: 'estimatedTime',
                     label: 'Estimated Time of Arrival',
                     type: 'TimePicker',
-                    required: true,
+                    required: false,
                     isDisabled: false,
                     isActive: true,
                   },
