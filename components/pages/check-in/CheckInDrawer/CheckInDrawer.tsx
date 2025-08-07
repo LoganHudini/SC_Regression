@@ -227,6 +227,7 @@ const CheckInDrawer = () => {
               ? t('Please enter the details to proceed')
               : t('Connect your phone to access in-room features on your device.')}
           </p>
+
           <div className={styles.reservationInputs}>
             <div
               className={`${

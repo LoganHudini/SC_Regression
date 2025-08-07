@@ -639,6 +639,13 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               };
             })) ||
           [],
+        cashierNotes: reservationInfo?.cashierNotes?.join(', ') || '',
+        dateOfIssue: guestReservationInfo?.issueDate
+          ? guestReservationInfo?.issueDate
+          : reservationInfo?.guests[0]?.issueDate || '',
+        nights: reservationInfo?.details?.nightCount
+          ? reservationInfo?.details?.nightCount.toString()
+          : '',
       };
       const checkIn = async () => {
         const checkInToken = await getCheckInToken();
@@ -1553,10 +1560,12 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                 </div>
 
                 <p className={styles.agrementText}>
-                  {option.text}{' '}
-                  <Link href={option.policyLink} target='_blank' rel='noopener noreferrer'>
-                    {t('View')}
-                  </Link>
+                  {option?.text}{' '}
+                  {option?.policyLink && (
+                    <Link href={option?.policyLink} target='_blank' rel='noopener noreferrer'>
+                      {t('View')}
+                    </Link>
+                  )}
                 </p>
               </div>
             ))}

@@ -5,12 +5,14 @@ import { useTranslation } from 'react-i18next';
 import { hotelInformation, toggleHotelInfoDrawer, toggleMapState } from 'storage/home.storage';
 import { CustomReadMore } from 'components/shared/CustomReadMore/CustomReadMore';
 import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
+import { useConfig } from 'utils/hooks/useConfiguration';
 
 const HotelInformation = (props: any) => {
   const { details } = props;
   const { t } = useTranslation(['common']);
   const hotelInfo = details && details?.getPropertyDetailsByHotelId?.hotel;
   hotelInformation(hotelInfo);
+  const hotelName = useConfig()?.code;
 
   return (
     <>
@@ -22,8 +24,13 @@ const HotelInformation = (props: any) => {
             toggleMapState(true);
           }}
         >
-          <p className={styles.welcome}>{t('Welcome to')}</p>
-          <p className={styles.name}>{hotelInfo?.name}</p>
+          {hotelName !== 'raffles-seychelles' && (
+            <>
+              <p className={styles.welcome}>{t('Welcome to')}</p>
+              <p className={styles.name}>{hotelInfo?.name}</p>
+            </>
+          )}
+
           {hotelInfo?.images?.length > 0 && (
             <div>
               <div className={styles.margin}>

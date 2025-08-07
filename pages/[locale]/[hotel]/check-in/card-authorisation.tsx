@@ -84,11 +84,20 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
   const details = hotelInfo?.detailsCustomAttributes;
   const paymentMessage = getPaymentMessage(details);
 
-  const PaymentMessage = paymentMessage && typeof paymentMessage === 'string' ? JSON.parse(paymentMessage) : {};
+  const PaymentMessage =
+    paymentMessage && typeof paymentMessage === 'string' ? JSON.parse(paymentMessage) : {};
 
   const displayMessage = PaymentMessage?.[getPaymentRule] || DEFAULT_PAYMENT_MESSAGE;
-  const displayMessageTitle = displayMessage?.title?.replace(/\{amount\}/g, reservationData?.getReservation?.data?.paymentAmount || 0) || '';
-  const displayMessageMessage = displayMessage?.message?.replace(/\{amount\}/g, reservationData?.getReservation?.data?.paymentAmount || 0) || '';
+  const displayMessageTitle =
+    displayMessage?.title?.replace(
+      /\{amount\}/g,
+      reservationData?.getReservation?.data?.paymentAmount || 0,
+    ) || '';
+  const displayMessageMessage =
+    displayMessage?.message?.replace(
+      /\{amount\}/g,
+      reservationData?.getReservation?.data?.paymentAmount || 0,
+    ) || '';
 
   const checkInModule: any = config?.modules?.find((module: any) => module?.code === CHECK_IN);
   const personalisationConfig = checkInModule?.submodules?.find(
@@ -261,10 +270,10 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
         statusCode === 403
           ? handleCheckInAuthenticationFailure(paymentResponse)
           : (notificationStorage({
-            title: t('Payment Failed!') as string,
-            description: t('Card Authentication Failed!') as string,
-            type: FAILURE,
-          }),
+              title: t('Payment Failed!') as string,
+              description: t('Card Authentication Failed!') as string,
+              type: FAILURE,
+            }),
             toggleNotification(true),
             onPaymentDone());
       }

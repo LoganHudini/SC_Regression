@@ -31,6 +31,8 @@ export interface ICheckInApiRequest {
   documentType: string;
   documentNumber: string;
   issueCountry: string;
+  dateOfIssue?: string;
+  nights?: string;
   channel: string;
   upsell: any;
   guestSignature: string;
@@ -60,6 +62,7 @@ export interface ICheckInApiRequest {
   country?: string;
   captureDocumentUpload: any;
   skipOCR: boolean;
+  cashierNotes?: string;
   guests: [
     {
       firstName: string;

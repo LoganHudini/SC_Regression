@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export const CREATE_SPA_BOOKING = gql`
   mutation createAppointment(
@@ -14,14 +13,15 @@ export const CREATE_SPA_BOOKING = gql`
     $lastName: String!
     $emailAddress: String!
     $mobileNumber: String!
+    $hotelId: String!
     $roomNo: String
-    $genderPreference:String
+    $genderPreference: String
   ) {
     createSpaAppointment(
       input: {
         customerNotes: $customerNotes
         duration: $duration
-        hotelId: "${HOTEL_ID}"
+        hotelId: $hotelId
         requestType: $requestType
         date: $date
         treatmentId: $treatmentId

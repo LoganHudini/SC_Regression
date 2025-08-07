@@ -21,6 +21,14 @@ export const getEmailRoomValidation = yup.object({
 });
 
 export const getPhoneEmailValidation = yup.object({
+  firstName: yup
+    .string()
+    .required('First Name is required')
+    .test('First Name is required', (value: any) => value && value?.trim().length > 0),
+  lastName: yup
+    .string()
+    .required('Last Name is required')
+    .test('Last Name is required', (value: any) => value && value?.trim().length > 0),
   phoneNumber: yup
     .string()
     .required('Phone Number is required')
