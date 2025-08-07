@@ -8457,7 +8457,7 @@ export const configuration: any = [
     idVerificationNationality: ['UK'],
     fieldsToBeRemoved: ['docNo', 'docType'],
     languages: [{ code: 'en', name: 'English' }],
-    orderOfModules: ['hotel-info', 'check-in'],
+    orderOfModules: ['hotel-info'],
     preCheckInOnly: false,
     nativeAppRedirection: {
       isActive: true,
