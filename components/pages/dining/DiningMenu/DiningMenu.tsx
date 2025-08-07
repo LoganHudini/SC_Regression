@@ -43,6 +43,7 @@ import { hotelInfoStorage } from 'storage/home.storage';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import Viewless from '@icons/viewLessIconIrd.svg';
 import ViewAll from '@icons/viewAllIconIrd.svg';
+import dayjs from 'dayjs';
 
 export { getStaticPaths };
 interface DiningMenuProps {
@@ -805,71 +806,121 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             })}
           >
             {!menuAvailability &&
-              data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length !== 0 &&
+              data.getIRDMenuOutputDetails.filter((i) => i.isActive).length > 0 &&
               (() => {
-                const now = new Date();
-                const tz = hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone;
-                const localeToday = now
-                  .toLocaleDateString('en-US', { weekday: 'long', timeZone: tz })
-                  .toUpperCase();
-                const tomorrow = new Date(now.getTime() + 86400000);
-                const localeTomorrow = tomorrow
-                  .toLocaleDateString('en-US', {
-                    weekday: 'long',
-                    timeZone: tz,
-                  })
-                  .toUpperCase();
+                const tz = hotelInformation.getPropertyDetailsByHotelId.hotel.location.timezone;
+                const nowTz = dayjs().tz(tz);
+                const nowDt = nowTz.toDate();
+                const nowHr = nowTz.hour(),
+                  nowMn = nowTz.minute();
 
-                const openingHour = baseSelectedMenu?.hours?.[0]?.open || '00:00';
-                const formattedTime = convertTo12HourFormat(openingHour);
-
-                const nextAvailableDay = baseSelectedMenu?.hours?.[0]?.day?.toUpperCase();
-
-                let message = '';
-
-                if (nextAvailableDay === localeToday) {
-                  message = `In-Room Dining requests will open today from ${formattedTime}.`;
-                } else if (nextAvailableDay === localeTomorrow) {
-                  message = `In-Room Dining requests will open tomorrow from ${formattedTime}.`;
-                } else {
-                  const targetDate = new Date(now);
-                  const currentDay = now.getDay();
-                  const targetDay = new Date(
-                    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
-                  );
-                  for (let i = 1; i <= 7; i++) {
-                    const future = new Date(now);
-                    future.setDate(future.getDate() + i);
-                    const weekDay = future
-                      .toLocaleDateString('en-US', {
-                        weekday: 'long',
-                        timeZone: tz,
-                      })
-                      .toUpperCase();
-                    if (weekDay === nextAvailableDay) {
-                      targetDate.setTime(future.getTime());
-                      break;
+                const findHoursFor = (weekday: string) =>
+                  baseSelectedMenu.hours.find((h: any) => {
+                    const parts = h.day
+                      .toUpperCase()
+                      .split(/,|\s+TO\s+|\s+AND\s+/)
+                      .map((p: any) => p.trim());
+                    if (parts.length === 2 && parts[0].length > 2 && parts[1].length > 2) {
+                      const days = [
+                        'SUNDAY',
+                        'MONDAY',
+                        'TUESDAY',
+                        'WEDNESDAY',
+                        'THURSDAY',
+                        'FRIDAY',
+                        'SATURDAY',
+                      ];
+                      const start = days.indexOf(parts[0]),
+                        end = days.indexOf(parts[1]);
+                      const range =
+                        start <= end
+                          ? days.slice(start, end + 1)
+                          : days.slice(start).concat(days.slice(0, end + 1));
+                      return range.includes(weekday);
                     }
-                  }
-
-                  const formattedDate = targetDate.toLocaleDateString('en-US', {
-                    weekday: 'long',
-                    month: 'long',
-                    day: 'numeric',
-                    timeZone: tz,
+                    return parts.includes(weekday);
                   });
 
-                  message = `In-Room Dining requests will open on ${formattedDate} from ${formattedTime}.`;
+                const everyday = findHoursFor('EVERYDAY');
+                if (everyday) {
+                  const fmt = convertTo12HourFormat(everyday.from || everyday.open);
+                  return (
+                    <div className={styles.menuUnavailableContainer}>
+                      <div className={styles.menuTimingsText}>
+                        {`In-Room Dining requests will open from ${fmt}.`}
+                      </div>
+                      <div className={styles.menuUnavailableDescription}>
+                        {t('This menu is unavailable right now! You can still check it out below.')}
+                      </div>
+                    </div>
+                  );
                 }
 
-                return (
-                  <div className={styles.menuUnavailableContainer}>
-                    <div className={styles.menuTimingsText}>{message}</div>
-                    <div className={styles.menuUnavailableDescription}>
-                      {t('This menu is unavailable right now! You can still check it out below.')}
+                const getWeekday = (d: Date) =>
+                  d.toLocaleDateString('en-US', { weekday: 'long', timeZone: tz }).toUpperCase();
+
+                const todayName = getWeekday(nowDt);
+                const todayHrs = findHoursFor(todayName);
+                if (todayHrs) {
+                  const [h, m] = (todayHrs.from || todayHrs.open).split(':').map(Number);
+                  if (nowHr < h || (nowHr === h && nowMn < m)) {
+                    const fmt = convertTo12HourFormat(todayHrs.from || todayHrs.open);
+                    return (
+                      <div className={styles.menuUnavailableContainer}>
+                        <div className={styles.menuTimingsText}>
+                          {`In-Room Dining requests will open today from ${fmt}.`}
+                        </div>
+                        <div className={styles.menuUnavailableDescription}>
+                          {t(
+                            'This menu is unavailable right now! You can still check it out below.',
+                          )}
+                        </div>
+                      </div>
+                    );
+                  }
+                }
+                const tomoDt = nowTz.add(1, 'day').toDate();
+                const tomoH = findHoursFor(getWeekday(tomoDt));
+                if (tomoH) {
+                  const fmt = convertTo12HourFormat(tomoH.from || tomoH.open);
+                  return (
+                    <div className={styles.menuUnavailableContainer}>
+                      <div className={styles.menuTimingsText}>
+                        {`In-Room Dining requests will open tomorrow from ${fmt}.`}
+                      </div>
+                      <div className={styles.menuUnavailableDescription}>
+                        {t('This menu is unavailable right now! You can still check it out below.')}
+                      </div>
                     </div>
-                  </div>
-                );
+                  );
+                }
+
+                for (let i = 2; i <= 7; i++) {
+                  const futureDt = nowTz.add(i, 'day').toDate();
+                  const hrs = findHoursFor(getWeekday(futureDt));
+                  if (hrs) {
+                    const dateStr = futureDt.toLocaleDateString('en-US', {
+                      weekday: 'long',
+                      month: 'long',
+                      day: 'numeric',
+                      timeZone: tz,
+                    });
+                    const fmt = convertTo12HourFormat(hrs.from || hrs.open);
+                    return (
+                      <div className={styles.menuUnavailableContainer}>
+                        <div className={styles.menuTimingsText}>
+                          {`In-Room Dining requests will open on ${dateStr} from ${fmt}.`}
+                        </div>
+                        <div className={styles.menuUnavailableDescription}>
+                          {t(
+                            'This menu is unavailable right now! You can still check it out below.',
+                          )}
+                        </div>
+                      </div>
+                    );
+                  }
+                }
+                return null;
               })()}
 
             {data?.getIRDMenuOutputDetails?.filter((item: any) => item?.isActive)?.length === 0 && (
