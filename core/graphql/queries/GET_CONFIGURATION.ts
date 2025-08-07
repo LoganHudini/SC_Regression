@@ -4321,7 +4321,7 @@ export const configuration: any = [
             name: 'accompanyingGuest',
             label: 'Secondary Guest',
             title: '',
-            type: 'youverse',
+            type: 'manual',
             isActive: true,
             mandatory: true,
             details: [
