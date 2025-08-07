@@ -335,6 +335,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
           <div className={cx(styles.cardWrapper, 'globals-cardWrapper')}>
             <p className={styles.title}>{t('Your Stay Details')}</p>
             <StableImage
+              className={cx(styles.dividerImg, 'globals-dividerImg')}
               hideplaceholder={'true'}
               src={`/images/${BRAND_CODE}/Divider.png`}
               alt='Divider'
