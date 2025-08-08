@@ -213,6 +213,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
   const dynamicFields = reviewConfig?.dynamicFields;
   const count = dynamicFields?.find((i: any) => i.type === 'camera')?.imageCount;
+  const isRequiredDynamicField =
+    dynamicFields?.find((i: any) => i.type === 'camera')?.optional === false ? true : false;
 
   const combinedGuests = [
     {
@@ -341,13 +343,25 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       conditionsAccepted &&
       sigCanvas?.current &&
       signature !== null &&
-      (termsAndConditionsValue?.length > 0 ? allMandatoryAccepted : true)
+      (termsAndConditionsValue?.length > 0 ? allMandatoryAccepted : true) &&
+      isRequiredDynamicField
+        ? capturedImages?.length > 0
+          ? true
+          : false
+        : false
     ) {
       setBtnStatus(true);
     } else {
       setBtnStatus(false);
     }
-  }, [conditionsAccepted, signature, allMandatoryAccepted, termsAndConditionsValue?.length]);
+  }, [
+    conditionsAccepted,
+    signature,
+    allMandatoryAccepted,
+    termsAndConditionsValue?.length,
+    capturedImages,
+    isRequiredDynamicField,
+  ]);
 
   const clearCanvas = useCallback(() => {
     sigCanvas?.current?.clear();
@@ -441,8 +455,22 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
     const uploadAllDocuments = async (imagesList: string[]): Promise<string[]> => {
       const checkInToken = await getCheckInToken();
+      const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
 
       const uploadPromises = imagesList.map(async (image, index) => {
+        // Extract contentType from base64 string
+        const base64PrefixMatch = image.match(/^data:(image\/(png|jpeg|jpg));base64,/);
+        const contentType = base64PrefixMatch?.[1];
+
+        // Skip if not an allowed type
+        if (!contentType || !allowedTypes.includes(contentType)) {
+          console.warn(`Skipping unsupported file type at index ${index}: ${contentType}`);
+          return '';
+        }
+
+        // Strip correct prefix
+        const contents = image.replace(/^data:image\/(png|jpeg|jpg);base64,/, '');
+
         const filename = `${guestReservationInfo?.firstName}_${
           guestReservationInfo?.lastName
         }_id_document_${Date.now()}_${index}.png`;
@@ -453,10 +481,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           propertyType: 'hotels',
           confirmationId: reservationInfo?.confirmationId ?? '',
           filename,
-          contentType: 'image/png',
+          contentType,
           contentLength: 8196,
           body: null,
-          contents: image.replace('data:image/png;base64,', ''),
+          contents,
           isDocUpload: true,
         };
 
@@ -482,7 +510,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             notificationStorage({
               type: FAILURE,
               title: t(ERRORMSG),
-              description: t('Failed to upload ID document.'),
+              description: t(`Failed to upload image ${index + 1}.`),
             });
           }
           return '';
@@ -490,7 +518,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       });
 
       const uploadedKeys = await Promise.all(uploadPromises);
-      return uploadedKeys.filter((key) => key); // remove empty failed uploads
+      return uploadedKeys.filter((key) => key); // Filter out failures
     };
 
     await uploadSignature();
@@ -560,6 +588,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         lastFourDigits: guestReservationInfo?.cardNumber?.substr(
           guestReservationInfo?.cardNumber?.length - 4,
         ),
+        cardNumber: guestReservationInfo?.cardNumber || '',
         cardID: guestReservationInfo?.approvalCode ?? '',
         vaultedCardID: guestReservationInfo?.token,
         settlementType:
@@ -654,7 +683,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             query: preCheckInStatus ? PRECHECKIN : CHECKIN,
             context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
             variables: {
-              confirmationNumber: reservationInfo?.confirmationId as string,
+              // confirmationNumber: reservationInfo?.confirmationId as string,
               body: checkInPayload,
             },
           });
@@ -1038,6 +1067,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       setCapturedImages((prev) => [...prev, ...base64Images].slice(0, count));
       handleCloseCamera();
     });
+
+    console.log('handleImageUpload', capturedImages);
   };
 
   const handleRemoveImage = (index: number) => {
@@ -1088,7 +1119,15 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       })
       ?.map((field: any, index: any) => (
         <div className={styles.mainContainer} key={index}>
-          <DetailsCard title={field?.fieldName}>
+          <DetailsCard
+            title={field?.fieldName}
+            customTextClassName={
+              isRequiredDynamicField && capturedImages?.length > 0 ? '' : styles.isRequired
+            }
+            customBorderClassName={
+              isRequiredDynamicField && capturedImages?.length > 0 ? '' : styles.isRequiredBorder
+            }
+          >
             <div className={styles.imageText}>
               <p className={styles.containerTitle}>{field?.label}</p>
               {capturedImages.length > 0 && (

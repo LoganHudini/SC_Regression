@@ -4,4 +4,6 @@ export interface IInfoCardProps {
   icon?: any;
   handleClick?: any;
   error?: boolean;
+  customTextClassName?: any;
+  customBorderClassName?: any;
 }

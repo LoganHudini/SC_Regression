@@ -415,3 +415,11 @@
   font-size: $small;
   font-family: var(--primary-font-medium);
 }
+
+.isRequired {
+  color: var(--primary-error-text-color) !important;
+}
+
+.isRequiredBorder {
+  border-bottom: 1px solid var(--primary-error-text-color);
+}
