@@ -29101,9 +29101,9 @@ export const configuration: any = [
                 imageCount: 5,
                 type: 'camera',
                 rule: [
-                  { key: 'countryCode', condition: '==', value: 'IN' },
-                  // { key: 'isPrimary', condition: '==', value: true },
-                  // { key: 'adultGuestCount', condition: '>=', value: 2 },
+                  { key: 'countryCode', condition: '==', value: 'EG' },
+                  { key: 'isPrimary', condition: '==', value: true },
+                  { key: 'adultGuestCount', condition: '>=', value: 2 },
                 ],
                 enabled: true,
                 optional: false,
