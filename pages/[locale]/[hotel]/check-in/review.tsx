@@ -188,6 +188,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   // camera
   const [openCamera, setOpenCamera] = useState(false);
   const [capturedImages, setCapturedImages] = useState<string[]>([]);
+  const [invalidFileSelected, setInvalidFileSelected] = useState(false);
 
   // card expansion states
   const [stayInformation, setStayInformation] = useState(false);
@@ -683,7 +684,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             query: preCheckInStatus ? PRECHECKIN : CHECKIN,
             context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
             variables: {
-              // confirmationNumber: reservationInfo?.confirmationId as string,
+              confirmationNumber: reservationInfo?.confirmationId as string,
               body: checkInPayload,
             },
           });
@@ -1047,8 +1048,25 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   }, []);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleCloseCamera();
     const files = Array.from(e.target.files || []);
     const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+
+    const invalidFiles = files.filter((file) => !allowedTypes.includes(file.type));
+    if (invalidFiles.length > 0) {
+      console.error('Please select different files');
+      setInvalidFileSelected(true);
+      notificationStorage({
+        type: FAILURE,
+        title: 'Invalid File Type',
+        description: 'Please select PNG, JPEG, or JPG files only.',
+      });
+      toggleNotification(true);
+
+      // reset input so same file can be chosen again
+      e.target.value = '';
+      return;
+    }
 
     const readerPromises = files
       .filter((file) => allowedTypes.includes(file.type))
@@ -1066,9 +1084,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     Promise.all(readerPromises).then((base64Images) => {
       setCapturedImages((prev) => [...prev, ...base64Images].slice(0, count));
       handleCloseCamera();
-    });
 
-    console.log('handleImageUpload', capturedImages);
+      // also reset after successful upload to allow reselecting same files
+      e.target.value = '';
+    });
   };
 
   const handleRemoveImage = (index: number) => {
