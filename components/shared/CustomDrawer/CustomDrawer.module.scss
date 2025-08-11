@@ -35,4 +35,8 @@
 .drawerContent {
   overflow: auto;
   background-color: var(--primary-drawer-color);
+  -webkit-overflow-scrolling: touch;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  overscroll-behavior: none;
 }

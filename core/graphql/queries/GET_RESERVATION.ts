@@ -11,6 +11,7 @@ export interface IGetReservationApiResponse {
       accountId: string;
       confirmationType: string;
       reservationStatus: string;
+      paymentAmount?: string;
       details: {
         id: string;
         hotelId: string;
@@ -108,6 +109,8 @@ export interface IGetReservationApiResponse {
       mainMealPlanCode: string;
       isPreCheckedIn: boolean;
       cashierNotes: string[];
+      dateOfIssue: string;
+      nights: string;
     };
   };
 }

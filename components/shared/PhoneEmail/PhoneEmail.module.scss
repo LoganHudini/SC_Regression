@@ -1,25 +1,25 @@
 .thirdRow {
   display: flex;
-  justify-content: space-evenly;
   width: 100%;
 }
 .callRow,
 .emailRow,
 .urlRow {
+  flex: 1 1 0;
+  min-width: 0;
   display: flex;
-  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
+  gap: 0.45rem;
   text-decoration: none;
   color: var(--primary-text-color);
-  gap: 3px;
-  span {
-    margin-inline-start: 6px;
-    font-size: 1rem;
-    color: var(--primary-text-color);
-    text-align: start;
-    width: fit-content;
-  }
+}
+
+.callRow > svg,
+.emailRow > svg,
+.urlRow > svg {
+  flex-shrink: 0;
+  overflow: visible;
 }
 
 .icon_contact {
@@ -27,10 +27,17 @@
   font-size: $small !important;
   text-transform: uppercase;
   padding-top: 2.5px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .check {
   path {
     fill: var(--primary-theme-color);
   }
+}
+.icon {
+  flex-shrink: 0;
+  overflow: visible;
 }

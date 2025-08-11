@@ -230,4 +230,10 @@
   text-align: center;
   color: var(--tertiary-text-color);
   cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 0.2px;
+  &:hover {
+    opacity: 0.9;
+  }
 }

@@ -193,15 +193,18 @@ const Home: NextPage = () => {
     ),
     'check-in': () => (
       <>
-        {!checkInData?.checkedIn && checkInModule && !config?.preCheckInOnly && (
-          <Checkin
-            title={t('Check-in?')}
-            description={t(
-              'To begin your check-in process, please tap the ‘Check-In’ button below',
-            )}
-            buttonTitle={t('Check-In Now')}
-          />
-        )}
+        {!checkInData?.checkedIn &&
+          checkInModule &&
+          !config?.preCheckInOnly &&
+          !config.disableCheckinCard && (
+            <Checkin
+              title={t('Check-in?')}
+              description={t(
+                'To begin your check-in process, please tap the ‘Check-In’ button below',
+              )}
+              buttonTitle={t('Check-In Now')}
+            />
+          )}
         {(config?.nativeAppRedirection?.isActive ? true : !checkInData?.checkedIn) &&
           pairToRoomModule && (
             <Checkin

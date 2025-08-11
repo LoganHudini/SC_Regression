@@ -100,8 +100,9 @@ import { useCurrency } from 'utils/hooks/useCurrency';
 import { StyledInput } from 'components/shared/StyledInput/StyledInput';
 import { useFormik } from 'formik';
 import { instructionValidation } from 'validation/dining.validation';
-import Camera from '@icons/cameraIcon.svg';
 import CameraCapture from 'components/shared/renderCamera/CameraCapture';
+import Remove from '@icons/removeButton.svg';
+import AddImage from '@icons/addImage.svg';
 
 export { getStaticPaths };
 
@@ -186,7 +187,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const currency = useCurrency();
   // camera
   const [openCamera, setOpenCamera] = useState(false);
-  const [capturedImage, setCapturedImage] = useState<string | null>(null);
+  const [capturedImages, setCapturedImages] = useState<string[]>([]);
+  const [invalidFileSelected, setInvalidFileSelected] = useState(false);
 
   // card expansion states
   const [stayInformation, setStayInformation] = useState(false);
@@ -211,6 +213,9 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   );
 
   const dynamicFields = reviewConfig?.dynamicFields;
+  const count = dynamicFields?.find((i: any) => i.type === 'camera')?.imageCount;
+  const isRequiredDynamicField =
+    dynamicFields?.find((i: any) => i.type === 'camera')?.optional === false ? true : false;
 
   const combinedGuests = [
     {
@@ -339,13 +344,25 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       conditionsAccepted &&
       sigCanvas?.current &&
       signature !== null &&
-      (termsAndConditionsValue?.length > 0 ? allMandatoryAccepted : true)
+      (termsAndConditionsValue?.length > 0 ? allMandatoryAccepted : true) &&
+      isRequiredDynamicField
+        ? capturedImages?.length > 0
+          ? true
+          : false
+        : false
     ) {
       setBtnStatus(true);
     } else {
       setBtnStatus(false);
     }
-  }, [conditionsAccepted, signature, allMandatoryAccepted, termsAndConditionsValue?.length]);
+  }, [
+    conditionsAccepted,
+    signature,
+    allMandatoryAccepted,
+    termsAndConditionsValue?.length,
+    capturedImages,
+    isRequiredDynamicField,
+  ]);
 
   const clearCanvas = useCallback(() => {
     sigCanvas?.current?.clear();
@@ -435,57 +452,78 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             });
       }
     };
-    let idDocumentKey = ''; // store the uploaded file's key here
+    let idDocumentKeys: string[] = [];
 
-    const uploadIDDocument = async () => {
-      if (!capturedImage) return;
-
-      const filename = `${guestReservationInfo?.firstName}_${guestReservationInfo?.lastName}_id_document.png`;
-
-      const uploadImagePayload: IPreSignDocUploadApiRequest = {
-        groupId: hotelInfo?.groupId,
-        type: 'reservation_docs',
-        propertyType: 'hotels',
-        confirmationId: reservationInfo?.confirmationId ?? '',
-        filename,
-        contentType: 'image/png',
-        contentLength: 8196,
-        body: null,
-        contents: capturedImage.replace('data:image/png;base64,', ''),
-        isDocUpload: true,
-      };
-
+    const uploadAllDocuments = async (imagesList: string[]): Promise<string[]> => {
       const checkInToken = await getCheckInToken();
+      const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
 
-      try {
-        const uploadImageResponse = await client.query<IPreSignDocUploadApiResponse>({
-          query: PRE_SIGN_DOC_UPLOAD,
-          context: {
-            clientName: 'rest',
-            headers: { Authorization: 'Bearer ' + checkInToken },
-          },
-          variables: {
-            confirmationNumber: reservationInfo?.confirmationId as string,
-            body: uploadImagePayload,
-          },
-        });
+      const uploadPromises = imagesList.map(async (image, index) => {
+        // Extract contentType from base64 string
+        const base64PrefixMatch = image.match(/^data:(image\/(png|jpeg|jpg));base64,/);
+        const contentType = base64PrefixMatch?.[1];
 
-        idDocumentKey = uploadImageResponse?.data?.preSignDocUpload?.data?.key;
-      } catch (error) {
-        const statusCode = processStatusCode(error as ApolloError);
-        if (statusCode === 403) {
-          handleCheckInAuthenticationFailure(uploadIDDocument);
-        } else {
-          notificationStorage({
-            type: FAILURE,
-            title: t(ERRORMSG),
-            description: t('Failed to upload ID document.'),
-          });
+        // Skip if not an allowed type
+        if (!contentType || !allowedTypes.includes(contentType)) {
+          console.warn(`Skipping unsupported file type at index ${index}: ${contentType}`);
+          return '';
         }
-      }
+
+        // Strip correct prefix
+        const contents = image.replace(/^data:image\/(png|jpeg|jpg);base64,/, '');
+
+        const filename = `${guestReservationInfo?.firstName}_${
+          guestReservationInfo?.lastName
+        }_id_document_${Date.now()}_${index}.png`;
+
+        const uploadImagePayload: IPreSignDocUploadApiRequest = {
+          groupId: hotelInfo?.groupId,
+          type: 'reservation_docs',
+          propertyType: 'hotels',
+          confirmationId: reservationInfo?.confirmationId ?? '',
+          filename,
+          contentType,
+          contentLength: 8196,
+          body: null,
+          contents,
+          isDocUpload: true,
+        };
+
+        try {
+          const response = await client.query<IPreSignDocUploadApiResponse>({
+            query: PRE_SIGN_DOC_UPLOAD,
+            context: {
+              clientName: 'rest',
+              headers: { Authorization: 'Bearer ' + checkInToken },
+            },
+            variables: {
+              confirmationNumber: reservationInfo?.confirmationId as string,
+              body: uploadImagePayload,
+            },
+          });
+
+          return response?.data?.preSignDocUpload?.data?.key || '';
+        } catch (error) {
+          const statusCode = processStatusCode(error as ApolloError);
+          if (statusCode === 403) {
+            await handleCheckInAuthenticationFailure(() => uploadAllDocuments(imagesList));
+          } else {
+            notificationStorage({
+              type: FAILURE,
+              title: t(ERRORMSG),
+              description: t(`Failed to upload image ${index + 1}.`),
+            });
+          }
+          return '';
+        }
+      });
+
+      const uploadedKeys = await Promise.all(uploadPromises);
+      return uploadedKeys.filter((key) => key); // Filter out failures
     };
+
     await uploadSignature();
-    await uploadIDDocument();
+    idDocumentKeys = await uploadAllDocuments([...capturedImages]);
 
     // check-in
     const personalisation =
@@ -551,6 +589,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         lastFourDigits: guestReservationInfo?.cardNumber?.substr(
           guestReservationInfo?.cardNumber?.length - 4,
         ),
+        cardNumber: guestReservationInfo?.cardNumber || '',
         cardID: guestReservationInfo?.approvalCode ?? '',
         vaultedCardID: guestReservationInfo?.token,
         settlementType:
@@ -577,15 +616,11 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               }))
             : [],
         guestSignature: guestSignature,
-        captureDocumentUpload: idDocumentKey
-          ? [
-              {
-                capturedDocumentFrontImage: idDocumentKey,
-                capturedDocumentBackImage: idDocumentKey,
-                capturedDocumentType: 'PASSPORT',
-              },
-            ]
-          : [],
+        captureDocumentUpload: idDocumentKeys.map((key) => ({
+          capturedDocumentFrontImage: key,
+          capturedDocumentBackImage: key,
+          capturedDocumentType: 'DOCUMENTS', // or dynamic type if needed
+        })),
         comment:
           personalisationConfig?.type === CMS
             ? personalizationEntities?.map((personalization) => ({
@@ -635,6 +670,12 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             })) ||
           [],
         cashierNotes: reservationInfo?.cashierNotes?.join(', ') || '',
+        dateOfIssue: guestReservationInfo?.issueDate
+          ? guestReservationInfo?.issueDate
+          : reservationInfo?.guests[0]?.issueDate || '',
+        nights: reservationInfo?.details?.nightCount
+          ? reservationInfo?.details?.nightCount.toString()
+          : '',
       };
       const checkIn = async () => {
         const checkInToken = await getCheckInToken();
@@ -887,6 +928,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     hotelId,
     reviewConfig?.checkInSuccessfulMessageTitle,
     reviewConfig?.checkInSuccessfulMessageDescription,
+    capturedImages,
   ]);
 
   useEffect(() => {
@@ -992,20 +1034,70 @@ const CheckIn: React.FC<ICheckinProps> = () => {
 
   const combinedAccArray = accompanyGuestInfo?.concat(updatedGuestData && updatedGuestData) ?? [];
 
-  const handleCapture = useCallback(
-    async (imageData: string) => {
-      setCapturedImage(imageData);
-      setOpenCamera(false);
-      return true; // or any value you want to return
-    },
-    [setCapturedImage, setOpenCamera],
-  );
+  const handleCapture = useCallback(async (imageData: string) => {
+    setCapturedImages((prev) => {
+      if (prev.length >= count) return prev;
+      return [...prev, imageData];
+    });
+    setOpenCamera(false);
+    return true;
+  }, []);
 
   const handleCloseCamera = useCallback(() => {
     setOpenCamera(false);
   }, []);
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleCloseCamera();
+    const files = Array.from(e.target.files || []);
+    const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+
+    const invalidFiles = files.filter((file) => !allowedTypes.includes(file.type));
+    if (invalidFiles.length > 0) {
+      console.error('Please select different files');
+      setInvalidFileSelected(true);
+      notificationStorage({
+        type: FAILURE,
+        title: 'Invalid File Type',
+        description: 'Please select PNG, JPEG, or JPG files only.',
+      });
+      toggleNotification(true);
+
+      // reset input so same file can be chosen again
+      e.target.value = '';
+      return;
+    }
+
+    const readerPromises = files
+      .filter((file) => allowedTypes.includes(file.type))
+      .slice(0, count - capturedImages.length)
+      .map(
+        (file) =>
+          new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+          }),
+      );
+
+    Promise.all(readerPromises).then((base64Images) => {
+      setCapturedImages((prev) => [...prev, ...base64Images].slice(0, count));
+      handleCloseCamera();
+
+      // also reset after successful upload to allow reselecting same files
+      e.target.value = '';
+    });
+  };
+
+  const handleRemoveImage = (index: number) => {
+    setCapturedImages((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const renderDocumentUploads = () => {
+    const userAgent = navigator.userAgent;
+    const isIOS = /iPhone|iPad|iPod/i.test(userAgent);
+
     return dynamicFields
       ?.filter((field: any) => {
         if (!field.enabled) return false;
@@ -1046,29 +1138,89 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       })
       ?.map((field: any, index: any) => (
         <div className={styles.mainContainer} key={index}>
-          <DetailsCard title={t('Capture Document')}>
+          <DetailsCard
+            title={field?.fieldName}
+            customTextClassName={
+              isRequiredDynamicField && capturedImages?.length > 0 ? '' : styles.isRequired
+            }
+            customBorderClassName={
+              isRequiredDynamicField && capturedImages?.length > 0 ? '' : styles.isRequiredBorder
+            }
+          >
             <div className={styles.imageText}>
-              <p className={styles.containerTitle}>
-                {t('Please capture the same document you used for ID verification.')}
-              </p>
-              {capturedImage && (
+              <p className={styles.containerTitle}>{field?.label}</p>
+              {capturedImages.length > 0 && (
                 <div className={styles.capturedImageContainer}>
-                  <img src={capturedImage} alt='Captured ID' className={styles.capturedImage} />
+                  {capturedImages.map((img, index) => (
+                    <div key={index} className={styles.previewItem}>
+                      <img src={img} alt={`ID ${index + 1}`} className={styles.capturedImage} />
+                      <button
+                        type='button'
+                        onClick={() => handleRemoveImage(index)}
+                        className={styles.removeButton}
+                        aria-label='Remove image'
+                      >
+                        <Remove />
+                      </button>
+                    </div>
+                  ))}
+                  {!(capturedImages.length >= field?.imageCount) &&
+                    capturedImages.length >= 1 &&
+                    (isIOS ? (
+                      <label className={styles.scanDocWrapper}>
+                        <AddImage />
+                        {t('Add Document')}
+                        <input
+                          type='file'
+                          accept='.jpg,.jpeg,.png'
+                          multiple
+                          onChange={handleImageUpload}
+                          className={styles.fileInput}
+                        />
+                      </label>
+                    ) : (
+                      <div className={styles.scanDocWrapper} onClick={() => setOpenCamera(true)}>
+                        <AddImage />
+                        <span>{t('Add Document')}</span>
+                      </div>
+                    ))}
                 </div>
               )}
             </div>
-            <div className={styles.buttonStyling}>
-              <StyledButton
-                variant='contained'
-                className={styles.scanDocWrapper}
-                onClick={() => setOpenCamera(true)}
-              >
-                <Camera />
-                <span className={styles.scanDocText}>
-                  {capturedImage ? t('Capture Again') : t('Capture ID')}
-                </span>
-              </StyledButton>
-            </div>
+            {capturedImages.length >= field?.imageCount - 1 && (
+              <p className={styles.containerSubTitle}>
+                {capturedImages.length !== field?.imageCount
+                  ? t(
+                      `You can add ${field?.imageCount - capturedImages.length} more image${
+                        field?.imageCount - capturedImages.length === 1 ? '' : 's'
+                      } `,
+                    )
+                  : t(`Maximum ${capturedImages.length} images reached.`)}
+              </p>
+            )}
+            {!(capturedImages.length >= field?.imageCount) &&
+              capturedImages.length == 0 &&
+              (isIOS ? (
+                <StyledButton variant='contained' component='label' className={styles.buttonFile}>
+                  {t('Add Document')}
+                  <input
+                    type='file'
+                    accept='.jpg,.jpeg,.png'
+                    multiple
+                    onChange={handleImageUpload}
+                    className={styles.fileInput}
+                  />
+                </StyledButton>
+              ) : (
+                <StyledButton
+                  variant='contained'
+                  onClick={() => setOpenCamera(true)}
+                  disabled={capturedImages.length >= field?.imageCount}
+                  className={styles.buttonStyling}
+                >
+                  <span className={styles.scanDocText}>{t('Add Document')}</span>
+                </StyledButton>
+              ))}
           </DetailsCard>
         </div>
       ));
@@ -1386,6 +1538,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                   openCamera={openCamera}
                   handleCapture={handleCapture}
                   onClose={handleCloseCamera}
+                  handleImageUpload={handleImageUpload}
                   t={t}
                 />
               </div>
@@ -1465,10 +1618,12 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                 </div>
 
                 <p className={styles.agrementText}>
-                  {option.text}{' '}
-                  <Link href={option.policyLink} target='_blank' rel='noopener noreferrer'>
-                    {t('View')}
-                  </Link>
+                  {option?.text}{' '}
+                  {option?.policyLink && (
+                    <Link href={option?.policyLink} target='_blank' rel='noopener noreferrer'>
+                      {t('View')}
+                    </Link>
+                  )}
                 </p>
               </div>
             ))}

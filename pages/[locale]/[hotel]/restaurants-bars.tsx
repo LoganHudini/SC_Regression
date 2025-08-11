@@ -108,10 +108,7 @@ const RestaurantAndBars: React.FC = () => {
         <Loader />
       ) : (
         <>
-          <PageWrapper
-            className={styles.pageWrapper}
-            displayBottomMenu={filteredList?.length > 0 ? true : false}
-          >
+          <PageWrapper className={styles.pageWrapper} displayBottomMenu={true}>
             <div>
               {filteredList?.length > 0 ? (
                 filteredList?.map((queryResultEntity: any) => (

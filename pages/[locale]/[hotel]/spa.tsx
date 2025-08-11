@@ -18,13 +18,13 @@ import {
 import { activeItems, moduleType, restaurantId, timeExtract } from 'utils/functions';
 import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
+import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 import { GET_SPA_DETAILS } from 'core/graphql/queries/GET_SPA_DETAILS';
 import Head from 'next/head';
 import { spaCategoryList, spaInformationStorage } from 'storage/spa.storage';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import produce from 'immer';
-import { ASSETS_URL, HOTEL_ID } from 'core/graphql/endpoints';
-import { StableImage } from 'components/shared/StableImage/StableImage';
+import { HOTEL_ID } from 'core/graphql/endpoints';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
@@ -298,6 +298,10 @@ const Spa: React.FC = () => {
     guestCount,
   ]);
 
+  const timePart = selectedTime?.split(':')?.slice(1)?.join(':');
+  const time = dayjs(timePart, 'hh:mm:A');
+  const totalMinutes = time.hour() * 60 + time.minute();
+
   const [getSlots, { loading: spaLoading }] = useLazyQuery(GET_SLOT_DETAILS, {
     context: { clientName: 'integration_d' },
     variables: {
@@ -308,6 +312,7 @@ const Spa: React.FC = () => {
       hotelId: hotelId,
       requestType: '601',
       treatmentId: selectedSpaItem?.code,
+      startTime: totalMinutes || '',
     },
     fetchPolicy: 'no-cache',
   });
@@ -318,17 +323,20 @@ const Spa: React.FC = () => {
     const formattedDate = validDate.year(currentYear).format(timeFormats.YEAR_MONTH_DAY);
     const spaPayload = {
       customerNotes: '',
-      duration: selectedSpaItem?.duration[currentIndex]?.duration ?? '',
+      duration:
+        selectedSpaItem?.duration?.[currentIndex]?.duration ||
+        selectedSpaItem?.duration?.[0]?.duration ||
+        '',
+
       hotelId: hotelId,
       requestType: '601',
       date: formattedDate,
       treatmentId: selectedSpaItem?.code,
       startTime: selectedSpaSlots?.startTime,
       technicianId: parseInt(selectedSpaSlots.technicianId),
-      firstName: isCheckedIn?.checkedIn ? isCheckedIn?.firstName : formik.values.firstName,
-      lastName: isCheckedIn?.checkedIn ? isCheckedIn?.lastName : '',
-      emailAddress:
-        isCheckedIn?.checkedIn && isCheckedIn?.email ? isCheckedIn?.email : formik.values.email,
+      firstName: formik.values.firstName || '',
+      lastName: formik.values.lastName || '',
+      emailAddress: formik.values.email || '',
       roomNo: isCheckedIn?.checkedIn ? isCheckedIn?.roomNumber : '',
       genderPreference: formik?.values?.gender || '',
       mobileNumber: formik?.values?.phoneNumber || '',
@@ -375,6 +383,7 @@ const Spa: React.FC = () => {
   const formik = useFormik({
     initialValues: {
       firstName: isCheckedIn?.firstName || '',
+      lastName: isCheckedIn?.lastName || '',
       email: isCheckedIn?.email || '',
       phoneNumber: isCheckedIn?.phoneNumber || '',
       gender: '',
@@ -394,12 +403,8 @@ const Spa: React.FC = () => {
               [styles.listComponentMargin]: spaInformation?.cta?.status === ACTIVE,
             })}
           >
-            {selectedSpaItem?.images?.length > 0 && (
-              <StableImage
-                className={styles.image}
-                src={`${ASSETS_URL}/${selectedSpaItem?.images[0]?.ratio16to9}`}
-              />
-            )}
+            {selectedSpaItem?.images?.length > 0 && <CustomCarousel imageData={selectedSpaItem} />}
+
             <div className={styles.wrapper}>
               {selectedSpaItem?.name && (
                 <h2 className={styles.detailComponentTitle}>{t(`${selectedSpaItem?.name}`)}</h2>
@@ -547,6 +552,30 @@ const Spa: React.FC = () => {
                 helperText={
                   (formik?.validateOnMount || formik.touched?.firstName) && formik.errors.firstName
                     ? t(formik.errors.firstName)
+                    : null
+                }
+              />
+            )}
+            {isCheckedIn?.lastName && (
+              <StyledInput
+                autoComplete='off'
+                required
+                className={styles.reservationInput}
+                label={t('Last Name')}
+                variant='standard'
+                name='lastName'
+                id='lastName'
+                value={formik.values.lastName}
+                onChange={(e) => {
+                  formik.handleChange(e);
+                }}
+                error={
+                  (formik?.validateOnMount || formik.touched.lastName) &&
+                  Boolean(formik.errors.lastName)
+                }
+                helperText={
+                  (formik?.validateOnMount || formik.touched?.lastName) && formik.errors.lastName
+                    ? t(formik.errors.lastName)
                     : null
                 }
               />

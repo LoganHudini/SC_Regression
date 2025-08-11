@@ -185,9 +185,9 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
   const availableItems =
     (homeActive && isCheckedIn?.checkedIn) ||
     (housekeepingActive && serviceRequestOptions?.length > 1) ||
-    (offersActive && filteredOffersListInfo?.length > 1) ||
+    (offersActive && filteredOffersListInfo?.length > 0) ||
     (spaActive && spaCategories?.length > 1) ||
-    (hotelCompendiumActive && filteredhotelCompendiumInfo?.length > 1) ||
+    (hotelCompendiumActive && filteredhotelCompendiumInfo?.length > 0) ||
     (irdActive && diningCategoryOptions?.length > 1) ||
     checkOutActive;
 
@@ -213,8 +213,8 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
         (restaurantAndBarsActive && diningOptionSelected?.type) ||
         (housekeepingActive && houseKeepingOptionSelected?.title) ||
         (spaActive && spaInformation?.selectedSpaCategoryName) ||
-        (offersActive && offersOptionSelected?.type) ||
-        (hotelCompendiumActive && hotelCompendiumSelected?.name) ||
+        offersActive ||
+        hotelCompendiumActive ||
         spaInfoActive ||
         checkOutActive ||
         itineraryActive ||
@@ -276,8 +276,10 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
               {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
               {spaActive && t(`${spaInformation?.selectedSpaCategoryName}`)}
               {spaInfoActive && t('Spa')}
-              {offersActive && t(`${offersOptionSelected?.type}`)}
-              {hotelCompendiumActive && hotelCompendiumSelected?.name}
+              {offersActive &&
+                (offersOptionSelected?.type ? t(offersOptionSelected?.type) : t('Offers'))}
+              {hotelCompendiumActive && (hotelCompendiumSelected?.name || t('Things To Do'))}
+
               {checkOutActive
                 ? !checkOutModule && pairToRoomModule
                   ? t('Disconnect Room')
@@ -301,25 +303,27 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
             </div>
           )}
 
-          <div className={styles.hamburgerIcon}>
-            <Hamburger
-              distance={'sm'}
-              rounded
-              color={'var(--primary-theme-color)'}
-              toggled={hamburgerMenuStatus}
-              toggle={(toggled) => {
-                if (toggled) {
-                  selectedRestaurantStorage([]);
-                  toggleHamburgerMenuDrawer(true);
-                  if (isCheckedIn?.roomNumber && config?.chatOption === MESSAGE_BOX) {
-                    fetchMessageBoxUrl();
+          {!config?.disableHamburgerMenu && (
+            <div className={styles.hamburgerIcon}>
+              <Hamburger
+                distance={'sm'}
+                rounded
+                color={'var(--primary-theme-color)'}
+                toggled={hamburgerMenuStatus}
+                toggle={(toggled) => {
+                  if (toggled) {
+                    selectedRestaurantStorage([]);
+                    toggleHamburgerMenuDrawer(true);
+                    if (isCheckedIn?.roomNumber && config?.chatOption === MESSAGE_BOX) {
+                      fetchMessageBoxUrl();
+                    }
+                  } else {
+                    toggleHamburgerMenuDrawer(false);
                   }
-                } else {
-                  toggleHamburgerMenuDrawer(false);
-                }
-              }}
-            />
-          </div>
+                }}
+              />
+            </div>
+          )}
         </div>
       )}
 
