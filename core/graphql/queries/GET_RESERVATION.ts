@@ -11,6 +11,7 @@ export interface IGetReservationApiResponse {
       accountId: string;
       confirmationType: string;
       reservationStatus: string;
+      paymentAmount?: string;
       details: {
         id: string;
         hotelId: string;

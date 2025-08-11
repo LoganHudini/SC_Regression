@@ -24,6 +24,7 @@ export interface ICheckInApiRequest {
   expirationDate: string;
   cardHolderName: string;
   creditCardType?: string;
+  cardNumber?: string;
   lastFourDigits?: string;
   cardID?: string;
   vaultedCardID?: string;

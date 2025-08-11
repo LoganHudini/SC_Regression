@@ -18,13 +18,13 @@ import {
 import { activeItems, moduleType, restaurantId, timeExtract } from 'utils/functions';
 import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
+import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 import { GET_SPA_DETAILS } from 'core/graphql/queries/GET_SPA_DETAILS';
 import Head from 'next/head';
 import { spaCategoryList, spaInformationStorage } from 'storage/spa.storage';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import produce from 'immer';
-import { ASSETS_URL, HOTEL_ID } from 'core/graphql/endpoints';
-import { StableImage } from 'components/shared/StableImage/StableImage';
+import { HOTEL_ID } from 'core/graphql/endpoints';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
@@ -403,12 +403,8 @@ const Spa: React.FC = () => {
               [styles.listComponentMargin]: spaInformation?.cta?.status === ACTIVE,
             })}
           >
-            {selectedSpaItem?.images?.length > 0 && (
-              <StableImage
-                className={styles.image}
-                src={`${ASSETS_URL}/${selectedSpaItem?.images[0]?.ratio16to9}`}
-              />
-            )}
+            {selectedSpaItem?.images?.length > 0 && <CustomCarousel imageData={selectedSpaItem} />}
+
             <div className={styles.wrapper}>
               {selectedSpaItem?.name && (
                 <h2 className={styles.detailComponentTitle}>{t(`${selectedSpaItem?.name}`)}</h2>

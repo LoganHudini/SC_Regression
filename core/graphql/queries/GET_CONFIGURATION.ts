@@ -8454,10 +8454,11 @@ export const configuration: any = [
     saveToDb: 'no',
     idVerificationBasedOnNationality: true,
     skipQueueReservation: true,
-    idVerificationNationality: ['UK'],
+    idVerificationNationality: ['UK', 'GB'],
     fieldsToBeRemoved: ['docNo', 'docType'],
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: ['hotel-info', 'check-in'],
+    disableCheckinCard: true,
     preCheckInOnly: false,
     nativeAppRedirection: {
       isActive: true,
@@ -8604,22 +8605,6 @@ export const configuration: any = [
                     isActive: true,
                   },
                   {
-                    name: 'cityName',
-                    label: 'City',
-                    type: 'Text',
-                    required: true,
-                    isDisabled: false,
-                    isActive: true,
-                  },
-                  {
-                    name: 'postalCode',
-                    label: 'Postal Code',
-                    type: 'Text',
-                    required: true,
-                    isDisabled: false,
-                    isActive: true,
-                  },
-                  {
                     name: 'addressLine',
                     label: 'Address',
                     type: 'Text',
@@ -8636,6 +8621,22 @@ export const configuration: any = [
                     isDisabled: false,
                     isActive: true,
                     options: Countries,
+                  },
+                  {
+                    name: 'cityName',
+                    label: 'City',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                  },
+                  {
+                    name: 'postalCode',
+                    label: 'Postal Code',
+                    type: 'Text',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
                   },
                   {
                     name: 'estimatedTime',
@@ -8841,6 +8842,18 @@ export const configuration: any = [
             personalizationDetails: [
               {
                 title: 'Add-Ons',
+              },
+            ],
+            dynamicFields: [
+              {
+                fieldName: 'Add Document',
+                label: 'Please upload your ID document.',
+                imageCount: 2,
+                type: 'camera',
+                rule: [{ key: 'isPrimary', condition: '==', value: true }],
+                enabled: true,
+                optional: false,
+                includeInPDF: true,
               },
             ],
           },
@@ -9740,6 +9753,7 @@ export const configuration: any = [
         name: 'Services',
         isActive: true,
         type: 'VENDOR',
+        vendorType: 'NUVOLA',
       },
       {
         code: 'view-bill',
@@ -22382,13 +22396,13 @@ export const configuration: any = [
                         name: 'Passport',
                         value: 'PAS',
                         code: 'PAS',
-                        vendorDocType: 'passport',
+                        vendorDocType: 'PASSPORT',
                       },
                       {
-                        name: 'Driving License',
-                        value: 'DRL',
-                        code: 'DRL',
-                        vendorDocType: 'dl',
+                        name: 'National ID',
+                        value: 'ID',
+                        code: 'ID',
+                        vendorDocType: 'IDENTITY_CARD',
                       },
                     ],
                   },
@@ -28760,6 +28774,7 @@ export const configuration: any = [
     isLogoLoaderActive: false,
     isFaceMatchdisabled: true,
     preCheckInOnly: false,
+    disableHamburgerMenu: true,
     modules: [
       {
         code: 'Preferences',
@@ -29081,13 +29096,14 @@ export const configuration: any = [
             ],
             dynamicFields: [
               {
-                fieldName: 'Marriage Certificate',
-                label: 'Marriage Certificate',
+                fieldName: 'Add Document',
+                label: 'Please upload marriage certificate for Egyptian nationals.',
+                imageCount: 5,
                 type: 'camera',
                 rule: [
-                  { key: 'countryCode', condition: '==', value: 'EG' },
-                  { key: 'isPrimary', condition: '==', value: true },
-                  { key: 'adultGuestCount', condition: '>=', value: 2 },
+                  { key: 'countryCode', condition: '==', value: 'IN' },
+                  // { key: 'isPrimary', condition: '==', value: true },
+                  // { key: 'adultGuestCount', condition: '>=', value: 2 },
                 ],
                 enabled: true,
                 optional: false,
@@ -29113,6 +29129,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {
@@ -29148,6 +29170,7 @@ export const configuration: any = [
     isAnimationActive: false,
     isLogoLoaderActive: false,
     isFaceMatchdisabled: true,
+    disableHamburgerMenu: true,
     preCheckInOnly: false,
     modules: [
       {
@@ -29490,6 +29513,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {
@@ -29524,6 +29553,7 @@ export const configuration: any = [
     orderOfModules: ['check-in', 'hotel-info'],
     isAnimationActive: false,
     isLogoLoaderActive: false,
+    disableHamburgerMenu: true,
     isFaceMatchdisabled: true,
     preCheckInOnly: false,
     modules: [
@@ -29867,6 +29897,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {
@@ -29901,6 +29937,7 @@ export const configuration: any = [
     orderOfModules: ['check-in', 'hotel-info'],
     isAnimationActive: false,
     isLogoLoaderActive: false,
+    disableHamburgerMenu: true,
     isFaceMatchdisabled: true,
     preCheckInOnly: false,
     modules: [
@@ -30244,6 +30281,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {
@@ -30279,6 +30322,7 @@ export const configuration: any = [
     isAnimationActive: false,
     isLogoLoaderActive: false,
     isFaceMatchdisabled: true,
+    disableHamburgerMenu: true,
     preCheckInOnly: false,
     modules: [
       {
@@ -30624,6 +30668,12 @@ export const configuration: any = [
         type: 'CMS',
       },
       {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
+        type: 'CMS',
+      },
+      {
         code: 'view-bill',
         name: 'View Bill',
         isActive: false,
@@ -30655,6 +30705,7 @@ export const configuration: any = [
     orderOfModules: ['check-in', 'hotel-info'],
     isAnimationActive: false,
     isLogoLoaderActive: false,
+    disableHamburgerMenu: true,
     isFaceMatchdisabled: true,
     preCheckInOnly: false,
     modules: [
@@ -30998,6 +31049,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {
@@ -31033,6 +31090,7 @@ export const configuration: any = [
     isAnimationActive: false,
     isLogoLoaderActive: false,
     isFaceMatchdisabled: true,
+    disableHamburgerMenu: true,
     preCheckInOnly: false,
     modules: [
       {
@@ -31378,6 +31436,12 @@ export const configuration: any = [
         type: 'CMS',
       },
       {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
+        type: 'CMS',
+      },
+      {
         code: 'view-bill',
         name: 'View Bill',
         isActive: false,
@@ -31409,6 +31473,7 @@ export const configuration: any = [
     orderOfModules: ['check-in', 'hotel-info'],
     isAnimationActive: false,
     isLogoLoaderActive: false,
+    disableHamburgerMenu: true,
     isFaceMatchdisabled: true,
     preCheckInOnly: false,
     modules: [
@@ -31752,6 +31817,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {
@@ -31787,6 +31858,7 @@ export const configuration: any = [
     isAnimationActive: false,
     isLogoLoaderActive: false,
     isFaceMatchdisabled: true,
+    disableHamburgerMenu: true,
     preCheckInOnly: false,
     modules: [
       {
@@ -32129,6 +32201,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {
@@ -32162,6 +32240,7 @@ export const configuration: any = [
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: ['check-in', 'hotel-info'],
     isAnimationActive: false,
+    disableHamburgerMenu: true,
     isLogoLoaderActive: false,
     isFaceMatchdisabled: true,
     preCheckInOnly: false,
@@ -32506,6 +32585,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {
@@ -32538,6 +32623,7 @@ export const configuration: any = [
     saveToDb: 'yes',
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: ['check-in', 'hotel-info'],
+    disableHamburgerMenu: true,
     isAnimationActive: false,
     isLogoLoaderActive: false,
     isFaceMatchdisabled: true,
@@ -32883,6 +32969,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {
@@ -32915,6 +33007,7 @@ export const configuration: any = [
     saveToDb: 'yes',
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: ['check-in', 'hotel-info'],
+    disableHamburgerMenu: true,
     isAnimationActive: false,
     isLogoLoaderActive: false,
     isFaceMatchdisabled: true,
@@ -33260,6 +33353,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {
@@ -33293,6 +33392,7 @@ export const configuration: any = [
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: ['check-in', 'hotel-info'],
     isAnimationActive: false,
+    disableHamburgerMenu: true,
     isLogoLoaderActive: false,
     isFaceMatchdisabled: true,
     preCheckInOnly: false,
@@ -33655,6 +33755,12 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: false,
+        type: 'CMS',
+      },
+      {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
         type: 'CMS',
       },
       {

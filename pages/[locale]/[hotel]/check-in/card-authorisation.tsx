@@ -84,9 +84,20 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
   const details = hotelInfo?.detailsCustomAttributes;
   const paymentMessage = getPaymentMessage(details);
 
-  const PaymentMessage = typeof paymentMessage === 'string' ? JSON.parse(paymentMessage) : {};
+  const PaymentMessage =
+    paymentMessage && typeof paymentMessage === 'string' ? JSON.parse(paymentMessage) : {};
 
-  const displayMessage = PaymentMessage[getPaymentRule] || DEFAULT_PAYMENT_MESSAGE;
+  const displayMessage = PaymentMessage?.[getPaymentRule] || DEFAULT_PAYMENT_MESSAGE;
+  const displayMessageTitle =
+    displayMessage?.title?.replace(
+      /\{amount\}/g,
+      reservationData?.getReservation?.data?.paymentAmount || 0,
+    ) || '';
+  const displayMessageMessage =
+    displayMessage?.message?.replace(
+      /\{amount\}/g,
+      reservationData?.getReservation?.data?.paymentAmount || 0,
+    ) || '';
 
   const checkInModule: any = config?.modules?.find((module: any) => module?.code === CHECK_IN);
   const personalisationConfig = checkInModule?.submodules?.find(
@@ -311,8 +322,8 @@ const CardAuthorisation: React.FC<AboutYourStayProps> = () => {
         <Stepper />
         {!guestReservationInfo?.paymentType && (
           <div className={styles.cardAuthorisationTitleWrapper}>
-            <p className={styles.title}>{t(`${displayMessage?.title}`)}</p>
-            <p className={styles.description}>{t(`${displayMessage?.message}`)}</p>
+            <p className={styles.title}>{t(`${displayMessageTitle}`)}</p>
+            <p className={styles.description}>{t(`${displayMessageMessage}`)}</p>
           </div>
         )}
         {creditCardInfoSection &&

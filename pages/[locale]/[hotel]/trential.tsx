@@ -54,6 +54,7 @@ import { timeFormats } from 'utils/timeFormats';
 import dayjs from 'dayjs';
 import { getCountryCode } from 'utils/functions';
 import { ENVIRONMENT } from 'core/graphql/endpoints';
+import { Header } from 'components/shared/Header/Header';
 export { getStaticPaths };
 
 const Trential: React.FC = () => {
@@ -229,8 +230,16 @@ const Trential: React.FC = () => {
                   (e: any) => e.value === statusList?.response?.gender?.toUpperCase(),
                 )?.value
               : statusList?.name === PASSPORT_SMALLCASE
-              ? genderTypes?.find((e: any) => e.value === statusList?.response?.sex?.toUpperCase())
-                  ?.value
+              ? (() => {
+                  const passportGender = statusList?.response?.sex?.toLowerCase();
+                  if (passportGender === 'male') return 'M';
+                  if (passportGender === 'female') return 'F';
+                  return (
+                    genderTypes?.find(
+                      (e: any) => e.value === statusList?.response?.sex?.toUpperCase(),
+                    )?.value || ''
+                  );
+                })()
               : statusList?.name === JAPANESE_RESIDENT_CARD || statusList?.name === MEXICAN_ID
               ? genderTypes?.find(
                   (e: any) => e.vendorGenderType === statusList?.response?.sex?.toUpperCase(),
@@ -258,13 +267,7 @@ const Trential: React.FC = () => {
                     ...(statusList?.name === AADHAAR
                       ? { nationality: 'IN' }
                       : { nationality: issueCountry }),
-                    gender:
-                      statusList?.response?.sex === 'M'
-                        ? 'MALE'
-                        : statusList?.response?.sex === 'F'
-                        ? 'FEMALE'
-                        : statusList?.response?.sex?.toUpperCase() ||
-                          statusList?.response?.gender?.toUpperCase(),
+                    gender: gender,
                     documentFrontImage: data?.InitiateToken?.data?.frontPageLink || '',
                     documentBackImage: data?.InitiateToken?.data?.backPageLink || '',
                   };
@@ -455,8 +458,9 @@ const Trential: React.FC = () => {
           {hotel} | {t('Document Scanning')}
         </title>
       </Head>
+      <Header displayBackButton screenTitle={t('Document Scanning') as string} />
 
-      <div>
+      <div style={{ paddingTop: '4rem' }}>
         {loading && <Loader />}
 
         {token && (

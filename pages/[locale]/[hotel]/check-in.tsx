@@ -43,6 +43,7 @@ import {
   STEPPER_CUSTOMISATION,
   STEPPER_CHECK_IN,
   STEPPER_REVIEW,
+  STEPPER_PREFERENCES,
   NONE,
   DOCTYPE,
 } from 'utils/constants';
@@ -232,28 +233,72 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
   };
 
   useEffect(() => {
+    const preferencesModuleEnabled = config?.modules?.some(
+      (mod: any) => mod?.code === 'guest-preferences' && mod?.isActive,
+    );
+    const personalisationModuleEnabled = config?.modules?.some(
+      (mod: any) => mod?.code === 'personalisation' && mod?.isActive,
+    );
+    const steps = [{ value: 60, label: 1, title: STEPPER_REVIEW }];
     if (!personalisationDataloading) {
-      if (
+      const isPaymentDisabled =
         paymentConfig?.type === NONE ||
         (paymentConfig?.isTotalChargeActive &&
-          Number(reservationInfo?.roomTypes[0]?.totalCharge) === 0)
-      ) {
-        if (availablePersonalizations?.length === 0) {
-          StepperInformationStorage([
-            { value: 60, label: 1, title: STEPPER_REVIEW },
-            { value: 0, label: 2, title: STEPPER_CHECK_IN },
-          ]);
-        } else {
-          StepperInformationStorage(
-            produce(StepperInformationStorage(), (draft: any) => {
-              const item = draft?.find((el: any) => el?.title === STEPPER_PAYMENT);
-              if (item) {
-                item.title = STEPPER_CUSTOMISATION;
-              }
-            }),
-          );
+          Number(reservationInfo?.roomTypes?.[0]?.totalCharge) === 0);
+
+      const hasPersonalizations =
+        availablePersonalizations?.length > 0 && personalisationModuleEnabled;
+
+      const stepper = produce(StepperInformationStorage(), (draft: any) => {
+        // Remove any previously added dynamic steps
+        const unwantedTitles = [
+          STEPPER_PAYMENT,
+          STEPPER_PREFERENCES,
+          STEPPER_CUSTOMISATION,
+          STEPPER_CHECK_IN,
+        ];
+        for (let i = draft.length - 1; i >= 0; i--) {
+          if (unwantedTitles.includes(draft[i]?.title)) {
+            draft.splice(i, 1);
+          }
         }
-      }
+
+        // 1. PAYMENT step (only if payment is enabled)
+        if (!isPaymentDisabled) {
+          draft.push({
+            value: 0,
+            label: draft.length + 1,
+            title: STEPPER_PAYMENT,
+          });
+        }
+
+        // 2. CUSTOMISATION step (only if payment is disabled and personalizations exist)
+        if (isPaymentDisabled && hasPersonalizations) {
+          draft.push({
+            value: 0,
+            label: draft.length + 1,
+            title: STEPPER_CUSTOMISATION,
+          });
+        }
+
+        // 3. PREFERENCES step (if enabled)
+        if (preferencesModuleEnabled) {
+          draft.push({
+            value: 0,
+            label: draft.length + 1,
+            title: STEPPER_PREFERENCES,
+          });
+        }
+
+        // 4. CHECK_IN (always at the end)
+        draft.push({
+          value: 0,
+          label: draft.length + 1,
+          title: STEPPER_CHECK_IN,
+        });
+      });
+
+      StepperInformationStorage(stepper);
     }
   }, [
     personalisationDataloading,
@@ -261,6 +306,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
     paymentConfig?.type,
     reservationInfo?.roomTypes,
     paymentConfig?.isTotalChargeActive,
+    config,
   ]);
 
   return (
@@ -289,22 +335,26 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
           <div className={cx(styles.cardWrapper, 'globals-cardWrapper')}>
             <p className={styles.title}>{t('Your Stay Details')}</p>
             <StableImage
+              className={cx(styles.dividerImg, 'globals-dividerImg')}
               hideplaceholder={'true'}
               src={`/images/${BRAND_CODE}/Divider.png`}
               alt='Divider'
             />
             <div className={cx(styles.nameBox, 'globals-nameBox')}>
-              <div className={styles.nameWrapper}>
-                <p className={styles.detailTitle}>{t('NAME')}</p>
-                <p
-                  className={styles.detailValue}
-                >{`${reservationInfo?.details?.contactPerson?.firstName} ${reservationInfo?.details?.contactPerson?.lastName}`}</p>
+              <div className={cx(styles.nameWrapper, 'globals-nameWrapper')}>
+                <p className={cx(styles.detailTitle, 'globals-detailTitle')}>{t('NAME')}</p>
+                <p className={cx(styles.detailValue, 'globals-detailValue')}>
+                  {' '}
+                  {`${reservationInfo?.details?.contactPerson?.firstName} ${reservationInfo?.details?.contactPerson?.lastName}`}
+                </p>
               </div>
               <div className={styles.divider} />
 
-              <div className={styles.nameWrapper}>
-                <p className={styles.detailTitle}>{t('BOOKING ID')}</p>
-                <p className={styles.detailValue}>{reservationInfo?.confirmationId}</p>
+              <div className={cx(styles.nameWrapper, 'globals-nameWrapper')}>
+                <p className={cx(styles.detailTitle, 'globals-detailTitle')}>{t('BOOKING ID')}</p>
+                <p className={cx(styles.detailValue, 'globals-detailValue')}>
+                  {reservationInfo?.confirmationId}
+                </p>
               </div>
             </div>
             <div className={styles.dateWrapper}>

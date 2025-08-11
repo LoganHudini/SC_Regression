@@ -325,6 +325,16 @@ const CheckInDrawer = () => {
               loading={loading}
               className={styles.findMyBookingBtn}
               onClick={formik.submitForm}
+              disabled={
+                activeCheckOutFlowInfo
+                  ? !formik.values.confirmationNumber
+                  : isGetStartedStatus
+                  ? !formik.values.lastName ||
+                    !(formik.values.confirmationNumber || formik.values.roomNo)
+                  : activeCheckInFlowInfo
+                  ? !formik.values.lastName || !formik.values.confirmationNumber
+                  : !formik.values.lastName || !formik.values.roomNo
+              }
             >
               {activeCheckInFlowInfo || activeCheckOutFlowInfo || isGetStartedStatus
                 ? t('Next')

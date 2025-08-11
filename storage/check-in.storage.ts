@@ -1,7 +1,12 @@
 import { makeVar, useReactiveVar } from '@apollo/client';
 import { useEffect } from 'react';
 import { getTrips } from './trips.storage';
-import { STEPPER_CHECK_IN, STEPPER_PAYMENT, STEPPER_REVIEW } from 'utils/constants';
+import {
+  STEPPER_CHECK_IN,
+  STEPPER_PAYMENT,
+  STEPPER_REVIEW,
+  STEPPER_PREFERENCES,
+} from 'utils/constants';
 import { useConfig } from 'utils/hooks/useConfiguration';
 
 export interface ICheckinStorageData {
@@ -57,7 +62,8 @@ export const useCheckedIn = () => {
 export const StepperInformationStorage = makeVar<any>([
   { value: 60, label: 1, title: STEPPER_REVIEW },
   { value: 0, label: 2, title: STEPPER_PAYMENT },
-  { value: 0, label: 3, title: STEPPER_CHECK_IN },
+  { value: 0, label: 3, title: STEPPER_PREFERENCES },
+  { value: 0, label: 4, title: STEPPER_CHECK_IN },
 ]);
 
 export const profileIDStorage = makeVar<any>({ id: '', guestType: '' });
