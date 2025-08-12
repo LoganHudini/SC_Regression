@@ -280,7 +280,8 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
     ));
 
   const uniqueFilteredDiningOptions = filteredOptionFunction();
-  const slides = diningOptionsState?.type === IN_ROOM_DINING ? irdMenu : activeRestaurants;
+  const isIRD = diningOptionsState?.type === IN_ROOM_DINING;
+  const slides = isIRD ? irdMenu : activeRestaurants;
 
   useEffect(() => {
     if (uniqueFilteredDiningOptions?.length > 0) {
@@ -317,12 +318,13 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
           </div>
         )}
         <WithScrollbar
+          key={isIRD ? 'IRD' : 'RESTAURANTS'}
           responsive={CAROUSEL_RESPONSIVE}
           className={cx(styles.carouselWrapper, {
             [styles.carouselWrapperSingleImageUl]: slides?.length === 1,
           })}
         >
-          {renderSlides(slides, diningOptionsState?.type === IN_ROOM_DINING)}
+          {renderSlides(slides, isIRD)}
         </WithScrollbar>
         {!isEmpty(selectedRestaurant) && (
           <CustomDrawer
