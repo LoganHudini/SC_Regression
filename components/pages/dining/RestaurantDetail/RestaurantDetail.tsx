@@ -25,6 +25,7 @@ import {
   RESTAURANTS_AND_BARS,
   DINING,
   ALL_DAY,
+  EXTERNAL_URL,
 } from 'utils/constants';
 import cx from 'classnames';
 import dayjs from 'dayjs';
@@ -63,6 +64,9 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
   });
 
   useEffect(() => {
+    if (selectedRestaurant?.cta?.status == ACTIVE && selectedRestaurant?.cta?.redirectOption == EXTERNAL_URL && selectedRestaurant?.cta?.redirectUrl) {
+      return setBtnDisabled(true);
+    }
     const isOpen = getFormattedTime(selectedRestaurant?.hours?.map((time: any) => time?.open));
     const isClose = getFormattedTime(selectedRestaurant?.hours?.map((time: any) => time?.close));
     const btnDisabled: any =
