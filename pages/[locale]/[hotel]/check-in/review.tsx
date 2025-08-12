@@ -345,11 +345,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       sigCanvas?.current &&
       signature !== null &&
       (termsAndConditionsValue?.length > 0 ? allMandatoryAccepted : true) &&
-      isRequiredDynamicField
-        ? capturedImages?.length > 0
-          ? true
-          : false
-        : false
+      (isRequiredDynamicField ? (capturedImages?.length > 0 ? true : false) : true)
     ) {
       setBtnStatus(true);
     } else {
