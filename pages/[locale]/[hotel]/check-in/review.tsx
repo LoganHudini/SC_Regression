@@ -1058,8 +1058,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       setInvalidFileSelected(true);
       notificationStorage({
         type: FAILURE,
-        title: 'Invalid File Type',
-        description: 'Please select PNG, JPEG, or JPG files only.',
+        title: 'Unsupported File Type',
+        description: 'Please upload a PNG, JPEG, or JPG image.',
       });
       toggleNotification(true);
 
