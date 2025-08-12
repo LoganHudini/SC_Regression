@@ -5734,6 +5734,7 @@ export const configuration: any = [
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
         disableSpecialInstructions: true,
+        version: 'v2',
       },
       {
         code: 'Services',
