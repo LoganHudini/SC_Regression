@@ -269,6 +269,7 @@ const Itinerary = () => {
             imageUrl,
             path,
             hotelInfo?.hotel?.name,
+            hotelInfo?.hotel?.location,
           );
           setFinalHtmlContent(html);
         } catch (error) {
@@ -281,6 +282,7 @@ const Itinerary = () => {
             '/fallback-image.png', // Optional placeholder
             path,
             hotelInfo?.hotel?.name,
+            hotelInfo?.hotel?.location,
           );
           setFinalHtmlContent(fallbackHtml);
         }

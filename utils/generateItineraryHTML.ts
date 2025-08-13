@@ -25,7 +25,21 @@ export const generateItineraryHTML = (
   imageUrl: string,
   path: string,
   hotelName: any,
+  description: any,
 ): string => {
+  let location = description;
+
+  location = [
+    location.addressLine1,
+    location.addressLine2,
+    location.area,
+    location.city,
+    location.state?.trim(),
+    location.postalCode,
+    location.country,
+  ]
+    .filter(Boolean) // removes undefined, null, or empty strings
+    .join(', ');
   // Filter Confirmed activities
   const filteredActivities = bookedActivities.filter(
     (item) =>
@@ -149,9 +163,16 @@ export const generateItineraryHTML = (
                       : ''
                   }
                   <p style="font-family:'ITC Franklin Gothic Std', 'Arial', sans-serif; font-size: 10px; color: #666666; line-height: 14px; word-break: break-word; white-space: normal; text-align: justify;">
-                    ${(activity.description || '').replace(/\n/g, '<br>')}${
-                  activity.data?.description ? '<br><br>' : ''
-                }
+                   ${
+                     activity.itineraryName === 'CheckIn'
+                       ? location
+                       : (activity.description || '').replace(/\n/g, '<br>')
+                   }
+                   ${
+                     activity.itineraryName !== 'CheckIn' && activity?.data?.description
+                       ? '<br><br>'
+                       : ''
+                   }
                   </p>
                   </div>
                 </div>
@@ -178,7 +199,16 @@ export const generateItineraryHTML = (
       <!-- Greeting -->
       <div style="padding: 30px; background-color: #FFFFFF; margin: 20px;">
         <h1 style="font-family: 'Domaine Display'; font-size: 18px;  line-height: 27px; font-weight: 600; letter-spacing: 1px; margin-bottom: 2px; text-align: center;">
-          Welcome, ${checkedInData?.firstName} ${checkedInData?.lastName}!
+          Welcome, ${
+            checkedInData?.firstName
+              ? checkedInData.firstName.charAt(0).toUpperCase() + checkedInData.firstName.slice(1)
+              : ''
+          }
+            ${
+              checkedInData?.lastName
+                ? checkedInData.lastName.charAt(0).toUpperCase() + checkedInData.lastName.slice(1)
+                : ''
+            }!
         </h1>
         <h1 style="font-family: 'Domaine Display'; font-size: 22px; line-height: 27px; font-weight: 600; margin-bottom: 25px; text-align: center;">
           Here's Your Itinerary
