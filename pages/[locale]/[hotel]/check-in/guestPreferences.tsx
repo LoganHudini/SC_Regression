@@ -55,7 +55,8 @@ const Preferences = () => {
           : [...existing, itemName];
         return { ...prev, [groupId]: updated };
       } else {
-        return { ...prev, [groupId]: [itemName] };
+        const updated = existing.includes(itemName) ? [] : [itemName];
+        return { ...prev, [groupId]: updated };
       }
     });
   };

@@ -1,8 +1,8 @@
 .preferencesPageTitle {
- font-size: 1.125rem;
-    font-family: var(--heading-font-regular);
-    text-align: center;
-    margin-bottom: 50px;
+  font-size: 1.125rem;
+  font-family: var(--heading-font-regular);
+  text-align: center;
+  margin-bottom: 50px;
 }
 
 .stepperWrapper {
@@ -13,7 +13,7 @@
   padding: 20px;
 }
 
- .buttonWrapper {
+.buttonWrapper {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -51,15 +51,15 @@
 
 .preferenceGroup {
   margin-bottom: 32px;
-  padding: 20px;;
+  padding: 20px;
 }
 
 .preferenceGroupHeader {
   display: flex;
   justify-content: space-between;
   margin: 0 16px 8px;
-      font-size: 1.125rem;
-    font-family: var(--heading-font-regular);
+  font-size: 1.125rem;
+  font-family: var(--heading-font-regular);
 }
 
 .preferenceSelectType {
@@ -67,7 +67,7 @@
   font-weight: 500;
   padding: 4px 10px;
   border-radius: 1rem;
-  background-color: #E8E8E8;
+  background-color: #e8e8e8;
 }
 
 .preferenceOptions {
@@ -88,15 +88,30 @@
   transition: all 0.2s ease;
   min-width: 100px;
   text-align: center;
+  background-color: transparent;
 
- &:hover:not(.preferenceOptionSelected) {
-    border-color:  var(--primary-button-background-color);
-    color: var( --primary-button-background-color);
+  &:hover:not(.preferenceOptionSelected) {
+    border-color: var(--primary-button-background-color);
+    color: var(--primary-button-background-color);
+  }
+  &:focus {
+    outline: none;
+  }
+
+  &:focus:not(.preferenceOptionSelected) {
+    border-color: var(--primary-text-color);
+    color: #333;
   }
 }
 
 .preferenceOptionSelected {
-  background-color: var( --primary-button-background-color);
+  background-color: var(--primary-button-background-color);
   color: #fff;
-  border-color: var( --primary-button-background-color);
+  border-color: var(--primary-button-background-color);
+  &:hover,
+  &:focus {
+    background-color: var(--primary-button-background-color);
+    color: #fff;
+    border-color: var(--primary-button-background-color);
+  }
 }
