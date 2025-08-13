@@ -11279,8 +11279,9 @@ export const configuration: any = [
   },
   {
     code: 'raffles-seychelles',
-    logo: 'Seychelles',
+    logo: '',
     homePageHeader: true,
+    propertyHeaderLogo: true,
     name: 'Raffles Seychelles',
     hotelId: 'cfe90fa4-5d53-4b89-813f-19380a3c1ca9',
     pms: 'OHIP',
@@ -11288,6 +11289,7 @@ export const configuration: any = [
     saveToDb: 'yes',
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: ['offers', 'check-in', 'hotel-info', 'services', 'dining', 'hotel-compendium'],
+    hideImagePlaceholder: true,
     isAnimationActive: false,
     isLogoLoaderActive: false,
     isFaceMatchdisabled: true,
