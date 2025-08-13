@@ -123,7 +123,6 @@ const HotelInfoDrawer = () => {
             {!isEmpty(groupedwebLinkList) &&
               Object.keys(groupedwebLinkList)?.map((language, index) => (
                 <div key={index}>
-                  {language && <p className={styles.languageTitle}>{language}</p>}
                   {groupedwebLinkList[language]?.map((item: any, itemIndex: any) => (
                     <div key={itemIndex + item?.value}>
                       <p
