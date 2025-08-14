@@ -1,8 +1,8 @@
 .preferencesPageTitle {
- font-size: 1.125rem;
-    font-family: var(--heading-font-regular);
-    text-align: center;
-    margin-bottom: 50px;
+  font-size: 1.125rem;
+  font-family: var(--heading-font-regular);
+  text-align: center;
+  margin-bottom: 50px;
 }
 
 .stepperWrapper {
@@ -13,7 +13,7 @@
   padding: 20px;
 }
 
- .buttonWrapper {
+.buttonWrapper {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -50,16 +50,15 @@
 }
 
 .preferenceGroup {
-  margin-bottom: 32px;
-  padding: 20px;;
+  padding: 20px;
 }
 
 .preferenceGroupHeader {
   display: flex;
   justify-content: space-between;
   margin: 0 16px 8px;
-      font-size: 1.125rem;
-    font-family: var(--heading-font-regular);
+  font-size: 1.125rem;
+  font-family: var(--heading-font-regular);
 }
 
 .preferenceSelectType {
@@ -67,7 +66,7 @@
   font-weight: 500;
   padding: 4px 10px;
   border-radius: 1rem;
-  background-color: #E8E8E8;
+  background-color: #e8e8e8;
 }
 
 .preferenceOptions {
@@ -89,14 +88,26 @@
   min-width: 100px;
   text-align: center;
 
- &:hover:not(.preferenceOptionSelected) {
-    border-color:  var(--primary-button-background-color);
-    color: var( --primary-button-background-color);
+  &:hover:not(.preferenceOptionSelected) {
+    border-color: var(--primary-button-background-color);
+    color: var(--primary-button-background-color);
   }
 }
 
 .preferenceOptionSelected {
-  background-color: var( --primary-button-background-color);
+  background-color: var(--primary-button-background-color);
   color: #fff;
-  border-color: var( --primary-button-background-color);
+  border-color: var(--primary-button-background-color);
+}
+
+.preferenceDisclaimer {
+  font: 0.75rem var(--primary-font-regular);
+  color: var(--primary-text-color);
+  margin: 0.5rem 0;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 17px;
+  font-weight: bold;
 }

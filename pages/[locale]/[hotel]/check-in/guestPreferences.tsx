@@ -21,10 +21,15 @@ import { Stepper } from 'components/shared/Stepper/Stepper';
 import { StepperInformationStorage } from 'storage/check-in.storage';
 import produce from 'immer';
 import { STEPPER_PREFERENCES } from 'utils/constants';
+import { getStaticPaths } from 'utils/getStatic';
+import { GetStaticProps } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import i18nConfig from 'next-i18next.config';
+export { getStaticPaths };
 
-const Preferences = () => {
+const Preferences: React.FC<any> = () => {
   const config = useConfig();
-  const { t } = useTranslation(['common']);
+  const { t } = useTranslation('check-in');
   const hotelId = config?.hotelId;
   const locale = useLocale();
   const navigate = useLocalizedRouter();
@@ -139,7 +144,7 @@ const Preferences = () => {
         <Stepper />
       </div>
       <PageWrapper>
-        <div className={styles.preferencesPageTitle}>Update Your Preferences</div>
+        <div className={styles.preferencesPageTitle}>{t('Update Your Preferences')}</div>
 
         {preferences.map((group) => (
           <div key={group.id} className={styles.preferenceGroup}>
@@ -165,6 +170,10 @@ const Preferences = () => {
           </div>
         ))}
 
+        <p className={styles.preferenceDisclaimer}>
+          {t('Special requests are not guaranteed and subject to availability.')}
+        </p>
+
         <div className={styles.bottomMenuWrapper}>
           <StyledButton
             loading={loading}
@@ -177,6 +186,19 @@ const Preferences = () => {
       </PageWrapper>
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const locale = ctx?.params?.locale;
+  return {
+    props: {
+      ...(await serverSideTranslations(
+        locale as string,
+        ['about-your-stay', 'check-in'],
+        i18nConfig,
+      )),
+    },
+  };
 };
 
 export default Preferences;
