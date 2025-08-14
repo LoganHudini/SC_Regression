@@ -83,6 +83,26 @@ const useValidate = (sections: any) => {
                 then: (schema) => schema.required(t('Phone Number is required') as string),
               }),
           },
+          firstName: {
+            validation: yup
+              .string()
+              .matches(
+                /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/,
+                t('First Name can only contain letters') as string,
+              )
+              .trim(),
+            requiredMessage: t('First Name is required'),
+          },
+          lastName: {
+            validation: yup
+              .string()
+              .matches(
+                /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/,
+                t('Last Name can only contain letters') as string,
+              )
+              .trim(),
+            requiredMessage: t('Last Name is required'),
+          },
           // Add more validation
         };
 

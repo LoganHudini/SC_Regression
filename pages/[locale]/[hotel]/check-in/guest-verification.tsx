@@ -405,6 +405,10 @@ const Guest: React.FC<any> = () => {
         return EMAIL_REGEX.test(infoValue);
       }
 
+      if (fieldItem?.name === FIRST_NAME || fieldItem?.name === LAST_NAME) {
+        return /^[A-Za-z\s]+$/.test(infoValue || '');
+      }
+
       return !!infoValue;
     });
   };
