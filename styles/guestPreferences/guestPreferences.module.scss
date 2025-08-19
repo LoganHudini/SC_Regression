@@ -51,22 +51,51 @@
 
 .preferenceGroup {
   padding: 20px;
+  position: relative;
+
+  & + .preferenceGroup {
+    padding-top: 30px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: calc(20px + 1rem);
+      right: calc(20px + 1rem);
+      height: 1px;
+      background-color: #e8e8e8;
+    }
+  }
 }
 
 .preferenceGroupHeader {
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
-  margin: 0 16px 8px;
+  gap: 8px;
   font-size: 1.125rem;
   font-family: var(--heading-font-regular);
 }
-
+ 
+.preferenceGroupHeader > :first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0 16px 8px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+ 
+ 
 .preferenceSelectType {
   font-size: 12px;
   font-weight: 500;
   padding: 4px 10px;
   border-radius: 1rem;
   background-color: #e8e8e8;
+  flex: 0 0 auto;
+  white-space: nowrap;
+  margin-left: auto;
 }
 
 .preferenceOptions {
@@ -87,10 +116,15 @@
   transition: all 0.2s ease;
   min-width: 100px;
   text-align: center;
+  background-color: transparent;
 
-  &:hover:not(.preferenceOptionSelected) {
-    border-color: var(--primary-button-background-color);
-    color: var(--primary-button-background-color);
+  &:focus {
+    outline: none;
+  }
+
+  &:focus:not(.preferenceOptionSelected) {
+    border-color: var(--primary-text-color);
+    color: #333;
   }
 }
 
@@ -98,6 +132,12 @@
   background-color: var(--primary-button-background-color);
   color: #fff;
   border-color: var(--primary-button-background-color);
+  &:hover,
+  &:focus {
+    background-color: var(--primary-button-background-color);
+    color: #fff;
+    border-color: var(--primary-button-background-color);
+  }
 }
 
 .preferenceDisclaimer {

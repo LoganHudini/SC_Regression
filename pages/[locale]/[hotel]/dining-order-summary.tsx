@@ -44,8 +44,8 @@ import Cookinginstructions from '@icons/cooking_instructions.svg';
 import UpArrow from '@icons/ird_up_arrow.svg';
 import { IRD_ORDER } from 'core/graphql/queries/IRD_ORDER';
 import { addToCartEvent } from 'utils/gtag';
-import { findModule, formatPriceIRD, setScrollPosition } from 'utils/functions';
-import { diningInformationStorage } from 'storage/dining.storage';
+import { findModule, formatPriceIRD, setScrollPosition, filterLiveMenu } from 'utils/functions';
+import { diningInformationStorage, irdMenuOutputDetailsStorage } from 'storage/dining.storage';
 import DiningDetailsDrawer from 'components/pages/dining/DiningDetailsDrawer/DiningDetailsDrawer';
 import { hotelInfoStorage, notificationStorage, toggleNotification } from 'storage/home.storage';
 import { DiningMenuElementUpsell } from 'components/pages/dining/DiningMenuElementUpsell/DiningMenuElementUpsell';
@@ -117,23 +117,134 @@ const DiningOrderSummary = () => {
   const [selectedOption, setSelectedOption] = useState(NOW);
 
   const items = diningData?.items?.filter((item) => item?.quantity > 0);
+
+  const irdMenus = useReactiveVar(irdMenuOutputDetailsStorage);
+
+  const globallyActiveItems = useMemo(() => {
+    const activeCodes = new Set<string>();
+    const activeNames = new Set<string>();
+    const activeMenuIds = new Set<string>();
+
+    const menus = Array.isArray(irdMenus) ? irdMenus : irdMenus?.getIRDMenuOutputDetails ?? [];
+    const norm = (s: any) =>
+      String(s ?? '')
+        .trim()
+        .toLowerCase();
+
+    const hotelTimezone = hotelInfo?.getPropertyDetailsByHotelId?.hotel?.location?.timezone;
+
+    for (const menu of menus ?? []) {
+      const menuActive = menu?.isActive === true;
+
+      const isMenuLive = filterLiveMenu(menu?.hours, hotelTimezone);
+
+      const isMenuAvailable = menuActive && isMenuLive;
+
+      if (!isMenuAvailable) continue;
+
+      if (menu?.id) activeMenuIds.add(String(menu.id));
+
+      for (const cat of menu?.categories ?? []) {
+        for (const it of cat?.items ?? []) {
+          if (it?.isActive === true) {
+            if (it?.code) activeCodes.add(String(it.code));
+            if (it?.name) activeNames.add(norm(it.name));
+          }
+        }
+
+        for (const sub of cat?.subCategories ?? []) {
+          for (const it of sub?.items ?? []) {
+            if (it?.isActive === true) {
+              if (it?.code) activeCodes.add(String(it.code));
+              if (it?.name) activeNames.add(norm(it.name));
+            }
+          }
+        }
+      }
+    }
+
+    return { activeCodes, activeNames, activeMenuIds };
+  }, [irdMenus, hotelInfo]);
+
+  const findItemMenu = useCallback(
+    (upsellItem: any) => {
+      const menus = Array.isArray(irdMenus) ? irdMenus : irdMenus?.getIRDMenuOutputDetails ?? [];
+      const norm = (s: any) =>
+        String(s ?? '')
+          .trim()
+          .toLowerCase();
+      const upsellCode = upsellItem?.code ? String(upsellItem.code) : '';
+      const upsellName = norm(upsellItem?.name);
+
+      for (const menu of menus ?? []) {
+        for (const cat of menu?.categories ?? []) {
+          for (const it of cat?.items ?? []) {
+            if (
+              (upsellCode && String(it?.code) === upsellCode) ||
+              (upsellName && norm(it?.name) === upsellName)
+            ) {
+              return menu;
+            }
+          }
+          for (const sub of cat?.subCategories ?? []) {
+            for (const it of sub?.items ?? []) {
+              if (
+                (upsellCode && String(it?.code) === upsellCode) ||
+                (upsellName && norm(it?.name) === upsellName)
+              ) {
+                return menu;
+              }
+            }
+          }
+        }
+      }
+      return null;
+    },
+    [irdMenus],
+  );
+
+  const isUpsellGloballyAllowed = useCallback(
+    (u: any) => {
+      const code = u?.code ? String(u.code) : '';
+      const nameKey = String(u?.name ?? '')
+        .trim()
+        .toLowerCase();
+      const isItemActive =
+        (code && globallyActiveItems.activeCodes.has(code)) ||
+        (nameKey && globallyActiveItems.activeNames.has(nameKey));
+
+      if (!isItemActive) return false;
+      const itemMenu = findItemMenu(u);
+      if (!itemMenu) return false;
+
+      const menuId = itemMenu?.id ? String(itemMenu.id) : '';
+      const isMenuActive = menuId && globallyActiveItems.activeMenuIds.has(menuId);
+
+      return isMenuActive;
+    },
+    [globallyActiveItems, findItemMenu],
+  );
   const uniqueUpsellItems = useMemo(() => {
-    const mainCartItemTitles = items
+    const mainCartItemTitles = (items ?? [])
       .filter((item) => Array.isArray(item.upsell) && item.upsell.length > 0)
       .map((item) => item.title);
-    const allUpsellItems = new Map();
-    items.forEach((item) => {
-      if (Array.isArray(item.upsell) && item.upsell.length > 0) {
-        item.upsell.forEach((upsellItem) => {
-          const isMainCartItem = mainCartItemTitles.includes(upsellItem?.name || '');
-          if (!isMainCartItem && !allUpsellItems.has(upsellItem?.id)) {
-            allUpsellItems.set(upsellItem?.id, upsellItem);
-          }
-        });
-      }
+
+    const all = new Map<string, any>();
+
+    (items ?? []).forEach((cartItem) => {
+      if (!Array.isArray(cartItem?.upsell)) return;
+
+      cartItem.upsell.forEach((u: any) => {
+        if (mainCartItemTitles.includes(u?.name || '')) return;
+        if (!isUpsellGloballyAllowed(u)) return;
+
+        const key = u?.id ?? u?.code ?? String(u?.name);
+        if (!all.has(key)) all.set(key, u);
+      });
     });
-    return Array.from(allUpsellItems.values());
-  }, [items]);
+
+    return Array.from(all.values());
+  }, [items, isUpsellGloballyAllowed]);
 
   const checkReservationStatus = useCallback(async (): Promise<boolean> => {
     if (!checkinData?.roomNumber || !checkinData?.lastName || !hotelId) {

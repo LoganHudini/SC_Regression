@@ -366,6 +366,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     termsAndConditionsValue?.length,
     capturedImages,
     isRequiredDynamicField,
+    isRuleEnabled,
   ]);
 
   const clearCanvas = useCallback(() => {
@@ -1062,8 +1063,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       setInvalidFileSelected(true);
       notificationStorage({
         type: FAILURE,
-        title: 'Invalid File Type',
-        description: 'Please select PNG, JPEG, or JPG files only.',
+        title: 'Unsupported File Type',
+        description: 'Please upload a PNG, JPEG, or JPG image.',
       });
       toggleNotification(true);
       e.target.value = '';
@@ -1086,8 +1087,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     Promise.all(readerPromises).then((base64Images) => {
       setCapturedImages((prev) => [...prev, ...base64Images].slice(0, count));
       handleCloseCamera();
-
-      // also reset after successful upload to allow reselecting same files
       e.target.value = '';
     });
   };

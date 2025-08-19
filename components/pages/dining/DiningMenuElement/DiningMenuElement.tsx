@@ -104,6 +104,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
   }, [id]);
 
   const isIRDv2 = irdModuleContent?.version === 'v2';
+  const canShowCounter = Boolean(irdModule) && totalQuantity > 0 && Boolean(menuAvailability);
 
   function TwoLineEllipsisWithPrice(props: any) {
     const { ingredients = '', price, maxChars = 80 } = props;
@@ -148,16 +149,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
               )}
             </div>
             {irdModule &&
-              (totalQuantity == 0 ? (
-                <StyledButton
-                  onClick={handleDiningDetails}
-                  className={cx(styles.addCta)}
-                  variant='contained'
-                  disabled={!menuAvailability}
-                >
-                  {t('Add')}
-                </StyledButton>
-              ) : (
+              (canShowCounter ? (
                 <div className={styles.counterStyle}>
                   <PlusMinusInput
                     value={totalQuantity || 0}
@@ -166,7 +158,17 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
                     irdSummary
                   />
                 </div>
+              ) : (
+                <StyledButton
+                  onClick={handleDiningDetails}
+                  className={cx(styles.addCta)}
+                  variant='contained'
+                  disabled={!menuAvailability}
+                >
+                  {t('Add')}
+                </StyledButton>
               ))}
+
             <p className={styles.customisableText} onClick={handleDiningDetails}>
               {customisation && irdModule && t('customizable')}
             </p>
@@ -256,16 +258,7 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
 
           <div className={cx({ 'globals-irdv2-btnWrapper': isIRDv2 })}>
             {irdModule &&
-              (totalQuantity === 0 ? (
-                <StyledButton
-                  onClick={handleDiningDetails}
-                  className={cx(styles.addCta)}
-                  variant='contained'
-                  disabled={!menuAvailability}
-                >
-                  {t('Add')}
-                </StyledButton>
-              ) : (
+              (canShowCounter ? (
                 <div className={styles.counterStyle}>
                   <PlusMinusInput
                     value={totalQuantity || 0}
@@ -274,6 +267,15 @@ export const DiningMenuElement: React.FC<IDiningMenuElementProps> = ({
                     irdSummary
                   />
                 </div>
+              ) : (
+                <StyledButton
+                  onClick={handleDiningDetails}
+                  className={cx(styles.addCta)}
+                  variant='contained'
+                  disabled={!menuAvailability}
+                >
+                  {t('Add')}
+                </StyledButton>
               ))}
 
             {customisation && irdModule && (
