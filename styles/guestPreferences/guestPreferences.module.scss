@@ -70,18 +70,32 @@
 
 .preferenceGroupHeader {
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
-  margin: 0 16px 8px;
+  gap: 8px;
   font-size: 1.125rem;
   font-family: var(--heading-font-regular);
 }
-
+ 
+.preferenceGroupHeader > :first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0 16px 8px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+ 
+ 
 .preferenceSelectType {
   font-size: 12px;
   font-weight: 500;
   padding: 4px 10px;
   border-radius: 1rem;
   background-color: #e8e8e8;
+  flex: 0 0 auto;
+  white-space: nowrap;
+  margin-left: auto;
 }
 
 .preferenceOptions {
@@ -124,4 +138,16 @@
     color: #fff;
     border-color: var(--primary-button-background-color);
   }
+}
+
+.preferenceDisclaimer {
+  font: 0.75rem var(--primary-font-regular);
+  color: var(--primary-text-color);
+  margin: 0.5rem 0;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 17px;
+  font-weight: bold;
 }

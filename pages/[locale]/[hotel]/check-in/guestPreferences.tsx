@@ -21,10 +21,15 @@ import { Stepper } from 'components/shared/Stepper/Stepper';
 import { StepperInformationStorage } from 'storage/check-in.storage';
 import produce from 'immer';
 import { STEPPER_PREFERENCES } from 'utils/constants';
+import { getStaticPaths } from 'utils/getStatic';
+import { GetStaticProps } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import i18nConfig from 'next-i18next.config';
+export { getStaticPaths };
 
-const Preferences = () => {
+const Preferences: React.FC<any> = () => {
   const config = useConfig();
-  const { t } = useTranslation(['common']);
+  const { t } = useTranslation('check-in');
   const hotelId = config?.hotelId;
   const locale = useLocale();
   const navigate = useLocalizedRouter();
@@ -41,8 +46,12 @@ const Preferences = () => {
     },
   });
 
-  const preferences = (data?.getHotelAccommodationDetails?.preferences ?? []).sort(
-    (a, b) => Number(a.allowMultipleSelection) - Number(b.allowMultipleSelection),
+  const capitalizeText = (text: string) => {
+    return text.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
+  };
+
+  const preferences = (data?.getHotelAccommodationDetails?.preferences ?? []).filter(
+    (preference) => preference.isActive !== false,
   );
 
   const handleSelect = (groupId: string, itemName: string, allowMultiple: boolean) => {
@@ -64,11 +73,16 @@ const Preferences = () => {
   const isSelected = (groupId: string, itemName: string) => selected[groupId]?.includes(itemName);
 
   useEffect(() => {
+    const hasSelection = Object.values(selected).some((arr) => (arr?.length ?? 0) > 0);
+
     StepperInformationStorage(
       produce(StepperInformationStorage(), (draft: any) => {
         const step = draft?.find((el: any) => el?.title === STEPPER_PREFERENCES);
-        if (step) {
-          step.value = Object.keys(selected).length > 0 ? 100 : 60;
+        if (!step) return;
+
+        const target = hasSelection ? 100 : 60;
+        if ((step.value ?? 0) < target) {
+          step.value = target;
         }
       }),
     );
@@ -93,22 +107,26 @@ const Preferences = () => {
     const preferencesList = data?.getHotelAccommodationDetails?.preferences;
     if (!preferencesList) return;
 
+    const stripIdx = (selectionKey: string) => {
+      const hashIndex = selectionKey.lastIndexOf('#');
+      return hashIndex >= 0 ? selectionKey.slice(0, hashIndex) : selectionKey;
+    };
+
     const payload = {
       bookingId: reservationInfo?.confirmationId,
       reservationId: reservationInfo?.reservationId,
       profileId: reservationInfo?.guests?.[0]?.id,
-      preferences: Object.entries(selected).map(([groupId, names]) => {
-        const matchedPref = preferencesList.find((pref) => pref.id === groupId);
-        return {
-          preferenceType: matchedPref?.name || groupId,
-          preference: names.map((name) => {
-            const matchedItem = matchedPref?.preferenceItems.find((item) => item.name === name);
-            return {
-              preferenceValue: matchedItem?.name || name,
-            };
-          }),
-        };
-      }),
+      preferences: Object.entries(selected)
+        .filter(([, keys]) => keys.length > 0)
+        .map(([groupId, keys]) => {
+          const matchedPref = preferencesList.find((pref) => pref.id === groupId);
+          return {
+            preferenceType: matchedPref?.code ?? groupId,
+            preference: Array.from(new Set(keys.map(stripIdx))).map((code) => ({
+              preferenceValue: code,
+            })),
+          };
+        }),
     };
 
     try {
@@ -140,31 +158,40 @@ const Preferences = () => {
         <Stepper />
       </div>
       <PageWrapper>
-        <div className={styles.preferencesPageTitle}>Update Your Preferences</div>
+        <div className={styles.preferencesPageTitle}>{t('Update Your Preferences')}</div>
 
         {preferences.map((group) => (
           <div key={group.id} className={styles.preferenceGroup}>
             <div className={styles.preferenceGroupHeader}>
-              <div>{group.name}</div>
+              <div>{capitalizeText(group.name)}</div>
               <div className={styles.preferenceSelectType}>
                 {group.allowMultipleSelection ? 'PICK ANY' : 'PICK ONE'}
               </div>
             </div>
             <div className={styles.preferenceOptions}>
-              {group.preferenceItems.map((item) => (
-                <button
-                  key={item.name}
-                  className={cx(styles.preferenceOption, {
-                    [styles.preferenceOptionSelected]: isSelected(group.id, item.name),
-                  })}
-                  onClick={() => handleSelect(group.id, item.name, group.allowMultipleSelection)}
-                >
-                  {item.name}
-                </button>
-              ))}
+              {group.preferenceItems.map((item, idx) => {
+                const selKey = `${item.code ?? ''}#${idx}`;
+                const uniqueKey = `${group.id}:${item.code || item.name}:${idx}`;
+
+                return (
+                  <button
+                    key={uniqueKey}
+                    className={cx(styles.preferenceOption, {
+                      [styles.preferenceOptionSelected]: isSelected(group.id, selKey),
+                    })}
+                    onClick={() => handleSelect(group.id, selKey, group.allowMultipleSelection)}
+                  >
+                    {item.name}
+                  </button>
+                );
+              })}
             </div>
           </div>
         ))}
+
+        <p className={styles.preferenceDisclaimer}>
+          {t('Special requests are not guaranteed and subject to availability.')}
+        </p>
 
         <div className={styles.bottomMenuWrapper}>
           <StyledButton
@@ -178,6 +205,19 @@ const Preferences = () => {
       </PageWrapper>
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const locale = ctx?.params?.locale;
+  return {
+    props: {
+      ...(await serverSideTranslations(
+        locale as string,
+        ['about-your-stay', 'check-in'],
+        i18nConfig,
+      )),
+    },
+  };
 };
 
 export default Preferences;
