@@ -119,6 +119,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const reviewAndSign = useReactiveVar(reviewSignAndCheckBox);
   const sigCanvas = useRef<SignatureCanvas>(null);
   const [signature, setSignature] = useState<any>(reviewAndSign?.sign || null);
+  const [isRuleEnabled, setIsRuleEnabled] = useState(true);
+  const [filteredFields, setFilteredFields] = useState<any[]>([]);
 
   const updatedGuestData = useMemo(() => {
     const guestInfolength = updatedGuestInfo?.adult?.length;
@@ -345,7 +347,13 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       sigCanvas?.current &&
       signature !== null &&
       (termsAndConditionsValue?.length > 0 ? allMandatoryAccepted : true) &&
-      (isRequiredDynamicField ? (capturedImages?.length > 0 ? true : false) : true)
+      (isRuleEnabled
+        ? isRequiredDynamicField
+          ? capturedImages?.length > 0
+            ? true
+            : false
+          : true
+        : true)
     ) {
       setBtnStatus(true);
     } else {
@@ -1058,8 +1066,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         description: 'Please select PNG, JPEG, or JPG files only.',
       });
       toggleNotification(true);
-
-      // reset input so same file can be chosen again
       e.target.value = '';
       return;
     }
@@ -1090,136 +1096,145 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     setCapturedImages((prev) => prev.filter((_, i) => i !== index));
   };
 
+  useEffect(() => {
+    if (!dynamicFields) {
+      setFilteredFields([]);
+      setIsRuleEnabled(false);
+      return;
+    }
+
+    const newFilteredFields = dynamicFields?.filter((field: any) => {
+      if (!field?.enabled) return false;
+      if (!field?.rule || field?.rule?.length === 0) return true;
+
+      return field.rule.every((rule: any) => {
+        const { key, condition, value } = rule;
+        let guestValue;
+
+        for (const guest of combinedGuests) {
+          if (key in guest) {
+            guestValue = guest[key];
+            break;
+          }
+        }
+
+        if (guestValue === undefined) return false;
+
+        switch (condition) {
+          case '==':
+            return guestValue == value;
+          case '>':
+            return guestValue > value;
+          case '<':
+            return guestValue < value;
+          case '>=':
+            return guestValue >= value;
+          case '<=':
+            return guestValue <= value;
+          case '!=':
+            return guestValue != value;
+          default:
+            return false;
+        }
+      });
+    });
+
+    setFilteredFields(newFilteredFields);
+    setIsRuleEnabled(newFilteredFields?.length > 0);
+  }, [dynamicFields]);
+
   const renderDocumentUploads = () => {
-    const userAgent = navigator.userAgent;
+    const userAgent = navigator?.userAgent;
     const isIOS = /iPhone|iPad|iPod/i.test(userAgent);
 
-    return dynamicFields
-      ?.filter((field: any) => {
-        if (!field.enabled) return false;
-        if (!field.rule || field.rule.length === 0) return true;
-
-        return field.rule.every((rule: any) => {
-          const { key, condition, value } = rule;
-
-          // Find the value for this key across all guests/objects
-          let guestValue = undefined;
-
-          for (const guest of combinedGuests) {
-            if (key in guest) {
-              guestValue = guest[key];
-              break; // Use first matching key found
-            }
+    return filteredFields?.map((field: any, index: any) => (
+      <div className={styles.mainContainer} key={index}>
+        <DetailsCard
+          title={field?.fieldName}
+          customTextClassName={
+            isRequiredDynamicField && capturedImages?.length > 0 ? '' : styles.isRequired
           }
-
-          if (guestValue === undefined) return false;
-
-          switch (condition) {
-            case '==':
-              return guestValue == value; // loose equality to allow string/number matches
-            case '>':
-              return guestValue > value;
-            case '<':
-              return guestValue < value;
-            case '>=':
-              return guestValue >= value;
-            case '<=':
-              return guestValue <= value;
-            case '!=':
-              return guestValue != value;
-            default:
-              return false;
+          customBorderClassName={
+            isRequiredDynamicField && capturedImages?.length > 0 ? '' : styles.isRequiredBorder
           }
-        });
-      })
-      ?.map((field: any, index: any) => (
-        <div className={styles.mainContainer} key={index}>
-          <DetailsCard
-            title={field?.fieldName}
-            customTextClassName={
-              isRequiredDynamicField && capturedImages?.length > 0 ? '' : styles.isRequired
-            }
-            customBorderClassName={
-              isRequiredDynamicField && capturedImages?.length > 0 ? '' : styles.isRequiredBorder
-            }
-          >
-            <div className={styles.imageText}>
-              <p className={styles.containerTitle}>{field?.label}</p>
-              {capturedImages.length > 0 && (
-                <div className={styles.capturedImageContainer}>
-                  {capturedImages.map((img, index) => (
-                    <div key={index} className={styles.previewItem}>
-                      <img src={img} alt={`ID ${index + 1}`} className={styles.capturedImage} />
-                      <button
-                        type='button'
-                        onClick={() => handleRemoveImage(index)}
-                        className={styles.removeButton}
-                        aria-label='Remove image'
-                      >
-                        <Remove />
-                      </button>
+        >
+          <div className={styles.imageText}>
+            <p className={styles.containerTitle}>{field?.label}</p>
+            {capturedImages.length > 0 && (
+              <div className={styles.capturedImageContainer}>
+                {capturedImages.map((img, index) => (
+                  <div key={index} className={styles.previewItem}>
+                    <img src={img} alt={`ID ${index + 1}`} className={styles.capturedImage} />
+                    <button
+                      type='button'
+                      onClick={() => handleRemoveImage(index)}
+                      className={styles.removeButton}
+                      aria-label='Remove image'
+                    >
+                      <Remove />
+                    </button>
+                  </div>
+                ))}
+                {!(capturedImages.length >= field?.imageCount) &&
+                  capturedImages.length >= 1 &&
+                  (isIOS ? (
+                    <label className={styles.scanDocWrapper}>
+                      <AddImage />
+                      {t('Add Document')}
+                      <input
+                        type='file'
+                        accept='.jpg,.jpeg,.png'
+                        multiple
+                        onChange={handleImageUpload}
+                        className={styles.fileInput}
+                      />
+                    </label>
+                  ) : (
+                    <div className={styles.scanDocWrapper} onClick={() => setOpenCamera(true)}>
+                      <AddImage />
+                      <span>{t('Add Document')}</span>
                     </div>
                   ))}
-                  {!(capturedImages.length >= field?.imageCount) &&
-                    capturedImages.length >= 1 &&
-                    (isIOS ? (
-                      <label className={styles.scanDocWrapper}>
-                        <AddImage />
-                        {t('Add Document')}
-                        <input
-                          type='file'
-                          accept='.jpg,.jpeg,.png'
-                          multiple
-                          onChange={handleImageUpload}
-                          className={styles.fileInput}
-                        />
-                      </label>
-                    ) : (
-                      <div className={styles.scanDocWrapper} onClick={() => setOpenCamera(true)}>
-                        <AddImage />
-                        <span>{t('Add Document')}</span>
-                      </div>
-                    ))}
-                </div>
-              )}
-            </div>
-            {capturedImages.length >= field?.imageCount - 1 && (
-              <p className={styles.containerSubTitle}>
-                {capturedImages.length !== field?.imageCount
-                  ? t(
-                      `You can add ${field?.imageCount - capturedImages.length} more image${
-                        field?.imageCount - capturedImages.length === 1 ? '' : 's'
-                      } `,
-                    )
-                  : t(`Maximum ${capturedImages.length} images reached.`)}
-              </p>
+              </div>
             )}
-            {!(capturedImages.length >= field?.imageCount) &&
-              capturedImages.length == 0 &&
-              (isIOS ? (
-                <StyledButton variant='contained' component='label' className={styles.buttonFile}>
-                  {t('Add Document')}
-                  <input
-                    type='file'
-                    accept='.jpg,.jpeg,.png'
-                    multiple
-                    onChange={handleImageUpload}
-                    className={styles.fileInput}
-                  />
-                </StyledButton>
-              ) : (
-                <StyledButton
-                  variant='contained'
-                  onClick={() => setOpenCamera(true)}
-                  disabled={capturedImages.length >= field?.imageCount}
-                  className={styles.buttonStyling}
-                >
-                  <span className={styles.scanDocText}>{t('Add Document')}</span>
-                </StyledButton>
-              ))}
-          </DetailsCard>
-        </div>
-      ));
+          </div>
+          {capturedImages.length >= field?.imageCount - 1 && (
+            <p className={styles.containerSubTitle}>
+              {capturedImages.length !== field?.imageCount
+                ? t(
+                    `You can add ${field?.imageCount - capturedImages.length} more image${
+                      field?.imageCount - capturedImages.length === 1 ? '' : 's'
+                    } `,
+                  )
+                : t(`Maximum ${capturedImages.length} images reached.`)}
+            </p>
+          )}
+          {!(capturedImages?.length >= field?.imageCount) &&
+            capturedImages?.length === 0 &&
+            (isIOS ? (
+              <StyledButton variant='contained' component='label' className={styles.buttonFile}>
+                {t('Add Document')}
+                <input
+                  type='file'
+                  accept='.jpg,.jpeg,.png'
+                  multiple
+                  onChange={handleImageUpload}
+                  className={styles.fileInput}
+                />
+              </StyledButton>
+            ) : (
+              <StyledButton
+                variant='contained'
+                onClick={() => setOpenCamera(true)}
+                disabled={capturedImages.length >= field?.imageCount}
+                className={styles.buttonStyling}
+              >
+                <span className={styles.scanDocText}>{t('Add Document')}</span>
+              </StyledButton>
+            ))}
+        </DetailsCard>
+      </div>
+    ));
   };
 
   return (
