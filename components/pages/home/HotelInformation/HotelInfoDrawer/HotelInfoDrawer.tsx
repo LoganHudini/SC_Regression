@@ -52,7 +52,12 @@ const HotelInfoDrawer = () => {
         <div className={styles.serviceDetailWrapper}>
           <div className={styles.carouselWrapper}>
             <div className={styles.contentWrapper}>
-              {hotelInfo?.images?.length > 0 && <CustomCarousel imageData={hotelInfo} />}
+              {hotelInfo?.images?.length > 0 && (
+                <CustomCarousel
+                  imageData={hotelInfo}
+                  indicatorStyle={{ position: 'absolute', bottom: '54px', zIndex: 1000 }}
+                />
+              )}
             </div>
 
             {(phoneData || webData || mailData || hotelInfo?.location?.addressLine1) && (
