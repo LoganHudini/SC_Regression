@@ -423,3 +423,19 @@
 .isRequiredBorder {
   border-bottom: 1px solid var(--primary-error-text-color);
 }
+
+.preferenceGroupDisplay {
+  margin-bottom: 12px;
+}
+
+.preferenceItemList {
+  padding-left: 18px;
+  margin: 4px 0;
+}
+
+.preferenceItem {
+  font-family: var(--primary-font-heading);
+  font-size: 0.875rem;
+  margin-bottom: 20px;
+  line-height: 1.25;
+}

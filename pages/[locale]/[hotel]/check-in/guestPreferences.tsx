@@ -21,6 +21,7 @@ import { Stepper } from 'components/shared/Stepper/Stepper';
 import { StepperInformationStorage } from 'storage/check-in.storage';
 import produce from 'immer';
 import { STEPPER_PREFERENCES } from 'utils/constants';
+import { selectedPreferencesDisplayStorage } from 'storage/selected-preferences.storage';
 import { getStaticPaths } from 'utils/getStatic';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -51,7 +52,7 @@ const Preferences: React.FC<any> = () => {
   };
 
   const preferences = (data?.getHotelAccommodationDetails?.preferences ?? []).filter(
-    (preference) => preference.isActive !== false,
+    (preference: any) => preference.isActive !== false,
   );
 
   const handleSelect = (groupId: string, itemName: string, allowMultiple: boolean) => {
@@ -88,6 +89,25 @@ const Preferences: React.FC<any> = () => {
     );
   }, [selected]);
 
+  useEffect(() => {
+    const selectedDisplay = Object.entries(selected)
+      .filter(([, values]) => values.length > 0)
+      .map(([groupId, values]) => {
+        const group = preferences.find((pref: any) => pref.id === groupId);
+        const items = values.map((val) => {
+          const code = val.split('#')[0];
+          const match = group?.preferenceItems?.find((pi: any) => pi.code === code);
+          return match?.name ?? code;
+        });
+        return {
+          groupName: group?.name ?? groupId,
+          items,
+        };
+      });
+
+    selectedPreferencesDisplayStorage(selectedDisplay);
+  }, [selected, preferences]);
+
   const handleSubmit = async () => {
     const hasSelectedPreferences = Object.values(selected).some((items) => items.length > 0);
     if (!hasSelectedPreferences) {
@@ -119,7 +139,7 @@ const Preferences: React.FC<any> = () => {
       preferences: Object.entries(selected)
         .filter(([, keys]) => keys.length > 0)
         .map(([groupId, keys]) => {
-          const matchedPref = preferencesList.find((pref) => pref.id === groupId);
+          const matchedPref = preferencesList.find((pref: any) => pref.id === groupId);
           return {
             preferenceType: matchedPref?.code ?? groupId,
             preference: Array.from(new Set(keys.map(stripIdx))).map((code) => ({
@@ -160,7 +180,7 @@ const Preferences: React.FC<any> = () => {
       <PageWrapper>
         <div className={styles.preferencesPageTitle}>{t('Update Your Preferences')}</div>
 
-        {preferences.map((group) => (
+        {preferences.map((group: any) => (
           <div key={group.id} className={styles.preferenceGroup}>
             <div className={styles.preferenceGroupHeader}>
               <div>{capitalizeText(group.name)}</div>
@@ -169,7 +189,7 @@ const Preferences: React.FC<any> = () => {
               </div>
             </div>
             <div className={styles.preferenceOptions}>
-              {group.preferenceItems.map((item, idx) => {
+              {group.preferenceItems.map((item: any, idx: any) => {
                 const selKey = `${item.code ?? ''}#${idx}`;
                 const uniqueKey = `${group.id}:${item.code || item.name}:${idx}`;
 
