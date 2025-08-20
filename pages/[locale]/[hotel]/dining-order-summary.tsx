@@ -344,8 +344,8 @@ const DiningOrderSummary = () => {
 
           if (item) {
             (item?.customisation ?? []).length > 0 ||
-            (item?.addons ?? []).length > 0 ||
-            (item?.groupedAddons ?? []).length > 0
+              (item?.addons ?? []).length > 0 ||
+              (item?.groupedAddons ?? []).length > 0
               ? setCustomisationDrawer((state) => !state)
               : (item.quantity++,
                 addToCartEvent({
@@ -536,7 +536,7 @@ const DiningOrderSummary = () => {
           checkinData?.roomNumber,
           checkinData?.lastName,
         );
-        await client.mutate({
+        const { data } = await client.mutate({
           mutation: IRD_ORDER_TRANSACTION_POS,
           context: {
             clientName: 'integration_b',
@@ -547,6 +547,9 @@ const DiningOrderSummary = () => {
           fetchPolicy: 'network-only',
           variables: irdOrderPOSPayload,
         });
+        if (!data?.transactionPOS?.status) {
+          throw false;
+        }
       }
       // irdOrderEvent(response?.data?.createOrder, currency);
       setTimeout(() => {
@@ -577,8 +580,8 @@ const DiningOrderSummary = () => {
           description:
             FailureCheck1 || FailureCheck2
               ? t(
-                  'Reservation status is invalid. Please try again with a valid reservation details',
-                )
+                'Reservation status is invalid. Please try again with a valid reservation details',
+              )
               : t('Your order was not confirmed.'),
           redirect: FailureCheck1 || FailureCheck2 ? availablePaths.HOME : null,
         });
@@ -967,8 +970,8 @@ const DiningOrderSummary = () => {
                 <span className={styles.scheduleText}>
                   {selectedOption === LATER
                     ? dayjs(selectedTime, 'DD MMM:hh:mm:A').format(
-                        timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2,
-                      )
+                      timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2,
+                    )
                     : selectedOption}{' '}
                   <UpArrow className={styles.iconUp} />
                 </span>
@@ -1072,9 +1075,8 @@ const DiningOrderSummary = () => {
                   )}
                   <span className={cx(styles.currency, { [styles.currencyV2]: isIRDv2 })}>
                     <span
-                      className={`${styles.currencyTitle} ${
-                        isIRDv2 ? 'globals-irdv2-irdPrice' : ''
-                      }`}
+                      className={`${styles.currencyTitle} ${isIRDv2 ? 'globals-irdv2-irdPrice' : ''
+                        }`}
                     >
                       {`${currency} `}
                     </span>
