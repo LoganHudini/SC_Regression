@@ -27674,12 +27674,12 @@ export const configuration: any = [
                     options: [
                       {
                         name: 'Male',
-                        value: 'MALE',
+                        value: 'M',
                         vendorGenderType: 'M',
                       },
                       {
                         name: 'Female',
-                        value: 'FEMALE',
+                        value: 'F',
                         vendorGenderType: 'F',
                       },
                       {
