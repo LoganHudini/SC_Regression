@@ -70,6 +70,7 @@ import {
   INFOR,
   DOCTYPE,
   MULTIPLE_PRIVACY_OPTIONS,
+  MAX_FILE_SIZE_MB,
 } from 'utils/constants';
 import {
   notificationStorage,
@@ -1063,6 +1064,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
 
     const invalidFiles = files.filter((file) => !allowedTypes.includes(file.type));
+    const tooLarge = files.find((file) => file.size > MAX_FILE_SIZE_MB);
+
     if (invalidFiles.length > 0) {
       console.error('Please select different files');
       setInvalidFileSelected(true);
@@ -1072,12 +1075,25 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         description: 'Please upload a PNG, JPEG, or JPG image.',
       });
       toggleNotification(true);
-
       // reset input so same file can be chosen again
       e.target.value = '';
       return;
     }
 
+    if (tooLarge) {
+      console.error('File Too Large');
+      setInvalidFileSelected(true);
+      notificationStorage({
+        type: FAILURE,
+        title: 'File Too Large',
+        description: 'Please upload a file under 10MB.',
+      });
+      toggleNotification(true);
+
+      // reset input so same file can be chosen again
+      e.target.value = '';
+      return;
+    }
     const readerPromises = files
       .filter((file) => allowedTypes.includes(file.type))
       .slice(0, count - capturedImages.length)
