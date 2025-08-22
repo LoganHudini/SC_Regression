@@ -37,13 +37,9 @@ const SpaDetails: React.FC<SpaDetailsProps> = ({
     toggleDetailsDrawer(false);
     if (spaTreatments?.length > 0) {
       navigate(availablePaths?.SPA);
-    } else if (spaInfoDetails?.cta?.redirectOption === EXTERNAL_URL) {
+    } else if (cta?.redirectOption === EXTERNAL_URL || cta?.redirectOption === BOOKING_URL) {
       setspaBooking(true);
-      analyticsEvent({
-        action: 'spa_redirect',
-        category: 'Spa',
-        title: spaInfoDetails?.name,
-      });
+      analyticsEvent({ action: 'spa_redirect', category: 'Spa', title: spaInfoDetails?.name });
     }
   };
 
@@ -63,6 +59,18 @@ const SpaDetails: React.FC<SpaDetailsProps> = ({
     }
     setmenuLink(link);
   };
+
+  const cta = spaInfoDetails?.cta;
+
+  const isCtaActive =
+    typeof cta?.status === 'boolean'
+      ? cta.status
+      : String(cta?.status || '').toLowerCase() === 'active';
+
+  const hasCtaDest = Boolean(
+    (cta?.redirectOption === EXTERNAL_URL && cta?.redirectUrl) ||
+      (cta?.redirectOption === BOOKING_URL && cta?.redirectUrl),
+  );
 
   return (
     <div
@@ -116,19 +124,30 @@ const SpaDetails: React.FC<SpaDetailsProps> = ({
           />
         )}
       </div>
-      {(spaTreatments?.length > 0 || spaInfoDetails?.cta?.status === 'ACTIVE') && (
-        <div style={{ position: 'fixed' }}>
+      {spaTreatments?.length > 0 ? (
+        <>
+          <div style={{ position: 'fixed' }}>
+            <StyledButton
+              variant='contained'
+              onClick={onCtaClick}
+              className={cx(styles.button, 'globals-actionCtaWrapper')}
+            >
+              {t('View Treatments')}
+            </StyledButton>
+          </div>
+        </>
+      ) : (
+        isCtaActive &&
+        hasCtaDest && (
           <StyledButton
             variant='contained'
             onClick={onCtaClick}
             className={cx(styles.button, 'globals-actionCtaWrapper')}
+            style={{ position: 'static', width: '100%', marginTop: 12 }}
           >
-            {spaTreatments?.length > 0
-              ? t('View Treatments')
-              : spaInfoDetails?.cta?.status === 'ACTIVE' &&
-                (spaInfoDetails?.cta?.ctaTitle || t('Book Now'))}
+            {spaInfoDetails?.cta?.ctaTitle || t('Book Now')}
           </StyledButton>
-        </div>
+        )
       )}
     </div>
   );
