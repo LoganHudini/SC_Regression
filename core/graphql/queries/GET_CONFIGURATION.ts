@@ -11643,7 +11643,7 @@ export const configuration: any = [
         code: 'Services',
         name: 'Services',
         isActive: true,
-        type: 'CMS',
+        type: 'VENDOR',
       },
       {
         code: 'view-bill',
