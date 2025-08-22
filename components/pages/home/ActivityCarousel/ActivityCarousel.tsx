@@ -90,7 +90,7 @@ export const ActivityCarousel: React.FC<{ data: any[] }> = ({ data }) => {
   const checkoutDate = checkOutDateInfo || checkedInData?.checkOutDate;
 
   // Find the "Recommended" tag ID
-  const recommendedTag = tags?.getActivityTags?.find((tag) => tag.name === 'Recommended');
+  const recommendedTag = tags?.getActivityTags?.find((tag: any) => tag.name === 'Recommended');
   const recommendedTagId = recommendedTag?.id;
 
   const currentDate = dayjs().startOf('day'); // Normalize to start of today

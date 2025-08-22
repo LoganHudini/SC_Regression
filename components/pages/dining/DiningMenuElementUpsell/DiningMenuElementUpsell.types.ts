@@ -5,6 +5,7 @@ export interface IDiningMenuElementProps {
   id: string;
   image: string | null;
   code: string;
+  setCustomisationDrawer: (open: boolean) => void;
   customisation: {
     ingredient: string;
     customisations: {

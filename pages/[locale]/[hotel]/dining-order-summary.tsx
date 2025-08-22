@@ -628,6 +628,7 @@ const DiningOrderSummary = () => {
             index={index}
             code={el?.code}
             addons={el?.addons}
+            setCustomisationDrawer={setCustomisationDrawer}
           />
         </React.Fragment>
       ));

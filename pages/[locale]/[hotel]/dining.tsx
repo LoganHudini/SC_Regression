@@ -270,7 +270,7 @@ const Dining = () => {
         search
         displayHome
         backRoute={
-          irdLength && irdLength?.length <= 1 ? availablePaths.HOME : availablePaths.DINING_MENU
+          irdLength && irdLength?.length <= 1 ? availablePaths?.HOME : availablePaths?.DINING_MENU
         }
       />
       <PageWrapper
@@ -320,10 +320,10 @@ const Dining = () => {
                       >
                         <DiningMenuOptions
                           name={el?.name}
-                          image={el.images[0] ? el.images[0].master : null}
-                          categoryId={el.id}
+                          image={el.images[0] ? el?.images[0]?.master : null}
+                          categoryId={el?.id}
                           selectMenu={selectMenu}
-                          hours={el.hours}
+                          hours={el?.hours}
                         />
                       </div>
                     ))}

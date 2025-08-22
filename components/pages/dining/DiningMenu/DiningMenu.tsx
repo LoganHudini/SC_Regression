@@ -806,21 +806,21 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
             })}
           >
             {!menuAvailability &&
-              data.getIRDMenuOutputDetails.filter((i) => i.isActive).length > 0 &&
+              data.getIRDMenuOutputDetails.filter((i) => i?.isActive)?.length > 0 &&
               (() => {
-                const tz = hotelInformation.getPropertyDetailsByHotelId.hotel.location.timezone;
-                const nowTz = dayjs().tz(tz);
-                const nowDt = nowTz.toDate();
-                const nowHr = nowTz.hour(),
-                  nowMn = nowTz.minute();
+                const tz = hotelInformation?.getPropertyDetailsByHotelId?.hotel?.location?.timezone;
+                const nowTz = dayjs()?.tz(tz);
+                const nowDt = nowTz?.toDate();
+                const nowHr = nowTz?.hour(),
+                  nowMn = nowTz?.minute();
 
                 const findHoursFor = (weekday: string) =>
-                  baseSelectedMenu.hours.find((h: any) => {
-                    const parts = h.day
-                      .toUpperCase()
-                      .split(/,|\s+TO\s+|\s+AND\s+/)
-                      .map((p: any) => p.trim());
-                    if (parts.length === 2 && parts[0].length > 2 && parts[1].length > 2) {
+                  baseSelectedMenu?.hours?.find((h: any) => {
+                    const parts = h?.day
+                      ?.toUpperCase()
+                      ?.split(/,|\s+TO\s+|\s+AND\s+/)
+                      ?.map((p: any) => p?.trim());
+                    if (parts?.length === 2 && parts[0]?.length > 2 && parts[1]?.length > 2) {
                       const days = [
                         'SUNDAY',
                         'MONDAY',
@@ -830,20 +830,20 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                         'FRIDAY',
                         'SATURDAY',
                       ];
-                      const start = days.indexOf(parts[0]),
-                        end = days.indexOf(parts[1]);
+                      const start = days?.indexOf(parts[0]),
+                        end = days?.indexOf(parts[1]);
                       const range =
                         start <= end
-                          ? days.slice(start, end + 1)
-                          : days.slice(start).concat(days.slice(0, end + 1));
-                      return range.includes(weekday);
+                          ? days?.slice(start, end + 1)
+                          : days?.slice(start)?.concat(days?.slice(0, end + 1));
+                      return range?.includes(weekday);
                     }
-                    return parts.includes(weekday);
+                    return parts?.includes(weekday);
                   });
 
                 const everyday = findHoursFor('EVERYDAY');
                 if (everyday) {
-                  const fmt = convertTo12HourFormat(everyday.from || everyday.open);
+                  const fmt = convertTo12HourFormat(everyday?.from || everyday?.open);
                   return (
                     <div className={styles.menuUnavailableContainer}>
                       <div className={styles.menuTimingsText}>
@@ -857,14 +857,14 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                 }
 
                 const getWeekday = (d: Date) =>
-                  d.toLocaleDateString('en-US', { weekday: 'long', timeZone: tz }).toUpperCase();
+                  d?.toLocaleDateString('en-US', { weekday: 'long', timeZone: tz })?.toUpperCase();
 
                 const todayName = getWeekday(nowDt);
                 const todayHrs = findHoursFor(todayName);
                 if (todayHrs) {
-                  const [h, m] = (todayHrs.from || todayHrs.open).split(':').map(Number);
+                  const [h, m] = (todayHrs?.from || todayHrs?.open).split(':')?.map(Number);
                   if (nowHr < h || (nowHr === h && nowMn < m)) {
-                    const fmt = convertTo12HourFormat(todayHrs.from || todayHrs.open);
+                    const fmt = convertTo12HourFormat(todayHrs?.from || todayHrs?.open);
                     return (
                       <div className={styles.menuUnavailableContainer}>
                         <div className={styles.menuTimingsText}>
@@ -879,10 +879,10 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                     );
                   }
                 }
-                const tomoDt = nowTz.add(1, 'day').toDate();
+                const tomoDt = nowTz?.add(1, 'day').toDate();
                 const tomoH = findHoursFor(getWeekday(tomoDt));
                 if (tomoH) {
-                  const fmt = convertTo12HourFormat(tomoH.from || tomoH.open);
+                  const fmt = convertTo12HourFormat(tomoH?.from || tomoH?.open);
                   return (
                     <div className={styles.menuUnavailableContainer}>
                       <div className={styles.menuTimingsText}>
@@ -896,16 +896,16 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                 }
 
                 for (let i = 2; i <= 7; i++) {
-                  const futureDt = nowTz.add(i, 'day').toDate();
+                  const futureDt = nowTz?.add(i, 'day')?.toDate();
                   const hrs = findHoursFor(getWeekday(futureDt));
                   if (hrs) {
-                    const dateStr = futureDt.toLocaleDateString('en-US', {
+                    const dateStr = futureDt?.toLocaleDateString('en-US', {
                       weekday: 'long',
                       month: 'long',
                       day: 'numeric',
                       timeZone: tz,
                     });
-                    const fmt = convertTo12HourFormat(hrs.from || hrs.open);
+                    const fmt = convertTo12HourFormat(hrs?.from || hrs?.open);
                     return (
                       <div className={styles.menuUnavailableContainer}>
                         <div className={styles.menuTimingsText}>

@@ -45,6 +45,7 @@ type DiningDetailsDrawerProps = {
 const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailability }) => {
   const { t } = useTranslation(['dining', 'common']);
   const navigate = useLocalizedRouter();
+  const [customisationDrawer, setCustomisationDrawer] = useState(false);
   const selectedItemId = useReactiveVar(diningMenuStorage)?.selectedItemId;
   const selectedItemIndex = useReactiveVar(diningMenuStorage)?.selectedIndex;
   const diningData = useReactiveVar(diningMenuStorage) as IDiningMenuStorageData;
@@ -693,6 +694,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
                             description={upsellItem?.description || ''}
                             customisation={upsellItem?.customisation || []}
                             index={index}
+                            setCustomisationDrawer={setCustomisationDrawer}
                           />
                         ),
                     )}
