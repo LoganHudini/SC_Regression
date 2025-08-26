@@ -63,6 +63,7 @@ import { PhoneEmail } from 'components/shared/PhoneEmail/PhoneEmail';
 import NoInformation from 'components/shared/NoInformation/NoInformation';
 import { ListCounter } from 'components/shared/ListCounter/ListCounter';
 import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
+import { availablePaths } from 'utils/availablePaths';
 
 export { getStaticPaths };
 
@@ -91,6 +92,14 @@ const Spa: React.FC = () => {
   const [availableSlots, setAvailableSlots] = useState(false);
   const [selectedSpaSlots, setSelectedSpaSlots] = useState<any>({});
   const [spaBookingLoading, setSpaBookingLoading] = useState<any>(false);
+  const [redirecting, setRedirecting] = useState(false);
+
+  useEffect(() => {
+    if (!spaInfo) {
+      setRedirecting(true);
+      navigate(availablePaths.SPA_INFO);
+    }
+  }, [spaInfo, navigate]);
 
   const { data, loading } = useQuery(GET_SPA_DETAILS, {
     skip: !hotelId,
@@ -662,8 +671,8 @@ const Spa: React.FC = () => {
           {hotelName} | {t('Spa')}
         </title>
       </Head>
-      <Header screenTitle={t('Spa') as string} displayHome />
-      {loading ? (
+      <Header screenTitle={t('Spa') as string} displayBackButton />
+      {loading || redirecting ? (
         <Loader />
       ) : (
         <PageWrapper
