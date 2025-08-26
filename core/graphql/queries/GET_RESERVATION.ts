@@ -111,6 +111,8 @@ export interface IGetReservationApiResponse {
       cashierNotes: string[];
       dateOfIssue: string;
       nights: string;
+      membershipNumber: string;
+      company: string;
     };
   };
 }

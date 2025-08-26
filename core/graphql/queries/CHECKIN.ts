@@ -34,6 +34,8 @@ export interface ICheckInApiRequest {
   issueCountry: string;
   dateOfIssue?: string;
   nights?: string;
+  membershipNumber?: string;
+  company?: string;
   channel: string;
   upsell: any;
   guestSignature: string;

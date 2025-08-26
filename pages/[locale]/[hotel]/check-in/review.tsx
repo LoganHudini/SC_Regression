@@ -681,6 +681,10 @@ const CheckIn: React.FC<ICheckinProps> = () => {
         nights: reservationInfo?.details?.nightCount
           ? reservationInfo?.details?.nightCount.toString()
           : '',
+        membershipNumber: reservationInfo?.guests[0]?.membershipNumber
+          ? reservationInfo?.guests[0]?.membershipNumber.toString()
+          : '',
+        company: reservationInfo?.company?.name || '',
       };
       const checkIn = async () => {
         const checkInToken = await getCheckInToken();
