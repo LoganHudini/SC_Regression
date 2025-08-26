@@ -148,6 +148,15 @@ function App({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     if (config?.hotelId && config?.chatOption === 'HUDINI-CHAT') {
+      const existingWidget = document.getElementById('live-chat-widget');
+      if (existingWidget) {
+        existingWidget.remove();
+      }
+
+      if (window.ChatWidgetConfig) {
+        delete window.ChatWidgetConfig;
+      }
+
       window.ChatWidgetConfig = {
         hotelId: config?.hotelId,
         themeColor: {
@@ -188,23 +197,29 @@ function App({ Component, pageProps }: AppProps) {
 
       const script = document.createElement('script');
       script.src = HUDINI_CHAT_URL ?? '';
-      // script.src = 'http://localhost:3001/chat-widget.js';
       script.async = true;
+      script.id = 'hudini-chat-script';
 
       document.body.appendChild(script);
 
       return () => {
-        document.body.removeChild(script);
+        const scriptElement = document.getElementById('hudini-chat-script');
+        const widgetElement = document.getElementById('live-chat-widget');
+
+        if (scriptElement) {
+          document.body.removeChild(scriptElement);
+        }
+
+        if (widgetElement) {
+          widgetElement.remove();
+        }
+
+        if (window.ChatWidgetConfig) {
+          delete window.ChatWidgetConfig;
+        }
       };
     }
-  }, [
-    checkinData?.firstName,
-    checkinData?.lastName,
-    checkinData?.reservationId,
-    checkinData?.roomNumber,
-    config?.chatOption,
-    config?.hotelId,
-  ]);
+  }, [checkinData, config?.chatOption, config?.hotelId]);
 
   return (
     <>

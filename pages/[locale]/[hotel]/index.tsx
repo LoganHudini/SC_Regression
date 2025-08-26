@@ -193,15 +193,18 @@ const Home: NextPage = () => {
     ),
     'check-in': () => (
       <>
-        {!checkInData?.checkedIn && checkInModule && !config?.preCheckInOnly && !config.disableCheckinCard && (
-          <Checkin
-            title={t('Check-in?')}
-            description={t(
-              'To begin your check-in process, please tap the ‘Check-In’ button below',
-            )}
-            buttonTitle={t('Check-In Now')}
-          />
-        )}
+        {!checkInData?.checkedIn &&
+          checkInModule &&
+          !config?.preCheckInOnly &&
+          !config.disableCheckinCard && (
+            <Checkin
+              title={t('Check-in?')}
+              description={t(
+                'To begin your check-in process, please tap the ‘Check-In’ button below',
+              )}
+              buttonTitle={t('Check-In Now')}
+            />
+          )}
         {(config?.nativeAppRedirection?.isActive ? true : !checkInData?.checkedIn) &&
           pairToRoomModule && (
             <Checkin
@@ -213,8 +216,8 @@ const Home: NextPage = () => {
               downloadText={
                 config?.nativeAppRedirection?.isActive
                   ? (t(
-                    'Elevate your stay with our exclusive app. Unlock your room, view your bill, control in-room settings, and stay updated on hotel events—all from your phone. \n\nDownload now to transform your stay into an unforgettable experience!',
-                  ) as string)
+                      'Elevate your stay with our exclusive app. Unlock your room, view your bill, control in-room settings, and stay updated on hotel events—all from your phone. \n\nDownload now to transform your stay into an unforgettable experience!',
+                    ) as string)
                   : null
               }
             />
@@ -258,12 +261,12 @@ const Home: NextPage = () => {
       {config?.homePageHeader && <Header screenTitle={t('Home') as string} />}
       <PageWrapper displayBottomMenu homePageHeader={config?.homePageHeader}>
         {homeCarouselLoading ||
-          serviceCarouselLoading ||
-          irdloading ||
-          restaurantloading ||
-          spaloading ||
-          activitiesLoading ||
-          offersListLoading ? (
+        serviceCarouselLoading ||
+        irdloading ||
+        restaurantloading ||
+        spaloading ||
+        activitiesLoading ||
+        offersListLoading ? (
           config?.isLogoLoaderActive === false ? (
             <Loader />
           ) : (

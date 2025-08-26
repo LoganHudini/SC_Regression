@@ -64,7 +64,11 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
   });
 
   useEffect(() => {
-    if (selectedRestaurant?.cta?.status == ACTIVE && selectedRestaurant?.cta?.redirectOption == EXTERNAL_URL && selectedRestaurant?.cta?.redirectUrl) {
+    if (
+      selectedRestaurant?.cta?.status == ACTIVE &&
+      selectedRestaurant?.cta?.redirectOption == EXTERNAL_URL &&
+      selectedRestaurant?.cta?.redirectUrl
+    ) {
       return setBtnDisabled(true);
     }
     const isOpen = getFormattedTime(selectedRestaurant?.hours?.map((time: any) => time?.open));
