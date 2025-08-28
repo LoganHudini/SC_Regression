@@ -32,6 +32,32 @@ export const GlobalBlue = () => {
   const cleanKeys = (obj: Record<string, any>) =>
     Object.fromEntries(Object.entries(obj).map(([key, value]) => [key.trim(), value]));
 
+  const getGBCustomerFields = (reservation: any) => {
+    const primaryGuest = reservation?.guests?.[0] || {};
+    return {
+      customerFirstName: (primaryGuest.firstName || '').trim(),
+      customerLastName: (primaryGuest.lastName || '').trim(),
+      customerAddress1: (primaryGuest.addressLine || '').trim(),
+      customerAddress2: (primaryGuest.addressLine2 || '').trim(),
+      customerCity: (primaryGuest.cityName || '').trim(),
+      customerZip: (primaryGuest.postalCode || '').trim(),
+      customerCountry: String(primaryGuest.countryCode || '')
+        .trim()
+        .toUpperCase(),
+      customerPhone: (Array.isArray(primaryGuest.phone)
+        ? primaryGuest.phone[0]
+        : primaryGuest.phone || ''
+      )
+        .toString()
+        .trim(),
+      customerEmail: (Array.isArray(primaryGuest.emails)
+        ? primaryGuest.emails[0]
+        : primaryGuest.emails || ''
+      )
+        .toString()
+        .trim(),
+    };
+  };
   useEffect(() => {
     (async () => {
       const checkInToken = await getCheckInToken();
@@ -39,6 +65,7 @@ export const GlobalBlue = () => {
         const initiatePaymentPayload = {
           merchantTransactionId: orderId,
           bookingId: reservationInfo.confirmationId,
+          ...getGBCustomerFields(reservationInfo),
         };
 
         const { data } = await client.query({
