@@ -13,6 +13,7 @@ import { availablePaths } from 'utils/availablePaths';
 import { BOOKING_URL, EXTERNAL_URL, S3, WEBURL2 } from 'utils/constants';
 import { ASSETS_URL } from 'core/graphql/endpoints';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
+import { loaderVar } from 'storage/spa.storage';
 
 interface SpaDetailsProps {
   spaInfoDetails: any;
@@ -36,6 +37,7 @@ const SpaDetails: React.FC<SpaDetailsProps> = ({
   const onCtaClick = () => {
     toggleDetailsDrawer(false);
     if (spaTreatments?.length > 0) {
+      loaderVar(true);
       navigate(availablePaths?.SPA);
     } else if (cta?.redirectOption === EXTERNAL_URL || cta?.redirectOption === BOOKING_URL) {
       setspaBooking(true);

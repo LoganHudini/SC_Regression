@@ -21,7 +21,7 @@ import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import CustomCarousel from 'components/shared/CustomCarousel/CustomCarousel';
 import { GET_SPA_DETAILS } from 'core/graphql/queries/GET_SPA_DETAILS';
 import Head from 'next/head';
-import { spaCategoryList, spaInformationStorage } from 'storage/spa.storage';
+import { loaderVar, spaCategoryList, spaInformationStorage } from 'storage/spa.storage';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import produce from 'immer';
 import { HOTEL_ID } from 'core/graphql/endpoints';
@@ -98,6 +98,8 @@ const Spa: React.FC = () => {
     if (!spaInfo) {
       setRedirecting(true);
       navigate(availablePaths.SPA_INFO);
+    } else {
+      loaderVar(false);
     }
   }, [spaInfo, navigate]);
 

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { Header } from 'components/shared/Header/Header';
 import { Loader } from 'components/shared/Loaders/Loaders';
-import { spaInformationStorage } from 'storage/spa.storage';
+import { loaderVar, spaInformationStorage } from 'storage/spa.storage';
 import { toggleDetailsDrawer } from 'storage/home.storage';
 import { activeItems, getTimings } from 'utils/functions';
 import { GET_SPA_DETAILS } from 'core/graphql/queries/GET_SPA_DETAILS';
@@ -34,6 +34,7 @@ const SpaInfo: React.FC = () => {
   const [menu, setMenu] = useState(false);
   const [menuLink, setmenuLink] = useState(null);
   const spaDetailsDrawerStatus = useReactiveVar(toggleDetailsDrawer);
+  const loadingTreatment = useReactiveVar(loaderVar);
 
   const { data: spaList, loading: spaloading } = useQuery(GET_SPA_DETAILS, {
     skip: !hotelId,
@@ -84,7 +85,7 @@ const SpaInfo: React.FC = () => {
   return (
     <>
       <Header screenTitle={t('Spa') as string} displayHome />
-      {spaloading ? (
+      {spaloading || loadingTreatment ? (
         <Loader />
       ) : (
         <PageWrapper className={styles.pageWrapper} displayBottomMenu={spaInformationSpa}>
