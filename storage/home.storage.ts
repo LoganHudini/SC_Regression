@@ -67,3 +67,11 @@ export const hotelImage = makeVar<any>({});
 export const hotelLocation = makeVar<any>([]);
 
 export const mapCode = makeVar<any>('');
+
+export const restaurantTypesStorage = makeVar<string[]>([]);
+
+export const selectedRestaurantType = makeVar<string | null>(null);
+
+export const toggleRestaurantTypesDrawer = makeVar(false);
+
+export const restaurantsEmpty = makeVar<boolean>(false);

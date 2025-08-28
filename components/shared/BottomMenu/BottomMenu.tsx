@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import styles from './BottomMenu.module.scss';
+import menuStyles from 'components/shared/BottomMenu/MenuItem/MenuItem.module.scss';
 import DownArrowIcon from '@icons/downArrow.svg';
+import CheckIcon from '@icons/checkIcon.svg';
 import { MenuItem, ModuleOptionsDrawer } from 'components/shared/BottomMenu/MenuItem/MenuItem';
 import { useTranslation } from 'react-i18next';
 import { StyledButton } from '../StyledButton/StyledButton';
@@ -16,6 +18,10 @@ import {
   toggleMessageBirdChat,
   toggleModuleOptionsDrawer,
   isGetStarted,
+  restaurantTypesStorage,
+  selectedRestaurantType,
+  toggleRestaurantTypesDrawer,
+  restaurantsEmpty,
 } from 'storage/home.storage';
 import {
   GET_HAMBURGER_MENU,
@@ -98,6 +104,10 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
   const webUrl = hotelInfo?.getPropertyDetailsByHotelId?.hotel?.information?.find(
     (url: any) => url?.type === URL,
   );
+  const typeList = useReactiveVar(restaurantTypesStorage);
+  const pickedType = useReactiveVar(selectedRestaurantType);
+  const typesDrawerOpen = useReactiveVar(toggleRestaurantTypesDrawer);
+  const isRestaurantsEmpty = useReactiveVar(restaurantsEmpty);
 
   useEffect(() => {
     homeActiveRef.current = router?.pathname === '/[locale]/[hotel]';
@@ -127,7 +137,10 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
     if (checkOutActive && isCheckedIn?.checkedIn) {
       toggleDetailsDrawer(true);
     } else {
-      if (!restaurantAndBarsActive) {
+      if (restaurantAndBarsActive) {
+        toggleRestaurantTypesDrawer(true);
+        toggleHamburgerMenuDrawer(false);
+      } else {
         toggleModuleOptionsDrawer(true);
         toggleHamburgerMenuDrawer(false);
       }
@@ -189,6 +202,7 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
     (spaActive && spaCategories?.length > 1) ||
     (hotelCompendiumActive && filteredhotelCompendiumInfo?.length > 0) ||
     (irdActive && diningCategoryOptions?.length > 1) ||
+    (restaurantAndBarsActive && diningOptionSelected?.type) ||
     checkOutActive;
 
   const fetchMessageBoxUrl = async () => {
@@ -206,6 +220,40 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
       messageBoxURL(null);
     }
   };
+
+  const renderRestaurantTypesDrawer = () => {
+    const close = () => toggleRestaurantTypesDrawer(false);
+    const selectType = (type: string) => {
+      selectedRestaurantType(type);
+      close();
+    };
+
+    return (
+      <div className={menuStyles.wrapper}>
+        <p className={menuStyles.title}>Restaurant and bars</p>
+        <div className={menuStyles.optionsList}>
+          {typeList?.map((type: string) => (
+            <div key={type} className={menuStyles.optionsListItem}>
+              <p
+                className={cx(menuStyles.inActiveDiningText, {
+                  [menuStyles.activeText]: pickedType === type,
+                })}
+                onClick={() => selectType(type)}
+              >
+                {type?.replace(/_/g, ' ')}
+              </p>
+              {pickedType === type && <CheckIcon className={menuStyles.icon} />}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+  const rbTypeLabel =
+    restaurantAndBarsActive &&
+    (isRestaurantsEmpty
+      ? 'Restaurants & Bars'
+      : pickedType || (typeList?.length ? typeList[0] : null));
 
   return (
     <>
@@ -270,7 +318,10 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
                   : webUrl?.value
                   ? t('Visit Website')
                   : t('Home'))}
-              {restaurantAndBarsActive && t(diningOptionList(diningOptionSelected?.type))}
+              {restaurantAndBarsActive &&
+                (rbTypeLabel
+                  ? String(rbTypeLabel).replace(/_/g, ' ')
+                  : 'qsq' + t(diningOptionList(diningOptionSelected?.type)))}
               {itineraryActive && t('Explore Activities')}
               {irdActive && t(`${selectedDiningCategory?.menuName}`)}
               {housekeepingActive && t(`${houseKeepingOptionSelected?.title}`)}
@@ -355,6 +406,12 @@ export const BottomMenu: React.FC<IBottomMenuProps> = ({ disabled, amountDue }) 
           offersList,
           serviceRequestOptions,
         }}
+      />
+
+      <CustomDrawer
+        open={typesDrawerOpen}
+        onClose={() => toggleRestaurantTypesDrawer(false)}
+        content={renderRestaurantTypesDrawer()}
       />
 
       <CustomDrawer

@@ -6,7 +6,7 @@ import {
 import { GetStaticProps } from 'next';
 import i18nConfig from 'next-i18next.config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   restaurantListStorage,
   selectedRestaurantStorage,
@@ -17,7 +17,13 @@ import { useCheckedIn } from 'storage/check-in.storage';
 import { useTranslation } from 'react-i18next';
 import { PageWrapper } from 'components/shared/PageWrapper/PageWrapper';
 import { Header } from 'components/shared/Header/Header';
-import { diningOptions, diningHeaders, toggleDetailsDrawer } from 'storage/home.storage';
+import {
+  diningOptions,
+  diningHeaders,
+  toggleDetailsDrawer,
+  restaurantTypesStorage,
+  selectedRestaurantType,
+} from 'storage/home.storage';
 import { IN_ROOM_DINING } from 'utils/constants';
 import { activeItems, activeModule, uniqueDiningOption } from 'utils/functions';
 import { ListComponentEntity } from 'components/shared/ListComponents/ListComponents';
@@ -64,9 +70,14 @@ const RestaurantAndBars: React.FC = () => {
     setSelectedRestaurantData(item);
     toggleDetailsDrawer(true);
   };
-
+  const filteredList = activeItems(queryResultsData);
   useEffect(() => {
-    queryResultsData?.length !== 0 && diningOptions(data?.getRestaurantDetails?.restaurant[0]);
+    if (Array.isArray(filteredList) && filteredList?.length > 0) {
+      diningOptions(filteredList?.[0]);
+    } else {
+      diningOptions({});
+    }
+
     if (!isEmpty(initialSelected)) {
       diningOptions(initialSelected);
       setSelectedRestaurantData(initialSelected);
@@ -74,10 +85,40 @@ const RestaurantAndBars: React.FC = () => {
         toggleDetailsDrawer(true);
       }, 1000);
     }
-  }, [queryResultsData]);
+  }, [queryResultsData, initialSelected]);
 
-  const filteredList = activeItems(queryResultsData);
   const uniqueFilteredDiningOptions = uniqueDiningOption(queryResultsData);
+
+  const restaurantsByType = useMemo(() => {
+    if (!Array.isArray(filteredList)) return {};
+    return filteredList.reduce<Record<string, any[]>>((acc, r: any) => {
+      if (!r?.type) return acc;
+      const key = String(r.type).trim();
+      (acc[key] ||= []).push(r);
+      return acc;
+    }, {});
+  }, [filteredList]);
+
+  useEffect(() => {
+    const types = Object.keys(restaurantsByType);
+    restaurantTypesStorage(types);
+    if (types.length === 0) {
+      selectedRestaurantType(null);
+      return;
+    }
+    if (!selectedRestaurantType()) {
+      selectedRestaurantType(types?.[0]);
+    }
+  }, [restaurantsByType]);
+
+  const pickedType = useReactiveVar(selectedRestaurantType);
+
+  const listToShow = useMemo(() => {
+    const first = Object.keys(restaurantsByType)[0] || null;
+    const effectiveType = pickedType || first;
+    if (!effectiveType) return [];
+    return restaurantsByType[effectiveType] ?? [];
+  }, [pickedType, restaurantsByType]);
 
   useEffect(() => {
     if (uniqueFilteredDiningOptions?.length > 0) {
@@ -87,7 +128,7 @@ const RestaurantAndBars: React.FC = () => {
           : uniqueFilteredDiningOptions,
       );
     }
-  }, [queryResultsData]);
+  }, [uniqueFilteredDiningOptions, isCheckedIn?.checkedIn, irdModule]);
 
   const closeDrawer = () => {
     toggleDetailsDrawer(false);
@@ -110,8 +151,8 @@ const RestaurantAndBars: React.FC = () => {
         <>
           <PageWrapper className={styles.pageWrapper} displayBottomMenu={true}>
             <div>
-              {filteredList?.length > 0 ? (
-                filteredList?.map((queryResultEntity: any) => (
+              {listToShow?.length > 0 ? (
+                listToShow?.map((queryResultEntity: any) => (
                   <ListComponentEntity
                     key={queryResultEntity?.id}
                     queryResultEntity={queryResultEntity}

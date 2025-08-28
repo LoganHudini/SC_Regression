@@ -1,11 +1,9 @@
 import dayjs from 'dayjs';
 import { scrollState } from 'storage/dining-menu.storage';
 import {
-  BAR,
   DOCTYPE,
   EXTERNAL_URL,
   RESTAURANT,
-  RESTAURANTS,
   RESTAURANT_BOOKING_FLOW,
   TEXTFIELD_REGEX,
   TIMINGS,
@@ -317,8 +315,8 @@ export const uniqueDiningOption = (queryResultsData: any) => {
   return value?.length > 0 ? [value[0]] : [];
 };
 
-export const diningOptionList = (type: any) => {
-  return type === RESTAURANT || type === BAR ? RESTAURANTS : type;
+export const diningOptionList = (type?: string) => {
+  return String(type).replace(/_/g, ' ');
 };
 
 export const moduleType = (config: any, targetType: any) => {
