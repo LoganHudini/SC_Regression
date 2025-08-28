@@ -410,6 +410,7 @@ const DiningOrderSummary = () => {
   }, []);
 
   const handleOrder = useCallback(async () => {
+    if (loading) return;
     try {
       const isInHouse = await checkReservationStatus();
       if (!isInHouse) {
