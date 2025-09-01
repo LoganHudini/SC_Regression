@@ -702,6 +702,51 @@
       "problemMatcher": [],
       "label": "Start: ROGERS_HOSPITALITY_STAGE",
       "detail": "env-cmd -f .env.rogers-hospitality.stage yarn next start"
+    },
+
+    {
+      "type": "npm",
+      "script": "dev:shangri-la-stage",
+      "problemMatcher": [],
+      "label": "Dev: SHANGRI-LA_STAGE",
+      "detail": "env-cmd -f .env.shangri-la.stage yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:shangri-la-stage",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: SHANGRI-LA_STAGE",
+      "detail": "env-cmd -f .env.shangri-la.stage yarn next build"
+    },
+    {
+      "type": "npm",
+      "script": "start:shangri-la-stage",
+      "problemMatcher": [],
+      "label": "Start: SHANGRI-LA_STAGE",
+      "detail": "env-cmd -f .env.shangri-la.stage yarn next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:shangri-la",
+      "problemMatcher": [],
+      "label": "Dev: SHANGRI-LA",
+      "detail": "env-cmd -f .env.shangri-la yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:shangri-la",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: SHANGRI-LA",
+      "detail": "env-cmd -f .env.shangri-la yarn next build"
+    },
+    {
+      "type": "npm",
+      "script": "start:shangri-la",
+      "problemMatcher": [],
+      "label": "Start: SHANGRI-LA",
+      "detail": "env-cmd -f .env.shangri-la yarn next start"
     }
   ]
 }
