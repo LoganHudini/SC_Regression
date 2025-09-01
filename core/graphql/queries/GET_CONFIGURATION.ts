@@ -4951,7 +4951,7 @@ export const configuration: any = [
         code: 'In-Room Dining',
         name: 'In-Room Dining',
         isActive: true,
-        type: 'VENDOR',
+        type: 'CMS',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
         version: 'v2',
       },
