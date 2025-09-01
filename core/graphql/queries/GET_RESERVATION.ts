@@ -113,6 +113,7 @@ export interface IGetReservationApiResponse {
       nights: string;
       membershipNumber: string;
       company: string;
+      nightlyRate?: string;
     };
   };
 }
