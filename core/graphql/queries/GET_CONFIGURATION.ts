@@ -21419,6 +21419,12 @@ export const configuration: any = [
         type: 'CMS',
       },
       {
+        code: 'guest-preferences',
+        name: 'Guest Preferences',
+        isActive: true,
+        type: 'CMS',
+      },
+      {
         code: 'view-bill',
         name: 'View Bill',
         isActive: true,
