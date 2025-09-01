@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useQuery } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import {
   GET_HOTEL_PREFERENCES,
   IGetHotelPreferencesResponse,
@@ -26,6 +26,11 @@ import { getStaticPaths } from 'utils/getStatic';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import i18nConfig from 'next-i18next.config';
+import {
+  selectedPreferencesStorage,
+  updateSelectedPreferences,
+} from 'storage/guestPreferences.storage';
+
 export { getStaticPaths };
 
 const Preferences: React.FC<any> = () => {
@@ -34,7 +39,7 @@ const Preferences: React.FC<any> = () => {
   const hotelId = config?.hotelId;
   const locale = useLocale();
   const navigate = useLocalizedRouter();
-  const [selected, setSelected] = useState<{ [groupId: string]: string[] }>({});
+  const selected = useReactiveVar(selectedPreferencesStorage);
   const [loading, setLoading] = useState(false);
 
   const { data } = useQuery<IGetHotelPreferencesResponse>(GET_HOTEL_PREFERENCES, {
@@ -56,19 +61,18 @@ const Preferences: React.FC<any> = () => {
   );
 
   const handleSelect = (groupId: string, itemName: string, allowMultiple: boolean) => {
-    setSelected((prev) => {
-      const existing = prev[groupId] || [];
+    const current = selectedPreferencesStorage();
+    const existing = current[groupId] || [];
 
-      if (allowMultiple) {
-        const updated = existing.includes(itemName)
-          ? existing.filter((name) => name !== itemName)
-          : [...existing, itemName];
-        return { ...prev, [groupId]: updated };
-      } else {
-        const updated = existing.includes(itemName) ? [] : [itemName];
-        return { ...prev, [groupId]: updated };
-      }
-    });
+    let updated: string[];
+    if (allowMultiple) {
+      updated = existing.includes(itemName)
+        ? existing.filter((name) => name !== itemName)
+        : [...existing, itemName];
+    } else {
+      updated = existing.includes(itemName) ? [] : [itemName];
+    }
+    updateSelectedPreferences({ ...current, [groupId]: updated });
   };
 
   const isSelected = (groupId: string, itemName: string) => selected[groupId]?.includes(itemName);
@@ -150,6 +154,7 @@ const Preferences: React.FC<any> = () => {
     };
 
     try {
+      setLoading(true);
       const checkInToken = await getCheckInToken();
       const response = await client.query({
         query: SUBMIT_PREFERENCES,
@@ -168,6 +173,8 @@ const Preferences: React.FC<any> = () => {
       navigate(availablePaths.REVIEW);
     } catch (error) {
       console.error('Error submitting preferences:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
