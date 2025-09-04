@@ -28056,7 +28056,6 @@ export const configuration: any = [
       'staydetails',
       'check-in',
       'hotel-info',
-      'activities',
       'services',
       'dining',
       'spa',
@@ -28433,7 +28432,7 @@ export const configuration: any = [
       {
         code: 'activities-and-itineraries',
         name: 'Activities and Itineraries',
-        isActive: true,
+        isActive: false,
         type: 'CMS',
       },
       {
