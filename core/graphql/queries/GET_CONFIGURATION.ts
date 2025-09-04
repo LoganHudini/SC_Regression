@@ -24369,7 +24369,7 @@ export const configuration: any = [
               {
                 name: 'Guest Information',
                 isActive: true,
-                type: 'trential',
+                type: 'youverse',
                 uploadId: true,
                 details: [
                   {
@@ -24451,7 +24451,7 @@ export const configuration: any = [
                     name: 'docType',
                     label: 'Document Type',
                     type: 'AutoComplete',
-                    required: true,
+                    required: false,
                     isDisabled: false,
                     isActive: true,
                     options: [
@@ -24467,7 +24467,7 @@ export const configuration: any = [
                     name: 'docNo',
                     label: 'Document Number',
                     type: 'Text',
-                    required: true,
+                    required: false,
                     isDisabled: false,
                     isActive: true,
                   },
@@ -24475,9 +24475,9 @@ export const configuration: any = [
                     name: 'expiry',
                     label: 'Expiry Date',
                     type: 'datePicker',
-                    required: true,
+                    required: false,
                     isDisabled: false,
-                    isActive: true,
+                    isActive: false,
                     isDisablePast: true,
                   },
                   {
@@ -24535,7 +24535,7 @@ export const configuration: any = [
             name: 'accompanyingGuest',
             label: 'Secondary Guest',
             title: '',
-            type: 'trential',
+            type: 'youverse',
             allowSkipBiometrics: true,
             isActive: true,
             cardIcon: 'guest',
@@ -28418,8 +28418,8 @@ export const configuration: any = [
       {
         code: 'In-Room Dining',
         name: 'In-Room Dining',
-        isActive: true,
-        signatureRequired: true,
+        isActive: false,
+        signatureRequired: false,
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
       },
