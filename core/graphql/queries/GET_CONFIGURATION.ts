@@ -29003,6 +29003,15 @@ export const configuration: any = [
                     isActive: true,
                   },
                   {
+                    name: 'countryCode',
+                    label: 'Country of Residence',
+                    type: 'AutoComplete',
+                    required: true,
+                    isDisabled: false,
+                    isActive: true,
+                    options: Countries,
+                  },
+                  {
                     name: 'estimatedTime',
                     label: 'Estimated Time of Arrival',
                     type: 'TimePicker',
