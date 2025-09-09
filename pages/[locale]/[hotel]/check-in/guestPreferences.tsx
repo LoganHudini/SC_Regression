@@ -140,6 +140,7 @@ const Preferences: React.FC<any> = () => {
         variables: {
           hotelId: hotelId,
           reservationId: payload.reservationId,
+          bookingId: payload.bookingId,
           body: payload,
         },
         fetchPolicy: 'no-cache',

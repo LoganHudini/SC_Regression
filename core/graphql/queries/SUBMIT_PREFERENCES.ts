@@ -25,17 +25,19 @@ export const SUBMIT_PREFERENCES = gql`
     $body: SubmitGuestPreferencesPayload
     $reservationId: String!
     $hotelId: String!
+    $bookingId: String!
     $confirmationNumber: String
   ) {
     submitGuestPreferences(
       body: $body
       reservationId: $reservationId
       hotelId: $hotelId
+      bookingId: $bookingId
       confirmationNumber: $confirmationNumber
     )
       @rest(
         type: "SubmitGuestPreferencesResponse"
-        path: "/booking/hotel/{args.hotelId}/reservation/{args.reservationId}"
+        path: "/booking/hotel/{args.hotelId}/reservation/{args.bookingId}"
         method: "PUT"
         bodyKey: "body"
       ) {
