@@ -5,6 +5,7 @@ import { useReactiveVar } from '@apollo/client';
 import { availablePaths } from 'utils/availablePaths';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import styles from './MapLayr.module.scss';
+import locationMarkerUrl from '../../../assets/icons/mapLocation.png?url';
 
 const MapLayrMap = () => {
   const mapRef = useRef(null);
@@ -17,7 +18,6 @@ const MapLayrMap = () => {
     }
   }, []);
 
-  // ✅ Move handleScriptLoad outside so it's accessible
   const handleScriptLoad = async () => {
     if (!window.maplayr) {
       console.error('MapLayr script not loaded.');
@@ -27,6 +27,7 @@ const MapLayrMap = () => {
     const map = await window.maplayr.Map.managed(code);
     const mapView = map.attach(mapRef.current);
 
+    // --- POI Layer ---
     const layer = new window.maplayr.AnnotationLayer();
     mapView.addLayer(layer);
 
@@ -178,34 +179,203 @@ const MapLayrMap = () => {
       },
     ];
 
+    // --- User Location ---
+    // Create geolocation provider with specific parameters
+    const locationProvider = new window.maplayr.GeolocationPositionProvider({
+      enableHighAccuracy: true,
+      timeout: 15000,
+      maximumAge: 30000,
+    });
+
+    // Create user location marker with the geolocation provider
+    const userLocationMarker = new window.maplayr.UserLocationMarker(locationProvider);
+
+    // Customize the appearance
+    userLocationMarker.fillColor = '#ff6b35';
+
+    // Add the user location marker to the map view
+    mapView.addUserLocationMarker(userLocationMarker);
+
+    // Function to calculate route to a specific POI
+    const calculateRouteToDestination = async (destination: any) => {
+      try {
+        // Get current user position
+        const userPosition = userLocationMarker.position;
+
+        if (!userPosition) {
+          return;
+        }
+
+        // Check if routing is available
+        if (typeof map.calculateRoute !== 'function') {
+          drawStraightLine(userPosition, destination);
+          return;
+        }
+
+        const route = await map.calculateRoute(userPosition, destination);
+        createSimpleRoute(userPosition, destination);
+        console.log(`Route distance: ${route.distance} metres`);
+
+        // Display the route on the map
+        const routeShape = new window.maplayr.Shape(route.path);
+        routeShape.strokeColor = '#3600a2ff';
+        routeShape.strokeWidth = 4;
+        mapView.addShape(routeShape);
+
+        return route;
+      } catch (error) {
+        drawStraightLine(userLocationMarker.position, destination);
+      }
+    };
+
+    // Simple route visualization - just start and end markers
+    const createSimpleRoute = (start: any, end: any) => {
+      // Add start marker (green)
+      const startAnnotation = new window.maplayr.Annotation({
+        position: start,
+        node() {
+          const div = document.createElement('div');
+          div.style.width = '16px';
+          div.style.height = '16px';
+          div.style.backgroundColor = '#00ff00';
+          div.style.borderRadius = '50%';
+          div.style.border = '3px solid white';
+          div.style.boxShadow = '0 2px 4px rgba(0,0,0,0.3)';
+          return div;
+        },
+      });
+      layer.add(startAnnotation);
+
+      // Add end marker (red)
+      const endAnnotation = new window.maplayr.Annotation({
+        position: end,
+        node() {
+          const div = document.createElement('div');
+          div.style.width = '16px';
+          div.style.height = '16px';
+          div.style.backgroundColor = '#ff0000';
+          div.style.borderRadius = '50%';
+          div.style.border = '3px solid white';
+          div.style.boxShadow = '0 2px 4px rgba(0,0,0,0.3)';
+          return div;
+        },
+      });
+      layer.add(endAnnotation);
+    };
+
+    // Fallback: Draw straight line if routing fails
+    const drawStraightLine = (start: any, end: any) => {
+      createSimpleRoute(start, end);
+    };
+
     for (const poi of pointsOfInterest) {
       const annotation = new window.maplayr.Annotation({
         position: poi.location,
         node() {
+          const label = document.createElement('span');
+          label.textContent = poi.name;
+          label.className = styles.annotationLabel;
+
+          const icon = document.createElement('img');
+          icon.src = locationMarkerUrl?.src;
+          icon.alt = poi.name;
+          icon.className = styles.annotationIcon;
+
+          icon.addEventListener('click', (e: MouseEvent) => {
+            e.stopPropagation();
+            console.log('Icon clicked:', poi.name);
+            console.log('Before toggle, style:', (label as HTMLElement).style.display);
+
+            const labelEl = label as HTMLElement;
+            const isVisible = labelEl.style.display === 'block';
+
+            // hide all labels
+            const labels = document.querySelectorAll<HTMLElement>(`.${styles.annotationLabel}`);
+            labels.forEach((el) => {
+              el.style.display = 'none';
+            });
+
+            if (!isVisible) {
+              requestAnimationFrame(() => {
+                labelEl.style.display = 'block';
+                console.log('After toggle, style:', labelEl.style.display);
+              });
+            }
+          });
+
+          // Add double-click handler directly to icon
+          icon.addEventListener('dblclick', (e) => {
+            e.stopPropagation(); // Prevent event bubbling
+            calculateRouteToDestination(poi.location);
+          });
+
           const container = document.createElement('div');
           container.className = styles.annotation;
-          container.textContent = poi.name;
+          container.appendChild(icon);
+          container.appendChild(label);
           return container;
         },
       });
 
       layer.add(annotation);
 
+      // Add right-click for routing
+      annotation.addEventListener('contextmenu', (e: any) => {
+        e.preventDefault();
+        calculateRouteToDestination(poi.location);
+      });
+
+      // Single click for camera movement (with delay to not conflict with double-click)
+      let clickTimeout: NodeJS.Timeout;
       annotation.addEventListener('click', () => {
-        mapView.moveCamera({
-          position: poi.location,
-          span: 20,
-          heading: 360 * Math.random(),
-          animated: true,
-        });
+        clickTimeout = setTimeout(() => {
+          mapView.moveCamera({
+            position: poi.location,
+            span: 20,
+            heading: 360 * Math.random(),
+            animated: true,
+          });
+        }, 300);
+      });
+
+      // Double-click handler for routing
+      annotation.addEventListener('dblclick', () => {
+        clearTimeout(clickTimeout);
+        calculateRouteToDestination(poi.location);
       });
     }
+    // Customize the appearance (optional)
+    userLocationMarker.fillColor = '#9100b5ff';
+
+    // Add the user location marker to the map view
+    mapView.addUserLocationMarker(userLocationMarker);
+
+    // Debug logs for position updates
+    locationProvider.addEventListener('position', (event: any) => {
+      console.log('User position update:', event.position);
+    });
+
+    // Handle geolocation errors
+    locationProvider.addEventListener('error', (event: any) => {
+      console.error('Geolocation error:', event.error);
+    });
+
+    // --- Routing ---
+    // Routing functionality is available via double-clicking POI markers
   };
 
+  // Ensure script is loaded before init
   useEffect(() => {
-    if (code && window.maplayr) {
-      handleScriptLoad();
-    }
+    if (!code) return;
+
+    const interval = setInterval(() => {
+      if (window.maplayr) {
+        clearInterval(interval);
+        handleScriptLoad();
+      }
+    }, 100);
+
+    return () => clearInterval(interval);
   }, [code]);
 
   return (
@@ -213,7 +383,6 @@ const MapLayrMap = () => {
       <Script
         src='https://cdn.attractions.io/frameworks/maplayr-web/v0.3/maplayr.js'
         strategy='lazyOnload'
-        onLoad={handleScriptLoad}
       />
       <div ref={mapRef} id='map' style={{ width: '100%', height: '100vh' }} />
     </>
