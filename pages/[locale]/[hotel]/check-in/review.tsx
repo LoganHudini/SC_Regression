@@ -40,6 +40,7 @@ import { timeFormats } from 'utils/timeFormats';
 import dayjs from 'dayjs';
 import cx from 'classnames';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
+import { selectedPreferencesDisplayStorage } from 'storage/selected-preferences.storage';
 import {
   PRE_CHECKIN_ERROR_MSG,
   cardTypes,
@@ -121,6 +122,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
   const [signature, setSignature] = useState<any>(reviewAndSign?.sign || null);
   const [isRuleEnabled, setIsRuleEnabled] = useState(true);
   const [filteredFields, setFilteredFields] = useState<any[]>([]);
+  const [selectedPreferencesExpanded, setSelectedPreferencesExpanded] = useState(false);
 
   const updatedGuestData = useMemo(() => {
     const guestInfolength = updatedGuestInfo?.adult?.length;
@@ -279,6 +281,8 @@ const CheckIn: React.FC<ICheckinProps> = () => {
       return updated;
     });
   };
+
+  const selectedPrefDisplay = useReactiveVar(selectedPreferencesDisplayStorage);
 
   const allMandatoryAccepted = termsAndConditionsValue?.every(
     (option: any, idx: number) => !option.mandatory || checkboxStates[idx],
@@ -1466,6 +1470,39 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                   )}
                 </div>
               )}
+
+            {selectedPrefDisplay?.length > 0 && (
+              <div onClick={() => setSelectedPreferencesExpanded((prev) => !prev)}>
+                {selectedPreferencesExpanded ? (
+                  <DetailsCard title={t('Selected Preferences')} icon>
+                    <div className={styles.guestInformation}>
+                      {selectedPrefDisplay.map((group, gi) => (
+                        <div key={gi} className={styles.preferenceGroupDisplay}>
+                          <p className={styles.checkDatesText}>{group.groupName.toUpperCase()}</p>
+                          <ul className={styles.preferenceItemList}>
+                            {group.items.map((item, ii) => (
+                              <li key={ii} className={styles.preferenceItem}>
+                                {item}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  </DetailsCard>
+                ) : (
+                  <DetailsCardShrinked title={t('Selected Preferences')}>
+                    {selectedPrefDisplay.map((group, gi) => (
+                      <div key={gi} className={styles.shrinkedText}>
+                        <span className={styles.shrinkedLabel}>{group.groupName}:</span>{' '}
+                        {group.items.slice(0, 3).join(', ')}
+                        {group.items.length > 3 && '…'}
+                      </div>
+                    ))}
+                  </DetailsCardShrinked>
+                )}
+              </div>
+            )}
 
             {personalizationEntities?.length > 0 && (
               <div className={styles.cardWrapper}>

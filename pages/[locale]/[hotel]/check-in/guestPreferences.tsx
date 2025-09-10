@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useQuery } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import {
   GET_HOTEL_PREFERENCES,
   IGetHotelPreferencesResponse,
@@ -20,11 +20,17 @@ import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/querie
 import { Stepper } from 'components/shared/Stepper/Stepper';
 import { StepperInformationStorage } from 'storage/check-in.storage';
 import produce from 'immer';
-import { STEPPER_PREFERENCES } from 'utils/constants';
+import { STEPPER_PREFERENCES, personalisation } from 'utils/constants';
+import { selectedPreferencesDisplayStorage } from 'storage/selected-preferences.storage';
 import { getStaticPaths } from 'utils/getStatic';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import i18nConfig from 'next-i18next.config';
+import {
+  selectedPreferencesStorage,
+  updateSelectedPreferences,
+} from 'storage/guestPreferences.storage';
+
 export { getStaticPaths };
 
 const Preferences: React.FC<any> = () => {
@@ -33,7 +39,7 @@ const Preferences: React.FC<any> = () => {
   const hotelId = config?.hotelId;
   const locale = useLocale();
   const navigate = useLocalizedRouter();
-  const [selected, setSelected] = useState<{ [groupId: string]: string[] }>({});
+  const selected = useReactiveVar(selectedPreferencesStorage);
   const [loading, setLoading] = useState(false);
 
   const { data } = useQuery<IGetHotelPreferencesResponse>(GET_HOTEL_PREFERENCES, {
@@ -51,23 +57,22 @@ const Preferences: React.FC<any> = () => {
   };
 
   const preferences = (data?.getHotelAccommodationDetails?.preferences ?? []).filter(
-    (preference) => preference.isActive !== false,
+    (preference: any) => preference.isActive !== false,
   );
 
   const handleSelect = (groupId: string, itemName: string, allowMultiple: boolean) => {
-    setSelected((prev) => {
-      const existing = prev[groupId] || [];
+    const current = selectedPreferencesStorage();
+    const existing = current[groupId] || [];
 
-      if (allowMultiple) {
-        const updated = existing.includes(itemName)
-          ? existing.filter((name) => name !== itemName)
-          : [...existing, itemName];
-        return { ...prev, [groupId]: updated };
-      } else {
-        const updated = existing.includes(itemName) ? [] : [itemName];
-        return { ...prev, [groupId]: updated };
-      }
-    });
+    let updated: string[];
+    if (allowMultiple) {
+      updated = existing.includes(itemName)
+        ? existing.filter((name) => name !== itemName)
+        : [...existing, itemName];
+    } else {
+      updated = existing.includes(itemName) ? [] : [itemName];
+    }
+    updateSelectedPreferences({ ...current, [groupId]: updated });
   };
 
   const isSelected = (groupId: string, itemName: string) => selected[groupId]?.includes(itemName);
@@ -88,10 +93,48 @@ const Preferences: React.FC<any> = () => {
     );
   }, [selected]);
 
+  useEffect(() => {
+    const selectedDisplay = Object.entries(selected)
+      .filter(([, values]) => values.length > 0)
+      .map(([groupId, values]) => {
+        const group = preferences.find((pref: any) => pref.id === groupId);
+        const items = values.map((val) => {
+          const code = val.split('#')[0];
+          const match = group?.preferenceItems?.find((pi: any) => pi.code === code);
+          return match?.name ?? code;
+        });
+        return {
+          groupName: group?.name ?? groupId,
+          items,
+        };
+      });
+
+    selectedPreferencesDisplayStorage(selectedDisplay);
+  }, [selected, preferences]);
+
+  const hasPersonalization = () => {
+    const checkInModule = config?.modules?.find((module: any) => module?.code === 'Check-In');
+
+    if (!checkInModule) {
+      return false;
+    }
+
+    const personalisationConfig = checkInModule.submodules?.find(
+      (submodule: any) => submodule?.name === personalisation && submodule.isActive,
+    );
+
+    return !!personalisationConfig;
+  };
+
   const handleSubmit = async () => {
     const hasSelectedPreferences = Object.values(selected).some((items) => items.length > 0);
+
     if (!hasSelectedPreferences) {
-      navigate(availablePaths.REVIEW);
+      if (hasPersonalization()) {
+        navigate(availablePaths.PERSONALIZE);
+      } else {
+        navigate(availablePaths.REVIEW);
+      }
       return;
     }
 
@@ -119,7 +162,7 @@ const Preferences: React.FC<any> = () => {
       preferences: Object.entries(selected)
         .filter(([, keys]) => keys.length > 0)
         .map(([groupId, keys]) => {
-          const matchedPref = preferencesList.find((pref) => pref.id === groupId);
+          const matchedPref = preferencesList.find((pref: any) => pref.id === groupId);
           return {
             preferenceType: matchedPref?.code ?? groupId,
             preference: Array.from(new Set(keys.map(stripIdx))).map((code) => ({
@@ -130,6 +173,7 @@ const Preferences: React.FC<any> = () => {
     };
 
     try {
+      setLoading(true);
       const checkInToken = await getCheckInToken();
       const response = await client.query({
         query: SUBMIT_PREFERENCES,
@@ -146,9 +190,15 @@ const Preferences: React.FC<any> = () => {
         fetchPolicy: 'no-cache',
       });
 
-      navigate(availablePaths.REVIEW);
+      if (hasPersonalization()) {
+        navigate(availablePaths.PERSONALIZE);
+      } else {
+        navigate(availablePaths.REVIEW);
+      }
     } catch (error) {
       console.error('Error submitting preferences:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -161,7 +211,7 @@ const Preferences: React.FC<any> = () => {
       <PageWrapper>
         <div className={styles.preferencesPageTitle}>{t('Update Your Preferences')}</div>
 
-        {preferences.map((group) => (
+        {preferences.map((group: any) => (
           <div key={group.id} className={styles.preferenceGroup}>
             <div className={styles.preferenceGroupHeader}>
               <div>{capitalizeText(group.name)}</div>
@@ -170,7 +220,7 @@ const Preferences: React.FC<any> = () => {
               </div>
             </div>
             <div className={styles.preferenceOptions}>
-              {group.preferenceItems.map((item, idx) => {
+              {group.preferenceItems.map((item: any, idx: any) => {
                 const selKey = `${item.code ?? ''}#${idx}`;
                 const uniqueKey = `${group.id}:${item.code || item.name}:${idx}`;
 
