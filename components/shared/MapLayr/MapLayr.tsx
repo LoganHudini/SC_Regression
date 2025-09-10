@@ -55,6 +55,7 @@ const MapLayrMap = () => {
       {
         name: 'Bar & Restaurant',
         location: new window.maplayr.Coordinates(-20.5030495, 57.407916),
+        images: ['/images/activity/restaurant.jpg'],
       },
       {
         name: 'Halfway',
@@ -71,6 +72,7 @@ const MapLayrMap = () => {
       {
         name: 'Restaurant',
         location: new window.maplayr.Coordinates(-20.5034734, 57.4126152),
+        images: ['/images/activity/restaurant.jpg'],
       },
       {
         name: 'Swimming Pool',
@@ -131,6 +133,7 @@ const MapLayrMap = () => {
       {
         name: 'Restaurant',
         location: new window.maplayr.Coordinates(-20.5055316, 57.4080072),
+        images: ['/images/activity/restaurant.jpg'],
       },
       {
         name: 'La Reserve',
@@ -143,6 +146,7 @@ const MapLayrMap = () => {
       {
         name: 'Restaurant',
         location: new window.maplayr.Coordinates(-20.5001173, 57.4271441),
+        images: ['/images/activity/restaurant.jpg'],
       },
       {
         name: 'Pro shop',
@@ -258,9 +262,26 @@ const MapLayrMap = () => {
       const annotation = new window.maplayr.Annotation({
         position: poi.location,
         node() {
-          const label = document.createElement('span');
-          label.textContent = poi.name;
+          const label = document.createElement('div');
           label.className = styles.annotationLabel;
+
+          if (poi.images && poi.images.length > 0) {
+            poi.images.forEach((imgUrl: string) => {
+              const img = document.createElement('img');
+              img.src = imgUrl;
+              img.alt = poi.name;
+              img.style.width = '120px';
+              img.style.height = '80px';
+              img.style.objectFit = 'cover';
+              img.style.borderRadius = '8px';
+              img.style.marginBottom = '6px';
+              label.appendChild(img);
+            });
+          }
+          const text = document.createElement('span');
+          text.textContent = poi.name;
+          text.style.display = 'block';
+          label.appendChild(text);
 
           const icon = document.createElement('img');
           icon.src = locationMarkerUrl?.src;
@@ -269,8 +290,6 @@ const MapLayrMap = () => {
 
           icon.addEventListener('click', (e: MouseEvent) => {
             e.stopPropagation();
-            console.log('Icon clicked:', poi.name);
-            console.log('Before toggle, style:', (label as HTMLElement).style.display);
 
             const labelEl = label as HTMLElement;
             const isVisible = labelEl.style.display === 'block';
@@ -283,7 +302,6 @@ const MapLayrMap = () => {
             if (!isVisible) {
               requestAnimationFrame(() => {
                 labelEl.style.display = 'block';
-                console.log('After toggle, style:', labelEl.style.display);
               });
             }
           });
@@ -338,7 +356,6 @@ const MapLayrMap = () => {
     });
   };
 
-  // Ensure script is loaded before init
   useEffect(() => {
     if (!code) return;
 
