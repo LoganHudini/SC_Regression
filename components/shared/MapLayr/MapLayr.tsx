@@ -27,7 +27,6 @@ const MapLayrMap = () => {
     const map = await window.maplayr.Map.managed(code);
     const mapView = map.attach(mapRef.current);
 
-    // --- POI Layer ---
     const layer = new window.maplayr.AnnotationLayer();
     mapView.addLayer(layer);
 
@@ -179,34 +178,26 @@ const MapLayrMap = () => {
       },
     ];
 
-    // --- User Location ---
-    // Create geolocation provider with specific parameters
     const locationProvider = new window.maplayr.GeolocationPositionProvider({
       enableHighAccuracy: true,
       timeout: 15000,
       maximumAge: 30000,
     });
 
-    // Create user location marker with the geolocation provider
     const userLocationMarker = new window.maplayr.UserLocationMarker(locationProvider);
 
-    // Customize the appearance
     userLocationMarker.fillColor = '#ff6b35';
 
-    // Add the user location marker to the map view
     mapView.addUserLocationMarker(userLocationMarker);
 
-    // Function to calculate route to a specific POI
     const calculateRouteToDestination = async (destination: any) => {
       try {
-        // Get current user position
         const userPosition = userLocationMarker.position;
 
         if (!userPosition) {
           return;
         }
 
-        // Check if routing is available
         if (typeof map.calculateRoute !== 'function') {
           drawStraightLine(userPosition, destination);
           return;
@@ -216,7 +207,6 @@ const MapLayrMap = () => {
         createSimpleRoute(userPosition, destination);
         console.log(`Route distance: ${route.distance} metres`);
 
-        // Display the route on the map
         const routeShape = new window.maplayr.Shape(route.path);
         routeShape.strokeColor = '#3600a2ff';
         routeShape.strokeWidth = 4;
@@ -228,9 +218,7 @@ const MapLayrMap = () => {
       }
     };
 
-    // Simple route visualization - just start and end markers
     const createSimpleRoute = (start: any, end: any) => {
-      // Add start marker (green)
       const startAnnotation = new window.maplayr.Annotation({
         position: start,
         node() {
@@ -246,7 +234,6 @@ const MapLayrMap = () => {
       });
       layer.add(startAnnotation);
 
-      // Add end marker (red)
       const endAnnotation = new window.maplayr.Annotation({
         position: end,
         node() {
@@ -263,7 +250,6 @@ const MapLayrMap = () => {
       layer.add(endAnnotation);
     };
 
-    // Fallback: Draw straight line if routing fails
     const drawStraightLine = (start: any, end: any) => {
       createSimpleRoute(start, end);
     };
@@ -289,7 +275,6 @@ const MapLayrMap = () => {
             const labelEl = label as HTMLElement;
             const isVisible = labelEl.style.display === 'block';
 
-            // hide all labels
             const labels = document.querySelectorAll<HTMLElement>(`.${styles.annotationLabel}`);
             labels.forEach((el) => {
               el.style.display = 'none';
@@ -303,9 +288,8 @@ const MapLayrMap = () => {
             }
           });
 
-          // Add double-click handler directly to icon
           icon.addEventListener('dblclick', (e) => {
-            e.stopPropagation(); // Prevent event bubbling
+            e.stopPropagation();
             calculateRouteToDestination(poi.location);
           });
 
@@ -319,13 +303,11 @@ const MapLayrMap = () => {
 
       layer.add(annotation);
 
-      // Add right-click for routing
       annotation.addEventListener('contextmenu', (e: any) => {
         e.preventDefault();
         calculateRouteToDestination(poi.location);
       });
 
-      // Single click for camera movement (with delay to not conflict with double-click)
       let clickTimeout: NodeJS.Timeout;
       annotation.addEventListener('click', () => {
         clickTimeout = setTimeout(() => {
@@ -338,30 +320,22 @@ const MapLayrMap = () => {
         }, 300);
       });
 
-      // Double-click handler for routing
       annotation.addEventListener('dblclick', () => {
         clearTimeout(clickTimeout);
         calculateRouteToDestination(poi.location);
       });
     }
-    // Customize the appearance (optional)
     userLocationMarker.fillColor = '#9100b5ff';
 
-    // Add the user location marker to the map view
     mapView.addUserLocationMarker(userLocationMarker);
 
-    // Debug logs for position updates
     locationProvider.addEventListener('position', (event: any) => {
       console.log('User position update:', event.position);
     });
 
-    // Handle geolocation errors
     locationProvider.addEventListener('error', (event: any) => {
       console.error('Geolocation error:', event.error);
     });
-
-    // --- Routing ---
-    // Routing functionality is available via double-clicking POI markers
   };
 
   // Ensure script is loaded before init
