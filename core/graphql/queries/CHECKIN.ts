@@ -67,6 +67,7 @@ export interface ICheckInApiRequest {
   skipOCR: boolean;
   cashierNotes?: string;
   nightlyRate?: string;
+  title?: string;
   guests: [
     {
       firstName: string;
