@@ -28043,8 +28043,9 @@ export const configuration: any = [
 
   {
     code: 'fairmont-miramar',
-    logo: 'miramar',
+    logo: '',
     homePageHeader: true,
+    propertyHeaderLogo: true,
     name: 'Fairmont Miramar',
     hotelId: 'ddbb815e-26ad-40a4-bb81-c4ac585e2374',
     pms: 'OPERA',
