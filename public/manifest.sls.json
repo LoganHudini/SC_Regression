@@ -1,0 +1,22 @@
+{
+  "theme_color": "#364F59",
+  "background_color": "#ffffff",
+  "display": "fullscreen",
+  "scope": "/",
+  "start_url": "/",
+  "name": "SLS",
+  "short_name": "SLS",
+  "icons": [
+    {
+      "src": "/images/sls/Logo.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/sls/Logo.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

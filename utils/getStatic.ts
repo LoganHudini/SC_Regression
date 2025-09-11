@@ -89,6 +89,7 @@ import {
   CASA_COOK_EL_GOUNA,
   ROGERS_HOSPITALITY_HERITAGE_LE_TELFAIR,
   ROGERS_HOSPITALITY_HERITAGE_AWALI,
+  SLS_RED_SEA,
 } from './constants';
 
 const propertyList = [
@@ -182,6 +183,7 @@ const propertyList = [
   CASA_COOK_EL_GOUNA,
   ROGERS_HOSPITALITY_HERITAGE_LE_TELFAIR,
   ROGERS_HOSPITALITY_HERITAGE_AWALI,
+  SLS_RED_SEA,
 ];
 
 export const getI18nPaths = () =>

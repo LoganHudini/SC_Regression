@@ -103,6 +103,7 @@ export const TURTLES_INN = 'turtles-inn';
 export const CASA_COOK_EL_GOUNA = 'casa-cook-el-gouna';
 export const ROGERS_HOSPITALITY_HERITAGE_LE_TELFAIR = 'rogers-hospitality-heritage-le-telfair';
 export const ROGERS_HOSPITALITY_HERITAGE_AWALI = 'rogers-hospitality-heritage-awali';
+export const SLS_RED_SEA = 'sls-red-sea';
 
 // CMS detailsCustomAttributes config constants
 export const MULTIPLE_PRIVACY_OPTIONS = 'multiplePrivacyOptions';
