@@ -58,7 +58,6 @@ const MapLayrMap = () => {
       {
         name: 'Bar & Restaurant',
         location: new window.maplayr.Coordinates(-20.5030495, 57.407916),
-        images: ['/images/activity/restaurant.jpg'],
       },
       {
         name: 'Halfway',
@@ -75,7 +74,6 @@ const MapLayrMap = () => {
       {
         name: 'Restaurant',
         location: new window.maplayr.Coordinates(-20.5034734, 57.4126152),
-        images: ['/images/activity/restaurant.jpg'],
       },
       {
         name: 'Swimming Pool',
@@ -135,6 +133,8 @@ const MapLayrMap = () => {
       },
       {
         name: 'Restaurant',
+        description:
+          'Craft precious family moments around the C Beach Club’s child-friendly pool, sprawling over 600m. Lifelong memories are made here, at this sublime beachfront playground.',
         location: new window.maplayr.Coordinates(-20.5055316, 57.4080072),
         images: [
           'https://rogershospitality-stage.s3.ap-south-1.amazonaws.com/CBeach+restaurant.png',
@@ -151,10 +151,11 @@ const MapLayrMap = () => {
       {
         name: 'Restaurant',
         location: new window.maplayr.Coordinates(-20.5001173, 57.4271441),
-        images: ['/images/activity/restaurant.jpg'],
       },
       {
         name: 'Pro shop',
+        description:
+          'Prepare to embark on a shopping experience like no other at our shopping paradise.',
         location: new window.maplayr.Coordinates(-20.5001914, 57.427179),
         images: [
           'https://rogershospitality-stage.s3.ap-south-1.amazonaws.com/La+Reserve+Golf+Link+ProShop.png',
@@ -289,7 +290,23 @@ const MapLayrMap = () => {
           const text = document.createElement('span');
           text.textContent = poi.name;
           text.style.display = 'block';
+          if (poi.description) {
+            text.style.fontWeight = '600';
+          }
           label.appendChild(text);
+
+          if (poi.description) {
+            const desc = document.createElement('p');
+            desc.textContent = poi.description;
+            desc.style.fontSize = '13px';
+            desc.style.fontWeight = '400';
+            desc.style.color = '#555';
+            desc.style.marginTop = '4px';
+            desc.style.textAlign = 'center';
+            desc.style.maxWidth = '160px';
+            desc.style.lineHeight = '1.3';
+            label.appendChild(desc);
+          }
 
           const icon = document.createElement('img');
           icon.src = locationMarkerUrl?.src;
