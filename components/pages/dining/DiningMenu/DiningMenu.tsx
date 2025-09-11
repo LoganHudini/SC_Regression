@@ -214,7 +214,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   const filterItems = (items: any) => {
     return items?.filter((item: any) => {
       const basicConditions =
-        item?.price > 0 &&
+        item?.price >= 0 &&
         item?.isActive &&
         item?.name?.toLowerCase().includes(searchQuery.toLowerCase());
 

@@ -682,7 +682,7 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
                   <div className={styles.upsell}>
                     {selectedItem?.upsell?.map(
                       (upsellItem: any, index: number) =>
-                        upsellItem?.price > 0 && (
+                        upsellItem?.price >= 0 && (
                           <DiningMenuElementUpsell
                             key={index}
                             title={upsellItem?.name}
