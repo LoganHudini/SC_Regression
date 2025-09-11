@@ -91,6 +91,7 @@ const DiningOrderSummary = () => {
   const [paymentType, setpaymentType] = useState<any>(
     irdOrderType?.payment?.length > 0 ? irdOrderType?.payment[0] : [],
   );
+  const customSuccessMessage = irdOrderType?.successMessage;
   const [guestNumber, setguestNumber] = useState(1);
   const [totalAmount, setTotalAmount] = useState(0);
   const currency = useCurrency();
@@ -565,7 +566,9 @@ const DiningOrderSummary = () => {
       notificationStorage({
         title: t('Thank You!'),
         type: SUCCESS,
-        description: t('Your order has been confirmed.'),
+        description: customSuccessMessage
+          ? t(`${customSuccessMessage}`)
+          : t('Your order has been confirmed.'),
         redirect: availablePaths?.DINING,
       });
       toggleNotification(true);

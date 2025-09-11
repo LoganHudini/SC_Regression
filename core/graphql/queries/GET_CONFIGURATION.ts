@@ -29193,6 +29193,8 @@ export const configuration: any = [
         isActive: true,
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
+        successMessage:
+          'Your order has been confirmed. Estimated order delivery time is 40 minutes.',
       },
       {
         code: 'Services',
