@@ -47,6 +47,9 @@ const MapLayrMap = () => {
       {
         name: 'Pro shop',
         location: new window.maplayr.Coordinates(-20.5031487, 57.4078868),
+        images: [
+          'https://rogershospitality-stage.s3.ap-south-1.amazonaws.com/La+Reserve+Golf+Link+ProShop.png',
+        ],
       },
       {
         name: 'Toilet',
@@ -133,7 +136,9 @@ const MapLayrMap = () => {
       {
         name: 'Restaurant',
         location: new window.maplayr.Coordinates(-20.5055316, 57.4080072),
-        images: ['/images/activity/restaurant.jpg'],
+        images: [
+          'https://rogershospitality-stage.s3.ap-south-1.amazonaws.com/CBeach+restaurant.png',
+        ],
       },
       {
         name: 'La Reserve',
@@ -151,6 +156,9 @@ const MapLayrMap = () => {
       {
         name: 'Pro shop',
         location: new window.maplayr.Coordinates(-20.5001914, 57.427179),
+        images: [
+          'https://rogershospitality-stage.s3.ap-south-1.amazonaws.com/La+Reserve+Golf+Link+ProShop.png',
+        ],
       },
       {
         name: 'Vestiare',
