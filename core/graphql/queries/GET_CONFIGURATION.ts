@@ -25960,8 +25960,9 @@ export const configuration: any = [
   },
   {
     code: 'fairmont-sonoma',
-    logo: 'sonoma',
+    logo: '',
     homePageHeader: true,
+    propertyHeaderLogo: true,
     name: 'Fairmont Sonoma',
     hotelId: '38726f15-5d08-430c-9d26-e92ce4d7de3c',
     pms: 'OPERA',
