@@ -183,10 +183,10 @@ export const DiningCategoryOptions: React.FC<IDiningMenuFilterProps> = ({
 
   const filteredCategories = categories?.filter(
     (category: any) =>
-      category?.items?.filter((item: any) => item?.isActive && item?.price > 0)?.length > 0 ||
+      category?.items?.filter((item: any) => item?.isActive && item?.price >= 0)?.length > 0 ||
       category?.subCategories?.some(
         (subCategory: any) =>
-          subCategory?.items?.filter((item: any) => item?.isActive && item?.price > 0)?.length > 0,
+          subCategory?.items?.filter((item: any) => item?.isActive && item?.price >= 0)?.length > 0,
       ),
   );
 

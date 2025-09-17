@@ -20,7 +20,7 @@ import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/querie
 import { Stepper } from 'components/shared/Stepper/Stepper';
 import { StepperInformationStorage } from 'storage/check-in.storage';
 import produce from 'immer';
-import { STEPPER_PREFERENCES } from 'utils/constants';
+import { STEPPER_PREFERENCES, personalisation } from 'utils/constants';
 import { selectedPreferencesDisplayStorage } from 'storage/selected-preferences.storage';
 import { getStaticPaths } from 'utils/getStatic';
 import { GetStaticProps } from 'next';
@@ -112,10 +112,29 @@ const Preferences: React.FC<any> = () => {
     selectedPreferencesDisplayStorage(selectedDisplay);
   }, [selected, preferences]);
 
+  const hasPersonalization = () => {
+    const checkInModule = config?.modules?.find((module: any) => module?.code === 'Check-In');
+
+    if (!checkInModule) {
+      return false;
+    }
+
+    const personalisationConfig = checkInModule.submodules?.find(
+      (submodule: any) => submodule?.name === personalisation && submodule.isActive,
+    );
+
+    return !!personalisationConfig;
+  };
+
   const handleSubmit = async () => {
     const hasSelectedPreferences = Object.values(selected).some((items) => items.length > 0);
+
     if (!hasSelectedPreferences) {
-      navigate(availablePaths.REVIEW);
+      if (hasPersonalization()) {
+        navigate(availablePaths.PERSONALIZE);
+      } else {
+        navigate(availablePaths.REVIEW);
+      }
       return;
     }
 
@@ -165,12 +184,17 @@ const Preferences: React.FC<any> = () => {
         variables: {
           hotelId: hotelId,
           reservationId: payload.reservationId,
+          bookingId: payload.bookingId,
           body: payload,
         },
         fetchPolicy: 'no-cache',
       });
 
-      navigate(availablePaths.REVIEW);
+      if (hasPersonalization()) {
+        navigate(availablePaths.PERSONALIZE);
+      } else {
+        navigate(availablePaths.REVIEW);
+      }
     } catch (error) {
       console.error('Error submitting preferences:', error);
     } finally {

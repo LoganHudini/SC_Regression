@@ -155,6 +155,7 @@ export const Header: React.FC<IHeaderProps> = ({
               <img
                 className={cx(styles.headerLogo, {
                   [styles.fairmontLogo]: BRAND_CODE === 'fairmont',
+                  [styles.rafflesSeychellesLogo]: BRAND_CODE === 'raffles',
                 })}
                 src={`/images/${
                   hotel === 'fairmont-makkah-clock-royal-tower'

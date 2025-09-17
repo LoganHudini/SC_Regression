@@ -76,8 +76,12 @@
   cursor: pointer;
   max-height: 3rem;
 }
-.fairmontLogo{
+.fairmontLogo {
   margin-bottom: 0.5rem;
+}
+
+.rafflesSeychellesLogo {
+  max-height: 4.5rem;
 }
 
 .propertyName {
@@ -145,7 +149,7 @@
 .searchIcon {
   height: 18px;
 
-  &>path {
+  & > path {
     fill: var(--primary-theme-color);
   }
 }
@@ -205,7 +209,8 @@
   width: 300px;
   font-size: 1rem;
   color: var(--tertiary-text-color);
-  background: linear-gradient(to right, #00000029 0%, #00000029 60%, transparent 10%) repeat-x left bottom;
+  background: linear-gradient(to right, #00000029 0%, #00000029 60%, transparent 10%) repeat-x left
+    bottom;
 
   &:last-child {
     background: none;

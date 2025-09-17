@@ -703,7 +703,6 @@
       "label": "Start: ROGERS_HOSPITALITY_STAGE",
       "detail": "env-cmd -f .env.rogers-hospitality.stage yarn next start"
     },
-
     {
       "type": "npm",
       "script": "dev:shangri-la-stage",
@@ -747,6 +746,50 @@
       "problemMatcher": [],
       "label": "Start: SHANGRI-LA",
       "detail": "env-cmd -f .env.shangri-la yarn next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:sls",
+      "problemMatcher": [],
+      "label": "Dev: SLS",
+      "detail": "env-cmd -f .env.sls yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:sls",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: SLS",
+      "detail": "env-cmd -f .env.sls yarn build"
+    },
+    {
+      "type": "npm",
+      "script": "start:sls",
+      "problemMatcher": [],
+      "label": "Start: SLS",
+      "detail": "env-cmd -f .env.sls next start"
+    },
+    {
+      "type": "npm",
+      "script": "dev:sls-stage",
+      "problemMatcher": [],
+      "label": "Dev: SLS_STAGE",
+      "detail": "env-cmd -f .env.sls.stage yarn next dev"
+    },
+    {
+      "type": "npm",
+      "script": "build:sls-stage",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Build: SLS_STAGE",
+      "detail": "env-cmd -f .env.sls.stage yarn next build"
+    },
+    {
+      "type": "npm",
+      "script": "start:sls-stage",
+      "problemMatcher": [],
+      "label": "Start: SLS_STAGE",
+      "detail": "env-cmd -f .env.sls.stage yarn next start"
     }
   ]
 }

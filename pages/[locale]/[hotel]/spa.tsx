@@ -543,102 +543,96 @@ const Spa: React.FC = () => {
                 </FormHelperText>
               </StyledFormControl>
             </div>
-            {!isCheckedIn?.firstName && (
-              <StyledInput
-                autoComplete='off'
-                required
-                className={styles.reservationInput}
-                label={t('First Name')}
-                variant='standard'
-                name='firstName'
-                id='firstName'
-                value={formik.values.firstName}
-                onChange={(e) => {
-                  formik.handleChange(e);
-                }}
-                error={
-                  (formik?.validateOnMount || formik.touched.firstName) &&
-                  Boolean(formik.errors.firstName)
-                }
-                helperText={
-                  (formik?.validateOnMount || formik.touched?.firstName) && formik.errors.firstName
-                    ? t(formik.errors.firstName)
-                    : null
-                }
-              />
-            )}
-            {isCheckedIn?.lastName && (
-              <StyledInput
-                autoComplete='off'
-                required
-                className={styles.reservationInput}
-                label={t('Last Name')}
-                variant='standard'
-                name='lastName'
-                id='lastName'
-                value={formik.values.lastName}
-                onChange={(e) => {
-                  formik.handleChange(e);
-                }}
-                error={
-                  (formik?.validateOnMount || formik.touched.lastName) &&
-                  Boolean(formik.errors.lastName)
-                }
-                helperText={
-                  (formik?.validateOnMount || formik.touched?.lastName) && formik.errors.lastName
-                    ? t(formik.errors.lastName)
-                    : null
-                }
-              />
-            )}
-            {!isCheckedIn?.email && (
-              <StyledInput
-                autoComplete='off'
-                required
-                className={styles.reservationInput}
-                label={t('Email')}
-                variant='standard'
-                name='email'
-                id='email'
-                value={formik.values.email}
-                onChange={(e) => {
-                  formik.handleChange(e);
-                }}
-                error={
-                  (formik?.validateOnMount || formik.touched.email) && Boolean(formik.errors.email)
-                }
-                helperText={
-                  (formik?.validateOnMount || formik.touched?.email) && formik.errors.email
-                    ? t(formik.errors.email)
-                    : null
-                }
-              />
-            )}
-            {!isCheckedIn?.phoneNumber && (
-              <StyledInput
-                autoComplete='off'
-                required
-                className={styles.reservationInput}
-                label={t('Phone Number')}
-                variant='standard'
-                name='phoneNumber'
-                id='phoneNumber'
-                value={formik.values.phoneNumber}
-                onChange={(e) => {
-                  formik.handleChange(e);
-                }}
-                error={
-                  (formik?.validateOnMount || formik.touched.phoneNumber) &&
-                  Boolean(formik.errors.phoneNumber)
-                }
-                helperText={
-                  (formik?.validateOnMount || formik.touched?.phoneNumber) &&
-                  formik.errors.phoneNumber
-                    ? t(formik.errors.phoneNumber)
-                    : null
-                }
-              />
-            )}
+
+            <StyledInput
+              autoComplete='off'
+              required
+              className={styles.reservationInput}
+              label={t('First Name')}
+              variant='standard'
+              name='firstName'
+              id='firstName'
+              value={formik.values.firstName}
+              onChange={(e) => {
+                formik.handleChange(e);
+              }}
+              error={
+                (formik?.validateOnMount || formik.touched.firstName) &&
+                Boolean(formik.errors.firstName)
+              }
+              helperText={
+                (formik?.validateOnMount || formik.touched?.firstName) && formik.errors.firstName
+                  ? t(formik.errors.firstName)
+                  : null
+              }
+            />
+            <StyledInput
+              autoComplete='off'
+              required
+              className={styles.reservationInput}
+              label={t('Last Name')}
+              variant='standard'
+              name='lastName'
+              id='lastName'
+              value={formik.values.lastName}
+              onChange={(e) => {
+                formik.handleChange(e);
+              }}
+              error={
+                (formik?.validateOnMount || formik.touched.lastName) &&
+                Boolean(formik.errors.lastName)
+              }
+              helperText={
+                (formik?.validateOnMount || formik.touched?.lastName) && formik.errors.lastName
+                  ? t(formik.errors.lastName)
+                  : null
+              }
+            />
+            <StyledInput
+              autoComplete='off'
+              required
+              className={styles.reservationInput}
+              label={t('Email')}
+              variant='standard'
+              name='email'
+              id='email'
+              value={formik.values.email}
+              onChange={(e) => {
+                formik.handleChange(e);
+              }}
+              error={
+                (formik?.validateOnMount || formik.touched.email) && Boolean(formik.errors.email)
+              }
+              helperText={
+                (formik?.validateOnMount || formik.touched?.email) && formik.errors.email
+                  ? t(formik.errors.email)
+                  : null
+              }
+            />
+            <StyledInput
+              autoComplete='off'
+              required
+              className={styles.reservationInput}
+              label={t('Phone Number')}
+              variant='standard'
+              name='phoneNumber'
+              id='phoneNumber'
+              value={formik.values.phoneNumber}
+              onChange={(e) => {
+                formik.handleChange(e);
+              }}
+              error={
+                (formik?.validateOnMount || formik.touched.phoneNumber) &&
+                Boolean(formik.errors.phoneNumber)
+              }
+              helperText={
+                (formik?.validateOnMount || formik.touched?.phoneNumber) &&
+                formik.errors.phoneNumber
+                  ? t(formik.errors.phoneNumber)
+                  : null
+              }
+            />
+
             <div className={styles.slotsButtonwrapper}>
               {timeExtractedArray?.length > 0 &&
                 timeExtractedArray?.map((timeExt: any, index: any) => (

@@ -91,6 +91,7 @@ const DiningOrderSummary = () => {
   const [paymentType, setpaymentType] = useState<any>(
     irdOrderType?.payment?.length > 0 ? irdOrderType?.payment[0] : [],
   );
+  const customSuccessMessage = irdOrderType?.successMessage;
   const [guestNumber, setguestNumber] = useState(1);
   const [totalAmount, setTotalAmount] = useState(0);
   const currency = useCurrency();
@@ -105,6 +106,7 @@ const DiningOrderSummary = () => {
   const [isPickerOpen, setIsPickerOpen] = useState(false);
   const [selectedTime, setSelectedTime] = useState('');
   const [nextClick, setNextClick] = useState(false);
+  const isSubmittingRef = useRef(false);
 
   const information = hotelInfo?.getPropertyDetailsByHotelId?.hotel?.detailsCustomAttributes;
 
@@ -410,6 +412,10 @@ const DiningOrderSummary = () => {
   }, []);
 
   const handleOrder = useCallback(async () => {
+    if (loading || isSubmittingRef.current) return;
+
+    isSubmittingRef.current = true;
+
     try {
       const isInHouse = await checkReservationStatus();
       if (!isInHouse) {
@@ -424,6 +430,7 @@ const DiningOrderSummary = () => {
         toggleNotification(true);
         diningMenuStorage({ items: [] });
         navigate(availablePaths.HOME);
+        isSubmittingRef.current = false;
         return;
       }
     } catch (error) {
@@ -435,6 +442,7 @@ const DiningOrderSummary = () => {
       });
       toggleNotification(true);
       navigate(availablePaths.HOME);
+      isSubmittingRef.current = false;
       return;
     }
 
@@ -536,7 +544,7 @@ const DiningOrderSummary = () => {
           checkinData?.roomNumber,
           checkinData?.lastName,
         );
-        await client.mutate({
+        const { data } = await client.mutate({
           mutation: IRD_ORDER_TRANSACTION_POS,
           context: {
             clientName: 'integration_b',
@@ -547,6 +555,9 @@ const DiningOrderSummary = () => {
           fetchPolicy: 'network-only',
           variables: irdOrderPOSPayload,
         });
+        if (!data?.transactionPOS?.status) {
+          throw false;
+        }
       }
       // irdOrderEvent(response?.data?.createOrder, currency);
       setTimeout(() => {
@@ -555,11 +566,14 @@ const DiningOrderSummary = () => {
       notificationStorage({
         title: t('Thank You!'),
         type: SUCCESS,
-        description: t('Your order has been confirmed.'),
+        description: customSuccessMessage
+          ? t(`${customSuccessMessage}`)
+          : t('Your order has been confirmed.'),
         redirect: availablePaths?.DINING,
       });
       toggleNotification(true);
       reviewSignAndCheckBox({ checkBox: false, sign: null });
+      isSubmittingRef.current = false;
     } catch (getUpdatedReservationError) {
       const networkError = getUpdatedReservationError as ApolloError;
       const statusCode = processStatusCode(networkError);
@@ -588,6 +602,7 @@ const DiningOrderSummary = () => {
           reservationGuestInfoStorageData(null);
         }
       }
+      isSubmittingRef.current = false;
     }
     setLoading(false);
   }, [
@@ -595,11 +610,14 @@ const DiningOrderSummary = () => {
     checkinData?.lastName,
     checkinData?.reservationId,
     checkinData?.roomNumber,
+    checkReservationStatus,
     diningData.items,
     guestNumber,
     hotelId,
     irdOrderType?.signatureRequired,
     irdOrderType?.type,
+    loading,
+    navigate,
     paymentType?.name,
     selectedOption,
     selectedTime,
@@ -1059,7 +1077,9 @@ const DiningOrderSummary = () => {
                 Boolean(formik.errors.instruction) ||
                 items?.length === 0 ||
                 paymentType?.length === 0 ||
-                (irdOrderType?.signatureRequired && !btnStatus)
+                (irdOrderType?.signatureRequired && !btnStatus) ||
+                loading ||
+                isSubmittingRef.current
               }
               loading={loading}
               className={styles.confirmButton}

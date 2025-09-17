@@ -99,7 +99,7 @@ export const StayDetails: React.FC<any> = ({ activeOffersList }) => {
           </div>
         </>
       ) : (
-        <div className={cx(styles.StayWrapper)}>
+        <div className={cx(styles.StayWrapper, 'globals-StayWrapper')}>
           <p className={styles.StayWrapperTitle}>{t('My Itinerary')}</p>
           <p className={styles.StayWrapperdesc}>
             {t('Access and manage your')}{' '}

@@ -49,6 +49,9 @@ export const FAIRMONT_CARTON_HOUSE = 'fairmont-carton-house';
 export const FAIRMONT_ORCHID = 'fairmont-orchid';
 export const FAIRMONT_SONOMA = 'fairmont-sonoma';
 export const FAIRMONT_ST_ANDREWS = 'fairmont-st-andrews';
+export const FAIRMONT_KEA_LANI = 'fairmont-kea-lani';
+export const FAIRMONT_MERE = 'fairmont-mere';
+export const FAIRMONT_MIRAMAR = 'fairmont-miramar';
 
 export const ONE_HOTELS_SOUTH_BEACH = '1-hotel-south-beach';
 export const HARD_ROCK_HOTEL_CANCUN = 'hard-rock-hotel-cancun';
@@ -101,6 +104,7 @@ export const CASA_COOK_EL_GOUNA = 'casa-cook-el-gouna';
 export const ROGERS_HOSPITALITY_HERITAGE_LE_TELFAIR = 'rogers-hospitality-heritage-le-telfair';
 export const ROGERS_HOSPITALITY_HERITAGE_AWALI = 'rogers-hospitality-heritage-awali';
 export const SHANGRI_LA_THE_SHARD_LONDON = 'shangri-la-the-shard-london';
+export const SLS_RED_SEA = 'sls-red-sea';
 
 // CMS detailsCustomAttributes config constants
 export const MULTIPLE_PRIVACY_OPTIONS = 'multiplePrivacyOptions';

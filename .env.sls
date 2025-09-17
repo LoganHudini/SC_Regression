@@ -1,0 +1,62 @@
+# environment 
+NEXT_PUBLIC_ENVIRONMENT=production
+
+# properties
+NEXT_PUBLIC_PROPERTY_A='https://api-properties-a.hudini.io/graphql'
+NEXT_PUBLIC_API_KEY_PROPERTY_A='da2-6czgvkngsrhenerfydlymzprsa'
+
+NEXT_PUBLIC_PROPERTY_B='https://api-properties-b.hudini.io/graphql'
+NEXT_PUBLIC_API_KEY_PROPERTY_B='da2-z4od7trwanhrlfuzmzh36f3fxy'
+
+NEXT_PUBLIC_PROPERTY_C='https://api-properties-c.hudini.io/graphql'
+NEXT_PUBLIC_API_KEY_PROPERTY_C='da2-trnqedbpgzcnhikdt4ziqmjm6q'
+
+NEXT_PUBLIC_PROPERTY_D='https://api-properties-d.hudini.io/graphql'
+NEXT_PUBLIC_API_KEY_PROPERTY_D='da2-v7mjfmpkh5gr5g7dlrzhm5yigy'
+
+NEXT_PUBLIC_PROPERTY_E='https://api-properties-e.hudini.io/graphql'
+NEXT_PUBLIC_API_KEY_PROPERTY_E='da2-tlmiqnejr5d43hfowzbvbop32m'
+
+# integrations
+NEXT_PUBLIC_INTEGRATION_A='https://api-integrations-a.hudini.io/graphql'
+NEXT_PUBLIC_API_KEY_INTEGRATION_A='da2-ggcvdxwxf5ghnm5rytdu5r3ze4'
+
+NEXT_PUBLIC_INTEGRATION_B='https://api-integrations-b.hudini.io/graphql'
+NEXT_PUBLIC_API_KEY_INTEGRATION_B='da2-dy4f3vuhjnaonandnwlf47imim'
+
+NEXT_PUBLIC_INTEGRATION_C='https://api-integrations-c.hudini.io/graphql'
+NEXT_PUBLIC_API_KEY_INTEGRATION_C='da2-egzhboxz6vaxzlrsijh4ajuijm' 
+
+NEXT_PUBLIC_INTEGRATION_D='https://api-integrations-d.hudini.io/graphql'
+NEXT_PUBLIC_API_KEY_INTEGRATION_D='da2-pq3zavthcjgwxlkea6u6btba2m'
+
+NEXT_PUBLIC_INTEGRATION_F='https://api-integrations-f.hudini.io/graphql'
+NEXT_PUBLIC_API_KEY_INTEGRATION_F='da2-mxgbehsn4rfwhbnxqrpbu6sjom' 
+
+NEXT_PUBLIC_INTEGRATION_G='https://api-integrations-g.hudini.io/graphql'
+NEXT_PUBLIC_API_KEY_INTEGRATION_G='da2-griwwqkjavd2dh6y6vjoelyshi'
+
+NEXT_PUBLIC_INTEGRATION_H='https://api-integrations-h.hudini.io/graphql'
+NEXT_PUBLIC_API_KEY_INTEGRATION_H='da2-lzujoeqbczdupkuuyhyhlcblgi' 
+
+NEXT_PUBLIC_HUDINI_CHAT_URL=''
+
+# rest
+NEXT_PUBLIC_REST_API_URL='https://api.hudini.io'
+NEXT_PUBLIC_X_API_TOKEN='QVFJQ0FIZyt4WnNzU1Y5ZkV3WVFHWmdSYXNRR3o2aXBLK0t6ck9IcGtXNm9NV1BSZUFHelkrYlU0NitKL2N2RVdkQTBXTk5KQUFBQWd6Q0JnQVlKS29aSWh2Y05BUWNHb0hNd2NRSUJBREJzQmdrcWhraUc5dzBCQndFd0hnWUpZSVpJQVdVREJBRXVNQkVFRENDMlppaXBWVnlOQnlhSGpRSUJFSUEvMEttekhNcjlWY1lWcTIyZnYweEwvUFhoajJzRExLVjk4SDNqMGNwbXM0T1JBMU1SRm1UeGRKcjlySHNPN2s4VGJ5bXZuZW43ZDZaWlpsWGo4SmtH'
+NEXT_PUBLIC_X_API_GROUP='MmEwN2JhNjItNjUzNS00ZDIzLWE1YWQtNzBlOTU5MTYyYzQ2'
+
+NEXT_PUBLIC_X_API_TOKEN_D='QVFJQ0FIZyt4WnNzU1Y5ZkV3WVFHWmdSYXNRR3o2aXBLK0t6ck9IcGtXNm9NV1BSZUFFK3lTaVdiU3RhS1FBRW5nTTZ0V0FwQUFBQWd6Q0JnQVlKS29aSWh2Y05BUWNHb0hNd2NRSUJBREJzQmdrcWhraUc5dzBCQndFd0hnWUpZSVpJQVdVREJBRXVNQkVFREZIYXF6S0NabkF3VDFsQUxnSUJFSUEvT2xKbE5aVnA5eE8vWVN1aHRaM1Q1aGZneFlWREpCdWk2VnN4UU4vVXE1UWlIdHdua0x4YkdNdzdlaHJiVGlHVkhDZERHYitaRzZLRVhIREJKRXN5'
+NEXT_PUBLIC_X_API_GROUP_D='Y2NmOWZlNzQtNDAxNC00ZDVkLWI1YjYtOTEwNDM5NDdhNjRm'
+
+NEXT_PUBLIC_REST_E_API_URL='https://api.hudini.io/v4'
+
+# others
+NEXT_PUBLIC_ASSETS_URL='https://assets.hudini.io'
+NEXT_PUBLIC_ONPREM_API_URL='https://opusbackend.hudini.io/api/v1'
+NEXT_PUBLIC_S3_BUCKET_URL='https://assets.hudini.io'
+NEXT_PUBLIC_GOOGLE_MAPS_API_KEY='AIzaSyAa_UAQQDPYFCyHvbDG4rlkxFYk1vgLFkM'
+
+# property specific settings
+NEXT_PUBLIC_BRAND_CODE=sls
+NEXT_PUBLIC_GA_MEASUREMENT_ID=
