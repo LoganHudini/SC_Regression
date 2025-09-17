@@ -183,7 +183,29 @@ const Home: NextPage = () => {
         )}
       </>
     ),
-    offers: () => <>{activeOffersList?.length > 0 && <HomeCarousel data={activeOffersList} />}</>,
+    offers: () => {
+      const showTitle = config?.orderOfModules?.[0] !== 'offers';
+      return (
+        <>
+          {activeOffersList?.length > 0 && (
+            <div>
+              {showTitle && (
+                <h2
+                  style={{
+                    margin: '10px 0 8px',
+                    font: '1.75rem var(--heading-font-regular)',
+                    textAlign: 'center',
+                  }}
+                >
+                  Offers
+                </h2>
+              )}
+              <HomeCarousel data={activeOffersList} />
+            </div>
+          )}
+        </>
+      );
+    },
     services: () => (
       <>
         {checkInData?.checkedIn && serviceModule && (
