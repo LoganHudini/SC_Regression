@@ -21176,7 +21176,7 @@ export const configuration: any = [
                     name: 'expiry',
                     label: 'Expiry Date',
                     type: 'datePicker',
-                    required: true,
+                    required: false,
                     isDisabled: false,
                     isActive: true,
                     isDisablePast: true,
