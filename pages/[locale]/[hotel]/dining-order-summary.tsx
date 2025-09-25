@@ -563,12 +563,41 @@ const DiningOrderSummary = () => {
       setTimeout(() => {
         diningMenuStorage({ items: [] });
       }, 5000);
+      const hasSchedulingConfig =
+        Boolean(irdOrderType?.orderScheduling) && Boolean(irdOrderType?.schedulingDuration);
+
+      let successDescription = t('Your order has been confirmed.');
+
+      if (hasSchedulingConfig) {
+        if (selectedOption === NOW) {
+          successDescription = customSuccessMessage
+            ? t(`${customSuccessMessage}`)
+            : t('Your order has been confirmed.');
+        } else if (selectedOption === LATER && selectedTime) {
+          const schedule = dayjs(selectedTime, ['DD MMM:hh:mm:A', 'DD MMM hh:mm A']);
+          const today = dayjs().startOf('day');
+          const scheduleDay = schedule.startOf('day');
+          const timeStr = schedule.format('hh:mm A');
+
+          let relativeDay: string;
+          if (scheduleDay.isSame(today)) {
+            relativeDay = t('today');
+          } else if (scheduleDay.isSame(today.add(1, 'day'))) {
+            relativeDay = t('tomorrow');
+          } else {
+            relativeDay = schedule.format('DD MMM');
+          }
+
+          successDescription = `${t('Your order has been confirmed.')} ${t(
+            'Estimated order delivery time is {{relative}} at {{time}}.',
+            { relative: relativeDay, time: timeStr },
+          )}`;
+        }
+      }
       notificationStorage({
         title: t('Thank You!'),
         type: SUCCESS,
-        description: customSuccessMessage
-          ? t(`${customSuccessMessage}`)
-          : t('Your order has been confirmed.'),
+        description: successDescription,
         redirect: availablePaths?.DINING,
       });
       toggleNotification(true);
@@ -593,7 +622,7 @@ const DiningOrderSummary = () => {
               ? t(
                   'Reservation status is invalid. Please try again with a valid reservation details',
                 )
-              : t('Your order was not confirmed.'),
+              : t('Estimated order delivery time is {{relative}} at {{time}}.'),
           redirect: FailureCheck1 || FailureCheck2 ? availablePaths.HOME : null,
         });
         toggleNotification(true);

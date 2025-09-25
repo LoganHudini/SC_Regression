@@ -35417,6 +35417,8 @@ export const configuration: any = [
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
         orderScheduling: true,
         schedulingDuration: 30,
+        successMessage:
+          'Your order has been confirmed. Estimated order delivery time is 30 minutes.',
       },
       {
         code: 'Services',
