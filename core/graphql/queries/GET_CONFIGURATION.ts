@@ -4086,7 +4086,7 @@ export const configuration: any = [
       {
         code: 'In-Room Dining',
         name: 'In-Room Dining',
-        isActive: false,
+        isActive: true,
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
       },
@@ -23503,6 +23503,7 @@ export const configuration: any = [
     pms: 'OHIP',
     fetchFromDb: 'no',
     saveToDb: 'yes',
+    skipQueueReservation: true,
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: ['offers', 'check-in', 'hotel-info', 'dining', 'spa', 'hotel-compendium'],
     preCheckInOnly: true,
@@ -26390,10 +26391,8 @@ export const configuration: any = [
     languages: [{ code: 'en', name: 'English' }],
     orderOfModules: [
       'offers',
-      'staydetails',
       'check-in',
       'hotel-info',
-      'activities',
       'services',
       'dining',
       'spa',
@@ -26756,7 +26755,7 @@ export const configuration: any = [
       {
         code: 'In-Room Dining',
         name: 'In-Room Dining',
-        isActive: true,
+        isActive: false,
         signatureRequired: true,
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],
@@ -26770,7 +26769,7 @@ export const configuration: any = [
       {
         code: 'activities-and-itineraries',
         name: 'Activities and Itineraries',
-        isActive: true,
+        isActive: false,
         type: 'CMS',
       },
       {
@@ -29195,7 +29194,7 @@ export const configuration: any = [
       },
       {
         code: 'In-Room Dining',
-        name: 'In-Room Dining',
+        name: 'In-Villa Dining',
         isActive: true,
         type: 'VENDOR',
         payment: [{ id: '1', name: 'BILL TO ROOM', message: '' }],

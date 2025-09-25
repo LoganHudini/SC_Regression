@@ -29,8 +29,9 @@ import {
   SUCCESS,
   PAIR_TO_ROOM,
   CHECKOUT_TEXT,
+  IN_ROOM_DINING,
 } from 'utils/constants';
-import { activeItems, activeModule } from 'utils/functions';
+import { activeItems, activeModule, findModule } from 'utils/functions';
 import { availablePaths } from 'utils/availablePaths';
 import { reservationGuestInfoStorageData } from 'storage/reservation-guest-info.storage';
 
@@ -46,6 +47,8 @@ const CheckoutDrawer = (props: any) => {
   const checkoutPayment: boolean = activeModule(config?.modules, CHECKOUT_PAYMENT);
   const pairToRoomModule: boolean = activeModule(config?.modules, PAIR_TO_ROOM);
   const checkOutModule: boolean = activeModule(config?.modules, CHECKOUT_TEXT);
+  const irdModule = findModule(config?.modules, IN_ROOM_DINING);
+  const irdModuleName = irdModule?.name;
 
   const { data: feedBackList } = useQuery(GET_FEEDBACK, {
     skip: !hotelId,
@@ -229,7 +232,7 @@ const CheckoutDrawer = (props: any) => {
       <p className={styles.content}>
         {!checkOutModule && pairToRoomModule
           ? t(
-              'This action is irreversible. Your device will no longer have access to in-room features, including In-Room Dining, Services, and others',
+              `This action is irreversible. Your device will no longer have access to in-room features, including ${irdModuleName}, Services, and others`,
             )
           : t('This action is irreversible. Your room access will be disabled after Checkout.')}
       </p>

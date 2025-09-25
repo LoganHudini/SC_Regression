@@ -14,6 +14,7 @@ import {
   getFormattedTime,
   convertTo12HourFormat,
   getCurrentOpenPeriod,
+  findModule,
 } from 'utils/functions';
 import {
   CAROUSEL_RESPONSIVE,
@@ -23,6 +24,7 @@ import {
   ALL_DAY,
   DINING,
 } from 'utils/constants';
+import { useConfig } from 'utils/hooks/useConfiguration';
 import cx from 'classnames';
 import { diningInformationStorage } from 'storage/dining.storage';
 import { availablePaths } from 'utils/availablePaths';
@@ -58,13 +60,20 @@ interface ICarouselSlideProps {
   slideStyle?: any;
 }
 
+interface DiningOption {
+  type: string;
+  label: string;
+}
+
 export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) => {
   const { t } = useTranslation(['common']);
   const isCheckedIn = useCheckedIn();
   const hotelInformation = useReactiveVar(hotelInfoStorage);
 
-  const [diningOptionsState, setDiningOption] = useState<any>();
+  const [diningOptionsState, setDiningOption] = useState<DiningOption | undefined>(undefined);
   const [timeSelectDrawer, setTimeSelectDrawer] = useState(false);
+  const config = useConfig();
+  const irdModule = findModule(config?.modules, IN_ROOM_DINING);
 
   const irdMenuActive: IRDMenuApiResponse = irdActiveMenuList(
     ird,
@@ -74,10 +83,21 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
   const queryResultsData: any = restaurants?.getRestaurantDetails?.restaurant;
   const activeRestaurants = activeItems(restaurants?.getRestaurantDetails?.restaurant);
 
-  const filteredOptionFunction = () => {
-    const value = activeRestaurants?.length > 0 ? [{ type: RESTAURANT }] : [];
+  const filteredOptionFunction = (): DiningOption[] => {
+    const value: DiningOption[] = [];
+
+    if (activeRestaurants?.length > 0) {
+      value.push({
+        type: RESTAURANT,
+        label: diningOptionList(RESTAURANT),
+      });
+    }
+
     if (isCheckedIn?.checkedIn && irdActiveMenu && irdActiveMenu?.length > 0) {
-      value?.unshift({ type: IN_ROOM_DINING });
+      value?.unshift({
+        type: IN_ROOM_DINING,
+        label: irdModule?.name || diningOptionList(IN_ROOM_DINING),
+      });
     }
     return value;
   };
@@ -135,7 +155,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
       return today === day.toUpperCase() || day === 'EVERYDAY';
     }
 
-    const isAnyDayToday = slide?.hours.some((entry: any) => isToday(entry.day));
+    const isAnyDayToday = slide?.hours?.some((entry: any) => isToday(entry.day));
 
     const currentOpenPeriod: any = getCurrentOpenPeriod(slide?.hours);
 
@@ -210,7 +230,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
         >
           <StableImage
             className={cx(styles.carouselSlideImage, 'globals-carouselSlideImage')}
-            src={`${ASSETS_URL}/${slide?.images[0]?.master}`}
+            src={`${ASSETS_URL}/${slide?.images?.[0]?.master}`}
           />
           <div
             className={cx(
@@ -233,7 +253,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
                 </div>
               ))}
 
-            {slide?.hours[0]?.day &&
+            {slide?.hours?.[0]?.day &&
               module &&
               (() => {
                 const irdStatus = getIRDMenuStatus();
@@ -279,7 +299,7 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
       />
     ));
 
-  const uniqueFilteredDiningOptions = filteredOptionFunction();
+  const uniqueFilteredDiningOptions: DiningOption[] = filteredOptionFunction();
   const isIRD = diningOptionsState?.type === IN_ROOM_DINING;
   const slides = isIRD ? irdMenu : activeRestaurants;
 
@@ -300,9 +320,10 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
         >
           {t('Eat & Drink')}
         </p>
+
         {uniqueFilteredDiningOptions?.length > 1 && (
           <div className={cx(styles.diningOptions, 'globals-diningOptions')}>
-            {uniqueFilteredDiningOptions?.map((dining: any, index: any) => (
+            {uniqueFilteredDiningOptions?.map((dining: DiningOption, index: number) => (
               <p
                 key={index}
                 className={cx(styles.diningOptionsItem, 'globals-diningOptionsItem', {
@@ -310,9 +331,9 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
                     diningOptionsState?.type === dining?.type,
                 })}
                 onClick={() => setDiningOption(dining)}
-                data-tip={diningOptionList(dining?.type)}
+                data-tip={dining?.label}
               >
-                {diningOptionList(dining?.type)}
+                {dining?.label}
               </p>
             ))}
           </div>

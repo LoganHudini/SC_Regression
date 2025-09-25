@@ -25,6 +25,7 @@ import {
   uniqueDiningOption,
   getCurrentOpenPeriod,
   convertTo12HourFormat,
+  findModule,
 } from 'utils/functions';
 import { availablePaths } from 'utils/availablePaths';
 import { useConfig } from 'utils/hooks/useConfiguration';
@@ -59,6 +60,7 @@ const Menu = () => {
   const irdOption = useReactiveVar(diningHeaders);
   const diningOptionSelected = useReactiveVar(diningOptions);
   const hotelInformation = useReactiveVar(hotelInfoStorage);
+  const irdModule = findModule(config?.modules, IN_ROOM_DINING);
 
   const { data: restaurantList, loading } = useQuery<IGetRestaurantDetailsResponse>(
     GET_RESTAURANT_DETAILS,
@@ -171,7 +173,7 @@ const Menu = () => {
           <>
             <Header className={styles.header} header={header} displayHome />
             <div className={cx(styles.title, 'globals-cardWrapperRestaurantsAndBars')}>
-              {t('In-Room Dining')}
+              {t(irdModule?.name)}
             </div>
             <div className={styles.cardWrapper}>
               {irdActiveMenu?.map((item: any, index: any) => {

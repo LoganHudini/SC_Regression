@@ -111,6 +111,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const config = useConfig();
   const irdModuleContent: any = findModule(config?.modules, IN_ROOM_DINING);
+  const irdModuleName = irdModuleContent?.name;
 
   const isIRDv2 = irdModuleContent?.version === 'v2';
   useEffect(() => {
@@ -847,7 +848,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                   return (
                     <div className={styles.menuUnavailableContainer}>
                       <div className={styles.menuTimingsText}>
-                        {`In-Room Dining requests will open from ${fmt}.`}
+                        {`${irdModuleName} requests will open from ${fmt}.`}
                       </div>
                       <div className={styles.menuUnavailableDescription}>
                         {t('This menu is unavailable right now! You can still check it out below.')}
@@ -868,7 +869,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                     return (
                       <div className={styles.menuUnavailableContainer}>
                         <div className={styles.menuTimingsText}>
-                          {`In-Room Dining requests will open today from ${fmt}.`}
+                          {`${irdModuleName} requests will open today from ${fmt}.`}
                         </div>
                         <div className={styles.menuUnavailableDescription}>
                           {t(
@@ -886,7 +887,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                   return (
                     <div className={styles.menuUnavailableContainer}>
                       <div className={styles.menuTimingsText}>
-                        {`In-Room Dining requests will open tomorrow from ${fmt}.`}
+                        {`${irdModuleName} requests will open tomorrow from ${fmt}.`}
                       </div>
                       <div className={styles.menuUnavailableDescription}>
                         {t('This menu is unavailable right now! You can still check it out below.')}
@@ -909,7 +910,7 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                     return (
                       <div className={styles.menuUnavailableContainer}>
                         <div className={styles.menuTimingsText}>
-                          {`In-Room Dining requests will open on ${dateStr} from ${fmt}.`}
+                          {`${irdModuleName} requests will open on ${dateStr} from ${fmt}.`}
                         </div>
                         <div className={styles.menuUnavailableDescription}>
                           {t(

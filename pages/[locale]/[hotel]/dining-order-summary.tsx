@@ -423,7 +423,7 @@ const DiningOrderSummary = () => {
           title: t('Order Failed'),
           type: FAILURE,
           description: t(
-            'Your reservation status has changed. In-room dining is only available for checked-in guests.',
+            `Your reservation status has changed. ${irdModuleName} is only available for checked-in guests.`,
           ),
           redirect: availablePaths.HOME,
         });
@@ -728,6 +728,7 @@ const DiningOrderSummary = () => {
   };
   const irdModuleContent: any = findModule(config?.modules, IN_ROOM_DINING);
   const isIRDv2 = irdModuleContent?.version === 'v2';
+  const irdModuleName = irdModuleContent?.name;
 
   const getInitialSelectedTime = () => {
     const now = dayjs();
