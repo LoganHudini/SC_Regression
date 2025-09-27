@@ -1,7 +1,6 @@
 {
   "Dining": "ダイニング",
   "In-Room Dining": "インルームダイニング",
-  "In-Villa Dining": "インヴィラダイニング",
   "Housekeeping": "ハウスキーピング",
   "Concierge": "コンシェルジュ",
   "Services": "サービス",
@@ -178,6 +177,5 @@
   "check-in": "チェックイン",
   "Manage My Stay": "滞在を管理する",
   "Access and manage your itinerary, check-in, in-room activities, and all exclusive services to enhance your stay": "旅行の行程、チェックイン、客室内のアクティビティ、および滞在を充実させるためのすべての専用サービスにアクセスし、管理します",
-  "Maps": "地図",
-  "This action is irreversible.Your device will no longer have access to in-room features, including In-Room Dining, Services, and others": "この操作は元に戻すことができません。お使いのデバイスは、室内ダイニング、サービスなどの室内機能にアクセスできなくなります。"
+  "Maps": "地図"
 }

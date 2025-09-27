@@ -50,7 +50,7 @@ import { activeCheckOutFlow, useCheckedIn } from 'storage/check-in.storage';
 import { ReactSVG } from 'react-svg';
 import { isFunction } from 'lodash';
 import { selectedRestaurantStorage } from 'storage/table-reservation.storage';
-import { activeModule, diningOptionList, irdActiveMenuList, findModule } from 'utils/functions';
+import { activeModule, diningOptionList, irdActiveMenuList } from 'utils/functions';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
 import { diningInformationStorage, irdMenuOutputDetailsStorage } from 'storage/dining.storage';
@@ -247,7 +247,6 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
 
   const pairToRoomModule: boolean = activeModule(config?.modules, PAIR_TO_ROOM);
   const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
-  const irdModuleName: any = findModule(config?.modules, IN_ROOM_DINING);
   const serviceModule: any = activeModule(config?.modules, SERVICES);
   const checkOutModule: any = activeModule(config?.modules, VIEW_BILL);
 
@@ -303,7 +302,8 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
                       closeDrawer();
                     }}
                   >
-                    {t(irdModuleName?.name)}
+                    {config?.modules?.find((m: any) => m?.code === IN_ROOM_DINING)?.name ||
+                      t('In-Room Dining')}
                   </p>
                 )}
                 {serviceModule && (
@@ -395,7 +395,8 @@ export const ModuleOptionsDrawer: React.FC<IModuleOptionsDrawerProps> = ({
         {irdActive && (
           <div>
             <p className={cx(styles.title, 'globals-cardWrapperRestaurantsAndBars')}>
-              {t(irdModuleName?.name)}
+              {config?.modules?.find((m: any) => m?.code === IN_ROOM_DINING)?.name ||
+                t('In-Room Dining')}
             </p>
             <div className={styles.optionsList}>
               {diningCategoryOptions?.map((dining: any, index: any) => (
