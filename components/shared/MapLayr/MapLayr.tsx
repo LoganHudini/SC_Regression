@@ -27,9 +27,56 @@ const MapLayrMap = () => {
     const map = await window.maplayr.Map.managed(code);
     const mapView = map.attach(mapRef.current);
 
+    const userLocationMarker = new window.maplayr.UserLocationMarker();
+    mapView.addUserLocationMarker(userLocationMarker);
+
+    mapView.addEventListener('click', (event: any) => {
+      if (event.coordinates) {
+        userLocationMarker.position = {
+          coordinates: event.coordinates,
+          accuracy: 20,
+        };
+      }
+    });
+
     const layer = new window.maplayr.AnnotationLayer();
     mapView.addLayer(layer);
 
+    let currentRouteShapes: any[] = [];
+
+    const clearRoute = () => {
+      currentRouteShapes.forEach((shape) => {
+        mapView.removeShape(shape);
+      });
+      currentRouteShapes = [];
+    };
+
+    const setRoute = (destination: any) => {
+      if (!userLocationMarker.position) {
+        console.warn('Click on the map first to set your starting location!');
+        return;
+      }
+      clearRoute();
+      try {
+        const reactiveRoute = map.createReactiveRoute(userLocationMarker, destination);
+
+        const outerShape = new window.maplayr.Shape(reactiveRoute);
+        outerShape.strokeColor = '#0066ccff';
+        outerShape.strokeWidth = 8;
+        mapView.addShape(outerShape);
+
+        const innerShape = new window.maplayr.Shape(reactiveRoute);
+        innerShape.strokeColor = '#3399ffff';
+        innerShape.strokeWidth = 5;
+        mapView.addShape(innerShape);
+
+        currentRouteShapes = [innerShape, outerShape];
+      } catch (error) {
+        console.error('Routing failed:', error);
+      }
+    };
+
+    // === Points of Interest ===
     const pointsOfInterest = [
       {
         name: 'Shipwreck Restaurant',
@@ -191,82 +238,6 @@ const MapLayrMap = () => {
       },
     ];
 
-    const locationProvider = new window.maplayr.GeolocationPositionProvider({
-      enableHighAccuracy: true,
-      timeout: 15000,
-      maximumAge: 30000,
-    });
-
-    const userLocationMarker = new window.maplayr.UserLocationMarker(locationProvider);
-
-    userLocationMarker.fillColor = '#ff6b35';
-
-    mapView.addUserLocationMarker(userLocationMarker);
-
-    const calculateRouteToDestination = async (destination: any) => {
-      try {
-        const userPosition = userLocationMarker.position;
-
-        if (!userPosition) {
-          return;
-        }
-
-        if (typeof map.calculateRoute !== 'function') {
-          drawStraightLine(userPosition, destination);
-          return;
-        }
-
-        const route = await map.calculateRoute(userPosition, destination);
-        createSimpleRoute(userPosition, destination);
-        console.log(`Route distance: ${route.distance} metres`);
-
-        const routeShape = new window.maplayr.Shape(route.path);
-        routeShape.strokeColor = '#3600a2ff';
-        routeShape.strokeWidth = 4;
-        mapView.addShape(routeShape);
-
-        return route;
-      } catch (error) {
-        drawStraightLine(userLocationMarker.position, destination);
-      }
-    };
-
-    const createSimpleRoute = (start: any, end: any) => {
-      const startAnnotation = new window.maplayr.Annotation({
-        position: start,
-        node() {
-          const div = document.createElement('div');
-          div.style.width = '16px';
-          div.style.height = '16px';
-          div.style.backgroundColor = '#00ff00';
-          div.style.borderRadius = '50%';
-          div.style.border = '3px solid white';
-          div.style.boxShadow = '0 2px 4px rgba(0,0,0,0.3)';
-          return div;
-        },
-      });
-      layer.add(startAnnotation);
-
-      const endAnnotation = new window.maplayr.Annotation({
-        position: end,
-        node() {
-          const div = document.createElement('div');
-          div.style.width = '16px';
-          div.style.height = '16px';
-          div.style.backgroundColor = '#ff0000';
-          div.style.borderRadius = '50%';
-          div.style.border = '3px solid white';
-          div.style.boxShadow = '0 2px 4px rgba(0,0,0,0.3)';
-          return div;
-        },
-      });
-      layer.add(endAnnotation);
-    };
-
-    const drawStraightLine = (start: any, end: any) => {
-      createSimpleRoute(start, end);
-    };
-
     for (const poi of pointsOfInterest) {
       const annotation = new window.maplayr.Annotation({
         position: poi.location,
@@ -277,7 +248,7 @@ const MapLayrMap = () => {
           if (poi.images && poi.images.length > 0) {
             poi.images.forEach((imgUrl: string) => {
               const img = document.createElement('img');
-              img.src = imgUrl;
+              img.src = imgUrl.trim();
               img.alt = poi.name;
               img.style.width = '120px';
               img.style.height = '80px';
@@ -319,8 +290,7 @@ const MapLayrMap = () => {
             const labelEl = label as HTMLElement;
             const isVisible = labelEl.style.display === 'block';
 
-            const labels = document.querySelectorAll<HTMLElement>(`.${styles.annotationLabel}`);
-            labels.forEach((el) => {
+            document.querySelectorAll<HTMLElement>(`.${styles.annotationLabel}`).forEach((el) => {
               el.style.display = 'none';
             });
 
@@ -329,11 +299,15 @@ const MapLayrMap = () => {
                 labelEl.style.display = 'block';
               });
             }
-          });
 
-          icon.addEventListener('dblclick', (e) => {
-            e.stopPropagation();
-            calculateRouteToDestination(poi.location);
+            // Route first
+            setRoute(poi.location);
+            mapView.moveCamera({
+              position: poi.location,
+              span: 20,
+              heading: 360 * Math.random(),
+              animated: true,
+            });
           });
 
           const container = document.createElement('div');
@@ -345,40 +319,7 @@ const MapLayrMap = () => {
       });
 
       layer.add(annotation);
-
-      annotation.addEventListener('contextmenu', (e: any) => {
-        e.preventDefault();
-        calculateRouteToDestination(poi.location);
-      });
-
-      let clickTimeout: NodeJS.Timeout;
-      annotation.addEventListener('click', () => {
-        clickTimeout = setTimeout(() => {
-          mapView.moveCamera({
-            position: poi.location,
-            span: 20,
-            heading: 360 * Math.random(),
-            animated: true,
-          });
-        }, 300);
-      });
-
-      annotation.addEventListener('dblclick', () => {
-        clearTimeout(clickTimeout);
-        calculateRouteToDestination(poi.location);
-      });
     }
-    userLocationMarker.fillColor = '#9100b5ff';
-
-    mapView.addUserLocationMarker(userLocationMarker);
-
-    locationProvider.addEventListener('position', (event: any) => {
-      console.log('User position update:', event.position);
-    });
-
-    locationProvider.addEventListener('error', (event: any) => {
-      console.error('Geolocation error:', event.error);
-    });
   };
 
   useEffect(() => {
