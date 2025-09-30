@@ -43,6 +43,7 @@ import { RestaurantDetail } from 'components/pages/dining/RestaurantDetail/Resta
 import useTimeStatus from 'utils/hooks/useTimeStatus';
 import dayjs from 'dayjs';
 import { isEmpty } from 'lodash';
+import { useConfig } from 'utils/hooks/useConfiguration';
 
 interface ICarouselProps {
   ird: any;
@@ -73,12 +74,29 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
   const irdActiveMenu = filterIRDMenuItems(irdMenuActive);
   const queryResultsData: any = restaurants?.getRestaurantDetails?.restaurant;
   const activeRestaurants = activeItems(restaurants?.getRestaurantDetails?.restaurant);
+  const config = useConfig();
 
   const filteredOptionFunction = () => {
-    const value = activeRestaurants?.length > 0 ? [{ type: RESTAURANT }] : [];
-    if (isCheckedIn?.checkedIn && irdActiveMenu && irdActiveMenu?.length > 0) {
-      value?.unshift({ type: IN_ROOM_DINING });
+    const value: any[] = [];
+
+    if (activeRestaurants?.length > 0) {
+      value.push({
+        type: RESTAURANT,
+        label: diningOptionList(RESTAURANT),
+      });
     }
+
+    if (isCheckedIn?.checkedIn && irdActiveMenu && irdActiveMenu?.length > 0) {
+      const irdModuleName =
+        config?.modules?.find((m: any) => m?.code === IN_ROOM_DINING)?.name ||
+        diningOptionList(IN_ROOM_DINING);
+
+      value.unshift({
+        type: IN_ROOM_DINING,
+        label: irdModuleName,
+      });
+    }
+
     return value;
   };
   const restaurantDetailsDrawerStatus = useReactiveVar(toggleRestaurantDetailsDrawer);
@@ -310,9 +328,9 @@ export const DiningCarousel: React.FC<ICarouselProps> = ({ ird, restaurants }) =
                     diningOptionsState?.type === dining?.type,
                 })}
                 onClick={() => setDiningOption(dining)}
-                data-tip={diningOptionList(dining?.type)}
+                data-tip={dining?.label}
               >
-                {diningOptionList(dining?.type)}
+                {dining?.label}
               </p>
             ))}
           </div>

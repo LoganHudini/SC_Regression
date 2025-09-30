@@ -915,7 +915,9 @@ const DiningMenu: React.FC<DiningMenuProps> = ({
                     return (
                       <div className={styles.menuUnavailableContainer}>
                         <div className={styles.menuTimingsText}>
-                          {`In-Room Dining requests will open on ${dateStr} from ${fmt}.`}
+                          {`${
+                            irdModuleContent?.name || 'In-Room Dining'
+                          } requests will open on ${dateStr} from ${fmt}.`}
                         </div>
                         <div className={styles.menuUnavailableDescription}>
                           {t(
