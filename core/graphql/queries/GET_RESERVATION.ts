@@ -109,6 +109,7 @@ export interface IGetReservationApiResponse {
       mainMealPlanCode: string;
       isPreCheckedIn: boolean;
       cashierNotes: string[];
+      preferences: string[];
       dateOfIssue: string;
       nights: string;
       membershipNumber: string;

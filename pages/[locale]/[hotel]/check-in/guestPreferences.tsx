@@ -41,6 +41,7 @@ const Preferences: React.FC<any> = () => {
   const navigate = useLocalizedRouter();
   const selected = useReactiveVar(selectedPreferencesStorage);
   const [loading, setLoading] = useState(false);
+  const [preferencesLoaded, setPreferencesLoaded] = useState(false);
 
   const { data } = useQuery<IGetHotelPreferencesResponse>(GET_HOTEL_PREFERENCES, {
     skip: !hotelId,
@@ -59,6 +60,55 @@ const Preferences: React.FC<any> = () => {
   const preferences = (data?.getHotelAccommodationDetails?.preferences ?? []).filter(
     (preference: any) => preference.isActive !== false,
   );
+
+  useEffect(() => {
+    if (preferencesLoaded || !preferences.length) return;
+
+    const reservationData = client.readQuery<IGetReservationApiResponse>({
+      query: GET_RESERVATION,
+    });
+    const existingPreferences = reservationData?.getReservation?.data?.preferences;
+
+    if (!existingPreferences || existingPreferences.length === 0) {
+      setPreferencesLoaded(true);
+      return;
+    }
+
+    const mappedSelections: Record<string, string[]> = {};
+
+    existingPreferences.forEach((prefGroup: any) => {
+      const preferenceType = prefGroup.preferenceType;
+      const matchingGroup = preferences.find((pref: any) => pref.code === preferenceType);
+
+      if (matchingGroup) {
+        const groupId = matchingGroup.id;
+        const selectedItems: string[] = [];
+
+        prefGroup.preference.forEach((item: any, index: number) => {
+          const preferenceValue = item.preferenceValue;
+          const itemIndex = matchingGroup.preferenceItems.findIndex(
+            (pi: any) => pi.code === preferenceValue,
+          );
+
+          if (itemIndex !== -1) {
+            selectedItems.push(`${preferenceValue}#${itemIndex}`);
+          }
+        });
+
+        if (selectedItems.length > 0) {
+          mappedSelections[groupId] = selectedItems;
+        }
+      }
+    });
+    if (Object.keys(mappedSelections).length > 0) {
+      const current = selectedPreferencesStorage();
+      if (Object.keys(current).length === 0) {
+        selectedPreferencesStorage(mappedSelections);
+      }
+    }
+
+    setPreferencesLoaded(true);
+  }, [preferences, preferencesLoaded]);
 
   const handleSelect = (groupId: string, itemName: string, allowMultiple: boolean) => {
     const current = selectedPreferencesStorage();
@@ -204,7 +254,11 @@ const Preferences: React.FC<any> = () => {
 
   return (
     <>
-      <Header displayBackButton screenTitle='Preferences' />
+      <Header
+        displayBackButton
+        screenTitle='Preferences'
+        backRoute={availablePaths.GUEST_VERIFICATION}
+      />
       <div className={styles.stepperWrapper}>
         <Stepper />
       </div>

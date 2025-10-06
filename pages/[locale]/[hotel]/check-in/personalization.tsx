@@ -40,6 +40,7 @@ import {
   getCheckInToken,
   handleCheckInAuthenticationFailure,
 } from 'core/api/functions/getCheckInAuthentication';
+import { findModule } from 'utils/functions';
 import { processStatusCode } from 'utils/processError';
 import cx from 'classnames';
 
@@ -58,6 +59,8 @@ const PersonalizeYourRoom: React.FC = () => {
   const personalisationConfig = checkInModule?.submodules?.find(
     (submodule: any) => submodule?.name === personalisation && submodule.isActive,
   );
+  const guestPreferencesModule: any = findModule(config?.modules, 'guest-preferences');
+  const guestPreferencesConfig = guestPreferencesModule?.isActive;
 
   const reservationData = client.readQuery<IGetReservationApiResponse>({
     query: GET_RESERVATION,
@@ -200,6 +203,8 @@ const PersonalizeYourRoom: React.FC = () => {
             ? availablePaths?.CARD_AUTHORISATION
             : filteredUpgradeRoomList?.length > 0 && personalisationConfig?.type !== CMS
             ? availablePaths.UPGRADE_ROOM
+            : guestPreferencesConfig
+            ? availablePaths.GUEST_PREFERENCES
             : availablePaths.GUEST_VERIFICATION
         }
         language
