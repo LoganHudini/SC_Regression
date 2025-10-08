@@ -1489,39 +1489,6 @@ const CheckIn: React.FC<ICheckinProps> = () => {
                 </div>
               )}
 
-            {selectedPrefDisplay?.length > 0 && (
-              <div onClick={() => setSelectedPreferencesExpanded((prev) => !prev)}>
-                {selectedPreferencesExpanded ? (
-                  <DetailsCard title={t('Selected Preferences')} icon>
-                    <div className={styles.guestInformation}>
-                      {selectedPrefDisplay.map((group, gi) => (
-                        <div key={gi} className={styles.preferenceGroupDisplay}>
-                          <p className={styles.checkDatesText}>{group.groupName.toUpperCase()}</p>
-                          <ul className={styles.preferenceItemList}>
-                            {group.items.map((item, ii) => (
-                              <li key={ii} className={styles.preferenceItem}>
-                                {item}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-                  </DetailsCard>
-                ) : (
-                  <DetailsCardShrinked title={t('Selected Preferences')}>
-                    {selectedPrefDisplay.map((group, gi) => (
-                      <div key={gi} className={styles.shrinkedText}>
-                        <span className={styles.shrinkedLabel}>{group.groupName}:</span>{' '}
-                        {group.items.slice(0, 3).join(', ')}
-                        {group.items.length > 3 && '…'}
-                      </div>
-                    ))}
-                  </DetailsCardShrinked>
-                )}
-              </div>
-            )}
-
             {personalizationEntities?.length > 0 && (
               <div className={styles.cardWrapper}>
                 <DetailsCard title={t(`${reviewConfig?.personalizationDetails[0]?.title}`)}>
