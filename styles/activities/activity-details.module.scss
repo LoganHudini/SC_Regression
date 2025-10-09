@@ -285,3 +285,12 @@
   font-size: small;
   margin-bottom: 8px;
 }
+
+.noteInput {
+  margin: 0.9rem 0 0.5rem;
+  text-align: center;
+  padding-top: 10px;
+  input::placeholder {
+    text-align: center;
+  }
+}

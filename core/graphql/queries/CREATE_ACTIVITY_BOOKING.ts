@@ -15,6 +15,8 @@ export const CREATE_ACTIVITY_BOOKING = gql`
     $toTime: String!
     $arrivalDate: String
     $departureDate: String
+    $notes: String
+    $packages: [String]
   ) {
     createActivityBooking(
       input: {
@@ -31,6 +33,8 @@ export const CREATE_ACTIVITY_BOOKING = gql`
         toTime: $toTime
         arrivalDate: $arrivalDate
         departureDate: $departureDate
+        notes: $notes
+        packages: $packages
       }
     ) {
       message

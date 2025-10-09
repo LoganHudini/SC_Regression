@@ -43,6 +43,7 @@ import Location from '@icons/location.svg';
 import Pin from '@icons/pinLocation.svg';
 import { useLocale } from 'utils/hooks/useLocalizedRouter';
 import URLIcon from '@icons/url.svg';
+import { StyledInput } from '../StyledInput/StyledInput';
 
 export const ActivityDetailDrawer: React.FC<any> = ({
   closeDrawer,
@@ -81,6 +82,7 @@ export const ActivityDetailDrawer: React.FC<any> = ({
     query: GET_RESERVATION,
   });
   const reservationInfo = reservationData?.getReservation?.data;
+  const packageCodes = reservationInfo?.packages?.map((pkg) => pkg.code) || [];
   const guestCount = modifyActivityData?.seats;
 
   const [duration, setDuration] = useState(30);
@@ -145,6 +147,7 @@ export const ActivityDetailDrawer: React.FC<any> = ({
   };
 
   const dummyTimeExtractedArray = showSelectedActivity?.schedule?.recurring?.recurringTimeSlots;
+  const [note, setNote] = useState('');
 
   const isTimeValid = () => {
     if (!selectedTime) return false;
@@ -244,6 +247,8 @@ export const ActivityDetailDrawer: React.FC<any> = ({
           : dayjs(selectedTime, 'YYYY-MM-DD hh:mm A').add(duration, 'minutes').format('HH:mm'),
       arrivalDate: checkedInData?.checkInDate,
       departureDate: checkedInData?.checkOutDate,
+      notes: note.trim(),
+      packages: packageCodes,
     };
 
     setActivityBookingLoading(true);
@@ -752,6 +757,30 @@ export const ActivityDetailDrawer: React.FC<any> = ({
                         className={styles.plusMinus}
                       />
                     </div>
+                    {!modifyBookingFlow && (
+                      <StyledInput
+                        variant='standard'
+                        autoComplete='off'
+                        fullWidth
+                        value={note}
+                        onChange={(e) => setNote(e.target.value)}
+                        placeholder={`${t('Add Note (Optional)')}`}
+                        className={styles.noteInput}
+                        InputProps={{
+                          classes: {
+                            underline: styles.customUnderline,
+                          },
+                          inputProps: {
+                            maxLength: 100,
+                            style: {
+                              font: '14px var(--primary-font-regular)',
+                              color: 'var(--primary-text-color)',
+                              marginInlineStart: '0.5rem',
+                            },
+                          },
+                        }}
+                      />
+                    )}
                     <StyledButton
                       className={styles.slotBookingButton}
                       disabled={
@@ -833,7 +862,30 @@ export const ActivityDetailDrawer: React.FC<any> = ({
                         );
                       })}
                     </div>
-
+                    {!modifyBookingFlow && (
+                      <StyledInput
+                        variant='standard'
+                        autoComplete='off'
+                        fullWidth
+                        value={note}
+                        onChange={(e) => setNote(e.target.value)}
+                        placeholder={`${t('Add Note (Optional)')}`}
+                        className={styles.noteInput}
+                        InputProps={{
+                          classes: {
+                            underline: styles.customUnderline,
+                          },
+                          inputProps: {
+                            maxLength: 100,
+                            style: {
+                              font: '14px var(--primary-font-regular)',
+                              color: 'var(--primary-text-color)',
+                              marginInlineStart: '0.5rem',
+                            },
+                          },
+                        }}
+                      />
+                    )}
                     {/* Confirm Booking Button */}
                     <StyledButton
                       className={styles.slotBookingButton}
@@ -877,6 +929,30 @@ export const ActivityDetailDrawer: React.FC<any> = ({
                       maxQuantity={showSelectedActivity?.capacity}
                       className={styles.plusMinus}
                     />
+                    {!modifyBookingFlow && (
+                      <StyledInput
+                        variant='standard'
+                        autoComplete='off'
+                        fullWidth
+                        value={note}
+                        onChange={(e) => setNote(e.target.value)}
+                        placeholder={`${t('Add Note (Optional)')}`}
+                        className={styles.noteInput}
+                        InputProps={{
+                          classes: {
+                            underline: styles.customUnderline,
+                          },
+                          inputProps: {
+                            maxLength: 100,
+                            style: {
+                              font: '14px var(--primary-font-regular)',
+                              color: 'var(--primary-text-color)',
+                              marginInlineStart: '0.5rem',
+                            },
+                          },
+                        }}
+                      />
+                    )}
                     <StyledButton
                       className={styles.slotBookingButton}
                       disabled={
