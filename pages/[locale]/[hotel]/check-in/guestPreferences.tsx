@@ -179,15 +179,6 @@ const Preferences: React.FC<any> = () => {
   const handleSubmit = async () => {
     const hasSelectedPreferences = Object.values(selected).some((items) => items.length > 0);
 
-    if (!hasSelectedPreferences) {
-      if (hasPersonalization()) {
-        navigate(availablePaths.PERSONALIZE);
-      } else {
-        navigate(availablePaths.REVIEW);
-      }
-      return;
-    }
-
     const reservationData = client.readQuery<IGetReservationApiResponse>({
       query: GET_RESERVATION,
     });
@@ -209,17 +200,19 @@ const Preferences: React.FC<any> = () => {
       bookingId: reservationInfo?.confirmationId,
       reservationId: reservationInfo?.reservationId,
       profileId: reservationInfo?.guests?.[0]?.id,
-      preferences: Object.entries(selected)
-        .filter(([, keys]) => keys.length > 0)
-        .map(([groupId, keys]) => {
-          const matchedPref = preferencesList.find((pref: any) => pref.id === groupId);
-          return {
-            preferenceType: matchedPref?.code ?? groupId,
-            preference: Array.from(new Set(keys.map(stripIdx))).map((code) => ({
-              preferenceValue: code,
-            })),
-          };
-        }),
+      preferences: hasSelectedPreferences
+        ? Object.entries(selected)
+            .filter(([, keys]) => keys.length > 0)
+            .map(([groupId, keys]) => {
+              const matchedPref = preferencesList.find((pref: any) => pref.id === groupId);
+              return {
+                preferenceType: matchedPref?.code ?? groupId,
+                preference: Array.from(new Set(keys.map(stripIdx))).map((code) => ({
+                  preferenceValue: code,
+                })),
+              };
+            })
+        : [],
     };
 
     try {
