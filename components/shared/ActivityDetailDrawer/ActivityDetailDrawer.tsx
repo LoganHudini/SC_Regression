@@ -272,6 +272,10 @@ export const ActivityDetailDrawer: React.FC<any> = ({
         title: message ? (t('You are on the waitlist') as string) : (t('Thank You!') as string),
         description: message
           ? (t('We will let you know if a spot becomes available for this activity') as string)
+          : note.trim()
+          ? (t(
+              'Your booking has been confirmed. Your notes have been added to your booking.',
+            ) as string)
           : (t('Your booking has been confirmed.') as string),
         redirect: availablePaths.ITINERARY,
       });

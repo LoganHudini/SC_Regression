@@ -164,7 +164,6 @@
   "Features": "Funktionen",
   "Your account is temporarily blocked!": "Ihr Konto ist vorübergehend gesperrt!",
   "Too many login attempts detected. Your account has been temporarily locked as a security measure. Please try again after sometime.": "Zu viele Anmeldeversuche festgestellt. Ihr Konto wurde aus Sicherheitsgründen vorübergehend gesperrt. Bitte versuchen Sie es später erneut.",
-  "From": "Aus",
   "Stay Details": "Aufenthaltsdetails",
   "Check-in Date": "Check-in Datum",
   "Checkout Date": "Check-out Datum",
@@ -172,5 +171,6 @@
   "check-in": "Check-in",
   "Manage My Stay": "Verwalte meinen Aufenthalt",
   "Access and manage your itinerary, check-in, in-room activities, and all exclusive services to enhance your stay": "Greifen Sie auf Ihre Reiseroute zu und verwalten Sie diese, den Check-in, Aktivitäten im Zimmer und alle exklusiven Dienstleistungen zur Verbesserung Ihres Aufenthalts",
-  "Maps": "Karten"
+  "Maps": "Karten",
+  "Your booking has been confirmed. Your notes have been added to your booking.": "Ihre Buchung wurde bestätigt. Ihre Notizen wurden zu Ihrer Buchung hinzugefügt."
 }
