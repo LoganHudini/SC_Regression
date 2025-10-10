@@ -955,3 +955,68 @@ export const getCalendarLink = (item: any, activityName: any, hotelName: any, en
   a.click();
   document.body.removeChild(a);
 };
+
+dayjs.extend(customParseFormat);
+
+export function getFirstSeatingDateTime(selectedTime?: string): string {
+  if (!selectedTime) return '';
+
+  const parts = selectedTime.split(':');
+  if (parts.length !== 4) {
+    console.error('Invalid selectedTime format:', selectedTime);
+    return '';
+  }
+
+  const dayStr = parts[0]; // e.g., "FRIDAY"
+  const timeStr = `${parts[1]}:${parts[2]} ${parts[3]}`; // e.g., "06:00 PM"
+
+  const parsedTime = dayjs(timeStr, 'hh:mm A');
+  if (!parsedTime.isValid()) {
+    console.error('Invalid time format:', timeStr);
+    return '';
+  }
+
+  const dayMap: any = {
+    SUNDAY: 0,
+    MONDAY: 1,
+    TUESDAY: 2,
+    WEDNESDAY: 3,
+    THURSDAY: 4,
+    FRIDAY: 5,
+    SATURDAY: 6,
+  };
+  const targetDayIndex = dayMap?.[dayStr?.toUpperCase()];
+  if (targetDayIndex === undefined) {
+    console.error('Invalid day:', dayStr);
+    return '';
+  }
+
+  const today = dayjs();
+  let targetDate = today.day(targetDayIndex);
+
+  // If selected day is today
+  if (today.day() === targetDayIndex) {
+    const now = dayjs();
+    const selectedTodayTime = today
+      .hour(parsedTime.hour())
+      .minute(parsedTime.minute())
+      .second(0)
+      .millisecond(0);
+
+    if (now.isAfter(selectedTodayTime)) {
+      // Time already passed today → schedule next week
+      targetDate = targetDate.add(1, 'week');
+    }
+  } else if (targetDate.isBefore(today, 'day')) {
+    // Target weekday already passed → next week
+    targetDate = targetDate.add(1, 'week');
+  }
+
+  const result = targetDate
+    .hour(parsedTime.hour())
+    .minute(parsedTime.minute())
+    .second(0)
+    .millisecond(0);
+
+  return result.format('YYYY-MM-DDTHH:mm');
+}

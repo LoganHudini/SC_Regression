@@ -486,3 +486,40 @@
   position: relative;
   margin-bottom: 15px;
 }
+
+.slotswrapper {
+  padding: 1rem 1.5rem 0rem 1.5rem;
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  width: 90%;
+}
+
+.slotsButtonwrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  max-width: 768px;
+  overflow-y: scroll;
+  transform-origin: bottom;
+}
+
+.sloteButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 18%;
+  margin: 2%;
+  font-size: $xsmall;
+
+  &:after {
+    display: none;
+  }
+}
+
+.slotBookingButton {
+  margin-top: 5%;
+}

@@ -10,4 +10,5 @@ export interface IDateTimeSelectProps {
   disableTimepiCketConfirmBtn?: any;
   initialSelectedTime?: any;
   hideTime?: any;
+  queryResultEntity?: any;
 }

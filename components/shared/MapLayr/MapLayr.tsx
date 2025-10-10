@@ -105,6 +105,7 @@ const MapLayrMap = () => {
       {
         name: 'Bar & Restaurant',
         location: new window.maplayr.Coordinates(-20.5030495, 57.407916),
+        images: ['/images/activity/restaurant.jpg'],
       },
       {
         name: 'Halfway',
@@ -198,6 +199,7 @@ const MapLayrMap = () => {
       {
         name: 'Restaurant',
         location: new window.maplayr.Coordinates(-20.5001173, 57.4271441),
+        images: ['/images/activity/restaurant.jpg'],
       },
       {
         name: 'Pro shop',
