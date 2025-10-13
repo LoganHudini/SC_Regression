@@ -294,3 +294,39 @@
     text-align: center;
   }
 }
+
+.activitySpecifics {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  padding: 10px;
+}
+
+.specificTags {
+  width: 30%;
+  background: #d8d8d8;
+  text-align: center;
+  padding: 3px;
+  display: flex;
+  align-content: center;
+  justify-content: space-evenly;
+  align-items: center;
+  font-family: var(--primary-font-regular);
+  font-size: small;
+  color: var(--tertiary-text-color);
+}
+
+.childSpecific {
+  width: 35%;
+  background: #d8d8d8;
+  text-align: center;
+  padding: 3px;
+  display: flex;
+  align-content: center;
+  justify-content: space-evenly;
+  align-items: center;
+  font-family: var(--primary-font-regular);
+  font-size: small;
+  color: var(--tertiary-text-color);
+}

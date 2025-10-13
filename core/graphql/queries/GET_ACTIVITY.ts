@@ -73,6 +73,9 @@ export interface IGetActivitiesApiResponse {
       updatedAt: string;
       updatedBy: string;
       tags: any;
+      minimumAge: number;
+      gender: [string];
+      forChild: boolean;
     }[];
     nextToken?: string;
   };
@@ -197,6 +200,9 @@ export const GET_ACTIVITIES = gql`
         updatedAt
         updatedBy
         tags
+        minimumAge
+        gender
+        forChild
       }
       nextToken
     }

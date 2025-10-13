@@ -624,7 +624,7 @@ const DiningOrderSummary = () => {
               ? t(
                   'Reservation status is invalid. Please try again with a valid reservation details',
                 )
-              : t('Estimated order delivery time is {{relative}} at {{time}}.'),
+              : t('Your order was not confirmed.'),
           redirect: FailureCheck1 || FailureCheck2 ? availablePaths.HOME : null,
         });
         toggleNotification(true);

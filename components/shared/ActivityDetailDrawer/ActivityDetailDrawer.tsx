@@ -38,6 +38,8 @@ import { getTrips } from 'storage/trips.storage';
 import { ApolloError, useReactiveVar } from '@apollo/client';
 import ClockIcon from '@icons/clockIcon.svg';
 import Calender from '@icons/calendar.svg';
+import People from '@icons/people.svg';
+import Child from '@icons/smilingBaby.svg';
 import User from '@icons/user.svg';
 import Location from '@icons/location.svg';
 import Pin from '@icons/pinLocation.svg';
@@ -84,6 +86,7 @@ export const ActivityDetailDrawer: React.FC<any> = ({
   const reservationInfo = reservationData?.getReservation?.data;
   const packageCodes = reservationInfo?.packages?.map((pkg) => pkg.code) || [];
   const guestCount = modifyActivityData?.seats;
+  const MAX_LENGTH = 500;
 
   const [duration, setDuration] = useState(30);
   const [activityBookingLoading, setActivityBookingLoading] = useState(false);
@@ -767,15 +770,18 @@ export const ActivityDetailDrawer: React.FC<any> = ({
                         autoComplete='off'
                         fullWidth
                         value={note}
-                        onChange={(e) => setNote(e.target.value)}
-                        placeholder={`${t('Add Note (Optional)')}`}
+                        onChange={(e) => {
+                          const newValue = e.target.value.slice(0, MAX_LENGTH);
+                          setNote(newValue);
+                        }}
+                        placeholder={`${t('Add a note (optional)')}`}
                         className={styles.noteInput}
                         InputProps={{
                           classes: {
                             underline: styles.customUnderline,
                           },
                           inputProps: {
-                            maxLength: 100,
+                            maxLength: MAX_LENGTH,
                             style: {
                               font: '14px var(--primary-font-regular)',
                               color: 'var(--primary-text-color)',
@@ -982,6 +988,27 @@ export const ActivityDetailDrawer: React.FC<any> = ({
               <div className={styles.wrapper}>
                 {showSelectedActivity?.name && (
                   <p className={styles.title}>{showSelectedActivity?.name}</p>
+                )}
+                {showSelectedActivity?.forChild && (
+                  <div className={styles.activitySpecifics}>
+                    <p className={styles.childSpecific}>
+                      <Child /> For Kids ( {showSelectedActivity.minimumAge}+ years )
+                    </p>
+                  </div>
+                )}
+                {showSelectedActivity?.gender && (
+                  <div className={styles.activitySpecifics}>
+                    <p className={styles.specificTags}>
+                      <People />
+                      {showSelectedActivity.gender.length === 1
+                        ? showSelectedActivity.gender[0] === 'Female'
+                          ? 'Women Only'
+                          : showSelectedActivity.gender[0] === 'Male'
+                          ? 'Men Only'
+                          : 'Open to All'
+                        : 'Open to All'}{' '}
+                    </p>
+                  </div>
                 )}
                 {modifyActivityData?.status === 'WaitingList' && modifyBookingFlow && (
                   <p className={styles.waitlistDesc}>

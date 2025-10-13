@@ -44,7 +44,7 @@ import {
   toggleDetailsDrawer,
   toggleNotification,
   toggleRestaurantDetailsDrawer,
-  hotelInformation
+  hotelInformation,
 } from 'storage/home.storage';
 import { CustomDrawer } from 'components/shared/CustomDrawer/CustomDrawer';
 import { IframeComponent } from 'components/shared/IframeComponent/IframeComponent';
@@ -162,7 +162,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
       restaurant_id: queryResultEntity?.id,
       endTime: last_seating || '',
       only_available: true,
-      noOfSeats: guestCount || 2
+      noOfSeats: guestCount || 2,
     },
     fetchPolicy: 'no-cache',
   });
@@ -216,8 +216,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
     if (tableModule?.type === VENDOR) {
       const isSlotAvailable = await getSlots();
 
-      if (isSlotAvailable?.data?.getRestaurantAvailability?.data?.length == 0
-      ) {
+      if (isSlotAvailable?.data?.getRestaurantAvailability?.data?.length == 0) {
         toggleNotification(true);
         notificationStorage({
           title: t('No Slots Available') as string,
@@ -228,15 +227,25 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
         closeDrawer();
         return;
       } else {
-        const attributesArray = isSlotAvailable?.data?.getRestaurantAvailability?.data.map((item: any) => item?.attributes);
-        settimeExtractedArray(
-          attributesArray || [],
+        const attributesArray = isSlotAvailable?.data?.getRestaurantAvailability?.data.map(
+          (item: any) => item?.attributes,
         );
+        settimeExtractedArray(attributesArray || []);
         setAvailableSlots(true);
       }
     }
     toggleNotification(true);
-  }, [getSlots, guestCount, isCheckedIn?.firstName, isCheckedIn?.lastName, isCheckedIn?.roomNumber, parsed, restaurantId, t, tableModule?.type]);
+  }, [
+    getSlots,
+    guestCount,
+    isCheckedIn?.firstName,
+    isCheckedIn?.lastName,
+    isCheckedIn?.roomNumber,
+    parsed,
+    restaurantId,
+    t,
+    tableModule?.type,
+  ]);
   const restaurantTiming = getTimings(queryResultEntity?.customAttributes);
 
   const onSeeMenuClick = useCallback(() => {
@@ -267,7 +276,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
   }, [drawerStatus]);
 
   const slotBookingHandler = async () => {
-    const [date, time] = selectedSpaSlots?.time && selectedSpaSlots?.time?.split('T') || '';
+    const [date, time] = (selectedSpaSlots?.time && selectedSpaSlots?.time?.split('T')) || '';
     setTableBookingLoading(true);
     const randomString = Math.floor(Math.random() * 9000000000).toString();
     const tablePayload = {
@@ -280,7 +289,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
       phone: formik.values?.phoneNumber,
       venue_id: selectedRestaurant?.id || '',
       date: date || '',
-      time: time || ''
+      time: time || '',
     };
 
     try {
@@ -302,7 +311,6 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
         ) as string,
       });
       toggleNotification(true);
-
     } catch (err) {
       notificationStorage({
         type: FAILURE,
@@ -340,11 +348,10 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
 
   const countryCode = countryDestructure === 'uk' ? 'gb' : countryDestructure;
 
-
   return (
     <div
       className={cx(styles.listComponent, {
-        [styles.listComponentMargin]: (queryResultEntity?.cta?.status === ACTIVE && detailContent),
+        [styles.listComponentMargin]: queryResultEntity?.cta?.status === ACTIVE && detailContent,
       })}
     >
       {!availableSlots && (
@@ -438,7 +445,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
                   );
                 }}
                 className={styles.button}
-              // disabled={!btnDisabled}
+                // disabled={!btnDisabled}
               >
                 {queryResultEntity?.cta?.ctaTitle || t('Book Now')}
               </StyledButton>
@@ -492,7 +499,8 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
                 formik.handleChange(e);
               }}
               error={
-                (formik?.validateOnMount || formik.touched.firstName) && Boolean(formik.errors.firstName)
+                (formik?.validateOnMount || formik.touched.firstName) &&
+                Boolean(formik.errors.firstName)
               }
               helperText={
                 (formik?.validateOnMount || formik.touched?.firstName) && formik.errors.firstName
@@ -515,7 +523,8 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
                 formik.handleChange(e);
               }}
               error={
-                (formik?.validateOnMount || formik.touched.lastName) && Boolean(formik.errors.lastName)
+                (formik?.validateOnMount || formik.touched.lastName) &&
+                Boolean(formik.errors.lastName)
               }
               helperText={
                 (formik?.validateOnMount || formik.touched?.lastName) && formik.errors.lastName
@@ -567,7 +576,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
               }
               helperText={
                 (formik?.validateOnMount || formik.touched?.phoneNumber) &&
-                  formik.errors.phoneNumber
+                formik.errors.phoneNumber
                   ? t(formik.errors.phoneNumber)
                   : null
               }

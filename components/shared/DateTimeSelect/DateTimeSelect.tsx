@@ -7,13 +7,7 @@ import MultiPicker from 'rmc-picker/lib/MultiPicker';
 import { StyledButton } from '../StyledButton/StyledButton';
 import { timeFormats } from 'utils/timeFormats';
 import 'rmc-picker/assets/index.css';
-import {
-  CUSTOM,
-  DAY,
-  IMMEDIATE,
-  TODAY,
-  TOMORROW,
-} from 'utils/constants';
+import { CUSTOM, DAY, IMMEDIATE, TODAY, TOMORROW } from 'utils/constants';
 import { useTranslation } from 'react-i18next';
 import cx from 'classnames';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
@@ -86,7 +80,7 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
       const parsedInitial = dayjs(initialSelectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2);
       setDisable(
         parsedSelectedTime.isAfter(parsedInitial) ||
-        parsedSelectedTime.isSame(parsedInitial, 'minute'),
+          parsedSelectedTime.isSame(parsedInitial, 'minute'),
       );
     } else {
       const now = dayjs();
@@ -110,22 +104,12 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
       setInternalSelectedTime(timeString);
       setSelectedTime(timeString);
     },
-    [setSelectedTime]
+    [setSelectedTime],
   );
 
-  const daysOfWeek = [
-    'MONDAY',
-    'TUESDAY',
-    'WEDNESDAY',
-    'THURSDAY',
-    'FRIDAY',
-    'SATURDAY',
-    'SUNDAY',
-  ];
+  const daysOfWeek = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'];
 
   function expandEverydayAndKeepAll(hours: any) {
-
-
     const expanded = hours.flatMap((entry: any) => {
       if (entry.day.toUpperCase() === 'EVERYDAY') {
         return daysOfWeek.map((day) => ({
@@ -249,11 +233,13 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
                 setSelectedFormat('');
               }}
             >
-              {[...new Set(availableSlots[selectedDay]?.map((s: any) => s.hour))].map((hour: any) => (
-                <Picker.Item key={hour} value={hour}>
-                  {hour}
-                </Picker.Item>
-              ))}
+              {[...new Set(availableSlots[selectedDay]?.map((s: any) => s.hour))].map(
+                (hour: any) => (
+                  <Picker.Item key={hour} value={hour}>
+                    {hour}
+                  </Picker.Item>
+                ),
+              )}
             </Picker>
 
             <Picker
