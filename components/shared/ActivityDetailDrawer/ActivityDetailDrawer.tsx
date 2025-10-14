@@ -992,21 +992,40 @@ export const ActivityDetailDrawer: React.FC<any> = ({
                 {showSelectedActivity?.forChild && (
                   <div className={styles.activitySpecifics}>
                     <p className={styles.childSpecific}>
-                      <Child /> For Kids ( {showSelectedActivity.minimumAge}+ years )
+                      <Child className={styles.childIcon} /> For Kids
+                      {showSelectedActivity.minimumAge > 0 && (
+                        <> ({showSelectedActivity.minimumAge}+ years)</>
+                      )}
                     </p>
                   </div>
                 )}
                 {showSelectedActivity?.gender && (
                   <div className={styles.activitySpecifics}>
                     <p className={styles.specificTags}>
-                      <People />
-                      {showSelectedActivity.gender.length === 1
-                        ? showSelectedActivity.gender[0] === 'Female'
-                          ? 'Women Only'
-                          : showSelectedActivity.gender[0] === 'Male'
-                          ? 'Men Only'
-                          : 'Open to All'
-                        : 'Open to All'}{' '}
+                      <People className={styles.peopleIcon} />
+                      {(() => {
+                        const selected = new Set(showSelectedActivity.gender);
+                        const hasMale = selected.has('Male');
+                        const hasFemale = selected.has('Female');
+                        const hasOther = selected.has('Other');
+                        const count = selected.size;
+
+                        if (count === 3) {
+                          return 'Open to All';
+                        }
+                        if (count === 2) {
+                          if (hasMale && hasFemale) return 'Men and Women Only';
+                          if (hasMale && hasOther) return 'Others and Men Only';
+                          if (hasFemale && hasOther) return 'Others and Women Only';
+                        }
+                        if (count === 1) {
+                          if (hasMale) return 'Men Only';
+                          if (hasFemale) return 'Women Only';
+                          if (hasOther) return 'Others Only';
+                        }
+                        // Fallback (e.g., empty array — though unlikely due to `&&` guard)
+                        return 'Open to All';
+                      })()}
                     </p>
                   </div>
                 )}

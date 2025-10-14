@@ -301,13 +301,15 @@
   align-items: center;
   align-content: center;
   padding: 10px;
+  text-align: center;
 }
 
 .specificTags {
-  width: 30%;
+  max-width: 50%;
+  min-width: 30%;
   background: #d8d8d8;
   text-align: center;
-  padding: 3px;
+  padding: 4px;
   display: flex;
   align-content: center;
   justify-content: space-evenly;
@@ -315,10 +317,13 @@
   font-family: var(--primary-font-regular);
   font-size: small;
   color: var(--tertiary-text-color);
+  text-align: center;
+  border-radius: 3px;
 }
 
 .childSpecific {
-  width: 35%;
+  max-width: 45%;
+  min-width: 22%;
   background: #d8d8d8;
   text-align: center;
   padding: 3px;
@@ -329,4 +334,15 @@
   font-family: var(--primary-font-regular);
   font-size: small;
   color: var(--tertiary-text-color);
+  text-align: center;
+  border-radius: 3px;
+}
+
+.peopleIcon {
+  padding-bottom: 6px;
+  padding-right: 4px;
+}
+
+.childIcon {
+  padding-bottom: 5px;
 }
