@@ -1,4 +1,12 @@
-import { useEffect, useRef } from 'react';
+declare global {
+  interface Window {
+    maplayr: any;
+  }
+}
+
+export {};
+
+import { useEffect, useRef, useState } from 'react';
 import Script from 'next/script';
 import { mapCode } from 'storage/home.storage';
 import { useReactiveVar } from '@apollo/client';
@@ -7,16 +15,58 @@ import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import styles from './MapLayr.module.scss';
 import locationMarkerUrl from '../../../assets/icons/mapLocation.png?url';
 
+// Helper: Calculate distance between two coordinates (in meters)
+const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
+  const R = 6371e3; // Earth radius in meters
+  const φ1 = (lat1 * Math.PI) / 180;
+  const φ2 = (lat2 * Math.PI) / 180;
+  const Δφ = ((lat2 - lat1) * Math.PI) / 180;
+  const Δλ = ((lon2 - lon1) * Math.PI) / 180;
+
+  const a =
+    Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+    Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  return R * c;
+};
+
+// Helper: Trigger short vibration (mobile only)
+const triggerVibration = () => {
+  if (typeof window !== 'undefined' && 'vibrate' in navigator) {
+    navigator.vibrate([300, 100, 200]);
+  }
+};
+
 const MapLayrMap = () => {
-  const mapRef = useRef(null);
+  const mapRef = useRef<HTMLDivElement>(null);
   const code = useReactiveVar(mapCode);
   const navigate = useLocalizedRouter();
+
+  const [toast, setToast] = useState<{ message: string; visible: boolean }>({
+    message: '',
+    visible: false,
+  });
+
+  const currentDestinationRef = useRef<any | null>(null);
+  const currentDestinationNameRef = useRef<string | null>(null);
+  const proximityCheckRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (!code) {
       navigate(availablePaths.HOME);
     }
-  }, []);
+  }, [code, navigate]);
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    if (toast.visible) {
+      timeout = setTimeout(() => {
+        setToast((prev) => ({ ...prev, visible: false }));
+      }, 3000);
+    }
+    return () => clearTimeout(timeout);
+  }, [toast.visible]);
 
   const handleScriptLoad = async () => {
     if (!window.maplayr) {
@@ -49,14 +99,24 @@ const MapLayrMap = () => {
         mapView.removeShape(shape);
       });
       currentRouteShapes = [];
+      currentDestinationRef.current = null;
+      currentDestinationNameRef.current = null;
+
+      if (proximityCheckRef.current) {
+        clearInterval(proximityCheckRef.current);
+        proximityCheckRef.current = null;
+      }
     };
 
-    const setRoute = (destination: any) => {
+    const setRoute = (destination: any, name: string) => {
       if (!userLocationMarker.position) {
         console.warn('Click on the map first to set your starting location!');
         return;
       }
       clearRoute();
+      currentDestinationRef.current = destination;
+      currentDestinationNameRef.current = name;
+
       try {
         const reactiveRoute = map.createReactiveRoute(userLocationMarker, destination);
 
@@ -71,8 +131,50 @@ const MapLayrMap = () => {
         mapView.addShape(innerShape);
 
         currentRouteShapes = [innerShape, outerShape];
+
+        if (proximityCheckRef.current) clearInterval(proximityCheckRef.current);
+        proximityCheckRef.current = setInterval(() => {
+          const userPos = userLocationMarker.position?.coordinates;
+          const dest = currentDestinationRef.current;
+          const destName = currentDestinationNameRef.current;
+
+          if (!userPos || !dest || !destName) return;
+
+          const distance = calculateDistance(
+            userPos.latitude,
+            userPos.longitude,
+            dest.latitude,
+            dest.longitude,
+          );
+
+          if (distance <= 20) {
+            clearRoute();
+
+            // Trigger vibration
+            triggerVibration();
+
+            // Highlight POI
+            const poiElement = document.querySelector(
+              `[data-poi-name="${CSS.escape(destName)}"]`,
+            ) as HTMLElement | null;
+
+            if (poiElement) {
+              poiElement.classList.add(styles.pulseHighlight);
+              setTimeout(() => {
+                poiElement.classList.remove(styles.pulseHighlight);
+              }, 2500);
+            }
+
+            // Show toast
+            setToast({
+              message: `You've arrived at ${destName}!`,
+              visible: true,
+            });
+          }
+        }, 1000);
       } catch (error) {
         console.error('Routing failed:', error);
+        clearRoute();
       }
     };
 
@@ -81,6 +183,7 @@ const MapLayrMap = () => {
       {
         name: 'Shipwreck Restaurant',
         location: new window.maplayr.Coordinates(36.69427, -6.41905),
+        arrivalRadius: 30,
       },
       { name: 'Mystical Waters', location: new window.maplayr.Coordinates(36.69035, -6.40912) },
       {
@@ -302,8 +405,8 @@ const MapLayrMap = () => {
               });
             }
 
-            // Route first
-            setRoute(poi.location);
+            setRoute(poi.location, poi.name);
+
             mapView.moveCamera({
               position: poi.location,
               span: 20,
@@ -314,6 +417,8 @@ const MapLayrMap = () => {
 
           const container = document.createElement('div');
           container.className = styles.annotation;
+          // Add data attribute for easy selection
+          container.setAttribute('data-poi-name', poi.name);
           container.appendChild(icon);
           container.appendChild(label);
           return container;
@@ -337,6 +442,14 @@ const MapLayrMap = () => {
     return () => clearInterval(interval);
   }, [code]);
 
+  useEffect(() => {
+    return () => {
+      if (proximityCheckRef.current) {
+        clearInterval(proximityCheckRef.current);
+      }
+    };
+  }, []);
+
   return (
     <>
       <Script
@@ -344,6 +457,30 @@ const MapLayrMap = () => {
         strategy='lazyOnload'
       />
       <div ref={mapRef} id='map' style={{ width: '100%', height: '100vh' }} />
+
+      {/* Toast Notification */}
+      {toast.visible && (
+        <div
+          style={{
+            position: 'fixed',
+            bottom: '20px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            backgroundColor: '#d8d8d8ff',
+            color: 'var(--primary-text-color)',
+            padding: '8px 12px',
+            borderRadius: '6px',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+            zIndex: 1000,
+            fontSize: '14px',
+            fontWeight: '200',
+            maxWidth: '95%',
+            textAlign: 'center',
+          }}
+        >
+          {toast.message}
+        </div>
+      )}
     </>
   );
 };
