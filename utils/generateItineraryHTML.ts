@@ -130,30 +130,30 @@ export const generateItineraryHTML = (
   const htmlRows = Object.entries(groupedActivities)
     .map(
       ([dateKey, { day, date, activities }]) => `
-      <div style="margin-bottom: 30px;">
+      <div style="margin-bottom: 30px; ">
         <div style="display: flex; align-items: flex-start;">
-          <div style="min-width: 80px; padding-right: 15px; text-align: right;">
+          <div style="min-width: 80px; padding-right: 15px; text-align: right; ">
             <div style="margin-top: 5px; font-family: 'ITC Franklin Gothic Std'; font-size: 10px; lineHeight: 14px; color: #666; text-transform: uppercase;">${day}</div>
             <div style="font-family: 'ITC Franklin Gothic Std', 'Arial', sans-serif; font-size: 21px;"><b>${date}</b></div>
           </div>
-          <div style="flex: 1; border-left: 1px solid #ddd; padding-left: 15px;">
+          <div style="flex: 1; border-left: 1px solid #ddd; padding-left: 15px; break-inside: avoid; page-break-inside: avoid;">
             ${activities
               .map(
                 (activity) => `
-                <div style="margin-bottom: 20px; position: relative;">
+                <div style="margin-bottom: 20px; position: relative; break-inside: avoid; page-break-inside: avoid;">
                   <div style="position: absolute; width: 10px; height: 10px; border-radius: 50%; background: ${
                     activity?.status === 'WaitingList' ? '#FF0000' : '#CCCCCC'
-                  }; left: -20px;"></div>
+                  }; left: -20px; break-inside: avoid; page-break-inside: avoid;"></div>
 
-                  <div style="font-family: 'Domaine Display', serif; fontSize: 14px; lineHeight: 17px; marginBottom: 5px; word-break: break-word; white-space: normal;"><b>${
+                  <div style="font-family: 'Domaine Display', serif; fontSize: 14px; lineHeight: 17px; marginBottom: 5px; word-break: break-word; white-space: normal; break-inside: avoid; page-break-inside: avoid;"><b>${
                     activity.itineraryName === 'CheckIn'
                       ? `Check in to ${hotelName}`
                       : activity.itineraryName || ''
                   }</b></div>
-                  <div style="font-family: 'ITC Franklin Gothic Std', 'Arial', sans-serif; lineHeight: 20px; font-size: 16px; font-weight: bold; margin-bottom: 5px; word-break: break-word; white-space: normal;"><b>${
+                  <div style="font-family: 'ITC Franklin Gothic Std', 'Arial', sans-serif; lineHeight: 20px; font-size: 16px; font-weight: bold; margin-bottom: 5px; word-break: break-word; white-space: normal; break-inside: avoid; page-break-inside: avoid;"><b>${
                     activity?.timeValue || activity?.startTime || ''
                   }</b></div>
-                  <div>
+                  <div style="break-inside: avoid; page-break-inside: avoid;">
                   ${
                     activity?.status === 'WaitingList'
                       ? `
@@ -197,7 +197,7 @@ export const generateItineraryHTML = (
       }
 
       <!-- Greeting -->
-      <div style="padding: 30px; background-color: #FFFFFF; margin: 20px;">
+      <div style="padding: 30px; background-color: #FFFFFF; margin: 20px; break-inside: avoid; page-break-inside: avoid;">
         <h1 style="font-family: 'Domaine Display'; font-size: 18px;  line-height: 27px; font-weight: 600; letter-spacing: 1px; margin-bottom: 2px; text-align: center;">
           Welcome, ${
             checkedInData?.firstName
@@ -218,7 +218,7 @@ export const generateItineraryHTML = (
         ${htmlRows}
       </div>
       <!-- Footer -->
-        <div style="font-size: 12px; color: #393939; text-align: center; padding: 0 20px 20px; word-break: break-word; white-space: normal">
+        <div style="font-size: 12px; color: #393939; text-align: center; padding: 0 20px 20px; word-break: break-word; white-space: normal: break-inside: avoid; page-break-inside: avoid;">
           Update plans, add experiences, or make changes - <br><b>your stay, your way.</b>
           <div style="padding-top: 8px; word-break: break-word; white-space: normal">
             <a href="${path}"
