@@ -15,7 +15,6 @@ import {
   restaurantCtaNavigation,
 } from 'utils/functions';
 import { ASSETS_URL, HOTEL_ID } from 'core/graphql/endpoints';
-import DateTimeSelect from 'components/shared/DateTimeSelect/DateTimeSelect';
 import { PlusMinusInput } from 'components/shared/PlusMinusInput/PlusMinusInput';
 import { availablePaths } from 'utils/availablePaths';
 import {
@@ -61,6 +60,7 @@ import { GET_SLOT_DETAILS } from 'core/graphql/queries/GET_AVAILABLE_TABLE_RESER
 import { CREATE_TABLE_RESERVATION_VENDOR } from 'core/graphql/queries/CREATE_TABLE_RESERVATION_VENDOR';
 import MuiPhoneNumber from 'material-ui-phone-number';
 import { Countries } from 'utils/countryList';
+import DateTimeSelectRestaurant from 'components/shared/DateTimeSelect/DateTimeSelectRestaurant';
 
 export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
   selectedRestaurant,
@@ -445,7 +445,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
                   );
                 }}
                 className={styles.button}
-                // disabled={!btnDisabled}
+                disabled={!btnDisabled}
               >
                 {queryResultEntity?.cta?.ctaTitle || t('Book Now')}
               </StyledButton>
@@ -468,7 +468,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
           </div>
           <div className={styles.timeWrapper}>
             <p className={styles.preferredTitle}>{t('Preferred Day & Time')}</p>
-            <DateTimeSelect
+            <DateTimeSelectRestaurant
               setSelectedTime={setSelectedTime}
               selectedTime={selectedTime}
               handleSave={handleFindTable}
@@ -576,7 +576,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
               }
               helperText={
                 (formik?.validateOnMount || formik.touched?.phoneNumber) &&
-                formik.errors.phoneNumber
+                  formik.errors.phoneNumber
                   ? t(formik.errors.phoneNumber)
                   : null
               }

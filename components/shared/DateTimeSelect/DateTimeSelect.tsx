@@ -7,14 +7,20 @@ import MultiPicker from 'rmc-picker/lib/MultiPicker';
 import { StyledButton } from '../StyledButton/StyledButton';
 import { timeFormats } from 'utils/timeFormats';
 import 'rmc-picker/assets/index.css';
-import { CUSTOM, DAY, IMMEDIATE, TODAY, TOMORROW } from 'utils/constants';
+import {
+  CUSTOM,
+  DATE,
+  DAY,
+  IMMEDIATE,
+  TIME,
+  TODAY,
+  TOMORROW,
+  TimeFormatArray,
+} from 'utils/constants';
 import { useTranslation } from 'react-i18next';
 import cx from 'classnames';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
 import { client } from 'core/graphql/client';
-import minMax from 'dayjs/plugin/minMax';
-
-dayjs.extend(minMax);
 
 const reservationData = client.readQuery<IGetReservationApiResponse>({
   query: GET_RESERVATION,
@@ -45,7 +51,6 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
   module,
   disableTimepiCketConfirmBtn,
   initialSelectedTime,
-  queryResultEntity,
 }) => {
   const { t } = useTranslation(['common']);
   const [disable, setDisable] = useState(false);
@@ -80,7 +85,7 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
       const parsedInitial = dayjs(initialSelectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2);
       setDisable(
         parsedSelectedTime.isAfter(parsedInitial) ||
-          parsedSelectedTime.isSame(parsedInitial, 'minute'),
+        parsedSelectedTime.isSame(parsedInitial, 'minute'),
       );
     } else {
       const now = dayjs();
@@ -88,115 +93,46 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
     }
   }, [selectedTime, module, initialSelectedTime]);
 
+  // Only update internalSelectedTime from initialSelectedTime if module is 'dining'
+  useEffect(() => {
+    if (
+      module === 'dining' &&
+      initialSelectedTime &&
+      initialSelectedTime !== internalSelectedTime
+    ) {
+      setInternalSelectedTime(initialSelectedTime);
+      setSelectedTime(initialSelectedTime);
+    }
+  }, [module, initialSelectedTime]);
+
+  // Sync internal state with selectedTime prop (for other modules)
   useEffect(() => {
     if (selectedTime && selectedTime !== internalSelectedTime) {
       setInternalSelectedTime(selectedTime);
     }
   }, [selectedTime]);
 
+  useEffect(() => {
+    if (
+      scheduledTomorrow &&
+      !scheduledToday &&
+      !scheduledCustom &&
+      !scheduledImmediate &&
+      module === 'housekeeping'
+    ) {
+      const newDate = dayjs().add(1, DAY).format(timeFormats.DAY_MONTH_HOUR_MINUTE_AM);
+      setSelectedTime(newDate);
+    }
+  }, [setSelectedTime, showSchedules?.schedule, module]);
+
   const onChange = useCallback(
-    ([day, hour, minute, format]: any) => {
-      setSelectedDay(day);
-      setSelectedHour(hour);
-      setSelectedMinute(minute);
-      setSelectedFormat(format);
-      const timeString = `${day}:${hour}:${minute}:${format}`;
-      setInternalSelectedTime(timeString);
-      setSelectedTime(timeString);
+    (value: [string, string, string, string]) => {
+      const newTime = value.join(':');
+      setInternalSelectedTime(newTime);
+      setSelectedTime(newTime);
     },
     [setSelectedTime],
   );
-
-  const daysOfWeek = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'];
-
-  function expandEverydayAndKeepAll(hours: any) {
-    const expanded = hours.flatMap((entry: any) => {
-      if (entry.day.toUpperCase() === 'EVERYDAY') {
-        return daysOfWeek.map((day) => ({
-          day,
-          open: entry.open,
-          close: entry.close,
-        }));
-      }
-      return entry;
-    });
-
-    return expanded;
-  }
-
-  const restaurantHours = expandEverydayAndKeepAll(queryResultEntity?.hours || []);
-
-  const mergeAndGenerateSlots = (hours: any) => {
-    const result: any = {};
-
-    // Expand EVERYDAY
-    const expanded = [];
-    for (const h of hours) {
-      if (h.day === 'EVERYDAY') {
-        for (const day of daysOfWeek) {
-          expanded.push({ ...h, day });
-        }
-      } else {
-        expanded.push(h);
-      }
-    }
-
-    // Group by day
-    const grouped: any = {};
-    for (const { day, open, close } of expanded) {
-      const o = open === 'all day' ? '00:00' : open;
-      const c = close === 'all day' ? '23:59' : close;
-      if (!grouped[day]) grouped[day] = [];
-      grouped[day].push([
-        dayjs(`2024-01-01 ${o}`, 'YYYY-MM-DD HH:mm'),
-        dayjs(`2024-01-01 ${c}`, 'YYYY-MM-DD HH:mm'),
-      ]);
-    }
-
-    // Merge overlapping ranges
-    for (const day in grouped) {
-      const intervals = grouped[day].sort((a: any, b: any) => a[0].valueOf() - b[0].valueOf());
-
-      const merged = [];
-      let [start, end] = intervals[0];
-
-      for (let i = 1; i < intervals.length; i++) {
-        const [currStart, currEnd] = intervals[i];
-        if (currStart.isBefore(end) || currStart.isSame(end)) {
-          end = dayjs.max(end, currEnd);
-        } else {
-          merged.push([start, end]);
-          [start, end] = [currStart, currEnd];
-        }
-      }
-      merged.push([start, end]);
-
-      // Create 15-minute intervals
-      result[day] = [];
-      for (const [mStart, mEnd] of merged) {
-        let time = mStart;
-        while (time.isBefore(mEnd)) {
-          result[day].push({
-            hour: time.format('hh'),
-            minute: time.format('mm'),
-            format: time.format('A'),
-          });
-          time = time.add(15, 'minute');
-        }
-      }
-    }
-
-    return result;
-  };
-
-  const availableSlots = useMemo(() => {
-    return mergeAndGenerateSlots(restaurantHours);
-  }, [restaurantHours]);
-
-  const [selectedDay, setSelectedDay] = useState('MONDAY');
-  const [selectedHour, setSelectedHour] = useState('');
-  const [selectedMinute, setSelectedMinute] = useState('');
-  const [selectedFormat, setSelectedFormat] = useState('');
 
   return (
     <div>
@@ -207,69 +143,60 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
           onTouchMove={(e) => e.stopPropagation()}
           onTouchEnd={(e) => e.stopPropagation()}
         >
-          <MultiPicker
-            onValueChange={onChange}
-            selectedValue={[selectedDay, selectedHour, selectedMinute, selectedFormat]}
-          >
+          <MultiPicker onValueChange={onChange} selectedValue={selectedTime?.split(':')}>
             <Picker
-              onValueChange={(day) => {
-                setSelectedDay(day);
-                setSelectedHour('');
-                setSelectedMinute('');
-                setSelectedFormat('');
-              }}
+              indicatorClassName='my-picker-indicator'
+              className={
+                ((scheduledToday && !scheduledImmediate && !scheduledTomorrow) ||
+                  (scheduledCustom && showSchedules?.customSchedule === TIME)) &&
+                styles.disabled
+              }
             >
-              {Object.keys(availableSlots).map((day) => (
-                <Picker.Item key={day} value={day}>
-                  {day?.slice(0, 3)}
+              {!scheduledToday && !scheduledImmediate && scheduledTomorrow ? (
+                <Picker.Item className='my-picker-view-item day' key={tomorrow} value={tomorrow}>
+                  {tomorrow}
+                </Picker.Item>
+              ) : (
+                dayMonthArray?.map((day: any) => (
+                  <Picker.Item className='my-picker-view-item day' key={day} value={day}>
+                    {day === dayjs().format(timeFormats.DAY_MONTH) ? TODAY : day}
+                  </Picker.Item>
+                ))
+              )}
+            </Picker>
+            <Picker
+              indicatorClassName='my-picker-indicator'
+              className={
+                scheduledCustom && showSchedules?.customSchedule === DATE && styles.disabled
+              }
+            >
+              {hoursArray.map((hour) => (
+                <Picker.Item className='my-picker-view-item hour' key={hour} value={hour}>
+                  {hour}
                 </Picker.Item>
               ))}
             </Picker>
-
             <Picker
-              onValueChange={(hour) => {
-                setSelectedHour(hour);
-                setSelectedMinute('');
-                setSelectedFormat('');
-              }}
+              indicatorClassName='my-picker-indicator'
+              className={
+                scheduledCustom && showSchedules?.customSchedule === DATE && styles.disabled
+              }
             >
-              {[...new Set(availableSlots[selectedDay]?.map((s: any) => s.hour))].map(
-                (hour: any) => (
-                  <Picker.Item key={hour} value={hour}>
-                    {hour}
-                  </Picker.Item>
-                ),
-              )}
-            </Picker>
-
-            <Picker
-              onValueChange={(minute) => {
-                setSelectedMinute(minute);
-                setSelectedFormat('');
-              }}
-            >
-              {[
-                ...new Set(
-                  availableSlots[selectedDay]
-                    ?.filter((s: any) => s.hour === selectedHour)
-                    .map((s: any) => s.minute),
-                ),
-              ].map((minute: any) => (
-                <Picker.Item key={minute} value={minute}>
+              {minutesArray?.map((minute) => (
+                <Picker.Item className='my-picker-view-item minute' key={minute} value={minute}>
                   {minute}
                 </Picker.Item>
               ))}
             </Picker>
 
-            <Picker onValueChange={(format) => setSelectedFormat(format)}>
-              {[
-                ...new Set(
-                  availableSlots[selectedDay]
-                    ?.filter((s: any) => s.hour === selectedHour && s.minute === selectedMinute)
-                    .map((s: any) => s.format),
-                ),
-              ].map((format: any) => (
-                <Picker.Item key={format} value={format}>
+            <Picker
+              indicatorClassName='my-picker-indicator'
+              className={
+                scheduledCustom && showSchedules?.customSchedule === DATE && styles.disabled
+              }
+            >
+              {TimeFormatArray?.map((format) => (
+                <Picker.Item className='my-picker-view-item format' key={format} value={format}>
                   {format}
                 </Picker.Item>
               ))}
@@ -278,7 +205,7 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
         </div>
 
         <StyledButton
-          // disabled={(module === 'restaurants_bars' && false) || !disable}
+          disabled={(module === 'restaurants_bars' && !disableTimepiCketConfirmBtn) || !disable}
           loading={loading}
           onClick={() => handleSave()}
           className={cx(buttonStyle)}
