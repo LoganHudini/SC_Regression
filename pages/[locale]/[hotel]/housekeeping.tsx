@@ -45,7 +45,6 @@ import {
 import DateTimeSelect from 'components/shared/DateTimeSelect/DateTimeSelect';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { HOUSEKEEPING_ORDER } from 'core/graphql/queries/HOUSEKEEPING_ORDER';
-import { HOTEL_ID } from 'core/graphql/endpoints';
 import { notificationStorage, toggleDetailsDrawer, toggleNotification } from 'storage/home.storage';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import { availablePaths } from 'utils/availablePaths';
@@ -198,7 +197,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
           roomNo: checkinData?.roomNumber,
           lastName: checkinData?.lastName,
         },
-        hotelId: hotelId,
+        config,
         toggleNotification: customToggleNotification,
         setLoading: () => null,
         t: t,
@@ -263,7 +262,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
             guestName: checkinData?.lastName,
             serviceName: showSchedules?.name,
             requestType: showSchedules?.__typename,
-            hotelId: HOTEL_ID,
+            hotelId: config?.hotelId,
             roomNo: checkinData?.roomNumber,
             items: combinedServiceRequestArray
               ?.filter((item: any) => item?.quantity > 0)
@@ -301,7 +300,7 @@ const HouseKeeping: React.FC<IHousekeepingProps> = () => {
           },
           fetchPolicy: 'network-only',
           variables: {
-            hotelId: HOTEL_ID,
+            hotelId: config?.hotelId,
             roomNo: checkinData?.roomNumber,
             bookingId: checkinData?.reservationId,
             guestEmail: checkinData?.email,

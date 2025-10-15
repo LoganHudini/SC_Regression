@@ -40,6 +40,7 @@ import { ActivityCarousel } from 'components/pages/home/ActivityCarousel/Activit
 import { GET_ACTIVITIES, IGetActivitiesApiResponse } from 'core/graphql/queries/GET_ACTIVITY';
 import { GET_LOCATIONS, IGetLocationsApiResponse } from 'core/graphql/queries/GET_LOCATIONS';
 import { hotelLocation } from 'storage/home.storage';
+import { isEmpty } from 'lodash';
 
 export { getStaticPaths };
 
@@ -58,7 +59,7 @@ const Home: NextPage = () => {
   const { data: homeCarouselDetails, loading: homeCarouselLoading } = useQuery(
     GET_HOTEL_INFORMATION,
     {
-      skip: !hotelId,
+      skip: isEmpty(config),
       context: { clientName: 'property_a' },
       fetchPolicy: 'no-cache',
       variables: {
@@ -154,6 +155,7 @@ const Home: NextPage = () => {
         lang: locale === 'en' ? '' : locale,
       },
       fetchPolicy: 'no-cache',
+      skip: !hotelId,
     },
   );
 
@@ -166,6 +168,7 @@ const Home: NextPage = () => {
         hotelId: hotelId,
         lang: locale === 'en' ? '' : locale,
       },
+      skip: !hotelId,
     },
   );
 

@@ -38,6 +38,7 @@ const Activity = () => {
         hotelId: hotelId,
         lang: locale === 'en' ? '' : locale,
       },
+      skip: !hotelId,
     },
   );
 

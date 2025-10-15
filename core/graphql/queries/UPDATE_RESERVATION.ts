@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export interface IUpdateReservationApiRequest {
   roomType: string;
@@ -18,17 +17,21 @@ export interface IUpdateReservationApiRequest {
 }
 
 export const UPDATE_RESERVATION = gql`
-query UpdateReservation($confirmationNumber: String, $body:IUpdateGuestDetailsApiRequest) {
-    updateReservation(confirmationNumber: $confirmationNumber, body: $body)
-    @rest(
-      type: "UpdateReservationPayload"
-      path: "/booking/hotel/${HOTEL_ID}/reservation/{args.confirmationNumber}?Channel=PWA"
-      method: "PUT"
-      bodyKey: "body"
-    ) {
-    errors
-    data
-    status
+  query UpdateReservation(
+    $confirmationNumber: String
+    $body: IUpdateGuestDetailsApiRequest
+    $hotelId: String
+  ) {
+    updateReservation(confirmationNumber: $confirmationNumber, body: $body, hotelId: $hotelId)
+      @rest(
+        type: "UpdateReservationPayload"
+        path: "/booking/hotel/{args.hotelId}/reservation/{args.confirmationNumber}?Channel=PWA"
+        method: "PUT"
+        bodyKey: "body"
+      ) {
+      errors
+      data
+      status
+    }
   }
-}
 `;

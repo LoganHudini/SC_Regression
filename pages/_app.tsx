@@ -146,6 +146,8 @@ function App({ Component, pageProps }: AppProps) {
     cancelButtonLabel: t('Cancel') as string,
   };
 
+  const hotel = config?.code;
+
   useEffect(() => {
     if (config?.hotelId && config?.chatOption === 'HUDINI-CHAT') {
       const existingWidget = document.getElementById('live-chat-widget');
@@ -192,8 +194,11 @@ function App({ Component, pageProps }: AppProps) {
           bottom: '80px',
           right: '30px',
         },
-        // svgLogo: `/images/${BRAND_CODE}/Logo.svg`,
+        svgLogo: `/images/${config?.propertyHeaderLogo
+          ? `propertyHeaderLogo/${hotel}.svg`
+          : `${BRAND_CODE}/Logo.svg`}`,
       };
+
 
       const script = document.createElement('script');
       script.src = HUDINI_CHAT_URL ?? '';

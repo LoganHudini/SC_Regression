@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export interface IPersonalizeYourRoomEntity {
   maxQuantity: any;
@@ -23,10 +22,21 @@ export interface IPersonalizeYourRoomApiResponse {
 }
 
 export const GET_AVAILABLE_PERSONALIZATIONS_PMS = gql`
-  query GetAvailablePersonalizations($confirmationId: String, $startDate: String, $endDate: String) {
-    getAvailablePersonalizations(confirmationId: $confirmationId, startDate: $startDate, endDate: $endDate) @rest(
+  query GetAvailablePersonalizations(
+    $confirmationId: String
+    $startDate: String
+    $endDate: String
+    $hotelId: String
+  ) {
+    getAvailablePersonalizations(
+      confirmationId: $confirmationId
+      startDate: $startDate
+      endDate: $endDate
+      hotelId: $hotelId
+    )
+      @rest(
         type: "GetAvailablePersonalizationsPayload"
-        path: "/booking/hotel/${HOTEL_ID}/personalisations?confirmationId={args.confirmationId}&endDate={args.endDate}&startDate={args.startDate}"
+        path: "/booking/hotel/{args.hotelId}/personalisations?confirmationId={args.confirmationId}&endDate={args.endDate}&startDate={args.startDate}"
       ) {
       errors
       data
@@ -36,10 +46,19 @@ export const GET_AVAILABLE_PERSONALIZATIONS_PMS = gql`
 `;
 
 export const GET_AVAILABLE_PERSONALIZATIONS_CMS = gql`
-  query GetAvailablePersonalizations($startDate: String, $confirmationId: String) {
-    getAvailablePersonalizations(startDate: $startDate, confirmationId: $confirmationId) @rest(
+  query GetAvailablePersonalizations(
+    $startDate: String
+    $confirmationId: String
+    $hotelId: String
+  ) {
+    getAvailablePersonalizations(
+      startDate: $startDate
+      confirmationId: $confirmationId
+      hotelId: $hotelId
+    )
+      @rest(
         type: "GetAvailablePersonalizationsPayload"
-        path: "/hotels/${HOTEL_ID}/personalisations?startDate={args.startDate}&lang=en&confirmationId={args.confirmationId}"
+        path: "/hotels/{args.hotelId}/personalisations?startDate={args.startDate}&lang=en&confirmationId={args.confirmationId}"
       ) {
       errors
       data

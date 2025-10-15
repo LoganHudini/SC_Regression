@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import Head from 'next/head';
 import SignatureCanvas from 'react-signature-canvas';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
@@ -446,6 +445,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
           query: PRE_SIGN_DOC_UPLOAD,
           context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
           variables: {
+            hotelId: config?.hotelId,
             confirmationNumber: reservationInfo?.confirmationId as string,
             body: uploadSignaturePayload,
           },
@@ -507,6 +507,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
               headers: { Authorization: 'Bearer ' + checkInToken },
             },
             variables: {
+              hotelId: config?.hotelId,
               confirmationNumber: reservationInfo?.confirmationId as string,
               body: uploadImagePayload,
             },
@@ -702,6 +703,7 @@ const CheckIn: React.FC<ICheckinProps> = () => {
             query: preCheckInStatus ? PRECHECKIN : CHECKIN,
             context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
             variables: {
+              hotelId: config?.hotelId,
               confirmationNumber: reservationInfo?.confirmationId as string,
               body: checkInPayload,
             },
@@ -981,22 +983,41 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     const isValidDate = (dateString: string) => {
       return /^\d{4}-\d{2}-\d{2}$/.test(dateString) && !isNaN(new Date(dateString).getTime());
     };
+
+    const getDisplayValue = () => {
+      // Handle case when options is 'Countries'
+      if (options === 'Countries') {
+        const country = Countries.find(
+          (country) => country.value?.toLowerCase() === value?.toLowerCase(),
+        );
+        return country?.name || value;
+      }
+
+      // Handle case when options is an array
+      if (Array.isArray(options) && options.length > 0) {
+        const option = options.find(
+          (option: any) =>
+            (code === DOCTYPE ? option?.code : option?.value)?.toLowerCase() ===
+            value?.toLowerCase(),
+        );
+        return option?.name || value;
+      }
+
+      // Handle date formatting
+      if (isValidDate(value)) {
+        return dayjs(value).format(timeFormats.DAY_MONTH_YEAR_5);
+      }
+
+      // Default case
+      return value;
+    };
+
     return (
       <>
         {value && (
           <div>
             <p className={styles.checkDatesText}>{title}</p>
-            <p className={cx(styles.checkDatesDetails, styles.left)}>
-              {options?.length > 0
-                ? options?.find(
-                    (option: any) =>
-                      (code === DOCTYPE ? option?.code : option?.value)?.toLowerCase() ===
-                      value?.toLowerCase(),
-                  )?.name
-                : isValidDate(value)
-                ? dayjs(value).format(timeFormats.DAY_MONTH_YEAR_5)
-                : value}
-            </p>
+            <p className={cx(styles.checkDatesDetails, styles.left)}>{getDisplayValue()}</p>
           </div>
         )}
       </>
@@ -1007,14 +1028,32 @@ const CheckIn: React.FC<ICheckinProps> = () => {
     const options = guestInformationSection?.details?.find(
       (detail: any) => detail?.name === code,
     )?.options;
+
+    const getDisplayValue = () => {
+      // Handle case when options is 'Countries'
+      if (options === 'Countries') {
+        const country = Countries.find(
+          (country) => country.value?.toLowerCase() === value?.toLowerCase(),
+        );
+        return country?.name || value;
+      }
+
+      if (Array.isArray(options) && options.length > 0) {
+        const option = options.find(
+          (option: { value: string }) => option?.value?.toLowerCase() === value?.toLowerCase(),
+        );
+        return option?.name || value;
+      }
+
+      return value;
+    };
+
     return (
       <>
         {value && (
           <div className={cx(styles.shrinkedText, styles.left)}>
-            {title && title}{' '}
-            {options?.length > 0
-              ? options?.find((option: any) => option?.value === value)?.name
-              : value}
+            {title && `${title} `}
+            {getDisplayValue()}
           </div>
         )}
       </>

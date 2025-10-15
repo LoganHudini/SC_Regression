@@ -3970,7 +3970,7 @@
     fast-deep-equal "^3.1.3"
     supercluster "^8.0.1"
 
-"@graphql-typed-document-node/core@^3.1.1":
+"@graphql-typed-document-node/core@^3.1.1", "@graphql-typed-document-node/core@^3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.2.0.tgz#5f3d96ec6b2354ad6d8a28bf216a1d97b5426861"
   integrity sha512-mB9oAsNCm9aM3/SOv4YtBMqZbYj10R7dkq8byBqxGY/ncFwhf2oQzMV+LCRlWoDSEBJ3COiR1yeDvMtsoOsuFQ==
@@ -8843,13 +8843,6 @@ create-require@^1.1.0:
   resolved "https://registry.yarnpkg.com/create-require/-/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
   integrity sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==
 
-cross-fetch@^3.1.5:
-  version "3.1.8"
-  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.8.tgz#0327eba65fd68a7d119f8fb2bf9334a1a7956f82"
-  integrity sha512-cvA+JwZoU0Xq+h6WkMvAUqPEYy92Obet6UdKLfW60qn99ftItKjB5T+BkyWOFWe2pUyfQ+IJHmpOTznqk1M6Kg==
-  dependencies:
-    node-fetch "^2.6.12"
-
 cross-spawn@^7.0.0, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
   version "7.0.6"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-7.0.6.tgz#8a58fe78f00dcd70c370451759dfbfaf03e8ee9f"
@@ -8858,6 +8851,11 @@ cross-spawn@^7.0.0, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
     which "^2.0.1"
+
+crypto-js@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.2.0.tgz#4d931639ecdfd12ff80e8186dba6af2c2e856631"
+  integrity sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==
 
 crypto-random-string@^2.0.0:
   version "2.0.0"
@@ -10516,11 +10514,6 @@ extglob@^2.0.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-extract-files@^9.0.0:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/extract-files/-/extract-files-9.0.0.tgz#8a7744f2437f81f5ed3250ed9f1550de902fe54a"
-  integrity sha512-CvdFfHkC95B4bBBk36hcEmvdR2awOdhhVUYH6S/zrVj3477zven/fJMYg7121h4T1xHZC+tetUpubpAhxwI7hQ==
-
 fancy-log@^1.3.2:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/fancy-log/-/fancy-log-1.3.3.tgz#dbc19154f558690150a23953a0adbd035be45fc7"
@@ -11267,15 +11260,12 @@ graphemer@^1.4.0:
   resolved "https://registry.yarnpkg.com/graphemer/-/graphemer-1.4.0.tgz#fb2f1d55e0e3a1849aeffc90c4fa0dd53a0e66c6"
   integrity sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==
 
-graphql-request@^5.0.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/graphql-request/-/graphql-request-5.2.0.tgz#a05fb54a517d91bb2d7aefa17ade4523dc5ebdca"
-  integrity sha512-pLhKIvnMyBERL0dtFI3medKqWOz/RhHdcgbZ+hMMIb32mEPa5MJSzS4AuXxfI4sRAu6JVVk5tvXuGfCWl9JYWQ==
+graphql-request@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/graphql-request/-/graphql-request-7.2.0.tgz#af4aa25f27a087dd4fc93a4ff54a0f59c4487269"
+  integrity sha512-0GR7eQHBFYz372u9lxS16cOtEekFlZYB2qOyq8wDvzRmdRSJ0mgUVX1tzNcIzk3G+4NY+mGtSz411wZdeDF/+A==
   dependencies:
-    "@graphql-typed-document-node/core" "^3.1.1"
-    cross-fetch "^3.1.5"
-    extract-files "^9.0.0"
-    form-data "^3.0.0"
+    "@graphql-typed-document-node/core" "^3.2.0"
 
 graphql-tag@^2.12.6:
   version "2.12.6"
@@ -14405,7 +14395,7 @@ node-addon-api@^7.0.0:
   resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-7.1.1.tgz#1aba6693b0f255258a049d621329329322aad558"
   integrity sha512-5m3bsyrjFWE1xf7nz7YXdN4udnVtXK6/Yfgn5qnahL6bCkf2yKt4k3nuTKAtT4r3IG8JNR2ncsIMdZuAzJjHQQ==
 
-node-fetch@^2.6.1, node-fetch@^2.6.12, node-fetch@^2.6.7:
+node-fetch@^2.6.1, node-fetch@^2.6.7:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.7.0.tgz#d0f0fa6e3e2dc1d27efcd8ad99d550bda94d187d"
   integrity sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==

@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export interface IRDOrderApiResponse {
   createOrder: {
@@ -29,35 +28,36 @@ export interface IRDOrderApiResponse {
 
 export const IRD_ORDER = gql`
   mutation IrdOrder(
-    $additionalNote: String!,
-    $bookingId: String!,
-    $deliveryLocation: String!,
-    $guestEmail: String!,
-    $guestName: String!,
-    $noOfItems: Int!,
-    $noOfGuests: Int!,
-    $totalAmount: Float!,
-    $paymentMethod: String!,
-    $roomNo: String!,
+    $additionalNote: String!
+    $bookingId: String!
+    $deliveryLocation: String!
+    $guestEmail: String!
+    $guestName: String!
+    $noOfItems: Int!
+    $noOfGuests: Int!
+    $totalAmount: Float!
+    $paymentMethod: String!
+    $roomNo: String!
     $startTime: String!
     $guestSignature: String!
     $items: [ItemDetailsInput]!
+    $hotelId: String
   ) {
     createOrder(
       input: {
-        additionalNote: $additionalNote,
-        bookingId: $bookingId,
-        deliveryLocation: $deliveryLocation,
-        guestEmail: $guestEmail,
-        guestName: $guestName,
+        additionalNote: $additionalNote
+        bookingId: $bookingId
+        deliveryLocation: $deliveryLocation
+        guestEmail: $guestEmail
+        guestName: $guestName
         items: $items
-        noOfItems: $noOfItems,
-        paymentMethod: $paymentMethod,
-        roomNo: $roomNo,
-        startTime: $startTime,
-        totalAmount: $totalAmount,
-        hotelId:  "${HOTEL_ID}",
-        noOfGuests: $noOfGuests,
+        noOfItems: $noOfItems
+        paymentMethod: $paymentMethod
+        roomNo: $roomNo
+        startTime: $startTime
+        totalAmount: $totalAmount
+        hotelId: $hotelId
+        noOfGuests: $noOfGuests
         guestSignature: $guestSignature
         channel: "PWA"
       }

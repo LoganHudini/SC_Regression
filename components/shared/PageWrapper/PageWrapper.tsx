@@ -32,7 +32,7 @@ export const PageWrapper: React.FC<IPageWrapperProps> = ({
   });
 
   useEffect(() => {
-    if (hotelInfoStorageList?.length === 0) {
+    if (hotelInfoStorageList?.length === 0 && hotelId) {
       hotelInfo();
     }
   }, [hotelInfo, hotelInfoStorageList]);

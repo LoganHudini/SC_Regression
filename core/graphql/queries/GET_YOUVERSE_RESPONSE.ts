@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-// import { HOTEL_ID } from '../endpoints';
 
 export const GET_YOUVERSE_RESPONSE = gql`
   query GetYoonikResponse($docId: any, $confirmationId: string) {

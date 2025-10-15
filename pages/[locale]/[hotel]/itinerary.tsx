@@ -150,6 +150,7 @@ const Itinerary = () => {
         pageToken: '',
         lang: locale === 'en' ? '' : locale,
       },
+      skip: !hotelId,
     },
   );
 

@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client';
 import { UIConfiguration } from '../../../types/UIConfiguration.types';
-import { HOTEL_ID } from '../endpoints';
 
 export interface IHotelPage {
   hotelId: string;
@@ -22,13 +21,13 @@ export interface IGetHotelInfoApiResponse {
 }
 
 export const GET_HOTEL_INFO = gql`
-      query MyQuery {
-        listUiBuilderPages(hotelId: "${HOTEL_ID}") {
-          hotelId
-          id
-          name
-          status
-          uiConfiguration
-        }
-      }
-    `;
+  query MyQuery($hotelId: String) {
+    listUiBuilderPages(hotelId: $hotelId) {
+      hotelId
+      id
+      name
+      status
+      uiConfiguration
+    }
+  }
+`;

@@ -1,19 +1,14 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export interface IUploadDocumentTypesApiResponse {
   getDocumentTypes: { status: string; data: null | { code: string; name: string }[] };
 }
 
 export const GET_F_AND_B_ORDER = gql`
-  query MyQuery (
-    $restaurantId:String!,
-    $tableNumber:String!,
-    $lang: String,
-    ){
+  query MyQuery($restaurantId: String!, $tableNumber: String!, $lang: String, $hotelId: String) {
     getFAndBOrderDetails(
       input: {
-        hotelId: "${HOTEL_ID}"
+        hotelId: $hotelId
         restaurantId: $restaurantId
         lang: $lang
         table: $tableNumber

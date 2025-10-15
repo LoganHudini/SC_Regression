@@ -5,6 +5,7 @@ import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { getStaticPaths } from 'utils/getStatic';
 import i18nConfig from 'next-i18next.config';
+import { getHotelId } from 'utils/fetchConfigs';
 import { client } from 'core/graphql/client';
 import { useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
 import { availablePaths } from 'utils/availablePaths';
@@ -102,6 +103,8 @@ const Trential: React.FC = () => {
         verificationNameList: documentLists,
       };
       try {
+        const hotelId = getHotelId();
+
         const res = await client.query({
           query: GET_TRENTIAL_TOKEN,
           context: {
@@ -109,6 +112,7 @@ const Trential: React.FC = () => {
           },
           variables: {
             body: InitiateTokenPayload,
+            hotelId: hotelId,
           },
           fetchPolicy: 'network-only',
         });
@@ -139,6 +143,7 @@ const Trential: React.FC = () => {
     setLoading(true);
 
     try {
+      const hotelId = getHotelId();
       const { data } = await client.query({
         query: GET_TRENTIAL_STATUS,
         context: {
@@ -148,6 +153,7 @@ const Trential: React.FC = () => {
           body: {
             token: token,
           },
+          hotelId: hotelId,
         },
         fetchPolicy: 'no-cache',
       });

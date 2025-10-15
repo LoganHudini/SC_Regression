@@ -64,6 +64,7 @@ const ActivityDetails: React.FC = () => {
         pageToken: '',
         lang: locale === 'en' ? '' : locale,
       },
+      skip: !hotelId,
       onCompleted(data) {
         const loadedData = data?.getActivitiesV2?.activities;
         const onCompleteData = loadedData.filter(

@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export interface IRDDetailsApiResponse {
   getIRDDetails: {
@@ -89,8 +88,8 @@ export interface IRDDetailsApiResponse {
 }
 
 export const IRD_DETAILS = gql`
-  query GetIRDDetails {
-    getIRDDetails(input: { hotelId: "${HOTEL_ID}" }) {
+  query GetIRDDetails($hotelId: String) {
+    getIRDDetails(input: { hotelId: $hotelId }) {
       categories {
         id
         hotelId

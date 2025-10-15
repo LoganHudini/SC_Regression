@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export interface IPreSignDocUploadApiRequest {
   groupId: string;
@@ -33,17 +32,21 @@ export interface IPreSignDocUploadApiResponse {
 }
 
 export const PRE_SIGN_DOC_UPLOAD = gql`
-query InitiatePayment( $body: IInitiatePaymentApiRequest, $confirmationNumber: String) {
-    preSignDocUpload(body: $body, confirmationNumber: $confirmationNumber)
-    @rest(
-      type: "PreSignDocUploadPayload"
-      path: "/hotels/${HOTEL_ID}/reservations/{args.confirmationNumber}/pre-sign-doc-upload"
-      method: "POST"
-      bodyKey: "body"
-    ) {
-    errors
-    data
-    status
+  query InitiatePayment(
+    $body: IInitiatePaymentApiRequest
+    $confirmationNumber: String
+    $hotelId: String
+  ) {
+    preSignDocUpload(body: $body, confirmationNumber: $confirmationNumber, hotelId: $hotelId)
+      @rest(
+        type: "PreSignDocUploadPayload"
+        path: "/hotels/{args.hotelId}/reservations/{args.confirmationNumber}/pre-sign-doc-upload"
+        method: "POST"
+        bodyKey: "body"
+      ) {
+      errors
+      data
+      status
+    }
   }
-}
 `;

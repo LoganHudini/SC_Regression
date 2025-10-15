@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export interface IUpdateGuestDetailsApiRequest {
   reservationId: string;
@@ -49,17 +48,21 @@ export interface IUpdateGuestDetailsApiResponse {
 }
 
 export const ADD_ACCOMPANY_GUEST: any = gql`
-query AddAccompanyDetails($confirmationNumber: String, $body: AddAccompanyDetailsPayload) {
-  addAccompanyDetails(confirmationNumber: $confirmationNumber, body: $body)
-    @rest(
-      type: "AddAccompanyDetailsPayload"
-      path: "/hotel/${HOTEL_ID}/booking/{args.confirmationNumber}/guest/add"
-      method: "POST"
-      bodyKey: "body"
-    ) {
-    errors
-    data
-    status
+  query AddAccompanyDetails(
+    $confirmationNumber: String
+    $body: AddAccompanyDetailsPayload
+    $hotelId: String
+  ) {
+    addAccompanyDetails(confirmationNumber: $confirmationNumber, body: $body, hotelId: $hotelId)
+      @rest(
+        type: "AddAccompanyDetailsPayload"
+        path: "/hotel/{args.hotelId}/booking/{args.confirmationNumber}/guest/add"
+        method: "POST"
+        bodyKey: "body"
+      ) {
+      errors
+      data
+      status
+    }
   }
-}
 `;

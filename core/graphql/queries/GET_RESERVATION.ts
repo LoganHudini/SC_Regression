@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { FETCH_FROM_DB, HOTEL_ID, SAVE_TO_DB } from '../endpoints';
 
 export interface IGetReservationApiResponse {
   getReservation: {
@@ -137,11 +136,23 @@ export const GET_AUTHENTICATION = gql`
 `;
 
 export const GET_RESERVATION = gql`
-  query GetReservation($confirmationNumber: String, $lastName: String, $hotelId: String) {
-    getReservation(confirmationNumber: $confirmationNumber, lastName: $lastName, hotelId: $hotelId)
+  query GetReservation(
+    $confirmationNumber: String
+    $lastName: String
+    $hotelId: String
+    $fetchFromDb: String
+    $saveToDb: String
+  ) {
+    getReservation(
+      confirmationNumber: $confirmationNumber
+      lastName: $lastName
+      hotelId: $hotelId
+      fetchFromDb: $fetchFromDb
+      saveToDb: $saveToDb
+    )
       @rest(
         type: "GetReservationPayload"
-        path: "/booking/hotel/{args.hotelId}/details/{args.confirmationNumber}?lastName={args.lastName}&arrivalDateRequired=no&fetchFromDb=${FETCH_FROM_DB}&saveToDb=${SAVE_TO_DB}&channel=PWA"
+        path: "/booking/hotel/{args.hotelId}/details/{args.confirmationNumber}?lastName={args.lastName}&arrivalDateRequired=no&fetchFromDb={args.fetchFromDb}&saveToDb={args.saveToDb}&channel=PWA"
       ) {
       errors
       data
@@ -151,11 +162,23 @@ export const GET_RESERVATION = gql`
 `;
 
 export const GET_RESERVATION_STATUS = gql`
-  query GetReservation( $roomNo: String, $lastName: String) {
-    getReservation(roomNo: $roomNo, lastName: $lastName)
+  query GetReservation(
+    $roomNo: String
+    $lastName: String
+    $hotelId: String
+    $fetchFromDb: String
+    $saveToDb: String
+  ) {
+    getReservation(
+      roomNo: $roomNo
+      lastName: $lastName
+      hotelId: $hotelId
+      fetchFromDb: $fetchFromDb
+      saveToDb: $saveToDb
+    )
       @rest(
         type: "GetReservationPayload"
-        path: "/v7/booking/hotel/${HOTEL_ID}/reservationStatus/na?lastName={args.lastName}&roomNo={args.roomNo}&arrivalDateRequired=no&fetchFromDb=${FETCH_FROM_DB}&saveToDb=${SAVE_TO_DB}"
+        path: "/v7/booking/hotel/{args.hotelId}/reservationStatus/na?lastName={args.lastName}&roomNo={args.roomNo}&arrivalDateRequired=no&fetchFromDb={args.fetchFromDb}&saveToDb={args.saveToDb}"
       ) {
       errors
       data

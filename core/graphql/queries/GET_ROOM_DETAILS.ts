@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export interface IGetRoomDetailsApiResponse {
   getHotelAccommodationDetails: {
@@ -64,42 +63,42 @@ export interface IGetRoomDetailsApiResponse {
 }
 
 export const GET_ROOM_DETAILS = gql`
-query MyQuery {
-  getHotelAccommodationDetails(input: { hotelId: "${HOTEL_ID}" }) {
-    roomTypes {
-      categoryId
-      code
-      createdBy
-      description
-      displayDescription
-      displayName
-      features
-      hotelId
-      id
-      images {
-        fileName
-        index
-        master
+  query MyQuery($hotelId: String) {
+    getHotelAccommodationDetails(input: { hotelId: $hotelId }) {
+      roomTypes {
+        categoryId
+        code
+        createdBy
+        description
+        displayDescription
+        displayName
+        features
+        hotelId
+        id
+        images {
+          fileName
+          index
+          master
+        }
+        maxAdults
+        maxBeddingPerRoomType
+        maxChildren
+        maxInfants
+        maxOccupants
+        name
+        ratePerNight
       }
-      maxAdults
-      maxBeddingPerRoomType
-      maxChildren
-      maxInfants
-      maxOccupants
-      name
-      ratePerNight
-    }
 
-    upgrades {
-      createdBy
-      hotelId
-      id
-      roomTypeId
-      upgradeType {
-        rate
-        upgradeType
+      upgrades {
+        createdBy
+        hotelId
+        id
+        roomTypeId
+        upgradeType {
+          rate
+          upgradeType
+        }
       }
     }
   }
-}
 `;

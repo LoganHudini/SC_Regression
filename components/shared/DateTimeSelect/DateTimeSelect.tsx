@@ -85,7 +85,7 @@ const DateTimeSelect: React.FC<IDateTimeSelectProps> = ({
       const parsedInitial = dayjs(initialSelectedTime, timeFormats.DAY_MONTH_HOUR_MINUTE_AM_2);
       setDisable(
         parsedSelectedTime.isAfter(parsedInitial) ||
-        parsedSelectedTime.isSame(parsedInitial, 'minute'),
+          parsedSelectedTime.isSame(parsedInitial, 'minute'),
       );
     } else {
       const now = dayjs();

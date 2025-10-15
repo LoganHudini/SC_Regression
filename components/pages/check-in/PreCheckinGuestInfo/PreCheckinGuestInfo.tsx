@@ -250,20 +250,44 @@ export const PreCheckinGuestInfo: React.FC<IPreCheckinGuestInfoProps> = ({
                     type === NEWGUESTFORM ? false : type === NEWGUEST ? true : field?.isDisabled
                   }
                   className={styles.guestDataInput}
-                  options={field?.options?.map((item: any) => item?.name)}
+                  options={
+                    field?.options === 'Countries'
+                      ? Countries.map((country) => country.name)
+                      : Array.isArray(field?.options)
+                      ? field.options.map((item: any) => item?.name)
+                      : []
+                  }
                   value={
-                    field?.options?.find(
-                      (item: any) =>
-                        item?.value?.toLowerCase() === formik?.values[field?.name]?.toLowerCase(),
-                    )?.name || null
+                    field?.options === 'Countries'
+                      ? Countries.find(
+                          (country) =>
+                            country.value?.toLowerCase() ===
+                            formik?.values[field?.name]?.toLowerCase(),
+                        )?.name || null
+                      : Array.isArray(field?.options)
+                      ? field.options.find(
+                          (item: any) =>
+                            item?.value?.toLowerCase() ===
+                            formik?.values[field?.name]?.toLowerCase(),
+                        )?.name || null
+                      : null
                   }
                   autoComplete={true}
                   onChange={(e, selectedData) => {
-                    const updatedData = field?.options?.find(
-                      (data: any) => data?.name === selectedData,
-                    )?.value;
-                    formik.setFieldValue(field?.name, updatedData);
-                    updateGuestDetails(field?.name, updatedData);
+                    let updatedData;
+                    if (field?.options === 'Countries') {
+                      updatedData = Countries.find(
+                        (country) => country.name === selectedData,
+                      )?.value;
+                    } else {
+                      updatedData = field?.options?.find(
+                        (data: any) => data?.name === selectedData,
+                      )?.value;
+                    }
+                    if (updatedData) {
+                      formik.setFieldValue(field?.name, updatedData);
+                      updateGuestDetails(field?.name, updatedData);
+                    }
                   }}
                   renderInput={(params) => (
                     <StyledInput

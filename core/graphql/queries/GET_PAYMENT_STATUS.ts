@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export interface IGetPaymentStatusApiResponse {
   getPaymentStatus: {
@@ -42,59 +41,56 @@ export interface IGetPaymentStatusApiResponse {
 }
 
 export const GET_PAYMENT_STATUS = gql`
-query GetPaymentStatus($paymentId: String, $confirmationId: String) {
-    getPaymentStatus(paymentId: $paymentId, confirmationId: $confirmationId)
-    @rest(
-      type: "GetPaymentStatusPayload"
-      path: "/payment/{args.paymentId}/hotel/${HOTEL_ID}/info?confirmationId={args.confirmationId}"
-    ) {
-    errors
-    data
-    status
+  query GetPaymentStatus($paymentId: String, $confirmationId: String, $hotelId: String) {
+    getPaymentStatus(paymentId: $paymentId, confirmationId: $confirmationId, hotelId: $hotelId)
+      @rest(
+        type: "GetPaymentStatusPayload"
+        path: "/payment/{args.paymentId}/hotel/{args.hotelId}/info?confirmationId={args.confirmationId}"
+      ) {
+      errors
+      data
+      status
+    }
   }
-}
 `;
 
 export const GET_PAYMENT_STATUS_WITHOUT_CONFIRMATIONID = gql`
-query GetPaymentStatus($paymentId: String, $confirmationId: String) {
-    getPaymentStatus(paymentId: $paymentId, confirmationId: $confirmationId)
-    @rest(
-      type: "GetPaymentStatusPayload"
-      path: "/payment/{args.paymentId}/hotel/${HOTEL_ID}/info?confirmationId={args.confirmationId}"
-    ) {
-    errors
-    data
-    status
+  query GetPaymentStatus($paymentId: String, $confirmationId: String, $hotelId: String) {
+    getPaymentStatus(paymentId: $paymentId, confirmationId: $confirmationId, hotelId: $hotelId)
+      @rest(
+        type: "GetPaymentStatusPayload"
+        path: "/payment/{args.paymentId}/hotel/{args.hotelId}/info?confirmationId={args.confirmationId}"
+      ) {
+      errors
+      data
+      status
+    }
   }
-}
 `;
 
 export const GET_FREEDOMPAY_STATUS = gql`
-query GetPaymentStatus($body: GetPaymentStatusPayload) {
-    getPaymentStatus(body: $body)
-    @rest(
-      type: "GetPaymentStatusPayload"
-      path: "/v3/getpaymentstatus/freedompay/hotel/${HOTEL_ID}"
-      method: "POST"
-      bodyKey: "body"
-    ) {
-    errors
-    data
-    status
+  query GetPaymentStatus($body: GetPaymentStatusPayload, $hotelId: String) {
+    getPaymentStatus(body: $body, hotelId: $hotelId)
+      @rest(
+        type: "GetPaymentStatusPayload"
+        path: "/v3/getpaymentstatus/freedompay/hotel/{args.hotelId}"
+        method: "POST"
+        bodyKey: "body"
+      ) {
+      errors
+      data
+      status
+    }
   }
-}
 `;
 
 export const GET_DSP_PAYMENT_STATUS = gql`
-query GetPaymentStatus($transactionId: String) {
-    getPaymentStatus(transactionId: $transactionId)
-    @rest(
-      type: "GetPaymentStatusPayload"
-      path: "/getpaymentstatus/dsp/hotel/${HOTEL_ID}"
-    ) {
-    errors
-    data
-    status
+  query GetPaymentStatus($transactionId: String, $hotelId: String) {
+    getPaymentStatus(transactionId: $transactionId, hotelId: $hotelId)
+      @rest(type: "GetPaymentStatusPayload", path: "/getpaymentstatus/dsp/hotel/{args.hotelId}") {
+      errors
+      data
+      status
+    }
   }
-}
 `;

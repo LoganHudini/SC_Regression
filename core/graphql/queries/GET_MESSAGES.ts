@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export interface IMessage {
   body: string;
@@ -15,14 +14,9 @@ export interface IGetMessagesApiResponse {
 }
 
 export const GET_MESSAGES = gql`
-  query MyQuery($email: String!, $firstName:String!, $lastName: String! ) {
+  query MyQuery($email: String!, $firstName: String!, $lastName: String!, $hotelId: String!) {
     getChatMessages(
-      input: {
-        email: $email,
-        firstName: $firstName
-        lastName: $lastName
-        hotelId: "${HOTEL_ID}"
-      }
+      input: { email: $email, firstName: $firstName, lastName: $lastName, hotelId: $hotelId }
     ) {
       body
       created

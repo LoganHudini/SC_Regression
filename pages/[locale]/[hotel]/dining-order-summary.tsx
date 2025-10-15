@@ -269,6 +269,7 @@ const DiningOrderSummary = () => {
           roomNo: checkinData?.roomNumber,
           lastName: checkinData?.lastName,
         },
+        config,
         toggleNotification: customToggleNotification,
         setLoading: () => null,
         t: t,

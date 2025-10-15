@@ -62,7 +62,9 @@ const DiningDetailsDrawer: React.FC<DiningDetailsDrawerProps> = ({ menuAvailabil
   const [groupedAddonLimitMap, setGroupedAddonLimitMap] = useState<Record<string, number>>({});
   const config = useConfig();
   const irdModule: any = activeModule(config?.modules, IN_ROOM_DINING);
-  const inRoomDiningModule = config.modules.find((module: any) => module.code === IN_ROOM_DINING);
+  const inRoomDiningModule = config?.modules?.find(
+    (module: any) => module?.code === IN_ROOM_DINING,
+  );
 
   const disableSpecialInstructions = inRoomDiningModule?.disableSpecialInstructions || false;
 

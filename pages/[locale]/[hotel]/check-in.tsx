@@ -9,10 +9,7 @@ import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/querie
 import { client } from 'core/graphql/client';
 import dayjs from 'dayjs';
 import cx from 'classnames';
-import {
-  IGetRoomDetailsApiResponse,
-  GET_ROOM_DETAILS,
-} from 'core/graphql/queries/GET_ROOM_DETAILS';
+
 import { GetStaticProps } from 'next';
 import { AboutYourStayProps } from 'types/about-your-stay.types';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -60,12 +57,13 @@ import { Countries } from 'utils/countryList';
 const GuestDetail: React.FC<AboutYourStayProps> = () => {
   const { t } = useTranslation(['about-your-stay', 'common']);
   const navigate = useLocalizedRouter();
-  const config: any = useConfig();
-  const checkedInData = useCheckedIn();
 
   const router = useRouter();
+  const isRouterReady = router.isReady;
   const locale = useLocale();
+  const config: any = useConfig();
   const hotelName = config?.name;
+  const checkedInData = useCheckedIn();
   const hotelImageInfo = useReactiveVar(hotelInformation);
   const paymentConfig: any = usePaymentConfig();
   const personalisationDataloading = usePersonalisation();
@@ -75,8 +73,8 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
   const documentConfig: any = useDocumentConfig();
   const resId = router?.query?.resId ?? '';
   const roomNo = router?.query?.roomNo ?? '';
-  const pmsRoomNumberLength = config?.pmsRoomNumberLength;
   const lastName = router?.query?.lastName ?? '';
+  const pmsRoomNumberLength = config?.pmsRoomNumberLength;
   const countryName = config?.idVerificationNationality?.map((code: any) =>
     Countries?.find((country) => country?.value === code),
   );
@@ -105,14 +103,19 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
     }
   }, [hotelInfo]);
 
-  const reservationData = client.readQuery<IGetReservationApiResponse>({
-    query: GET_RESERVATION,
-  });
+  const reservationData: IGetReservationApiResponse | undefined = (() => {
+    try {
+      return client.readQuery<IGetReservationApiResponse>({ query: GET_RESERVATION }) ?? undefined;
+    } catch {
+      return undefined;
+    }
+  })();
 
   const activeCheckInFlowInfo = useReactiveVar(activeCheckInFlow);
-
   const reservationInfo = reservationData?.getReservation?.data;
+
   useEffect(() => {
+    if (!isRouterReady || !hotelId) return;
     const goToTheNextStep = async () => {
       if (lastName && (resId || roomNo)) {
         const values: any = { lastName: lastName };
@@ -155,18 +158,28 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
         });
       }
     };
+
     goToTheNextStep();
-  }, [lastName, resId, roomNo, t, checkedInData?.reservationId, checkedInData?.lastName]);
+  }, [
+    isRouterReady,
+    hotelId,
+    lastName,
+    resId,
+    roomNo,
+    t,
+    checkedInData?.reservationId,
+    checkedInData?.lastName,
+  ]);
 
   useEffect(() => {
+    if (!isRouterReady) return;
     const timeoutId = setTimeout(() => {
       if (!reservationInfo && !lastName && (!resId || !roomNo)) {
         navigate(availablePaths.HOME);
       }
     }, 2000);
-
     return () => clearTimeout(timeoutId);
-  }, [reservationInfo, lastName, resId, roomNo, navigate]);
+  }, [isRouterReady, reservationInfo, lastName, resId, roomNo, navigate]);
 
   const WelcomeDetails = () => (
     <>
@@ -322,7 +335,7 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
         backRoute={availablePaths?.HOME}
         language
       />
-      {loading || hotelInfoLoading || paymentConfig?.loader ? (
+      {loading || hotelInfoLoading || paymentConfig?.loader || !hotelId ? ( // ✅ gate UI until config is ready
         <Loader />
       ) : (
         <PageWrapper className={styles.pageWrapper}>
@@ -462,14 +475,9 @@ const GuestDetail: React.FC<AboutYourStayProps> = () => {
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const locale = ctx?.params?.locale;
-  const { data } = await client.query<IGetRoomDetailsApiResponse>({
-    query: GET_ROOM_DETAILS,
-    context: { clientName: 'property_a' },
-  });
 
   return {
     props: {
-      roomDetails: data,
       ...(await serverSideTranslations(
         locale as string,
         ['errors', 'about-your-stay', 'common'],

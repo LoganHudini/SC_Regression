@@ -676,6 +676,7 @@ const Guest: React.FC<any> = () => {
             context: { clientName: 'rest', headers: { Authorization: 'Bearer ' + checkInToken } },
             variables: {
               confirmationNumber: reservationInfo?.confirmationId as string,
+              hotelId: hotelInfo?.id,
               body: payload,
             },
           });
@@ -963,6 +964,7 @@ const Guest: React.FC<any> = () => {
         variables: {
           confirmationNumber: reservationInfo?.confirmationId as string,
           body: addAccompanyGuestDetailsPayload,
+          hotelId: config?.hotelId,
         },
       });
       newAccompanyGuestDetails({

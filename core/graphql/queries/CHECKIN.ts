@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export interface ICheckInApiRequest {
   skipQueueReservation: boolean;
@@ -81,33 +80,33 @@ export interface ICheckInApiRequest {
 }
 
 export const CHECKIN = gql`
-query Checkin($confirmationNumber: String, $body: ICheckInApiRequest) {
-    checkin(confirmationNumber: $confirmationNumber, body: $body)
-    @rest(
-      type: "CheckinPayload"
-      path: "/booking/hotel/${HOTEL_ID}/bookings/{args.confirmationNumber}/checkin"
-      method: "POST"
-      bodyKey: "body"
-    ) {
-    errors
-    data
-    status
+  query Checkin($confirmationNumber: String, $body: ICheckInApiRequest, $hotelId: String) {
+    checkin(confirmationNumber: $confirmationNumber, body: $body, hotelId: $hotelId)
+      @rest(
+        type: "CheckinPayload"
+        path: "/booking/hotel/{args.hotelId}/bookings/{args.confirmationNumber}/checkin"
+        method: "POST"
+        bodyKey: "body"
+      ) {
+      errors
+      data
+      status
+    }
   }
-}
 `;
 
 export const PRECHECKIN = gql`
-query Precheckin($confirmationNumber: String, $body: ICheckInApiRequest) {
-    precheckin(confirmationNumber: $confirmationNumber, body: $body)
-    @rest(
-      type: "PrecheckinPayload"
-      path: "/booking/hotel/${HOTEL_ID}/bookings/{args.confirmationNumber}/precheckin"
-      method: "POST"
-      bodyKey: "body"
-    ) {
-    errors
-    data
-    status
+  query Precheckin($confirmationNumber: String, $body: ICheckInApiRequest, $hotelId: String) {
+    precheckin(confirmationNumber: $confirmationNumber, body: $body, hotelId: $hotelId)
+      @rest(
+        type: "PrecheckinPayload"
+        path: "/booking/hotel/{args.hotelId}/bookings/{args.confirmationNumber}/precheckin"
+        method: "POST"
+        bodyKey: "body"
+      ) {
+      errors
+      data
+      status
+    }
   }
-}
 `;

@@ -576,7 +576,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
               }
               helperText={
                 (formik?.validateOnMount || formik.touched?.phoneNumber) &&
-                  formik.errors.phoneNumber
+                formik.errors.phoneNumber
                   ? t(formik.errors.phoneNumber)
                   : null
               }

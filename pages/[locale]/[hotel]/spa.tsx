@@ -24,7 +24,6 @@ import Head from 'next/head';
 import { loaderVar, spaCategoryList, spaInformationStorage } from 'storage/spa.storage';
 import { Loader } from 'components/shared/Loaders/Loaders';
 import produce from 'immer';
-import { HOTEL_ID } from 'core/graphql/endpoints';
 import { StyledButton } from 'components/shared/StyledButton/StyledButton';
 import { useConfig } from 'utils/hooks/useConfiguration';
 import { useLocale, useLocalizedRouter } from 'utils/hooks/useLocalizedRouter';
@@ -229,7 +228,7 @@ const Spa: React.FC = () => {
     if (spaModule?.type === CMS) {
       const DetailsReservationPayload = {
         bookingId: isCheckedIn?.reservationId,
-        hotelId: HOTEL_ID,
+        hotelId: config?.hotelId,
         bookingTime: dayjs().format(timeFormats.DATE_TIME),
         roomNo: isCheckedIn?.roomNumber,
         guestName: `${isCheckedIn?.firstName} ${isCheckedIn?.lastName}`,

@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export interface IInvoiceApiResponse {
   invoice: {
@@ -41,11 +40,11 @@ export interface IEmailInvoicePayload {
 }
 
 export const EMAIL_INVOICE = gql`
-  query Invoice($confirmationNumber: String) {
-    invoice(confirmationNumber: $confirmationNumber, body: $body)
+  query Invoice($confirmationNumber: String, $hotelId: String) {
+    invoice(confirmationNumber: $confirmationNumber, body: $body, hotelId: $hotelId)
       @rest(
         type: "EmailInvoicePayload"
-        path: "/v2/email/hotel/${HOTEL_ID}/invoice"
+        path: "/v2/email/hotel/{args.hotelId}/invoice"
         method: "POST"
         bodyKey: "body"
       ) {

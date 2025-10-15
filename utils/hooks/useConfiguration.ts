@@ -1,7 +1,7 @@
 import { useReactiveVar } from '@apollo/client';
 import { checkRoomStatus } from 'core/api/functions/checkRoomStatus';
 import { client } from 'core/graphql/client';
-import { configuration } from 'core/graphql/queries/GET_CONFIGURATION';
+import { configurationVar, loadConfiguration } from 'utils/configService';
 import { GET_RESERVATION, IGetReservationApiResponse } from 'core/graphql/queries/GET_RESERVATION';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -36,6 +36,14 @@ export const useConfig = () => {
         localStorage.getItem('hotel') &&
         JSON.parse(localStorage.getItem('hotel') ?? '')) ??
       '';
+
+  const configuration = useReactiveVar(configurationVar);
+
+  useEffect(() => {
+    if (hotel && configuration?.length === 0) {
+      loadConfiguration(hotel);
+    }
+  }, [hotel, configuration.length]);
 
   const hotelConfigs: any = configuration?.find((config: any) => hotel && config?.code === hotel);
   const hotelConfigsBasedOnNationality = hotelConfigs && structuredClone(hotelConfigs);
@@ -96,6 +104,10 @@ export const useConfig = () => {
       }
     }
   }
+  if (!hotelConfigs) {
+    return {} as any;
+  }
+
   return hotelConfigs?.idVerificationBasedOnNationality
     ? hotelConfigsBasedOnNationality?.idVerificationNationality?.includes(
         guestReservationInfo?.nationality,
@@ -146,7 +158,7 @@ export const usePaymentConfig = () => {
       !payByLink &&
       isReady
     ) {
-      getRoomStatus();
+      // getRoomStatus();
     }
   }, [
     config?.preCheckInOnly,

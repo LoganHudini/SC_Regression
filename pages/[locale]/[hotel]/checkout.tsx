@@ -65,6 +65,7 @@ const CheckOut = () => {
             },
           },
           variables: {
+            hotelId: hotelId,
             reservationId: invoiceId,
             confirmationId: checkedInData?.reservationId,
             roomNo: checkedInData?.roomNumber,
@@ -219,6 +220,7 @@ const CheckOut = () => {
         context: { clientName: 'rest' },
         fetchPolicy: 'network-only',
         variables: {
+          hotelId: hotelId,
           confirmationNumber: checkedInData?.reservationId,
           body: emailInvoicePayload,
         },

@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export interface ICheckoutApiRequest {
   reservationType: string;
@@ -10,19 +9,19 @@ export interface ICheckoutApiRequest {
 }
 
 export const CHECKOUT = gql`
-query Checkout($body: ICheckoutApiRequest, $confirmationId: confirmationId) {
-    checkout(body: $body, confirmationId: $confirmationId)
-    @rest(
-      type: "CheckoutPayload"
-      path: "/hotel/${HOTEL_ID}/booking/checkout?confirmationId={args.confirmationId}"
-      method: "POST"
-      bodyKey: "body"
-    ) {
-    errors
-    data
-    status
+  query Checkout($body: ICheckoutApiRequest, $confirmationId: confirmationId, $hotelId: String) {
+    checkout(body: $body, confirmationId: $confirmationId, hotelId: $hotelId)
+      @rest(
+        type: "CheckoutPayload"
+        path: "/hotel/{args.hotelId}/booking/checkout?confirmationId={args.confirmationId}"
+        method: "POST"
+        bodyKey: "body"
+      ) {
+      errors
+      data
+      status
+    }
   }
-}
 `;
 
 export const MAKE_CHECKOUT_PAYMENT = gql`
@@ -36,6 +35,7 @@ export const MAKE_CHECKOUT_PAYMENT = gql`
     $expiry: String
     $reference: String
     $token: String
+    $hotelId: String
   ) {
     postPMSPayment(
       input: {
@@ -46,7 +46,7 @@ export const MAKE_CHECKOUT_PAYMENT = gql`
         cardType: $cardType
         comment: $comment
         expiry: $expiry
-        hotelId: "${HOTEL_ID}"
+        hotelId: $hotelId
         reference: $reference
         token: $token
       }

@@ -1,16 +1,8 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
 
 export const GET_MESSAGEBOX_URL = gql`
-  mutation MyMutation2(
-  $roomNo:String!
-  ) {
-    generateChatUrl(
-      input: {
-       hotelId: "${HOTEL_ID}"
-        roomNo: $roomNo
-      }
-    ) {
+  mutation MyMutation2($roomNo: String!, $hotelId: String!) {
+    generateChatUrl(input: { hotelId: $hotelId, roomNo: $roomNo }) {
       url
     }
   }

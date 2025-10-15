@@ -1,6 +1,6 @@
 import { client } from 'core/graphql/client';
-import { HOTEL_ID } from 'core/graphql/endpoints';
 import { logErrors } from 'core/graphql/queries/LOG_ERRORS';
+import { getHotelId } from 'utils/fetchConfigs';
 
 export const logError = async (
   code?: any,
@@ -10,12 +10,13 @@ export const logError = async (
   confirmationId?: any,
 ) => {
   try {
+    const hotelId = getHotelId();
     await client.query({
       query: logErrors,
       context: { clientName: 'rest' },
       variables: {
         body: {
-          hotelId: HOTEL_ID as string,
+          hotelId: hotelId,
           severity: 'ERROR',
           channel: 'PWA',
           message: `{

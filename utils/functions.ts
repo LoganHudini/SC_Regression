@@ -402,7 +402,7 @@ export const filterHotelCompendiumCategories = (data: any) => {
 };
 
 export const findModule = (moduleList: any, moduleActive: any) =>
-  moduleList.find((module: any) => module?.code === moduleActive);
+  moduleList?.find((module: any) => module?.code === moduleActive);
 
 export const groupBy = (arrayToBeGrouped: any, property: string) => {
   return (

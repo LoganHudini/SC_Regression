@@ -75,12 +75,16 @@ export const handleReservation = async ({
         ? {
             confirmationNumber: values?.confirmationNumber?.toString()?.trim(),
             lastName: values?.lastName?.toString()?.trim(),
-            hotelId: hotelId,
+            hotelId: config?.hotelId,
+            fetchFromDb: config?.fetchFromDb,
+            saveToDb: config?.saveToDb,
           }
         : {
             roomNo: paddedRoomNo,
             lastName: values?.lastName?.toString()?.trim(),
-            hotelId: hotelId,
+            hotelId: config?.hotelId,
+            fetchFromDb: config?.fetchFromDb,
+            saveToDb: config?.saveToDb,
           },
       fetchPolicy: 'no-cache',
     });

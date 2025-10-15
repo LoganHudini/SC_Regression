@@ -1,28 +1,27 @@
 import { gql } from '@apollo/client';
-import { HOTEL_ID } from '../endpoints';
-
 export const REQUEST_F_AND_B_BILL = gql`
   mutation MyMutation(
-    $guestName: String!,
-    $guestType:String!,
-    $noOfGuests: Int!,
-    $phoneNumber: String,
-    $restaurantId: String!,
-    $roomNumber: String,
-    $tableNumber: String!,
+    $guestName: String!
+    $guestType: String!
+    $noOfGuests: Int!
+    $phoneNumber: String
+    $restaurantId: String!
+    $roomNumber: String
+    $tableNumber: String!
     $lang: String
+    $hotelId: String
   ) {
     requestFAndBBill(
       input: {
-        guestName: $guestName,
-        guestType: $guestType,
-        hotelId: "${HOTEL_ID}",
-        lang: $lang,
-        noOfGuests: $noOfGuests,
-        phoneNumber: $phoneNumber,
-        restaurantId: $restaurantId,
-        roomNumber: $roomNumber,
-        tableNumber: $tableNumber,
+        guestName: $guestName
+        guestType: $guestType
+        hotelId: $hotelId
+        lang: $lang
+        noOfGuests: $noOfGuests
+        phoneNumber: $phoneNumber
+        restaurantId: $restaurantId
+        roomNumber: $roomNumber
+        tableNumber: $tableNumber
       }
     ) {
       id

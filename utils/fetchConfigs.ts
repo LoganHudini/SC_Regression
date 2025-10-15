@@ -1,6 +1,7 @@
-import { configuration } from 'core/graphql/queries/GET_CONFIGURATION';
+import { configurationVar } from 'utils/configService';
 
 const queryString: any = typeof window !== 'undefined' && window?.location?.pathname;
+const configuration = () => configurationVar();
 
 export const getHotelCode = () =>
   (queryString !== false && queryString?.split('/')[2]) ??
@@ -9,25 +10,21 @@ export const getHotelCode = () =>
     JSON.parse(localStorage.getItem('hotel') ?? ''));
 
 export const getHotelId = () => {
-  return configuration?.find((configuration: any) => configuration?.code === getHotelCode())
-    ?.hotelId;
+  return configuration()?.find((c: any) => c?.code === getHotelCode())?.hotelId;
 };
 
 export const getFetchFromDb = () => {
-  return configuration?.find((configuration: any) => configuration?.code === getHotelCode())
-    ?.fetchFromDb;
+  return configuration()?.find((c: any) => c?.code === getHotelCode())?.fetchFromDb;
 };
 
 export const getSaveToDb = () => {
-  return configuration?.find((configuration: any) => configuration?.code === getHotelCode())
-    ?.saveToDb;
+  return configuration()?.find((c: any) => c?.code === getHotelCode())?.saveToDb;
 };
 
 export const getHotelName = () => {
-  return configuration?.find((configuration: any) => configuration?.code === getHotelCode())?.name;
+  return configuration()?.find((c: any) => c?.code === getHotelCode())?.name;
 };
 
 export const getMessageBirdWidgetId = () => {
-  return configuration?.find((configuration: any) => configuration?.code === getHotelCode())
-    ?.widgetId;
+  return configuration()?.find((c: any) => c?.code === getHotelCode())?.widgetId;
 };
