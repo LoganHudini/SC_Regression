@@ -142,7 +142,13 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
     setDetailContent(true);
     setGuestCount(1);
     settimeExtractedArray([]);
-    formik.resetForm();
+    setSelectedSpaSlots({});
+    formik.setValues({
+      email: isCheckedIn?.email || '',
+      phoneNumber: isCheckedIn?.phoneNumber || '',
+      firstName: isCheckedIn?.firstName || '',
+      lastName: isCheckedIn?.lastName || '',
+    });
   };
 
   const parsed = dayjs(`${selectedTime} ${currentYear}`, 'DD MMM:hh:mm:A YYYY');
@@ -165,6 +171,21 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
       noOfSeats: guestCount || 2,
     },
     fetchPolicy: 'no-cache',
+    onError(error) {
+      const errorCode: any = error.graphQLErrors;
+      const slotFilled = errorCode.some((e: any) =>
+        e.message.toLowerCase().includes('no availability for the number of seats') && e?.data == null,
+      );
+      if (slotFilled) {
+        toggleNotification(true);
+        notificationStorage({
+          title: t('No Availability for Selected Seats') as string,
+          description: t('The selected number of seats is not available. Please adjust your selection or choose another time.'),
+          redirect: null,
+          type: FAILURE,
+        });
+      }
+    },
   });
 
   const handleFindTable = useCallback(async () => {
@@ -226,7 +247,7 @@ export const RestaurantDetail: React.FC<IDiningOrdersProps> = ({
         });
         closeDrawer();
         return;
-      } else {
+      } else if (isSlotAvailable?.data?.getRestaurantAvailability?.data?.length > 0) {
         const attributesArray = isSlotAvailable?.data?.getRestaurantAvailability?.data.map(
           (item: any) => item?.attributes,
         );

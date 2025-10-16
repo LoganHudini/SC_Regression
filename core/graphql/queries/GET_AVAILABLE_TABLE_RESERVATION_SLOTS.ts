@@ -31,6 +31,7 @@ export const GET_SLOT_DETAILS = gql`
           time
           wait_list_available
           wait_list_remaining_covers
+          wait_list_covers
         }
         hotelId
         id
