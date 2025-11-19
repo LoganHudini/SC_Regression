@@ -115,7 +115,8 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
     "format": "prettier --write ./**/*.{js,jsx,ts,tsx,css,md} --config ./.prettierrc",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "flow:headed": "npx playwright test tests/ActivityDetailDrawer.spec.ts --headed && npx playwright test tests/test/modifyBooking.spec.ts --headed && npx playwright test tests/test/cancelBooking.spec.ts --headed"
   },
   "dependencies": {
     "@apollo/client": "^3.7.6",
@@ -176,6 +177,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@playwright/test": "^1.56.1",
     "@types/minimatch": "^5.1.2",
     "@types/node": "18.11.9",
     "@types/react": "^18.2.24",
