@@ -56,13 +56,13 @@ export class ModifyBookingPage {
 
     // Fill in booking details
     await this.roomNo.waitFor({ state: 'visible' });
-    await this.roomNo.fill('1602');
+    await this.roomNo.fill('1603');
     await this.lastName.fill('M');
     await this.nextButton.click();
   }
 
   // Navigate to My Itinerary
-  async navigateToMyItinerary() {
+  async navigateToMyItinerary() { 
     // Wait for the home page to load after login
     await this.myItineraryButton.waitFor({ state: 'visible', timeout: 10000 });
     await this.myItineraryButton.click();
@@ -76,8 +76,8 @@ export class ModifyBookingPage {
     console.log(`Found ${count} activities in My Itinerary`);
 
     for (let i = 0; i < count; i++) {
-      const text = (await this.activitiesInMyItinerary.nth(i).textContent())?.trim();
-      console.log(`${i + 1}. ${text}`);
+      const text = (await this.activitiesInMyItinerary.nth(i).textContent())?.trim();                
+      console.log(`${i + 1}. ${text}`);      
     }
 
     // If an activity name is provided, try to click that one; otherwise click the first
@@ -86,7 +86,7 @@ export class ModifyBookingPage {
       await target.click();
     } else {
       await this.activitiesInMyItinerary.first().click();
-    }
+    }  
   }
   
   async modifyBooking() {
@@ -116,7 +116,7 @@ console.log(`Toast Description: ${toastDescription}`);
 
 return {
   message: toastText,
-  description: toastDescription
+  description: toastDescription  
 };
   }
 

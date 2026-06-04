@@ -1,0 +1,10 @@
+{
+  "SIDECAR_URL": "https://staff-copilot.hudinielevate-stage.io/sidecar/login/",
+  "STAFF_URL": "https://staff-copilot.hudinielevate-stage.io/login/",
+  "EMAIL": "comoauto1@yopmail.com",
+  "PASSWORD": "Test@123",
+  "PROPERTY": "Hudini Hotels",
+    "SIDECAR_DEVICE": "Auto_Sidecar1",
+    "CONFIRMATION_NUMBER": "280864018",
+    "RESERVATION_NOTE": "Automation test note"
+}

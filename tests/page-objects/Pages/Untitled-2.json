@@ -1,0 +1,360 @@
+{
+    "propertyName": "The Chedi Andermatt",
+    "environment": {
+        "features": {
+            "scanId": true,
+            "eregistration": true,
+            "checkIn": false,
+            "preCheckIn": false,
+            "groupCheckIn": true,
+            "sidecar": false,
+            "demo": false,
+            "eregStatus": false,
+            "allowEregSelection": true,
+            "handleSuppressRate": true,
+            "checkInOption": {
+                "scanHere": false
+            },
+            "upsell": {
+                "enable": false
+            },
+            "preferences": false,
+            "folio": true,
+            "checkout": true,
+            "eregStatusOption": {
+                "showIcon": false
+            },
+            "eregCustomFields": [
+                {
+                    "key": "PHONE_NUMBER",
+                    "name": "Phone Number",
+                    "editable": true,
+                    "mandatory": true,
+                    "PMSField": "phoneNumber",
+                    "type": "text",
+                    "isPrimary": true,
+                    "isAccompany": true
+                },
+                {
+                    "key": "EMAIL",
+                    "name": "Email",
+                    "editable": true,
+                    "mandatory": true,
+                    "PMSField": "email",
+                    "type": "text",
+                    "isPrimary": true,
+                    "isAccompany": true
+                },
+                {
+                    "key": "GENDER",
+                    "name": "Gender",
+                    "editable": true,
+                    "mandatory": true,
+                    "PMSField": "gender",
+                    "type": "dropdown",
+                    "defaultValues": [
+                        {
+                            "label": "MALE",
+                            "value": "M"
+                        },
+                        {
+                            "label": "FEMALE",
+                            "value": "F"
+                        }
+                    ],
+                    "isPrimary": true,
+                    "isAccompany": true
+                },
+                {
+                    "key": "DATE_OF_BIRTH",
+                    "name": "Date of Birth",
+                    "editable": true,
+                    "mandatory": true,
+                    "PMSField": "dob",
+                    "type": "date",
+                    "enableFeatureDate": false,
+                    "isPrimary": true,
+                    "isAccompany": true
+                },
+                {
+                    "key": "DOCUMENT_TYPE",
+                    "name": "Document Type",
+                    "editable": true,
+                    "mandatory": true,
+                    "PMSField": "docType",
+                    "type": "dropdown",
+                    "defaultValues": [
+                        {
+                            "value": "PASSPORT",
+                            "label": "Passport"
+                        },
+                        {
+                            "value": "IDENTITY_CARD",
+                            "label": "Identity Card"
+                        },
+                        {
+                            "value": "DRIVING_LICENSE",
+                            "label": "Driving License"
+                        }
+                    ],
+                    "isPrimary": true,
+                    "isAccompany": true
+                },
+                {
+                    "key": "DOCUMENT_NUMBER",
+                    "name": "Document Number",
+                    "editable": true,
+                    "mandatory": true,
+                    "PMSField": "docNo",
+                    "type": "text",
+                    "isPrimary": true,
+                    "isAccompany": true
+                },
+                {
+                    "key": "DOCUMENT_ISSUE_DATE",
+                    "name": "Document Issue Date",
+                    "editable": true,
+                    "mandatory": true,
+                    "PMSField": "issueDate",
+                    "type": "date",
+                    "isPrimary": true,
+                    "isAccompany": true,
+                    "mandatoryNotFor": [
+                        "IDENTITY_CARD"
+                    ],
+                    "aliasName": [
+                        "effectiveDate",
+                        "issueDate"
+                    ]
+                },
+                {
+                    "key": "DOCUMENT_EXPIRY_DATE",
+                    "name": "Document Expiry Date",
+                    "editable": true,
+                    "mandatory": true,
+                    "PMSField": "expiry",
+                    "type": "date",
+                    "enableFeatureDate": true,
+                    "enablePastDate": false,
+                    "isPrimary": true,
+                    "isAccompany": true,
+                    "mandatoryNotFor": [
+                        "IDENTITY_CARD"
+                    ]
+                },
+                {
+                    "key": "ADDRESS_LINE_1",
+                    "name": "Address Line 1",
+                    "editable": true,
+                    "mandatory": true,
+                    "PMSField": "addressLine",
+                    "type": "text",
+                    "isPrimary": true,
+                    "isAccompany": true
+                },
+                {
+                    "key": "ADDRESS_LINE_2",
+                    "name": "Address Line 2",
+                    "editable": true,
+                    "mandatory": true,
+                    "PMSField": "addressLine2",
+                    "type": "text",
+                    "isPrimary": true,
+                    "isAccompany": true
+                },
+                {
+                    "key": "CITY",
+                    "name": "City",
+                    "editable": true,
+                    "mandatory": false,
+                    "PMSField": "cityName",
+                    "type": "text",
+                    "isPrimary": true,
+                    "isAccompany": true,
+                    "isForDET": true
+                },
+                {
+                    "key": "POSTAL_CODE",
+                    "name": "Postal Code",
+                    "editable": true,
+                    "mandatory": false,
+                    "PMSField": "postalCode",
+                    "type": "text",
+                    "isPrimary": true,
+                    "isAccompany": true,
+                    "isForDET": true
+                },
+                {
+                    "key": "COUNTRY",
+                    "name": "Country of Origin",
+                    "editable": true,
+                    "mandatory": false,
+                    "PMSField": "countryCode",
+                    "type": "text",
+                    "defaultValues": "COUNTRY",
+                    "isPrimary": true,
+                    "isAccompany": true,
+                    "aliasName": [
+                        "country",
+                        "nationality",
+                        "countryCode"
+                    ]
+                },
+                {
+                    "key": "NATIONALITY",
+                    "name": "Nationality",
+                    "editable": true,
+                    "mandatory": true,
+                    "PMSField": "nationality",
+                    "type": "dropdown",
+                    "defaultValues": "COUNTRY",
+                    "isPrimary": true,
+                    "isAccompany": true
+                },
+                {
+                    "key": "COUNTRY_OF_ISSUE",
+                    "name": "Country Of Issue",
+                    "editable": true,
+                    "mandatory": true,
+                    "PMSField": "countryOfIssue",
+                    "type": "dropdown",
+                    "defaultValues": "COUNTRY",
+                    "isPrimary": true,
+                    "isAccompany": true
+                },
+                {
+                    "key": "BIRTH_COUNTRY",
+                    "name": "Birth Country",
+                    "editable": true,
+                    "mandatory": true,
+                    "PMSField": "birthCountry",
+                    "type": "dropdown",
+                    "defaultValues": "COUNTRY",
+                    "isPrimary": true,
+                    "isAccompany": true
+                },
+                {
+                    "key": "BIRTH_PLACE",
+                    "name": "Birth Place",
+                    "editable": true,
+                    "mandatory": true,
+                    "PMSField": "birthPlace",
+                    "type": "text",
+                    "isPrimary": true,
+                    "isAccompany": true
+                }
+            ],
+            "OTAEmails": [
+                "booking.com",
+                "ctrip.com"
+            ]
+        },
+        "validations": {
+            "phoneNumberRegex": "^\\+[\\d\\s\\-().]{8,14}$",
+            "phoneNumberPlaceholder": "+xx xxxxxxxx",
+            "children": {
+                "maxAge": 17,
+                "isIDRequired": false,
+                "isEmailRequired": false,
+                "isPhoneNumberRequired": false,
+                "isSignatureRequired": false
+            }
+        },
+        "functionality": {
+            "roomEditable": true,
+            "activateKey": false,
+            "emailTrigger": true,
+            "collectPayment": false,
+            "termsAndConditions": true,
+            "sync": "pms",
+            "customDate": "2026-05-08"
+        },
+        "apiEndpoints": {
+            "completeUrls": {},
+            "baseUrls": {},
+            "parameters": {
+                "aggregated": "?fetchFromDb=yes"
+            }
+        },
+        "integrations": {
+            "firebase": {
+                "apiKey": "AIzaSyDGgOlHsO3WFSnsBYEEo5mIa5l_YuD2cbM",
+                "authDomain": "casa-cook.firebaseapp.com",
+                "databaseURL": "https://casa-cook-default-rtdb.firebaseio.com",
+                "projectId": "casa-cook",
+                "storageBucket": "casa-cook.appspot.com",
+                "messagingSenderId": "432132122315",
+                "appId": "1:432132122315:web:136852917eedbf7c5a1d4e"
+            },
+            "documentScanBy": "YOUVERSE",
+            "youverse": {
+                "documentTypes": [
+                    "PASSPORT",
+                    "IDENTITY_CARD",
+                    "DRIVING_LICENSE"
+                ],
+                "id": "53c7081b-ecb9-4492-a5fa-8e3c55639967",
+                "byPass": true
+            },
+            "trential": {
+                "documentTypes": [
+                    "passport"
+                ],
+                "id": "ae3a279c-b5e9-45db-ba77-6487c3ac3291",
+                "byPass": true
+            }
+        },
+        "experiments": {},
+        "extendedConfig": {
+            "multiplePrivacyOptions": [
+                {
+                    "title": "Terms and Conditions",
+                    "text": "<b>Mit meiner Unterschrift erkläre ich mich damit einverstanden, dass The Chedi Andermatt meine E-Mail-Adresse nutzt, um mich über Newsletter sowie ausgewählte Angebote, Neuigkeiten und reisebezogene Dienstleistungen im Zusammenhang mit dem Hotel zu informieren</b><br/><i>By signing below, I agree to allow The Chedi Andermatt to use my email address to send me newsletters, as well as selected offers, news, and travel-related services related to the hotel.</i>",
+                    "policyLink": "https://hudini-images.hudini.app/ORASCOM/Andermatt/chediAndermatt+t%26c.html",
+                    "privacyNotes": [],
+                    "mustView": false,
+                    "defaultChecked": false,
+                    "printInEreg": true,
+                    "mandatory": false
+                },
+                {
+                    "title": "",
+                    "text": "*Zwingende Angaben/mandatory information<br/><b>Ich bin damit einverstanden, dass The Chedi Andermatt meine im Meldeschein angegebenen Daten in einer CRM-Datenbank speichert und ein persönliches Gästprofil erstellt.</b><br/><i>I agree that The Chedi Andermatt may store the data provided in the registration form in a CRM database and create a personal guest profile.</i>",
+                    "policyLink": "",
+                    "privacyNotes": [],
+                    "mustView": false,
+                    "defaultChecked": false,
+                    "printInEreg": true,
+                    "mandatory": false
+                },
+                {
+                    "title": "",
+                    "text": "*Zwingende Angaben/mandatory information<br/><b>Mit meiner Unterschrift bestätige ich die Richtigkeit meiner Angaben, akzeptiere die Allgemeinen Geschäftsbedingungen des Hotels sowie die Bestimmungen zur Verwendung meiner persönlichen Daten.</b><br/><i>By signing below, I confirm that the information I have provided is accurate, and I agree to the hotel’s Terms and Conditions as well as the provisions regarding the use of my personal data.</i>",
+                    "policyLink": "https://hudini-images.hudini.app/ORASCOM/Andermatt/chediAndermatt+t%26c.html",
+                    "privacyNotes": [],
+                    "mustView": false,
+                    "defaultChecked": false,
+                    "printInEreg": true,
+                    "mandatory": true
+                }
+            ],
+            "room": {
+                "changeRoom": false,
+                "upgradeRoom": true
+            },
+            "scanId": {
+                "additionalDocument": false
+            },
+            "eregistration": {
+                "autoPopulateContactInformation": true,
+                "eregToGuest": false,
+                "pushEregToOpera": true
+            }
+        },
+        "defaultOptions": {
+            "payment": {
+                "paymentType": "BC"
+            }
+        }
+    }
+}
