@@ -27,19 +27,33 @@ export class ModifyBookingPage {
     this.lastName = page.locator('input[name="lastName"]');
     this.nextButton = page.getByRole('button', { name: 'Next' });
     this.myItineraryButton = page.getByRole('button', { name: 'my itinerary' });
-    this.activitiesInMyItinerary = page.locator('//span[@class="activityAndItinerary_cardTitle__Eaz_g"]');  
+    this.activitiesInMyItinerary = page.locator(
+      '//span[@class="activityAndItinerary_cardTitle__Eaz_g"]',
+    );
     this.modifyButton = page.getByRole('button', { name: 'Modify' });
-    this.participantIncrementButton = page.locator('(//button[@class="PlusMinusInput_plusMinusButton__TG7kU"]//*[@class="PlusMinusInput_plusIcon__9fpP0"])[1]');
-    this.participantDecrementButton = page.locator('(//button[@class="PlusMinusInput_plusMinusButton__TG7kU"]//*[@class="PlusMinusInput_minusIcon__iQEx_"])[1]');
-    this.participantCount = page.locator('//p[text()="No. of people"]/parent::*//p[@class="PlusMinusInput_value__6qWPJ"]');
-    this.durationminutes = page.locator('//p[text()="Duration"]/parent::*//p[@class="PlusMinusInput_value__6qWPJ"]');
-    this.durationIncrementButton = page.locator('(//button[@class="PlusMinusInput_plusMinusButton__TG7kU"]//*[@class="PlusMinusInput_plusIcon__9fpP0"])[2]');
-    this.durationDecrementButton = page.locator('(//button[@class="PlusMinusInput_plusMinusButton__TG7kU"]//*[@class="PlusMinusInput_minusIcon__iQEx_"])[2]');
+    this.participantIncrementButton = page.locator(
+      '(//button[@class="PlusMinusInput_plusMinusButton__TG7kU"]//*[@class="PlusMinusInput_plusIcon__9fpP0"])[1]',
+    );
+    this.participantDecrementButton = page.locator(
+      '(//button[@class="PlusMinusInput_plusMinusButton__TG7kU"]//*[@class="PlusMinusInput_minusIcon__iQEx_"])[1]',
+    );
+    this.participantCount = page.locator(
+      '//p[text()="No. of people"]/parent::*//p[@class="PlusMinusInput_value__6qWPJ"]',
+    );
+    this.durationminutes = page.locator(
+      '//p[text()="Duration"]/parent::*//p[@class="PlusMinusInput_value__6qWPJ"]',
+    );
+    this.durationIncrementButton = page.locator(
+      '(//button[@class="PlusMinusInput_plusMinusButton__TG7kU"]//*[@class="PlusMinusInput_plusIcon__9fpP0"])[2]',
+    );
+    this.durationDecrementButton = page.locator(
+      '(//button[@class="PlusMinusInput_plusMinusButton__TG7kU"]//*[@class="PlusMinusInput_minusIcon__iQEx_"])[2]',
+    );
     this.confirmBookingButton = page.getByRole('button', { name: 'Confirm Booking' });
-        this.toastMessage = page.locator('//div[@class="Notification_contentWrapper__trX5v"]');
+    this.toastMessage = page.locator('//div[@class="Notification_contentWrapper__trX5v"]');
     this.toastMessageText = page.locator('//p[@class="Notification_title__5bQnp"]');
     this.toastMessageDescription = page.locator('//p[@class="Notification_description__YSdhB"]');
-  }  
+  }
 
   async open() {
     await this.page.goto('https://fairmont.hudinielevate-stage.io/en/fairmont-mumbai/', {
@@ -62,7 +76,7 @@ export class ModifyBookingPage {
   }
 
   // Navigate to My Itinerary
-  async navigateToMyItinerary() { 
+  async navigateToMyItinerary() {
     // Wait for the home page to load after login
     await this.myItineraryButton.waitFor({ state: 'visible', timeout: 10000 });
     await this.myItineraryButton.click();
@@ -76,8 +90,8 @@ export class ModifyBookingPage {
     console.log(`Found ${count} activities in My Itinerary`);
 
     for (let i = 0; i < count; i++) {
-      const text = (await this.activitiesInMyItinerary.nth(i).textContent())?.trim();                
-      console.log(`${i + 1}. ${text}`);      
+      const text = (await this.activitiesInMyItinerary.nth(i).textContent())?.trim();
+      console.log(`${i + 1}. ${text}`);
     }
 
     // If an activity name is provided, try to click that one; otherwise click the first
@@ -86,9 +100,9 @@ export class ModifyBookingPage {
       await target.click();
     } else {
       await this.activitiesInMyItinerary.first().click();
-    }  
+    }
   }
-  
+
   async modifyBooking() {
     await this.modifyButton.waitFor({ state: 'visible', timeout: 10000 });
     await this.modifyButton.click();
@@ -105,22 +119,22 @@ export class ModifyBookingPage {
     await confirmButton.waitFor({ state: 'visible', timeout: 10000 });
     await confirmButton.click({ force: true }); // Add force:true to bypass actionability checks if needed
 
-// Wait for confirmation
-await this.toastMessage.waitFor({ state: 'visible', timeout: 10000 });
+    // Wait for confirmation
+    await this.toastMessage.waitFor({ state: 'visible', timeout: 10000 });
 
-// Get and log toast message details
-const toastText = await this.toastMessageText.textContent();
-const toastDescription = await this.toastMessageDescription.textContent();
-console.log(`Toast Message: ${toastText}`);
-console.log(`Toast Description: ${toastDescription}`);
+    // Get and log toast message details
+    const toastText = await this.toastMessageText.textContent();
+    const toastDescription = await this.toastMessageDescription.textContent();
+    console.log(`Toast Message: ${toastText}`);
+    console.log(`Toast Description: ${toastDescription}`);
 
-return {
-  message: toastText,
-  description: toastDescription  
-};
+    return {
+      message: toastText,
+      description: toastDescription,
+    };
   }
 
-  // Helper methods 
+  // Helper methods
   private async getParticipantCount(): Promise<number> {
     const countText = await this.participantCount.textContent();
     return countText ? parseInt(countText, 10) : 0;

@@ -17,17 +17,17 @@ test.describe('Activity Booking Flow', () => {
   });
 
   test('should complete full activity booking flow', async ({ page }) => {
-    test.setTimeout(60000); 
+    test.setTimeout(60000);
     // 1. Navigate to home screen and open the app
     await test.step('Open application and handle initial flow', async () => {
       // This will handle the initial navigation and clicking 'Get Started'
       await activityPage.open();
     });
 
-    // 2. Click Get Started and enter booking details 
+    // 2. Click Get Started and enter booking details
     await test.step('Complete initial booking form', async () => {
       await activityPage.clickGetStarted();
-    }); 
+    });
 
     // 3. Navigate to My Itinerary
     await test.step('Navigate to My Itinerary', async () => {
@@ -47,9 +47,11 @@ test.describe('Activity Booking Flow', () => {
     await test.step('Select activity category', async () => {
       await activityPage.selectCategory();
       // Verify activities for the category are shown using the same locator as in the page object
-      const activitiesLocator = page.locator('//h2[@class="ListComponents_listComponentTitle__IWRAf globals-text-align"]');
+      const activitiesLocator = page.locator(
+        '//h2[@class="ListComponents_listComponentTitle__IWRAf globals-text-align"]',
+      );
       await expect(activitiesLocator).not.toHaveCount(0);
-      
+
       // Log the number of activities found for debugging
       const count = await activitiesLocator.count();
       console.log(`Found ${count} activities after selecting category`);
@@ -71,7 +73,7 @@ test.describe('Activity Booking Flow', () => {
         duration: testBookingDetails.duration,
         notes: testBookingDetails.notes,
       });
-      
+
       // 8. Verify toast message
       await test.step('Verify booking confirmation', async () => {
         expect(confirmation.message).toContain('Thank You!');
@@ -80,20 +82,24 @@ test.describe('Activity Booking Flow', () => {
     });
 
     // Wait for toast message to appear
-    await page.waitForSelector('//div[contains(@class, "Notification_contentWrapper")]', { timeout: 10000 });
+    await page.waitForSelector('//div[contains(@class, "Notification_contentWrapper")]', {
+      timeout: 10000,
+    });
     console.log('Toast message appeared');
-    
+
     // Wait for navigation to complete after toast
-    await page.waitForURL('https://fairmont.hudinielevate-stage.io/en/fairmont-mumbai/itinerary/', { timeout: 30000 });
-    console.log('Navigated to Itinerary page'); 
-    
+    await page.waitForURL('https://fairmont.hudinielevate-stage.io/en/fairmont-mumbai/itinerary/', {
+      timeout: 30000,
+    });
+    console.log('Navigated to Itinerary page');
+
     // Verify the booking in My Itinerary
     await test.step('Verify booking in My Itinerary', async () => {
       const isBooked = await activityPage.verifyBookedActivityInItinerary();
       if (!isBooked) {
         await activityPage.takeScreenshot('booking-verification-failed.png');
         throw new Error('Failed to verify booking in My Itinerary');
-      } 
+      }
     });
   });
 });

@@ -4,8 +4,6 @@ import { MockedProvider } from '@apollo/client/testing';
 import { ActivityDetailDrawer } from '../ActivityDetailDrawer';
 import { GET_RESERVATION } from 'core/graphql/queries/GET_RESERVATION';
 import { CREATE_ACTIVITY_BOOKING } from 'core/graphql/queries/CREATE_ACTIVITY_BOOKING';
-import { UPDATE_ACTIVITY_BOOKING } from 'core/graphql/queries/UPDATE_ACTIVITY_BOOKING';
-import { CANCEL_ACTIVITY_BOOKING } from 'core/graphql/queries/CANCEL_ACTIVITY_BOOKING';
 import dayjs from 'dayjs';
 
 // Mock the required modules
@@ -61,7 +59,7 @@ const mockShowSelectedActivity = {
 describe('ActivityDetailDrawer', () => {
   const mockCloseDrawer = jest.fn();
   const mockHandleFetchActivities = jest.fn();
-  
+
   const mocks = [
     {
       request: {
@@ -127,7 +125,7 @@ describe('ActivityDetailDrawer', () => {
           drawerstate={true}
           {...props}
         />
-      </MockedProvider>
+      </MockedProvider>,
     );
   };
 
@@ -140,11 +138,11 @@ describe('ActivityDetailDrawer', () => {
 
     it('allows selecting number of participants', async () => {
       renderComponent();
-      
+
       // Find and click the increment button
       const incrementButton = screen.getByLabelText('Increment');
       fireEvent.click(incrementButton);
-      
+
       // Check if people count has increased
       const countDisplay = screen.getByTestId('people-count');
       expect(countDisplay).toHaveTextContent('2');
@@ -155,12 +153,12 @@ describe('ActivityDetailDrawer', () => {
         ...mockShowSelectedActivity,
         guests: 10, // At capacity
       };
-      
+
       renderComponent({ showSelectedActivity: mockActivity });
-      
+
       const incrementButton = screen.getByLabelText('Increment');
       fireEvent.click(incrementButton);
-      
+
       // Should still be at capacity (10)
       const countDisplay = screen.getByTestId('people-count');
       expect(countDisplay).toHaveTextContent('10');
@@ -171,15 +169,15 @@ describe('ActivityDetailDrawer', () => {
   describe('Booking Confirmation', () => {
     it('shows success message after booking', async () => {
       renderComponent();
-      
+
       // Select a time slot
       const timeSlot = screen.getByText('10:00 AM - 11:00 AM');
       fireEvent.click(timeSlot);
-      
+
       // Submit the form
       const bookButton = screen.getByText('Book Now');
       fireEvent.click(bookButton);
-      
+
       // Wait for the success message
       await waitFor(() => {
         expect(screen.getByText('Thank You!')).toBeInTheDocument();
@@ -200,9 +198,9 @@ describe('ActivityDetailDrawer', () => {
           activityBookingId: 'booking-123',
         },
       };
-      
+
       renderComponent(modifyProps);
-      
+
       // Check if the form is pre-filled with the correct values
       const countDisplay = screen.getByTestId('people-count');
       expect(countDisplay).toHaveTextContent('2');
@@ -219,13 +217,13 @@ describe('ActivityDetailDrawer', () => {
           activityBookingId: 'booking-123',
         },
       };
-      
+
       renderComponent(modifyProps);
-      
+
       // Click cancel button
       const cancelButton = screen.getByText('Cancel Booking');
       fireEvent.click(cancelButton);
-      
+
       // Check if confirmation dialog is shown
       expect(screen.getByText('Are you sure you want to cancel this booking?')).toBeInTheDocument();
     });
@@ -235,7 +233,7 @@ describe('ActivityDetailDrawer', () => {
   describe('Real-Time Availability', () => {
     it('shows available time slots', () => {
       renderComponent();
-      
+
       // Check if time slots are displayed
       expect(screen.getByText('10:00 AM - 11:00 AM')).toBeInTheDocument();
       expect(screen.getByText('2:00 PM - 3:00 PM')).toBeInTheDocument();
@@ -258,9 +256,9 @@ describe('ActivityDetailDrawer', () => {
           },
         },
       };
-      
+
       renderComponent({ showSelectedActivity: mockActivity });
-      
+
       // The first time slot should be disabled
       const timeSlot = screen.getByText('10:00 AM - 11:00 AM').closest('button');
       expect(timeSlot).toBeDisabled();
@@ -287,7 +285,7 @@ describe('ActivityDetailDrawer', () => {
           },
         },
       ];
-      
+
       render(
         <MockedProvider mocks={waitlistMocks} addTypename={false}>
           <ActivityDetailDrawer
@@ -296,20 +294,22 @@ describe('ActivityDetailDrawer', () => {
             handleFetchActivities={mockHandleFetchActivities}
             drawerstate={true}
           />
-        </MockedProvider>
+        </MockedProvider>,
       );
-      
+
       // Select a time slot and submit
       const timeSlot = screen.getByText('10:00 AM - 11:00 AM');
       fireEvent.click(timeSlot);
-      
+
       const bookButton = screen.getByText('Book Now');
       fireEvent.click(bookButton);
-      
+
       // Check for waitlist message
       await waitFor(() => {
         expect(screen.getByText('You are on the waitlist')).toBeInTheDocument();
-        expect(screen.getByText(/We will let you know if a spot becomes available/i)).toBeInTheDocument();
+        expect(
+          screen.getByText(/We will let you know if a spot becomes available/i),
+        ).toBeInTheDocument();
       });
     });
   });

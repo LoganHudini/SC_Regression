@@ -22,14 +22,18 @@ export class CancelBookingPage {
     this.lastName = page.locator('input[name="lastName"]');
     this.nextButton = page.getByRole('button', { name: 'Next' });
     this.myItineraryButton = page.getByRole('button', { name: 'my itinerary' });
-    this.activitiesInMyItinerary = page.locator('//span[@class="activityAndItinerary_cardTitle__Eaz_g"]');  
+    this.activitiesInMyItinerary = page.locator(
+      '//span[@class="activityAndItinerary_cardTitle__Eaz_g"]',
+    );
     this.cancelButton = page.getByRole('button', { name: 'CANCEL' });
-    this.cancelActivityDrawer = page.locator('//div[@class="activity-details_cancelWrapper__9pU3Y"]');
+    this.cancelActivityDrawer = page.locator(
+      '//div[@class="activity-details_cancelWrapper__9pU3Y"]',
+    );
     this.yesButton = page.getByRole('button', { name: 'YES' });
     this.toastMessage = page.locator('//div[@class="Notification_contentWrapper__trX5v"]');
     this.toastMessageText = page.locator('//p[@class="Notification_title__5bQnp"]');
     this.toastMessageDescription = page.locator('//p[@class="Notification_description__YSdhB"]');
-  }  
+  }
 
   async open() {
     await this.page.goto('https://fairmont.hudinielevate-stage.io/en/fairmont-mumbai/', {
@@ -78,10 +82,10 @@ export class CancelBookingPage {
       await this.activitiesInMyItinerary.first().click();
     }
   }
-  
-  async cancelBooking() { 
+
+  async cancelBooking() {
     await this.cancelButton.waitFor({ state: 'visible', timeout: 10000 });
-    await this.cancelButton.click(); 
+    await this.cancelButton.click();
 
     // waiting for cancel activity drawer to be visible
     await this.cancelActivityDrawer.waitFor({ state: 'visible', timeout: 10000 });
@@ -91,18 +95,18 @@ export class CancelBookingPage {
     await this.yesButton.waitFor({ state: 'visible', timeout: 10000 });
     await this.yesButton.click();
 
-// Wait for confirmation
-await this.toastMessage.waitFor({ state: 'visible', timeout: 10000 });
+    // Wait for confirmation
+    await this.toastMessage.waitFor({ state: 'visible', timeout: 10000 });
 
-// Get and log toast message details
-const toastText = await this.toastMessageText.textContent(); 
-const toastDescription = await this.toastMessageDescription.textContent();
-console.log(`Toast Message: ${toastText}`);
-console.log(`Toast Description: ${toastDescription}`); 
+    // Get and log toast message details
+    const toastText = await this.toastMessageText.textContent();
+    const toastDescription = await this.toastMessageDescription.textContent();
+    console.log(`Toast Message: ${toastText}`);
+    console.log(`Toast Description: ${toastDescription}`);
 
-return {
-  message: toastText,
-  description: toastDescription
-};
+    return {
+      message: toastText,
+      description: toastDescription,
+    };
   }
 }

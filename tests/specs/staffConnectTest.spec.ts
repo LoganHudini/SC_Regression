@@ -156,5 +156,8 @@ test.describe('Sidecar + StaffConnect Flow', () => {
     await test.step('Verify that the user can view the details in Ereg page in Sidecar', async () => {
       await sidecar.verifyEregpageDetails();
     });
+    await test.step('Verify that the user can view the guest details in Review and Sign page in Sidecar', async () => {
+      await sidecar.verifyGuestDetailsInReviewAndSignPage();
+    });
   });
 });

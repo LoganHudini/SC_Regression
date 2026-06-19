@@ -194,11 +194,10 @@ function App({ Component, pageProps }: AppProps) {
           bottom: '80px',
           right: '30px',
         },
-        svgLogo: `/images/${config?.propertyHeaderLogo
-          ? `propertyHeaderLogo/${hotel}.svg`
-          : `${BRAND_CODE}/Logo.svg`}`,
+        svgLogo: `/images/${
+          config?.propertyHeaderLogo ? `propertyHeaderLogo/${hotel}.svg` : `${BRAND_CODE}/Logo.svg`
+        }`,
       };
-
 
       const script = document.createElement('script');
       script.src = HUDINI_CHAT_URL ?? '';

@@ -87,6 +87,24 @@ export class SidecarPage {
     this.totalCostOfStay = this.page.locator(
       '//p[text()="Total Cost of Stay"]/parent::div//div[@class="hyphens-manual break-all	font-Medium  first-letter:uppercase"]//span',
     );
+
+    // primary guests details in the review and sign page
+    this.expandIcon = this.page.locator('//div[@class="relative cursor-pointer rotate-0"]');
+    this.guestHeader = this.page.locator(
+      '//p[@class="text-brand-gray-shade2 font-Regular text-base leading-none  mobile:text-xl"]',
+    );
+    this.guestFirstName = this.page.locator('//p[text()="First Name"]/parent::div//div//span');
+    this.guestlastName = this.page.locator('//p[text()="Last Name"]/parent::div//div//span');
+    this.phoneNumberCountryCode = this.page.locator(
+      '//p[text()="Phone Number"]/parent::div/following-sibling::div//span',
+    );
+    this.countryCodeDropdownIcon = this.page.locator('//*[@class="ml-1 h-4 w-4"]');
+    this.countrySearchInput = this.page.locator(
+      '//div[@class="absolute left-0 z-20 mt-1 max-h-60 w-full min-w-[250px] max-w-[100vw] overflow-y-auto rounded-md border border-gray-300 bg-white shadow-lg"]//input[@type="text"]',
+    );
+    this.countryOptionIND = this.page.locator(
+      '//div[@class="absolute left-0 z-20 mt-1 max-h-60 w-full min-w-[250px] max-w-[100vw] overflow-y-auto rounded-md border border-gray-300 bg-white shadow-lg"]//span[text()="India"]',
+    );
   }
 
   // Locators
@@ -230,7 +248,7 @@ export class SidecarPage {
   async verifyEregpageDetails() {
     try {
       // Verify loyalty popup appears with correct text
-      await this.page.waitForTimeout(5000); // wait for potential popup to appear
+      await this.loyaltyPopup.waitFor({ state: 'visible', timeout: 30000 });
       const isLoyaltyPopupVisible = await this.loyaltyPopup.isVisible().catch(() => false);
 
       if (isLoyaltyPopupVisible) {
@@ -338,11 +356,78 @@ export class SidecarPage {
       try {
         await expect(this.totalCostOfStay).toBeVisible();
         console.log('Total Cost of Stay visible');
+        console.log('Total Cost of Stay text:', await this.totalCostOfStay.textContent());
       } catch (e) {
         console.log('Total Cost of Stay not visible');
       }
     } catch (error) {
       console.error('Error while verifying Review and Sign page title:', error);
+    }
+  }
+  expandIcon: Locator;
+  guestHeader: Locator;
+  guestFirstName: Locator;
+  guestlastName: Locator;
+  phoneNumberCountryCode: Locator;
+  countryCodeDropdownIcon: Locator;
+  countrySearchInput: Locator;
+  countryOptionIND: Locator;
+
+  async verifyGuestDetailsInReviewAndSignPage() {
+    // Click to expand guest details section
+    try {
+      let visibleExpandCount = await this.expandIcon.count();
+      console.log(`Total expand icons found: ${visibleExpandCount}`);
+
+      while ((await this.expandIcon.count()) > 0) {
+        const expand = this.expandIcon.first();
+
+        try {
+          await expand.scrollIntoViewIfNeeded();
+          await expand.click();
+          console.log('Clicked one expand icon');
+
+          // Small wait for accordion animation/UI refresh
+          await this.page.waitForTimeout(500);
+        } catch (error) {
+          console.log('Failed to click expand icon');
+          break;
+        }
+
+        // Safety check to avoid infinite loop
+        const currentCount = await this.expandIcon.count();
+        if (currentCount === visibleExpandCount) {
+          console.log('Expand icon count not changing, stopping loop');
+          break;
+        }
+
+        visibleExpandCount = currentCount;
+      }
+    } catch (error) {
+      console.error('Error while clicking expand icons:', error);
+    }
+
+    // Verify guest header
+    try {
+      await expect(this.guestHeader.first()).toBeVisible();
+
+      const guestCount = await this.guestHeader.count();
+      console.log('Number of guest headers found:', guestCount);
+
+      for (let i = 0; i < guestCount; i++) {
+        const guestType = (await this.guestHeader.nth(i).textContent())?.trim() || '';
+        const firstName = (await this.guestFirstName.nth(i).textContent())?.trim() || '';
+        const lastName = (await this.guestlastName.nth(i).textContent())?.trim() || '';
+        console.log(`\n========== Guest ${i + 1} ==========`);
+
+        // Differentiate Primary vs Accompanying
+        console.log(`Guest Type : ${guestType}`);
+        console.log(`First Name : ${firstName}`);
+        console.log(`Last Name  : ${lastName}`);
+      }
+    } catch (e) {
+      console.log('Guest details not visible');
+      console.log(e);
     }
   }
 }
