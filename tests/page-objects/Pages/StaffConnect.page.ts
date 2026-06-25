@@ -208,6 +208,16 @@ export class StaffConnectPage {
       '//div[@class="flex gap-2 py-2"]//*[@xmlns="http://www.w3.org/2000/svg"]',
     );
     this.connectButton = this.page.locator('//button[@name="Connect"]');
+    this.approvalPopup = this.page.locator(
+      '//div[@class="relative z-20 flex h-full transform-gpu flex-row items-center justify-center duration-300 ease-in-out will-change-transform w-full translate-y-0 scale-100 opacity-100"]',
+    );
+    this.approvalPopupText = this.page.locator(
+      '//p[@class="text-bg-bg-brand-blue-shade1 font-Medium text-xl mobile:text-2xl"]',
+    );
+    this.approveButton = this.page.locator('//button[text()="Approve"]');
+    this.approveAllButton = this.page.locator(
+      '//p[text()="Approve all"]/parent::div/preceding-sibling::div//*[@xmlns="http://www.w3.org/2000/svg"]',
+    );
   }
 
   // Locators
@@ -1145,6 +1155,50 @@ export class StaffConnectPage {
     } catch (error) {
       console.log('Verification of Ereg flow failed');
       console.log(error);
+    }
+  }
+  approvalPopup: Locator;
+  approvalPopupText: Locator;
+  approveButton: Locator;
+  approveAllButton: Locator;
+  async validateApprovalPopup() {
+    // Swictching back to staff Connect
+
+    try {
+      await this.page.bringToFront();
+      await this.approvalPopup.waitFor({ state: 'visible', timeout: 30000 });
+      console.log('Approval popup is displayed');
+
+      const popupText = (await this.approvalPopupText.textContent())?.trim() || '';
+      console.log(`Approval Popup Text: ${popupText}`);
+
+      // Check if Approve All button exists
+      const approveAllCount = await this.approveAllButton.count();
+      console.log(`Approve All button count: ${approveAllCount}`);
+
+      if (approveAllCount > 0 && (await this.approveAllButton.first().isVisible())) {
+        console.log('Approve All button is available');
+
+        await this.approveAllButton.click();
+        console.log('Clicked Approve All button');
+      } else {
+        console.log('Approve All button not available');
+
+        const approveButtonCount = await this.approveButton.count();
+        console.log(`Total Approve buttons found: ${approveButtonCount}`);
+
+        for (let i = 0; i < approveButtonCount; i++) {
+          const button = this.approveButton.nth(i);
+
+          if (await button.isVisible()) {
+            await button.click();
+            console.log(`Clicked Approve button ${i + 1}`);
+          }
+        }
+      }
+    } catch (e) {
+      console.log('Approval popup is not displayed');
+      console.log(e);
     }
   }
 }

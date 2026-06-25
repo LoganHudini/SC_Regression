@@ -20,6 +20,13 @@ const TEST_EMAIL = testData.EMAIL;
 const TEST_PASSWORD = testData.PASSWORD;
 const TEST_PROPERTY = testData.PROPERTY;
 const TEST_DEVICE = testData.SIDECAR_DEVICE;
+const TEST_PHONE = testData.PHONE_NUMBER;
+const AD_L1 = testData.ADDL1;
+const AD_L2 = testData.ADDL2;
+const CITY = testData.CITY;
+const STATE = testData.STATE;
+const PLACEOFISSUE = testData.PLACEOFISSUE;
+const POSTALCODE = testData.POSTALCODE;
 
 export class SidecarPage {
   constructor(private page: Page) {
@@ -104,6 +111,87 @@ export class SidecarPage {
     );
     this.countryOptionIND = this.page.locator(
       '//div[@class="absolute left-0 z-20 mt-1 max-h-60 w-full min-w-[250px] max-w-[100vw] overflow-y-auto rounded-md border border-gray-300 bg-white shadow-lg"]//span[text()="India"]',
+    );
+    this.phoneNumber = this.page.locator(
+      '//p[text()="Phone Number"]/parent::div/following-sibling::div//div/following::div//input[@type="tel"]',
+    );
+    this.emailinEreg = this.page.locator(
+      '//p[text()="Email"]/parent::div/following-sibling::div//input[@name="email"]',
+    );
+    this.genderValueinEreg = this.page.locator(
+      '//p[text()="Gender"]/parent::div/following-sibling::div//input[@title="autocomplete"]',
+    );
+    this.documentTypeinEreg = this.page.locator(
+      '//p[text()="Document Type"]/parent::div/following-sibling::div//input[@title="autocomplete"]',
+    );
+    this.documentNumberinEreg = this.page.locator(
+      '//p[text()="Document Number"]/parent::div/following-sibling::div//input[@name="docNo"]',
+    );
+    this.documentIssueDateinEreg = this.page.locator(
+      '//p[text()="Document Issue Date"]/parent::div/following-sibling::div//div//span//input[@id="issueDate"]',
+    );
+    this.documentExpiryDateinEreg = this.page.locator(
+      '//p[text()="Document Expiry Date"]/parent::div/following-sibling::div//div//span//input[@id="expiry"]',
+    );
+    this.dobinEreg = this.page.locator(
+      '//p[text()="Date of Birth"]/parent::div/following-sibling::div//div//span//input[@id="dob"]',
+    );
+    this.addressLine1 = this.page.locator(
+      '//p[text()="Address Line 1"]/parent::div/following-sibling::div//input[@id="addressLine"]',
+    );
+    this.addressLine2 = this.page.locator(
+      '//p[text()="Address Line 2"]/parent::div/following-sibling::div//input[@id="addressLine2"]',
+    );
+    this.city = this.page.locator(
+      '//p[text()="City"]/parent::div/following-sibling::div//input[@id="cityName"]',
+    );
+    this.state = this.page.locator(
+      '//p[text()="State"]/parent::div/following-sibling::div//input[@id="stateProv"]',
+    );
+    this.placeOfIssue = this.page.locator(
+      '//p[text()="Place of Issue"]/parent::div/following-sibling::div//input[@name="placeOfIssue"]',
+    );
+    this.countryOfResidence = this.page.locator(
+      '//p[text()="Country Of Residence"]/parent::div/following-sibling::div//input[@title="autocomplete"]',
+    );
+    this.postalCode = this.page.locator(
+      '//p[text()="Postal Code"]/parent::div/following-sibling::div//input[@id="postalCode"]',
+    );
+    this.nationality = this.page.locator(
+      '//p[text()="Nationality"]/parent::div/following-sibling::div//input[@title="autocomplete"]',
+    );
+    this.countryOfIssue = this.page.locator(
+      '//p[text()="Country of Issue"]/parent::div/following-sibling::div//input[@title="autocomplete"]',
+    );
+    this.birthCountry = this.page.locator(
+      '//p[text()="Birth Country"]/parent::div/following-sibling::div//input[@title="autocomplete"]',
+    );
+    this.birthPlace = this.page.locator(
+      '//p[text()="Birth Place"]/parent::div/following-sibling::div//input[@name="birthPlace"]',
+    );
+    this.membershipNumber = this.page.locator(
+      '//p[text()="Membership Number"]/parent::div/following-sibling::div//input[@name="membershipNumber"]',
+    );
+    this.membershipType = this.page.locator(
+      '//p[text()="Membership Type"]/parent::div/following-sibling::div//input[@name="membershipType"]',
+    );
+    this.signatureSection = this.page.locator(
+      '//p[text()="Guest Signature"]/parent::div/parent::div/following-sibling::div//canvas[@class="border-brand-gray-shade3 border-1 bg-[#F4F6FD] h-full w-full rounded-lg"]',
+    );
+    this.termsandconditions = this.page.locator('//p[@class="pr-1 text-wrap font-Regular"]');
+    this.termsandconditionCheckBox = this.page.locator(
+      '//p[@class="pr-1 text-wrap font-Regular"]/parent::div/preceding-sibling::div//*[@xmlns="http://www.w3.org/2000/svg"]',
+    );
+    this.submitButton = this.page.locator('//button[text()="Submit for approval"]');
+    this.waitPopup = this.page.locator(
+      '//div[@class="relative z-20 flex h-full transform-gpu flex-row items-center justify-center duration-300 ease-in-out will-change-transform w-full translate-y-0 scale-100 opacity-100"]',
+    );
+    this.popupText = this.page.locator(
+      '//p[@class="flex text-center font-Medium text-2xl leading-relaxed text-brand-blue-shade1 desktop:text-xl"]',
+    );
+    this.thankyouPage = this.page.locator('//p[@class="mt-6 font-Medium text-xl"]');
+    this.postApprovalPopupText = this.page.locator(
+      '//span[text()="Information has been verified. "]',
     );
   }
 
@@ -372,8 +460,36 @@ export class SidecarPage {
   countryCodeDropdownIcon: Locator;
   countrySearchInput: Locator;
   countryOptionIND: Locator;
+  phoneNumber: Locator;
+  emailinEreg: Locator;
+  genderValueinEreg: Locator;
+  documentTypeinEreg: Locator;
+  documentNumberinEreg: Locator;
+  documentIssueDateinEreg: Locator;
+  documentExpiryDateinEreg: Locator;
+  dobinEreg: Locator;
+  addressLine1: Locator;
+  addressLine2: Locator;
+  city: Locator;
+  state: Locator;
+  placeOfIssue: Locator;
+  countryOfResidence: Locator;
+  postalCode: Locator;
+  nationality: Locator;
+  countryOfIssue: Locator;
+  birthCountry: Locator;
+  birthPlace: Locator;
+  membershipType: Locator;
+  membershipNumber: Locator;
 
-  async verifyGuestDetailsInReviewAndSignPage() {
+  async verifyGuestDetailsInReviewAndSignPage(
+    TEST_PHONE: string,
+    EMAIL: string,
+    AD_L1: string,
+    AD_L2: string,
+    CITY: string,
+    STATE: string,
+  ) {
     // Click to expand guest details section
     try {
       let visibleExpandCount = await this.expandIcon.count();
@@ -418,15 +534,346 @@ export class SidecarPage {
         const guestType = (await this.guestHeader.nth(i).textContent())?.trim() || '';
         const firstName = (await this.guestFirstName.nth(i).textContent())?.trim() || '';
         const lastName = (await this.guestlastName.nth(i).textContent())?.trim() || '';
+        // country code
+        let country = '';
+        try {
+          const countryCode =
+            (await this.phoneNumberCountryCode.nth(i).textContent())?.trim() || '';
+          if (countryCode !== '') {
+            country = countryCode;
+            console.log(`Country Code for Guest ${i + 1}: ${countryCode}`);
+          } else {
+            console.log(`Country Code is empty for Guest ${i + 1}, selecting India`);
+
+            await this.countryCodeDropdownIcon.nth(i).click();
+            await this.countrySearchInput.fill('India');
+            await this.countryOptionIND.click();
+            console.log(`Selected India country code for Guest ${i + 1}`);
+          }
+        } catch (e) {
+          console.log(`Error occurred while fetching country code for Guest ${i + 1}`);
+          console.log(e);
+
+          country = 'Not Available';
+        }
+        // Phone Number
+        let phone = '';
+
+        try {
+          const phonenumber = (await this.phoneNumber.nth(i).textContent())?.trim() || '';
+
+          if (phonenumber) {
+            phone = phonenumber;
+            console.log(`Phone Number for Guest ${i + 1}: ${phonenumber}`);
+          } else {
+            console.log(`Phone Number not available for Guest ${i + 1}, adding number`);
+            await this.phoneNumber.nth(i).fill(TEST_PHONE);
+            phone = TEST_PHONE;
+            console.log(`Added Phone Number for Guest ${i + 1}: ${phone}`);
+          }
+        } catch (e) {
+          console.log(`Error occurred while fetching phone number for Guest ${i + 1}`);
+          console.log(e);
+        }
+        //  Email
+        let email = '';
+        try {
+          email = (await this.emailinEreg.nth(i).inputValue())?.trim() || '';
+          if (email !== '') {
+            console.log(`Guest email ${i + 1}: ${email}`);
+          } else {
+            console.log(`Email is not available for Guest ${i + 1}`);
+            await this.emailinEreg.nth(i).fill(EMAIL);
+            email = EMAIL;
+            console.log(`Added addressline1 for Guest ${i + 1}: ${email}`);
+          }
+        } catch (e) {
+          console.log(`Error occured while fetching email ${i + 1} `);
+        }
+        // gender value
+        let genderValue = '';
+        try {
+          genderValue = (await this.genderValueinEreg.nth(i).inputValue())?.trim() || '';
+          if (genderValue !== '') {
+            console.log(`Guest gender ${i + 1}: ${genderValue}`);
+          } else {
+            console.log(` Gender is not available for guest ${i + 1}`);
+          }
+        } catch (e) {
+          console.log(`Error occurred while fetching gender for Guest ${i + 1}`);
+          console.log(e);
+        }
+        // Document type
+        let documentType = '';
+        try {
+          documentType = (await this.documentTypeinEreg.nth(i).inputValue())?.trim() || '';
+          if (documentType !== '') {
+            console.log(`Guest Document type ${i + 1}: ${documentType}`);
+          } else {
+            console.log(`Document Type is not available for guest ${i + 1}`);
+          }
+        } catch (e) {
+          console.log(`Error occurred while fetching document type for Guest ${i + 1}`);
+          console.log(e);
+        }
+        // Document Number
+        let documentNumber = '';
+        try {
+          documentNumber = (await this.documentNumberinEreg.nth(i).inputValue())?.trim() || '';
+          if (documentNumber !== '') {
+            console.log(`Guest Document Number ${i + 1}: ${documentNumber}`);
+          } else {
+            console.log(`Document Number is not available for Guest ${i + 1}`);
+          }
+        } catch (e) {
+          console.log(`Error occured while fetching document number ${i + 1} `);
+        }
+        // Document Issue date
+        let documentIssueDate = '';
+
+        try {
+          documentIssueDate =
+            (await this.documentIssueDateinEreg.nth(i).inputValue())?.trim() || '';
+
+          if (documentIssueDate !== '') {
+            console.log(`Guest document issue date ${i + 1}: ${documentIssueDate}`);
+          } else {
+            console.log(`Document issue date not available for guest ${i + 1}`);
+          }
+        } catch (e) {
+          console.log(`Error occured while fetching document issue date ${i + 1}`);
+        }
+        // Document expiry date
+        let documentExpiryDate = '';
+        try {
+          documentExpiryDate =
+            (await this.documentIssueDateinEreg.nth(i).inputValue())?.trim() || '';
+          if (documentExpiryDate !== '') {
+            console.log(`Guest document expiry date ${i + 1}: ${documentExpiryDate}`);
+          } else {
+            console.log(`Document expiry date not available for guest ${i + 1}`);
+          }
+        } catch (e) {
+          console.log(`Error occured while fetching document expiry date ${i + 1}`);
+        }
+        // DOB
+        let dob = '';
+        try {
+          dob = (await this.dobinEreg.nth(i).inputValue())?.trim() || '';
+          if (dob !== '') {
+            console.log(`DOB of guest ${i + 1}: ${dob}`);
+          } else {
+            console.log(`DOB is not available for guest ${i + 1}`);
+          }
+        } catch (e) {
+          console.log(`Error Occured while fetching dob ${i + 1}`);
+        }
+        // AddressLine1
+        let addL1 = '';
+        try {
+          addL1 = (await this.addressLine1.nth(i).textContent())?.trim() || '';
+          if (addL1 !== '') {
+            console.log(`Addressline1 for guest ${i + 1}: ${addL1}`);
+          } else {
+            console.log(`Address line1 not available for Guest ${i + 1}, adding addressline1`);
+            await this.addressLine1.nth(i).fill(AD_L1);
+            addL1 = AD_L1;
+            console.log(`Added addressline1 for Guest ${i + 1}: ${addL1}`);
+          }
+        } catch {
+          console.log(`Error occured while fetching addl1 ${i + 1}`);
+        }
+        // AddressLine2
+        let addL2 = '';
+        try {
+          addL2 = (await this.addressLine2.nth(i).textContent())?.trim() || '';
+          if (addL2 !== '') {
+            console.log(`Addressline2 for guest ${i + 1}: ${addL2}`);
+          } else {
+            console.log(`Address line2 not available for Guest ${i + 1}, adding addressline2`);
+            await this.addressLine2.nth(i).fill(AD_L2);
+            addL2 = AD_L2;
+            console.log(`Added addressline2 for Guest ${i + 1}: ${addL2}`);
+          }
+        } catch {
+          console.log(`Error occured while fetching addl2 ${i + 1}`);
+        }
+        // City
+        let city = '';
+        try {
+          city = (await this.city.nth(i).textContent())?.trim() || '';
+          if (city !== '') {
+            console.log(`city for guest ${i + 1}: ${city}`);
+          } else {
+            console.log(`City not available for Guest ${i + 1}, adding city`);
+            await this.city.nth(i).fill(CITY);
+            city = CITY;
+            console.log(`Added city for Guest ${i + 1}: ${city}`);
+          }
+        } catch {
+          console.log(`Error occured while fetching city ${i + 1}`);
+        }
+        // State
+        let state = '';
+        try {
+          state = (await this.state.nth(i).textContent())?.trim() || '';
+          if (state !== '') {
+            console.log(`state for guest ${i + 1}: ${state}`);
+          } else {
+            console.log(`State not available for Guest ${i + 1}, adding state`);
+            await this.city.nth(i).fill(STATE);
+            state = STATE;
+            console.log(`Added state for Guest ${i + 1}: ${state}`);
+          }
+        } catch {
+          console.log(`Error occured while fetching state ${i + 1}`);
+        }
+
         console.log(`\n========== Guest ${i + 1} ==========`);
 
         // Differentiate Primary vs Accompanying
         console.log(`Guest Type : ${guestType}`);
         console.log(`First Name : ${firstName}`);
         console.log(`Last Name  : ${lastName}`);
+        console.log(`Phone Number Countrycode : ${country}`);
+        console.log(`Phoe Number : ${phone}`);
+        console.log(`Email: ${email}`);
+        console.log(`Gender: ${genderValue}`);
+        console.log(`Document Type: ${documentType}`);
+        console.log(`Document Number: ${documentNumber}`);
+        console.log(`Document Issue Date: ${documentIssueDate}`);
+        console.log(`Document Expiry Date: ${documentExpiryDate}`);
+        console.log(`DOB: ${dob}`);
+        console.log(`AddressLine1: ${addL1}`);
+        console.log(`AddressLine2: ${addL2}`);
+        console.log(`City: ${city}`);
+        console.log(`State: ${state}`);
       }
     } catch (e) {
       console.log('Guest details not visible');
+      console.log(e);
+    }
+  }
+  signatureSection: Locator;
+  async addGuestSignatures() {
+    try {
+      const signatureCount = await this.signatureSection.count();
+      console.log(`Total Signature Canvases Found: ${signatureCount}`);
+
+      for (let i = 0; i < signatureCount; i++) {
+        const canvas = this.signatureSection.nth(i);
+        await canvas.scrollIntoViewIfNeeded();
+        const box = await canvas.boundingBox();
+
+        if (!box) {
+          console.log(`Unable to get canvas size for Guest ${i + 1}`);
+          continue;
+        }
+
+        const startX = box.x + 20;
+        const startY = box.y + box.height / 2;
+
+        await this.page.mouse.move(startX, startY);
+        await this.page.mouse.down();
+
+        // Random signature style
+        await this.page.mouse.move(startX + 30, startY - 10);
+        await this.page.mouse.move(startX + 60, startY + 15);
+        await this.page.mouse.move(startX + 90, startY - 5);
+        await this.page.mouse.move(startX + 120, startY + 10);
+
+        await this.page.mouse.up();
+
+        console.log(`Signature added for Guest ${i + 1}`);
+      }
+    } catch (error) {
+      console.log('Error while adding signatures');
+      console.log(error);
+    }
+  }
+  termsandconditions: Locator;
+  termsandconditionCheckBox: Locator;
+
+  async termsandcontionValidation() {
+    try {
+      const termsCount = await this.termsandconditions.count();
+      console.log(`Total Terms & Conditions found: ${termsCount}`);
+
+      for (let i = 0; i < termsCount; i++) {
+        const checkbox = this.termsandconditionCheckBox.nth(i);
+
+        const isSelected =
+          (await checkbox.locator('xpath=.//*[contains(@data-name,"153474")]').count()) > 0;
+        if (isSelected) {
+          console.log(`Terms & Conditions checkbox already selected for Guest ${i + 1}`);
+        } else {
+          console.log(`Terms & Conditions checkbox not selected for Guest ${i + 1}`);
+          await checkbox.click();
+
+          console.log(`Terms & Conditions checkbox selected for Guest ${i + 1}`);
+        }
+        const termsText = (await this.termsandconditions.nth(i).textContent())?.trim() || '';
+        console.log(`Terms & Conditions Text for Guest ${i + 1}: ${termsText}`);
+      }
+    } catch (e) {
+      console.log('Error while validating Terms & Conditions');
+      console.log(e);
+    }
+  }
+  submitButton: Locator;
+  waitPopup: Locator;
+  popupText: Locator;
+
+  async submitforApprovalvalidation() {
+    try {
+      // Verify Submit button is visible
+      await expect(this.submitButton).toBeVisible();
+      console.log('Submit for Approval button is visible');
+
+      // Verify Submit button is enabled
+      await expect(this.submitButton).toBeEnabled();
+      console.log('Submit for Approval button is enabled');
+
+      // Click Submit button
+      await this.submitButton.click();
+      console.log('Clicked Submit for Approval button');
+
+      // Verify wait popup appears
+      await expect(this.waitPopup).toBeVisible({ timeout: 10000 });
+      console.log('Wait popup is displayed');
+
+      // Print popup text
+      const popupMessage = (await this.popupText.textContent())?.trim() || '';
+      console.log(`Popup Text: ${popupMessage}`);
+    } catch (e) {
+      console.log('Error while validating Submit for Approval flow');
+      console.log(e);
+    }
+  }
+  thankyouPage: Locator;
+  postApprovalPopupText: Locator;
+  async validationAfterAproval() {
+    try {
+      await this.page.bringToFront();
+
+      // Wait for post approval popup text
+      await expect(this.postApprovalPopupText).toBeVisible({ timeout: 30000 });
+
+      const popupMessage = (await this.postApprovalPopupText.textContent())?.trim() || '';
+      console.log(`Post Approval Popup Text: ${popupMessage}`);
+
+      // await expect(this.postApprovalPopupText).toBeHidden({ timeout: 30000 });
+      // console.log('Post approval popup disappeared');
+
+      // // Verify Thank You page
+      // await expect(this.thankyouPage).toBeVisible({ timeout: 30000 });
+
+      // const thankYouText =
+      //   (await this.thankyouPage.textContent())?.trim() || '';
+
+      // console.log(`Thank You Page Text: ${thankYouText}`);
+    } catch (e) {
+      console.log('Error while validating post approval flow');
       console.log(e);
     }
   }

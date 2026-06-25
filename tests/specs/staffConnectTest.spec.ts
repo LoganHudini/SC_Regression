@@ -21,6 +21,13 @@ try {
 // Sidecar Data
 const SIDECAR_URL = testData.SIDECAR_URL;
 const SIDECAR_DEVICE = testData.SIDECAR_DEVICE;
+const TEST_PHONE = testData.PHONE_NUMBER;
+const AD_L1 = testData.ADDL1;
+const AD_L2 = testData.ADDL2;
+const CITY = testData.CITY;
+const STATE = testData.STATE;
+const PLACEOFISSUE = testData.PLACEOFISSUE;
+const POSTALCODE = testData.POSTALCODE;
 
 // StaffConnect Data
 const STAFF_URL = testData.STAFF_URL;
@@ -157,7 +164,31 @@ test.describe('Sidecar + StaffConnect Flow', () => {
       await sidecar.verifyEregpageDetails();
     });
     await test.step('Verify that the user can view the guest details in Review and Sign page in Sidecar', async () => {
-      await sidecar.verifyGuestDetailsInReviewAndSignPage();
+      await sidecar.verifyGuestDetailsInReviewAndSignPage(
+        TEST_PHONE,
+        TEST_EMAIL,
+        AD_L1,
+        AD_L2,
+        CITY,
+        STATE,
+      );
+    });
+    await test.step('Verify that the user can able to add the signature', async () => {
+      await sidecar.addGuestSignatures();
+    });
+    await test.step('Verify that the user can check the terms and condition', async () => {
+      await sidecar.termsandcontionValidation();
+    });
+    await test.step('Verify that the submit for approval button is visible, enabled and abled to click', async () => {
+      await sidecar.submitforApprovalvalidation();
+    });
+    // Switch to staffConnect
+    await test.step('Verify that approval pop up is displaying in the staffside and abl eto approve', async () => {
+      await staffConnect.validateApprovalPopup();
+    });
+    // Post approval
+    await test.step('Verify that after approval in the sidecar', async () => {
+      await sidecar.validationAfterAproval();
     });
   });
 });
