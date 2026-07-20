@@ -32,6 +32,7 @@ const POSTALCODE = testData.POSTALCODE;
 // StaffConnect Data
 const STAFF_URL = testData.STAFF_URL;
 const CONFIRMATION_NUMBER = testData.CONFIRMATION_NUMBER;
+const HOTEL_ID = testData.HOTEL_ID;
 const RESERVATION_NOTE = testData.RESERVATION_NOTE;
 
 // Common Credentials
@@ -108,7 +109,7 @@ test.describe('Sidecar + StaffConnect Flow', () => {
   // STAFF CONNECT FLOW
   // =========================================================
 
-  test('Complete StaffConnect flow', async ({ browser }) => {
+  test('Complete StaffConnect flow', async ({ browser, request }) => {
     test.setTimeout(120000);
     // =========================================
     // Browser Session 2 -> StaffConnect
@@ -116,7 +117,7 @@ test.describe('Sidecar + StaffConnect Flow', () => {
     staffContext = await browser.newContext();
     staffPageObj = await staffContext.newPage();
 
-    staffConnect = new StaffConnectPage(staffPageObj);
+    staffConnect = new StaffConnectPage(staffPageObj, request);
 
     // Example methods
     // Create these methods inside StaffConnect.page.ts
@@ -144,7 +145,7 @@ test.describe('Sidecar + StaffConnect Flow', () => {
       await staffConnect.verifyArrivalGuests(CONFIRMATION_NUMBER);
     });
     await test.step('Verify that the user can view the resrvation details and arrival information in StaffConnect', async () => {
-      await staffConnect.verifyDetailsinReservationSection();
+      await staffConnect.verifyDetailsinReservationSection(HOTEL_ID, CONFIRMATION_NUMBER);
     });
     await test.step('Verify that the user able add the reservation note and able to click on AddNote button in StaffConnect', async () => {
       await staffConnect.verifyAddingNotesinReservationSection(RESERVATION_NOTE);

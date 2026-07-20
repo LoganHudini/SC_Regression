@@ -1,6 +1,7 @@
-import { Page, expect, Locator } from '@playwright/test';
+import { Page, expect, Locator, APIRequestContext } from '@playwright/test';
 import * as fs from 'fs';
 import * as path from 'path';
+import { FetchReservationApi } from '../Api/FetchReservationApi';
 
 // NOTE: Replace the placeholder values below with real test data or
 // read them from environment variables for CI runs.
@@ -22,7 +23,9 @@ const TEST_PROPERTY = testData.PROPERTY;
 const CONFIRMATION_NUMBER = testData.CONFIRMATION_NUMBER;
 
 export class StaffConnectPage {
-  constructor(private page: Page) {
+  private fetchReservationApi: FetchReservationApi;
+  constructor(private page: Page, private request: APIRequestContext) {
+    this.fetchReservationApi = new FetchReservationApi(request);
     // Initialize locators here so `this.page` is available
     this.emailTxtBx = this.page.locator('//input[@id="email"]');
     this.continueBtn = this.page.locator('//button[text()="continue"]');
@@ -400,7 +403,11 @@ export class StaffConnectPage {
     await searchedGuest.click();
     console.log('Verification of clicking of the searched guest is successful');
   }
-  async verifyDetailsinReservationSection() {
+
+  async verifyDetailsinReservationSection(HOTEL_ID: string, CONFIRMATION_NUMBER: string ) {
+
+    const reservation = await this.fetchReservationApi.fetchReservationDetails(HOTEL_ID, CONFIRMATION_NUMBER);
+    console.log('Fetched reservation details:', reservation);
     try {
       await expect(this.reservationDrawerLoader).toBeHidden({ timeout: 10000 });
 

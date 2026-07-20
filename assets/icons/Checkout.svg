@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="25.76" height="25.76" viewBox="0 0 25.76 25.76">
-  <g id="logout" transform="translate(-2.75 -2.75)">
-    <path id="Path_69230" data-name="Path 69230" d="M15.63,3.25a1.061,1.061,0,1,1,0,2.122,10.258,10.258,0,0,0,0,20.515,1.061,1.061,0,1,1,0,2.122,12.38,12.38,0,0,1,0-24.76Z" transform="translate(0 0)" fill="var(--hamburgermenu-drawer-color)" stroke="var(--hamburgermenu-icon-color)" stroke-width="1"/>
-    <path id="Path_69231" data-name="Path 69231" d="M19.465,10.061a1.061,1.061,0,1,1,1.5-1.5l4.245,4.245a1.061,1.061,0,0,1,0,1.5l-4.245,4.245a1.061,1.061,0,1,1-1.5-1.5L21.9,14.617H10.311a1.061,1.061,0,1,1,0-2.122H21.9Z" transform="translate(2.489 2.074)" fill="var(--hamburgermenu-drawer-color)" stroke="var(--hamburgermenu-icon-color)" stroke-width="1"/>
-  </g>
-</svg>
