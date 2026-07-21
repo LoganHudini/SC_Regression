@@ -1,7 +1,8 @@
 import { Page, Locator, expect } from '@playwright/test';
+import { BasePage } from '../../utils/basePage';
 
-export class ActivityDetailDrawerPage {
-  private page: Page;
+export class ActivityDetailDrawerPage extends BasePage {
+  protected page: Page;
   private drawer: Locator;
   private participantIncrementButton: Locator;
   private participantDecrementButton: Locator;
@@ -40,6 +41,7 @@ export class ActivityDetailDrawerPage {
   private firstSelectedActivity: string | null = null;
 
   constructor(page: Page) {
+    super(page);
     this.page = page;
     this.getStartedButton = this.page.getByRole('button', { name: 'Get Started' });
     this.drawer = page.locator('[data-testid="activity-detail-drawer"]');

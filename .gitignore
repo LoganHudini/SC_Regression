@@ -47,3 +47,12 @@ next-env.d.ts
 
 # Vscode debug
 .vscode/launch.json
+
+# Playwright/Allure report outputs
+allure-results/
+playwright-report/
+test-results/
+
+# Generated app configuration
+pwa_app_configuration.json
+Staff_app_configuration.json

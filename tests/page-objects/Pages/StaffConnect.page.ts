@@ -1,20 +1,8 @@
 import { Page, expect, Locator, APIRequestContext } from '@playwright/test';
-import * as fs from 'fs';
-import * as path from 'path';
-import { FetchReservationApi } from '../Api/FetchReservationApi';
+import { FetchReservationApi } from '../../utils/fetchReservationApi';
+import { loadTestData } from '../../utils/testData';
 
-// NOTE: Replace the placeholder values below with real test data or
-// read them from environment variables for CI runs.
-// Load defaults from tests/testData.json if present
-let testData: Record<string, string> = {};
-try {
-  const dataPath = path.resolve(__dirname, '../testData.json');
-  if (fs.existsSync(dataPath)) {
-    testData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-  }
-} catch (e) {
-  // ignore; we'll fall back to env vars or hardcoded placeholders
-}
+const testData = loadTestData();
 
 const TEST_URL = testData.STAFF_URL;
 const TEST_EMAIL = testData.EMAIL;
@@ -407,7 +395,12 @@ export class StaffConnectPage {
   async verifyDetailsinReservationSection(HOTEL_ID: string, CONFIRMATION_NUMBER: string ) {
 
     const reservation = await this.fetchReservationApi.fetchReservationDetails(HOTEL_ID, CONFIRMATION_NUMBER);
-    console.log('Fetched reservation details:', reservation);
+    console.log('Fetched reservation details:', JSON.stringify(reservation, null, 2));
+
+    if (reservation && typeof reservation === 'object') {
+      const detailKeys = Object.keys(reservation);
+      console.log('Reservation detail keys:', detailKeys);
+    }
     try {
       await expect(this.reservationDrawerLoader).toBeHidden({ timeout: 10000 });
 

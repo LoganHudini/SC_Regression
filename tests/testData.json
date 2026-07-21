@@ -14,6 +14,8 @@
     "CITY": "blr",
     "STATE": "ka",
     "PLACEOFISSUE": "ind",
-    "POSTALCODE": "7867767"
+    "POSTALCODE": "7867767",
+    "APP_CONFIG_API_KEY": "da2-bywwabawibgmzajkze4qj57xze",
+    "NEXT_PUBLIC_SECRET_KEY": "2245023265ae4cf87d02c8b6ba991139"
 
 }

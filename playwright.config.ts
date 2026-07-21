@@ -1,29 +1,30 @@
 import { defineConfig, devices } from '@playwright/test';
+import { config as dotenvConfig } from 'dotenv';
+
+dotenvConfig();
 
 export default defineConfig({
-  testDir: './tests',
-  testMatch: '**/*.spec.ts',
-  fullyParallel: false,
+  testDir: './tests/specs',
   timeout: 120000,
-
+  fullyParallel: false,
   expect: {
     timeout: 30000,
   },
-
   use: {
-    headless: false,
-    viewport: { width: 1440, height: 810 },
-    ignoreHTTPSErrors: true,
-    launchOptions: { args: ['--window-size=1440,810'] },
+    headless: true,
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
   },
-
+  reporter: [
+    ['list'],
+    ['html', { outputFolder: 'playwright-report', open: 'never' }],
+    ['allure-playwright'],
+  ],
   projects: [
     {
       name: 'chromium',
-      use: {
-        ...devices['Desktop Chrome'],
-        viewport: { width: 1440, height: 810 },
-      },
+      use: { ...devices['Desktop Chrome'] },
     },
   ],
 });
