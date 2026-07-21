@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { ActivityDetailDrawerPage } from './page-objects/Pages/ActivityDetailDrawerPage';
+import { ActivityDetailDrawerPage } from '../page-objects/Pages/ActivityDetailDrawerPage';
 
 test.describe('Activity Booking Flow', () => {
   let activityPage: ActivityDetailDrawerPage;

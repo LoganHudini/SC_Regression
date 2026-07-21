@@ -1,29 +1,55 @@
 {
   "compilerOptions": {
     "target": "es2022",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
+    "ignoreDeprecations": "6.0",
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
-     "types": ["node", "@playwright/test"],
+    "types": [
+      "node"
+    ],
     "baseUrl": ".",
     "paths": {
-      "@styles/*": ["styles/*"],
-      "@icons/*": ["assets/icons/*"],
-      "@jsons/*": ["assets/jsons/*"],
-      "react": ["./node_modules/@types/react"]
+      "@styles/*": [
+        "styles/*"
+      ],
+      "@icons/*": [
+        "assets/icons/*"
+      ],
+      "@jsons/*": [
+        "assets/jsons/*"
+      ],
+      "react": [
+        "./node_modules/@types/react"
+      ]
     },
-    "typeRoots": ["./node_modules/@types", "./types"]
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types"
+    ]
   },
-  "include": ["global.d.ts", "types/html2pdf.d.ts", "next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "global.d.ts",
+    "types/html2pdf.d.ts",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
