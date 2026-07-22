@@ -27,6 +27,7 @@ test('temp - validate user property and module access', async ({ request }) => {
 
   await test.step('Call APIs and save responses', async () => {
     const userId = testData.USER_ID || '';
+    console.log(userId);
     await validator.validatePropertyAndModuleAccess(userId);
   });
 });
