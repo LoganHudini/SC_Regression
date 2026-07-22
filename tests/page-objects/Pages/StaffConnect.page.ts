@@ -1,6 +1,28 @@
 import { Page, expect, Locator, APIRequestContext } from '@playwright/test';
+import * as fs from 'fs';
+import * as path from 'path';
 import { FetchReservationApi } from '../../utils/fetchReservationApi';
-import { loadTestData } from '../../utils/testData';
+
+interface TestDataConfig {
+  STAFF_URL?: string;
+  EMAIL?: string;
+  PASSWORD?: string;
+  PROPERTY?: string;
+  CONFIRMATION_NUMBER?: string;
+}
+
+function loadTestData(): TestDataConfig {
+  try {
+    const dataPath = path.resolve(__dirname, '../../testData.json');
+    if (fs.existsSync(dataPath)) {
+      return JSON.parse(fs.readFileSync(dataPath, 'utf8')) as TestDataConfig;
+    }
+  } catch (error) {
+    console.warn('Unable to load test data from tests/testData.json:', error);
+  }
+
+  return {};
+}
 
 const testData = loadTestData();
 
