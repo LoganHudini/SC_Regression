@@ -1,4 +1,4 @@
-import { APIRequestContext, expect, Page } from '@playwright/test';
+import { APIRequestContext } from '@playwright/test';
 import * as fs from 'fs';
 import * as path from 'path';
 import { BaseApiHelper } from './BaseApiHelper';
@@ -271,7 +271,7 @@ export class UserAccessValidation extends BaseApiHelper {
 }
 
 export class ValidateUserAccess {
-  constructor(private request: APIRequestContext, private page: Page) {}
+  constructor(private request: APIRequestContext) {}
 
   async validatePropertyAndModuleAccess(userId: string) {
     const api = new UserAccessValidation(this.request);
@@ -307,43 +307,5 @@ export class ValidateUserAccess {
       propertyDetailsResponse,
       userByIdResponse,
     };
-  }
-
-  private async getPropertyDropdownValues(): Promise<string[]> {
-    // Click the property dropdown button that shows the current property
-    const propertyButton = this.page.locator('div').filter({ hasText: 'Hudini Hotels' }).first();
-    await propertyButton.click({ force: true });
-    await this.page.waitForTimeout(1000);
-
-    // Get values from the property dropdown (exclude pagination)
-    const values = await this.page
-      .locator('//div[@class="z-50 overflow-y-auto"]//div[contains(@class,"flex items-center")]')
-      .allTextContents();
-
-    // Filter out pagination numbers
-    return values
-      .map((value) => value.trim())
-      .filter(Boolean)
-      .filter((value) => !/^\d+$/.test(value));
-  }
-
-  private async getVisibleModules(): Promise<string[]> {
-    const candidates = this.page.locator('//div[@class="flex h-full flex-col justify-between overflow-y-auto"]//div[@class="flex justify-center"]//*[@xmlns="http://www.w3.org/2000/svg"]');
-    const count = await candidates.count();
-
-    const visible: string[] = [];
-    for (let i = 0; i < count; i++) {
-      const text = (await candidates.nth(i).locator('..').textContent()) || '';
-      const trimmed = text.trim();
-      if (trimmed) {
-        visible.push(trimmed);
-      }
-    }
-
-    return visible;
-  }
-
-  private normalizeText(value: string): string {
-    return value.replace(/\s+/g, ' ').trim().toLowerCase();
   }
 }
