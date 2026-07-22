@@ -1,31 +1,10 @@
 import { APIRequestContext } from '@playwright/test';
 import * as CryptoJS from 'crypto-js';
-import * as fs from 'fs';
-import * as path from 'path';
 import { BaseApiHelper } from './BaseApiHelper';
 import { ApiResponseError, ConfigurationError, DecryptionError } from './errors/CustomErrors';
 import { AppConfiguration, AppConfigurationApiResponse } from './types/interfaces';
-
-interface TestDataConfig {
-  HOTEL_ID?: string;
-  APP_CONFIG_API_KEY?: string;
-  NEXT_PUBLIC_SECRET_KEY?: string;
-}
-
-function loadTestData(): TestDataConfig {
-  try {
-    const dataPath = path.resolve(__dirname, '../testData.json');
-    if (fs.existsSync(dataPath)) {
-      return JSON.parse(fs.readFileSync(dataPath, 'utf8')) as TestDataConfig;
-    }
-  } catch (error) {
-    console.warn('Unable to load test data from tests/testData.json:', error);
-  }
-
-  return {};
-}
-
-const APP_CONFIG_API_ENDPOINT = 'https://aevntsl5nbbktmjv6otsfn3dcu.appsync-api.ap-south-1.amazonaws.com/graphql';
+import { ApiEndpoints } from './config/ApiEndpoints';
+import { loadTestData } from './testData';
 
 const LIST_APP_CONFIGURATIONS_QUERY = `query listAppConfigurationsQuery($hotelId: String!) {
   listAppConfigurations(input: {hotelId: $hotelId}) {
@@ -70,7 +49,7 @@ export class FetchAppConfiguration extends BaseApiHelper {
       query: LIST_APP_CONFIGURATIONS_QUERY,
     });
 
-    const response = await this.request.post(APP_CONFIG_API_ENDPOINT, {
+    const response = await this.request.post(ApiEndpoints.appConfig, {
       headers: {
         accept: '*/*',
         'accept-language': 'en-IN,en-US;q=0.9,en;q=0.8',
@@ -98,7 +77,7 @@ export class FetchAppConfiguration extends BaseApiHelper {
       throw new ApiResponseError(
         `Failed to fetch app configuration: ${response.status()} - ${errorBody}`,
         response.status(),
-        APP_CONFIG_API_ENDPOINT,
+        ApiEndpoints.appConfig,
       );
     }
 

@@ -8,6 +8,7 @@ export interface TestData {
   PROPERTY?: string;
   CONFIRMATION_NUMBER?: string;
   HOTEL_ID?: string;
+  LAST_NAME?: string;
   APP_CONFIG_API_KEY?: string;
   NEXT_PUBLIC_SECRET_KEY?: string;
 }

@@ -1,6 +1,7 @@
 import { Page, expect, Locator } from '@playwright/test';
 import * as fs from 'fs';
 import * as path from 'path';
+import { CanvasUtils } from '../../utils/CanvasUtils';
 
 // NOTE: Replace the placeholder values below with real test data or
 // read them from environment variables for CI runs.
@@ -762,29 +763,15 @@ export class SidecarPage {
 
       for (let i = 0; i < signatureCount; i++) {
         const canvas = this.signatureSection.nth(i);
-        await canvas.scrollIntoViewIfNeeded();
-        const box = await canvas.boundingBox();
 
-        if (!box) {
-          console.log(`Unable to get canvas size for Guest ${i + 1}`);
-          continue;
+        await CanvasUtils.drawSignature(this.page, canvas);
+
+        const hasSignature = await CanvasUtils.hasSignature(canvas);
+        if (hasSignature) {
+          console.log(`Signature added to canvas ${i + 1}`);
+        } else {
+          console.log(`Signature was not detected on canvas ${i + 1}`);
         }
-
-        const startX = box.x + 20;
-        const startY = box.y + box.height / 2;
-
-        await this.page.mouse.move(startX, startY);
-        await this.page.mouse.down();
-
-        // Random signature style
-        await this.page.mouse.move(startX + 30, startY - 10);
-        await this.page.mouse.move(startX + 60, startY + 15);
-        await this.page.mouse.move(startX + 90, startY - 5);
-        await this.page.mouse.move(startX + 120, startY + 10);
-
-        await this.page.mouse.up();
-
-        console.log(`Signature added for Guest ${i + 1}`);
       }
     } catch (error) {
       console.log('Error while adding signatures');
