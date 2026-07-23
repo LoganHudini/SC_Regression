@@ -1,8 +1,17 @@
 import { Page, expect, Locator, APIRequestContext } from '@playwright/test';
 import { FetchReservationApi } from '../../utils/fetchReservationApi';
-import { loadTestData } from '../../utils/testData';
+import * as fs from 'fs';
+import * as path from 'path';
 
-const testData = loadTestData();
+let testData: Record<string, string> = {};
+try {
+  const dataPath = path.resolve(__dirname, '../../testData.json');
+  if (fs.existsSync(dataPath)) {
+    testData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+  }
+} catch (e) {
+  // ignore; we'll fall back to env vars or hardcoded placeholders
+}
 
 const TEST_URL = testData.STAFF_URL;
 const TEST_EMAIL = testData.EMAIL;
