@@ -1,0 +1,25 @@
+{
+  "data": {
+    "getUserById": {
+      "groupId": "90c30c27-8a5f-42af-b09d-e95c5f1f4687",
+      "roleId": "4557ad92-1b73-478e-b301-359625432a1e",
+      "roles": [
+        "CONCIERGE",
+        "ACTIVITY_ADMIN",
+        "ANALYTICS_MANAGER",
+        "CONTENT_MANAGER",
+        "DET_USER",
+        "FRONT_DESK_STAFF",
+        "FRONT_DESK_ADMIN",
+        "BREAKFAST_ADMIN",
+        "HOUSE_KEEPING_MANAGER",
+        "HOTEL_ADMIN",
+        "FnB_MANAGER",
+        "IRD_FULL_ACCESS",
+        "IT_MANAGER",
+        "SPA_MANAGER",
+        "CHAT_MANAGER"
+      ]
+    }
+  }
+}

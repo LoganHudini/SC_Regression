@@ -1,10 +1,12 @@
 import { test } from '@playwright/test';
 import * as fs from 'fs';
 import * as path from 'path';
-import { ValidateUserAccess } from '../utils/userAccessValidation';
+import { ValidateAggregatedFutureBooking } from '../utils/aggregatedFutureBookingValidation';
 
 interface TestDataConfig {
-  USER_ID?: string;
+  AGGREGATED_BOOKING_API_URL?: string;
+  AUTH_BEARER_TOKEN?: string;
+  HOTEL_ID?: string;
 }
 
 function loadTestData(): TestDataConfig {
@@ -22,12 +24,11 @@ function loadTestData(): TestDataConfig {
 
 const testData = loadTestData();
 
-test('temp - validate user property and module access', async ({ request }) => {
-  const validator = new ValidateUserAccess(request);
+test('temp - validate aggregated future booking', async ({ request }) => {
+  const validator = new ValidateAggregatedFutureBooking(request);
 
-  await test.step('Call APIs and save responses', async () => {
-    const userId = testData.USER_ID || '';
-    console.log(userId);
-    await validator.validatePropertyAndModuleAccess(userId);
+  await test.step('Call aggregated future booking API and save response', async () => {
+    const hotelId = testData.HOTEL_ID || '';
+    await validator.fetchAndSaveBookingResponse(hotelId);
   });
 });
