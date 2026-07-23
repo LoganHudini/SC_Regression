@@ -21,6 +21,7 @@
     "types": [
       "node"
     ],
+<<<<<<< HEAD
     "baseUrl": ".",
     "paths": {
       "@styles/*": [
@@ -31,6 +32,17 @@
       ],
       "@jsons/*": [
         "assets/jsons/*"
+=======
+    "paths": {
+      "@styles/*": [
+        "./styles/*"
+      ],
+      "@icons/*": [
+        "./assets/icons/*"
+      ],
+      "@jsons/*": [
+        "./assets/jsons/*"
+>>>>>>> 6d89b512 (Initial project setup)
       ],
       "react": [
         "./node_modules/@types/react"
