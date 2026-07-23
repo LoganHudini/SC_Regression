@@ -1,0 +1,57 @@
+{
+  "data": {
+    "getPropertyDetails": {
+      "brands": [
+        {
+          "name": "Hudini Brand",
+          "id": "8837a5ad-bb64-4bda-99e4-3d19d521c76c",
+          "groupId": "90c30c27-8a5f-42af-b09d-e95c5f1f4687"
+        }
+      ],
+      "groups": [
+        {
+          "name": "Hudini Group",
+          "id": "90c30c27-8a5f-42af-b09d-e95c5f1f4687"
+        }
+      ],
+      "hotels": [
+        {
+          "brandId": "8837a5ad-bb64-4bda-99e4-3d19d521c76c",
+          "name": "Hudini QA Hotels",
+          "code": "HUDQA",
+          "id": "a0e74a1b-8606-4477-b661-fc255d27ba64",
+          "currency": "INR",
+          "informationCustomAttributes": [
+            {
+              "key": "isLive",
+              "value": "true"
+            }
+          ],
+          "location": {
+            "timezone": "Asia/Calcutta"
+          },
+          "checkInTime": "08:00",
+          "checkOutTime": "12:00"
+        },
+        {
+          "brandId": "8837a5ad-bb64-4bda-99e4-3d19d521c76c",
+          "name": "Hudini Hotels",
+          "code": "COMPSG",
+          "id": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+          "currency": "AED",
+          "informationCustomAttributes": [
+            {
+              "key": "isLive",
+              "value": "true"
+            }
+          ],
+          "location": {
+            "timezone": "Asia/Kolkata"
+          },
+          "checkInTime": "12:01",
+          "checkOutTime": "19:18"
+        }
+      ]
+    }
+  }
+}
