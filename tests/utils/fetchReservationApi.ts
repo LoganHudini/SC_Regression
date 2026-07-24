@@ -1,7 +1,11 @@
 import { APIRequestContext, expect } from '@playwright/test';
+import { BaseApiHelper } from './BaseApiHelper';
+import { loadTestData } from './testData';
 
-export class FetchReservationApi {
-  constructor(private request: APIRequestContext) {}
+export class FetchReservationApi extends BaseApiHelper {
+  constructor(request: APIRequestContext) {
+    super(request);
+  }
 
   async fetchReservationDetails(HOTEL_ID: string, CONFIRMATION_NUMBER: string) {
     const response = await this.request.get(
@@ -13,11 +17,15 @@ export class FetchReservationApi {
     const body = await response.json();
     const data = body?.data ?? body;
 
+    let normalizedData;
     if (Array.isArray(data)) {
-      return data.map((item) => this.normalizeRecord(item));
+      normalizedData = data.map((item) => this.normalizeRecord(item));
+    } else {
+      normalizedData = this.normalizeRecord(data);
     }
 
-    return this.normalizeRecord(data);
+    await this.saveResponseToFile(normalizedData, 'fetchReservation.json');
+    return normalizedData;
   }
 
   private normalizeRecord(record: any): any {

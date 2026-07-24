@@ -3,7 +3,6 @@ import * as CryptoJS from 'crypto-js';
 import { BaseApiHelper } from './BaseApiHelper';
 import { ApiResponseError, ConfigurationError, DecryptionError } from './errors/CustomErrors';
 import { AppConfiguration, AppConfigurationApiResponse } from './types/interfaces';
-import { ApiEndpoints } from './config/ApiEndpoints';
 import { loadTestData } from './testData';
 
 const LIST_APP_CONFIGURATIONS_QUERY = `query listAppConfigurationsQuery($hotelId: String!) {
@@ -49,7 +48,7 @@ export class FetchAppConfiguration extends BaseApiHelper {
       query: LIST_APP_CONFIGURATIONS_QUERY,
     });
 
-    const response = await this.request.post(ApiEndpoints.appConfig, {
+    const response = await this.request.post('https://aevntsl5nbbktmjv6otsfn3dcu.appsync-api.ap-south-1.amazonaws.com/graphql', {
       headers: {
         accept: '*/*',
         'accept-language': 'en-IN,en-US;q=0.9,en;q=0.8',
@@ -77,7 +76,7 @@ export class FetchAppConfiguration extends BaseApiHelper {
       throw new ApiResponseError(
         `Failed to fetch app configuration: ${response.status()} - ${errorBody}`,
         response.status(),
-        ApiEndpoints.appConfig,
+        'https://aevntsl5nbbktmjv6otsfn3dcu.appsync-api.ap-south-1.amazonaws.com/graphql',
       );
     }
 
