@@ -1,0 +1,29 @@
+{
+  "data": {
+    "getPreArrivalFolio": {
+      "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+      "reservationId": "88082738",
+      "summary": {
+        "currencyCode": "EUR",
+        "deposit": 0,
+        "fixedCharges": 0,
+        "gross": 0,
+        "net": 0,
+        "outStandingCostOfStay": 0,
+        "totalCostOfStay": 0,
+        "details": [
+          {
+            "summaryDate": "2026-07-28",
+            "ratePlanCode": "COMP",
+            "net": 0,
+            "package": 0,
+            "gross": 0,
+            "tax": 0,
+            "revenue": 0,
+            "currencyCode": "EUR"
+          }
+        ]
+      }
+    }
+  }
+}

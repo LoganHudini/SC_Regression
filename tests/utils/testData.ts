@@ -26,6 +26,12 @@ export interface TestData {
   USER_BY_ID_API_URL?: string;
   AGGREGATED_BOOKING_API_URL?: string;
   AUTH_BEARER_TOKEN?: string;
+  ARRIVAL_DATE?: string;
+  DEPARTURE_DATE?: string;
+  FIRST_NAME?: string;
+  LAST_NAME?: string;
+  SEARCH_TEXT?: string;
+  SORT?: string;
 }
 
 export function loadTestData(): TestData {

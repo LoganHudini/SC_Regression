@@ -1,0 +1,3726 @@
+{
+  "status": "ok",
+  "data": [
+    {
+      "roomNumber": "1314",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "STD1",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "STD",
+      "features": [
+        {
+          "code": "CNR",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "1414",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "STD3",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "STD",
+      "features": [
+        {
+          "code": "CNR",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "1515",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "STD4",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "STD",
+      "features": [
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "1516",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "SUIT1",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "SUITE",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "LAR",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "1611",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "STD4",
+      "roomDescription": "",
+      "floor": "06",
+      "roomClass": "STD",
+      "features": [
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "CNR",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "1618",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "STD1",
+      "roomDescription": "",
+      "floor": "06",
+      "roomClass": "STD",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2101",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2102",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2103",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME5",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2104",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME1",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2106",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME4",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "GRF",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2107",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME4",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "GRF",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2108",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME4",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "GRF",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2204",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME1",
+      "roomDescription": "",
+      "floor": "02",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2302",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2305",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2306",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2309",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2402",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2407",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2408",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2505",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME1",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2507",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2601",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME7",
+      "roomDescription": "",
+      "floor": "06",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW1",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2605",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "06",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3102",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1TER",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "GRF",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3105",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "GRF",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3302",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3304",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3401",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3402",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3403",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3404",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3405",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3501",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME6",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1TER",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3502",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3503",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3504",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3601",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME6",
+      "roomDescription": "",
+      "floor": "06",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3702",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "07",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3703",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "07",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4102",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1TER",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "GRF",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4105",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME1",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4106",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1TER",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "GRF",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4108",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1TER",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "GRF",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4109",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1TER",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "GRF",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4110",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1TER",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "GRF",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4201",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "02",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4203",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME1",
+      "roomDescription": "",
+      "floor": "02",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4204",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "02",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4205",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "02",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4206",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "02",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4207",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "02",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4209",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "02",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4301",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4302",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1TER",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4303",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME1",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4304",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4306",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4307",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4309",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4401",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4402",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4404",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4405",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4406",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4407",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4408",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4409",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4501",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4502",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4503",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME1",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4504",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4505",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4507",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4508",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4509",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4601",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "06",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4602",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "06",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4604",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "06",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4605",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "06",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4606",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME6",
+      "roomDescription": "",
+      "floor": "06",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4607",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "06",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4701",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "07",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1TER",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4702",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "07",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4703",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "07",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1TER",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4704",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME6",
+      "roomDescription": "",
+      "floor": "07",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1TER",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4803",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "08",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "102",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "STD2",
+      "roomDescription": "",
+      "floor": "",
+      "roomClass": "STD",
+      "features": null
+    }
+  ]
+}

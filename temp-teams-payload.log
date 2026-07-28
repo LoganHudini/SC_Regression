@@ -1,0 +1,5607 @@
+﻿Γùç injected env (0) from .env // tip: Γîÿ enable debugging { debug: true }
+Γùç injected env (3) from .env.local // tip: Γîÿ enable debugging { debug: true }
+
+Running 13 tests using 4 workers
+TeamsReporter: starting run for StaffConnect
+
+Γùç injected env (0) from .env // tip: Γîÿ override existing { override: true }
+Γùç injected env (0) from .env // tip: Γîÿ custom filepath { path: '/custom/path/.env' }
+Γùç injected env (0) from .env // tip: Γùê encrypted .env [www.dotenvx.com]
+Γùç injected env (0) from .env // tip: Γùê secrets for agents [www.dotenvx.com]
+  Γ£ÿ   2 [chromium] ΓÇ║ tests\specs\aggregatedFutureBooking.temp.spec.ts:27:5 ΓÇ║ temp - validate aggregated future booking (378ms)
+Fetch App Configuration API Response Status Code=200
+App configuration fetched, decrypted, and saved to Staff_app_configuration.json
+Fetched app configuration keys: [ 'propertyName', 'environment', 'style' ]
+  Γ£ô   4 [chromium] ΓÇ║ tests\specs\fetchAppConfigApi.temp.spec.ts:4:5 ΓÇ║ fetch app configuration from API (520ms)
+Γùç injected env (0) from .env // tip: Γîÿ suppress logs { quiet: true }
+Hotel Preferences API Parameters: { hotelId: 'cfd3a924-b3c4-48b8-b5ca-1e390c1dda04' }
+Get Hotel Preferences API Response Status Code=200
+Fetched hotel preferences: {
+  "data": {
+    "getHotelPreferences": [
+      {
+        "code": "HK SERVI",
+        "createdAt": 1757420120,
+        "createdBy": "",
+        "customAttributes": [],
+        "description": "",
+        "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+        "id": "236856e5-1e2b-4465-ba4a-61ba8215e25e",
+        "isActive": true,
+        "allowMultipleSelection": true,
+        "name": "Housekeeping Services",
+        "preferenceItems": [
+          {
+            "code": "BHR",
+            "description": "Bathrobe",
+            "isActive": true,
+            "name": "Bathrobe"
+          },
+          {
+            "code": "EB",
+            "description": "Extra Bed",
+            "isActive": true,
+            "name": "Extra Bed"
+          },
+          {
+            "code": "EHG",
+            "description": "Extra Hangers",
+            "isActive": true,
+            "name": "Extra Hangers"
+          },
+          {
+            "code": "HAB",
+            "description": "Hypo allergic bedding",
+            "isActive": true,
+            "name": "Hypo allergic bedding"
+          },
+          {
+            "code": "IRO",
+            "description": "Iron & Ironning Board",
+            "isActive": true,
+            "name": "Iron & Ironning Board"
+          },
+          {
+            "code": "MTRT",
+            "description": "Mattress Topper",
+            "isActive": true,
+            "name": "Mattress Topper"
+          },
+          {
+            "code": "NCL",
+            "description": "No Clean",
+            "isActive": true,
+            "name": "No Clean"
+          },
+          {
+            "code": "SCR",
+            "description": "ADA Shower Chair Requested",
+            "isActive": true,
+            "name": "ADA Shower Chair Requested"
+          },
+          {
+            "code": "SLP",
+            "description": "SLIPPERS",
+            "isActive": true,
+            "name": "SLIPPERS"
+          },
+          {
+            "code": "TDR",
+            "description": "Turndown Service Requested",
+            "isActive": true,
+            "name": "Turndown Service Requested"
+          },
+          {
+            "code": "XBL",
+            "description": "Extra Blanket",
+            "isActive": true,
+            "name": "Extra Blanket"
+          },
+          {
+            "code": "XPL",
+            "description": "Extra Pillow",
+            "isActive": true,
+            "name": "Extra Pillow"
+          },
+          {
+            "code": "XTW",
+            "description": "Exttra Towel",
+            "isActive": true,
+            "name": "Exttra Towel"
+          }
+        ],
+        "updatedAt": 1760610273,
+        "updatedBy": "",
+        "version": 2
+      },
+      {
+        "code": "ROOM FEATURES",
+        "createdAt": 1757420120,
+        "createdBy": "",
+        "customAttributes": [],
+        "description": "",
+        "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+        "id": "e78be90b-1bb7-4cd4-a8d5-09dc55edc02b",
+        "isActive": true,
+        "allowMultipleSelection": true,
+        "name": "Room Features",
+        "preferenceItems": [
+          {
+            "code": "1KB",
+            "description": " King Bed",
+            "isActive": true,
+            "name": " King Bed"
+          },
+          {
+            "code": "TWB",
+            "description": "Twin Beds",
+            "isActive": true,
+            "name": "Twin Beds"
+          },
+          {
+            "code": "1SK",
+            "description": "One Sink",
+            "isActive": true,
+            "name": "One Sink"
+          },
+          {
+            "code": "2SK",
+            "description": "Two Sinks",
+            "isActive": true,
+            "name": "Two Sinks"
+          },
+          {
+            "code": "1SH",
+            "description": "One Shower",
+            "isActive": true,
+            "name": "One Shower"
+          },
+          {
+            "code": "2SH",
+            "description": "Two Showers",
+            "isActive": true,
+            "name": "Two Showers"
+          },
+          {
+            "code": "1BA",
+            "description": "Bath",
+            "isActive": true,
+            "name": "Bath"
+          },
+          {
+            "code": "DIS",
+            "description": "Disabled Needs Room",
+            "isActive": true,
+            "name": "Disabled Needs Room"
+          },
+          {
+            "code": "ADJ",
+            "description": "Adjoining Rooms",
+            "isActive": true,
+            "name": "Adjoining Rooms"
+          },
+          {
+            "code": "CNR",
+            "description": "Connecting Room",
+            "isActive": true,
+            "name": "Connecting Room"
+          },
+          {
+            "code": "1BAL",
+            "description": "Balcony",
+            "isActive": true,
+            "name": "Balcony"
+          },
+          {
+            "code": "1TER",
+            "description": "Terrace",
+            "isActive": true,
+            "name": "Terrace"
+          },
+          {
+            "code": "AEL",
+            "description": "Away from Elevator",
+            "isActive": true,
+            "name": "Away from Elevator"
+          },
+          {
+            "code": "NEL",
+            "description": "Near Elevator",
+            "isActive": true,
+            "name": "Near Elevator"
+          },
+          {
+            "code": "NST",
+            "description": "Near Stairs",
+            "isActive": true,
+            "name": "Near Stairs"
+          },
+          {
+            "code": "AST",
+            "description": "Away from Stairs",
+            "isActive": true,
+            "name": "Away from Stairs"
+          },
+          {
+            "code": "LAR",
+            "description": "Living Room Area",
+            "isActive": true,
+            "name": "Living Room Area"
+          },
+          {
+            "code": "COR",
+            "description": "Corner Room",
+            "isActive": true,
+            "name": "Corner Room"
+          },
+          {
+            "code": "1BR",
+            "description": "1 Bedroom",
+            "isActive": true,
+            "name": "1 Bedroom"
+          },
+          {
+            "code": "2BR",
+            "description": "2 Bedroom",
+            "isActive": true,
+            "name": "2 Bedroom"
+          },
+          {
+            "code": "3BR",
+            "description": "3 Bedroom",
+            "isActive": true,
+            "name": "3 Bedroom"
+          },
+          {
+            "code": "KIT",
+            "description": "Kitchen",
+            "isActive": true,
+            "name": "Kitchen"
+          },
+          {
+            "code": "GRF",
+            "description": "Ground Floor Rooms",
+            "isActive": true,
+            "name": "Ground Floor Rooms"
+          },
+          {
+            "code": "VIEW1",
+            "description": "Bay View",
+            "isActive": true,
+            "name": "Bay View"
+          },
+          {
+            "code": "VIEW2",
+            "description": "Sea View",
+            "isActive": true,
+            "name": "Sea View"
+          },
+          {
+            "code": "VIEW3",
+            "description": "Mountain View",
+            "isActive": true,
+            "name": "Mountain View"
+          },
+          {
+            "code": "VIEW4",
+            "description": "Atrium View",
+            "isActive": true,
+            "name": "Atrium View"
+          },
+          {
+            "code": "VIEW5",
+            "description": "Obstructed View ",
+            "isActive": true,
+            "name": "Obstructed View "
+          },
+          {
+            "code": "QUT",
+            "description": "Quiet Room",
+            "isActive": true,
+            "name": "Quiet Room"
+          },
+          {
+            "code": "FEXB",
+            "description": "Fits an Extra Bed",
+            "isActive": true,
+            "name": "Fits an Extra Bed"
+          },
+          {
+            "code": "SFB",
+            "description": "Sofa Bed",
+            "isActive": true,
+            "name": "Sofa Bed"
+          },
+          {
+            "code": "1JT",
+            "description": "One Jacuzzi Tub",
+            "isActive": true,
+            "name": "One Jacuzzi Tub"
+          },
+          {
+            "code": "1QB",
+            "description": "One Queen Bed",
+            "isActive": true,
+            "name": "One Queen Bed"
+          },
+          {
+            "code": "2BAL",
+            "description": "Two Balconies",
+            "isActive": true,
+            "name": "Two Balconies"
+          },
+          {
+            "code": "2QB",
+            "description": "Two Queen Beds",
+            "isActive": true,
+            "name": "Two Queen Beds"
+          },
+          {
+            "code": "2TER",
+            "description": "Two Terraces",
+            "isActive": true,
+            "name": "Two Terraces"
+          },
+          {
+            "code": "4BR",
+            "description": "4 Bedroom",
+            "isActive": true,
+            "name": "4 Bedroom"
+          },
+          {
+            "code": "AQ",
+            "description": "Aqua Venture View",
+            "isActive": true,
+            "name": "Aqua Venture View"
+          },
+          {
+            "code": "BDT",
+            "description": "Bidet Seated",
+            "isActive": true,
+            "name": "Bidet Seated"
+          },
+          {
+            "code": "COU",
+            "description": "Courtyard",
+            "isActive": true,
+            "name": "Courtyard"
+          },
+          {
+            "code": "FIP",
+            "description": "Fire Place",
+            "isActive": true,
+            "name": "Fire Place"
+          },
+          {
+            "code": "ICN",
+            "description": "Interconnecting Rooms",
+            "isActive": true,
+            "name": "Interconnecting Rooms"
+          },
+          {
+            "code": "OBS",
+            "description": "Obstracted View",
+            "isActive": true,
+            "name": "Obstracted View"
+          },
+          {
+            "code": "OC",
+            "description": "Ocean View",
+            "isActive": true,
+            "name": "Ocean View"
+          },
+          {
+            "code": "PB",
+            "description": "Palm Beach View",
+            "isActive": true,
+            "name": "Palm Beach View"
+          },
+          {
+            "code": "PL",
+            "description": "Pool View",
+            "isActive": true,
+            "name": "Pool View"
+          },
+          {
+            "code": "POOL",
+            "description": "Pool",
+            "isActive": true,
+            "name": "Pool"
+          },
+          {
+            "code": "TEL",
+            "description": "Telescrope",
+            "isActive": true,
+            "name": "Telescrope"
+          }
+        ],
+        "updatedAt": 1760610272,
+        "updatedBy": "",
+        "version": 2
+      },
+      {
+        "code": "DIETARY",
+        "createdAt": 1757420120,
+        "createdBy": "",
+        "customAttributes": [],
+        "description": "",
+        "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+        "id": "1c129406-2143-443d-aa6b-7b1d5333e8cd",
+        "isActive": true,
+        "allowMultipleSelection": true,
+        "name": "Dietary",
+        "preferenceItems": [
+          {
+            "code": "JAIN",
+            "description": "Jain Diet",
+            "isActive": true,
+            "name": "Jain Diet"
+          },
+          {
+            "code": "KOSH",
+            "description": "Kosher",
+            "isActive": true,
+            "name": "Kosher"
+          },
+          {
+            "code": "NGLUT",
+            "description": "Gluten free",
+            "isActive": true,
+            "name": "Gluten free"
+          },
+          {
+            "code": "NLACT",
+            "description": "Lactose Free",
+            "isActive": true,
+            "name": "Lactose Free"
+          },
+          {
+            "code": "NNUT",
+            "description": "No Nuts",
+            "isActive": true,
+            "name": "No Nuts"
+          },
+          {
+            "code": "NPORK",
+            "description": "No Pork",
+            "isActive": true,
+            "name": "No Pork"
+          },
+          {
+            "code": "NSEA",
+            "description": "No Seafood",
+            "isActive": true,
+            "name": "No Seafood"
+          },
+          {
+            "code": "OTH",
+            "description": "Others",
+            "isActive": true,
+            "name": "Others"
+          },
+          {
+            "code": "OVOL",
+            "description": "Ovolacto Vegatarian",
+            "isActive": true,
+            "name": "Ovolacto Vegatarian"
+          },
+          {
+            "code": "VEG",
+            "description": "Vegetarian",
+            "isActive": true,
+            "name": "Vegetarian"
+          },
+          {
+            "code": "VEGAN",
+            "description": "Vegan",
+            "isActive": true,
+            "name": "Vegan"
+          }
+        ],
+        "updatedAt": 1760610273,
+        "updatedBy": "",
+        "version": 2
+      },
+      {
+        "code": "FLOOR",
+        "createdAt": 1757420120,
+        "createdBy": "",
+        "customAttributes": [],
+        "description": "",
+        "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+        "id": "49a07d0a-7e18-483f-85ef-b3d081d0c111",
+        "isActive": true,
+        "allowMultipleSelection": false,
+        "name": "Floor",
+        "preferenceItems": [
+          {
+            "code": "00",
+            "description": "Ground Floor",
+            "isActive": true,
+            "name": "Ground Floor"
+          },
+          {
+            "code": "01",
+            "description": "01 - First Floor",
+            "isActive": true,
+            "name": "01 - First Floor"
+          },
+          {
+            "code": "02",
+            "description": "02 - Second Floor",
+            "isActive": true,
+            "name": "02 - Second Floor"
+          },
+          {
+            "code": "03",
+            "description": "03 - Third Floor",
+            "isActive": true,
+            "name": "03 - Third Floor"
+          },
+          {
+            "code": "04",
+            "description": "04 - Fourth Floor",
+            "isActive": true,
+            "name": "04 - Fourth Floor"
+          },
+          {
+            "code": "05",
+            "description": "05 - Fifth Floor",
+            "isActive": true,
+            "name": "05 - Fifth Floor"
+          },
+          {
+            "code": "06",
+            "description": "06 - Sixth Floor",
+            "isActive": true,
+            "name": "06 - Sixth Floor"
+          },
+          {
+            "code": "07",
+            "description": "07 - Seventh Floor",
+            "isActive": true,
+            "name": "07 - Seventh Floor"
+          },
+          {
+            "code": "08",
+            "description": "08 - Eighth Floor",
+            "isActive": true,
+            "name": "08 - Eighth Floor"
+          },
+          {
+            "code": "MZ",
+            "description": "Mezzanine",
+            "isActive": true,
+            "name": "Mezzanine"
+          }
+        ],
+        "updatedAt": 1760610272,
+        "updatedBy": "8a9db762-b4f1-4645-857e-7724c4566e52",
+        "version": 3
+      },
+      {
+        "code": "LAUNDRY",
+        "createdAt": 1757420120,
+        "createdBy": "",
+        "customAttributes": [],
+        "description": "",
+        "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+        "id": "754f6ffe-b1b3-44b7-a5a1-a96968f52890",
+        "isActive": true,
+        "allowMultipleSelection": true,
+        "name": "Laundry",
+        "preferenceItems": [
+          {
+            "code": "ES",
+            "description": "Express Service",
+            "isActive": true,
+            "name": "Express Service"
+          },
+          {
+            "code": "FL",
+            "description": "Folded",
+            "isActive": true,
+            "name": "Folded"
+          },
+          {
+            "code": "OH",
+            "description": "On Hanger",
+            "isActive": true,
+            "name": "On Hanger"
+          },
+          {
+            "code": "RS",
+            "description": "Regular Service",
+            "isActive": true,
+            "name": "Regular Service"
+          }
+        ],
+        "updatedAt": 1760610273,
+        "updatedBy": "",
+        "version": 2
+      },
+      {
+        "code": "MINIBAR OPTIONS",
+        "createdAt": 1757420120,
+        "createdBy": "",
+        "customAttributes": [],
+        "description": "",
+        "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+        "id": "8bff3889-54c9-44fd-92d6-3f5bb34226ce",
+        "isActive": true,
+        "allowMultipleSelection": true,
+        "name": "Minibar Options",
+        "preferenceItems": [
+          {
+            "code": "RAD",
+            "description": "Remove Alcoholic Items",
+            "isActive": true,
+            "name": "Remove Alcoholic Items"
+          },
+          {
+            "code": "RMB",
+            "description": "Remove Mini Bar Items",
+            "isActive": true,
+            "name": "Remove Mini Bar Items"
+          }
+        ],
+        "updatedAt": 1760610272,
+        "updatedBy": "",
+        "version": 2
+      },
+      {
+        "code": "SPECIALS",
+        "createdAt": 1757420120,
+        "createdBy": "",
+        "customAttributes": [],
+        "description": "",
+        "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+        "id": "a2f1d170-5f49-49a0-8013-06331964732b",
+        "isActive": true,
+        "allowMultipleSelection": true,
+        "name": "Specials",
+        "preferenceItems": [
+          {
+            "code": "ADJ",
+            "description": "Adjoining Rooms",
+            "isActive": true,
+            "name": "Adjoining Rooms"
+          },
+          {
+            "code": "ADP",
+            "description": "Adapter",
+            "isActive": true,
+            "name": "Adapter"
+          },
+          {
+            "code": "AFE",
+            "description": "Away from elevator",
+            "isActive": true,
+            "name": "Away from elevator"
+          },
+          {
+            "code": "AMD",
+            "description": "Amenity in Room",
+            "isActive": true,
+            "name": "Amenity in Room"
+          },
+          {
+            "code": "ANN",
+            "description": "Anniversary Celebration",
+            "isActive": true,
+            "name": "Anniversary Celebration"
+          },
+          {
+            "code": "APR",
+            "description": "Air Purifier",
+            "isActive": true,
+            "name": "Air Purifier"
+          },
+          {
+            "code": "ASHR",
+            "description": "Ashtray",
+            "isActive": true,
+            "name": "Ashtray"
+          },
+          {
+            "code": "ATV",
+            "description": "Apple TV",
+            "isActive": true,
+            "name": "Apple TV"
+          },
+          {
+            "code": "BABYBATHT",
+            "description": "Baby Bath Tub",
+            "isActive": true,
+            "name": "Baby Bath Tub"
+          },
+          {
+            "code": "BABYBIN",
+            "description": "Baby Nappy Bin",
+            "isActive": true,
+            "name": "Baby Nappy Bin"
+          },
+          {
+            "code": "BABYFO",
+            "description": "Baby Food Warmer",
+            "isActive": true,
+            "name": "Baby Food Warmer"
+          },
+          {
+            "code": "BABYHCH",
+            "description": "Baby High Chair",
+            "isActive": true,
+            "name": "Baby High Chair"
+          },
+          {
+            "code": "BABYSEC",
+            "description": "Child Secure Top Bed Rail",
+            "isActive": true,
+            "name": "Child Secure Top Bed Rail"
+          },
+          {
+            "code": "BABYST",
+            "description": "Baby Bottle Sterilizer",
+            "isActive": true,
+            "name": "Baby Bottle Sterilizer"
+          },
+          {
+            "code": "BABYSTR",
+            "description": "Baby Stroller 0-4 years",
+            "isActive": true,
+            "name": "Baby Stroller 0-4 years"
+          },
+          {
+            "code": "BAR",
+            "description": "Bed Bar",
+            "isActive": true,
+            "name": "Bed Bar"
+          },
+          {
+            "code": "BDY",
+            "description": "Birthday Celebration",
+            "isActive": true,
+            "name": "Birthday Celebration"
+          },
+          {
+            "code": "BIR",
+            "description": "Birthday",
+            "isActive": true,
+            "name": "Birthday"
+          },
+          {
+            "code": "BNB",
+            "description": "Baby Nappy Bin",
+            "isActive": true,
+            "name": "Baby Nappy Bin"
+          },
+          {
+            "code": "BUM",
+            "description": "Bucket & Mug",
+            "isActive": true,
+            "name": "Bucket & Mug"
+          },
+          {
+            "code": "BYBLKT",
+            "description": "Baby Blanket",
+            "isActive": true,
+            "name": "Baby Blanket"
+          },
+          {
+            "code": "BYC",
+            "description": "Baby Crib",
+            "isActive": true,
+            "name": "Baby Crib"
+          },
+          {
+            "code": "BYPAD",
+            "description": "Baby Changing Pad",
+            "isActive": true,
+            "name": "Baby Changing Pad"
+          },
+          {
+            "code": "BYPIL",
+            "description": "Baby Pillow",
+            "isActive": true,
+            "name": "Baby Pillow"
+          },
+          {
+            "code": "BYSEAT",
+            "description": "Baby Potty",
+            "isActive": true,
+            "name": "Baby Potty"
+          },
+          {
+            "code": "COP",
+            "description": "Complimentary Upgrade",
+            "isActive": true,
+            "name": "Complimentary Upgrade"
+          },
+          {
+            "code": "COR",
+            "description": "Corner Room",
+            "isActive": true,
+            "name": "Corner Room"
+          },
+          {
+            "code": "CRB",
+            "description": "Crib Requested",
+            "isActive": true,
+            "name": "Crib Requested"
+          },
+          {
+            "code": "DIS",
+            "description": "Disabled Needs Room",
+            "isActive": true,
+            "name": "Disabled Needs Room"
+          },
+          {
+            "code": "EAR",
+            "description": "Early Check-In Requested",
+            "isActive": true,
+            "name": "Early Check-In Requested"
+          },
+          {
+            "code": "ECG",
+            "description": "Early Check In Guaranteed",
+            "isActive": true,
+            "name": "Early Check In Guaranteed"
+          },
+          {
+            "code": "EXB",
+            "description": "Rollaway Bed",
+            "isActive": true,
+            "name": "Rollaway Bed"
+          },
+          {
+            "code": "EXC",
+            "description": "Extension Cord",
+            "isActive": true,
+            "name": "Extension Cord"
+          },
+          {
+            "code": "FLWV",
+            "description": "Flower Vase",
+            "isActive": true,
+            "name": "Flower Vase"
+          },
+          {
+            "code": "FPW",
+            "description": "Pillows",
+            "isActive": true,
+            "name": "Pillows"
+          },
+          {
+            "code": "HDMI",
+            "description": "HDMI Cable",
+            "isActive": true,
+            "name": "HDMI Cable"
+          },
+          {
+            "code": "HEAT",
+            "description": "Heater",
+            "isActive": true,
+            "name": "Heater"
+          },
+          {
+            "code": "HMY",
+            "description": "Honeymoon",
+            "isActive": true,
+            "name": "Honeymoon"
+          },
+          {
+            "code": "HUMID",
+            "description": "Humidifier",
+            "isActive": true,
+            "name": "Humidifier"
+          },
+          {
+            "code": "HWB",
+            "description": "Hot Water Bag",
+            "isActive": true,
+            "name": "Hot Water Bag"
+          },
+          {
+            "code": "KDSTND",
+            "description": "kandura stand",
+            "isActive": true,
+            "name": "kandura stand"
+          },
+          {
+            "code": "LAR",
+            "description": "Late Arrival",
+            "isActive": true,
+            "name": "Late Arrival"
+          },
+          {
+            "code": "LCG",
+            "description": "Late Check Out Guaranteed",
+            "isActive": true,
+            "name": "Late Check Out Guaranteed"
+          },
+          {
+            "code": "LCR",
+            "description": "Late Check Out Request",
+            "isActive": true,
+            "name": "Late Check Out Request"
+          },
+          {
+            "code": "MEDP",
+            "description": "Medical Pillow",
+            "isActive": true,
+            "name": "Medical Pillow"
+          },
+          {
+            "code": "MEM",
+            "description": "Empty Minibar",
+            "isActive": true,
+            "name": "Empty Minibar"
+          },
+          {
+            "code": "MICW",
+            "description": "Microwave",
+            "isActive": true,
+            "name": "Microwave"
+          },
+          {
+            "code": "MRA",
+            "description": "Remove Alcohol from minibar",
+            "isActive": true,
+            "name": "Remove Alcohol from minibar"
+          },
+          {
+            "code": "MUSIC",
+            "description": "Music",
+            "isActive": true,
+            "name": "Music"
+          },
+          {
+            "code": "NTE",
+            "description": "Next to Elevator",
+            "isActive": true,
+            "name": "Next to Elevator"
+          },
+          {
+            "code": "PHSS",
+            "description": "Shower chair",
+            "isActive": true,
+            "name": "Shower chair"
+          },
+          {
+            "code": "PHTB",
+            "description": "Toilet Safety Frame",
+            "isActive": true,
+            "name": "Toilet Safety Frame"
+          },
+          {
+            "code": "PLUG",
+            "description": "Baby Safety Plugs",
+            "isActive": true,
+            "name": "Baby Safety Plugs"
+          },
+          {
+            "code": "PRG",
+            "description": "Pre-Registration",
+            "isActive": true,
+            "name": "Pre-Registration"
+          },
+          {
+            "code": "QR",
+            "description": "Quran",
+            "isActive": true,
+            "name": "Quran"
+          },
+          {
+            "code": "REFRI",
+            "description": "Refrigertor",
+            "isActive": true,
+            "name": "Refrigertor"
+          },
+          {
+            "code": "SP",
+            "description": "Special Pillow",
+            "isActive": true,
+            "name": "Special Pillow"
+          },
+          {
+            "code": "SPE",
+            "description": "Special Occasion",
+            "isActive": true,
+            "name": "Special Occasion"
+          },
+          {
+            "code": "STEP",
+            "description": "Stepstool",
+            "isActive": true,
+            "name": "Stepstool"
+          },
+          {
+            "code": "SYND",
+            "description": "Syntetic Duvet",
+            "isActive": true,
+            "name": "Syntetic Duvet"
+          },
+          {
+            "code": "SYNP",
+            "description": "Syntetic Pillow",
+            "isActive": true,
+            "name": "Syntetic Pillow"
+          },
+          {
+            "code": "TA",
+            "description": "Transportation",
+            "isActive": true,
+            "name": "Transportation"
+          },
+          {
+            "code": "TFAN",
+            "description": "Tower Fan",
+            "isActive": true,
+            "name": "Tower Fan"
+          },
+          {
+            "code": "UPG",
+            "description": "Upgrade Request",
+            "isActive": true,
+            "name": "Upgrade Request"
+          },
+          {
+            "code": "VRG",
+            "description": "Virtuoso/FHR guest",
+            "isActive": true,
+            "name": "Virtuoso/FHR guest"
+          },
+          {
+            "code": "WDA",
+            "description": "Wedding anniversary",
+            "isActive": true,
+            "name": "Wedding anniversary"
+          },
+          {
+            "code": "WHL",
+            "description": "Wheelchair",
+            "isActive": true,
+            "name": "Wheelchair"
+          },
+          {
+            "code": "XLG",
+            "description": "Extra Luggage Rack",
+            "isActive": true,
+            "name": "Extra Luggage Rack"
+          },
+          {
+            "code": "YM",
+            "description": "Yoga Mat",
+            "isActive": true,
+            "name": "Yoga Mat"
+          }
+        ],
+        "updatedAt": 1760610273,
+        "updatedBy": "",
+        "version": 2
+      },
+      {
+        "code": "SMOKING",
+        "createdAt": 1757420120,
+        "createdBy": "",
+        "customAttributes": [],
+        "description": "",
+        "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+        "id": "b3252227-cc50-42a1-960b-5e4e05afcb1a",
+        "isActive": true,
+        "allowMultipleSelection": true,
+        "name": "Non-Smoking\\Smoking Preference",
+        "preferenceItems": [
+          {
+            "code": "NS",
+            "description": "Non-Smoking Room",
+            "isActive": true,
+            "name": "Non-Smoking Room"
+          },
+          {
+            "code": "S",
+            "description": "Smoking Room",
+            "isActive": true,
+            "name": "Smoking Room"
+          }
+        ],
+        "updatedAt": 1760610273,
+        "updatedBy": "",
+        "version": 2
+      }
+    ]
+  }
+}
+  Γ£ô   5 [chromium] ΓÇ║ tests\specs\getHotelPreferences.temp.spec.ts:6:5 ΓÇ║ fetch hotel preferences from API (2.1s)
+Fetched reservation details: {
+  "reservationId": "88082738",
+  "uniqueBookingId": "281392834",
+  "confirmationId": "281392834",
+  "accountId": "",
+  "confirmationType": "INTERNAL",
+  "reservationStatus": "RESERVED",
+  "computedReservationStatus": "RESERVED",
+  "details": {
+    "id": "281392834",
+    "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+    "hotel_name": "Hudini Hotels",
+    "contactPerson": {
+      "id": "72041054",
+      "IdType": "Profile",
+      "email": "logan@yopmail.com",
+      "firstName": "LOGANATHAN",
+      "lastName": "MADHESH",
+      "title": "",
+      "phoneNumber": "+91 96253-68521",
+      "emailOperaId": "66690346",
+      "phoneOperaId": "66690344",
+      "addressOperaId": "74244601",
+      "docType": "PASSPORT",
+      "docNo": "C5661251",
+      "documentId": "11178662",
+      "issueDate": "2024-11-22",
+      "expiry": "2034-11-21",
+      "issueCountry": "IN",
+      "dob": "",
+      "eta": "2026-07-28",
+      "etd": "2026-07-29",
+      "placeOfIssue": ""
+    },
+    "checkInDate": "2026-07-28T00:00:00",
+    "checkOutDate": "2026-07-29T00:00:00",
+    "nightCount": 1,
+    "adultGuestCount": 1,
+    "childGuestCount": 0,
+    "totalGuestCount": 1,
+    "holdAmount": {
+      "holdAmount": 0,
+      "currency": "EUR",
+      "depositAmount": 0
+    }
+  },
+  "roomTypes": [
+    {
+      "roomNumber": "",
+      "code": "STD1",
+      "name": "SIRO Standard King",
+      "shortName": "SIRO Standard King",
+      "count": 1,
+      "price": "0",
+      "totalCharge": "0",
+      "balance": "0",
+      "ratePlanCode": "COMP",
+      "suppressRate": false,
+      "entryType": "",
+      "entryId": "",
+      "currency": "EUR",
+      "roomRates": [
+        {
+          "effectiveDate": "2026-07-28",
+          "price": 0
+        }
+      ],
+      "roomToChargeCode": "STD1",
+      "roomToChargeName": "SIRO Standard King",
+      "roomToChargeShortName": "SIRO Standard King",
+      "blockCode": "",
+      "blockId": "",
+      "blockName": ""
+    }
+  ],
+  "reservePayments": [
+    {
+      "paymentType": "CA",
+      "cardType": "",
+      "cardID": "",
+      "cardNumber": "",
+      "cardHolderName": "",
+      "cardExpiryDate": "",
+      "vaultedCardID": "",
+      "lastFourDigits": ""
+    }
+  ],
+  "guarantees": [
+    {
+      "guaranteeType": "NON",
+      "cardNumber": "",
+      "cardHolderName": "",
+      "cardExpiryDate": "",
+      "cardType": ""
+    }
+  ],
+  "settlementTypes": null,
+  "guests": [
+    {
+      "arrivalTime": "2026-07-28",
+      "departureTime": "2026-07-29",
+      "firstName": "LOGANATHAN",
+      "lastName": "MADHESH",
+      "title": "",
+      "gender": "",
+      "nationality": "IN",
+      "emails": [
+        "logan@yopmail.com"
+      ],
+      "emailOperaId": [
+        "66690346"
+      ],
+      "id": "72041054",
+      "id_type": "Profile",
+      "phone": [
+        "+91 96253-68521"
+      ],
+      "phoneCountryCode": "",
+      "phoneOperaId": [
+        "66690344"
+      ],
+      "arrivalTransport": "",
+      "departureTransport": "",
+      "addressLine": "",
+      "addressLine2": "",
+      "cityName": "",
+      "stateProv": "",
+      "countryCode": "",
+      "postalCode": "",
+      "addressOperaId": "74244601",
+      "documentId": "11178662",
+      "docNo": "C5661251",
+      "docType": "PASSPORT",
+      "issueDate": "2024-11-22",
+      "expiry": "2034-11-21",
+      "issueCountry": "IN",
+      "dob": "",
+      "membershipType": "",
+      "membershipNumber": "",
+      "membershipLevel": "",
+      "profession": "",
+      "vipCode": "",
+      "vipDescription": "",
+      "isEregComplete": false,
+      "language": "E",
+      "birthCountry": "",
+      "birthPlace": "",
+      "arabicName": "",
+      "relationshipCode": "",
+      "purposeOfVisit": "",
+      "guestType": "",
+      "emirateCode": "",
+      "uid": "",
+      "docImage": null,
+      "requiresAccessibility": false,
+      "accessibilityTypes": null,
+      "otherAccessibilityType": "",
+      "code": "",
+      "incodeInterviewId": "",
+      "documentStatus": "",
+      "residenceCountryPhone": "",
+      "uaePhoneNumber": "",
+      "placeOfIssue": "",
+      "complimentaryPackageId": "",
+      "spaEmail": "",
+      "packageGuestName": ""
+    }
+  ],
+  "packages": [
+    {
+      "code": "SCH_BKF_CH",
+      "name": "",
+      "description": "Service Charge Breakfast CHD",
+      "amount": 0,
+      "source": "",
+      "scheduleList": [
+        {
+          "consumptionDate": "2026-07-28",
+          "unitPrice": "0",
+          "unitAllowance": "0",
+          "totalQuantity": "0",
+          "reservationDate": "2026-07-28",
+          "originalUnitPrice": "0",
+          "originalUnitAllowance": "0"
+        }
+      ],
+      "consumptionDetails": {
+        "defaultQuantity": "1",
+        "totalQuantity": "0"
+      }
+    }
+  ],
+  "reservationAddonItems": null,
+  "arrivalFlightCode": "",
+  "departureFlightCode": "",
+  "mainMealPlanCode": "",
+  "noPost": true,
+  "isPreCheckedIn": false,
+  "isDoNotMove": false,
+  "specialInstructions": [
+    "Automation test note",
+    "Automation test note",
+    "Automation test note",
+    "Automation test note",
+    "Automation test note"
+  ],
+  "checkInType": "",
+  "taxesAndFees": {
+    "totalCharges": "",
+    "charges": null
+  },
+  "sourceOfBusiness": "",
+  "travelAgent": {
+    "id": "",
+    "name": ""
+  },
+  "company": {
+    "id": "",
+    "name": ""
+  },
+  "pmsHotelName": "",
+  "group": "",
+  "agency": "",
+  "authorizationRule": {
+    "authorizationCode": 0,
+    "amount": 0,
+    "currencyCode": ""
+  },
+  "billingCodes": [],
+  "externalReferences": [
+    {
+      "id": "281392834",
+      "idContext": "OPERA"
+    }
+  ],
+  "marketCode": "COMP",
+  "marketCodeDescription": "Complimentary Rate",
+  "paymentAmount": 0,
+  "printRateField": true,
+  "cashierNotes": null,
+  "preferences": null,
+  "cashierComments": null,
+  "reservationComments": [
+    {
+      "note": "Automation test note",
+      "title": "Reservation General Notes",
+      "createDateTime": "2026-07-28 09:21:51.0",
+      "lastModifyDateTime": "2026-07-28 09:21:51.0",
+      "id": "62999274"
+    },
+    {
+      "note": "Automation test note",
+      "title": "Reservation General Notes",
+      "createDateTime": "2026-07-28 09:24:27.0",
+      "lastModifyDateTime": "2026-07-28 09:24:27.0",
+      "id": "62999275"
+    },
+    {
+      "note": "Automation test note",
+      "title": "Reservation General Notes",
+      "createDateTime": "2026-07-28 09:18:36.0",
+      "lastModifyDateTime": "2026-07-28 09:18:36.0",
+      "id": "62999523"
+    },
+    {
+      "note": "Automation test note",
+      "title": "Reservation General Notes",
+      "createDateTime": "2026-07-28 09:28:38.0",
+      "lastModifyDateTime": "2026-07-28 09:28:38.0",
+      "id": "62999524"
+    },
+    {
+      "note": "Automation test note",
+      "title": "Reservation General Notes",
+      "createDateTime": "2026-07-28 09:38:10.0",
+      "lastModifyDateTime": "2026-07-28 09:38:10.0",
+      "id": "62999525"
+    }
+  ],
+  "paymentWindow": "",
+  "isPaymentRequired": false,
+  "packageAmount": 0,
+  "totalPayableAmount": 0,
+  "signUpLoyalty": false,
+  "accompanySignUpLoyalty": false,
+  "packagesEntitled": 0,
+  "packagesEntitledTotal": 0,
+  "packagesConsumed": 0,
+  "exceptionEntitledTotal": 0,
+  "entitledPackagesConsumed": 0,
+  "exceptionPackagesConsumed": 0,
+  "breakFastPostLog": null,
+  "paletteId": "",
+  "bookingSource": "WSBE",
+  "isAcceptedOTABooking": false,
+  "indicators": {
+    "alerts": 0,
+    "packageItem": 1,
+    "fixedCharges": 0
+  },
+  "reservationAlerts": null,
+  "fixedCharges": null,
+  "isBreakfastEnabled": false,
+  "bookingSourceDesc": "CBE (Custom Booking Engine)/brand.com"
+}
+  Γ£ô   6 [chromium] ΓÇ║ tests\specs\fetchReservationApi.temp.spec.ts:5:5 ΓÇ║ fetch reservation details from API (1.9s)
+Pre-Arrival Folio API Parameters: {
+  hotelId: 'cfd3a924-b3c4-48b8-b5ca-1e390c1dda04',
+  reservationId: '88082738'
+}
+Get Pre-Arrival Folio API Response Status Code=200
+Fetched pre-arrival folio: {
+  "data": {
+    "getPreArrivalFolio": {
+      "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+      "reservationId": "88082738",
+      "summary": {
+        "currencyCode": "EUR",
+        "deposit": 0,
+        "fixedCharges": 0,
+        "gross": 0,
+        "net": 0,
+        "outStandingCostOfStay": 0,
+        "totalCostOfStay": 0,
+        "details": [
+          {
+            "summaryDate": "2026-07-28",
+            "ratePlanCode": "COMP",
+            "net": 0,
+            "package": 0,
+            "gross": 0,
+            "tax": 0,
+            "revenue": 0,
+            "currencyCode": "EUR"
+          }
+        ]
+      }
+    }
+  }
+}
+  Γ£ô   7 [chromium] ΓÇ║ tests\specs\getPreArrivalFolio.temp.spec.ts:7:5 ΓÇ║ fetch pre-arrival folio from API (2.9s)
+Fetched personalisations: {
+  "status": "ok",
+  "data": [
+    {
+      "id": "10f7ed7f-9cd0-42d2-bcf9-244926b87810",
+      "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+      "code": "17",
+      "name": "Weekend Escape",
+      "description": "Weekend Escape",
+      "cost": 1500,
+      "unit": "per trip",
+      "maxQuantity": {
+        "status": "active",
+        "maxQuantityValue": 1
+      },
+      "isActive": true,
+      "currency": "AED"
+    },
+    {
+      "id": "283f4ee6-2848-45ce-837f-d0d5f709a04f",
+      "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+      "code": "17",
+      "name": "Traditional wine",
+      "description": "Wine making in traditional format",
+      "cost": 1200,
+      "unit": "Per Bottle",
+      "maxQuantity": {
+        "status": "inactive",
+        "maxQuantityValue": 1
+      },
+      "isActive": true,
+      "currency": "AED"
+    },
+    {
+      "id": "2e6ce7eb-6f27-404d-9e06-fecfea06a36f",
+      "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+      "code": "17",
+      "name": "Decorate room",
+      "description": "34",
+      "cost": 345,
+      "unit": "per room",
+      "maxQuantity": {
+        "status": "inactive",
+        "maxQuantityValue": 1
+      },
+      "isActive": true,
+      "currency": "AED"
+    },
+    {
+      "id": "6ef1e981-4af7-408f-ac3d-37b572bb9b10",
+      "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+      "code": "17",
+      "name": "early checkout",
+      "description": "aa",
+      "cost": 311,
+      "unit": "4",
+      "maxQuantity": {
+        "status": "active",
+        "maxQuantityValue": 3
+      },
+      "isActive": true,
+      "currency": "AED"
+    },
+    {
+      "id": "7fe19936-ade2-43c2-b04b-aaecf6b4db87",
+      "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+      "code": "19",
+      "name": "Relaxation Getaway",
+      "description": "Relaxation Getaway",
+      "cost": 1800,
+      "unit": "per trip",
+      "maxQuantity": {
+        "status": "active",
+        "maxQuantityValue": 1
+      },
+      "isActive": true,
+      "currency": "AED"
+    },
+    {
+      "id": "9ef92f27-3d0c-478f-8905-a6dd71693a8b",
+      "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+      "code": "123",
+      "name": "Sanitize the room",
+      "description": "test",
+      "cost": 950,
+      "unit": "Per head",
+      "maxQuantity": {
+        "status": "active",
+        "maxQuantityValue": 5
+      },
+      "isActive": true,
+      "currency": "AED"
+    },
+    {
+      "id": "b38c063b-5f9d-4870-ae13-51bb34c0af10",
+      "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+      "code": "CIN",
+      "name": "Premium Personalized Luxury Guest Arrival Welcome Experience Package with Complimentary Amenities.",
+      "description": "Family Vacation",
+      "cost": 2500,
+      "unit": "per person",
+      "maxQuantity": {
+        "status": "active",
+        "maxQuantityValue": 2
+      },
+      "isActive": true,
+      "currency": "AED"
+    },
+    {
+      "id": "b6c86b60-877a-4427-a280-160e78cebb04",
+      "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+      "code": "13",
+      "name": "Traditional wine",
+      "description": "des",
+      "cost": 800,
+      "unit": "Per Bottle",
+      "maxQuantity": {
+        "status": "active",
+        "maxQuantityValue": 1
+      },
+      "isActive": true,
+      "currency": "AED"
+    },
+    {
+      "id": "b94fc35a-05ad-4b16-acef-71b74da4e818",
+      "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+      "code": "1234",
+      "name": "Decorate my bed",
+      "description": "T",
+      "cost": 67,
+      "unit": "Per bed",
+      "maxQuantity": {
+        "status": "active",
+        "maxQuantityValue": 2
+      },
+      "isActive": true,
+      "currency": "AED"
+    },
+    {
+      "id": "ca542d22-cf4d-486a-b47b-75e4dfa92073",
+      "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+      "code": "17",
+      "name": "Check-in early at 9 AM",
+      "description": "Check-in early at 9 AM",
+      "cost": 50,
+      "unit": "Per Bottle",
+      "maxQuantity": {
+        "status": "active",
+        "maxQuantityValue": 1
+      },
+      "isActive": true,
+      "currency": "AED"
+    }
+  ]
+}
+  Γ£ô   9 [chromium] ΓÇ║ tests\specs\personalisationsApi.temp.spec.ts:6:5 ΓÇ║ fetch personalisations from API (1.2s)
+Room Status API Parameters: {
+  hotelId: 'cfd3a924-b3c4-48b8-b5ca-1e390c1dda04',
+  checkInDate: '2026-07-28',
+  checkOutDate: '2026-07-29',
+  confirmationId: '281392834',
+  lastName: 'MADHESH'
+}
+Fetched room status: {
+  "status": "ok",
+  "data": [
+    {
+      "roomNumber": "1314",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "STD1",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "STD",
+      "features": [
+        {
+          "code": "CNR",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "1414",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "STD3",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "STD",
+      "features": [
+        {
+          "code": "CNR",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "1515",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "STD4",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "STD",
+      "features": [
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "1516",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "SUIT1",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "SUITE",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "LAR",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "1611",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "STD4",
+      "roomDescription": "",
+      "floor": "06",
+      "roomClass": "STD",
+      "features": [
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "CNR",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "1618",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "STD1",
+      "roomDescription": "",
+      "floor": "06",
+      "roomClass": "STD",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2101",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2102",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2103",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME5",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2104",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME1",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2106",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME4",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "GRF",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2107",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME4",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "GRF",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2108",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME4",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "GRF",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2204",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME1",
+      "roomDescription": "",
+      "floor": "02",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2302",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2305",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2306",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2309",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2402",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2407",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2408",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2505",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME1",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2507",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2601",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME7",
+      "roomDescription": "",
+      "floor": "06",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW1",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "2605",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "06",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3102",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1TER",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "GRF",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3105",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "GRF",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3302",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3304",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3401",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3402",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3403",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3404",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3405",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3501",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME6",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1TER",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3502",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3503",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3504",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3601",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME6",
+      "roomDescription": "",
+      "floor": "06",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3702",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "07",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "3703",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "07",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4102",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1TER",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "GRF",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4105",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME1",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4106",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1TER",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "GRF",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4108",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1TER",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "GRF",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4109",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1TER",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "GRF",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4110",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "01",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1TER",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "GRF",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4201",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "02",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4203",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME1",
+      "roomDescription": "",
+      "floor": "02",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4204",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "02",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4205",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "02",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4206",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "02",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4207",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "02",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4209",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "02",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4301",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4302",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1TER",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4303",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME1",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4304",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4306",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4307",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4309",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "03",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4401",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4402",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4404",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4405",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4406",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4407",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4408",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4409",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "04",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4501",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4502",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4503",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME1",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4504",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4505",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4507",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4508",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4509",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "05",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4601",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "06",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4602",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "06",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4604",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "06",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4605",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "06",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4606",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME6",
+      "roomDescription": "",
+      "floor": "06",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW5",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4607",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "06",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4701",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "07",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1TER",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW4",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4702",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "07",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BAL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW3",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4703",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME3",
+      "roomDescription": "",
+      "floor": "07",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1TER",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4704",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME6",
+      "roomDescription": "",
+      "floor": "07",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "TWB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1BA",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1TER",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NEL",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "NST",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "4803",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "PHOME2",
+      "roomDescription": "",
+      "floor": "08",
+      "roomClass": "PHOME",
+      "features": [
+        {
+          "code": "1KB",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "1SH",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "VIEW2",
+          "name": "",
+          "description": ""
+        },
+        {
+          "code": "SFB",
+          "name": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "roomNumber": "102",
+      "status": "IP",
+      "frontOfficeStatus": "VAC",
+      "occupancyCondition": "",
+      "houseKeepingStatus": "Inspected",
+      "roomType": "STD2",
+      "roomDescription": "",
+      "floor": "",
+      "roomClass": "STD",
+      "features": null
+    }
+  ]
+}
+  Γ£ô  10 [chromium] ΓÇ║ tests\specs\roomStatusApi.temp.spec.ts:7:5 ΓÇ║ fetch room status from API (5.2s)
+  Γ£ÿ   8 [chromium] ΓÇ║ tests\specs\modifyBooking.spec.ts:13:7 ΓÇ║ Modify Booking Flow ΓÇ║ should navigate, select an itinerary item and modify the booking (24.3s)
+Launching Sidecar URL
+Verification of visibility and filling of email textbox is successful
+Verification of visibility and clicking of continue button is successful
+Γùç injected env (0) from .env // tip: Γîÿ override existing { override: true }
+cedf4667-2b09-494f-b3b5-6d081500bc40
+  Γ£ÿ  12 [chromium] ΓÇ║ tests\specs\userAccessValidation.temp.spec.ts:25:5 ΓÇ║ temp - validate user property and module access (718ms)
+  Γ£ÿ   1 [chromium] ΓÇ║ tests\specs\ActivityDetailDrawer.spec.ts:19:7 ΓÇ║ Activity Booking Flow ΓÇ║ should complete full activity booking flow (33.5s)
+Verification of visibility and filling of password textbox is successful
+Verification of visibility and clicking of login button is successful
+  Γ£ÿ   3 [chromium] ΓÇ║ tests\specs\cancelBooking.spec.ts:13:7 ΓÇ║ Cancel Booking Flow ΓÇ║ should navigate, select an itinerary item and cancel the booking (39.3s)
+Verification of visibility and clicking of property option in the property selection dropdown is successful
+Verification of visibility and clicking of property continue button is successful
+Device ID from UI: 1786140714458
+Verification of visibility and filling of device input is successful
+Verification of visibility and clicking of connect sidecar button is successful
+node.exe : Timed out waiting for deviceId in URL. Current URL: 
+https://staff-copilot.hudinielevate-stage.io/sidecar/propertyselect/
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Timed out waiti...propertyselect/ 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  Γ£ÿ  11 [chromium] ΓÇ║ tests\specs\staffConnectTest.spec.ts:80:7 ΓÇ║ Sidecar + StaffConnect Flow ΓÇ║ Complete Sidecar creation flow (32.8s)
+Γùç injected env (0) from .env // tip: Γùê encrypted .env [www.dotenvx.com]
+Launching StaffConnect URL
+Verification of visibility and filling of email text box is successful
+Verification of visibility and clicking of continue button is successful
+Verification of visibility and filling of password text box is successful
+Verification of visibility and clicking of login button is successful
+Verification of visibility and clicking of property option in the property selection dropdown is successful
+Verification of visibility and clicking of property continue button is successful
+Verification of successful login by checking visibility of Hudini SC logo is successful
+Verification of visibility and clicking of device module in the sidecar main page is successful
+Verification of visibility and clicking of device search icon in the device module is successful
+Shared Device ID: 
+  Γ£ÿ  13 [chromium] ΓÇ║ tests\specs\staffConnectTest.spec.ts:112:7 ΓÇ║ Sidecar + StaffConnect Flow ΓÇ║ Complete StaffConnect flow (47.7s)
+
+TeamsReporter: payload to send: {
+  "text": "Γ£à StaffConnect Test Execution Summary\n\nProject: StaffConnect\nEnvironment: Stage\nTriggered by: Playwright\nExecution Time: 28 Jul 2026, 3:25:59 pm IST\nTotal: 13\nPassed: 6\nFailed: 7\nSkipped: 0\nFlaky: 0\nModule summary:\naggregatedFutureBooking.temp: 0 passed, 1 failed\nfetchAppConfigApi.temp: 1 passed, 0 failed\ngetHotelPreferences.temp: 1 passed, 0 failed\nfetchReservationApi.temp: 1 passed, 0 failed\ngetPreArrivalFolio.temp: 1 passed, 0 failed\npersonalisationsApi.temp: 1 passed, 0 failed\nroomStatusApi.temp: 1 passed, 0 failed\nmodifyBooking: 0 passed, 1 failed\nuserAccessValidation.temp: 0 passed, 1 failed\nActivityDetailDrawer: 0 passed, 1 failed\ncancelBooking: 0 passed, 1 failed\nstaffConnectTest: 0 passed, 2 failed\nReport: https://your-report-url",
+  "summary": "StaffConnect Test Execution Summary"
+}
+
+  1) [chromium] ΓÇ║ tests\specs\ActivityDetailDrawer.spec.ts:19:7 ΓÇ║ Activity Booking Flow ΓÇ║ should complete full activity booking flow ΓÇ║ Explore Activities 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('Activities')
+    Expected: visible
+    Error: strict mode violation: getByText('Activities') resolved to 3 elements:
+        1) <button id=":r9:" tabindex="0" type="button" class="MuiButtonBase-root MuiButton-root MuiLoadingButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-root MuiLoadingButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary MuiButton-disableElevation activityAndItinerary_button__L7Yac globals-stayDetailButton css-9loowt">ΓÇª</button> aka getByRole('button', { name: 'Explore Activities' }).first()
+        2) <p class="activityAndItinerary_exploreActivities__65bQo globals-exploreActivities">ΓÇª</p> aka getByText('From curated dining options')
+        3) <span class="BottomMenu_btnText__dWilF globals-btnText">Explore Activities</span> aka getByRole('button', { name: 'Explore Activities' }).nth(1)
+
+    Call log:
+      - Expect "toBeVisible" with timeout 30000ms
+      - waiting for getByText('Activities')
+
+
+      41 |       await activityPage.exploreActivities();
+      42 |       // Verify we're on the activities page
+    > 43 |       await expect(page.getByText('Activities')).toBeVisible();
+         |                                                  ^
+      44 |     });
+      45 |
+      46 |     // 5. Select a category
+        at C:\Users\AkshayBashetti\Desktop\staffconnect_framework\SC_Regression-develop\tests\specs\ActivityDetailDrawer.spec.ts:43:50
+        at C:\Users\AkshayBashetti\Desktop\staffconnect_framework\SC_Regression-develop\tests\specs\ActivityDetailDrawer.spec.ts:40:5
+
+    attachment #1: screenshot (image/png) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\ActivityDetailDrawer-Activ-dd2c3--full-activity-booking-flow-chromium\test-failed-1.png
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    attachment #2: video (video/webm) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\ActivityDetailDrawer-Activ-dd2c3--full-activity-booking-flow-chromium\video.webm
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    Error Context: test-results\ActivityDetailDrawer-Activ-dd2c3--full-activity-booking-flow-chromium\error-context.md
+
+  2) [chromium] ΓÇ║ tests\specs\aggregatedFutureBooking.temp.spec.ts:27:5 ΓÇ║ temp - validate aggregated future booking ΓÇ║ Call aggregated future booking API and save response 
+
+    ApiResponseError: Failed to fetch aggregated future booking: 401 - {
+      "errors" : [ {
+        "errorType" : "UnauthorizedException",
+        "message" : "Token has expired."
+      } ]
+    }
+
+       at ..\utils\aggregatedFutureBookingValidation.ts:57
+
+      55 |     if (!response.ok()) {
+      56 |       const errorBody = await response.text();
+    > 57 |       throw new ApiResponseError(
+         |             ^
+      58 |         `Failed to fetch aggregated future booking: ${response.status()} - ${errorBody}`,
+      59 |         response.status(),
+      60 |         endpoint,
+        at AggregatedFutureBookingValidation.fetchAggregatedFutureBookingRaw (C:\Users\AkshayBashetti\Desktop\staffconnect_framework\SC_Regression-develop\tests\utils\aggregatedFutureBookingValidation.ts:57:13)
+        at ValidateAggregatedFutureBooking.fetchAndSaveBookingResponse (C:\Users\AkshayBashetti\Desktop\staffconnect_framework\SC_Regression-develop\tests\utils\aggregatedFutureBookingValidation.ts:325:29)
+        at C:\Users\AkshayBashetti\Desktop\staffconnect_framework\SC_Regression-develop\tests\specs\aggregatedFutureBooking.temp.spec.ts:32:5
+        at C:\Users\AkshayBashetti\Desktop\staffconnect_framework\SC_Regression-develop\tests\specs\aggregatedFutureBooking.temp.spec.ts:30:3
+
+    Error Context: test-results\aggregatedFutureBooking.te-ba5ed-e-aggregated-future-booking-chromium\error-context.md
+
+  3) [chromium] ΓÇ║ tests\specs\cancelBooking.spec.ts:13:7 ΓÇ║ Cancel Booking Flow ΓÇ║ should navigate, select an itinerary item and cancel the booking ΓÇ║ Select first activity in My Itinerary 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for locator('//span[@class="activityAndItinerary_cardTitle__Eaz_g"]') to be visible
+
+
+       at ..\page-objects\Pages\cancelBooking.page.ts:67
+
+      65 |   async selectActivityInMyItinerary(activityName?: string) {
+      66 |     // Wait for at least one activity to be visible
+    > 67 |     await this.activitiesInMyItinerary.waitFor({ state: 'visible', timeout: 10000 });
+         |                                        ^
+      68 |
+      69 |     const count = await this.activitiesInMyItinerary.count();
+      70 |     console.log(`Found ${count} activities in My Itinerary`);
+        at CancelBookingPage.selectActivityInMyItinerary (C:\Users\AkshayBashetti\Desktop\staffconnect_framework\SC_Regression-develop\tests\page-objects\Pages\cancelBooking.page.ts:67:40)
+        at C:\Users\AkshayBashetti\Desktop\staffconnect_framework\SC_Regression-develop\tests\specs\cancelBooking.spec.ts:35:31
+        at C:\Users\AkshayBashetti\Desktop\staffconnect_framework\SC_Regression-develop\tests\specs\cancelBooking.spec.ts:34:5
+
+    attachment #1: screenshot (image/png) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\cancelBooking-Cancel-Booki-e1915-item-and-cancel-the-booking-chromium\test-failed-1.png
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    attachment #2: video (video/webm) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\cancelBooking-Cancel-Booki-e1915-item-and-cancel-the-booking-chromium\video.webm
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    Error Context: test-results\cancelBooking-Cancel-Booki-e1915-item-and-cancel-the-booking-chromium\error-context.md
+
+  4) [chromium] ΓÇ║ tests\specs\modifyBooking.spec.ts:13:7 ΓÇ║ Modify Booking Flow ΓÇ║ should navigate, select an itinerary item and modify the booking ΓÇ║ Navigate to My Itinerary page 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'my itinerary' }) to be visible
+
+
+       at ..\page-objects\Pages\modifyBooking.page.ts:81
+
+      79 |   async navigateToMyItinerary() {
+      80 |     // Wait for the home page to load after login
+    > 81 |     await this.myItineraryButton.waitFor({ state: 'visible', timeout: 10000 });
+         |                                  ^
+      82 |     await this.myItineraryButton.click();
+      83 |   }
+      84 |
+        at ModifyBookingPage.navigateToMyItinerary (C:\Users\AkshayBashetti\Desktop\staffconnect_framework\SC_Regression-develop\tests\page-objects\Pages\modifyBooking.page.ts:81:34)
+        at C:\Users\AkshayBashetti\Desktop\staffconnect_framework\SC_Regression-develop\tests\specs\modifyBooking.spec.ts:29:31
+        at C:\Users\AkshayBashetti\Desktop\staffconnect_framework\SC_Regression-develop\tests\specs\modifyBooking.spec.ts:28:5
+
+    attachment #1: screenshot (image/png) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\modifyBooking-Modify-Booki-0fba1-item-and-modify-the-booking-chromium\test-failed-1.png
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    attachment #2: video (video/webm) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\modifyBooking-Modify-Booki-0fba1-item-and-modify-the-booking-chromium\video.webm
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    Error Context: test-results\modifyBooking-Modify-Booki-0fba1-item-and-modify-the-booking-chromium\error-context.md
+
+  5) [chromium] ΓÇ║ tests\specs\staffConnectTest.spec.ts:80:7 ΓÇ║ Sidecar + StaffConnect Flow ΓÇ║ Complete Sidecar creation flow ΓÇ║ Verify that the user is successfully logged in and navigated to the Sidecar main page 
+
+    Error: DeviceId not present in URL after connection ΓÇö current URL: https://staff-copilot.hudinielevate-stage.io/sidecar/propertyselect/
+
+       at ..\page-objects\Pages\ScSidecar.page.ts:283
+
+      281 |       const currentUrl = this.page.url();
+      282 |       console.error('Timed out waiting for deviceId in URL. Current URL:', currentUrl);
+    > 283 |       throw new Error('DeviceId not present in URL after connection ΓÇö current URL: ' + currentUrl);
+          |             ^
+      284 |     }
+      285 |
+      286 |     const currentUrl = this.page.url();
+        at SidecarPage.verifySidecarConnection (C:\Users\AkshayBashetti\Desktop\staffconnect_framework\SC_Regression-develop\tests\page-objects\Pages\ScSidecar.page.ts:283:13)
+        at C:\Users\AkshayBashetti\Desktop\staffconnect_framework\SC_Regression-develop\tests\specs\staffConnectTest.spec.ts:103:7
+        at C:\Users\AkshayBashetti\Desktop\staffconnect_framework\SC_Regression-develop\tests\specs\staffConnectTest.spec.ts:98:5
+
+    attachment #1: screenshot (image/png) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\staffConnectTest-Sidecar-S-f8638-plete-Sidecar-creation-flow-chromium\test-failed-1.png
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    Error Context: test-results\staffConnectTest-Sidecar-S-f8638-plete-Sidecar-creation-flow-chromium\error-context.md
+
+  6) [chromium] ΓÇ║ tests\specs\staffConnectTest.spec.ts:112:7 ΓÇ║ Sidecar + StaffConnect Flow ΓÇ║ Complete StaffConnect flow ΓÇ║ Verify that the sidecar connection created in the previous session is visible in StaffConnect 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('xpath=(//tbody//tr)[1]//td//p[text()=""]')
+    Expected: visible
+    Timeout: 30000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 30000ms
+      - waiting for locator('xpath=(//tbody//tr)[1]//td//p[text()=""]')
+
+
+       at ..\page-objects\Pages\StaffConnect.page.ts:369
+
+      367 |       `(//tbody//tr)[1]//td//p[text()="${deviceIDFromSidecar}"]`,
+      368 |     ); // Adjust the locator to target the correct element based on your application's structure
+    > 369 |     await expect(createdDevice).toBeVisible();
+          |                                 ^
+      370 |     console.log(
+      371 |       'Verification of visibility of the created sidecar connection in the device search results is successful',
+      372 |     );
+        at StaffConnectPage.verifyCreatedSidearConnection (C:\Users\AkshayBashetti\Desktop\staffconnect_framework\SC_Regression-develop\tests\page-objects\Pages\StaffConnect.page.ts:369:33)
+        at C:\Users\AkshayBashetti\Desktop\staffconnect_framework\SC_Regression-develop\tests\specs\staffConnectTest.spec.ts:139:7
+        at C:\Users\AkshayBashetti\Desktop\staffconnect_framework\SC_Regression-develop\tests\specs\staffConnectTest.spec.ts:136:5
+
+    attachment #1: screenshot (image/png) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\staffConnectTest-Sidecar-S-79098--Complete-StaffConnect-flow-chromium\test-failed-1.png
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    attachment #2: screenshot (image/png) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\staffConnectTest-Sidecar-S-79098--Complete-StaffConnect-flow-chromium\test-failed-2.png
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    Error Context: test-results\staffConnectTest-Sidecar-S-79098--Complete-StaffConnect-flow-chromium\error-context.md
+
+  7) [chromium] ΓÇ║ tests\specs\userAccessValidation.temp.spec.ts:25:5 ΓÇ║ temp - validate user property and module access ΓÇ║ Call APIs and save responses 
+
+    ApiResponseError: Failed to fetch property details: 401 - {
+      "errors" : [ {
+        "errorType" : "UnauthorizedException",
+        "message" : "Token has expired."
+      } ]
+    }
+
+       at ..\utils\userAccessValidation.ts:60
+
+      58 |     if (!response.ok()) {
+      59 |       const errorBody = await response.text();
+    > 60 |       throw new ApiResponseError(
+         |             ^
+      61 |         `Failed to fetch property details: ${response.status()} - ${errorBody}`,
+      62 |         response.status(),
+      63 |         endpoint,
+        at UserAccessValidation.fetchPropertyDetailsRaw (C:\Users\AkshayBashetti\Desktop\staffconnect_framework\SC_Regression-develop\tests\utils\userAccessValidation.ts:60:13)
+        at ValidateUserAccess.validatePropertyAndModuleAccess (C:\Users\AkshayBashetti\Desktop\staffconnect_framework\SC_Regression-develop\tests\utils\userAccessValidation.ts:280:37)
+        at C:\Users\AkshayBashetti\Desktop\staffconnect_framework\SC_Regression-develop\tests\specs\userAccessValidation.temp.spec.ts:31:5
+        at C:\Users\AkshayBashetti\Desktop\staffconnect_framework\SC_Regression-develop\tests\specs\userAccessValidation.temp.spec.ts:28:3
+
+    Error Context: test-results\userAccessValidation.temp--e2434--property-and-module-access-chromium\error-context.md
+
+  7 failed
+    [chromium] ΓÇ║ tests\specs\ActivityDetailDrawer.spec.ts:19:7 ΓÇ║ Activity Booking Flow ΓÇ║ should complete full activity booking flow 
+    [chromium] ΓÇ║ tests\specs\aggregatedFutureBooking.temp.spec.ts:27:5 ΓÇ║ temp - validate aggregated future booking 
+    [chromium] ΓÇ║ tests\specs\cancelBooking.spec.ts:13:7 ΓÇ║ Cancel Booking Flow ΓÇ║ should navigate, select an itinerary item and cancel the booking 
+    [chromium] ΓÇ║ tests\specs\modifyBooking.spec.ts:13:7 ΓÇ║ Modify Booking Flow ΓÇ║ should navigate, select an itinerary item and modify the booking 
+    [chromium] ΓÇ║ tests\specs\staffConnectTest.spec.ts:80:7 ΓÇ║ Sidecar + StaffConnect Flow ΓÇ║ Complete Sidecar creation flow 
+    [chromium] ΓÇ║ tests\specs\staffConnectTest.spec.ts:112:7 ΓÇ║ Sidecar + StaffConnect Flow ΓÇ║ Complete StaffConnect flow 
+    [chromium] ΓÇ║ tests\specs\userAccessValidation.temp.spec.ts:25:5 ΓÇ║ temp - validate user property and module access 
+  6 passed (1.7m)
+TeamsReporter: sent summary to Teams: 202 Accepted

@@ -1,0 +1,329 @@
+{
+  "reservationId": "88082738",
+  "uniqueBookingId": "281392834",
+  "confirmationId": "281392834",
+  "accountId": "",
+  "confirmationType": "INTERNAL",
+  "reservationStatus": "RESERVED",
+  "computedReservationStatus": "RESERVED",
+  "details": {
+    "id": "281392834",
+    "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+    "hotel_name": "Hudini Hotels",
+    "contactPerson": {
+      "id": "72041054",
+      "IdType": "Profile",
+      "email": "logan@yopmail.com",
+      "firstName": "LOGANATHAN",
+      "lastName": "MADHESH",
+      "title": "",
+      "phoneNumber": "+91 96253-68521",
+      "emailOperaId": "66690346",
+      "phoneOperaId": "66690344",
+      "addressOperaId": "74244601",
+      "docType": "PASSPORT",
+      "docNo": "C5661251",
+      "documentId": "11178662",
+      "issueDate": "2024-11-22",
+      "expiry": "2034-11-21",
+      "issueCountry": "IN",
+      "dob": "",
+      "eta": "2026-07-28",
+      "etd": "2026-07-29",
+      "placeOfIssue": ""
+    },
+    "checkInDate": "2026-07-28T00:00:00",
+    "checkOutDate": "2026-07-29T00:00:00",
+    "nightCount": 1,
+    "adultGuestCount": 1,
+    "childGuestCount": 0,
+    "totalGuestCount": 1,
+    "holdAmount": {
+      "holdAmount": 0,
+      "currency": "EUR",
+      "depositAmount": 0
+    }
+  },
+  "roomTypes": [
+    {
+      "roomNumber": "",
+      "code": "STD1",
+      "name": "SIRO Standard King",
+      "shortName": "SIRO Standard King",
+      "count": 1,
+      "price": "0",
+      "totalCharge": "0",
+      "balance": "0",
+      "ratePlanCode": "COMP",
+      "suppressRate": false,
+      "entryType": "",
+      "entryId": "",
+      "currency": "EUR",
+      "roomRates": [
+        {
+          "effectiveDate": "2026-07-28",
+          "price": 0
+        }
+      ],
+      "roomToChargeCode": "STD1",
+      "roomToChargeName": "SIRO Standard King",
+      "roomToChargeShortName": "SIRO Standard King",
+      "blockCode": "",
+      "blockId": "",
+      "blockName": ""
+    }
+  ],
+  "reservePayments": [
+    {
+      "paymentType": "CA",
+      "cardType": "",
+      "cardID": "",
+      "cardNumber": "",
+      "cardHolderName": "",
+      "cardExpiryDate": "",
+      "vaultedCardID": "",
+      "lastFourDigits": ""
+    }
+  ],
+  "guarantees": [
+    {
+      "guaranteeType": "NON",
+      "cardNumber": "",
+      "cardHolderName": "",
+      "cardExpiryDate": "",
+      "cardType": ""
+    }
+  ],
+  "settlementTypes": null,
+  "guests": [
+    {
+      "arrivalTime": "2026-07-28",
+      "departureTime": "2026-07-29",
+      "firstName": "LOGANATHAN",
+      "lastName": "MADHESH",
+      "title": "",
+      "gender": "",
+      "nationality": "IN",
+      "emails": [
+        "logan@yopmail.com"
+      ],
+      "emailOperaId": [
+        "66690346"
+      ],
+      "id": "72041054",
+      "id_type": "Profile",
+      "phone": [
+        "+91 96253-68521"
+      ],
+      "phoneCountryCode": "",
+      "phoneOperaId": [
+        "66690344"
+      ],
+      "arrivalTransport": "",
+      "departureTransport": "",
+      "addressLine": "",
+      "addressLine2": "",
+      "cityName": "",
+      "stateProv": "",
+      "countryCode": "",
+      "postalCode": "",
+      "addressOperaId": "74244601",
+      "documentId": "11178662",
+      "docNo": "C5661251",
+      "docType": "PASSPORT",
+      "issueDate": "2024-11-22",
+      "expiry": "2034-11-21",
+      "issueCountry": "IN",
+      "dob": "",
+      "membershipType": "",
+      "membershipNumber": "",
+      "membershipLevel": "",
+      "profession": "",
+      "vipCode": "",
+      "vipDescription": "",
+      "isEregComplete": false,
+      "language": "E",
+      "birthCountry": "",
+      "birthPlace": "",
+      "arabicName": "",
+      "relationshipCode": "",
+      "purposeOfVisit": "",
+      "guestType": "",
+      "emirateCode": "",
+      "uid": "",
+      "docImage": null,
+      "requiresAccessibility": false,
+      "accessibilityTypes": null,
+      "otherAccessibilityType": "",
+      "code": "",
+      "incodeInterviewId": "",
+      "documentStatus": "",
+      "residenceCountryPhone": "",
+      "uaePhoneNumber": "",
+      "placeOfIssue": "",
+      "complimentaryPackageId": "",
+      "spaEmail": "",
+      "packageGuestName": ""
+    }
+  ],
+  "packages": [
+    {
+      "code": "SCH_BKF_CH",
+      "name": "",
+      "description": "Service Charge Breakfast CHD",
+      "amount": 0,
+      "source": "",
+      "scheduleList": [
+        {
+          "consumptionDate": "2026-07-28",
+          "unitPrice": "0",
+          "unitAllowance": "0",
+          "totalQuantity": "0",
+          "reservationDate": "2026-07-28",
+          "originalUnitPrice": "0",
+          "originalUnitAllowance": "0"
+        }
+      ],
+      "consumptionDetails": {
+        "defaultQuantity": "1",
+        "totalQuantity": "0"
+      }
+    }
+  ],
+  "reservationAddonItems": null,
+  "arrivalFlightCode": "",
+  "departureFlightCode": "",
+  "mainMealPlanCode": "",
+  "noPost": true,
+  "isPreCheckedIn": false,
+  "isDoNotMove": false,
+  "specialInstructions": [
+    "Automation test note",
+    "Automation test note",
+    "Automation test note",
+    "Automation test note",
+    "Automation test note",
+    "Automation test note",
+    "Automation test note",
+    "Automation test note"
+  ],
+  "checkInType": "",
+  "taxesAndFees": {
+    "totalCharges": "",
+    "charges": null
+  },
+  "sourceOfBusiness": "",
+  "travelAgent": {
+    "id": "",
+    "name": ""
+  },
+  "company": {
+    "id": "",
+    "name": ""
+  },
+  "pmsHotelName": "",
+  "group": "",
+  "agency": "",
+  "authorizationRule": {
+    "authorizationCode": 0,
+    "amount": 0,
+    "currencyCode": ""
+  },
+  "billingCodes": [],
+  "externalReferences": [
+    {
+      "id": "281392834",
+      "idContext": "OPERA"
+    }
+  ],
+  "marketCode": "COMP",
+  "marketCodeDescription": "Complimentary Rate",
+  "paymentAmount": 0,
+  "printRateField": true,
+  "cashierNotes": null,
+  "preferences": null,
+  "cashierComments": null,
+  "reservationComments": [
+    {
+      "note": "Automation test note",
+      "title": "Reservation General Notes",
+      "createDateTime": "2026-07-28 09:21:51.0",
+      "lastModifyDateTime": "2026-07-28 09:21:51.0",
+      "id": "62999274"
+    },
+    {
+      "note": "Automation test note",
+      "title": "Reservation General Notes",
+      "createDateTime": "2026-07-28 09:24:27.0",
+      "lastModifyDateTime": "2026-07-28 09:24:27.0",
+      "id": "62999275"
+    },
+    {
+      "note": "Automation test note",
+      "title": "Reservation General Notes",
+      "createDateTime": "2026-07-28 09:18:36.0",
+      "lastModifyDateTime": "2026-07-28 09:18:36.0",
+      "id": "62999523"
+    },
+    {
+      "note": "Automation test note",
+      "title": "Reservation General Notes",
+      "createDateTime": "2026-07-28 09:28:38.0",
+      "lastModifyDateTime": "2026-07-28 09:28:38.0",
+      "id": "62999524"
+    },
+    {
+      "note": "Automation test note",
+      "title": "Reservation General Notes",
+      "createDateTime": "2026-07-28 09:38:10.0",
+      "lastModifyDateTime": "2026-07-28 09:38:10.0",
+      "id": "62999525"
+    },
+    {
+      "note": "Automation test note",
+      "title": "Reservation General Notes",
+      "createDateTime": "2026-07-28 09:57:49.0",
+      "lastModifyDateTime": "2026-07-28 09:57:49.0",
+      "id": "62999526"
+    },
+    {
+      "note": "Automation test note",
+      "title": "Reservation General Notes",
+      "createDateTime": "2026-07-28 10:00:53.0",
+      "lastModifyDateTime": "2026-07-28 10:00:53.0",
+      "id": "62999527"
+    },
+    {
+      "note": "Automation test note",
+      "title": "Reservation General Notes",
+      "createDateTime": "2026-07-28 10:05:20.0",
+      "lastModifyDateTime": "2026-07-28 10:05:20.0",
+      "id": "62999528"
+    }
+  ],
+  "paymentWindow": "",
+  "isPaymentRequired": false,
+  "packageAmount": 0,
+  "totalPayableAmount": 0,
+  "signUpLoyalty": false,
+  "accompanySignUpLoyalty": false,
+  "packagesEntitled": 0,
+  "packagesEntitledTotal": 0,
+  "packagesConsumed": 0,
+  "exceptionEntitledTotal": 0,
+  "entitledPackagesConsumed": 0,
+  "exceptionPackagesConsumed": 0,
+  "breakFastPostLog": null,
+  "paletteId": "",
+  "bookingSource": "WSBE",
+  "isAcceptedOTABooking": false,
+  "indicators": {
+    "alerts": 0,
+    "packageItem": 1,
+    "fixedCharges": 0
+  },
+  "reservationAlerts": null,
+  "fixedCharges": null,
+  "isBreakfastEnabled": false,
+  "bookingSourceDesc": "CBE (Custom Booking Engine)/brand.com"
+}

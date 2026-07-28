@@ -1,0 +1,1096 @@
+{
+  "data": {
+    "getHotelPreferences": [
+      {
+        "code": "HK SERVI",
+        "createdAt": 1757420120,
+        "createdBy": "",
+        "customAttributes": [],
+        "description": "",
+        "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+        "id": "236856e5-1e2b-4465-ba4a-61ba8215e25e",
+        "isActive": true,
+        "allowMultipleSelection": true,
+        "name": "Housekeeping Services",
+        "preferenceItems": [
+          {
+            "code": "BHR",
+            "description": "Bathrobe",
+            "isActive": true,
+            "name": "Bathrobe"
+          },
+          {
+            "code": "EB",
+            "description": "Extra Bed",
+            "isActive": true,
+            "name": "Extra Bed"
+          },
+          {
+            "code": "EHG",
+            "description": "Extra Hangers",
+            "isActive": true,
+            "name": "Extra Hangers"
+          },
+          {
+            "code": "HAB",
+            "description": "Hypo allergic bedding",
+            "isActive": true,
+            "name": "Hypo allergic bedding"
+          },
+          {
+            "code": "IRO",
+            "description": "Iron & Ironning Board",
+            "isActive": true,
+            "name": "Iron & Ironning Board"
+          },
+          {
+            "code": "MTRT",
+            "description": "Mattress Topper",
+            "isActive": true,
+            "name": "Mattress Topper"
+          },
+          {
+            "code": "NCL",
+            "description": "No Clean",
+            "isActive": true,
+            "name": "No Clean"
+          },
+          {
+            "code": "SCR",
+            "description": "ADA Shower Chair Requested",
+            "isActive": true,
+            "name": "ADA Shower Chair Requested"
+          },
+          {
+            "code": "SLP",
+            "description": "SLIPPERS",
+            "isActive": true,
+            "name": "SLIPPERS"
+          },
+          {
+            "code": "TDR",
+            "description": "Turndown Service Requested",
+            "isActive": true,
+            "name": "Turndown Service Requested"
+          },
+          {
+            "code": "XBL",
+            "description": "Extra Blanket",
+            "isActive": true,
+            "name": "Extra Blanket"
+          },
+          {
+            "code": "XPL",
+            "description": "Extra Pillow",
+            "isActive": true,
+            "name": "Extra Pillow"
+          },
+          {
+            "code": "XTW",
+            "description": "Exttra Towel",
+            "isActive": true,
+            "name": "Exttra Towel"
+          }
+        ],
+        "updatedAt": 1760610273,
+        "updatedBy": "",
+        "version": 2
+      },
+      {
+        "code": "ROOM FEATURES",
+        "createdAt": 1757420120,
+        "createdBy": "",
+        "customAttributes": [],
+        "description": "",
+        "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+        "id": "e78be90b-1bb7-4cd4-a8d5-09dc55edc02b",
+        "isActive": true,
+        "allowMultipleSelection": true,
+        "name": "Room Features",
+        "preferenceItems": [
+          {
+            "code": "1KB",
+            "description": " King Bed",
+            "isActive": true,
+            "name": " King Bed"
+          },
+          {
+            "code": "TWB",
+            "description": "Twin Beds",
+            "isActive": true,
+            "name": "Twin Beds"
+          },
+          {
+            "code": "1SK",
+            "description": "One Sink",
+            "isActive": true,
+            "name": "One Sink"
+          },
+          {
+            "code": "2SK",
+            "description": "Two Sinks",
+            "isActive": true,
+            "name": "Two Sinks"
+          },
+          {
+            "code": "1SH",
+            "description": "One Shower",
+            "isActive": true,
+            "name": "One Shower"
+          },
+          {
+            "code": "2SH",
+            "description": "Two Showers",
+            "isActive": true,
+            "name": "Two Showers"
+          },
+          {
+            "code": "1BA",
+            "description": "Bath",
+            "isActive": true,
+            "name": "Bath"
+          },
+          {
+            "code": "DIS",
+            "description": "Disabled Needs Room",
+            "isActive": true,
+            "name": "Disabled Needs Room"
+          },
+          {
+            "code": "ADJ",
+            "description": "Adjoining Rooms",
+            "isActive": true,
+            "name": "Adjoining Rooms"
+          },
+          {
+            "code": "CNR",
+            "description": "Connecting Room",
+            "isActive": true,
+            "name": "Connecting Room"
+          },
+          {
+            "code": "1BAL",
+            "description": "Balcony",
+            "isActive": true,
+            "name": "Balcony"
+          },
+          {
+            "code": "1TER",
+            "description": "Terrace",
+            "isActive": true,
+            "name": "Terrace"
+          },
+          {
+            "code": "AEL",
+            "description": "Away from Elevator",
+            "isActive": true,
+            "name": "Away from Elevator"
+          },
+          {
+            "code": "NEL",
+            "description": "Near Elevator",
+            "isActive": true,
+            "name": "Near Elevator"
+          },
+          {
+            "code": "NST",
+            "description": "Near Stairs",
+            "isActive": true,
+            "name": "Near Stairs"
+          },
+          {
+            "code": "AST",
+            "description": "Away from Stairs",
+            "isActive": true,
+            "name": "Away from Stairs"
+          },
+          {
+            "code": "LAR",
+            "description": "Living Room Area",
+            "isActive": true,
+            "name": "Living Room Area"
+          },
+          {
+            "code": "COR",
+            "description": "Corner Room",
+            "isActive": true,
+            "name": "Corner Room"
+          },
+          {
+            "code": "1BR",
+            "description": "1 Bedroom",
+            "isActive": true,
+            "name": "1 Bedroom"
+          },
+          {
+            "code": "2BR",
+            "description": "2 Bedroom",
+            "isActive": true,
+            "name": "2 Bedroom"
+          },
+          {
+            "code": "3BR",
+            "description": "3 Bedroom",
+            "isActive": true,
+            "name": "3 Bedroom"
+          },
+          {
+            "code": "KIT",
+            "description": "Kitchen",
+            "isActive": true,
+            "name": "Kitchen"
+          },
+          {
+            "code": "GRF",
+            "description": "Ground Floor Rooms",
+            "isActive": true,
+            "name": "Ground Floor Rooms"
+          },
+          {
+            "code": "VIEW1",
+            "description": "Bay View",
+            "isActive": true,
+            "name": "Bay View"
+          },
+          {
+            "code": "VIEW2",
+            "description": "Sea View",
+            "isActive": true,
+            "name": "Sea View"
+          },
+          {
+            "code": "VIEW3",
+            "description": "Mountain View",
+            "isActive": true,
+            "name": "Mountain View"
+          },
+          {
+            "code": "VIEW4",
+            "description": "Atrium View",
+            "isActive": true,
+            "name": "Atrium View"
+          },
+          {
+            "code": "VIEW5",
+            "description": "Obstructed View ",
+            "isActive": true,
+            "name": "Obstructed View "
+          },
+          {
+            "code": "QUT",
+            "description": "Quiet Room",
+            "isActive": true,
+            "name": "Quiet Room"
+          },
+          {
+            "code": "FEXB",
+            "description": "Fits an Extra Bed",
+            "isActive": true,
+            "name": "Fits an Extra Bed"
+          },
+          {
+            "code": "SFB",
+            "description": "Sofa Bed",
+            "isActive": true,
+            "name": "Sofa Bed"
+          },
+          {
+            "code": "1JT",
+            "description": "One Jacuzzi Tub",
+            "isActive": true,
+            "name": "One Jacuzzi Tub"
+          },
+          {
+            "code": "1QB",
+            "description": "One Queen Bed",
+            "isActive": true,
+            "name": "One Queen Bed"
+          },
+          {
+            "code": "2BAL",
+            "description": "Two Balconies",
+            "isActive": true,
+            "name": "Two Balconies"
+          },
+          {
+            "code": "2QB",
+            "description": "Two Queen Beds",
+            "isActive": true,
+            "name": "Two Queen Beds"
+          },
+          {
+            "code": "2TER",
+            "description": "Two Terraces",
+            "isActive": true,
+            "name": "Two Terraces"
+          },
+          {
+            "code": "4BR",
+            "description": "4 Bedroom",
+            "isActive": true,
+            "name": "4 Bedroom"
+          },
+          {
+            "code": "AQ",
+            "description": "Aqua Venture View",
+            "isActive": true,
+            "name": "Aqua Venture View"
+          },
+          {
+            "code": "BDT",
+            "description": "Bidet Seated",
+            "isActive": true,
+            "name": "Bidet Seated"
+          },
+          {
+            "code": "COU",
+            "description": "Courtyard",
+            "isActive": true,
+            "name": "Courtyard"
+          },
+          {
+            "code": "FIP",
+            "description": "Fire Place",
+            "isActive": true,
+            "name": "Fire Place"
+          },
+          {
+            "code": "ICN",
+            "description": "Interconnecting Rooms",
+            "isActive": true,
+            "name": "Interconnecting Rooms"
+          },
+          {
+            "code": "OBS",
+            "description": "Obstracted View",
+            "isActive": true,
+            "name": "Obstracted View"
+          },
+          {
+            "code": "OC",
+            "description": "Ocean View",
+            "isActive": true,
+            "name": "Ocean View"
+          },
+          {
+            "code": "PB",
+            "description": "Palm Beach View",
+            "isActive": true,
+            "name": "Palm Beach View"
+          },
+          {
+            "code": "PL",
+            "description": "Pool View",
+            "isActive": true,
+            "name": "Pool View"
+          },
+          {
+            "code": "POOL",
+            "description": "Pool",
+            "isActive": true,
+            "name": "Pool"
+          },
+          {
+            "code": "TEL",
+            "description": "Telescrope",
+            "isActive": true,
+            "name": "Telescrope"
+          }
+        ],
+        "updatedAt": 1760610272,
+        "updatedBy": "",
+        "version": 2
+      },
+      {
+        "code": "DIETARY",
+        "createdAt": 1757420120,
+        "createdBy": "",
+        "customAttributes": [],
+        "description": "",
+        "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+        "id": "1c129406-2143-443d-aa6b-7b1d5333e8cd",
+        "isActive": true,
+        "allowMultipleSelection": true,
+        "name": "Dietary",
+        "preferenceItems": [
+          {
+            "code": "JAIN",
+            "description": "Jain Diet",
+            "isActive": true,
+            "name": "Jain Diet"
+          },
+          {
+            "code": "KOSH",
+            "description": "Kosher",
+            "isActive": true,
+            "name": "Kosher"
+          },
+          {
+            "code": "NGLUT",
+            "description": "Gluten free",
+            "isActive": true,
+            "name": "Gluten free"
+          },
+          {
+            "code": "NLACT",
+            "description": "Lactose Free",
+            "isActive": true,
+            "name": "Lactose Free"
+          },
+          {
+            "code": "NNUT",
+            "description": "No Nuts",
+            "isActive": true,
+            "name": "No Nuts"
+          },
+          {
+            "code": "NPORK",
+            "description": "No Pork",
+            "isActive": true,
+            "name": "No Pork"
+          },
+          {
+            "code": "NSEA",
+            "description": "No Seafood",
+            "isActive": true,
+            "name": "No Seafood"
+          },
+          {
+            "code": "OTH",
+            "description": "Others",
+            "isActive": true,
+            "name": "Others"
+          },
+          {
+            "code": "OVOL",
+            "description": "Ovolacto Vegatarian",
+            "isActive": true,
+            "name": "Ovolacto Vegatarian"
+          },
+          {
+            "code": "VEG",
+            "description": "Vegetarian",
+            "isActive": true,
+            "name": "Vegetarian"
+          },
+          {
+            "code": "VEGAN",
+            "description": "Vegan",
+            "isActive": true,
+            "name": "Vegan"
+          }
+        ],
+        "updatedAt": 1760610273,
+        "updatedBy": "",
+        "version": 2
+      },
+      {
+        "code": "FLOOR",
+        "createdAt": 1757420120,
+        "createdBy": "",
+        "customAttributes": [],
+        "description": "",
+        "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+        "id": "49a07d0a-7e18-483f-85ef-b3d081d0c111",
+        "isActive": true,
+        "allowMultipleSelection": false,
+        "name": "Floor",
+        "preferenceItems": [
+          {
+            "code": "00",
+            "description": "Ground Floor",
+            "isActive": true,
+            "name": "Ground Floor"
+          },
+          {
+            "code": "01",
+            "description": "01 - First Floor",
+            "isActive": true,
+            "name": "01 - First Floor"
+          },
+          {
+            "code": "02",
+            "description": "02 - Second Floor",
+            "isActive": true,
+            "name": "02 - Second Floor"
+          },
+          {
+            "code": "03",
+            "description": "03 - Third Floor",
+            "isActive": true,
+            "name": "03 - Third Floor"
+          },
+          {
+            "code": "04",
+            "description": "04 - Fourth Floor",
+            "isActive": true,
+            "name": "04 - Fourth Floor"
+          },
+          {
+            "code": "05",
+            "description": "05 - Fifth Floor",
+            "isActive": true,
+            "name": "05 - Fifth Floor"
+          },
+          {
+            "code": "06",
+            "description": "06 - Sixth Floor",
+            "isActive": true,
+            "name": "06 - Sixth Floor"
+          },
+          {
+            "code": "07",
+            "description": "07 - Seventh Floor",
+            "isActive": true,
+            "name": "07 - Seventh Floor"
+          },
+          {
+            "code": "08",
+            "description": "08 - Eighth Floor",
+            "isActive": true,
+            "name": "08 - Eighth Floor"
+          },
+          {
+            "code": "MZ",
+            "description": "Mezzanine",
+            "isActive": true,
+            "name": "Mezzanine"
+          }
+        ],
+        "updatedAt": 1760610272,
+        "updatedBy": "8a9db762-b4f1-4645-857e-7724c4566e52",
+        "version": 3
+      },
+      {
+        "code": "LAUNDRY",
+        "createdAt": 1757420120,
+        "createdBy": "",
+        "customAttributes": [],
+        "description": "",
+        "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+        "id": "754f6ffe-b1b3-44b7-a5a1-a96968f52890",
+        "isActive": true,
+        "allowMultipleSelection": true,
+        "name": "Laundry",
+        "preferenceItems": [
+          {
+            "code": "ES",
+            "description": "Express Service",
+            "isActive": true,
+            "name": "Express Service"
+          },
+          {
+            "code": "FL",
+            "description": "Folded",
+            "isActive": true,
+            "name": "Folded"
+          },
+          {
+            "code": "OH",
+            "description": "On Hanger",
+            "isActive": true,
+            "name": "On Hanger"
+          },
+          {
+            "code": "RS",
+            "description": "Regular Service",
+            "isActive": true,
+            "name": "Regular Service"
+          }
+        ],
+        "updatedAt": 1760610273,
+        "updatedBy": "",
+        "version": 2
+      },
+      {
+        "code": "MINIBAR OPTIONS",
+        "createdAt": 1757420120,
+        "createdBy": "",
+        "customAttributes": [],
+        "description": "",
+        "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+        "id": "8bff3889-54c9-44fd-92d6-3f5bb34226ce",
+        "isActive": true,
+        "allowMultipleSelection": true,
+        "name": "Minibar Options",
+        "preferenceItems": [
+          {
+            "code": "RAD",
+            "description": "Remove Alcoholic Items",
+            "isActive": true,
+            "name": "Remove Alcoholic Items"
+          },
+          {
+            "code": "RMB",
+            "description": "Remove Mini Bar Items",
+            "isActive": true,
+            "name": "Remove Mini Bar Items"
+          }
+        ],
+        "updatedAt": 1760610272,
+        "updatedBy": "",
+        "version": 2
+      },
+      {
+        "code": "SPECIALS",
+        "createdAt": 1757420120,
+        "createdBy": "",
+        "customAttributes": [],
+        "description": "",
+        "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+        "id": "a2f1d170-5f49-49a0-8013-06331964732b",
+        "isActive": true,
+        "allowMultipleSelection": true,
+        "name": "Specials",
+        "preferenceItems": [
+          {
+            "code": "ADJ",
+            "description": "Adjoining Rooms",
+            "isActive": true,
+            "name": "Adjoining Rooms"
+          },
+          {
+            "code": "ADP",
+            "description": "Adapter",
+            "isActive": true,
+            "name": "Adapter"
+          },
+          {
+            "code": "AFE",
+            "description": "Away from elevator",
+            "isActive": true,
+            "name": "Away from elevator"
+          },
+          {
+            "code": "AMD",
+            "description": "Amenity in Room",
+            "isActive": true,
+            "name": "Amenity in Room"
+          },
+          {
+            "code": "ANN",
+            "description": "Anniversary Celebration",
+            "isActive": true,
+            "name": "Anniversary Celebration"
+          },
+          {
+            "code": "APR",
+            "description": "Air Purifier",
+            "isActive": true,
+            "name": "Air Purifier"
+          },
+          {
+            "code": "ASHR",
+            "description": "Ashtray",
+            "isActive": true,
+            "name": "Ashtray"
+          },
+          {
+            "code": "ATV",
+            "description": "Apple TV",
+            "isActive": true,
+            "name": "Apple TV"
+          },
+          {
+            "code": "BABYBATHT",
+            "description": "Baby Bath Tub",
+            "isActive": true,
+            "name": "Baby Bath Tub"
+          },
+          {
+            "code": "BABYBIN",
+            "description": "Baby Nappy Bin",
+            "isActive": true,
+            "name": "Baby Nappy Bin"
+          },
+          {
+            "code": "BABYFO",
+            "description": "Baby Food Warmer",
+            "isActive": true,
+            "name": "Baby Food Warmer"
+          },
+          {
+            "code": "BABYHCH",
+            "description": "Baby High Chair",
+            "isActive": true,
+            "name": "Baby High Chair"
+          },
+          {
+            "code": "BABYSEC",
+            "description": "Child Secure Top Bed Rail",
+            "isActive": true,
+            "name": "Child Secure Top Bed Rail"
+          },
+          {
+            "code": "BABYST",
+            "description": "Baby Bottle Sterilizer",
+            "isActive": true,
+            "name": "Baby Bottle Sterilizer"
+          },
+          {
+            "code": "BABYSTR",
+            "description": "Baby Stroller 0-4 years",
+            "isActive": true,
+            "name": "Baby Stroller 0-4 years"
+          },
+          {
+            "code": "BAR",
+            "description": "Bed Bar",
+            "isActive": true,
+            "name": "Bed Bar"
+          },
+          {
+            "code": "BDY",
+            "description": "Birthday Celebration",
+            "isActive": true,
+            "name": "Birthday Celebration"
+          },
+          {
+            "code": "BIR",
+            "description": "Birthday",
+            "isActive": true,
+            "name": "Birthday"
+          },
+          {
+            "code": "BNB",
+            "description": "Baby Nappy Bin",
+            "isActive": true,
+            "name": "Baby Nappy Bin"
+          },
+          {
+            "code": "BUM",
+            "description": "Bucket & Mug",
+            "isActive": true,
+            "name": "Bucket & Mug"
+          },
+          {
+            "code": "BYBLKT",
+            "description": "Baby Blanket",
+            "isActive": true,
+            "name": "Baby Blanket"
+          },
+          {
+            "code": "BYC",
+            "description": "Baby Crib",
+            "isActive": true,
+            "name": "Baby Crib"
+          },
+          {
+            "code": "BYPAD",
+            "description": "Baby Changing Pad",
+            "isActive": true,
+            "name": "Baby Changing Pad"
+          },
+          {
+            "code": "BYPIL",
+            "description": "Baby Pillow",
+            "isActive": true,
+            "name": "Baby Pillow"
+          },
+          {
+            "code": "BYSEAT",
+            "description": "Baby Potty",
+            "isActive": true,
+            "name": "Baby Potty"
+          },
+          {
+            "code": "COP",
+            "description": "Complimentary Upgrade",
+            "isActive": true,
+            "name": "Complimentary Upgrade"
+          },
+          {
+            "code": "COR",
+            "description": "Corner Room",
+            "isActive": true,
+            "name": "Corner Room"
+          },
+          {
+            "code": "CRB",
+            "description": "Crib Requested",
+            "isActive": true,
+            "name": "Crib Requested"
+          },
+          {
+            "code": "DIS",
+            "description": "Disabled Needs Room",
+            "isActive": true,
+            "name": "Disabled Needs Room"
+          },
+          {
+            "code": "EAR",
+            "description": "Early Check-In Requested",
+            "isActive": true,
+            "name": "Early Check-In Requested"
+          },
+          {
+            "code": "ECG",
+            "description": "Early Check In Guaranteed",
+            "isActive": true,
+            "name": "Early Check In Guaranteed"
+          },
+          {
+            "code": "EXB",
+            "description": "Rollaway Bed",
+            "isActive": true,
+            "name": "Rollaway Bed"
+          },
+          {
+            "code": "EXC",
+            "description": "Extension Cord",
+            "isActive": true,
+            "name": "Extension Cord"
+          },
+          {
+            "code": "FLWV",
+            "description": "Flower Vase",
+            "isActive": true,
+            "name": "Flower Vase"
+          },
+          {
+            "code": "FPW",
+            "description": "Pillows",
+            "isActive": true,
+            "name": "Pillows"
+          },
+          {
+            "code": "HDMI",
+            "description": "HDMI Cable",
+            "isActive": true,
+            "name": "HDMI Cable"
+          },
+          {
+            "code": "HEAT",
+            "description": "Heater",
+            "isActive": true,
+            "name": "Heater"
+          },
+          {
+            "code": "HMY",
+            "description": "Honeymoon",
+            "isActive": true,
+            "name": "Honeymoon"
+          },
+          {
+            "code": "HUMID",
+            "description": "Humidifier",
+            "isActive": true,
+            "name": "Humidifier"
+          },
+          {
+            "code": "HWB",
+            "description": "Hot Water Bag",
+            "isActive": true,
+            "name": "Hot Water Bag"
+          },
+          {
+            "code": "KDSTND",
+            "description": "kandura stand",
+            "isActive": true,
+            "name": "kandura stand"
+          },
+          {
+            "code": "LAR",
+            "description": "Late Arrival",
+            "isActive": true,
+            "name": "Late Arrival"
+          },
+          {
+            "code": "LCG",
+            "description": "Late Check Out Guaranteed",
+            "isActive": true,
+            "name": "Late Check Out Guaranteed"
+          },
+          {
+            "code": "LCR",
+            "description": "Late Check Out Request",
+            "isActive": true,
+            "name": "Late Check Out Request"
+          },
+          {
+            "code": "MEDP",
+            "description": "Medical Pillow",
+            "isActive": true,
+            "name": "Medical Pillow"
+          },
+          {
+            "code": "MEM",
+            "description": "Empty Minibar",
+            "isActive": true,
+            "name": "Empty Minibar"
+          },
+          {
+            "code": "MICW",
+            "description": "Microwave",
+            "isActive": true,
+            "name": "Microwave"
+          },
+          {
+            "code": "MRA",
+            "description": "Remove Alcohol from minibar",
+            "isActive": true,
+            "name": "Remove Alcohol from minibar"
+          },
+          {
+            "code": "MUSIC",
+            "description": "Music",
+            "isActive": true,
+            "name": "Music"
+          },
+          {
+            "code": "NTE",
+            "description": "Next to Elevator",
+            "isActive": true,
+            "name": "Next to Elevator"
+          },
+          {
+            "code": "PHSS",
+            "description": "Shower chair",
+            "isActive": true,
+            "name": "Shower chair"
+          },
+          {
+            "code": "PHTB",
+            "description": "Toilet Safety Frame",
+            "isActive": true,
+            "name": "Toilet Safety Frame"
+          },
+          {
+            "code": "PLUG",
+            "description": "Baby Safety Plugs",
+            "isActive": true,
+            "name": "Baby Safety Plugs"
+          },
+          {
+            "code": "PRG",
+            "description": "Pre-Registration",
+            "isActive": true,
+            "name": "Pre-Registration"
+          },
+          {
+            "code": "QR",
+            "description": "Quran",
+            "isActive": true,
+            "name": "Quran"
+          },
+          {
+            "code": "REFRI",
+            "description": "Refrigertor",
+            "isActive": true,
+            "name": "Refrigertor"
+          },
+          {
+            "code": "SP",
+            "description": "Special Pillow",
+            "isActive": true,
+            "name": "Special Pillow"
+          },
+          {
+            "code": "SPE",
+            "description": "Special Occasion",
+            "isActive": true,
+            "name": "Special Occasion"
+          },
+          {
+            "code": "STEP",
+            "description": "Stepstool",
+            "isActive": true,
+            "name": "Stepstool"
+          },
+          {
+            "code": "SYND",
+            "description": "Syntetic Duvet",
+            "isActive": true,
+            "name": "Syntetic Duvet"
+          },
+          {
+            "code": "SYNP",
+            "description": "Syntetic Pillow",
+            "isActive": true,
+            "name": "Syntetic Pillow"
+          },
+          {
+            "code": "TA",
+            "description": "Transportation",
+            "isActive": true,
+            "name": "Transportation"
+          },
+          {
+            "code": "TFAN",
+            "description": "Tower Fan",
+            "isActive": true,
+            "name": "Tower Fan"
+          },
+          {
+            "code": "UPG",
+            "description": "Upgrade Request",
+            "isActive": true,
+            "name": "Upgrade Request"
+          },
+          {
+            "code": "VRG",
+            "description": "Virtuoso/FHR guest",
+            "isActive": true,
+            "name": "Virtuoso/FHR guest"
+          },
+          {
+            "code": "WDA",
+            "description": "Wedding anniversary",
+            "isActive": true,
+            "name": "Wedding anniversary"
+          },
+          {
+            "code": "WHL",
+            "description": "Wheelchair",
+            "isActive": true,
+            "name": "Wheelchair"
+          },
+          {
+            "code": "XLG",
+            "description": "Extra Luggage Rack",
+            "isActive": true,
+            "name": "Extra Luggage Rack"
+          },
+          {
+            "code": "YM",
+            "description": "Yoga Mat",
+            "isActive": true,
+            "name": "Yoga Mat"
+          }
+        ],
+        "updatedAt": 1760610273,
+        "updatedBy": "",
+        "version": 2
+      },
+      {
+        "code": "SMOKING",
+        "createdAt": 1757420120,
+        "createdBy": "",
+        "customAttributes": [],
+        "description": "",
+        "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+        "id": "b3252227-cc50-42a1-960b-5e4e05afcb1a",
+        "isActive": true,
+        "allowMultipleSelection": true,
+        "name": "Non-Smoking\\Smoking Preference",
+        "preferenceItems": [
+          {
+            "code": "NS",
+            "description": "Non-Smoking Room",
+            "isActive": true,
+            "name": "Non-Smoking Room"
+          },
+          {
+            "code": "S",
+            "description": "Smoking Room",
+            "isActive": true,
+            "name": "Smoking Room"
+          }
+        ],
+        "updatedAt": 1760610273,
+        "updatedBy": "",
+        "version": 2
+      }
+    ]
+  }
+}
