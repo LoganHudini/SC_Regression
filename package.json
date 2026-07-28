@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@types/crypto-js": "^4.2.2",
+    "axios": "^1.18.1",
     "crypto-js": "^4.2.0"
   }
 }

@@ -20,6 +20,8 @@ export default defineConfig({
     ['list'],
     ['html', { outputFolder: 'playwright-report', open: 'never' }],
     ['allure-playwright'],
+    ['./teams-reporter.ts'],
+    ['json', { outputFile: 'test-results/results.json' }],
   ],
   projects: [
     {
