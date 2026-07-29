@@ -62,7 +62,8 @@ export interface GuestActivityBookingResponse {
 
 export interface GuestActivityBookingParams {
   hotelId: string;
-  bearerToken: string;
+  apiKey?: string;
+  bearerToken?: string;
   arrivalDate: string;
   confirmationId?: string;
   departureDate?: string;
@@ -120,6 +121,7 @@ export class GetGuestActivityBookings extends BaseApiHelper {
   async fetchGuestActivityBookings(params: GuestActivityBookingParams): Promise<GuestActivityBookingResponse> {
     const {
       hotelId,
+      apiKey,
       bearerToken,
       arrivalDate,
       confirmationId = '',
@@ -136,13 +138,40 @@ export class GetGuestActivityBookings extends BaseApiHelper {
     const testData = loadTestData();
     const endpoint = apiUrl || testData.AGGREGATED_BOOKING_API_URL || 'https://dbbaobb5gfbvbjd3twuw47hypq.appsync-api.ap-south-1.amazonaws.com/graphql';
 
-    if (!bearerToken) {
-      throw new Error('bearerToken is required for guest activity bookings API. Set AUTH_BEARER_TOKEN in env or test data.');
+    const authKey = apiKey || testData.API_KEY || bearerToken || testData.AUTH_BEARER_TOKEN;
+    
+    if (!authKey) {
+      throw new Error('API key or bearer token is required for guest activity bookings API. Set API_KEY or AUTH_BEARER_TOKEN in env or test data.');
     }
 
-    const normalizedToken = bearerToken.trim().startsWith('Bearer ')
-      ? bearerToken.trim()
-      : `Bearer ${bearerToken.trim()}`;
+    const useApiKey = apiKey || testData.API_KEY;
+    const headers: Record<string, string> = {
+      accept: '*/*',
+      'accept-language': 'en-US,en;q=0.9',
+      channel: 'STAFF_CONNECT',
+      'content-type': 'application/json',
+      origin: 'https://staff-copilot.hudinielevate-stage.io',
+      priority: 'u=1, i',
+      referer: 'https://staff-copilot.hudinielevate-stage.io/',
+      'sec-ch-ua': '"Google Chrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"',
+      'sec-ch-ua-mobile': '?0',
+      'sec-ch-ua-platform': '"Windows"',
+      'sec-fetch-dest': 'empty',
+      'sec-fetch-mode': 'cors',
+      'sec-fetch-site': 'cross-site',
+      'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36',
+    };
+
+    if (useApiKey) {
+      headers['x-api-key'] = authKey.trim();
+      console.log('Using x-api-key header with API key:', authKey.substring(0, 50) + '...');
+    } else {
+      const normalizedToken = authKey.trim().startsWith('Bearer ')
+        ? authKey.trim()
+        : `Bearer ${authKey.trim()}`;
+      headers['Authorization'] = normalizedToken;
+      console.log('Using Authorization header with Bearer token:', normalizedToken.substring(0, 50) + '...');
+    }
 
     const requestBody = JSON.stringify({
       operationName: 'getGuestActivityBookings',
@@ -162,32 +191,25 @@ export class GetGuestActivityBookings extends BaseApiHelper {
     });
 
     const response = await this.request.post(endpoint, {
-      headers: {
-        accept: '*/*',
-        'accept-language': 'en-US,en;q=0.9',
-        Authorization: normalizedToken,
-        channel: 'STAFF_CONNECT',
-        'content-type': 'application/json',
-        origin: 'https://staff-copilot.hudinielevate-stage.io',
-        priority: 'u=1, i',
-        referer: 'https://staff-copilot.hudinielevate-stage.io/',
-        'sec-ch-ua': '"Google Chrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'cross-site',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36',
-      },
+      headers,
       data: requestBody,
     });
 
+    const responseText = await response.text();
+    
     if (!response.ok()) {
-      const errorBody = await response.text();
-      throw new Error(`Guest activity bookings API failed with status ${response.status()}: ${errorBody}`);
+      console.error('API Error Response:', responseText);
+      throw new Error(`Guest activity bookings API failed with status ${response.status()}: ${responseText}`);
     }
 
-    const responseBody = await response.json();
+    let responseBody;
+    try {
+      responseBody = JSON.parse(responseText);
+    } catch (e) {
+      console.error('Failed to parse API response as JSON:', responseText);
+      throw new Error(`Failed to parse API response as JSON: ${e}`);
+    }
+    
     await this.saveResponseToFile(responseBody, 'guestActivityBookings.json');
 
     return responseBody as GuestActivityBookingResponse;

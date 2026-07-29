@@ -1,107 +1,11 @@
 {
   "data": {
     "getGuestActivityBookings": {
-      "guests": [
-        {
-          "room": "3203",
-          "confirmationId": "281387527",
-          "nationality": "",
-          "mobile": "+97167878786",
-          "lastName": "warad",
-          "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
-          "gender": "",
-          "firstName": "Vivek",
-          "email": "sudheer.m@hudini.io",
-          "dob": "1996-08-14",
-          "departureDate": "2026-07-29",
-          "country": "IN",
-          "arrivalDate": "2026-07-28",
-          "activities": [
-            {
-              "activityId": "15d57b93-b3e0-4920-b00b-39f9775af47a",
-              "bookingId": "a4ed5374-b5c5-4029-9269-a9cd283cdbb2",
-              "categoryId": "ca150383-8eae-406f-9ac8-582878870f70",
-              "location": "HOTEL",
-              "priceType": "Paid",
-              "seats": 1,
-              "slotId": "20260728#15:45#16:45",
-              "status": "Confirmed",
-              "venue": null
-            }
-          ]
-        },
-        {
-          "room": "2105",
-          "confirmationId": "281389171",
-          "nationality": "",
-          "mobile": "+919887383838",
-          "lastName": "aarti verma",
-          "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
-          "gender": "",
-          "firstName": "aarti",
-          "email": "sudheer.m@hudini.io",
-          "dob": "1999-11-30",
-          "departureDate": "2026-07-29",
-          "country": "IN",
-          "arrivalDate": "2026-07-28",
-          "activities": [
-            {
-              "activityId": "15d57b93-b3e0-4920-b00b-39f9775af47a",
-              "bookingId": "96994b7a-be38-46e5-a4f0-849d7af50193",
-              "categoryId": "ca150383-8eae-406f-9ac8-582878870f70",
-              "location": "HOTEL",
-              "priceType": "Paid",
-              "seats": 1,
-              "slotId": "20260728#17:00#18:15",
-              "status": "Confirmed",
-              "venue": null
-            }
-          ]
-        },
-        {
-          "room": "",
-          "confirmationId": "281392834",
-          "nationality": "",
-          "mobile": "+91 96253-68521",
-          "lastName": "MADHESH",
-          "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
-          "gender": "",
-          "firstName": "LOGANATHAN",
-          "email": "logan@yopmail.com",
-          "dob": "",
-          "departureDate": "2026-07-29",
-          "country": "",
-          "arrivalDate": "2026-07-28",
-          "activities": [
-            {
-              "activityId": "15d57b93-b3e0-4920-b00b-39f9775af47a",
-              "bookingId": "79ec69e7-245a-40fb-b76c-e032bfb9cfa8",
-              "categoryId": "ca150383-8eae-406f-9ac8-582878870f70",
-              "location": "HOTEL",
-              "priceType": "Paid",
-              "seats": 1,
-              "slotId": "20260728#15:45#16:45",
-              "status": "Confirmed",
-              "venue": null
-            },
-            {
-              "activityId": "15d57b93-b3e0-4920-b00b-39f9775af47a",
-              "bookingId": "ffa6bfd6-49d7-4448-ad1e-ac04e7847786",
-              "categoryId": "ca150383-8eae-406f-9ac8-582878870f70",
-              "location": "HOTEL",
-              "priceType": "Paid",
-              "seats": 1,
-              "slotId": "20260728#17:00#18:15",
-              "status": "Confirmed",
-              "venue": null
-            }
-          ]
-        }
-      ],
+      "guests": null,
       "nextToken": "",
-      "currentPage": 1,
-      "totalRecords": 3,
-      "totalPages": 1
+      "currentPage": 0,
+      "totalRecords": 0,
+      "totalPages": 0
     }
   }
 }
