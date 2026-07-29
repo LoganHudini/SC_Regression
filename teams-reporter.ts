@@ -9,8 +9,14 @@ import axios from 'axios';
 import path from 'path';
 import dotenv from 'dotenv';
 
+<<<<<<< HEAD
 // Load environment variables from .env file
 dotenv.config();
+=======
+// Load env vars from .env first, then .env.local so local overrides are applied.
+dotenv.config({ path: path.resolve(process.cwd(), '.env') });
+dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
+>>>>>>> 214c4e1e (Added Teams webhook integration and getGuestActivityBookings)
 
 type ModuleStats = { name: string; passed: number; failed: number };
 
@@ -18,7 +24,10 @@ function buildTestSummaryCard(payload: {
     project: string;
     environment: string;
     triggeredBy: string;
+<<<<<<< HEAD
     runTime: string;
+=======
+>>>>>>> 214c4e1e (Added Teams webhook integration and getGuestActivityBookings)
     executionTime: string;
     total: number;
     passed: number;
@@ -29,6 +38,7 @@ function buildTestSummaryCard(payload: {
     modules: ModuleStats[];
 }) {
     return {
+<<<<<<< HEAD
         runTime: payload.runTime,
         total: payload.total,
         passed: payload.passed,
@@ -36,15 +46,21 @@ function buildTestSummaryCard(payload: {
         skipped: payload.skipped,
         flaky: payload.flaky,
         reportUrl: payload.reportUrl,
+=======
+>>>>>>> 214c4e1e (Added Teams webhook integration and getGuestActivityBookings)
         type: 'message',
         attachments: [
             {
                 contentType: 'application/vnd.microsoft.card.adaptive',
+<<<<<<< HEAD
                 contentUrl: null,
+=======
+>>>>>>> 214c4e1e (Added Teams webhook integration and getGuestActivityBookings)
                 content: {
                     $schema: 'http://adaptivecards.io/schemas/adaptive-card.json',
                     type: 'AdaptiveCard',
                     version: '1.4',
+<<<<<<< HEAD
                     msteams: {
                         width: 'Full'
                     },
@@ -54,10 +70,19 @@ function buildTestSummaryCard(payload: {
                             size: 'Large',
                             weight: 'Bolder',
                             text: '✅ StaffConnect - Test Execution Summary',
+=======
+                    body: [
+                        {
+                            type: 'TextBlock',
+                            text: 'StaffConnect Test Execution Summary',
+                            weight: 'Bolder',
+                            size: 'Large',
+>>>>>>> 214c4e1e (Added Teams webhook integration and getGuestActivityBookings)
                             wrap: true
                         },
                         {
                             type: 'TextBlock',
+<<<<<<< HEAD
                             spacing: 'None',
                             text: `Project: *${payload.project}*`,
                             wrap: true
@@ -79,6 +104,11 @@ function buildTestSummaryCard(payload: {
                             spacing: 'Small',
                             text: `Execution Time: \`${payload.executionTime}\``,
                             isSubtle: true,
+=======
+                            text: `Run completed at ${payload.executionTime}`,
+                            isSubtle: true,
+                            spacing: 'None',
+>>>>>>> 214c4e1e (Added Teams webhook integration and getGuestActivityBookings)
                             wrap: true
                         },
                         {
@@ -89,38 +119,59 @@ function buildTestSummaryCard(payload: {
                                     type: 'Column',
                                     width: 'stretch',
                                     items: [
+<<<<<<< HEAD
                                         { type: 'TextBlock', weight: 'Bolder', text: 'Total', wrap: true },
                                         { type: 'TextBlock', text: `${payload.total}`, wrap: true }
+=======
+                                        { type: 'TextBlock', text: 'Passed', weight: 'Bolder', wrap: true },
+                                        { type: 'TextBlock', text: `${payload.passed}`, size: 'ExtraLarge', color: 'Good', weight: 'Bolder', wrap: true }
+>>>>>>> 214c4e1e (Added Teams webhook integration and getGuestActivityBookings)
                                     ]
                                 },
                                 {
                                     type: 'Column',
                                     width: 'stretch',
                                     items: [
+<<<<<<< HEAD
                                         { type: 'TextBlock', weight: 'Bolder', color: 'Good', text: 'Passed', wrap: true },
                                         { type: 'TextBlock', color: 'Good', text: `${payload.passed}`, wrap: true }
+=======
+                                        { type: 'TextBlock', text: 'Failed', weight: 'Bolder', wrap: true },
+                                        { type: 'TextBlock', text: `${payload.failed}`, size: 'ExtraLarge', color: 'Attention', weight: 'Bolder', wrap: true }
+>>>>>>> 214c4e1e (Added Teams webhook integration and getGuestActivityBookings)
                                     ]
                                 },
                                 {
                                     type: 'Column',
                                     width: 'stretch',
                                     items: [
+<<<<<<< HEAD
                                         { type: 'TextBlock', weight: 'Bolder', color: 'Warning', text: 'Failed', wrap: true },
                                         { type: 'TextBlock', color: 'Warning', text: `${payload.failed}`, wrap: true }
+=======
+                                        { type: 'TextBlock', text: 'Skipped', weight: 'Bolder', wrap: true },
+                                        { type: 'TextBlock', text: `${payload.skipped}`, size: 'ExtraLarge', color: 'Warning', weight: 'Bolder', wrap: true }
+>>>>>>> 214c4e1e (Added Teams webhook integration and getGuestActivityBookings)
                                     ]
                                 },
                                 {
                                     type: 'Column',
                                     width: 'stretch',
                                     items: [
+<<<<<<< HEAD
                                         { type: 'TextBlock', weight: 'Bolder', color: 'Attention', text: 'Skipped', wrap: true },
                                         { type: 'TextBlock', color: 'Attention', text: `${payload.skipped}`, wrap: true }
+=======
+                                        { type: 'TextBlock', text: 'Flaky', weight: 'Bolder', wrap: true },
+                                        { type: 'TextBlock', text: `${payload.flaky}`, size: 'ExtraLarge', color: 'Accent', weight: 'Bolder', wrap: true }
+>>>>>>> 214c4e1e (Added Teams webhook integration and getGuestActivityBookings)
                                     ]
                                 }
                             ]
                         },
                         {
                             type: 'TextBlock',
+<<<<<<< HEAD
                             spacing: 'Medium',
                             text: '**Modules Summary**',
                             wrap: true
@@ -134,6 +185,23 @@ function buildTestSummaryCard(payload: {
                         }
                     ]
                     // 🔥 No actions[] here — Buttons removed completely
+=======
+                            text: `Total tests: ${payload.total}`,
+                            spacing: 'Medium',
+                            weight: 'Bolder',
+                            wrap: true
+                        }
+                    ],
+                    actions: payload.reportUrl
+                        ? [
+                              {
+                                  type: 'Action.OpenUrl',
+                                  title: 'Open HTML Report',
+                                  url: payload.reportUrl
+                              }
+                          ]
+                        : []
+>>>>>>> 214c4e1e (Added Teams webhook integration and getGuestActivityBookings)
                 }
             }
         ]
@@ -157,6 +225,7 @@ class TeamsReporter implements Reporter {
         'Playwright';
 
     onBegin(config: FullConfig, suite: Suite) {
+<<<<<<< HEAD
         //this.projectName = config.projects.map(p => p.name).join(', ') || 'Playwright Tests';
         console.log(`TeamsReporter: starting run for projects: ${this.projectName}`);
     }
@@ -177,11 +246,33 @@ class TeamsReporter implements Reporter {
         const current = this.modules.get(moduleName) || { passed: 0, failed: 0 };
         if (result.status === 'passed') current.passed++;
         if (result.status === 'failed') current.failed++;
+=======
+        console.log(`TeamsReporter: starting run for ${this.projectName}`);
+    }
+
+    onTestEnd(test: TestCase, result: TestResult) {
+        this.total += 1;
+        if (result.status === 'passed') this.passed += 1;
+        else if (result.status === 'failed') this.failed += 1;
+        else this.skipped += 1;
+
+        if (result.retry > 0) this.flaky += 1;
+
+        const file = test.location.file;
+        const moduleName = path.basename(file).replace(/\.(ts|tsx|js|jsx)$/, '').replace('.spec', '');
+        const current = this.modules.get(moduleName) || { passed: 0, failed: 0 };
+        if (result.status === 'passed') current.passed += 1;
+        if (result.status === 'failed') current.failed += 1;
+>>>>>>> 214c4e1e (Added Teams webhook integration and getGuestActivityBookings)
         this.modules.set(moduleName, current);
     }
 
     async onEnd() {
         const webhookUrl = process.env.TEAMS_WEBHOOK_URL;
+<<<<<<< HEAD
+=======
+        console.log('TeamsReporter: process.env.TEAMS_WEBHOOK_URL=', process.env.TEAMS_WEBHOOK_URL);
+>>>>>>> 214c4e1e (Added Teams webhook integration and getGuestActivityBookings)
         if (!webhookUrl) {
             console.warn('TeamsReporter: TEAMS_WEBHOOK_URL is not set, skipping Teams notification.');
             return;
@@ -192,6 +283,10 @@ class TeamsReporter implements Reporter {
             dateStyle: 'medium',
             timeStyle: 'long'
         }).format(new Date());
+<<<<<<< HEAD
+=======
+
+>>>>>>> 214c4e1e (Added Teams webhook integration and getGuestActivityBookings)
         const reportUrl = process.env.PLAYWRIGHT_REPORT_URL || '';
         const modulesSummary: ModuleStats[] = Array.from(this.modules.entries()).map(
             ([name, stats]) => ({ name, ...stats })
@@ -201,7 +296,10 @@ class TeamsReporter implements Reporter {
             project: this.projectName,
             environment: this.environment,
             triggeredBy: this.triggeredBy,
+<<<<<<< HEAD
             runTime: executionTime,
+=======
+>>>>>>> 214c4e1e (Added Teams webhook integration and getGuestActivityBookings)
             executionTime,
             total: this.total,
             passed: this.passed,
@@ -213,14 +311,45 @@ class TeamsReporter implements Reporter {
         });
 
         try {
+<<<<<<< HEAD
             const resp = await axios.post(webhookUrl, cardPayload, {
                 headers: { 'Content-Type': 'application/json' }
             });
             console.log('TeamsReporter: sent summary to Teams:', resp.status, resp.statusText);
         } catch (err: any) {
             console.error('TeamsReporter: failed to send to Teams:', err.response?.data || err.message);
+=======
+            const trimmedWebhook = webhookUrl?.trim();
+            console.log('TeamsReporter: webhook url =', trimmedWebhook);
+            console.log('TeamsReporter: payload summary', {
+                total: this.total,
+                passed: this.passed,
+                failed: this.failed,
+                skipped: this.skipped,
+                flaky: this.flaky,
+                modules: modulesSummary
+            });
+            const res = await axios.post(trimmedWebhook, cardPayload, {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                timeout: 10000
+            });
+            console.log('TeamsReporter: sent to Teams, status=', res.status, 'data=', JSON.stringify(res.data).slice(0,2000));
+        } catch (error: any) {
+            console.error('TeamsReporter: failed to send to Teams:', error?.response?.data || error?.message || error);
+            try {
+                console.error('TeamsReporter: payload (truncated)=', JSON.stringify(cardPayload).slice(0, 2000));
+            } catch (e) {
+                console.error('TeamsReporter: failed to stringify payload', e);
+            }
+>>>>>>> 214c4e1e (Added Teams webhook integration and getGuestActivityBookings)
         }
     }
 }
 
+<<<<<<< HEAD
 export default TeamsReporter;
+=======
+export default TeamsReporter;
+>>>>>>> 214c4e1e (Added Teams webhook integration and getGuestActivityBookings)

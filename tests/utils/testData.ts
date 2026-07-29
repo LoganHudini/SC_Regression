@@ -11,6 +11,30 @@ export interface TestData {
   LAST_NAME?: string;
   APP_CONFIG_API_KEY?: string;
   NEXT_PUBLIC_SECRET_KEY?: string;
+<<<<<<< HEAD
+=======
+  SIDECAR_URL?: string;
+  SIDECAR_DEVICE?: string;
+  RESERVATION_NOTE?: string;
+  PHONE_NUMBER?: string;
+  ADDL1?: string;
+  ADDL2?: string;
+  CITY?: string;
+  STATE?: string;
+  PLACEOFISSUE?: string;
+  POSTALCODE?: string;
+  USER_ID?: string;
+  PROPERTY_DETAILS_API_URL?: string;
+  USER_BY_ID_API_URL?: string;
+  AGGREGATED_BOOKING_API_URL?: string;
+  AUTH_BEARER_TOKEN?: string;
+  ARRIVAL_DATE?: string;
+  DEPARTURE_DATE?: string;
+  FIRST_NAME?: string;
+  LAST_NAME?: string;
+  SEARCH_TEXT?: string;
+  SORT?: string;
+>>>>>>> 214c4e1e (Added Teams webhook integration and getGuestActivityBookings)
 }
 
 export function loadTestData(): TestData {

@@ -1,0 +1,155 @@
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "10f7ed7f-9cd0-42d2-bcf9-244926b87810",
+      "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+      "code": "17",
+      "name": "Weekend Escape",
+      "description": "Weekend Escape",
+      "cost": 1500,
+      "unit": "per trip",
+      "maxQuantity": {
+        "status": "active",
+        "maxQuantityValue": 1
+      },
+      "isActive": true,
+      "currency": "AED"
+    },
+    {
+      "id": "283f4ee6-2848-45ce-837f-d0d5f709a04f",
+      "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+      "code": "17",
+      "name": "Traditional wine",
+      "description": "Wine making in traditional format",
+      "cost": 1200,
+      "unit": "Per Bottle",
+      "maxQuantity": {
+        "status": "inactive",
+        "maxQuantityValue": 1
+      },
+      "isActive": true,
+      "currency": "AED"
+    },
+    {
+      "id": "2e6ce7eb-6f27-404d-9e06-fecfea06a36f",
+      "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+      "code": "17",
+      "name": "Decorate room",
+      "description": "34",
+      "cost": 345,
+      "unit": "per room",
+      "maxQuantity": {
+        "status": "inactive",
+        "maxQuantityValue": 1
+      },
+      "isActive": true,
+      "currency": "AED"
+    },
+    {
+      "id": "6ef1e981-4af7-408f-ac3d-37b572bb9b10",
+      "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+      "code": "17",
+      "name": "early checkout",
+      "description": "aa",
+      "cost": 311,
+      "unit": "4",
+      "maxQuantity": {
+        "status": "active",
+        "maxQuantityValue": 3
+      },
+      "isActive": true,
+      "currency": "AED"
+    },
+    {
+      "id": "7fe19936-ade2-43c2-b04b-aaecf6b4db87",
+      "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+      "code": "19",
+      "name": "Relaxation Getaway",
+      "description": "Relaxation Getaway",
+      "cost": 1800,
+      "unit": "per trip",
+      "maxQuantity": {
+        "status": "active",
+        "maxQuantityValue": 1
+      },
+      "isActive": true,
+      "currency": "AED"
+    },
+    {
+      "id": "9ef92f27-3d0c-478f-8905-a6dd71693a8b",
+      "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+      "code": "123",
+      "name": "Sanitize the room",
+      "description": "test",
+      "cost": 950,
+      "unit": "Per head",
+      "maxQuantity": {
+        "status": "active",
+        "maxQuantityValue": 5
+      },
+      "isActive": true,
+      "currency": "AED"
+    },
+    {
+      "id": "b38c063b-5f9d-4870-ae13-51bb34c0af10",
+      "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+      "code": "CIN",
+      "name": "Premium Personalized Luxury Guest Arrival Welcome Experience Package with Complimentary Amenities.",
+      "description": "Family Vacation",
+      "cost": 2500,
+      "unit": "per person",
+      "maxQuantity": {
+        "status": "active",
+        "maxQuantityValue": 2
+      },
+      "isActive": true,
+      "currency": "AED"
+    },
+    {
+      "id": "b6c86b60-877a-4427-a280-160e78cebb04",
+      "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+      "code": "13",
+      "name": "Traditional wine",
+      "description": "des",
+      "cost": 800,
+      "unit": "Per Bottle",
+      "maxQuantity": {
+        "status": "active",
+        "maxQuantityValue": 1
+      },
+      "isActive": true,
+      "currency": "AED"
+    },
+    {
+      "id": "b94fc35a-05ad-4b16-acef-71b74da4e818",
+      "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+      "code": "1234",
+      "name": "Decorate my bed",
+      "description": "T",
+      "cost": 67,
+      "unit": "Per bed",
+      "maxQuantity": {
+        "status": "active",
+        "maxQuantityValue": 2
+      },
+      "isActive": true,
+      "currency": "AED"
+    },
+    {
+      "id": "ca542d22-cf4d-486a-b47b-75e4dfa92073",
+      "hotelId": "cfd3a924-b3c4-48b8-b5ca-1e390c1dda04",
+      "code": "17",
+      "name": "Check-in early at 9 AM",
+      "description": "Check-in early at 9 AM",
+      "cost": 50,
+      "unit": "Per Bottle",
+      "maxQuantity": {
+        "status": "active",
+        "maxQuantityValue": 1
+      },
+      "isActive": true,
+      "currency": "AED"
+    }
+  ]
+}
