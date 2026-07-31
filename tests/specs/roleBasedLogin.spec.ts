@@ -84,7 +84,7 @@ test.describe('Role-Based Login Tests', () => {
     }
   });
 
-  test.only('Scenario_002: Verify that the user with front desk staff can access the guests section', async ({ browser }) => {
+  test('Scenario_002: Verify that the user with front desk staff can access the guests section', async ({ browser }) => {
     try {
       test.setTimeout(120000);
 
