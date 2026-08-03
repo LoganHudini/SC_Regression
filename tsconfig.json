@@ -21,16 +21,15 @@
     "types": [
       "node"
     ],
-    "baseUrl": ".",
     "paths": {
       "@styles/*": [
-        "styles/*"
+        "./styles/*"
       ],
       "@icons/*": [
-        "assets/icons/*"
+        "./assets/icons/*"
       ],
       "@jsons/*": [
-        "assets/jsons/*"
+        "./assets/jsons/*"
       ],
       "react": [
         "./node_modules/@types/react"
@@ -51,4 +50,5 @@
   "exclude": [
     "node_modules"
   ]
+  
 }

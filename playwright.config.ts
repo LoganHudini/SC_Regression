@@ -21,6 +21,7 @@ export default defineConfig({
     ['html', { outputFolder: 'playwright-report', open: 'never' }],
     ['./teams-reporter.ts'],
     ['allure-playwright'],
+    ['json', { outputFile: 'test-results/results.json' }],
   ],
   projects: [
     {
