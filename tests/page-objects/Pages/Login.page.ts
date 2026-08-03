@@ -1,10 +1,12 @@
 import { Page, expect, Locator } from '@playwright/test';
 import { StaffConnectPage } from './StaffConnect.page';
 import { SidecarPage } from './ScSidecar.page';
+import { ElementActions } from '../../utils/ElementActions';
 
 export class LoginPage {
   private staffConnectPage: StaffConnectPage;
   private sidecarPage: SidecarPage;
+  private elementActions: ElementActions;
 
   //  Delete icon locator
   deleteDeviceIcon: Locator;
@@ -12,11 +14,16 @@ export class LoginPage {
   // Confirm button locator for delete confirmation popup
   confirmButton: Locator;
 
+  // Activities module locator
+  activitiesModule: Locator;
+
   constructor(private page: Page, private request?: any) {
     this.staffConnectPage = new StaffConnectPage(page, request || undefined);
     this.sidecarPage = new SidecarPage(page);
+    this.elementActions = new ElementActions(page, 90000);
     this.deleteDeviceIcon = page.locator('//div[@class="ms-5 cursor-pointer"]//*[@xmlns="http://www.w3.org/2000/svg"]');
     this.confirmButton = page.locator("//button[@type='button' and @name='confirm']");
+    this.activitiesModule = page.locator('//div[@class="flex justify-center"]');
   }
 
   // Staff Connect Login Methods
@@ -52,25 +59,41 @@ export class LoginPage {
   // Device Management Methods
   async navigateToDeviceModule() {
     await expect(this.staffConnectPage.deviceModule).toBeVisible();
-    await this.staffConnectPage.deviceModule.click();
+    await this.elementActions.clickElement(this.staffConnectPage.deviceModule);
     console.log('Navigated to Devices section');
   }
 
   // Guests Section Methods
   async verifyGuestsSectionAccessible() {
     await expect(this.staffConnectPage.guestsModule).toBeVisible();
-    await this.page.waitForTimeout(1000);
-    await this.staffConnectPage.guestsModule.click();
+    await this.elementActions.waitForTimeout(1000);
+    await this.elementActions.clickElement(this.staffConnectPage.guestsModule);
     console.log('Verified guests section is displayed and clickable');
+  }
+
+  // Activities Section Methods
+  async verifyActivitiesModuleAccessible() {
+    await expect(this.activitiesModule).toBeVisible();
+    await this.elementActions.waitForTimeout(10000);
+    await this.elementActions.clickElement(this.activitiesModule);
+    console.log('Verified activities section is displayed and clickable');
+  }
+
+  // Devices Section Methods
+  async verifyDevicesSectionAccessible() {
+    await expect(this.staffConnectPage.deviceModule).toBeVisible();
+    await this.elementActions.waitForTimeout(1000);
+    await this.elementActions.clickElement(this.staffConnectPage.deviceModule);
+    console.log('Verified devices section is displayed and clickable');
   }
 
   async searchDevice(deviceId: string) {
     // Reuse the existing flow from StaffConnect.page.ts
     await expect(this.staffConnectPage.deviceSearchIcon).toBeVisible();
-    await this.staffConnectPage.deviceSearchIcon.click();
+    await this.elementActions.clickElement(this.staffConnectPage.deviceSearchIcon);
     console.log('Clicked device search icon');
 
-    await this.staffConnectPage.deviceSearchInput.fill(deviceId);
+    await this.elementActions.fillElement(this.staffConnectPage.deviceSearchInput, deviceId);
     console.log(`Filled search input with device ID: ${deviceId}`);
 
     const createdDevice = this.page.locator(
@@ -113,20 +136,20 @@ export class LoginPage {
     console.log('Delete icon found and visible');
 
     // 6. Scroll into view and click delete icon
-    await deleteIcon.scrollIntoViewIfNeeded();
-    await deleteIcon.click({ force: true });
+    await this.elementActions.scrollIntoView(deleteIcon);
+    await this.elementActions.clickElement(deleteIcon, { force: true });
     console.log(`Clicked delete icon for device: ${deviceId}`);
 
     // 7. Wait for confirm popup to appear
-    await this.page.waitForTimeout(1000);
+    await this.elementActions.waitForTimeout(1000);
 
     // 8. Click on confirm button
     await expect(this.confirmButton).toBeVisible({ timeout: 5000 });
-    await this.confirmButton.click();
+    await this.elementActions.clickElement(this.confirmButton);
     console.log(`Clicked confirm button to delete device: ${deviceId}`);
 
     // Wait for deletion to complete
-    await this.page.waitForTimeout(2000);
+    await this.elementActions.waitForTimeout(2000);
     console.log('=== DELETE DEVICE METHOD COMPLETED ===');
   }
 
@@ -172,8 +195,8 @@ export class LoginPage {
     await this.verifyDeviceNotDisplayed(deviceId);
 
     // Additional verification: Search with device ID and verify it's not displayed
-    await this.staffConnectPage.deviceSearchInput.fill(deviceId);
-    await this.page.waitForTimeout(1000);
+    await this.elementActions.fillElement(this.staffConnectPage.deviceSearchInput, deviceId);
+    await this.elementActions.waitForTimeout(1000);
     const deletedDevice = this.page.locator(
       `//tbody//tr//td//p[text()="${deviceId}"]`,
     );
@@ -183,8 +206,8 @@ export class LoginPage {
 
   async verifyDeviceNotDisplayed(deviceId: string) {
     // Clear search to see all devices
-    await this.staffConnectPage.deviceSearchInput.fill('');
-    await this.page.waitForTimeout(1000);
+    await this.elementActions.fillElement(this.staffConnectPage.deviceSearchInput, '');
+    await this.elementActions.waitForTimeout(1000);
 
     // Verify the deleted device is NOT displayed in the device list
     const deletedDevice = this.page.locator(

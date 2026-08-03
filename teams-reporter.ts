@@ -28,6 +28,10 @@ function buildTestSummaryCard(payload: {
     reportUrl: string;
     modules: ModuleStats[];
 }) {
+    const moduleText = payload.modules.length > 0 
+        ? payload.modules.map(m => `${m.name}: ${m.passed} passed, ${m.failed} failed`).join(', ')
+        : 'All modules';
+
     return {
         type: 'message',
         attachments: [
@@ -40,7 +44,7 @@ function buildTestSummaryCard(payload: {
                     body: [
                         {
                             type: 'TextBlock',
-                            text: 'StaffConnect Test Execution Summary',
+                            text: 'Staff Connect - Test Execution Summary',
                             weight: 'Bolder',
                             size: 'Large',
                             wrap: true
@@ -50,6 +54,15 @@ function buildTestSummaryCard(payload: {
                             text: `Run completed at ${payload.executionTime}`,
                             isSubtle: true,
                             spacing: 'None',
+                            wrap: true
+                        },
+                        {
+                            type: 'TextBlock',
+                            text: `Module: ${moduleText}`,
+                            weight: 'Bolder',
+                            size: 'Medium',
+                            color: 'Accent',
+                            spacing: 'Small',
                             wrap: true
                         },
                         {
@@ -92,7 +105,7 @@ function buildTestSummaryCard(payload: {
                         },
                         {
                             type: 'TextBlock',
-                            text: `Total tests: ${payload.total}`,
+                            text: `Total Tests: ${payload.total}`,
                             spacing: 'Medium',
                             weight: 'Bolder',
                             wrap: true
@@ -130,7 +143,7 @@ class TeamsReporter implements Reporter {
         'Playwright';
 
     onBegin(config: FullConfig, suite: Suite) {
-        console.log(`TeamsReporter: starting run for ${this.projectName}`);
+        // console.log(`TeamsReporter: starting run for ${this.projectName}`);
     }
 
     onTestEnd(test: TestCase, result: TestResult) {
@@ -151,7 +164,7 @@ class TeamsReporter implements Reporter {
 
     async onEnd() {
         const webhookUrl = process.env.TEAMS_WEBHOOK_URL;
-        console.log('TeamsReporter: process.env.TEAMS_WEBHOOK_URL=', process.env.TEAMS_WEBHOOK_URL);
+        // console.log('TeamsReporter: process.env.TEAMS_WEBHOOK_URL=', process.env.TEAMS_WEBHOOK_URL);
         if (!webhookUrl) {
             console.warn('TeamsReporter: TEAMS_WEBHOOK_URL is not set, skipping Teams notification.');
             return;
@@ -168,42 +181,37 @@ class TeamsReporter implements Reporter {
             ([name, stats]) => ({ name, ...stats })
         );
 
-        const cardPayload = buildTestSummaryCard({
-            project: this.projectName,
-            environment: this.environment,
-            triggeredBy: this.triggeredBy,
-            executionTime,
-            total: this.total,
+        const moduleText = modulesSummary.length > 0 
+            ? modulesSummary.map(m => `${m.name}: ${m.passed} passed, ${m.failed} failed`).join(', ')
+            : 'All modules';
+
+        // Send data in Power Automate trigger body format
+        const triggerBodyPayload = {
+            runTime: executionTime,
+            moduleName: moduleText,
             passed: this.passed,
             failed: this.failed,
             skipped: this.skipped,
             flaky: this.flaky,
-            reportUrl,
-            modules: modulesSummary
-        });
+            total: this.total,
+            reportUrl: reportUrl
+        };
 
         try {
             const trimmedWebhook = webhookUrl?.trim();
-            console.log('TeamsReporter: webhook url =', trimmedWebhook);
-            console.log('TeamsReporter: payload summary', {
-                total: this.total,
-                passed: this.passed,
-                failed: this.failed,
-                skipped: this.skipped,
-                flaky: this.flaky,
-                modules: modulesSummary
-            });
-            const res = await axios.post(trimmedWebhook, cardPayload, {
+            // console.log('TeamsReporter: webhook url =', trimmedWebhook);
+            // console.log('TeamsReporter: payload summary', triggerBodyPayload);
+            const res = await axios.post(trimmedWebhook, triggerBodyPayload, {
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 timeout: 10000
             });
-            console.log('TeamsReporter: sent to Teams, status=', res.status, 'data=', JSON.stringify(res.data).slice(0,2000));
+            // console.log('TeamsReporter: sent to Teams, status=', res.status, 'data=', JSON.stringify(res.data).slice(0,2000));
         } catch (error: any) {
             console.error('TeamsReporter: failed to send to Teams:', error?.response?.data || error?.message || error);
             try {
-                console.error('TeamsReporter: payload (truncated)=', JSON.stringify(cardPayload).slice(0, 2000));
+                // console.error('TeamsReporter: payload (truncated)=', JSON.stringify(triggerBodyPayload).slice(0, 2000));
             } catch (e) {
                 console.error('TeamsReporter: failed to stringify payload', e);
             }
