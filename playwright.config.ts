@@ -19,7 +19,9 @@ export default defineConfig({
   reporter: [
     ['list'],
     ['html', { outputFolder: 'playwright-report', open: 'never' }],
+    ['./teams-reporter.ts'],
     ['allure-playwright'],
+    ['json', { outputFile: 'test-results/results.json' }],
   ],
   projects: [
     {
